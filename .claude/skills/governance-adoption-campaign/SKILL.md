@@ -66,6 +66,25 @@ the description). **If it over-fires:** the NOT clause is weak — same route.
 **If two governors co-fire constantly:** boundary defect — architecture-contract
 weak-point 4, consider merging, but only with the owner.
 
+**Status: RUN 2026-07-11 (Claude Code headless) — GATE FAILED for all five
+governors.** Fresh-session `claude -p` runs, personal-scope install, FIRED
+measured as an observed `Skill`-tool invocation in the stream-json transcript
+(not introspection). should-fire trigger rates: plan-gate 1/6 (17%), scope-fence
+2/6 (33%), adversarial-verify 0/6 (0%, prompt-confounded — its should-fire prompts
+referenced artifacts absent from the fresh session), lessons-ledger 2/6 (33%),
+live-state-truth 6/9 (67%, escalated to 3 runs as it landed within one run of the
+gate). should-not-silent 100% for all (no over-fire; **zero co-fires** — no
+boundary defect). The blanket-headless-artifact worry is refuted: auto-triggering
+demonstrably occurs and varies by description. Triggering is phrasing-
+deterministic (a phrasing fires every run or never). No descriptions were edited
+(baseline measurement ≠ change acceptance); each under-firing governor has a
+pre-registered rewording hypothesis in `experiments/hypothesis-<gov>.md` for a
+research-methodology session. Full results + verbatim transcripts:
+`results/2026-07-11/` (`RESULTS.md`). **Do not proceed to rollout on this
+surface** until the rewordings are tested and the should-fire gate is met;
+Phase 2 (behavioral) and other surfaces remain OPEN. A2 register row updated to
+measured-with-date. eval set committed to `evals/` (Phase 3 artifact now exists).
+
 ## Phase 2 — Behavioral evals (does firing change anything?)
 
 A governor that loads but doesn't alter behavior is decoration. For each

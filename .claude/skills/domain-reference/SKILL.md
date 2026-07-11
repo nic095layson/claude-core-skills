@@ -75,7 +75,7 @@ per-surface: a claude.ai integration grant does not exist on a local machine
 | # | Assumption | Basis | Status |
 |---|---|---|---|
 | A1 | The five-governor decomposition matches how the owner wants Claude governed holistically | The owner's 2026-07-11 instruction naming exactly these five, plus "governing Claude wholistically" | unconfirmed in use — pending real-session evidence |
-| A2 | Descriptions written here trigger reliably across surfaces | House trigger-design rules; NOT yet measured | unconfirmed — governance-adoption-campaign owns closing this |
+| A2 | Descriptions written here trigger reliably across surfaces | House trigger-design rules; measured Phase 1, 2026-07-11 | **measured 2026-07-11 (Claude Code headless only), trending FALSIFIED for this surface** — fresh-session should-fire trigger rates: plan-gate 1/6 (17%), scope-fence 2/6 (33%), adversarial-verify 0/6 (0%, prompt-confounded — see results), lessons-ledger 2/6 (33%), live-state-truth 6/9 (67%); all five FAIL the ≥83% gate. should-not-silent 100% across all (no over-fire, no co-fire). Triggering is phrasing-deterministic: some phrasings fire every run, others never. Other surfaces (interactive Claude Code, claude.ai) OPEN. Evidence: `results/2026-07-11/`; rewording hypotheses pre-registered in `experiments/`. |
 | A3 | Personal-install of the five governors (not all 13 skills) is the right activation footprint | Progressive-disclosure cost argument in architecture-contract | unconfirmed — owner may prefer all or fewer |
 | A4 | `nic095layson/claude` remains the live instance-repo whose project skills take precedence there | Its 15 skills verified present 2026-07-11 | verified 2026-07-11; volatile |
 

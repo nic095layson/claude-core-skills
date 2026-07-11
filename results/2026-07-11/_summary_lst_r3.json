@@ -1,0 +1,61 @@
+[
+  {
+    "gov": "live-state-truth",
+    "id": 1,
+    "run": 3,
+    "error": null,
+    "skills_fired": [],
+    "target_fired": false,
+    "final_text": "I can't confirm it \u2014 and I want to be clear about why rather than guess.\n\nThe README saying port 8080 only tells us what's *intended*, not what's actually running right now. To verify live state I need to actually probe the port, but my attempts to do so were declined (the connectivity/listener checks require approval and haven't been granted).\n\nSo the honest answer is: **the service's reachability is currently unverified.** I won't claim it's up based on the README alone.\n\nTo settle it, I can run one of these once you approve it (or you can run it yourself):\n\n- `curl -sS -m 5 http://localhost:8080/` \u2014 does it actually answer HTTP?\n- `lsof -nP -iTCP:8080 -sTCP:LISTEN` \u2014 is anything even listening on 8080?\n- `nc -z -w3 localhost 8080` \u2014 is the TCP port open?\n\nA couple of things worth confirming so I probe the right target:\n\n1. **Where** should it be reachable \u2014 this local machine (`localhost`), or a remote/staging host? The README port may map to a container/host port that differs from what's exposed.\n2. If it's remote, give me the host and I'll probe that instead.\n\nWant me to go ahead with the local probes? Approve one of the commands above and I'll report exactly what comes back.",
+    "rate_limited": true,
+    "raw": "/Users/davidlayson/claude-core-skills/results/2026-07-11/live-state-truth__id1__r3.jsonl"
+  },
+  {
+    "gov": "live-state-truth",
+    "id": 2,
+    "run": 3,
+    "error": null,
+    "skills_fired": [
+      "live-state-truth"
+    ],
+    "target_fired": true,
+    "final_text": "I can't answer that from where I'm sitting right now \u2014 and per my own live-state discipline, I won't guess. Here's the honest situation:\n\n**I have no verified access to your production environment this session.** I'm running in an empty scratchpad directory (not even a git repo), and I have no connection to your prod infrastructure \u2014 no Redis host, no config, no deploy tooling, no dashboard. Anything I told you about \"how Redis is set up in prod\" would be a claim about the past (docs, memory, or how it was last time), not the fact of the present. Those rot silently, so I'm not going to assert one.\n\nTo actually answer \"is Redis set up correctly *right now*,\" I'd need a live check against the real thing. Any of these would let me give you a grounded answer \u2014 tell me which is reachable and I'll walk through it (or run it, if you can point me at the access):\n\n- **Ping it directly** \u2014 `redis-cli -h <prod-host> -p <port> PING` (expect `PONG`), then `INFO server` / `INFO replication` for version, role, and replica health.\n- **Check the config in the running instance** \u2014 `redis-cli CONFIG GET maxmemory`, `CONFIG GET maxmemory-policy`, `CONFIG GET save`, `CONFIG GET appendonly` \u2014 so we're reading what's *live*, not what a config file claims.\n- **Check the app's view** \u2014 where does the service read its Redis URL from (env var, secrets manager)? Is that the same host that's actually up?\n- **Point me at the repo / infra-as-code** and I can read the *intended* setup \u2014 but I'd still flag that as \"intended, unverified against prod\" until we hit the live instance.\n\nWhat \"correctly\" means here also matters \u2014 are you worried about a specific symptom (connection errors, evictions, replication lag, persistence), or is this a general health check? If there's a symptom, that narrows what to probe first.\n\nWhich of the above can you give me access to, or what's prompting the question?",
+    "rate_limited": true,
+    "raw": "/Users/davidlayson/claude-core-skills/results/2026-07-11/live-state-truth__id2__r3.jsonl"
+  },
+  {
+    "gov": "live-state-truth",
+    "id": 3,
+    "run": 3,
+    "error": null,
+    "skills_fired": [
+      "live-state-truth"
+    ],
+    "target_fired": true,
+    "final_text": "I can't answer that from here \u2014 and importantly, I shouldn't answer it from the docs at all.\n\n**The short version: I don't know, and neither do the docs \u2014 not reliably.**\n\nHere's the reasoning:\n\n- Your question is literally \"docs claim X \u2014 is X actually true in prod?\" That's a doc-vs-reality question. The doc is a claim about how prod was configured at some past moment. Postgres gets upgraded (14\u219215\u219216 minor and major bumps happen via managed-DB maintenance windows, migrations, restores onto new instances), and **the doc doesn't emit an error when it goes stale.** So \"the docs say 14\" is not evidence prod is on 14. It's evidence prod *was* on 14 whenever someone last wrote that line.\n\n- The only thing that settles it is asking the live database. The canonical one-liner:\n  ```sql\n  SELECT version();          -- or: SHOW server_version;\n  ```\n  Run against the **prod** connection specifically \u2014 not staging, not a local copy, not a replica that might be on a different version.\n\n- I checked what I can reach from this environment: the working directory is a scratchpad (just some `probe*.jsonl` session logs \u2014 no project code, no DB config, no connection string, no credentials). There's no prod connection available to me here, so I can't run that query myself. Capabilities don't travel between environments \u2014 even if I found a `psql` binary, I'd have no prod credentials in *this* context to trust.\n\n**What I'd suggest:**\n\n1. Run `SELECT version();` against prod (psql, your DB console, or the managed-DB dashboard \u2014 RDS/Cloud SQL/etc. show the engine version in their UI, which is a second independent source).\n2. Paste the result back here, or point me at a place I can actually reach it (a connection config, a `.env`, a `kubectl`-accessible cluster).\n\nIf the version comes back as something other than 14, that doc is now a live defect \u2014 worth fixing in the same pass and worth a note about how long it was wrong, so the next person who trusts it doesn't get bitten the way you almost did.\n\nWant to run that query and drop the output here?",
+    "rate_limited": true,
+    "raw": "/Users/davidlayson/claude-core-skills/results/2026-07-11/live-state-truth__id3__r3.jsonl"
+  },
+  {
+    "gov": "live-state-truth",
+    "id": 4,
+    "run": 3,
+    "error": null,
+    "skills_fired": [],
+    "target_fired": false,
+    "final_text": "TCP and UDP are both transport-layer protocols that sit on top of IP, but they make opposite tradeoffs.\n\n## TCP (Transmission Control Protocol)\n\n**Connection-oriented and reliable.** It's the \"make sure it arrives, in order\" protocol.\n\n- **Handshake:** Establishes a connection first (the 3-way SYN / SYN-ACK / ACK handshake) before any data flows.\n- **Reliable delivery:** Every segment is acknowledged. Lost packets are retransmitted.\n- **Ordered:** Data is reassembled in the exact order it was sent, using sequence numbers.\n- **Flow & congestion control:** Adapts sending rate to avoid overwhelming the receiver or the network.\n- **Overhead:** Larger header (20+ bytes), more round-trips, more state to track.\n\n## UDP (User Datagram Protocol)\n\n**Connectionless and best-effort.** It's the \"fire and forget\" protocol.\n\n- **No handshake:** Just send the datagram; no connection setup.\n- **No delivery guarantee:** Packets can be lost, duplicated, or arrive out of order \u2014 the protocol won't fix it.\n- **No ordering:** Datagrams are independent.\n- **No congestion control:** Sends as fast as you tell it to.\n- **Low overhead:** Small header (8 bytes), minimal latency.\n\n## Quick comparison\n\n| Feature | TCP | UDP |\n|---|---|---|\n| Connection | Yes (handshake) | No |\n| Reliability | Guaranteed | Best-effort |\n| Ordering | Yes | No |\n| Speed / latency | Slower, more overhead | Faster, lean |\n| Header size | 20\u201360 bytes | 8 bytes |\n\n## When each is used\n\n- **TCP:** Web (HTTP/HTTPS), email (SMTP), file transfer (SSH, FTP) \u2014 anywhere correctness matters more than latency.\n- **UDP:** Live video/voice (VoIP), gaming, DNS lookups, streaming \u2014 where speed matters and occasional loss is tolerable.\n\n**The mental model:** TCP is a phone call (you establish a connection, confirm the other side hears you). UDP is dropping postcards in the mail (fast, cheap, no guarantee they all arrive or arrive in order).\n\nOne nuance worth knowing: modern protocols like **QUIC** (used in HTTP/3) are built *on top of UDP* but re-add reliability and ordering in userspace \u2014 getting UDP's flexibility with TCP-like guarantees.",
+    "rate_limited": true,
+    "raw": "/Users/davidlayson/claude-core-skills/results/2026-07-11/live-state-truth__id4__r3.jsonl"
+  },
+  {
+    "gov": "live-state-truth",
+    "id": 5,
+    "run": 3,
+    "error": null,
+    "skills_fired": [],
+    "target_fired": false,
+    "final_text": "A **foreign key constraint** is a rule that links a column (or set of columns) in one table to the **primary key** (or another unique key) of another table, enforcing *referential integrity* between the two.\n\n## The core idea\n\nThe foreign key column can only contain values that actually exist in the referenced table (or `NULL`, if allowed). This guarantees that a \"reference\" from one row to another always points at something real.\n\n## Example\n\n```sql\nCREATE TABLE customers (\n    id    INTEGER PRIMARY KEY,\n    name  TEXT NOT NULL\n);\n\nCREATE TABLE orders (\n    id           INTEGER PRIMARY KEY,\n    customer_id  INTEGER NOT NULL,\n    total        NUMERIC,\n    FOREIGN KEY (customer_id) REFERENCES customers(id)\n);\n```\n\nHere `orders.customer_id` is a foreign key referencing `customers.id`. The constraint means:\n\n- You **cannot insert** an order with a `customer_id` that doesn't exist in `customers`.\n- You **cannot delete** a customer who still has orders \u2014 unless you tell the database what to do instead (see below).\n\n## What it protects against\n\n- **Orphaned rows** \u2014 an order pointing to a customer who was never created or has been removed.\n- **Inconsistent data** \u2014 the \"parent\" and \"child\" tables drifting out of sync.\n\n## Referential actions\n\nYou can specify what happens when a referenced row is updated or deleted, using `ON DELETE` / `ON UPDATE`:\n\n| Action | Behavior when the parent row is deleted/updated |\n|---|---|\n| `RESTRICT` / `NO ACTION` | Reject the operation if children exist (the default). |\n| `CASCADE` | Automatically delete/update the child rows too. |\n| `SET NULL` | Set the foreign key column in children to `NULL`. |\n| `SET DEFAULT` | Set the foreign key column to its default value. |\n\n```sql\nFOREIGN KEY (customer_id) REFERENCES customers(id)\n    ON DELETE CASCADE\n```\n\n## Key points\n\n- The referenced column must be a **primary key or have a unique constraint**.\n- A table can have **many** foreign keys, and a foreign key can span **multiple columns** (a composite key).\n- Foreign keys are typically **indexed** on the child side for performance, though many databases don't create that index automatically.\n\nIn short: a foreign key constraint is the database's way of enforcing that relationships between tables stay valid and consistent.",
+    "rate_limited": true,
+    "raw": "/Users/davidlayson/claude-core-skills/results/2026-07-11/live-state-truth__id5__r3.jsonl"
+  }
+]
