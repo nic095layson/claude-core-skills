@@ -31,9 +31,9 @@ behavior:
    lives entirely in the description. "Only use this when…" written in the body is
    dead text — the body is read only after the trigger already matched.
 2. **Progressive disclosure bounds cost.** Descriptions are always in context
-   (~100 words each — this is why over-installing skills has a price); bodies load
-   on demand; bundled `scripts/` and `references/` files load or execute only when
-   the body directs.
+   (~130 words each as measured across this library, 2026-07-11 — this is why
+   over-installing skills has a price); bodies load on demand; bundled `scripts/`
+   and `references/` files load or execute only when the body directs.
 3. **Discovery is by path, and path failures are silent.** A syntactically perfect
    SKILL.md at the wrong path is readable as a file and invisible as a skill, with
    zero error output (the founding incident: `nic095layson/claude` commit
@@ -74,7 +74,7 @@ per-surface: a claude.ai integration grant does not exist on a local machine
 
 | # | Assumption | Basis | Status |
 |---|---|---|---|
-| A1 | The five-governor decomposition matches how David wants Claude governed holistically | His 2026-07-11 instruction naming exactly these five, plus "governing Claude wholistically" | unconfirmed in use — pending real-session evidence |
+| A1 | The five-governor decomposition matches how the owner wants Claude governed holistically | The owner's 2026-07-11 instruction naming exactly these five, plus "governing Claude wholistically" | unconfirmed in use — pending real-session evidence |
 | A2 | Descriptions written here trigger reliably across surfaces | House trigger-design rules; NOT yet measured | unconfirmed — governance-adoption-campaign owns closing this |
 | A3 | Personal-install of the five governors (not all 13 skills) is the right activation footprint | Progressive-disclosure cost argument in architecture-contract | unconfirmed — owner may prefer all or fewer |
 | A4 | `nic095layson/claude` remains the live instance-repo whose project skills take precedence there | Its 15 skills verified present 2026-07-11 | verified 2026-07-11; volatile |

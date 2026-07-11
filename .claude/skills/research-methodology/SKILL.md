@@ -64,7 +64,10 @@ Rules, each with its reason:
   is two experiments — you cannot attribute the effect otherwise.
 - **Pre-register every case, not just the target.** Predictions for the cases
   expected to be *unchanged* are the regression net.
-- **Save it to a dated file** (`hypothesis-YYYY-MM-DD-<slug>.md`) before any run.
+- **Save it to a dated file** before any run:
+  `experiments/hypothesis-YYYY-MM-DD-<slug>.md` at this repo's root (create
+  `experiments/` on first use; it sits beside the `evals/` directory that
+  governance-adoption-campaign Phase 3 defines).
 
 ## Step 2 — the A/B protocol
 
@@ -87,7 +90,10 @@ outputs. Design around both:
   system cannot distinguish "the wording did this" from "the dice did this."
 - **R2 — any regression blocks:** if ANY run of ANY case regresses under NEW, the
   change is blocked as-is. No averaging, no "3 of 4 passed" — a 50% failure rate
-  on a previously-solid case is a real behavior change.
+  on a previously-solid case is a real behavior change. (Scope: R2 governs
+  OLD-vs-NEW change acceptance. Baseline measurement of the current wording may
+  use rate thresholds — see governance-adoption-campaign's measurement
+  distinction; measured rates are recorded as rates, dated.)
 - **R3 — flaky target is inconclusive:** NEW passing the target only sometimes is
   "inconclusive", not "accepted". Strengthen the wording or raise N; do not ship
   a coin flip.
@@ -136,6 +142,6 @@ locations are remapped to this library's (Step 4). That repo's honesty table
 2026-07-11 **zero experiments have been run against this library** — the
 methodology is inherited doctrine, followed because the alternative is vibes.
 
-Re-verify: experiment records — `ls hypothesis-*.md` in the scratch/records
-area (absence = still zero). Update when: the first experiment lands (replace
-the zero-experiments line, dated), or tooling changes the practical floor in R1.
+Re-verify: experiment records — `ls experiments/` at this repo's root (absence
+= still zero). Update when: the first experiment lands (replace the
+zero-experiments line, dated), or tooling changes the practical floor in R1.

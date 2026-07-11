@@ -83,7 +83,8 @@ the output of a command, ideally date-stamped.
 Capabilities do not travel between environments; verify per surface. An
 authorization, tool, or install that exists in one context (an account's cloud
 integration, one machine's credentials, one repo's config) proves nothing about
-the neighboring context. Recorded instance, 2026-07-11: a GitHub authorization
+the neighboring context. Recorded instance (this repo's ledger,
+`.claude/LESSONS.md` INC-1, 2026-07-11): a GitHub authorization
 granted to a cloud session was assumed live in a local session — the local
 machine had no credentials at all, and every "can you just pull it?" assumption
 failed until the local state was checked and set up. Before saying "I have access
@@ -108,9 +109,10 @@ script-once-rerun corollary, date-stamped volatile facts — carried nearly
 verbatim), `change-control` Gate D ("the doc must agree with the tree, not with
 history"), `failure-archaeology` (the drift definition; INC-1 — the
 correct-file-wrong-directory silent failure behind procedure rule 5; DRIFT-1 —
-the stale README behind the doctrine). The repo-specific scripts
-(`lint_skill.sh`, `check_release_parity.sh`) remain in that repo; this library
-ships its own generalized copies under `diagnostics-and-tooling/scripts/`.
+the stale README behind the doctrine). That repo keeps its own scripts; this
+library ships a generalized copy of `lint_skill.sh` under
+`diagnostics-and-tooling/scripts/` (its `check_release_parity.sh` deliberately
+stays behind — see diagnostics-and-tooling's Provenance).
 
 Re-verify lineage: `gh api repos/nic095layson/claude/contents/.claude/skills --jq '.[].name'`
 — expect `diagnostics-and-tooling`, `change-control`, `failure-archaeology`.

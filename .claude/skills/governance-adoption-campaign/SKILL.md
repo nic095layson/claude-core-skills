@@ -2,9 +2,9 @@
 name: governance-adoption-campaign
 description: >-
   The decision-gated campaign plan for this library's hardest live problem: the
-  governors exist and lint clean, but NOTHING yet proves they trigger when they
-  should, stay silent when they shouldn't, and change session behavior — across
-  surfaces. Load when asked to "prove the governors work", "run the trigger
+  governors exist and lint clean (PASS ×13, 2026-07-11), but NOTHING yet proves
+  they trigger when they should, stay silent when they shouldn't, and change
+  session behavior — across surfaces. Load when asked to "prove the governors work", "run the trigger
   evals", "measure the skills", "roll the library out", "is plan-gate actually
   firing?", or when planning any investment in this library's reliability. Do NOT
   load for a single wording experiment (research-methodology is the method; this
@@ -36,16 +36,28 @@ do not proceed — every later phase measures a skill that must first exist.
 already be done — `ls ~/.claude/skills/` is the source of truth, and the
 fresh-session listing is the half that counts.
 
+**A distinction that keeps this campaign legal under the library's own laws:**
+Phases 1–2 are **baseline measurement** of a stochastic system — they establish
+what the current wording's trigger and behavior rates ARE, and their gates set
+the bar for proceeding with rollout. They are NOT change acceptance: accepting an
+*edit* stays under research-methodology R2 (any regression blocks, no averaging).
+A governor passing Phase 1 at 5/6 is recorded as "fires at a measured ~83% on
+this prompt set, dated", never promoted to "always fires" — and
+architecture-contract invariant 3 ("no '3 of 4 passed, shipping it'") continues
+to govern every before/after wording decision inside and after this campaign.
+
 ## Phase 1 — Trigger evals (the A2 test)
 
 **Do:** for each governor, write 3 should-fire prompts (realistic task phrasings,
 NOT the skill's name — "help me build a migration script for X" must fire
 plan-gate without the words "plan gate") and 2 should-not-fire near-misses
 (trivia; adjacent-governor cases). 25 prompts total. Run each in a fresh session,
-2 runs per prompt (R1 floor), record fired/silent.
+2 runs per prompt (R1 floor; use 3 whenever a gate lands within one run of its
+threshold), record fired/silent.
 
-**Gate:** per governor, ≥5/6 should-fire runs fire; ≥3/4 should-not runs stay
-silent.
+**Gate (measurement bar, per the distinction above):** per governor, ≥5/6
+should-fire runs fire; ≥3/4 should-not runs stay silent. Record the actual rates
+either way.
 **Expect:** pass. **If a governor under-fires:** its description's WHEN is too
 narrow or too abstract — description edit via research-methodology (one variable:
 the description). **If it over-fires:** the NOT clause is weak — same route.
@@ -55,15 +67,17 @@ weak-point 4, consider merging, but only with the owner.
 ## Phase 2 — Behavioral evals (does firing change anything?)
 
 A governor that loads but doesn't alter behavior is decoration. For each
-governor, one paired A/B (with-library vs without, same prompt, fresh sessions,
-2 runs each): does plan-gate produce the gate block before action? Does
+governor, two paired A/B prompts (with-library vs without, fresh sessions,
+2 runs per prompt per arm — 4 with-library runs per governor): does plan-gate
+produce the gate block before action? Does
 adversarial-verify produce criteria-graded delivery? Does scope-fence flag the
 planted adjacent bug instead of fixing it? Does lessons-ledger append on a
-planted >15-min diagnosis? Does live-state-truth check live state instead of
+planted ~15-minute-plus diagnosis? Does live-state-truth check live state instead of
 trusting the planted stale doc?
 
-**Gate:** each governor shows its signature behavior in ≥3/4 with-library runs
-and its absence is visible in without-library runs.
+**Gate (measurement bar):** each governor shows its signature behavior in ≥3/4
+with-library runs and its absence is visible in without-library runs. Record the
+actual rates.
 **Expect:** pass with visible deltas. **If a governor shows no delta:** body
 defect, not trigger defect — the procedure isn't actionable enough; rewrite via
 research-methodology. **If without-library runs ALSO show the behavior:** the
@@ -73,14 +87,33 @@ governor earns its context cost — take the answer to architecture-contract.
 ## Phase 3 — Ongoing measurement and ratchet
 
 **Do:** save all Phase 1–2 prompts and criteria as the library's standing eval
-set (in `evals/` at this repo's root, one JSON per governor: id, prompt,
-expected_output, files[] — the schema inherited from the source repo). Every
-behavioral edit thereafter runs before/after against them
+set: `evals/<governor>.json` at this repo's root, one JSON per governor, schema
+by example (trigger case shown; behavioral cases put the signature behavior in
+`expected_output`):
+
+```json
+{
+  "skill_name": "plan-gate",
+  "evals": [
+    { "id": 1,
+      "prompt": "help me build a migration script for our postgres schema",
+      "expected_output": "FIRES: plan-gate loads; visible gate block (goal, knowns/unknowns, criteria, phased plan) precedes any file edit",
+      "files": [] },
+    { "id": 2,
+      "prompt": "what's 15% of 80?",
+      "expected_output": "SILENT: no governor loads; direct answer 12, no ceremony",
+      "files": [] }
+  ]
+}
+```
+
+Every behavioral edit thereafter runs before/after against them
 (research-methodology). Raise N beyond 2 as tooling makes runs cheaper.
 **Gate:** the eval set exists in-tree and the first gated edit has used it.
 **Exit criteria for the whole campaign:** A1 and A2 in domain-reference's
-register flip to verified-with-date; architecture-contract weak-points 1 and 4
-close.
+register flip from unconfirmed to **measured-with-date, with the observed rates
+recorded** (not to an unqualified "verified" — see the Phase 1 distinction);
+architecture-contract weak-points 1 and 4 close.
 
 ## Ranked solution menu (if resources are constrained)
 

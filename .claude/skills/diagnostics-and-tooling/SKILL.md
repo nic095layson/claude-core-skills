@@ -48,9 +48,11 @@ lacks PyYAML; install PyYAML for full YAML validation).
 repo-specific facts leaking into a governor's procedure (architecture-contract,
 Decision 2); output-format blocks where the product has a required shape.
 
-**Verified 2026-07-11 on this library:** all 13 skills PASS with 0 FAILs each;
-the failure path was verified against a synthetic skill (wrong name, bare
-description, 2-word body → 3 FAILs, exit 1).
+**Verified 2026-07-11 on this library:** all 13 skills lint with 0 FAILs each —
+on a PyYAML-less machine the verdict reads `PASS (with warnings)`, the sole
+warning being the environment-level fallback notice; with PyYAML installed
+expect plain `PASS`. The failure path was verified against a synthetic skill
+(wrong name, bare description, 2-word body → 3 FAILs, exit 1).
 
 ## The library audit loop
 
@@ -72,7 +74,7 @@ of shipping, hence in scope).
 | Frontmatter shape | `head -4 <skill>/SKILL.md` — expect `---`, `name:`, `description:` opening |
 | Name = directory | `grep '^name:' <skill>/SKILL.md` vs the directory basename |
 | Copies identical | `diff a b` or `shasum -a 256 a b` — never skim |
-| House sections | `grep -c 'When NOT to use\|Provenance' <skill>/SKILL.md` — expect 2 |
+| House sections | `grep -cE '^## (When NOT to use|Provenance)' <skill>/SKILL.md` — expect exactly 2 (heading-anchored; body mentions of sibling sections would inflate an unanchored count) |
 
 ## When NOT to use this skill
 
@@ -85,15 +87,21 @@ of shipping, hence in scope).
 ## Provenance and maintenance
 
 Script carried 2026-07-11 from `nic095layson/claude` (commit `df6e198`)
-`diagnostics-and-tooling/scripts/lint_skill.sh`, with one change: the PyYAML
+`diagnostics-and-tooling/scripts/lint_skill.sh`, with two changes: the PyYAML
 fallback parser (this library's environments include stock macOS python3 without
-PyYAML — an instance of live-state-truth's environment-boundary rule). The
+PyYAML — an instance of live-state-truth's environment-boundary rule) and a
+rewritten usage-example comment. The
 source repo's second script (`check_release_parity.sh`) is release-artifact
 specific and stays there; this library's parity needs are covered by the manual
 fallback table until it ships zipped artifacts.
 
 Re-verify: `bash .claude/skills/diagnostics-and-tooling/scripts/lint_skill.sh
 .claude/skills/plan-gate` — expect PASS; audit loop above — expect PASS × 13.
-Update when: the script's checks change (keep this doc in sync — the script is
-the source of truth), a new script lands in `scripts/`, or the library gains
-zipped release artifacts (then port `check_release_parity.sh`).
+Update when: the script's checks change, a new script lands in `scripts/`, or
+the library gains zipped release artifacts (then port `check_release_parity.sh`).
+**Gate for script-check changes** (the script defines PASS/FAIL for all 13
+skills, so a check change is a behavior change): state the expected lint deltas
+across the whole library before editing, run the audit loop before and after,
+accept only if the deltas match the prediction — research-methodology's
+discipline applied to bash instead of prose — and keep this doc in sync (the
+script is the source of truth).

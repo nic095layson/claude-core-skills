@@ -96,7 +96,7 @@ the spot.
 
 ## After every diagnosis
 
-If it took >15 minutes, revealed a lying record, or ended in an abandoned approach —
+If it took more than ~15 minutes, revealed a lying record, or ended in an abandoned approach —
 the lessons-ledger recording rule has fired; write the entry while the evidence is
 open in front of you.
 
@@ -113,7 +113,8 @@ open in front of you.
 
 Generalized 2026-07-11 from `nic095layson/claude` (commit `df6e198`)
 `debugging-playbook` — its triage-table form, VERIFIED/ANTICIPATED labeling, and
-rows 1/4/6 carry over with the repo specifics removed. Row 5 is new, from this
+its rows 1, 7, and 8 carry over (as this playbook's rows 1, 4, and 6) with the
+repo specifics removed. Row 5 is new, from this
 library's own founding session (2026-07-11, the GitHub cloud-grant/local-credential
 mismatch). Repo-specific rows (council phase-leak, verdict bloat, vote inflation)
 remain in that repo's playbook.

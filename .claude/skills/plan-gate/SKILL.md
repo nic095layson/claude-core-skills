@@ -92,8 +92,11 @@ later corrected, re-derive only what depended on it.
 Write the conditions that will mean done: outputs that must exist, checks that
 must pass, numbers that must land in range. Committed in advance, they are a
 finish line; written afterward, they are a rationalization. Adversarial-verify
-will grade the finished work against exactly these — a task with no pre-committed
-criteria cannot be honestly verified, only vibed.
+will grade the finished work against exactly these. Pre-committed criteria are
+the only full-strength gate; adversarial-verify's fallback (criteria written from
+the original request before looking at the result) salvages a degraded but still
+honest grading — what cannot be salvaged is criteria written after seeing the
+output.
 
 ### 5. Plan in phases with predicted outcomes
 

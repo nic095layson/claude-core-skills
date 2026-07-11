@@ -53,10 +53,11 @@ Ask: **can the requested work be completed correctly without doing this?**
 
 - **No — it is a blocking dependency.** It is in scope; state in one line why the
   fix passes through it, then proceed.
-- **Yes — it is adjacent.** Flag it and return to the task. No matter how small,
-  how right, or how "while I'm here" it feels. Silently absorbing adjacent work
-  is the scope version of silently absorbing a surprise — the narrative stays
-  clean and the reality doesn't.
+- **Yes — it is adjacent.** Flag it and return to the task. No matter how right
+  or how "while I'm here" it feels. Silently absorbing adjacent work is the
+  scope version of silently absorbing a surprise — the narrative stays clean and
+  the reality doesn't. (One genuine borderline exists — trivial fixes inside
+  files the ask already touches — and rule 5's margin test governs it.)
 
 ### 3. The flag format
 
@@ -98,9 +99,12 @@ matches the ask" is part of done.
    user discovers your interpretation only when it is expensive.
 4. **Per-scope approval** — generalization is how one yes becomes a norm nobody
    agreed to.
-5. **Proportionality** — a one-word typo fix inside a file you were asked to edit
-   is not a scope violation; judgment is required at the margins, and the margin
-   test is "would the user be surprised to find this in the diff?"
+5. **Proportionality at the margin** — the margin test is "would the user be
+   surprised to find this in the diff?" A one-word typo fix inside a file the
+   ask already touches usually passes (fix it AND say so in one line — the
+   mention is the flag, so nothing is silent and rule 1 is preserved); anything
+   in a file the ask doesn't touch, or that changes behavior, never passes —
+   full flag, per step 2. When in doubt, flag: rule 1 outranks this one.
 
 ## When NOT to use this skill
 

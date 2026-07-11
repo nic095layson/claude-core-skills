@@ -43,6 +43,9 @@ done
 ls ~/.claude/skills/   # expect the five governor directories
 ```
 
+(This loop is also quoted in the README's Install section — update both on
+change; the README copy is the one newcomers run.)
+
 Then **verify registration**: open a fresh session anywhere outside this repo and
 confirm the five appear in the available-skills list. Files present + skills
 absent = debugging-playbook §1.
@@ -82,8 +85,8 @@ testing new wording against an old upload voids the run
 
 ## The environment-boundary rules (what does NOT carry)
 
-Verified the hard way, 2026-07-11 (see lessons-ledger worked material and
-debugging-playbook §5):
+Verified the hard way, 2026-07-11 (this repo's ledger, `.claude/LESSONS.md`
+INC-1; triage form in debugging-playbook §5):
 
 1. **Credentials and grants are per-environment.** A claude.ai integration grant
    lives on Anthropic's servers; a local machine needs its own (`gh auth login`,

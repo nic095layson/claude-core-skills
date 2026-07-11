@@ -92,6 +92,11 @@ checked against its origin.
 An edit that relaxes an invariant is not an edit, it is a redesign — bring it here
 first, and it needs the owner.
 
+Scope note on invariant 3: it governs **accepting a change** (before/after,
+OLD vs NEW). Baseline **measurement** of a stochastic system may use rate
+thresholds (governance-adoption-campaign's gates) — measured rates get recorded
+as rates, dated, never rounded up to "always".
+
 ## Known-weak points (stated plainly, as of 2026-07-11)
 
 1. **Trigger reliability is unmeasured** (A2). The descriptions follow the house
@@ -102,11 +107,13 @@ first, and it needs the owner.
    (adversarial-verify vs live-state-truth) and detect-vs-record (live-state-truth
    vs lessons-ledger) are principled but will produce double-loads in practice.
    Acceptable cost; watch for genuine contradictions and record them in the ledger.
-3. **Enforcement is voluntary.** A skill can instruct but not compel; a session can
-   ignore a governor silently. The only counters are trigger quality (weak-point 1)
-   and the owner noticing ungoverned behavior — there is no mechanical enforcement
-   layer on any current surface (verified against surface docs 2026-07-11; re-check
-   as platforms evolve).
+3. **Enforcement is voluntary at the skill layer.** A skill can instruct but not
+   compel; a session can ignore a governor silently. The counters today are
+   trigger quality (weak-point 1) and the owner noticing ungoverned behavior.
+   Mechanical enforcement does exist one layer down on some surfaces — Claude
+   Code hooks in `settings.json` can block or intercept tool calls — but this
+   library deliberately ships as prose-only; wiring governors into hooks is a
+   **candidate** hardening path, unexplored as of 2026-07-11.
 4. **The five-way decomposition is unproven in use** (A1). If real sessions show
    two governors always co-firing or one never firing, merge or split — through
    this contract.

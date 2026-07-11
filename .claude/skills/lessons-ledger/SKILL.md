@@ -5,8 +5,8 @@ description: >-
   cause → evidence → status so no session re-debugs a solved problem, re-walks a
   known dead end, or trusts a record that history proves stale. Load this in two
   directions: to CONSULT it before re-attempting anything that might have been
-  tried before ("was this tried?", "did this break before?", "why does the doc
-  disagree with reality?"), and to APPEND whenever the recording rule fires — a
+  tried before ("was this tried?", "did this break before?", "has this doc lied
+  before?", "was this drift already recorded?"), and to APPEND whenever the recording rule fires — a
   diagnosis cost real time, a doc of record was caught lying, an approach was
   abandoned, an artifact disagreed with its source. Load it at the END of any
   session that hit one of those, even if everything got fixed. Do NOT load it to
@@ -95,7 +95,7 @@ existing entries — later references depend on them.
 A ledger nobody reads is a diary. The write is half the discipline; the read
 before repeating history is the half that pays.
 
-## Worked example (real, from this library's own history)
+## Worked example (real, inherited from the source repo's ledger)
 
 ```
 ### INC-1 — Skill at repo root was never auto-loaded

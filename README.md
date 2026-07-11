@@ -61,17 +61,24 @@ via Settings → Capabilities → Skills.
 | Governor here | Source instance in `nic095layson/claude` |
 |---|---|
 | plan-gate | `logic-tree` + `change-control` (classify-first) + `research-methodology` (hypothesis-first) |
-| adversarial-verify | `validation-and-evals` + `logic-tree` (expected-vs-actual) + claude-council doctrine (Contrarian, honest verdicts) |
+| adversarial-verify | `validation-and-evals` + `logic-tree` (expected-vs-actual) + claude-council doctrine (Contrarian, honest verdicts) + `failure-archaeology` INC-1 (the behavioral-check law) |
 | live-state-truth | `diagnostics-and-tooling` (measure-don't-eyeball) + `change-control` Gate D + `failure-archaeology` (drift, INC-1) |
 | scope-fence | `change-control` (gates, per-class approval, write boundaries) + `logic-tree` (fenced paths) |
 | lessons-ledger | `failure-archaeology` (recording rule, entry format, evidence bar) |
 
 Each SKILL.md ends with a Provenance section naming exactly what carried over.
+The source repo is **private** — the `gh api` re-verification one-liners in
+those sections require owner access; everyone else should treat the lineage as
+historical record.
 
 ## Status (as of 2026-07-11)
 
-All 13 skills lint clean (`diagnostics-and-tooling/scripts/lint_skill.sh`,
-PASS × 13). Trigger reliability and behavioral effect are **unmeasured** —
+All 13 skills lint with zero FAILs (`diagnostics-and-tooling/scripts/lint_skill.sh`;
+on PyYAML-less machines the verdict is `PASS (with warnings)` — the warning is
+environmental, not skill content). Reviewed 2026-07-11 by three independent
+reviewers (factual, doctrine, usability; blocking and important findings fixed
+in-tree — see the fix commit). Trigger reliability and behavioral effect are
+**unmeasured** —
 assumption A2 in `domain-reference`; closing it is
 `governance-adoption-campaign`'s job. Treat "the governors fire when needed" as a
 candidate until that campaign's gates pass.

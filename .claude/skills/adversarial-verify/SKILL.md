@@ -101,13 +101,23 @@ The verification's product is an honest status, in the delivery itself:
 - Conclusions resting on assumptions cite the row ("assuming A2…").
 - **A clean-looking summary of messy work is a defect**, not a kindness.
 
+Delivery shape (adapt labels; keep every section honest, omit only what's empty):
+
+```
+**Criteria** — C1: PASS (evidence) · C2: PASS (evidence) · C3: FAIL (output shown)
+**Refutation** — attacks tried, what they found (or "nothing survived")
+**Regressions** — none found in <checks actually run> / found: <which, output>
+**Status** — delivered | candidate (unproven parts named) | open (assuming A2…)
+```
+
 ## Rules, each with its reason
 
 1. **Criteria before results** — the finish line must not move to wherever you
    landed.
 2. **Exercise over inspect** — silent failures are invisible to reading.
 3. **Two runs where cheap** — non-determinism makes single runs unreliable
-   evidence.
+   evidence. (This is the judgment-form for verifying deliverables; wording
+   experiments on skills carry research-methodology's unconditional N=2 floor.)
 4. **Any-regression-blocks** — "unrelated" breakage is how quality erodes one
    justified exception at a time.
 5. **The pass is proportional** — a five-line fix gets a five-minute pass, not the
@@ -119,7 +129,7 @@ The verification's product is an honest status, in the delivery itself:
 - Checking documentation/config claims against the live system → **live-state-truth**.
 - The verification surfaced an out-of-scope problem → flag it via **scope-fence**,
   do not fix it here.
-- The verification surfaced a >15-minute diagnosis, drift, or dead end →
+- The verification surfaced a ~15-minute-plus diagnosis, drift, or dead end →
   record it in **lessons-ledger**.
 - Purely conversational answers with no artifact — proportionality: a quick
   self-check, not this protocol.
@@ -127,8 +137,10 @@ The verification's product is an honest status, in the delivery itself:
 ## Provenance and maintenance
 
 Generalized 2026-07-11 from `nic095layson/claude` (commit `df6e198`, 2026-07-10):
-`validation-and-evals` (evidence hierarchy §1, the 2-runs floor and
-targeted-improves-AND-nothing-regresses acceptance rule §1/§7, author-as-worst-
+`validation-and-evals` (evidence hierarchy §1; the two-runs doctrine — carried
+here in its where-cheap judgment form, while research-methodology carries the
+unconditional R1 floor for experiments; the
+targeted-improves-AND-nothing-regresses acceptance rule §1/§7; author-as-worst-
 grader and grade-in-isolation §8), `logic-tree` (expected-vs-actual, surprise →
 STOP, truth labels, "clean-looking summary of messy work is a defect"), the
 claude-council doctrine (the Contrarian's refutation move; honest reporting — no

@@ -1,8 +1,8 @@
 ---
 name: skill-authoring
 description: >-
-  How to author a NEW skill for this library, or restructure an existing one, in
-  the house style — naming rules, the description-as-trigger contract (WHEN /
+  How to author a NEW skill in this house style — for this library or any
+  project — or restructure an existing one — naming rules, the description-as-trigger contract (WHEN /
   quoted phrases / NOT clause), body structure (purpose, procedure, output format,
   rules, edge cases), the required house sections (date-stamped volatile facts,
   When-NOT, Provenance), and the end-to-end checklist from "choose scope" to
@@ -45,7 +45,11 @@ House rules: **write the description before the body** (if you cannot say when i
 fires, the scope is wrong — stop); no marketing language (routing metadata, not a
 pitch); lean pushy on WHEN for governance skills (skills under-trigger by default)
 and lean strict on NOT (the anti-ceremony invariant pushes back). Size class:
-roughly 60–120 words.
+this library's descriptions measure 100–165 words (mean ~128, 2026-07-11) — aim
+for the low end; every installed description is permanent context, so each word
+must earn its routing value. (An earlier 60–120 target proved unrealistic for
+three-job descriptions; changing existing descriptions to chase a number is a
+gated wording edit, not a cleanup.)
 
 ## Axis 3: body structure, in order
 
@@ -59,7 +63,7 @@ roughly 60–120 words.
 | Edge cases / proportionality | Where the procedure bends or is skipped — every governance skill needs its anti-ceremony valve here (invariant 5). |
 
 Length: what the content honestly needs, no padding — governors here run
-90–160 lines.
+roughly 100–170 total lines (measured 2026-07-11; count includes frontmatter).
 
 ## Axis 4: required house sections
 
@@ -83,7 +87,7 @@ Length: what the content honestly needs, no padding — governors here run
 | 3 | **Write the description** — all three jobs — before any body text. |
 | 4 | **Draft the body** per Axis 3 + Axis 4. |
 | 5 | **Write trigger cases before polishing:** ≥3 should-fire prompts and ≥2 should-not-fire near-misses, with expected behavior each. Polishing before cases exist means editing toward prose you like, with no way to tell whether an edit helped (the source repo's hardest live problem, inherited). |
-| 6 | **Lint:** `bash .claude/skills/diagnostics-and-tooling/scripts/lint_skill.sh .claude/skills/<name>` — expect PASS, zero warnings for library skills. The script does NOT check the NOT clause; verify that by eye. |
+| 6 | **Lint:** `bash .claude/skills/diagnostics-and-tooling/scripts/lint_skill.sh .claude/skills/<name>` — expect PASS with zero skill-content warnings (the environment-level PyYAML WARN, printed on machines without PyYAML, is exempt — see diagnostics-and-tooling). The script does NOT check the NOT clause; verify that by eye. |
 | 7 | **Live-fire per surface:** fresh session, skill in the loaded list, fires on a should-fire prompt, stays silent on a should-not. Never skip the negative case — a skill that fires on everything is worse than one that never fires. |
 | 8 | **Gate the change:** behavioral edits to an existing skill go through research-methodology (pre-registered before/after); update the README inventory (a doc that describes the tree is re-checked when the tree changes). |
 

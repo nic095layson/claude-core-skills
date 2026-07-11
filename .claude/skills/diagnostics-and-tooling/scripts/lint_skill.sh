@@ -56,7 +56,8 @@ ok "SKILL.md exists"
 # frontmatter-level failure. Directory basename is passed in for the
 # name-matches-dir check.
 BASENAME="$(basename "$DIR")"
-if ! python3 - "$SKILL" "$BASENAME" <<'PY'
+PYTMP="$(mktemp)"
+python3 - "$SKILL" "$BASENAME" <<'PY' > "$PYTMP"
 import re, sys
 
 path, basename = sys.argv[1], sys.argv[2]
@@ -146,7 +147,13 @@ else:
 
 sys.exit(1 if failed else 0)
 PY
-then
+PYSTATUS=$?
+cat "$PYTMP"
+# WARNs printed inside the python helper (e.g. the PyYAML fallback notice)
+# must reach the verdict line, not just the transcript.
+grep -q '^WARN:' "$PYTMP" && WARNED=1
+rm -f "$PYTMP"
+if [ "$PYSTATUS" -ne 0 ]; then
     FAILED=1
 fi
 
