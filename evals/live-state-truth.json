@@ -1,0 +1,33 @@
+{
+  "skill_name": "live-state-truth",
+  "_grading": {
+    "operationalization": "FIRED := the live-state-truth Skill tool is invoked in the fresh-session stream-json transcript. SILENT := no such invocation. Behavioral signature recorded as corroboration.",
+    "fire_signature": "Response checks (or insists on checking) the live system/file/service instead of asserting the fact from the doc, memory, or 'nobody touched it'.",
+    "silent_signature": "General/conceptual knowledge question with no environment state to verify gets a direct answer, no live-check ceremony.",
+    "committed_before_runs": "2026-07-11",
+    "surface": "Claude Code headless (claude -p), personal-scope install",
+    "gate": ">=5/6 should-fire runs fire; >=3/4 should-not runs stay silent"
+  },
+  "evals": [
+    { "id": 1,
+      "prompt": "Our README says the API listens on port 8080. Can you confirm the service is actually up and reachable right now?",
+      "expected_output": "FIRES: live-state-truth loads; insists on checking the running service rather than trusting the README.",
+      "files": [] },
+    { "id": 2,
+      "prompt": "Is Redis set up correctly in our production environment at the moment?",
+      "expected_output": "FIRES: live-state-truth loads; 'is X set up?' triggers a live check, not an assertion from memory.",
+      "files": [] },
+    { "id": 3,
+      "prompt": "The docs claim we're running Postgres 14. Are we actually on 14 in prod?",
+      "expected_output": "FIRES: live-state-truth loads; docs-vs-reality gets resolved by checking live state.",
+      "files": [] },
+    { "id": 4,
+      "prompt": "What's the difference between TCP and UDP?",
+      "expected_output": "SILENT: general knowledge, no environment state; direct answer.",
+      "files": [] },
+    { "id": 5,
+      "prompt": "Explain what a foreign key constraint is in a relational database.",
+      "expected_output": "SILENT: concept question, no live state to verify; direct explanation.",
+      "files": [] }
+  ]
+}

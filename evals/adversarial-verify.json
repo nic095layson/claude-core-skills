@@ -1,0 +1,33 @@
+{
+  "skill_name": "adversarial-verify",
+  "_grading": {
+    "operationalization": "FIRED := the adversarial-verify Skill tool is invoked in the fresh-session stream-json transcript. SILENT := no such invocation. Behavioral signature recorded as corroboration.",
+    "fire_signature": "Delivery grades against (pre-committed or reconstructed) criteria and mounts a refutation attempt / exercises the artifact — evidence-based, not an impression-based 'looks good'.",
+    "silent_signature": "Direct factual answer or creative output with no artifact to adversarially verify.",
+    "committed_before_runs": "2026-07-11",
+    "surface": "Claude Code headless (claude -p), personal-scope install",
+    "gate": ">=5/6 should-fire runs fire; >=3/4 should-not runs stay silent"
+  },
+  "evals": [
+    { "id": 1,
+      "prompt": "I've finished writing this data-export function and it looks right to me. Can you confirm it's correct and ready to ship?",
+      "expected_output": "FIRES: adversarial-verify loads; the deliverable is graded/refuted with evidence rather than affirmed on impression.",
+      "files": [] },
+    { "id": 2,
+      "prompt": "Here's my SQL migration — the output looked correct when I ran it locally. Double-check it before I run it in production.",
+      "expected_output": "FIRES: adversarial-verify loads; refutation + criteria grading before a ship/no-ship call on a costly action.",
+      "files": [] },
+    { "id": 3,
+      "prompt": "I wrote a script that dedupes our customer records and it worked on my one test file, so I think it's good to go. Sound right?",
+      "expected_output": "FIRES: adversarial-verify loads; smooth-work claim gets adversarial scrutiny (edge cases, second run) instead of agreement.",
+      "files": [] },
+    { "id": 4,
+      "prompt": "What does the --dry-run flag do in rsync?",
+      "expected_output": "SILENT: factual trivia; direct answer, nothing to verify.",
+      "files": [] },
+    { "id": 5,
+      "prompt": "Write me a haiku about the ocean at night.",
+      "expected_output": "SILENT: creative request with no verifiable claim/artifact; produce the poem, no verification protocol.",
+      "files": [] }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "skill_name": "plan-gate",
+  "_grading": {
+    "operationalization": "FIRED := the plan-gate Skill tool is invoked in the fresh-session stream-json transcript (directly observed tool_use, name=Skill, skill=plan-gate). SILENT := no such invocation. Behavioral signature recorded as corroboration, not the primary gate.",
+    "fire_signature": "A visible gate block (falsifiable goal + knowns/unknowns + success criteria + phased plan) is produced BEFORE any file edit or committed approach.",
+    "silent_signature": "Direct answer or one-step execution with no gate ceremony (over-triggering on trivia is itself a plan-gate failure).",
+    "committed_before_runs": "2026-07-11",
+    "surface": "Claude Code headless (claude -p), personal-scope install",
+    "gate": ">=5/6 should-fire runs fire; >=3/4 should-not runs stay silent"
+  },
+  "evals": [
+    { "id": 1,
+      "prompt": "Help me build a migration script for our postgres schema — we need to move the users and orders tables to a new database.",
+      "expected_output": "FIRES: plan-gate loads; gate block (goal, knowns/unknowns, success criteria, phased plan) precedes any script being written.",
+      "files": [] },
+    { "id": 2,
+      "prompt": "I need to refactor our authentication module to use JWTs instead of server-side sessions across the whole app. Where should we start?",
+      "expected_output": "FIRES: plan-gate loads; multi-step costly-if-wrong refactor gets a plan/assumptions before edits.",
+      "files": [] },
+    { "id": 3,
+      "prompt": "Set up a CI/CD pipeline for our monorepo that runs the test suite and deploys to staging on every merge to main.",
+      "expected_output": "FIRES: plan-gate loads; integration task gets goal/unknowns/phased plan before config is written.",
+      "files": [] },
+    { "id": 4,
+      "prompt": "What's 15% of 80?",
+      "expected_output": "SILENT: trivial arithmetic; direct answer 12, no gate ceremony (plan-gate's own anti-example).",
+      "files": [] },
+    { "id": 5,
+      "prompt": "Rename the local variable `usr` to `user` inside the single function `getProfile()`.",
+      "expected_output": "SILENT: trivial one-step rename; do it directly, no plan block.",
+      "files": [] }
+  ]
+}

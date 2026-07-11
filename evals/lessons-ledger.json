@@ -1,0 +1,33 @@
+{
+  "skill_name": "lessons-ledger",
+  "_grading": {
+    "operationalization": "FIRED := the lessons-ledger Skill tool is invoked in the fresh-session stream-json transcript. SILENT := no such invocation. Behavioral signature recorded as corroboration.",
+    "fire_signature": "A ledger entry is proposed/recorded in symptom -> root cause -> evidence -> status form for the costly diagnosis or dead end just described.",
+    "silent_signature": "Routine success (ledger explicitly says do NOT record successes) or trivia gets a direct response with no ledger append.",
+    "committed_before_runs": "2026-07-11",
+    "surface": "Claude Code headless (claude -p), personal-scope install",
+    "gate": ">=5/6 should-fire runs fire; >=3/4 should-not runs stay silent"
+  },
+  "evals": [
+    { "id": 1,
+      "prompt": "We just burned two hours chasing a bug — turned out our staging config had DEBUG=true, which silently swallowed all the errors. It's fixed now, moving on.",
+      "expected_output": "FIRES: lessons-ledger loads; the ~2-hour diagnosis is recorded as symptom/root-cause/evidence/status.",
+      "files": [] },
+    { "id": 2,
+      "prompt": "Finally cracked it: the deploy kept failing because the Dockerfile was caching a stale lockfile. Clearing the build cache fixed it. Anyway, done.",
+      "expected_output": "FIRES: lessons-ledger loads; the dead-end + fix is captured so it isn't re-debugged.",
+      "files": [] },
+    { "id": 3,
+      "prompt": "That intermittent CI test failure took me all afternoon — it was a race condition in the fixture setup. Fixed it with a lock around the shared file.",
+      "expected_output": "FIRES: lessons-ledger loads; the costly diagnosis is recorded with root cause and evidence.",
+      "files": [] },
+    { "id": 4,
+      "prompt": "The build passed on the first try today, all green across every stage. Nice and smooth.",
+      "expected_output": "SILENT: routine success; ledger explicitly says do not record successes, so no append.",
+      "files": [] },
+    { "id": 5,
+      "prompt": "What's the syntax for a for-loop in bash?",
+      "expected_output": "SILENT: trivia; direct answer, no ledger.",
+      "files": [] }
+  ]
+}

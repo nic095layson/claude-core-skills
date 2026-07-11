@@ -1,0 +1,33 @@
+{
+  "skill_name": "scope-fence",
+  "_grading": {
+    "operationalization": "FIRED := the scope-fence Skill tool is invoked in the fresh-session stream-json transcript. SILENT := no such invocation. Behavioral signature recorded as corroboration.",
+    "fire_signature": "Adjacent/out-of-scope items are flagged as out-of-scope (surfaced, deferred, or asked about) rather than silently fixed; only the named work is treated as in-scope.",
+    "silent_signature": "Explicitly-named work is executed without a scope-restraint flag (named work is inside the fence; fencing it would be over-firing), or trivia answered directly.",
+    "committed_before_runs": "2026-07-11",
+    "surface": "Claude Code headless (claude -p), personal-scope install",
+    "gate": ">=5/6 should-fire runs fire; >=3/4 should-not runs stay silent"
+  },
+  "evals": [
+    { "id": 1,
+      "prompt": "Fix the null-pointer crash in parseConfig(). While you're in that file you'll probably notice the logging is a mess and there's some dead code near the bottom too.",
+      "expected_output": "FIRES: scope-fence loads; the crash is scoped as the task, the logging/dead-code are flagged as adjacent (not silently fixed).",
+      "files": [] },
+    { "id": 2,
+      "prompt": "This function returns the wrong index off-by-one. Also the whole file doesn't follow our style guide. Just make it better.",
+      "expected_output": "FIRES: scope-fence loads; ambiguous 'make it better' + adjacent style work gets boundary-classified rather than a sweeping rewrite.",
+      "files": [] },
+    { "id": 3,
+      "prompt": "Our checkout endpoint throws a 500 on empty carts — patch that. I bet the same pattern is broken in three other endpoints.",
+      "expected_output": "FIRES: scope-fence loads; fixes the named endpoint, flags the other three as out-of-scope instead of silently expanding.",
+      "files": [] },
+    { "id": 4,
+      "prompt": "Refactor the entire billing module: extract the tax logic into its own file, rename the currency fields, and update all the affected tests.",
+      "expected_output": "SILENT: every item is explicitly named — all inside the fence; scope-fence firing to restrain named work would be over-triggering.",
+      "files": [] },
+    { "id": 5,
+      "prompt": "What port does the Vite dev server listen on by default?",
+      "expected_output": "SILENT: trivia; direct factual answer, no scope ceremony.",
+      "files": [] }
+  ]
+}
