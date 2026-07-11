@@ -32,9 +32,11 @@ primary machine.
 **Gate:** a fresh session outside this repo lists all five governors.
 **Expect:** 5/5 listed. **If fewer:** debugging-playbook §1 (placement class);
 do not proceed — every later phase measures a skill that must first exist.
-**Status: OPEN as of authoring (2026-07-11).** The files-in-place half may
-already be done — `ls ~/.claude/skills/` is the source of truth, and the
-fresh-session listing is the half that counts.
+**Status: DONE for the primary machine, 2026-07-11** — the five governors were
+copied to `~/.claude/skills/` and observed appearing in a live session's
+available-skills list the same day (registration observed, not assumed).
+Other machines and claude.ai: OPEN. `ls ~/.claude/skills/` remains the
+source of truth per machine.
 
 **A distinction that keeps this campaign legal under the library's own laws:**
 Phases 1–2 are **baseline measurement** of a stochastic system — they establish
