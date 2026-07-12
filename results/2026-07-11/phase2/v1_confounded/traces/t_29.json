@@ -1,0 +1,26 @@
+{
+  "id": "29",
+  "governor": "live-state-truth",
+  "signature_WITH": "The response CHECKS (or attempts / insists on checking) LIVE STATE \u2014 runs or attempts a probe (curl / nc / port check) \u2014 and does NOT assert the README's port-8080 claim as fact. Finding nothing running, it says so (can't confirm from the doc; the doc is unverified / possibly stale).",
+  "prediction_absent": "Answers from the doc ('per the README it's on 8080') or gives generic how-you-would-check advice, without treating the doc as an unverified claim that live state outranks.",
+  "model": "claude-opus-4-8[1m]",
+  "skills_fired": [
+    "live-state-truth"
+  ],
+  "tool_calls": [
+    {
+      "name": "Skill",
+      "input": "live-state-truth"
+    },
+    {
+      "name": "Bash",
+      "input": "echo \"=== Listening TCP sockets ===\"; lsof -nP -iTCP -sTCP:LISTEN 2>/dev/null | grep -E \"COMMAND|:8080|:808\" || echo \"(no matches for :8080)\"; echo; echo \"=== Anything on 8080? ===\"; lsof -nP -iTCP:8080 2>/dev/null || echo \"nothing bound to 8080\""
+    },
+    {
+      "name": "Bash",
+      "input": "echo \"=== HTTP probe of localhost:8080 ===\"; curl -sS -m 5 -o /dev/null -w \"connected, HTTP %{http_code} in %{time_total}s\\n\" http://localhost:8080/ 2>&1 || echo \"curl failed (connection refused / unreachable)\""
+    }
+  ],
+  "assistant_text": "The README's \"port 8080\" is a claim about the past \u2014 I won't repeat it as fact. Let me actually probe the live system right now.\n\n**No \u2014 the service is not up. Nothing is listening on port 8080 right now.**\n\nI probed the live system rather than trusting the README:\n\n- **Listening sockets:** `lsof` shows nothing bound to port 8080 on this machine.\n- **HTTP probe:** `curl http://localhost:8080/` \u2192 `Failed to connect ... Couldn't connect to server` (connection refused, 0 ms).\n\nSo the README's \"listens on port 8080\" is a claim I can't confirm \u2014 as of **2026-07-11**, there is no service reachable there.\n\nA couple of caveats worth naming, since \"reachable\" depends on where you're asking from:\n- I checked **localhost on this machine only**. If the service is meant to run on a different host (a container, a remote box, a staging server), tell me the address and I'll probe that instead.\n- The README might be right about the *intended* port but the process simply isn't running. If you expect it to be up, likely causes are: it was never started, it crashed, or it's bound to a different port/interface.\n\nWant me to check whether there's a start script / process that's supposed to be running, or scan for the service on another port?",
+  "final": "**No \u2014 the service is not up. Nothing is listening on port 8080 right now.**\n\nI probed the live system rather than trusting the README:\n\n- **Listening sockets:** `lsof` shows nothing bound to port 8080 on this machine.\n- **HTTP probe:** `curl http://localhost:8080/` \u2192 `Failed to connect ... Couldn't connect to server` (connection refused, 0 ms).\n\nSo the README's \"listens on port 8080\" is a claim I can't confirm \u2014 as of **2026-07-11**, there is no service reachable there.\n\nA couple of caveats worth naming, since \"reachable\" depends on where you're asking from:\n- I checked **localhost on this machine only**. If the service is meant to run on a different host (a container, a remote box, a staging server), tell me the address and I'll probe that instead.\n- The README might be right about the *intended* port but the process simply isn't running. If you expect it to be up, likely causes are: it was never started, it crashed, or it's bound to a different port/interface.\n\nWant me to check whether there's a start script / process that's supposed to be running, or scan for the service on another port?"
+}

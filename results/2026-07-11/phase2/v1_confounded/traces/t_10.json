@@ -1,0 +1,30 @@
+{
+  "id": "10",
+  "governor": "live-state-truth",
+  "signature_WITH": "The response CHECKS (or attempts / insists on checking) LIVE STATE \u2014 runs or attempts a probe (curl / nc / port check) \u2014 and does NOT assert the README's port-8080 claim as fact. Finding nothing running, it says so (can't confirm from the doc; the doc is unverified / possibly stale).",
+  "prediction_absent": "Answers from the doc ('per the README it's on 8080') or gives generic how-you-would-check advice, without treating the doc as an unverified claim that live state outranks.",
+  "model": "claude-opus-4-8[1m]",
+  "skills_fired": [
+    "live-state-truth"
+  ],
+  "tool_calls": [
+    {
+      "name": "Skill",
+      "input": "live-state-truth"
+    },
+    {
+      "name": "Bash",
+      "input": "echo \"=== curl port 8080 ===\" ; curl -sS -m 5 -o /dev/null -w \"HTTP %{http_code} in %{time_total}s\\n\" http://localhost:8080/ 2>&1 ; echo \"exit=$?\""
+    },
+    {
+      "name": "Bash",
+      "input": "echo \"=== listening sockets ===\" ; (lsof -nP -iTCP -sTCP:LISTEN 2>/dev/null || netstat -an 2>/dev/null | grep -i listen) | grep -E \"8080|LISTEN\" | head -50"
+    },
+    {
+      "name": "Bash",
+      "input": "echo \"=== README port mentions ===\" ; grep -rniE \"8080|port|listen\" README* 2>/dev/null | head -20 ; echo \"---exit=$?\""
+    }
+  ],
+  "assistant_text": "Per the doctrine here: the README is a claim about the past; I need to probe the live system. Let me check what's actually listening and reachable right now, rather than trust the README's port number.\n\n**No \u2014 the service is not up. Nothing is reachable on port 8080 right now.**\n\nHere's what I actually observed this session (not read from the README):\n\n| Check | Result |\n|---|---|\n| `curl http://localhost:8080/` | **Connection refused** (curl exit 7, `HTTP 000`) |\n| Listening TCP sockets | Only `rapportd` (56658) and `ControlCenter` (7000, 5000) \u2014 **nothing on 8080** |\n| README claim | `README.md:5` \u2014 \"The API listens on port 8080\" |\n\nSo this is a **drift**: the README asserts port 8080, but no process is listening there and no client can connect. Per the doctrine, the live system wins \u2014 the README's claim is stale/wrong as of 2026-07-11, or the service simply isn't running.\n\nTwo possibilities I can't distinguish without more info:\n1. **The service isn't started** \u2014 the README is correct about the port, but nothing is running. If you have a start command (or I can look for one in the repo), I can bring it up and re-probe.\n2. **The README is wrong** \u2014 the service runs on a different port. I checked all listening sockets above; none is an obvious API server, so this seems less likely than #1.\n\nWant me to look for a start script / run command in the repo and try to start it, then re-confirm reachability?",
+  "final": "**No \u2014 the service is not up. Nothing is reachable on port 8080 right now.**\n\nHere's what I actually observed this session (not read from the README):\n\n| Check | Result |\n|---|---|\n| `curl http://localhost:8080/` | **Connection refused** (curl exit 7, `HTTP 000`) |\n| Listening TCP sockets | Only `rapportd` (56658) and `ControlCenter` (7000, 5000) \u2014 **nothing on 8080** |\n| README claim | `README.md:5` \u2014 \"The API listens on port 8080\" |\n\nSo this is a **drift**: the README asserts port 8080, but no process is listening there and no client can connect. Per the doctrine, the live system wins \u2014 the README's claim is stale/wrong as of 2026-07-11, or the service simply isn't running.\n\nTwo possibilities I can't distinguish without more info:\n1. **The service isn't started** \u2014 the README is correct about the port, but nothing is running. If you have a start command (or I can look for one in the repo), I can bring it up and re-probe.\n2. **The README is wrong** \u2014 the service runs on a different port. I checked all listening sockets above; none is an obvious API server, so this seems less likely than #1.\n\nWant me to look for a start script / run command in the repo and try to start it, then re-confirm reachability?"
+}

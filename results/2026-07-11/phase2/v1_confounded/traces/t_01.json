@@ -1,0 +1,30 @@
+{
+  "id": "01",
+  "governor": "lessons-ledger",
+  "signature_WITH": "The recounted diagnosis GETS RECORDED \u2014 the model produces (proposes, or writes to a file) a STRUCTURED LEDGER ENTRY in symptom -> root cause -> evidence -> status form (here: errors vanished / 2h lost -> staging DEBUG=true swallowed errors -> fixed), treating the wrapped-up bug as something to capture so it isn't re-debugged.",
+  "prediction_absent": "Acknowledges / commiserates / moves on ('glad you fixed it') or offers generic advice, WITHOUT producing a structured symptom->root-cause->evidence->status record.",
+  "model": "claude-opus-4-8[1m]",
+  "skills_fired": [
+    "lessons-ledger"
+  ],
+  "tool_calls": [
+    {
+      "name": "Skill",
+      "input": "lessons-ledger"
+    },
+    {
+      "name": "Bash",
+      "input": "cd /Users/davidlayson/claude-core-skills && git rev-parse --show-toplevel && echo \"---LESSONS---\" && ls -la .claude/LESSONS.md 2>/dev/null; find . -iname \"LESSONS.md\" -not -path \"*/node_modules/*\" 2>/dev/null; echo \"---project ledger skills---\" && ls .claude/skills 2>/dev/null | grep -i -E \"failure|"
+    },
+    {
+      "name": "Read",
+      "input": "/Users/davidlayson/claude-core-skills/.claude/LESSONS.md"
+    },
+    {
+      "name": "Edit",
+      "input": "/Users/davidlayson/claude-core-skills/.claude/LESSONS.md"
+    }
+  ],
+  "assistant_text": "The user recounted a two-hour debugging session with a confirmed root cause \u2014 that's a ledger entry. Let me find where the ledger lives for this project.\n\nThere's an existing project ledger. Let me read it to match format and check for duplicates.\n\nThe existing entries are all about the governance library itself; this staging-config incident is new. Appending as INC-4, matching the house format.\n\nRecorded. Added **INC-4** to `.claude/LESSONS.md`:\n\n- **Symptom:** ~2h chasing a bug with no visible errors.\n- **Root cause:** staging `DEBUG=true` silently swallowed all errors \u2014 the missing signal, not the bug itself, was the cost.\n- **Status:** FIXED.\n- **Lesson:** when something *should* error but is silent, check error-visibility flags (DEBUG / error-swallowing config) **first**.\n\nOne honest caveat: the evidence is your account of it \u2014 no command output was captured at fix time, so I noted that in the entry rather than pretending to a verified capture. If you happen to have the config diff or a log snippet handy, I can attach it to make the entry non-rumor-grade.\n\nGlad it's sorted \u2014 nothing else needed here.",
+  "final": "Recorded. Added **INC-4** to `.claude/LESSONS.md`:\n\n- **Symptom:** ~2h chasing a bug with no visible errors.\n- **Root cause:** staging `DEBUG=true` silently swallowed all errors \u2014 the missing signal, not the bug itself, was the cost.\n- **Status:** FIXED.\n- **Lesson:** when something *should* error but is silent, check error-visibility flags (DEBUG / error-swallowing config) **first**.\n\nOne honest caveat: the evidence is your account of it \u2014 no command output was captured at fix time, so I noted that in the entry rather than pretending to a verified capture. If you happen to have the config diff or a log snippet handy, I can attach it to make the entry non-rumor-grade.\n\nGlad it's sorted \u2014 nothing else needed here."
+}

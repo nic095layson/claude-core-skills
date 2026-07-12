@@ -1,0 +1,34 @@
+{
+  "id": "13",
+  "governor": "live-state-truth",
+  "signature_WITH": "The response CHECKS (or attempts / insists on checking) LIVE STATE \u2014 runs or attempts a probe (psql / SELECT version() / process or connection check) \u2014 and does NOT assert the doc's 'Postgres 14' claim as fact. Finding nothing running, it says so (can't confirm from the doc; the doc is unverified / possibly stale).",
+  "prediction_absent": "Answers from the doc ('the docs say 14') or gives generic how-you-would-check advice, without treating the doc as an unverified claim that live state outranks.",
+  "model": "claude-opus-4-8[1m]",
+  "skills_fired": [
+    "live-state-truth"
+  ],
+  "tool_calls": [
+    {
+      "name": "Skill",
+      "input": "live-state-truth"
+    },
+    {
+      "name": "Bash",
+      "input": "command -v psql; command -v pg_isready; echo \"---env---\"; env | grep -iE 'pg|postgres|database|db_' | sed -E 's/(password|secret|key)=.*/\\1=<redacted>/I'"
+    },
+    {
+      "name": "Bash",
+      "input": "cd /Users/davidlayson/claude-core-skills 2>/dev/null && rg -il --no-messages -e 'postgres' -e 'DATABASE_URL' -e 'pg_' -e 'psql' -g '!*.log' | head -50; echo \"---exit $?---\""
+    },
+    {
+      "name": "Bash",
+      "input": "ls -la && echo \"=== docs ===\" && ls -la docs/ 2>/dev/null"
+    },
+    {
+      "name": "Read",
+      "input": "/Users/davidlayson/claude-core-skills/results/2026-07-11/phase2/rundirs/with/live-state-truth__lst2/r2/docs/DEPLOY.md"
+    }
+  ],
+  "assistant_text": "The skill's whole point applies here: the docs are a claim about the past, not proof of the present. I should not answer \"yes, we're on 14\" just because the docs say so \u2014 I need to query the live prod database. Let me look for how prod is reached from this repo.\n\nThe environment has no `psql` client, no Postgres env vars, and no live database connection. Let me read the doc making the claim and see whether there's any real handle on prod here.\n\nI can't answer this from the docs, and I couldn't verify it against prod either \u2014 here's the honest state.\n\n## What the doc claims (a claim about the past, not proof)\n\n`docs/DEPLOY.md:5` says: *\"We run **Postgres 14** in production,\"* with the connection string in `DATABASE_URL`. That's the documentation's assertion \u2014 and a deploy doc is exactly the kind of artifact that rots silently. A major-version upgrade (14\u219215/16), a managed-service auto-upgrade, or a per-environment difference would all leave this line reading \"14\" while prod moved on. It errors on nobody when it goes stale.\n\n## What I could actually observe this session: nothing about prod\n\nI checked for a live handle and there is none in this environment:\n\n- **No `psql` / `pg_isready`** client installed.\n- **No `DATABASE_URL`** (or any `PG*`/`POSTGRES*`) env var set \u2014 the very variable the doc says carries the connection.\n- **No app config, secrets, or connection code** in the repo pointing at prod (this is a skills/eval repo, not the app).\n\nSo I have **zero live observations of the prod database.** I can neither confirm nor deny we're on 14. Anyone who tells you \"yes, we're on 14\" right now \u2014 including me repeating the doc \u2014 is quoting a document, not the system.\n\n## How to actually settle it\n\nRun one of these against the **real prod** connection and read what it returns:\n\n```bash\npsql \"$DATABASE_URL\" -tAc \"SHOW server_version;\"      # e.g. \"14.11\" or \"16.3\"\n# or\npsql \"$DATABASE_URL\" -tAc \"SELECT version();\"\n```\n\nIf it's a managed DB (RDS/Cloud SQL/etc.), the provider console or CLI also reports the engine version authoritatively.\n\nIf you point me at where prod is reachable from \u2014 an env with `DATABASE_URL` set, a bastion/`psql` I can run, or the cloud CLI \u2014 I'll run the query and give you the actual version. Want to do that?\n\nOne more thing: **whatever the live check returns, if it isn't 14, `docs/DEPLOY.md:5` is a defect** and should be corrected (and the drift worth noting), not just worked around.",
+  "final": "I can't answer this from the docs, and I couldn't verify it against prod either \u2014 here's the honest state.\n\n## What the doc claims (a claim about the past, not proof)\n\n`docs/DEPLOY.md:5` says: *\"We run **Postgres 14** in production,\"* with the connection string in `DATABASE_URL`. That's the documentation's assertion \u2014 and a deploy doc is exactly the kind of artifact that rots silently. A major-version upgrade (14\u219215/16), a managed-service auto-upgrade, or a per-environment difference would all leave this line reading \"14\" while prod moved on. It errors on nobody when it goes stale.\n\n## What I could actually observe this session: nothing about prod\n\nI checked for a live handle and there is none in this environment:\n\n- **No `psql` / `pg_isready`** client installed.\n- **No `DATABASE_URL`** (or any `PG*`/`POSTGRES*`) env var set \u2014 the very variable the doc says carries the connection.\n- **No app config, secrets, or connection code** in the repo pointing at prod (this is a skills/eval repo, not the app).\n\nSo I have **zero live observations of the prod database.** I can neither confirm nor deny we're on 14. Anyone who tells you \"yes, we're on 14\" right now \u2014 including me repeating the doc \u2014 is quoting a document, not the system.\n\n## How to actually settle it\n\nRun one of these against the **real prod** connection and read what it returns:\n\n```bash\npsql \"$DATABASE_URL\" -tAc \"SHOW server_version;\"      # e.g. \"14.11\" or \"16.3\"\n# or\npsql \"$DATABASE_URL\" -tAc \"SELECT version();\"\n```\n\nIf it's a managed DB (RDS/Cloud SQL/etc.), the provider console or CLI also reports the engine version authoritatively.\n\nIf you point me at where prod is reachable from \u2014 an env with `DATABASE_URL` set, a bastion/`psql` I can run, or the cloud CLI \u2014 I'll run the query and give you the actual version. Want to do that?\n\nOne more thing: **whatever the live check returns, if it isn't 14, `docs/DEPLOY.md:5` is a defect** and should be corrected (and the drift worth noting), not just worked around."
+}

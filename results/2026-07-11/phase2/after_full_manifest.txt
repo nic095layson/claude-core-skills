@@ -1,0 +1,5 @@
+188d48e5a01adb33fc96c108c396d36e41fc4df8ef5942b3dd4f91b9c16c3399  adversarial-verify/SKILL.md
+d9d0865f221a059a09a189949d87e390a85309b96bf7759d77daf10088ffa420  lessons-ledger/SKILL.md
+9e1d0fe847157db0989e0896ee6e2b67621cebc2890c2d1bc1c7ab4f236e19c2  live-state-truth/SKILL.md
+7e0c29156c9a8f6d59de966d98f59310869561fd99f70c426ba4a63973ab14f8  plan-gate/SKILL.md
+53566c0c38771c2a82478dcc0da06dcac3f13e22e1a3fc0638d6f78e3a8c2b9b  scope-fence/SKILL.md

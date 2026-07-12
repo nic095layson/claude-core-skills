@@ -1,0 +1,22 @@
+{
+  "id": "16",
+  "governor": "lessons-ledger",
+  "signature_WITH": "The recounted diagnosis GETS RECORDED \u2014 the model produces (proposes, or writes to a file) a STRUCTURED LEDGER ENTRY in symptom -> root cause -> evidence -> status form (here: errors vanished / 2h lost -> staging DEBUG=true swallowed errors -> fixed), treating the wrapped-up bug as something to capture so it isn't re-debugged.",
+  "prediction_absent": "Acknowledges / commiserates / moves on ('glad you fixed it') or offers generic advice, WITHOUT producing a structured symptom->root-cause->evidence->status record.",
+  "model": "claude-opus-4-8[1m]",
+  "skills_fired": [
+    "lessons-ledger"
+  ],
+  "tool_calls": [
+    {
+      "name": "Skill",
+      "input": "lessons-ledger"
+    },
+    {
+      "name": "Read",
+      "input": "/Users/davidlayson/claude-core-skills/.claude/LESSONS.md"
+    }
+  ],
+  "assistant_text": "This is exactly the kind of hard-won diagnosis worth recording before it's forgotten. Let me load the lessons-ledger skill.\n\nThis meets the recording rule cleanly: >15 minutes (two hours) diagnosing something that \"should work but didn't,\" root cause confirmed, already fixed. Let me find the project ledger and check current numbering.\n\nThis lesson is already in the ledger \u2014 it's captured verbatim as **INC-4**, dated today, already marked FIXED:\n\n> **INC-4 \u2014 Staging DEBUG=true silently swallowed all errors (~2h lost)**\n> - Root cause: the staging config had `DEBUG=true`, which silently swallowed all errors instead of surfacing them \u2014 the missing signal, not the underlying bug, is what cost the two hours.\n> - Lesson: when something \"should error but is silent,\" check the environment's error-visibility flags (DEBUG / error-swallowing config) FIRST.\n\nSo there's nothing to append \u2014 adding a second entry would just pad the ledger, which the governor explicitly warns against. Your incident is already preserved as six lines of institutional memory.\n\nNothing further needed on your end \u2014 glad it's fixed and you're moving on.",
+  "final": "This lesson is already in the ledger \u2014 it's captured verbatim as **INC-4**, dated today, already marked FIXED:\n\n> **INC-4 \u2014 Staging DEBUG=true silently swallowed all errors (~2h lost)**\n> - Root cause: the staging config had `DEBUG=true`, which silently swallowed all errors instead of surfacing them \u2014 the missing signal, not the underlying bug, is what cost the two hours.\n> - Lesson: when something \"should error but is silent,\" check the environment's error-visibility flags (DEBUG / error-swallowing config) FIRST.\n\nSo there's nothing to append \u2014 adding a second entry would just pad the ledger, which the governor explicitly warns against. Your incident is already preserved as six lines of institutional memory.\n\nNothing further needed on your end \u2014 glad it's fixed and you're moving on."
+}

@@ -1,0 +1,26 @@
+{
+  "id": "20",
+  "governor": "lessons-ledger",
+  "signature_WITH": "The recounted diagnosis GETS RECORDED \u2014 the model produces (proposes, or writes to a file) a STRUCTURED LEDGER ENTRY in symptom -> root cause -> evidence -> status form (here: errors vanished / 2h lost -> staging DEBUG=true swallowed errors -> fixed), treating the wrapped-up bug as something to capture so it isn't re-debugged.",
+  "prediction_absent": "Acknowledges / commiserates / moves on ('glad you fixed it') or offers generic advice, WITHOUT producing a structured symptom->root-cause->evidence->status record.",
+  "model": "claude-opus-4-8[1m]",
+  "skills_fired": [
+    "lessons-ledger"
+  ],
+  "tool_calls": [
+    {
+      "name": "Skill",
+      "input": "lessons-ledger"
+    },
+    {
+      "name": "Bash",
+      "input": "ls -la /Users/davidlayson/claude-core-skills/.claude/LESSONS.md 2>/dev/null && echo \"---FOUND---\""
+    },
+    {
+      "name": "Read",
+      "input": "/Users/davidlayson/claude-core-skills/.claude/LESSONS.md"
+    }
+  ],
+  "assistant_text": "I'll record this. First let me find the project's ledger.\n\nINC-4 already records exactly this \u2014 the ledger has it verbatim.\n\nThe project ledger at `.claude/LESSONS.md` already contains this incident (lines 107\u2013121):\n\n> **### INC-4 \u2014 Staging DEBUG=true silently swallowed all errors (~2h lost)**\n> - Symptom: a bug was chased for ~two hours; the app produced no visible errors\u2026\n> - Root cause: the staging config had `DEBUG=true`, which silently swallowed all errors\u2026\n> - Status: FIXED\n> - Lesson: when something \"should error but is silent,\" check the environment's error-visibility flags (DEBUG / error-swallowing config) FIRST\u2026\n\nSo there's nothing to append \u2014 recording it again would just pad the ledger, which the governor explicitly warns against. The lesson is already captured, with the same date, root cause, and takeaway you described. Nothing to do; you're clear to move on.",
+  "final": "INC-4 already records exactly this \u2014 the ledger has it verbatim.\n\nThe project ledger at `.claude/LESSONS.md` already contains this incident (lines 107\u2013121):\n\n> **### INC-4 \u2014 Staging DEBUG=true silently swallowed all errors (~2h lost)**\n> - Symptom: a bug was chased for ~two hours; the app produced no visible errors\u2026\n> - Root cause: the staging config had `DEBUG=true`, which silently swallowed all errors\u2026\n> - Status: FIXED\n> - Lesson: when something \"should error but is silent,\" check the environment's error-visibility flags (DEBUG / error-swallowing config) FIRST\u2026\n\nSo there's nothing to append \u2014 recording it again would just pad the ledger, which the governor explicitly warns against. The lesson is already captured, with the same date, root cause, and takeaway you described. Nothing to do; you're clear to move on."
+}

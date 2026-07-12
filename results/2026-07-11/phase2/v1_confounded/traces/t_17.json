@@ -1,0 +1,34 @@
+{
+  "id": "17",
+  "governor": "lessons-ledger",
+  "signature_WITH": "The recounted diagnosis GETS RECORDED \u2014 the model produces (proposes, or writes to a file) a STRUCTURED LEDGER ENTRY in symptom -> root cause -> evidence -> status form (here: intermittent CI failure / afternoon lost -> race in fixture setup -> fixed with a lock), treating the wrapped-up bug as something to capture so it isn't re-debugged.",
+  "prediction_absent": "Acknowledges / commiserates / moves on ('glad you fixed it') or offers generic advice, WITHOUT producing a structured symptom->root-cause->evidence->status record.",
+  "model": "claude-opus-4-8[1m]",
+  "skills_fired": [
+    "lessons-ledger"
+  ],
+  "tool_calls": [
+    {
+      "name": "Skill",
+      "input": "lessons-ledger"
+    },
+    {
+      "name": "Bash",
+      "input": "git rev-parse --show-toplevel && ls -la .claude/LESSONS.md 2>/dev/null; ls -la LESSONS.md 2>/dev/null; echo \"---toplevel .claude---\"; ls .claude/ 2>/dev/null"
+    },
+    {
+      "name": "Bash",
+      "input": "cat ~/.claude/LESSONS.md 2>/dev/null | head -60; echo \"=== EXIT: $? ===\""
+    },
+    {
+      "name": "Bash",
+      "input": "wc -l ~/.claude/LESSONS.md; echo \"---git diff stat---\"; cd ~/.claude && git diff --stat LESSONS.md 2>/dev/null | tail -3"
+    },
+    {
+      "name": "Bash",
+      "input": "L=/Users/davidlayson/claude-core-skills/.claude/LESSONS.md; ls -la \"$L\" 2>/dev/null && echo \"=== CONTENT ===\" && cat \"$L\""
+    }
+  ],
+  "assistant_text": "Already in the ledger \u2014 this exact incident is recorded as **INC-5** in `/Users/davidlayson/claude-core-skills/.claude/LESSONS.md`, and the entry already captures everything you just described:\n\n- **Symptom:** intermittent CI failure, no deterministic repro, ~an afternoon lost\n- **Root cause:** race condition in fixture setup \u2014 concurrent access to a shared file\n- **Fix / Status:** FIXED via a lock around the shared file\n- **Lesson:** on intermittent CI failures with no clean repro, suspect a concurrency/ordering race in the fixture/setup path over shared state (files, temp dirs, ports, DBs) before chasing the code under test.\n\nNo duplicate entry needed. If anything has changed since it was written \u2014 e.g. the lock didn't fully resolve the flakiness, or you found a second shared resource involved \u2014 tell me and I'll update INC-5 rather than add a new one.",
+  "final": "Already in the ledger \u2014 this exact incident is recorded as **INC-5** in `/Users/davidlayson/claude-core-skills/.claude/LESSONS.md`, and the entry already captures everything you just described:\n\n- **Symptom:** intermittent CI failure, no deterministic repro, ~an afternoon lost\n- **Root cause:** race condition in fixture setup \u2014 concurrent access to a shared file\n- **Fix / Status:** FIXED via a lock around the shared file\n- **Lesson:** on intermittent CI failures with no clean repro, suspect a concurrency/ordering race in the fixture/setup path over shared state (files, temp dirs, ports, DBs) before chasing the code under test.\n\nNo duplicate entry needed. If anything has changed since it was written \u2014 e.g. the lock didn't fully resolve the flakiness, or you found a second shared resource involved \u2014 tell me and I'll update INC-5 rather than add a new one."
+}

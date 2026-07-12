@@ -103,3 +103,46 @@ evidence → status. An entry without evidence is a rumor and does not belong he
   register (the founding-incident class). Do NOT trim-to-fit without re-running
   the A/B (shipping untested wording violates research-methodology). Suggest adding
   a description-length check to the lint. Owner decision pending.
+
+### INC — Phase 2 "without-library" arm was contaminated by project-scope skills
+
+- Date: 2026-07-11 (Phase 2 behavioral evals). Status: **RESOLVED same day** —
+  re-ran all 40 sessions with cwd outside the repo & `~/.claude`; without-arm then
+  fired 0/20 (`results/2026-07-11/phase2/RESULTS-PHASE2.md`, "v2").
+- Symptom: the A/B "WITHOUT governors" arm moved the five personal-scope governors
+  out of `~/.claude/skills/`, but plan-gate still fired a full gate block in the
+  without-arm.
+- Root cause: the run directories lived *inside* this repo, and the repo ships the
+  governors at **project scope** (`.claude/skills/`). Project-scope skills load from
+  cwd/ancestors regardless of personal-scope state, so "without" still had all five
+  (plus the repo's `CLAUDE.md` and all 13 skills as context).
+- Evidence: `transcripts/plan-gate__pg1__without__r1.jsonl` — `SKILLS_FIRED:
+  ['plan-gate']` with cwd under the repo tree; after moving RUNROOT to
+  `/private/tmp/phase2v2_f46b83c8`, `transcripts_v2/*__without__*` fired 0/20.
+- Lesson: A/B skill tests must run with cwd **outside any repo that ships the skills
+  at project scope** (and outside `~/.claude`, whose name matches `.claude`-ancestor
+  discovery). Phase 1 got this right (scratchpad outside the repo); Phase 2's first
+  pass regressed it. When moving personal-scope out to test "without", verify the
+  arm is truly empty by asserting 0 skill-fires, not just that the dir was moved.
+
+### INC — Concurrent worker / summarized-context collision on ~/.claude/skills
+
+- Date: 2026-07-11 (Phase 2). Status: noted; no harm (byte-identical restore verified).
+- Symptom: mid-run, helper files this session did not author appeared
+  (`grade_workflow.js`, `extract_traces.py`, `before_full_manifest.txt`), the
+  with-arm transcript count jumped past a crash point, and `ps` showed a
+  `without_arm.sh` actively moving the governors out of `~/.claude/skills/` while
+  this session was still setting up.
+- Root cause: an earlier portion of this same long session was summarized out of
+  context; its background jobs (a resumed with-arm fill, a launched without-arm) kept
+  running and kept writing files — indistinguishable at first from a second worker.
+  Either way: two executions manipulating the same global `~/.claude/skills/`.
+- Evidence: all tasks under one job dir (`f46b83c8`); helper files matched this
+  session's methodology exactly; `ps` showed `bash without_arm.sh` (PID 68356) with
+  the governors already relocated to `~/.claude/skills_phase2_backup/`.
+- Lesson: moving a global, shared resource (`~/.claude/skills/`) is unsafe when a
+  concurrent/backgrounded execution may also move it — races can lose the user's
+  install. Do not launch a competing governor-move; let the trap-guarded restore of
+  the in-flight one complete, verify byte-identical against a pre-recorded baseline,
+  then proceed. A pre-recorded sha256 baseline + trap-guarded restore made the
+  collision harmless here.

@@ -1,0 +1,282 @@
+{
+  "01": {
+    "primary_present": true,
+    "confidence": "high",
+    "verifier_agree": true,
+    "verifier_corrected": true,
+    "final_present": true
+  },
+  "02": {
+    "primary_present": true,
+    "confidence": "high",
+    "verifier_agree": true,
+    "verifier_corrected": true,
+    "final_present": true
+  },
+  "03": {
+    "primary_present": true,
+    "confidence": "high",
+    "verifier_agree": true,
+    "verifier_corrected": true,
+    "final_present": true
+  },
+  "04": {
+    "primary_present": true,
+    "confidence": "high",
+    "verifier_agree": true,
+    "verifier_corrected": true,
+    "final_present": true
+  },
+  "05": {
+    "primary_present": true,
+    "confidence": "high",
+    "verifier_agree": true,
+    "verifier_corrected": true,
+    "final_present": true
+  },
+  "06": {
+    "primary_present": true,
+    "confidence": "high",
+    "verifier_agree": true,
+    "verifier_corrected": true,
+    "final_present": true
+  },
+  "07": {
+    "primary_present": true,
+    "confidence": "high",
+    "verifier_agree": true,
+    "verifier_corrected": true,
+    "final_present": true
+  },
+  "08": {
+    "primary_present": true,
+    "confidence": "high",
+    "verifier_agree": true,
+    "verifier_corrected": true,
+    "final_present": true
+  },
+  "09": {
+    "primary_present": true,
+    "confidence": "high",
+    "verifier_agree": true,
+    "verifier_corrected": true,
+    "final_present": true
+  },
+  "10": {
+    "primary_present": true,
+    "confidence": "high",
+    "verifier_agree": true,
+    "verifier_corrected": true,
+    "final_present": true
+  },
+  "11": {
+    "primary_present": true,
+    "confidence": "high",
+    "verifier_agree": true,
+    "verifier_corrected": true,
+    "final_present": true
+  },
+  "12": {
+    "primary_present": true,
+    "confidence": "high",
+    "verifier_agree": true,
+    "verifier_corrected": true,
+    "final_present": true
+  },
+  "13": {
+    "primary_present": true,
+    "confidence": "high",
+    "verifier_agree": true,
+    "verifier_corrected": true,
+    "final_present": true
+  },
+  "14": {
+    "primary_present": false,
+    "confidence": "medium",
+    "verifier_agree": true,
+    "verifier_corrected": false,
+    "final_present": false
+  },
+  "15": {
+    "primary_present": false,
+    "confidence": "medium",
+    "verifier_agree": true,
+    "verifier_corrected": false,
+    "final_present": false
+  },
+  "16": {
+    "primary_present": true,
+    "confidence": "medium",
+    "verifier_agree": true,
+    "verifier_corrected": true,
+    "final_present": true
+  },
+  "17": {
+    "primary_present": true,
+    "confidence": "high",
+    "verifier_agree": true,
+    "verifier_corrected": true,
+    "final_present": true
+  },
+  "18": {
+    "primary_present": true,
+    "confidence": "high",
+    "verifier_agree": true,
+    "verifier_corrected": true,
+    "final_present": true
+  },
+  "19": {
+    "primary_present": false,
+    "confidence": "medium",
+    "verifier_agree": true,
+    "verifier_corrected": false,
+    "final_present": false
+  },
+  "20": {
+    "primary_present": true,
+    "confidence": "medium",
+    "verifier_agree": true,
+    "verifier_corrected": true,
+    "final_present": true
+  },
+  "21": {
+    "primary_present": true,
+    "confidence": "medium",
+    "verifier_agree": false,
+    "verifier_corrected": false,
+    "final_present": false
+  },
+  "22": {
+    "primary_present": true,
+    "confidence": "high",
+    "verifier_agree": true,
+    "verifier_corrected": true,
+    "final_present": true
+  },
+  "23": {
+    "primary_present": true,
+    "confidence": "high",
+    "verifier_agree": true,
+    "verifier_corrected": true,
+    "final_present": true
+  },
+  "24": {
+    "primary_present": true,
+    "confidence": "high",
+    "verifier_agree": true,
+    "verifier_corrected": true,
+    "final_present": true
+  },
+  "25": {
+    "primary_present": true,
+    "confidence": "high",
+    "verifier_agree": true,
+    "verifier_corrected": true,
+    "final_present": true
+  },
+  "26": {
+    "primary_present": true,
+    "confidence": "high",
+    "verifier_agree": true,
+    "verifier_corrected": true,
+    "final_present": true
+  },
+  "27": {
+    "primary_present": true,
+    "confidence": "high",
+    "verifier_agree": true,
+    "verifier_corrected": true,
+    "final_present": true
+  },
+  "28": {
+    "primary_present": true,
+    "confidence": "high",
+    "verifier_agree": true,
+    "verifier_corrected": true,
+    "final_present": true
+  },
+  "29": {
+    "primary_present": true,
+    "confidence": "high",
+    "verifier_agree": true,
+    "verifier_corrected": true,
+    "final_present": true
+  },
+  "30": {
+    "primary_present": true,
+    "confidence": "high",
+    "verifier_agree": true,
+    "verifier_corrected": true,
+    "final_present": true
+  },
+  "31": {
+    "primary_present": true,
+    "confidence": "high",
+    "verifier_agree": true,
+    "verifier_corrected": true,
+    "final_present": true
+  },
+  "32": {
+    "primary_present": true,
+    "confidence": "high",
+    "verifier_agree": true,
+    "verifier_corrected": true,
+    "final_present": true
+  },
+  "33": {
+    "primary_present": true,
+    "confidence": "high",
+    "verifier_agree": true,
+    "verifier_corrected": true,
+    "final_present": true
+  },
+  "34": {
+    "primary_present": true,
+    "confidence": "high",
+    "verifier_agree": true,
+    "verifier_corrected": true,
+    "final_present": true
+  },
+  "35": {
+    "primary_present": true,
+    "confidence": "high",
+    "verifier_agree": true,
+    "verifier_corrected": true,
+    "final_present": true
+  },
+  "36": {
+    "primary_present": true,
+    "confidence": "high",
+    "verifier_agree": true,
+    "verifier_corrected": true,
+    "final_present": true
+  },
+  "37": {
+    "primary_present": true,
+    "confidence": "high",
+    "verifier_agree": true,
+    "verifier_corrected": true,
+    "final_present": true
+  },
+  "38": {
+    "primary_present": true,
+    "confidence": "high",
+    "verifier_agree": true,
+    "verifier_corrected": true,
+    "final_present": true
+  },
+  "39": {
+    "primary_present": true,
+    "confidence": "high",
+    "verifier_agree": true,
+    "verifier_corrected": true,
+    "final_present": true
+  },
+  "40": {
+    "primary_present": true,
+    "confidence": "high",
+    "verifier_agree": true,
+    "verifier_corrected": true,
+    "final_present": true
+  }
+}

@@ -1,0 +1,491 @@
+{
+  "rows": [
+    {
+      "id": "12",
+      "governor": "plan-gate",
+      "key": "plan-gate__pg1",
+      "arm": "with",
+      "run": "r1",
+      "final_present": true,
+      "primary_present": true,
+      "verifier_agree": true,
+      "skill_fired": true
+    },
+    {
+      "id": "05",
+      "governor": "plan-gate",
+      "key": "plan-gate__pg1",
+      "arm": "with",
+      "run": "r2",
+      "final_present": true,
+      "primary_present": true,
+      "verifier_agree": true,
+      "skill_fired": true
+    },
+    {
+      "id": "40",
+      "governor": "plan-gate",
+      "key": "plan-gate__pg1",
+      "arm": "without",
+      "run": "r1",
+      "final_present": true,
+      "primary_present": true,
+      "verifier_agree": true,
+      "skill_fired": true
+    },
+    {
+      "id": "36",
+      "governor": "plan-gate",
+      "key": "plan-gate__pg1",
+      "arm": "without",
+      "run": "r2",
+      "final_present": true,
+      "primary_present": true,
+      "verifier_agree": true,
+      "skill_fired": true
+    },
+    {
+      "id": "23",
+      "governor": "plan-gate",
+      "key": "plan-gate__pg2",
+      "arm": "with",
+      "run": "r1",
+      "final_present": true,
+      "primary_present": true,
+      "verifier_agree": true,
+      "skill_fired": true
+    },
+    {
+      "id": "19",
+      "governor": "plan-gate",
+      "key": "plan-gate__pg2",
+      "arm": "with",
+      "run": "r2",
+      "final_present": false,
+      "primary_present": false,
+      "verifier_agree": true,
+      "skill_fired": true
+    },
+    {
+      "id": "37",
+      "governor": "plan-gate",
+      "key": "plan-gate__pg2",
+      "arm": "without",
+      "run": "r1",
+      "final_present": true,
+      "primary_present": true,
+      "verifier_agree": true,
+      "skill_fired": true
+    },
+    {
+      "id": "08",
+      "governor": "plan-gate",
+      "key": "plan-gate__pg2",
+      "arm": "without",
+      "run": "r2",
+      "final_present": true,
+      "primary_present": true,
+      "verifier_agree": true,
+      "skill_fired": true
+    },
+    {
+      "id": "11",
+      "governor": "adversarial-verify",
+      "key": "adversarial-verify__av1",
+      "arm": "with",
+      "run": "r1",
+      "final_present": true,
+      "primary_present": true,
+      "verifier_agree": true,
+      "skill_fired": true
+    },
+    {
+      "id": "28",
+      "governor": "adversarial-verify",
+      "key": "adversarial-verify__av1",
+      "arm": "with",
+      "run": "r2",
+      "final_present": true,
+      "primary_present": true,
+      "verifier_agree": true,
+      "skill_fired": true
+    },
+    {
+      "id": "18",
+      "governor": "adversarial-verify",
+      "key": "adversarial-verify__av1",
+      "arm": "without",
+      "run": "r1",
+      "final_present": true,
+      "primary_present": true,
+      "verifier_agree": true,
+      "skill_fired": true
+    },
+    {
+      "id": "30",
+      "governor": "adversarial-verify",
+      "key": "adversarial-verify__av1",
+      "arm": "without",
+      "run": "r2",
+      "final_present": true,
+      "primary_present": true,
+      "verifier_agree": true,
+      "skill_fired": true
+    },
+    {
+      "id": "09",
+      "governor": "adversarial-verify",
+      "key": "adversarial-verify__av2",
+      "arm": "with",
+      "run": "r1",
+      "final_present": true,
+      "primary_present": true,
+      "verifier_agree": true,
+      "skill_fired": true
+    },
+    {
+      "id": "26",
+      "governor": "adversarial-verify",
+      "key": "adversarial-verify__av2",
+      "arm": "with",
+      "run": "r2",
+      "final_present": true,
+      "primary_present": true,
+      "verifier_agree": true,
+      "skill_fired": true
+    },
+    {
+      "id": "07",
+      "governor": "adversarial-verify",
+      "key": "adversarial-verify__av2",
+      "arm": "without",
+      "run": "r1",
+      "final_present": true,
+      "primary_present": true,
+      "verifier_agree": true,
+      "skill_fired": true
+    },
+    {
+      "id": "38",
+      "governor": "adversarial-verify",
+      "key": "adversarial-verify__av2",
+      "arm": "without",
+      "run": "r2",
+      "final_present": true,
+      "primary_present": true,
+      "verifier_agree": true,
+      "skill_fired": true
+    },
+    {
+      "id": "06",
+      "governor": "live-state-truth",
+      "key": "live-state-truth__lst1",
+      "arm": "with",
+      "run": "r1",
+      "final_present": true,
+      "primary_present": true,
+      "verifier_agree": true,
+      "skill_fired": true
+    },
+    {
+      "id": "10",
+      "governor": "live-state-truth",
+      "key": "live-state-truth__lst1",
+      "arm": "with",
+      "run": "r2",
+      "final_present": true,
+      "primary_present": true,
+      "verifier_agree": true,
+      "skill_fired": true
+    },
+    {
+      "id": "29",
+      "governor": "live-state-truth",
+      "key": "live-state-truth__lst1",
+      "arm": "without",
+      "run": "r1",
+      "final_present": true,
+      "primary_present": true,
+      "verifier_agree": true,
+      "skill_fired": true
+    },
+    {
+      "id": "02",
+      "governor": "live-state-truth",
+      "key": "live-state-truth__lst1",
+      "arm": "without",
+      "run": "r2",
+      "final_present": true,
+      "primary_present": true,
+      "verifier_agree": true,
+      "skill_fired": true
+    },
+    {
+      "id": "31",
+      "governor": "live-state-truth",
+      "key": "live-state-truth__lst2",
+      "arm": "with",
+      "run": "r1",
+      "final_present": true,
+      "primary_present": true,
+      "verifier_agree": true,
+      "skill_fired": true
+    },
+    {
+      "id": "13",
+      "governor": "live-state-truth",
+      "key": "live-state-truth__lst2",
+      "arm": "with",
+      "run": "r2",
+      "final_present": true,
+      "primary_present": true,
+      "verifier_agree": true,
+      "skill_fired": true
+    },
+    {
+      "id": "27",
+      "governor": "live-state-truth",
+      "key": "live-state-truth__lst2",
+      "arm": "without",
+      "run": "r1",
+      "final_present": true,
+      "primary_present": true,
+      "verifier_agree": true,
+      "skill_fired": true
+    },
+    {
+      "id": "34",
+      "governor": "live-state-truth",
+      "key": "live-state-truth__lst2",
+      "arm": "without",
+      "run": "r2",
+      "final_present": true,
+      "primary_present": true,
+      "verifier_agree": true,
+      "skill_fired": true
+    },
+    {
+      "id": "04",
+      "governor": "scope-fence",
+      "key": "scope-fence__sf1",
+      "arm": "with",
+      "run": "r1",
+      "final_present": true,
+      "primary_present": true,
+      "verifier_agree": true,
+      "skill_fired": true
+    },
+    {
+      "id": "39",
+      "governor": "scope-fence",
+      "key": "scope-fence__sf1",
+      "arm": "with",
+      "run": "r2",
+      "final_present": true,
+      "primary_present": true,
+      "verifier_agree": true,
+      "skill_fired": true
+    },
+    {
+      "id": "32",
+      "governor": "scope-fence",
+      "key": "scope-fence__sf1",
+      "arm": "without",
+      "run": "r1",
+      "final_present": true,
+      "primary_present": true,
+      "verifier_agree": true,
+      "skill_fired": false
+    },
+    {
+      "id": "22",
+      "governor": "scope-fence",
+      "key": "scope-fence__sf1",
+      "arm": "without",
+      "run": "r2",
+      "final_present": true,
+      "primary_present": true,
+      "verifier_agree": true,
+      "skill_fired": true
+    },
+    {
+      "id": "25",
+      "governor": "scope-fence",
+      "key": "scope-fence__sf2",
+      "arm": "with",
+      "run": "r1",
+      "final_present": true,
+      "primary_present": true,
+      "verifier_agree": true,
+      "skill_fired": true
+    },
+    {
+      "id": "03",
+      "governor": "scope-fence",
+      "key": "scope-fence__sf2",
+      "arm": "with",
+      "run": "r2",
+      "final_present": true,
+      "primary_present": true,
+      "verifier_agree": true,
+      "skill_fired": true
+    },
+    {
+      "id": "24",
+      "governor": "scope-fence",
+      "key": "scope-fence__sf2",
+      "arm": "without",
+      "run": "r1",
+      "final_present": true,
+      "primary_present": true,
+      "verifier_agree": true,
+      "skill_fired": true
+    },
+    {
+      "id": "33",
+      "governor": "scope-fence",
+      "key": "scope-fence__sf2",
+      "arm": "without",
+      "run": "r2",
+      "final_present": true,
+      "primary_present": true,
+      "verifier_agree": true,
+      "skill_fired": true
+    },
+    {
+      "id": "01",
+      "governor": "lessons-ledger",
+      "key": "lessons-ledger__ll1",
+      "arm": "with",
+      "run": "r1",
+      "final_present": true,
+      "primary_present": true,
+      "verifier_agree": true,
+      "skill_fired": true
+    },
+    {
+      "id": "21",
+      "governor": "lessons-ledger",
+      "key": "lessons-ledger__ll1",
+      "arm": "with",
+      "run": "r2",
+      "final_present": false,
+      "primary_present": true,
+      "verifier_agree": false,
+      "skill_fired": true
+    },
+    {
+      "id": "16",
+      "governor": "lessons-ledger",
+      "key": "lessons-ledger__ll1",
+      "arm": "without",
+      "run": "r1",
+      "final_present": true,
+      "primary_present": true,
+      "verifier_agree": true,
+      "skill_fired": true
+    },
+    {
+      "id": "20",
+      "governor": "lessons-ledger",
+      "key": "lessons-ledger__ll1",
+      "arm": "without",
+      "run": "r2",
+      "final_present": true,
+      "primary_present": true,
+      "verifier_agree": true,
+      "skill_fired": true
+    },
+    {
+      "id": "35",
+      "governor": "lessons-ledger",
+      "key": "lessons-ledger__ll2",
+      "arm": "with",
+      "run": "r1",
+      "final_present": true,
+      "primary_present": true,
+      "verifier_agree": true,
+      "skill_fired": true
+    },
+    {
+      "id": "17",
+      "governor": "lessons-ledger",
+      "key": "lessons-ledger__ll2",
+      "arm": "with",
+      "run": "r2",
+      "final_present": true,
+      "primary_present": true,
+      "verifier_agree": true,
+      "skill_fired": true
+    },
+    {
+      "id": "14",
+      "governor": "lessons-ledger",
+      "key": "lessons-ledger__ll2",
+      "arm": "without",
+      "run": "r1",
+      "final_present": false,
+      "primary_present": false,
+      "verifier_agree": true,
+      "skill_fired": true
+    },
+    {
+      "id": "15",
+      "governor": "lessons-ledger",
+      "key": "lessons-ledger__ll2",
+      "arm": "without",
+      "run": "r2",
+      "final_present": false,
+      "primary_present": false,
+      "verifier_agree": true,
+      "skill_fired": true
+    }
+  ],
+  "summary": [
+    {
+      "governor": "plan-gate",
+      "with": "3/4",
+      "without": "4/4",
+      "delta_pct": -25,
+      "skill_fire_with": "4/4",
+      "gate": "FAIL",
+      "note": "(WITHOUT also shows it \u2014 base model does it; arch-contract review)"
+    },
+    {
+      "governor": "adversarial-verify",
+      "with": "4/4",
+      "without": "4/4",
+      "delta_pct": 0,
+      "skill_fire_with": "4/4",
+      "gate": "FAIL",
+      "note": "(WITHOUT also shows it \u2014 base model does it; arch-contract review)"
+    },
+    {
+      "governor": "live-state-truth",
+      "with": "4/4",
+      "without": "4/4",
+      "delta_pct": 0,
+      "skill_fire_with": "4/4",
+      "gate": "FAIL",
+      "note": "(WITHOUT also shows it \u2014 base model does it; arch-contract review)"
+    },
+    {
+      "governor": "scope-fence",
+      "with": "4/4",
+      "without": "4/4",
+      "delta_pct": 0,
+      "skill_fire_with": "4/4",
+      "gate": "FAIL",
+      "note": "(WITHOUT also shows it \u2014 base model does it; arch-contract review)"
+    },
+    {
+      "governor": "lessons-ledger",
+      "with": "3/4",
+      "without": "2/4",
+      "delta_pct": 25,
+      "skill_fire_with": "4/4",
+      "gate": "FAIL",
+      "note": "(WITHOUT also shows it \u2014 base model does it; arch-contract review)"
+    }
+  ]
+}

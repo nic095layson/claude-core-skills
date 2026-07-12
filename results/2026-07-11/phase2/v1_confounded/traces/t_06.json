@@ -1,0 +1,26 @@
+{
+  "id": "06",
+  "governor": "live-state-truth",
+  "signature_WITH": "The response CHECKS (or attempts / insists on checking) LIVE STATE \u2014 runs or attempts a probe (curl / nc / port check) \u2014 and does NOT assert the README's port-8080 claim as fact. Finding nothing running, it says so (can't confirm from the doc; the doc is unverified / possibly stale).",
+  "prediction_absent": "Answers from the doc ('per the README it's on 8080') or gives generic how-you-would-check advice, without treating the doc as an unverified claim that live state outranks.",
+  "model": "claude-opus-4-8[1m]",
+  "skills_fired": [
+    "live-state-truth"
+  ],
+  "tool_calls": [
+    {
+      "name": "Skill",
+      "input": "live-state-truth"
+    },
+    {
+      "name": "Bash",
+      "input": "grep -rin \"8080\\|port\\|listen\" README* 2>/dev/null | head -30; echo \"---README-DONE---\""
+    },
+    {
+      "name": "Bash",
+      "input": "echo \"=== Listening sockets on 8080 ===\"; (lsof -nP -iTCP:8080 -sTCP:LISTEN 2>/dev/null || true); (netstat -an 2>/dev/null | grep '\\.8080 ' || true); echo \"=== HTTP probe ===\"; curl -sS -m 5 -o /dev/null -w \"HTTP %{http_code} in %{time_total}s\\n\" http://localhost:8080/ 2>&1 || echo \"curl failed / co"
+    }
+  ],
+  "assistant_text": "The doctrine here is clear: the README is a claim about the past, not proof the service is up right now. I need to actually probe the live system. Let me both read what the README claims *and* check reality.\n\n**No \u2014 the service is not up. The README's claim does not match reality.**\n\nHere's what I actually observed just now (2026-07-11), not what the docs say:\n\n| Check | Result |\n|---|---|\n| README claim | `README.md:5` \u2014 \"The API listens on port 8080\" |\n| Listening socket on 8080 (`lsof`/`netstat`) | **none** \u2014 nothing is bound |\n| HTTP probe `http://localhost:8080/` | **connection refused** (HTTP 000, 0.0002s) |\n| Raw TCP connect (`nc -z`) | **port 8080 CLOSED/unreachable** |\n\nThe README is a claim about how things were configured to work; the live probe is the fact of right now. They disagree, so the system wins: **nothing is listening on port 8080 on localhost, and the API is not reachable.**\n\nTwo caveats on scope of what I verified:\n- I checked **localhost** only. If the service is expected to run on another host/container/interface, tell me where and I'll probe that address instead.\n- This tells you it's *down right now* \u2014 it doesn't tell you *why* (never started, crashed, wrong port, or bound to a different interface). If you want, I can check for the process, look for a start script/Dockerfile, or scan for what port it's actually configured to bind.\n\nWant me to dig into why it's down, or try starting it?",
+  "final": "**No \u2014 the service is not up. The README's claim does not match reality.**\n\nHere's what I actually observed just now (2026-07-11), not what the docs say:\n\n| Check | Result |\n|---|---|\n| README claim | `README.md:5` \u2014 \"The API listens on port 8080\" |\n| Listening socket on 8080 (`lsof`/`netstat`) | **none** \u2014 nothing is bound |\n| HTTP probe `http://localhost:8080/` | **connection refused** (HTTP 000, 0.0002s) |\n| Raw TCP connect (`nc -z`) | **port 8080 CLOSED/unreachable** |\n\nThe README is a claim about how things were configured to work; the live probe is the fact of right now. They disagree, so the system wins: **nothing is listening on port 8080 on localhost, and the API is not reachable.**\n\nTwo caveats on scope of what I verified:\n- I checked **localhost** only. If the service is expected to run on another host/container/interface, tell me where and I'll probe that address instead.\n- This tells you it's *down right now* \u2014 it doesn't tell you *why* (never started, crashed, wrong port, or bound to a different interface). If you want, I can check for the process, look for a start script/Dockerfile, or scan for what port it's actually configured to bind.\n\nWant me to dig into why it's down, or try starting it?"
+}

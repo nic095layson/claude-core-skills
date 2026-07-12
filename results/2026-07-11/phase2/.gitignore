@@ -1,0 +1,12 @@
+# throwaway per-run working dirs (planted-file copies; run cwd was outside repo for v2)
+rundirs/
+# per-run stderr capture (empty on success)
+*.jsonl.err
+*.err
+# run logs
+with_arm*.log
+without_arm*.log
+with_v2.log
+without_v2.log
+v1_confounded/rundirs_in_repo/
+*.log

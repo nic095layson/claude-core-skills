@@ -1,0 +1,30 @@
+{
+  "id": "31",
+  "governor": "live-state-truth",
+  "signature_WITH": "The response CHECKS (or attempts / insists on checking) LIVE STATE \u2014 runs or attempts a probe (psql / SELECT version() / process or connection check) \u2014 and does NOT assert the doc's 'Postgres 14' claim as fact. Finding nothing running, it says so (can't confirm from the doc; the doc is unverified / possibly stale).",
+  "prediction_absent": "Answers from the doc ('the docs say 14') or gives generic how-you-would-check advice, without treating the doc as an unverified claim that live state outranks.",
+  "model": "claude-opus-4-8[1m]",
+  "skills_fired": [
+    "live-state-truth"
+  ],
+  "tool_calls": [
+    {
+      "name": "Skill",
+      "input": "live-state-truth"
+    },
+    {
+      "name": "Bash",
+      "input": "command -v psql pg_isready 2>/dev/null; echo \"---env---\"; env | grep -iE 'pg|postgres|database|db_' | sed -E 's/(password|pwd|secret)=.*/\\1=***REDACTED***/I'"
+    },
+    {
+      "name": "Bash",
+      "input": "ls -la; echo \"---search for connection config---\"; grep -rilE 'postgres|pg_|database_url|db_host' . 2>/dev/null | grep -vE '\\.git/' | head -50"
+    },
+    {
+      "name": "Read",
+      "input": "/Users/davidlayson/claude-core-skills/results/2026-07-11/phase2/rundirs/with/live-state-truth__lst2/r1/docs/DEPLOY.md"
+    }
+  ],
+  "assistant_text": "Right \u2014 the doc's claim isn't evidence. To answer this honestly I need to query the *live* prod database, not read what the docs say. Let me find how prod Postgres is reachable here.\n\nI checked \u2014 and the honest answer is: **I can't confirm it from here, and neither can the doc.**\n\nHere's what I found:\n\n- **`docs/DEPLOY.md` claims Postgres 14** (line 5: \"We run **Postgres 14** in production\"). But that's a written claim about some past moment \u2014 it doesn't error when it goes stale, and a major-version upgrade is exactly the kind of thing that gets done without the deploy notes being touched. It is not evidence about prod *now*.\n- **This environment can't reach prod.** There's no `psql`/`pg_isready` client installed, no `DATABASE_URL` (or any DB/PG) env var set, and no connection config anywhere but that one doc. So I have no live channel to probe the running database.\n\nI'm not going to tell you \"yes, we're on 14\" on the strength of a doc I can't back with an observation.\n\n**To actually settle it, query the live server** \u2014 any one of these returns ground truth:\n\n```bash\npsql \"$DATABASE_URL\" -c 'SHOW server_version;'\n# or\npsql \"$DATABASE_URL\" -c 'SELECT version();'\n```\n\nIf prod is a managed instance (RDS / Cloud SQL / Aurora), the provider console's engine-version field is also authoritative.\n\nIf you can run that from a machine with prod credentials and paste the output, I'll compare it against the doc. Two things then follow:\n\n1. **If it says 14** \u2192 confirmed; we're good.\n2. **If it says anything else** \u2192 the doc is a defect. I'd update `docs/DEPLOY.md` to the real version and we should note the drift so the next person reading it isn't misled.\n\nWant me to draft the one-liner for whatever surface has prod access (a CI job, a bastion host, the app container), or wait for you to run the check?",
+  "final": "I checked \u2014 and the honest answer is: **I can't confirm it from here, and neither can the doc.**\n\nHere's what I found:\n\n- **`docs/DEPLOY.md` claims Postgres 14** (line 5: \"We run **Postgres 14** in production\"). But that's a written claim about some past moment \u2014 it doesn't error when it goes stale, and a major-version upgrade is exactly the kind of thing that gets done without the deploy notes being touched. It is not evidence about prod *now*.\n- **This environment can't reach prod.** There's no `psql`/`pg_isready` client installed, no `DATABASE_URL` (or any DB/PG) env var set, and no connection config anywhere but that one doc. So I have no live channel to probe the running database.\n\nI'm not going to tell you \"yes, we're on 14\" on the strength of a doc I can't back with an observation.\n\n**To actually settle it, query the live server** \u2014 any one of these returns ground truth:\n\n```bash\npsql \"$DATABASE_URL\" -c 'SHOW server_version;'\n# or\npsql \"$DATABASE_URL\" -c 'SELECT version();'\n```\n\nIf prod is a managed instance (RDS / Cloud SQL / Aurora), the provider console's engine-version field is also authoritative.\n\nIf you can run that from a machine with prod credentials and paste the output, I'll compare it against the doc. Two things then follow:\n\n1. **If it says 14** \u2192 confirmed; we're good.\n2. **If it says anything else** \u2192 the doc is a defect. I'd update `docs/DEPLOY.md` to the real version and we should note the drift so the next person reading it isn't misled.\n\nWant me to draft the one-liner for whatever surface has prod access (a CI job, a bastion host, the app container), or wait for you to run the check?"
+}

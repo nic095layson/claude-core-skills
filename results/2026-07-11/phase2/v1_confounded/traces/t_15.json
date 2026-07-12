@@ -1,0 +1,22 @@
+{
+  "id": "15",
+  "governor": "lessons-ledger",
+  "signature_WITH": "The recounted diagnosis GETS RECORDED \u2014 the model produces (proposes, or writes to a file) a STRUCTURED LEDGER ENTRY in symptom -> root cause -> evidence -> status form (here: intermittent CI failure / afternoon lost -> race in fixture setup -> fixed with a lock), treating the wrapped-up bug as something to capture so it isn't re-debugged.",
+  "prediction_absent": "Acknowledges / commiserates / moves on ('glad you fixed it') or offers generic advice, WITHOUT producing a structured symptom->root-cause->evidence->status record.",
+  "model": "claude-opus-4-8[1m]",
+  "skills_fired": [
+    "lessons-ledger"
+  ],
+  "tool_calls": [
+    {
+      "name": "Skill",
+      "input": "lessons-ledger"
+    },
+    {
+      "name": "Read",
+      "input": "/Users/davidlayson/claude-core-skills/.claude/LESSONS.md"
+    }
+  ],
+  "assistant_text": "The ledger already has this one. INC-5 in `/Users/davidlayson/claude-core-skills/.claude/LESSONS.md` (lines 123\u2013139) records exactly this incident \u2014 intermittent CI failure, fixture-setup race on a shared file, fixed with a lock, dated today. Symptom \u2192 root cause \u2192 evidence \u2192 status \u2192 lesson are all captured.\n\nSo there's nothing to append; adding a second entry would just pad the ledger. No action needed \u2014 it's already on the record with the transferable lesson:\n\n> when a CI test fails intermittently with no clean repro, suspect a concurrency/ordering race in the fixture or setup path \u2014 especially shared state (files, temp dirs, ports, DBs) touched by parallel tests \u2014 before chasing the code under test; serialize the shared resource with a lock.\n\nIf the afternoon turned up any detail that entry *doesn't* have \u2014 which test, what the shared file was, whether it was pytest xdist / parallel jobs \u2014 say the word and I'll enrich INC-5 with the specifics.",
+  "final": "The ledger already has this one. INC-5 in `/Users/davidlayson/claude-core-skills/.claude/LESSONS.md` (lines 123\u2013139) records exactly this incident \u2014 intermittent CI failure, fixture-setup race on a shared file, fixed with a lock, dated today. Symptom \u2192 root cause \u2192 evidence \u2192 status \u2192 lesson are all captured.\n\nSo there's nothing to append; adding a second entry would just pad the ledger. No action needed \u2014 it's already on the record with the transferable lesson:\n\n> when a CI test fails intermittently with no clean repro, suspect a concurrency/ordering race in the fixture or setup path \u2014 especially shared state (files, temp dirs, ports, DBs) touched by parallel tests \u2014 before chasing the code under test; serialize the shared resource with a lock.\n\nIf the afternoon turned up any detail that entry *doesn't* have \u2014 which test, what the shared file was, whether it was pytest xdist / parallel jobs \u2014 say the word and I'll enrich INC-5 with the specifics."
+}

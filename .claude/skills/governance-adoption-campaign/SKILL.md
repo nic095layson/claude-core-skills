@@ -137,6 +137,50 @@ research-methodology. **If without-library runs ALSO show the behavior:** the
 base model already does it; record the finding (ledger) and consider whether the
 governor earns its context cost — take the answer to architecture-contract.
 
+**Status: RUN 2026-07-11 (Claude Code headless, `claude-opus-4-8[1m]`) — MIXED,
+recorded honestly.** 40 paired A/B `claude -p` sessions (5 governors × 2 prompts ×
+2 arms × 2 runs), signatures + without-predictions pre-registered and committed
+before any run, each transcript graded in isolation. **Methodology correction
+mid-run:** the first pass ran cwd *inside* this repo, so the repo's project-scope
+`.claude/skills/` leaked all five governors into the "without" arm (plan-gate fired
+there) — invalidated; re-run ("v2") with cwd outside the repo & `~/.claude`, where
+the without-arm fired 0/20, confirming a true baseline. Governors moved out under a
+trap-guarded script and restored **byte-identical** to a pre-recorded sha256 baseline
+(without-arm state never left installed). **Behavioral results (with-lib / without-lib,
+signature present):**
+- **plan-gate 4/4 / 0/4 — GATE PASS, clean delta.** Full gate block with; questions +
+  default script but no goal/criteria/phases without.
+- **scope-fence 4/4 / 0/4 — GATE PASS, clean delta.** Fixes only the named bug and
+  flags adjacent with; silently does the dangled cleanup ("also folded in the
+  cleanups") without. **Notable:** failed the Phase-1 *trigger* gate yet passes the
+  Phase-2 *behavioral* gate — fires 4/4 and behaves under the current trimmed wording.
+- **adversarial-verify 4/4 / 0/4 (structured) — GATE PASS with caveat.** Criteria grid
+  + named refutation with; the without arm is still a strong reviewer that catches the
+  same bugs and says "not ready to ship" (0/4 *structured*, 4/4 *substantive*). The
+  prompts cue review; the governor's marginal value here is discipline/structure, not
+  bug-catching. Better future test: a should-verify-but-uncued prompt.
+- **lessons-ledger 4/4 / 2/4 — GATE PARTIAL.** Structured ledger entry with; without,
+  the base model records ~half the time via the **built-in Claude Code memory feature**
+  (different format) and not at all the other half. Overlaps this governor's job →
+  architecture-contract.
+- **live-state-truth 4/4 / 4/4 — GATE FAIL (no delta).** The base model already probes
+  live state and refuses the doc on these ("is it *actually* up right now") prompts.
+  Fires but changes nothing observable → architecture-contract "earns its context
+  cost?". Not spun as a pass.
+
+All five FIRED 4/4 with and 0/4 without (clean trigger separation once cwd was fixed,
+incl. scope-fence & lessons-ledger under the current wording). **2 clean behavioral
+deltas, 1 structural, 2 base-model-already-does-it findings.** Full table, per-run
+grades, verbatim transcripts, and the prompt-set limitation (3/5 signatures tested
+with behavior-cueing prompts): `results/2026-07-11/phase2/` (`RESULTS-PHASE2.md`,
+`PHASE2-GRADES.md`, `PHASE2-PREREG.md`, `transcripts_v2/`). Two operational incidents
+(project-scope leak; concurrent-worker/summarized-context collision on
+`~/.claude/skills`) recorded in `.claude/LESSONS.md`. **Route to
+architecture-contract:** lessons-ledger (vs built-in memory) and live-state-truth (no
+delta) earn a context-cost review; plan-gate and scope-fence are behaviorally
+confirmed on this surface, dated. Other surfaces (interactive Claude Code, claude.ai)
+remain OPEN.
+
 ## Phase 3 — Ongoing measurement and ratchet
 
 **Do:** save all Phase 1–2 prompts and criteria as the library's standing eval
