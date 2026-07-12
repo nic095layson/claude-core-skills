@@ -2,20 +2,18 @@
 name: live-state-truth
 description: >-
   The doctrine that live state outranks every description of it — check the running
-  system, the actual file, the real API, the current page, and never assert from
-  documentation, memory, or "nobody touched it". Load this whenever you are about to
-  state a fact about an environment you did not verify THIS session: what a config
-  contains, whether a service is up, what version is installed, what an account can
-  see, whether two copies match, what a repo's layout is, what an app supports.
+  system, the actual file, the real API, and never assert from documentation,
+  memory, or "nobody touched it". Load this whenever you are about to state a fact
+  about an environment you did not verify THIS session: what a config contains,
+  whether a service is up, what version is installed, whether two copies match.
   Load it before planning around any doc's claim, before answering "is X set up?"
   OR any request to confirm/verify something about the running environment right now
   — "confirm the service is up and reachable", "check we're really on version Y",
   "is it actually running / reachable at the moment?" — where the honest answer
   requires probing the live system, not reading a doc; and whenever docs and
-  observed behavior disagree. Do NOT load for judging whether
-  finished work is GOOD (adversarial-verify — this skill proves states, not
-  quality), for planning (plan-gate), or for recording a discovered drift's history
-  (lessons-ledger — this skill detects, that one chronicles).
+  observed behavior disagree. Do NOT load for judging whether finished work is GOOD
+  (adversarial-verify), for planning (plan-gate), or for recording a discovered
+  drift's history (lessons-ledger).
 ---
 
 # Live-State-Truth

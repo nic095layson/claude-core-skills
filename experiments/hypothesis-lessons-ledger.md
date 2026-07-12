@@ -76,3 +76,5 @@ an owner-adoptable regression-free improvement (17%→80%). Escalated as an arch
 open question: description-based triggering appears to have a ~80% ceiling for the
 append-on-diagnosis behavior (the model treats a finished debug story as conversation, not a
 skill-load trigger). claude.ai upload UNCHANGED (OLD still current).
+
+**Length-compliance follow-up (2026-07-11):** description trimmed to 972 chars; ADOPTED (owner) — trim held rate ~80%, gate still FAIL. Now ≤1024 (was over). Full A/B: `experiments/hypothesis-2026-07-11-length-compliance.md`.

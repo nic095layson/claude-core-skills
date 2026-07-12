@@ -2,17 +2,17 @@
 name: lessons-ledger
 description: >-
   The running log of mistakes, dead ends, and drifts — recorded as symptom → root
-  cause → evidence → status so no session re-debugs a solved problem, re-walks a
-  known dead end, or trusts a record that history proves stale. Load this in two
-  directions: to CONSULT it before re-attempting anything that might have been
-  tried before ("was this tried?", "did this break before?", "has this doc lied
-  before?", "was this drift already recorded?"), and to APPEND whenever the recording rule fires — a
-  diagnosis cost real time, a doc of record was caught lying, an approach was
-  abandoned, an artifact disagreed with its source. Load it at the END of any
-  session that hit one of those, even if everything got fixed. Do NOT load it to
-  diagnose a live problem from scratch (debugging is its own work; this is the
-  archive), and do NOT record routine successes — a padded ledger is as useless as
-  an empty one.
+  cause → evidence → status so no session re-debugs a solved problem. APPEND to it
+  the moment a hard-won diagnosis wraps up: whenever the user recounts a bug they
+  chased down and its root cause — in ANY of the forms costly debugging takes
+  ("burned two hours", "finally figured it out", "turned out to be", "took me all
+  afternoon / all day", "spent hours on", "kept failing until"), and not only when
+  an explicit hour count is named — record it even when it is already fixed and the
+  user is moving on ("anyway, done"). Also APPEND when a doc was caught lying, an
+  approach was abandoned, or an artifact disagreed with its source. And CONSULT it
+  before re-attempting anything that might have been tried before ("was this tried?",
+  "did this break before?"). Do NOT load it to diagnose a live problem from scratch,
+  and do NOT record routine successes — a padded ledger is as useless as an empty one.
 ---
 
 # Lessons-Ledger

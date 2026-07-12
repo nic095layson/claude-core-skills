@@ -84,8 +84,11 @@ evidence → status. An entry without evidence is a rumor and does not belong he
 
 ### INC-3 — Accepted rewords exceed the 1024-char description limit (claude.ai upload risk)
 
-- Date: 2026-07-11 (research-methodology A/B session). Status: **OPEN** (flagged,
-  not fixed — owner to resolve before claude.ai re-upload).
+- Date: 2026-07-11 (research-methodology A/B session). Status: **RESOLVED same day**
+  — all five trimmed ≤1000 chars and re-run; rates held, zero should-not regressions
+  (`experiments/hypothesis-2026-07-11-length-compliance.md`). Lint gained no length
+  check yet (still suggested). Bonus finding: the shorter scope-fence description
+  fired its id1 3/5 vs 0/2 at over-length — less dilution triggers more reliably.
 - Symptom: the three accepted rewords pushed their `description` field over the
   documented 1024-char Agent-Skills limit — plan-gate 1322, live-state-truth 1156,
   adversarial-verify 1144 (OLD were 965 / 863 / 827).

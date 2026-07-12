@@ -68,3 +68,5 @@ id1 (the sole 0/3 — "confirm the service is up and reachable right now") lifte
 no regression on id2/id3 or on the concept-question NOT clause (id4 TCP/UDP, id5 foreign-key
 stayed 3/3 silent). Gate ≥8/9 cleared. Landed to repo + personal (byte-identical).
 claude.ai upload now STALE — needs re-upload by owner.
+
+**Length-compliance follow-up (2026-07-11):** description trimmed to 984 chars; ACCEPTED trim holds gate 9/9. Now ≤1024 (was over). Full A/B: `experiments/hypothesis-2026-07-11-length-compliance.md`.

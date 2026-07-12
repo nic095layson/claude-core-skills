@@ -2,14 +2,17 @@
 name: scope-fence
 description: >-
   The boundary discipline that keeps a session inside the prompt it was given —
-  classify what the ask touches before touching anything, flag adjacent problems
-  instead of silently fixing them, and treat approval as per-scope, never general.
-  Load this the moment you notice something worth fixing that the user did not ask
-  for: a bug next to the bug, dead code, a stale doc, a "while I'm here"
-  temptation, a refactor that would make the real fix easier. Load it also when an
-  instruction is ambiguous about how far to go ("clean this up", "make it better"),
-  and when work-in-progress starts wanting to grow. Do NOT load for planning the
-  in-scope work itself (plan-gate), for verifying it (adversarial-verify), or when
+  classify what the ask touches, flag adjacent problems instead of silently fixing
+  them, and treat approval as per-scope. Load this the moment you notice something
+  worth fixing that the user did not ask
+  for: a bug next to the bug, a "while I'm here"
+  temptation, a refactor that would make the real fix easier, or the user hinting
+  the same bug or pattern probably exists elsewhere ("I bet the other endpoints
+  have this too", "the same thing is broken in three other places"). Load it also
+  when a request bundles one scoped fix with a vague whole-file or whole-module
+  expansion ("fix this off-by-one — also the whole file doesn't follow our style
+  guide", "clean this up", "just make it better"). Do NOT load for planning the
+  in-scope work (plan-gate) or verifying it (adversarial-verify), or when
   the user has EXPLICITLY named the adjacent work as part of the task — named work
   is inside the fence by definition.
 ---

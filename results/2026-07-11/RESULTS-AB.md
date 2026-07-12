@@ -119,6 +119,12 @@ options before the claude.ai re-upload: (a) upload as-is and confirm it register
 to ≤1024 and re-run the A/B to re-validate. Progressive-disclosure cost also rises (plan-gate is
 now 232 words vs ~130 baseline).
 
+**RESOLVED (2026-07-11, same day):** all five governors were trimmed to ≤1000 chars (969–1000),
+preserving load-bearing surfaces + NOT clauses verbatim, and re-run — **all held their rates,
+zero should-not regressions, zero co-fires**. Every description is now within the 1024 cap.
+Notably scope-fence id1 fired 3/5 under the shorter description (0/2 under the over-length one) —
+less dilution triggers more reliably. See `experiments/hypothesis-2026-07-11-length-compliance.md`.
+
 ## Disposition
 
 - **Accepted (repo + personal updated, byte-identical):** adversarial-verify (NEW1),

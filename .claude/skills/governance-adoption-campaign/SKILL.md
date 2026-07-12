@@ -102,6 +102,18 @@ lessons-ledger remain gated. The 3 accepted governors' claude.ai `.skill` upload
 now STALE (owner re-upload needed). Full A/B results + transcripts:
 `results/2026-07-11/RESULTS-AB.md`.
 
+**Status update 2 2026-07-11 (description-length compliance):** the platform caps
+`description` at 1024 chars; the winning/adopted wordings exceeded it (plan-gate 1322,
+lessons-ledger 1256, live-state-truth 1156, adversarial-verify 1144, scope-fence 1109).
+All five were trimmed to ≤1000 (load-bearing surfaces + NOT clauses kept verbatim) and
+re-run — **all held their rates, zero should-not regressions, zero co-fires**:
+adversarial-verify 6/6, plan-gate 9/9, live-state-truth 9/9 (gates still PASS at the
+shorter length); scope-fence and lessons-ledger adopted (owner decision) as better
+wording while hooks are explored — gate stays FAIL, recorded as rates (scope-fence id1
+0/2→3/5 flaky, lessons-ledger ~80%). Every governor description is now within the
+claude.ai upload limit. Pre-registration + outcome:
+`experiments/hypothesis-2026-07-11-length-compliance.md`.
+
 ## Phase 2 — Behavioral evals (does firing change anything?)
 
 A governor that loads but doesn't alter behavior is decoration. For each

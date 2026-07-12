@@ -2,22 +2,18 @@
 name: plan-gate
 description: >-
   The gate between receiving a non-trivial task and taking the first action on it —
-  write the goal in one sentence, inventory knowns vs unknowns, register assumptions,
-  define success criteria BEFORE acting, and plan in phases with predicted outcomes.
-  Load this at the START of any task that is multi-step, touches state you did not
-  create, has unknowns that would change the approach, or would be costly to redo —
-  including concrete requests a user actually types like "build / set up / configure
-  / wire up X", "refactor / rewrite / migrate / convert Y to Z" (e.g. move auth to
-  JWTs), "stand up a pipeline or service" / "set up CI/CD", "figure out why...", and
-  anything the user will rely on. Load it even when the task LOOKS clear or feels
-  like "just write the script" — writing or running a migration, or moving data or
-  tables between databases, gates even when it seems small, because it touches real
-  data and is costly to get wrong. Misread requirements are exactly the failures
-  this gate exists to catch.
+  write the goal, list unknowns and assumptions, set success criteria BEFORE acting,
+  plan in phases. Load this at the START of any task that is multi-step or
+  costly-if-wrong — including concrete requests a user actually types
+  like "build / set up / configure / wire up X", "refactor / rewrite / migrate /
+  convert Y to Z" (e.g. move auth to JWTs), "stand up a pipeline or service" / "set
+  up CI/CD", "figure out why...", and anything the user will rely on. Load it even
+  when the task LOOKS clear or feels like "just write the script" — writing or
+  running a migration, or moving data or tables between databases, gates even when
+  it seems small, because it touches real data and is costly to get wrong.
   Do NOT load for genuinely trivial one-step work (a factual question, a one-line
-  read, a rename) — the triage rule inside this skill says to skip ceremony on
-  trivia, and skipping it there IS compliance. Do NOT use it to verify finished work
-  (adversarial-verify) or to decide what is in scope mid-task (scope-fence).
+  read, a rename) — skip ceremony on trivia. Do NOT use it to verify finished work
+  (adversarial-verify) or decide scope mid-task (scope-fence).
 ---
 
 # Plan-Gate

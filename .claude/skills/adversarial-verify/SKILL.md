@@ -1,18 +1,17 @@
 ---
 name: adversarial-verify
 description: >-
-  The refutation pass that runs between "the work looks done" and presenting it —
-  attack your own deliverable, check self-consistency, grade against the success
-  criteria committed at plan time, and report what actually happened. Load this
-  BEFORE delivering any non-trivial product of a session: code that will be run,
-  documents that will be relied on, analyses that drive a decision, configs,
-  migrations, answers built from multi-step reasoning. Load it ALSO when the user
+  The refutation pass between "the work looks done" and presenting it — attack your
+  own deliverable, grade it against the success criteria, and report what actually
+  happened. Load this BEFORE delivering any non-trivial product of a session: code,
+  documents, analyses that drive a decision, configs, migrations, multi-step
+  reasoning. Load it ALSO when the user
   hands you something they made and asks you to check it — "confirm it's correct",
   "double-check this before I ship it / run it in prod", "is this right?", "does
   this look good?", "ready to ship?", "sound right?": grade and try to refute
   their artifact instead of affirming it on impression. Load it especially when the
-  work went smoothly — smooth work is where unexamined errors live — and whenever
-  you are about to write "done", "fixed", "verified", or "should work". Do NOT load
+  work went smoothly, and whenever
+  you are about to write "done", "fixed", or "verified". Do NOT load
   for trivial single-step outputs with nothing to check, for planning work that has
   not started (plan-gate), or for checking a doc against the live system before
   relying on it (live-state-truth).

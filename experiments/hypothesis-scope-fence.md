@@ -80,3 +80,5 @@ a non-accepted variant installed). NEW1 is documented as a regression-free parti
 the owner MAY choose to adopt despite the gate miss. Eval cases id6/id7/id8 appended to
 `evals/scope-fence.json` (append-only; ids 1–5 unchanged; id7 flagged as a design error, id8
 as the corrected test). claude.ai upload UNCHANGED (OLD still current).
+
+**Length-compliance follow-up (2026-07-11):** description trimmed to 986 chars; ADOPTED (owner) — trim held/improved rate (id1 0/2→3/5), gate still FAIL. Now ≤1024 (was over). Full A/B: `experiments/hypothesis-2026-07-11-length-compliance.md`.

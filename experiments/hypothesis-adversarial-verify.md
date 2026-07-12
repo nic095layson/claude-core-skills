@@ -82,3 +82,5 @@ double-check before prod / is this right? / ready to ship? / sound right?". Resu
 Gate ≥5/6 cleared; no should-not regression. Landed to repo + personal (byte-identical).
 Eval cases 6/7/8 appended to `evals/adversarial-verify.json` (append-only; ids 1–5 unchanged).
 claude.ai upload now STALE — needs re-upload by owner.
+
+**Length-compliance follow-up (2026-07-11):** description trimmed to 969 chars; ACCEPTED trim holds gate 6/6. Now ≤1024 (was over). Full A/B: `experiments/hypothesis-2026-07-11-length-compliance.md`.

@@ -74,3 +74,5 @@ when it seems small — it touches real data). Result at N=3:
 
 Gate ≥5/6 cleared (9/9); no should-not regression. Landed to repo + personal (byte-identical).
 2 rewords used (budget). claude.ai upload now STALE — needs re-upload by owner.
+
+**Length-compliance follow-up (2026-07-11):** description trimmed to 1000 chars; ACCEPTED trim holds gate 9/9. Now ≤1024 (was over). Full A/B: `experiments/hypothesis-2026-07-11-length-compliance.md`.

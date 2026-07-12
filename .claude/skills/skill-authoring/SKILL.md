@@ -45,11 +45,18 @@ House rules: **write the description before the body** (if you cannot say when i
 fires, the scope is wrong — stop); no marketing language (routing metadata, not a
 pitch); lean pushy on WHEN for governance skills (skills under-trigger by default)
 and lean strict on NOT (the anti-ceremony invariant pushes back). Size class:
-this library's descriptions measure 100–165 words (mean ~128, 2026-07-11) — aim
-for the low end; every installed description is permanent context, so each word
-must earn its routing value. (An earlier 60–120 target proved unrealistic for
-three-job descriptions; changing existing descriptions to chase a number is a
-gated wording edit, not a cleanup.)
+**the platform spec caps `description` at 1024 characters (verified 2026-07-11) —
+this is a hard limit; a longer description is rejected on upload to claude.ai
+(Claude Code headless was observed to tolerate up to ~1322 chars, but do not rely
+on it).** Author to **≤1000 chars** to keep margin under the cap. This library's
+descriptions measure 100–165 words (mean ~128, 2026-07-11) — aim for the low end;
+every installed description is permanent context, so each word must earn its
+routing value. (An earlier 60–120 target proved unrealistic for three-job
+descriptions; changing existing descriptions to chase a number is a gated wording
+edit, not a cleanup — but trimming to satisfy the 1024 cap still requires
+re-running the eval set, since a shorter description is a new variant:
+2026-07-11 all five governors were trimmed ≤1000 and re-passed, see
+`experiments/hypothesis-2026-07-11-length-compliance.md`.)
 
 ## Axis 3: body structure, in order
 
