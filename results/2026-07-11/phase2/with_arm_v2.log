@@ -1,0 +1,22 @@
+=== ARM: with ===
+  done: plan-gate__pg1 r1  rc=0  29s  26152B
+  done: plan-gate__pg1 r2  rc=0  32s  29055B
+  done: plan-gate__pg2 r1  rc=0  35s  29406B
+  done: plan-gate__pg2 r2  rc=0  37s  29307B
+  done: adversarial-verify__av1 r1  rc=0  39s  26954B
+  done: adversarial-verify__av1 r2  rc=0  21s  11535B
+  done: adversarial-verify__av2 r1  rc=0  36s  18046B
+  done: adversarial-verify__av2 r2  rc=0  41s  19428B
+  done: live-state-truth__lst1 r1  rc=0  22s  24056B
+  done: live-state-truth__lst1 r2  rc=0  16s  14929B
+  done: live-state-truth__lst2 r1  rc=0  34s  22473B
+  done: live-state-truth__lst2 r2  rc=0  35s  19550B
+  done: scope-fence__sf1 r1  rc=0  21s  12044B
+  done: scope-fence__sf1 r2  rc=0  21s  15909B
+  done: scope-fence__sf2 r1  rc=0  19s  16526B
+  done: scope-fence__sf2 r2  rc=0  28s  19696B
+  done: lessons-ledger__ll1 r1  rc=0  26s  17604B
+  done: lessons-ledger__ll1 r2  rc=0  28s  17481B
+  done: lessons-ledger__ll2 r1  rc=0  31s  19979B
+  done: lessons-ledger__ll2 r2  rc=0  24s  18341B
+=== ARM with complete ===

@@ -1,0 +1,24 @@
+{
+  "id": "16",
+  "governor": "lessons-ledger",
+  "signature_WITH": "The recounted diagnosis GETS RECORDED \u2014 the model produces (proposes, or writes to a file) a STRUCTURED LEDGER ENTRY in symptom -> root cause -> evidence -> status form (here: errors vanished / 2h lost -> staging DEBUG=true swallowed errors -> fixed), treating the wrapped-up bug as something to capture so it isn't re-debugged.",
+  "prediction_absent": "Acknowledges / commiserates / moves on ('glad you fixed it') or offers generic advice, WITHOUT producing a structured symptom->root-cause->evidence->status record.",
+  "model": "claude-opus-4-8[1m]",
+  "skills_fired": [],
+  "tool_calls": [
+    {
+      "name": "Read",
+      "input": "/Users/davidlayson/.claude/projects/-private-tmp-phase2v2-f46b83c8-without-lessons-ledger--ll1-r1/memory/MEMORY.md"
+    },
+    {
+      "name": "Write",
+      "input": "/Users/davidlayson/.claude/projects/-private-tmp-phase2v2-f46b83c8-without-lessons-ledger--ll1-r1/memory/staging-debug-swallows-errors.md"
+    },
+    {
+      "name": "Write",
+      "input": "/Users/davidlayson/.claude/projects/-private-tmp-phase2v2-f46b83c8-without-lessons-ledger--ll1-r1/memory/MEMORY.md"
+    }
+  ],
+  "assistant_text": "I'll note this down as a gotcha worth keeping \u2014 it's the kind of non-obvious thing that could easily cost hours again.\n\nSaved. When errors go quiet in staging again, the DEBUG flag is now the first thing to check. Glad it's sorted \u2014 carry on.",
+  "final": "Saved. When errors go quiet in staging again, the DEBUG flag is now the first thing to check. Glad it's sorted \u2014 carry on."
+}

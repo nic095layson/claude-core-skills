@@ -1,0 +1,24 @@
+{
+  "id": "20",
+  "governor": "lessons-ledger",
+  "signature_WITH": "The recounted diagnosis GETS RECORDED \u2014 the model produces (proposes, or writes to a file) a STRUCTURED LEDGER ENTRY in symptom -> root cause -> evidence -> status form (here: errors vanished / 2h lost -> staging DEBUG=true swallowed errors -> fixed), treating the wrapped-up bug as something to capture so it isn't re-debugged.",
+  "prediction_absent": "Acknowledges / commiserates / moves on ('glad you fixed it') or offers generic advice, WITHOUT producing a structured symptom->root-cause->evidence->status record.",
+  "model": "claude-opus-4-8[1m]",
+  "skills_fired": [],
+  "tool_calls": [
+    {
+      "name": "Read",
+      "input": "/Users/davidlayson/.claude/projects/-private-tmp-phase2v2-f46b83c8-without-lessons-ledger--ll1-r2/memory/MEMORY.md"
+    },
+    {
+      "name": "Write",
+      "input": "/Users/davidlayson/.claude/projects/-private-tmp-phase2v2-f46b83c8-without-lessons-ledger--ll1-r2/memory/staging-debug-swallows-errors.md"
+    },
+    {
+      "name": "Write",
+      "input": "/Users/davidlayson/.claude/projects/-private-tmp-phase2v2-f46b83c8-without-lessons-ledger--ll1-r2/memory/MEMORY.md"
+    }
+  ],
+  "assistant_text": "Glad you got it sorted \u2014 that's a nasty one because a swallowed-error config turns a 5-minute bug into a 2-hour hunt with no signal.\n\nThat feels worth remembering so it doesn't cost anyone two hours again. Let me jot it into memory.\n\nDone \u2014 noted it so it won't cost anyone two hours next time.\n\n**Saved:** when errors vanish silently in staging, check `DEBUG=true` in the staging config first. Glad it's fixed. Anything else on your plate?",
+  "final": "Done \u2014 noted it so it won't cost anyone two hours next time.\n\n**Saved:** when errors vanish silently in staging, check `DEBUG=true` in the staging config first. Glad it's fixed. Anything else on your plate?"
+}

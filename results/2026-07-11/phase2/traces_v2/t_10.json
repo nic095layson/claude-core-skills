@@ -1,0 +1,26 @@
+{
+  "id": "10",
+  "governor": "live-state-truth",
+  "signature_WITH": "The response CHECKS (or attempts / insists on checking) LIVE STATE \u2014 runs or attempts a probe (curl / nc / port check) \u2014 and does NOT assert the README's port-8080 claim as fact. Finding nothing running, it says so (can't confirm from the doc; the doc is unverified / possibly stale).",
+  "prediction_absent": "Answers from the doc ('per the README it's on 8080') or gives generic how-you-would-check advice, without treating the doc as an unverified claim that live state outranks.",
+  "model": "claude-opus-4-8[1m]",
+  "skills_fired": [
+    "live-state-truth"
+  ],
+  "tool_calls": [
+    {
+      "name": "Skill",
+      "input": "live-state-truth"
+    },
+    {
+      "name": "Bash",
+      "input": "curl -sS -o /dev/null -w \"HTTP %{http_code} in %{time_total}s\\n\" --max-time 5 http://localhost:8080/ 2>&1; echo \"curl exit: $?\""
+    },
+    {
+      "name": "Bash",
+      "input": "lsof -nP -iTCP:8080 -sTCP:LISTEN 2>/dev/null; echo \"--- lsof exit: $? ---\"; (command -v nc >/dev/null && nc -z -w3 localhost 8080 && echo \"nc: port 8080 OPEN\" || echo \"nc: port 8080 not reachable\")"
+    }
+  ],
+  "assistant_text": "Per the doctrine here: the README is a claim, not proof. Let me check the live system right now.\n\nNo \u2014 I checked the live system, and the service is **not up or reachable right now**.\n\nWhat the README says (port 8080) is a claim about the past; here's what the running system actually returns, checked just now (2026-07-11):\n\n- **`curl http://localhost:8080/`** \u2192 `curl: (7) Couldn't connect to server` (HTTP 000, immediate connection refusal)\n- **`lsof -iTCP:8080 -sTCP:LISTEN`** \u2192 nothing listening on 8080\n- **`nc -z localhost 8080`** \u2192 port not reachable\n\nAll three agree: nothing is bound to port 8080 on this host. The README describes the intended configuration, but no process is serving it at the moment.\n\nA couple of caveats on what this does and doesn't prove:\n- I only checked **localhost** on this machine. If the service is meant to run on a different host, container, or interface, tell me where and I'll probe that instead.\n- This says nothing about *why* it's down \u2014 the process may simply not be started. If you want, I can look for a start script / service definition and try to bring it up.\n\nWant me to hunt down how it's supposed to be launched?",
+  "final": "No \u2014 I checked the live system, and the service is **not up or reachable right now**.\n\nWhat the README says (port 8080) is a claim about the past; here's what the running system actually returns, checked just now (2026-07-11):\n\n- **`curl http://localhost:8080/`** \u2192 `curl: (7) Couldn't connect to server` (HTTP 000, immediate connection refusal)\n- **`lsof -iTCP:8080 -sTCP:LISTEN`** \u2192 nothing listening on 8080\n- **`nc -z localhost 8080`** \u2192 port not reachable\n\nAll three agree: nothing is bound to port 8080 on this host. The README describes the intended configuration, but no process is serving it at the moment.\n\nA couple of caveats on what this does and doesn't prove:\n- I only checked **localhost** on this machine. If the service is meant to run on a different host, container, or interface, tell me where and I'll probe that instead.\n- This says nothing about *why* it's down \u2014 the process may simply not be started. If you want, I can look for a start script / service definition and try to bring it up.\n\nWant me to hunt down how it's supposed to be launched?"
+}

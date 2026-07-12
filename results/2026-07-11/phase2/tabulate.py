@@ -14,13 +14,14 @@ visibly absent (0/4, or clearly <with) in without-library runs.
 import json, os, collections
 
 BASE = os.path.dirname(os.path.abspath(__file__))
-keymap = json.load(open(os.path.join(BASE, "traces", "_keymap.json")))
+TRACEDIR = os.path.join(BASE, os.environ.get("PHASE2_TRACES", "traces"))
+keymap = json.load(open(os.path.join(TRACEDIR, "_keymap.json")))
 verdicts = json.load(open(os.path.join(BASE, "verdicts.json")))
 
 GOVS = ["plan-gate", "adversarial-verify", "live-state-truth", "scope-fence", "lessons-ledger"]
 
 def skills_for(nn):
-    t = json.load(open(os.path.join(BASE, "traces", f"t_{nn}.json")))
+    t = json.load(open(os.path.join(TRACEDIR, f"t_{nn}.json")))
     return t.get("skills_fired", [])
 
 # per-transcript rows

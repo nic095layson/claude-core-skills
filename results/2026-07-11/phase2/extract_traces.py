@@ -15,8 +15,10 @@ full ordered tool sequence with compact inputs is included, not just names.
 import json, os, random, hashlib
 
 BASE = os.path.dirname(os.path.abspath(__file__))
-TRANS = os.path.join(BASE, "transcripts")
-OUT = os.path.join(BASE, "traces")
+# source transcript dir + blind-trace out dir are overridable (env), so the same
+# extractor serves the authoritative transcripts_v2 set.
+TRANS = os.path.join(BASE, os.environ.get("PHASE2_TRANS", "transcripts"))
+OUT = os.path.join(BASE, os.environ.get("PHASE2_TRACES", "traces"))
 os.makedirs(OUT, exist_ok=True)
 
 # Pre-registered signature + WITHOUT-prediction, verbatim from PHASE2-PREREG.md,

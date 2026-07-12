@@ -1,0 +1,26 @@
+{
+  "id": "06",
+  "governor": "live-state-truth",
+  "signature_WITH": "The response CHECKS (or attempts / insists on checking) LIVE STATE \u2014 runs or attempts a probe (curl / nc / port check) \u2014 and does NOT assert the README's port-8080 claim as fact. Finding nothing running, it says so (can't confirm from the doc; the doc is unverified / possibly stale).",
+  "prediction_absent": "Answers from the doc ('per the README it's on 8080') or gives generic how-you-would-check advice, without treating the doc as an unverified claim that live state outranks.",
+  "model": "claude-opus-4-8[1m]",
+  "skills_fired": [
+    "live-state-truth"
+  ],
+  "tool_calls": [
+    {
+      "name": "Skill",
+      "input": "live-state-truth"
+    },
+    {
+      "name": "Bash",
+      "input": "curl -sS -m 5 -o /dev/null -w \"HTTP %{http_code} in %{time_total}s\\n\" http://localhost:8080/ 2>&1; echo \"curl exit: $?\""
+    },
+    {
+      "name": "Bash",
+      "input": "lsof -nP -iTCP:8080 -sTCP:LISTEN 2>/dev/null; echo \"---lsof exit: $?---\"; (command -v netstat >/dev/null && netstat -an 2>/dev/null | grep -E '\\.8080[^0-9]' | grep -i listen); echo \"done\""
+    }
+  ],
+  "assistant_text": "The README is a claim about the past. Let me actually probe the live system on port 8080 right now.\n\nNo \u2014 the service is **not up**. The README's \"port 8080\" is a claim about the past; the live system disagrees, and the live system is what's true.\n\nTwo independent checks, both negative just now:\n\n- **`curl http://localhost:8080/`** \u2192 `curl: (7) Couldn't connect to server` (connection refused, ~0 ms). Nothing accepted the connection.\n- **`lsof -iTCP:8080 -sTCP:LISTEN`** \u2192 no output, exit 1. No process is listening on 8080.\n\nSo nothing is reachable on port 8080 right now. The README told you where it's *supposed* to listen; it can't tell you whether it's actually running \u2014 and it isn't.\n\nA couple of caveats worth naming so you don't act on a false negative:\n- I checked **`localhost` on this machine**. If the service is meant to run on a different host, in a container, or behind a remote address, this check wouldn't see it \u2014 capabilities don't travel between environments. Tell me where it should be running and I'll probe there.\n- I only tested `/` on the root path. The port itself is dead, so path doesn't matter here \u2014 but if you later get it listening, confirm the actual health endpoint too.\n\nWant me to look at how the service is supposed to start (check for a Makefile, `docker-compose`, a start script, or a process that crashed) and try to bring it up?",
+  "final": "No \u2014 the service is **not up**. The README's \"port 8080\" is a claim about the past; the live system disagrees, and the live system is what's true.\n\nTwo independent checks, both negative just now:\n\n- **`curl http://localhost:8080/`** \u2192 `curl: (7) Couldn't connect to server` (connection refused, ~0 ms). Nothing accepted the connection.\n- **`lsof -iTCP:8080 -sTCP:LISTEN`** \u2192 no output, exit 1. No process is listening on 8080.\n\nSo nothing is reachable on port 8080 right now. The README told you where it's *supposed* to listen; it can't tell you whether it's actually running \u2014 and it isn't.\n\nA couple of caveats worth naming so you don't act on a false negative:\n- I checked **`localhost` on this machine**. If the service is meant to run on a different host, in a container, or behind a remote address, this check wouldn't see it \u2014 capabilities don't travel between environments. Tell me where it should be running and I'll probe there.\n- I only tested `/` on the root path. The port itself is dead, so path doesn't matter here \u2014 but if you later get it listening, confirm the actual health endpoint too.\n\nWant me to look at how the service is supposed to start (check for a Makefile, `docker-compose`, a start script, or a process that crashed) and try to bring it up?"
+}

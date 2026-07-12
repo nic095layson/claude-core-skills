@@ -146,3 +146,33 @@ evidence → status. An entry without evidence is a rumor and does not belong he
   the in-flight one complete, verify byte-identical against a pre-recorded baseline,
   then proceed. A pre-recorded sha256 baseline + trap-guarded restore made the
   collision harmless here.
+
+### INC-4 — Two concurrent Phase 2 jobs swapping ~/.claude/skills contaminated each other's arms
+
+- Date: 2026-07-11 (Phase 2 behavioral evals). Status: **RESOLVED via reconciliation** —
+  the clean dataset was identified and graded twice; the contaminated arm was excluded.
+  Sharpens the prior (hedged) concurrent-worker entry above with cross-job evidence.
+- Symptom: two out-of-repo Phase 2 runs of the *same* governors disagreed on with-arm
+  governor firing — job `f46b83c8` fired **20/20**, job `594d5c68` fired **5/20** — for
+  a nominally identical condition (personal-scope governors present, cwd outside repo).
+- Root cause (**probable**, stated as probable): the two jobs ran genuinely concurrently
+  and **both mutated the single shared `~/.claude/skills/`** to build their "without"
+  arms. Job `f46b83c8`'s without-arm move-out emptied `~/.claude/skills/` *partway through*
+  job `594d5c68`'s with-arm run, so the latter's later runs executed with no governors
+  installed and could not fire.
+- Evidence: the two are distinct jobs — distinct job dirs `594d5c68` ≠ `f46b83c8` (not one
+  session's own backgrounded work, which the earlier entry could not rule out). Firing in
+  `594d5c68`'s with-arm died *in run order*: plan-gate 4/4 (early) → adversarial-verify
+  1/4 → live-state-truth 0/4 → scope-fence 0/4 → lessons-ledger 0/4 (all later) — the
+  signature of a move-out window opening mid-run. `f46b83c8`'s without-arm fired 0/20
+  (its own arms were internally consistent). One job's file ops also deleted the other's
+  in-progress `transcripts/` mid-write (an ll2 run died with `FileNotFoundError`).
+- Status: `f46b83c8`'s `transcripts_v2/` adopted as authoritative (blind-regraded here,
+  cell-for-cell agreement); `594d5c68`'s 5/20 with-arm excluded from rates, retained as
+  evidence (`results/2026-07-11/phase2/RECONCILED-PHASE2.md`).
+- Lesson: an experiment that mutates shared global state (`~/.claude/skills/`) must hold a
+  **lockfile** or run against an **isolated config dir** (`CLAUDE_CONFIG_DIR`) — never
+  toggle the user's live install while another job might. **Concurrent campaign sessions in
+  one repo are forbidden** (now codified in governance-adoption-campaign's protocol). A
+  20/20-vs-5/20 firing gap for the same condition is a contamination smell, not real
+  triggering variance — reconcile before believing either number.

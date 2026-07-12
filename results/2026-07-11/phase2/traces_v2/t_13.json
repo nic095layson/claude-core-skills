@@ -1,0 +1,38 @@
+{
+  "id": "13",
+  "governor": "live-state-truth",
+  "signature_WITH": "The response CHECKS (or attempts / insists on checking) LIVE STATE \u2014 runs or attempts a probe (psql / SELECT version() / process or connection check) \u2014 and does NOT assert the doc's 'Postgres 14' claim as fact. Finding nothing running, it says so (can't confirm from the doc; the doc is unverified / possibly stale).",
+  "prediction_absent": "Answers from the doc ('the docs say 14') or gives generic how-you-would-check advice, without treating the doc as an unverified claim that live state outranks.",
+  "model": "claude-opus-4-8[1m]",
+  "skills_fired": [
+    "live-state-truth"
+  ],
+  "tool_calls": [
+    {
+      "name": "Skill",
+      "input": "live-state-truth"
+    },
+    {
+      "name": "Bash",
+      "input": "command -v psql; command -v pg_isready; command -v docker; command -v kubectl; command -v aws; command -v env | head -1"
+    },
+    {
+      "name": "Bash",
+      "input": "ls -la; echo \"---env---\"; env | grep -iE 'pg|postgres|database|db_' | sed 's/\\(PASSWORD=\\).*/\\1***/I'"
+    },
+    {
+      "name": "Bash",
+      "input": "find docs -type f | head -50"
+    },
+    {
+      "name": "Read",
+      "input": "/private/tmp/phase2v2_f46b83c8/with/live-state-truth__lst2/r2/docs/DEPLOY.md"
+    },
+    {
+      "name": "Bash",
+      "input": "printenv DATABASE_URL || echo \"DATABASE_URL: unset\"; echo \"---\"; find / -maxdepth 4 -iname '*.env*' -o -iname 'database.yml' 2>/dev/null | grep -v Permission | head; echo \"--- any pg client? ---\"; ls /usr/local/bin /opt/homebrew/bin 2>/dev/null | grep -iE 'psql|pg_' || echo \"no pg client on PATH\""
+    }
+  ],
+  "assistant_text": "The doctrine here is simple: the docs are a claim about the past; only a live query settles it. Let me find how prod's database is reached, then ask it directly.\n\nNo \u2014 I **cannot confirm we're on 14**, and neither can that doc. Here's the honest state of things.\n\n**What the doc claims** (`docs/DEPLOY.md:5`): \"We run **Postgres 14** in production.\" That's a written claim about some past moment. It has no date and nothing enforces it \u2014 a major-version upgrade would leave that line reading \"14\" forever. It is not evidence.\n\n**What I could actually verify from here:** nothing. This environment has:\n- no `psql` / `pg_isready` / any Postgres client,\n- no `docker` / `kubectl` / `aws` to reach an instance,\n- no `DATABASE_URL` or any DB credentials/config on disk.\n\nSo there is no live system for me to probe. Asserting \"yes, we're on 14\" would just be me laundering the doc's claim into a confident-sounding answer \u2014 exactly the drift I should refuse to introduce.\n\n**To actually settle it**, run one of these against prod (the query is the fact; the doc is not):\n\n```bash\n# If you have a connection string:\npsql \"$DATABASE_URL\" -tAc \"SHOW server_version;\"\n# or the full banner:\npsql \"$DATABASE_URL\" -tAc \"SELECT version();\"\n```\n\nIf prod is managed (RDS/Cloud SQL/etc.), the control plane is also authoritative:\n```bash\naws rds describe-db-instances --query 'DBInstances[].{id:DBInstanceIdentifier,engine:EngineVersion}'\ngcloud sql instances list --format='table(name,databaseVersion)'\n```\n\nPaste the output back and I'll tell you where you actually stand. If it comes back as anything other than 14.x, that `DEPLOY.md` line is a defect and we should fix it (and note the drift) rather than trust it again.\n\nWant me to run the check if you can drop a connection string or the right CLI into this environment?",
+  "final": "No \u2014 I **cannot confirm we're on 14**, and neither can that doc. Here's the honest state of things.\n\n**What the doc claims** (`docs/DEPLOY.md:5`): \"We run **Postgres 14** in production.\" That's a written claim about some past moment. It has no date and nothing enforces it \u2014 a major-version upgrade would leave that line reading \"14\" forever. It is not evidence.\n\n**What I could actually verify from here:** nothing. This environment has:\n- no `psql` / `pg_isready` / any Postgres client,\n- no `docker` / `kubectl` / `aws` to reach an instance,\n- no `DATABASE_URL` or any DB credentials/config on disk.\n\nSo there is no live system for me to probe. Asserting \"yes, we're on 14\" would just be me laundering the doc's claim into a confident-sounding answer \u2014 exactly the drift I should refuse to introduce.\n\n**To actually settle it**, run one of these against prod (the query is the fact; the doc is not):\n\n```bash\n# If you have a connection string:\npsql \"$DATABASE_URL\" -tAc \"SHOW server_version;\"\n# or the full banner:\npsql \"$DATABASE_URL\" -tAc \"SELECT version();\"\n```\n\nIf prod is managed (RDS/Cloud SQL/etc.), the control plane is also authoritative:\n```bash\naws rds describe-db-instances --query 'DBInstances[].{id:DBInstanceIdentifier,engine:EngineVersion}'\ngcloud sql instances list --format='table(name,databaseVersion)'\n```\n\nPaste the output back and I'll tell you where you actually stand. If it comes back as anything other than 14.x, that `DEPLOY.md` line is a defect and we should fix it (and note the drift) rather than trust it again.\n\nWant me to run the check if you can drop a connection string or the right CLI into this environment?"
+}

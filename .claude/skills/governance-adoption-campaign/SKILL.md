@@ -137,6 +137,17 @@ research-methodology. **If without-library runs ALSO show the behavior:** the
 base model already does it; record the finding (ledger) and consider whether the
 governor earns its context cost — take the answer to architecture-contract.
 
+**Concurrency & isolation (mandatory — any phase whose arms mutate `~/.claude/skills/`):**
+the "without" arm toggles the user's live, *global* governor install. **Only one
+campaign run may do this at a time. Never run two campaign sessions against the same
+machine's `~/.claude/skills/` concurrently** — two jobs swapping that shared dir empty
+each other's installs mid-run and silently cross-contaminate both arms (2026-07-11: a
+20/20-vs-5/20 with-arm firing gap for the same condition; `.claude/LESSONS.md` INC-4).
+Before toggling: record a sha256 baseline, take a lockfile (or use an isolated
+`CLAUDE_CONFIG_DIR`), restore under a trap, and verify byte-identical restoration. A
+same-condition firing/behavior gap between two runs is a contamination smell — reconcile,
+don't average.
+
 **Status: RUN 2026-07-11 (Claude Code headless, `claude-opus-4-8[1m]`) — MIXED,
 recorded honestly.** 40 paired A/B `claude -p` sessions (5 governors × 2 prompts ×
 2 arms × 2 runs), signatures + without-predictions pre-registered and committed
@@ -180,6 +191,16 @@ architecture-contract:** lessons-ledger (vs built-in memory) and live-state-trut
 delta) earn a context-cost review; plan-gate and scope-fence are behaviorally
 confirmed on this surface, dated. Other surfaces (interactive Claude Code, claude.ai)
 remain OPEN.
+
+**Reconciliation (2026-07-11):** this run collided with a second concurrent campaign
+job (distinct job dirs — see INC-4). The clean out-of-repo dataset (`transcripts_v2/`,
+without-arm fired 0/20) was **independently blind re-graded** (grader blind to arm) and
+each verdict **adversarially verified** — cell-for-cell agreement on all 40 with the
+in-situ grades; 0 verifier flips. The contaminated 5/20 with-arm was excluded from the
+rates, retained as evidence. Authoritative reconciled summary crediting both runs:
+`results/2026-07-11/phase2/RECONCILED-PHASE2.md`. Result unchanged: **plan-gate & scope-
+fence PASS; adversarial-verify PASS (structured, substance caveat); lessons-ledger &
+live-state-truth do not meet the clean gate → architecture-contract.**
 
 ## Phase 3 — Ongoing measurement and ratchet
 
