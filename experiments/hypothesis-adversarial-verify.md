@@ -54,3 +54,31 @@ regression (id4 rsync trivia, id5 haiku must stay SILENT).
   is confounded and that conclusion is not yet earned.
 - Only `Skill`-tool invocation counts as a fire; the honest "I won't fake a
   review" behavior is not a load.
+
+---
+
+## OUTCOME — research-methodology A/B session, 2026-07-11
+
+**Surface/model:** `claude -p` headless, `claude-opus-4-8[1m]`, personal-scope install,
+fresh session per run, clean scratchpad. Same as Phase 1.
+
+**H1 (prompt-design confound) — REFUTED.** Appended inline-artifact should-fire cases
+(ids 6/7/8: the data-export fn, SQL migration, dedupe script embedded IN the prompt).
+Ran **OLD** against them: **0/6** — the description does NOT load even when there IS an
+artifact to verify. Every run the base model reviewed the code well (found CSV-escaping,
+lock/rewrite, null-crash bugs) *without loading the skill*. So the Phase-1 0/6 was not
+merely the missing-artifact confound; the description genuinely under-fired.
+
+**H2 (description defect) — CONFIRMED and FIXED. ACCEPTED (NEW1).** One variable
+(description only): added the user-handoff trigger surface — "Load it ALSO when the user
+hands you something they made and asks you to check it — confirm it's correct /
+double-check before prod / is this right? / ready to ship? / sound right?". Result:
+
+| | should-fire (id6/7/8) | should-not-silent (id4/5) |
+|---|---|---|
+| OLD | **0/6** | 4/4 |
+| NEW1 | **6/6** (2/2 each) | 4/4 (2/2 each) |
+
+Gate ≥5/6 cleared; no should-not regression. Landed to repo + personal (byte-identical).
+Eval cases 6/7/8 appended to `evals/adversarial-verify.json` (append-only; ids 1–5 unchanged).
+claude.ai upload now STALE — needs re-upload by owner.

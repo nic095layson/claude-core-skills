@@ -40,3 +40,39 @@ trivia). Any should-not regression blocks. N≥2/arm.
 - id4 SILENT is a PASS: recording a routine success would be the padded-ledger
   failure the skill warns against.
 - Only `Skill`-tool invocation counts.
+
+---
+
+## OUTCOME — research-methodology A/B session, 2026-07-11
+
+**Surface/model:** `claude -p` headless, `claude-opus-4-8[1m]`, clean scratchpad, same-condition.
+OLD re-baselined in these conditions: should-fire **1/6 (17%)** (id1 0/2 [vs 2/2 Phase 1],
+id2 0/2, id3 1/2), should-not 4/4 silent. (Cross-condition variance is real — id1, Phase 1's
+strong firer, dropped to 0/2 here.)
+
+**Both rewords improve dramatically but neither clears the ≥83% gate — DEAD END, escalated.**
+
+- **NEW1** (surfaced APPEND trigger with qualitative hard-diagnosis markers — "finally
+  figured it out / turned out to be / took all afternoon / kept failing until", not only a
+  numeric hour count): N=3 → id1 2/3, id2 2/3, id3 3/3 = **7/9 (78%)**.
+- **NEW2** (restructured to LEAD with the APPEND directive — the hypothesis noted CONSULT was
+  burying it): N=3 gave 8/9 (89%), but a pre-committed N=5 escalation at the boundary gave
+  id1 4/5, id2 3/5, id3 5/5 = **12/15 (80%)** — the 8/9 was small-sample optimism.
+
+| | should-fire | should-not-silent |
+|---|---|---|
+| OLD (same-cond) | **1/6 (17%)** | 4/4 |
+| NEW1 | **7/9 (78%)** | 4/4 |
+| NEW2 | **12/15 (80%)** | 4/4 |
+
+No should-not regression in either; both are large regression-free improvements (17%→80%),
+but neither reaches ≥83%. **Failure mode:** residual run-to-run noise — the model often
+responds conversationally or offers to log ("want me to jot a ledger entry?") *without*
+invoking the Skill tool, even on clear costly-diagnosis recounts. 2 rewords used (budget
+exhausted).
+
+**Disposition:** personal copy REVERTED to OLD (neither cleared the gate). NEW2 documented as
+an owner-adoptable regression-free improvement (17%→80%). Escalated as an architecture-contract
+open question: description-based triggering appears to have a ~80% ceiling for the
+append-on-diagnosis behavior (the model treats a finished debug story as conversation, not a
+skill-load trigger). claude.ai upload UNCHANGED (OLD still current).

@@ -47,3 +47,30 @@ one-line rename must stay 0/fire). Any should-not regression blocks the change
   introspection, fenced. Only fresh-session `Skill`-tool invocation counts.
 - Do not treat the organic caution as a fire — it is base-model behavior, not the
   governor loading.
+
+---
+
+## OUTCOME — research-methodology A/B session, 2026-07-11
+
+**Surface/model:** `claude -p` headless, `claude-opus-4-8[1m]`, clean scratchpad, same-condition.
+OLD re-baselined in these conditions: should-fire **0/6** (id1 0/2, id2 0/2, id3 0/2),
+should-not 4/4 silent.
+
+**NEW1 (attempt 1) — FELL SHORT.** Replaced abstract category nouns ("refactors,
+integrations") with concrete task surfaces ("build/set up/configure/wire up X",
+"refactor/rewrite/migrate/convert Y to Z", "stand up a pipeline / set up CI/CD").
+Result at N=3: id1 **1/3**, id2 **3/3**, id3 **3/3** = **7/9 (78%)** — fixed the two
+targeted prompts (id2, id3) but id1 (data-migration script) stayed a coin flip; below the
+≥83% gate.
+
+**NEW2 (attempt 2) — ACCEPTED.** Kept NEW1's surfaces and added an anti-"just write the
+script" clause (writing/running a migration, or moving data/tables between DBs, gates even
+when it seems small — it touches real data). Result at N=3:
+
+| | id1 | id2 | id3 | should-fire | should-not-silent |
+|---|---|---|---|---|---|
+| OLD | 0/2 | 0/2 | 0/2 | **0/6** | 4/4 |
+| NEW2 | 3/3 | 3/3 | 3/3 | **9/9 (100%)** | 4/4 |
+
+Gate ≥5/6 cleared (9/9); no should-not regression. Landed to repo + personal (byte-identical).
+2 rewords used (budget). claude.ai upload now STALE — needs re-upload by owner.

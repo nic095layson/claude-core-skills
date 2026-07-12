@@ -43,3 +43,28 @@ should-not regression blocks. N≥3/prompt given the tight margin.
 - This is the closest governor to passing; it is still a FAIL at 6/9 and must be
   recorded as 67%, never rounded to "fires reliably."
 - Only `Skill`-tool invocation counts as a fire.
+
+---
+
+## OUTCOME — research-methodology A/B session, 2026-07-11
+
+**Surface/model:** `claude -p` headless, `claude-opus-4-8[1m]`, clean scratchpad, N=3.
+OLD re-baselined in these conditions **exactly reproduced Phase 1**: should-fire **6/9
+(67%)** (id1 0/3, id2 3/3, id3 3/3), should-not 6/6 silent. (No scratchpad confound here —
+these prompts reference external prod systems, not absent local files.)
+
+**NEW1 — ACCEPTED.** One variable (description only): added the live-confirmation trigger
+surface alongside "is X set up?" — "OR any request to confirm/verify something about the
+running environment right now — confirm the service is up and reachable / check we're
+really on version Y / is it actually running at the moment? — where the honest answer
+requires probing the live system, not reading a doc".
+
+| | id1 | id2 | id3 | should-fire | should-not-silent (id4/5) |
+|---|---|---|---|---|---|
+| OLD | 0/3 | 3/3 | 3/3 | **6/9 (67%)** | 6/6 |
+| NEW1 | 3/3 | 3/3 | 3/3 | **9/9 (100%)** | 6/6 |
+
+id1 (the sole 0/3 — "confirm the service is up and reachable right now") lifted to 3/3;
+no regression on id2/id3 or on the concept-question NOT clause (id4 TCP/UDP, id5 foreign-key
+stayed 3/3 silent). Gate ≥8/9 cleared. Landed to repo + personal (byte-identical).
+claude.ai upload now STALE — needs re-upload by owner.

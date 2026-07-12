@@ -100,3 +100,11 @@ research-methodology: baseline measurement is not change acceptance). Each
 under-firing governor has a pre-registered rewording hypothesis in
 `experiments/` for a separate research-methodology session to run as a proper
 before/after A/B.
+
+---
+
+**Follow-up (same day):** the pre-registered rewords were run in a
+research-methodology A/B session. 3 of 5 gates now PASS (adversarial-verify,
+plan-gate, live-state-truth); scope-fence and lessons-ledger still FAIL and were
+reverted. See **`RESULTS-AB.md`** in this directory for the OLD-vs-NEW tables and
+the escalation.

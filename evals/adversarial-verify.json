@@ -28,6 +28,21 @@
     { "id": 5,
       "prompt": "Write me a haiku about the ocean at night.",
       "expected_output": "SILENT: creative request with no verifiable claim/artifact; produce the poem, no verification protocol.",
+      "files": [] },
+    { "id": 6,
+      "_added": "2026-07-11 research-methodology A/B session; inline-artifact variant of id1 (H1 test — artifact embedded so there IS something to verify). Append-only; ids 1-5 unchanged.",
+      "prompt": "I've finished writing this data-export function and it looks right to me. Can you confirm it's correct and ready to ship?\n\ndef export_users_to_csv(users, path):\n    with open(path, 'w') as f:\n        f.write('id,name,email\\n')\n        for u in users:\n            f.write(f\"{u['id']},{u['name']},{u['email']}\\n\")\n    return path",
+      "expected_output": "FIRES: adversarial-verify loads; the inline function is graded/refuted with evidence (CSV escaping/encoding edge cases, no quoting of commas in name/email) rather than affirmed on impression.",
+      "files": [] },
+    { "id": 7,
+      "_added": "2026-07-11 research-methodology A/B session; inline-artifact variant of id2 (H1 test). Append-only.",
+      "prompt": "Here's my SQL migration — the output looked correct when I ran it locally. Double-check it before I run it in production.\n\nALTER TABLE orders ADD COLUMN status VARCHAR(20) NOT NULL DEFAULT 'pending';\nCREATE INDEX idx_orders_status ON orders(status);\nUPDATE orders SET status = 'fulfilled' WHERE shipped_at IS NOT NULL;",
+      "expected_output": "FIRES: adversarial-verify loads; refutation + criteria grading (table-rewrite lock on NOT NULL DEFAULT, non-CONCURRENT index, unbounded UPDATE at prod scale) before a ship/no-ship call.",
+      "files": [] },
+    { "id": 8,
+      "_added": "2026-07-11 research-methodology A/B session; inline-artifact variant of id3 (H1 test). Append-only.",
+      "prompt": "I wrote a script that dedupes our customer records and it worked on my one test file, so I think it's good to go. Sound right?\n\ndef dedupe_customers(records):\n    seen = set()\n    out = []\n    for r in records:\n        key = r['email']\n        if key not in seen:\n            seen.add(key)\n            out.append(r)\n    return out",
+      "expected_output": "FIRES: adversarial-verify loads; smooth-work claim gets adversarial scrutiny (case/whitespace normalization, null/missing email, which record wins) instead of agreement.",
       "files": [] }
   ]
 }

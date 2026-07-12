@@ -7,8 +7,12 @@ description: >-
   state a fact about an environment you did not verify THIS session: what a config
   contains, whether a service is up, what version is installed, what an account can
   see, whether two copies match, what a repo's layout is, what an app supports.
-  Load it before planning around any doc's claim, before answering "is X set up?",
-  and whenever docs and observed behavior disagree. Do NOT load for judging whether
+  Load it before planning around any doc's claim, before answering "is X set up?"
+  OR any request to confirm/verify something about the running environment right now
+  — "confirm the service is up and reachable", "check we're really on version Y",
+  "is it actually running / reachable at the moment?" — where the honest answer
+  requires probing the live system, not reading a doc; and whenever docs and
+  observed behavior disagree. Do NOT load for judging whether
   finished work is GOOD (adversarial-verify — this skill proves states, not
   quality), for planning (plan-gate), or for recording a discovered drift's history
   (lessons-ledger — this skill detects, that one chronicles).

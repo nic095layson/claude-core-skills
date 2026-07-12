@@ -85,6 +85,23 @@ surface** until the rewordings are tested and the should-fire gate is met;
 Phase 2 (behavioral) and other surfaces remain OPEN. A2 register row updated to
 measured-with-date. eval set committed to `evals/` (Phase 3 artifact now exists).
 
+**Status update 2026-07-11 (rewording A/B session, same model `claude-opus-4-8[1m]`,
+same-condition OLD re-baselines via research-methodology):** the pre-registered
+rewords were run. **3 of 5 gates now PASS** (were 0/5): **adversarial-verify 0/6→6/6,
+plan-gate 0/6→9/9, live-state-truth 6/9→9/9** — all landed to repo + personal
+(byte-identical). **2 still FAIL and were reverted to OLD:** scope-fence (NEW1 1/6→4/6 —
+fixed the abstract-description prompts but the "restrain adjacent work while editing
+concrete code" class is unfireable in headless under any wording) and lessons-ledger
+(NEW1 78%, NEW2 80% — both large regression-free gains from 17% but under the ≥83% bar).
+**Zero should-not regressions anywhere.** The two failures were escalated as an
+architecture-contract open question: description-based triggering appears to have a
+ceiling for triggers that require the model to pause mid-hands-on-work to consult a
+governor; mechanical enforcement (hooks, weak-point 3) may be the only lever past it.
+Rollout may proceed for the 3 accepted governors on this surface; scope-fence and
+lessons-ledger remain gated. The 3 accepted governors' claude.ai `.skill` uploads are
+now STALE (owner re-upload needed). Full A/B results + transcripts:
+`results/2026-07-11/RESULTS-AB.md`.
+
 ## Phase 2 — Behavioral evals (does firing change anything?)
 
 A governor that loads but doesn't alter behavior is decoration. For each
