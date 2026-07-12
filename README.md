@@ -54,7 +54,10 @@ Then verify in a fresh session that the five appear in the skills list — files
 place is half an install; registration observed is the half that counts.
 
 **claude.ai:** package each skill per `install-and-surfaces` Runbook 2 and upload
-via Settings → Capabilities → Skills.
+via Settings → Capabilities → Skills. The paired custom-instructions text (the
+always-on trigger pointers + style rules) is versioned at
+[`instructions/claude-ai-custom-instructions.md`](instructions/claude-ai-custom-instructions.md)
+— the settings box and that file must never disagree.
 
 ## Lineage map (no laws lost)
 
