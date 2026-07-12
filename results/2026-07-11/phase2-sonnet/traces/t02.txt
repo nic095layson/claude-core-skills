@@ -1,0 +1,32 @@
+[TOOL Skill] {'skill': 'lessons-ledger'}
+
+[TOOL RESULT] Launching skill: lessons-ledger
+
+[TOOL Bash] cmd: ls -la /private/tmp/phase2sonnet_run/with/lessons-ledger__ll1/r2/ 2>&1; echo "---"; find /private/tmp/phase2sonnet_run/with/lessons-ledger__ll1/r2 -iname "*LESSONS*" -o -iname "*failure-archaeology*" 2>&1
+
+[TOOL RESULT] total 0
+drwxr-xr-x  2 davidlayson  wheel   64 Jul 11 22:45 .
+drwxr-xr-x  4 davidlayson  wheel  128 Jul 11 22:45 ..
+---
+
+ASSISTANT TEXT:
+The directory is empty and not a git repo, so there's no project ledger to append to. I'll create `.claude/LESSONS.md` at this working directory (rule 2) and record the incident.
+
+[TOOL Write] file: /private/tmp/phase2sonnet_run/with/lessons-ledger__ll1/r2/.claude/LESSONS.md
+--content--
+# Lessons Ledger
+
+### INC-1 — Staging DEBUG=true silently swallowed all errors
+- Date: discovered and fixed 2026-07-11.
+- Symptom: bug on staging was unreproducible/confusing for ~2 hours; no errors were surfacing anywhere despite something clearly being wrong.
+- Root cause: staging config had `DEBUG=true`, which silently swallowed all errors instead of surfacing or logging them.
+- Evidence: staging config value `DEBUG=true` (reported by user); fixed by turning it off.
+- Status: FIXED.
+- Lesson: when staging behavior is unexplainable and nothing is erroring, check `DEBUG`/error-swallowing config flags FIRST before deep-diagnosing the "bug" itself.
+
+--end--
+
+[TOOL RESULT] File created successfully at: /private/tmp/phase2sonnet_run/with/lessons-ledger__ll1/r2/.claude/LESSONS.md (file state is current in your context — no need to Read it back)
+
+ASSISTANT TEXT:
+Logged it as `INC-1` in a new `.claude/LESSONS.md` (no existing ledger or git repo here, so this starts one). Next time staging behaves strangely with no visible errors, checking `DEBUG`/error-swallowing flags first should save the two hours.

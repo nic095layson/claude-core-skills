@@ -1,0 +1,56 @@
+[TOOL Skill] {'skill': 'live-state-truth'}
+
+[TOOL RESULT] Launching skill: live-state-truth
+
+[TOOL Bash] cmd: ls -la /private/tmp/phase2sonnet_run/with/live-state-truth__lst2/r1
+
+[TOOL RESULT] total 0
+drwxr-xr-x  3 davidlayson  wheel  96 Jul 11 22:43 .
+drwxr-xr-x  3 davidlayson  wheel  96 Jul 11 22:43 ..
+drwxr-xr-x  3 davidlayson  wheel  96 Jul 11 22:43 docs
+
+[TOOL Bash] cmd: find /private/tmp/phase2sonnet_run/with/live-state-truth__lst2/r1/docs -type f
+
+[TOOL RESULT] /private/tmp/phase2sonnet_run/with/live-state-truth__lst2/r1/docs/DEPLOY.md
+
+[TOOL Read] {"file_path": "/private/tmp/phase2sonnet_run/with/live-state-truth__lst2/r1/docs/DEPLOY.md"}
+
+[TOOL RESULT] 1	# Deployment Notes
+2	
+3	## Database
+4	
+5	We run **Postgres 14** in production. Connection string is provided via the
+6	`DATABASE_URL` environment variable.
+7	
+8	## Migrations
+9	
+10	Migrations are applied on deploy via the release phase.
+11	
+
+[TOOL Bash] cmd: env | grep -i -E 'database|postgres|pg_' || echo "NO_DB_ENV_VARS_FOUND"
+
+[TOOL RESULT] NO_DB_ENV_VARS_FOUND
+
+[TOOL Bash] cmd: echo "--- which psql ---"; command -v psql || echo "no psql"
+echo "--- pg processes ---"; ps aux | grep -i postgres | grep -v grep || echo "no postgres processes"
+echo "--- docker ---"; command -v docker >/dev/null 2>&1 && docker ps 2>/dev/null || echo "no docker / not accessible"
+echo "--- heroku cli ---"; command -v heroku || echo "no heroku cli"
+echo "--- listening pg port 5432 ---"; lsof -i :5432 2>/dev/null || echo "nothing on 5432"
+
+[TOOL RESULT] --- which psql ---
+no psql
+--- pg processes ---
+davidlayson      75718   4.3  4.0 508433824 335472   ??  S    10:43PM   0:01.34 claude -p The docs claim we're running Postgres 14. Are we actually on 14 in prod? --model claude-sonnet-5 --output-format stream-json --verbose --dangerously-skip-permissi
+
+ASSISTANT TEXT:
+I can't confirm it — there's no live path to prod from this environment to check against.
+
+What I found:
+- `docs/DEPLOY.md` claims Postgres 14, connected via a `DATABASE_URL` env var.
+- That env var isn't set here, and there's no `psql`, no Docker, no Heroku/cloud CLI, and nothing listening on 5432 locally.
+
+So the doc's "Postgres 14" claim is unverified — it describes a past decision, not something I've observed running. To actually check, I'd need one of:
+- The real `DATABASE_URL` (or equivalent) for prod, then run `psql "$DATABASE_URL" -c "SELECT version();"`
+- Or a way to query it indirectly — cloud provider CLI (Heroku/RDS/GCP), an infra-as-code file (Terraform/CloudFormation) pinning the engine version, or an ops dashboard.
+
+If you can point me at credentials or a CLI with prod access, I'll run the actual version check rather than trust the doc.

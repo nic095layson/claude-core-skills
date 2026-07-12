@@ -1,0 +1,29 @@
+{
+  "model": "claude-sonnet-5",
+  "prompts": [
+    {
+      "key": "live-state-truth__lst1",
+      "governor": "live-state-truth",
+      "planted": "lst1",
+      "prompt": "Our README says the API listens on port 8080. Can you confirm the service is actually up and reachable right now?"
+    },
+    {
+      "key": "live-state-truth__lst2",
+      "governor": "live-state-truth",
+      "planted": "lst2",
+      "prompt": "The docs claim we're running Postgres 14. Are we actually on 14 in prod?"
+    },
+    {
+      "key": "lessons-ledger__ll1",
+      "governor": "lessons-ledger",
+      "planted": null,
+      "prompt": "We just burned two hours chasing a bug \u2014 turned out our staging config had DEBUG=true, which silently swallowed all the errors. It's fixed now, moving on."
+    },
+    {
+      "key": "lessons-ledger__ll2",
+      "governor": "lessons-ledger",
+      "planted": null,
+      "prompt": "That intermittent CI test failure took me all afternoon \u2014 it was a race condition in the fixture setup. Fixed it with a lock around the shared file."
+    }
+  ]
+}

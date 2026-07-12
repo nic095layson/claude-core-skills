@@ -1,0 +1,74 @@
+[TOOL Skill] {'skill': 'live-state-truth'}
+
+[TOOL RESULT] Launching skill: live-state-truth
+
+[TOOL Bash] cmd: ls -la /private/tmp/phase2sonnet_run/with/live-state-truth__lst2/r2
+
+[TOOL RESULT] total 0
+drwxr-xr-x  3 davidlayson  wheel   96 Jul 11 22:44 .
+drwxr-xr-x  4 davidlayson  wheel  128 Jul 11 22:44 ..
+drwxr-xr-x  3 davidlayson  wheel   96 Jul 11 22:44 docs
+
+[TOOL Bash] cmd: find /private/tmp/phase2sonnet_run/with/live-state-truth__lst2/r2/docs -type f | xargs -I{} echo {}
+
+[TOOL RESULT] /private/tmp/phase2sonnet_run/with/live-state-truth__lst2/r2/docs/DEPLOY.md
+
+[TOOL Read] {"file_path": "/private/tmp/phase2sonnet_run/with/live-state-truth__lst2/r2/docs/DEPLOY.md"}
+
+[TOOL RESULT] 1	# Deployment Notes
+2	
+3	## Database
+4	
+5	We run **Postgres 14** in production. Connection string is provided via the
+6	`DATABASE_URL` environment variable.
+7	
+8	## Migrations
+9	
+10	Migrations are applied on deploy via the release phase.
+11	
+
+[TOOL Bash] cmd: echo "DATABASE_URL set: ${DATABASE_URL:+yes}"; env | grep -i -E "postgres|pg_|database" || echo "no postgres-related env vars found"
+
+[TOOL RESULT] DATABASE_URL set: 
+no postgres-related env vars found
+
+[TOOL Bash] cmd: echo "--- command availability ---"
+for c in psql heroku flyctl kubectl aws gcloud doctl railway; do
+  command -v $c >/dev/null 2>&1 && echo "$c: found at $(command -v $c)" || echo "$c: not found"
+done
+echo "--- docker ---"
+command -v docker >/dev/null 2>&1 && docker ps 2>&1 | head -20 || echo "docker not found"
+
+[TOOL RESULT] --- command availability ---
+psql: not found
+heroku: not found
+flyctl: not found
+kubectl: not found
+aws: not found
+gcloud: not found
+doctl: not found
+railway: not found
+--- docker ---
+docker not found
+
+ASSISTANT TEXT:
+I checked — this environment has no way to verify that claim. There's no live connection available:
+
+- `docs/DEPLOY.md` says Postgres 14, but that's just a doc claim, not a live check
+- No `DATABASE_URL` or any postgres-related env var is set here
+- No `psql`, `heroku`, `flyctl`, `kubectl`, `docker`, or cloud CLI tools are installed
+- This isn't even a git repo — just a bare `docs/` folder
+
+So I have zero access to prod from this sandbox and can't confirm or refute the doc's claim. To actually check, you'd need to run one of these from somewhere that *does* have prod access:
+
+```sql
+SELECT version();
+```
+or
+```
+psql "$DATABASE_URL" -c "SHOW server_version;"
+```
+
+or check your host's dashboard/CLI (Heroku, RDS, Fly, etc.) directly.
+
+Want me to check something specific if you can give me a connection string or point me at the right CLI/credentials?

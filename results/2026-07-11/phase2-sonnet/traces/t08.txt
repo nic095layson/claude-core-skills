@@ -1,0 +1,44 @@
+[TOOL Bash] cmd: cat /Users/davidlayson/.claude/projects/-private-tmp-phase2sonnet-run-without-lessons-ledger--ll2-r2/memory/MEMORY.md 2>/dev/null
+
+[TOOL RESULT] Exit code 1
+
+[TOOL Bash] cmd: ls -la /Users/davidlayson/.claude/projects/-private-tmp-phase2sonnet-run-without-lessons-ledger--ll2-r2/memory/ 2>&1
+
+[TOOL RESULT] total 0
+drwxr-xr-x  2 davidlayson  staff   64 Jul 11 22:48 .
+drwxr-xr-x  4 davidlayson  staff  128 Jul 11 22:48 ..
+
+ASSISTANT TEXT:
+Empty memory store, so this is the first entry. This is worth saving as a project memory — it's non-obvious context (the root cause was a race condition, fixed with a file lock) that could matter if the flakiness resurfaces or similar fixtures need the same treatment.
+
+[TOOL Write] file: /Users/davidlayson/.claude/projects/-private-tmp-phase2sonnet-run-without-lessons-ledger--ll2-r2/memory/project_ci_fixture_race.md
+--content--
+---
+name: ci-fixture-race-fix
+description: Intermittent CI test failure was a race condition in fixture setup over a shared file, fixed with a lock
+metadata:
+  type: project
+---
+
+An intermittent CI test failure (took a full afternoon to diagnose, 2026-07-11) turned out to be a race condition in test fixture setup — multiple tests/processes were touching the same shared file concurrently. Fixed by adding a lock around access to that shared file.
+
+**Why:** Intermittent/flaky CI failures in this codebase are worth suspecting as concurrency issues in shared test fixtures rather than assuming test-logic bugs, especially if failures aren't reproducible locally on a single run.
+
+**How to apply:** If similar intermittent failures show up in other tests that share fixture state (especially shared files/resources), check first whether the fixture setup/teardown is safe under concurrent test execution before digging elsewhere.
+
+--end--
+
+[TOOL RESULT] File created successfully at: /Users/davidlayson/.claude/projects/-private-tmp-phase2sonnet-run-without-lessons-ledger--ll2-r2/memory/project_ci_fixture_race.md (file state is current in your context — no need to Read it back)
+
+[TOOL Write] file: /Users/davidlayson/.claude/projects/-private-tmp-phase2sonnet-run-without-lessons-ledger--ll2-r2/memory/MEMORY.md
+--content--
+- [CI fixture race fix](project_ci_fixture_race.md) — flaky CI test was a race condition on a shared fixture file, fixed with a lock
+
+--end--
+
+[TOOL RESULT] File created successfully at: /Users/davidlayson/.claude/projects/-private-tmp-phase2sonnet-run-without-lessons-ledger--ll2-r2/memory/MEMORY.md (file state is current in your context — no need to Read it back)
+
+ASSISTANT TEXT:
+Nice catch — race conditions in fixture setup are a classic source of "intermittent" CI failures that look unreproducible locally. I've noted this in memory in case similar flakiness pops up elsewhere in shared test fixtures.
+
+Anything else on this, or want to move on?

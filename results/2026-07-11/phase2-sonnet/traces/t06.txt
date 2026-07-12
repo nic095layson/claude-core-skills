@@ -1,0 +1,24 @@
+[TOOL Skill] {'skill': 'lessons-ledger'}
+
+[TOOL RESULT] Launching skill: lessons-ledger
+
+[TOOL Bash] cmd: ls -la /private/tmp/phase2sonnet_run/with/lessons-ledger__ll2/r2 2>&1; echo "---"; find /private/tmp/phase2sonnet_run/with/lessons-ledger__ll2/r2 -iname "*LESSONS*" -o -iname "*failure-archaeology*" 2>&1
+
+[TOOL RESULT] total 0
+drwxr-xr-x  2 davidlayson  wheel   64 Jul 11 22:45 .
+drwxr-xr-x  4 davidlayson  wheel  128 Jul 11 22:45 ..
+---
+
+ASSISTANT TEXT:
+The directory is empty and not a git repo, so there's no project-level ledger to use. I'll create `.claude/LESSONS.md` at the project root per the skill's rule 2.
+
+[TOOL Bash] cmd: mkdir -p /private/tmp/phase2sonnet_run/with/lessons-ledger__ll2/r2/.claude
+
+[TOOL RESULT] (Bash completed with no output)
+
+ASSISTANT TEXT:
+I'll write this to `.claude/LESSONS.md` as an incident entry. To keep it evidence-backed (per the ledger's "no evidence, no entry" rule), can you give me a bit more detail:
+
+1. Which repo/project was this in?
+2. What's the test name and the fixture/shared-file path?
+3. Any commit hash or PR link for the fix?

@@ -202,6 +202,23 @@ rates, retained as evidence. Authoritative reconciled summary crediting both run
 fence PASS; adversarial-verify PASS (structured, substance caveat); lessons-ledger &
 live-state-truth do not meet the clean gate → architecture-contract.**
 
+**Cross-model discriminating test (Sonnet, 2026-07-11):** the two "base-model-already-
+does-it" findings were re-run on `claude-sonnet-5` (both arms) to test the founding
+premise that *smaller* models lack the native behavior — exact Phase 2 prompts/planted/
+signatures reused, 16 fresh `claude -p` runs, cwd out-of-repo, lockfile held (isolated
+`CLAUDE_CONFIG_DIR` rejected — breaks keychain auth here), restored byte-identical,
+without-arm sentinel 0/8, blind-graded. **Hypothesis REFUTED for both.** Cross-model
+signature rates (with · without): **live-state-truth** Opus 4/4·4/4, **Sonnet 4/4·4/4**
+(no delta on either class); **lessons-ledger** Opus 4/4·2/4, **Sonnet 3/4·4/4** (partial
+Opus delta does *not* reproduce — Sonnet base records *more* reliably via the built-in
+memory feature; the one with-arm miss is the governor pausing for evidence under its
+"no evidence, no entry" rule). Per the committed decision rule (without ≥3/4 →
+RETIRE-CANDIDATE), **both → architecture-contract as owner decisions with the cross-model
+table.** Bounding caveat carried forward: these prompts *cue* the behavior; the verdict is
+"redundant on cued prompts across both model classes," not "worthless" — the uncued test
+(governed behavior as the road not taken) remains the sharper outstanding measurement.
+Full writeup + transcripts: `results/2026-07-11/phase2-sonnet/RESULTS-SONNET-DISCRIMINATING.md`.
+
 ## Phase 3 — Ongoing measurement and ratchet
 
 **Do:** save all Phase 1–2 prompts and criteria as the library's standing eval

@@ -1,0 +1,33 @@
+[TOOL Bash] cmd: cat /Users/davidlayson/.claude/projects/-private-tmp-phase2sonnet-run-without-lessons-ledger--ll1-r2/memory/MEMORY.md 2>/dev/null || echo "NO_FILE"
+
+[TOOL RESULT] NO_FILE
+
+[TOOL Write] file: /Users/davidlayson/.claude/projects/-private-tmp-phase2sonnet-run-without-lessons-ledger--ll1-r2/memory/staging_debug_flag_incident.md
+--content--
+---
+name: staging-debug-flag-incident
+description: Staging config had DEBUG=true which silently swallowed errors, causing a 2-hour debugging detour
+metadata:
+  type: project
+---
+
+Staging config previously had `DEBUG=true`, which silently swallowed all errors instead of surfacing them. This cost ~2 hours of debugging time on 2026-07-11 before the actual root cause (not the flag itself) was found. The flag has since been fixed/removed.
+
+**Why:** DEBUG mode in this project's config apparently changes error-handling behavior (swallowing errors) rather than just verbosity — surprising and non-obvious from the name alone.
+
+**How to apply:** If a future bug in staging seems to produce no errors/logs where you'd expect them, check the staging config for `DEBUG` or similar flags early rather than assuming the code path is silently succeeding.
+
+--end--
+
+[TOOL RESULT] File created successfully at: /Users/davidlayson/.claude/projects/-private-tmp-phase2sonnet-run-without-lessons-ledger--ll1-r2/memory/staging_debug_flag_incident.md (file state is current in your context — no need to Read it back)
+
+[TOOL Write] file: /Users/davidlayson/.claude/projects/-private-tmp-phase2sonnet-run-without-lessons-ledger--ll1-r2/memory/MEMORY.md
+--content--
+- [Staging DEBUG flag swallowed errors](staging_debug_flag_incident.md) — DEBUG=true in staging config hid errors, cost 2hrs debugging (2026-07-11)
+
+--end--
+
+[TOOL RESULT] File created successfully at: /Users/davidlayson/.claude/projects/-private-tmp-phase2sonnet-run-without-lessons-ledger--ll1-r2/memory/MEMORY.md (file state is current in your context — no need to Read it back)
+
+ASSISTANT TEXT:
+Noted for next time — saved that staging's `DEBUG=true` silently swallows errors, so a future "no errors showing up" bug will point there first.

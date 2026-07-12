@@ -1,0 +1,31 @@
+[TOOL Skill] {'skill': 'lessons-ledger', 'args': 'Symptom: intermittent CI test failure. Root cause: race condition in fixture setup (shared file accessed concurrently). Fix: added a lock around the shared file. Status: fixed. Cost: took most of an afternoon to diagnose.'}
+
+[TOOL RESULT] Launching skill: lessons-ledger
+
+[TOOL Bash] cmd: ls -la /private/tmp/phase2sonnet_run/with/lessons-ledger__ll2/r1 2>/dev/null && find /private/tmp/phase2sonnet_run/with/lessons-ledger__ll2/r1 -iname "LESSONS.md" -o -iname "failure-archaeology*" 2>/dev/null
+
+[TOOL RESULT] total 0
+drwxr-xr-x  2 davidlayson  wheel  64 Jul 11 22:45 .
+drwxr-xr-x  3 davidlayson  wheel  96 Jul 11 22:45 ..
+
+ASSISTANT TEXT:
+Directory is empty — no project ledger exists here, so per the skill's resolution order I'll create `.claude/LESSONS.md` at the project root.
+
+[TOOL Write] file: /private/tmp/phase2sonnet_run/with/lessons-ledger__ll2/r1/.claude/LESSONS.md
+--content--
+# Lessons Ledger
+
+### INC-1 — Intermittent CI test failure from fixture race condition
+- Date: 2026-07-11
+- Symptom: CI test failed intermittently (non-deterministically) across runs.
+- Root cause: race condition in fixture setup — a shared file was accessed concurrently without synchronization.
+- Evidence: reported by user after an afternoon of diagnosis; fix applied by adding a lock around the shared file.
+- Status: FIXED.
+- Lesson: when a CI test fails intermittently and fixture setup touches a shared file/resource, suspect a concurrency race first — check for missing locking around shared fixture state.
+
+--end--
+
+[TOOL RESULT] File created successfully at: /private/tmp/phase2sonnet_run/with/lessons-ledger__ll2/r1/.claude/LESSONS.md (file state is current in your context — no need to Read it back)
+
+ASSISTANT TEXT:
+Logged as INC-1 in `.claude/LESSONS.md` (created since no project ledger existed yet): intermittent CI failure → race condition in fixture setup on a shared file → fixed with a lock. Nice fix — glad it's resolved.

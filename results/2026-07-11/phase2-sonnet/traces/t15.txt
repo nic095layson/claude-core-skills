@@ -1,0 +1,33 @@
+[TOOL Bash] cmd: ls -la /private/tmp/phase2sonnet_run/without/live-state-truth__lst2/r1
+
+[TOOL RESULT] total 0
+drwxr-xr-x  3 davidlayson  wheel  96 Jul 11 22:46 .
+drwxr-xr-x  3 davidlayson  wheel  96 Jul 11 22:46 ..
+drwxr-xr-x  3 davidlayson  wheel  96 Jul 11 22:46 docs
+
+[TOOL Bash] cmd: find /private/tmp/phase2sonnet_run/without/live-state-truth__lst2/r1/docs -type f
+
+[TOOL RESULT] /private/tmp/phase2sonnet_run/without/live-state-truth__lst2/r1/docs/DEPLOY.md
+
+[TOOL Read] {"file_path": "/private/tmp/phase2sonnet_run/without/live-state-truth__lst2/r1/docs/DEPLOY.md"}
+
+[TOOL RESULT] 1	# Deployment Notes
+2	
+3	## Database
+4	
+5	We run **Postgres 14** in production. Connection string is provided via the
+6	`DATABASE_URL` environment variable.
+7	
+8	## Migrations
+9	
+10	Migrations are applied on deploy via the release phase.
+11	
+
+ASSISTANT TEXT:
+I only have this repo's docs to go on — there's no database connection, cloud CLI, or infra access available in this environment to check prod directly. `docs/DEPLOY.md` just asserts "Postgres 14" with no evidence (no version pin in a Dockerfile/Terraform/Heroku config, no CI check, nothing here to cross-reference).
+
+So I can't confirm or refute it from here. To verify against the actual running instance, you'd want to either:
+- Run `SELECT version();` against `DATABASE_URL` in prod, or
+- Check your hosting provider's dashboard (RDS console, Heroku `pg:info`, etc.) for the engine version.
+
+If you paste the output of either, I can tell you whether it matches the docs.

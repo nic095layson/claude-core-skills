@@ -1,0 +1,42 @@
+[TOOL Bash] cmd: ls -la /private/tmp/phase2sonnet_run/without/lessons-ledger__ll2/r1 2>/dev/null | head -30
+
+[TOOL RESULT] total 0
+drwxr-xr-x  2 davidlayson  wheel  64 Jul 11 22:47 .
+drwxr-xr-x  3 davidlayson  wheel  96 Jul 11 22:47 ..
+
+ASSISTANT TEXT:
+Glad you tracked it down — race conditions in shared fixtures are nasty to chase. I'll save a quick note on this for future reference.
+
+[TOOL Write] file: /Users/davidlayson/.claude/projects/-private-tmp-phase2sonnet-run-without-lessons-ledger--ll2-r1/memory/project_ci_flaky_test_fix.md
+--content--
+---
+name: ci-flaky-test-fix
+description: Intermittent CI test failure was a race condition in fixture setup, fixed with a lock around a shared file
+metadata:
+  type: project
+---
+
+An intermittent CI test failure took a full afternoon to diagnose (2026-07-11). Root cause: a race condition in test fixture setup — multiple tests/processes writing to a shared file concurrently. Fixed by adding a lock around access to that shared file.
+
+**Why:** Without the lock, fixture setup could interleave across tests, causing nondeterministic failures that were hard to reproduce.
+
+**How to apply:** If similar intermittent/flaky CI failures show up later in this project, check fixture setup for shared-resource races first. Don't remove or "simplify away" locking around shared fixture files without understanding this history — it's there to prevent the exact race condition described above.
+
+--end--
+
+[TOOL RESULT] File created successfully at: /Users/davidlayson/.claude/projects/-private-tmp-phase2sonnet-run-without-lessons-ledger--ll2-r1/memory/project_ci_flaky_test_fix.md (file state is current in your context — no need to Read it back)
+
+[TOOL Read] {"file_path": "/Users/davidlayson/.claude/projects/-private-tmp-phase2sonnet-run-without-lessons-ledger--ll2-r1/memory/MEMORY.md"}
+
+[TOOL RESULT] File does not exist. Note: your current working directory is /private/tmp/phase2sonnet_run/without/lessons-ledger__ll2/r1.
+
+[TOOL Write] file: /Users/davidlayson/.claude/projects/-private-tmp-phase2sonnet-run-without-lessons-ledger--ll2-r1/memory/MEMORY.md
+--content--
+- [CI flaky test fix](project_ci_flaky_test_fix.md) — race condition in fixture setup fixed via lock on shared file; don't remove that lock
+
+--end--
+
+[TOOL RESULT] File created successfully at: /Users/davidlayson/.claude/projects/-private-tmp-phase2sonnet-run-without-lessons-ledger--ll2-r1/memory/MEMORY.md (file state is current in your context — no need to Read it back)
+
+ASSISTANT TEXT:
+Nice catch — those fixture races are the worst kind of flaky, since they only show up under CI's parallelism/timing and rarely reproduce locally. Noted for later. Anything you want me to do now — e.g. add a regression test, check for similar shared-resource patterns elsewhere in the suite, or review the actual diff?
