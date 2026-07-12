@@ -35,7 +35,10 @@ do not proceed — every later phase measures a skill that must first exist.
 **Status: DONE for the primary machine, 2026-07-11** — the five governors were
 copied to `~/.claude/skills/` and observed appearing in a live session's
 available-skills list the same day (registration observed, not assumed).
-Other machines and claude.ai: OPEN. `ls ~/.claude/skills/` remains the
+claude.ai: files-uploaded 2026-07-11 (five spec-compliant .skill uploads
+accepted by the validator, old versions removed first) — registration/firing
+on that surface still unobserved; the 10-prompt smoke test is the check.
+Other machines: OPEN. `ls ~/.claude/skills/` remains the
 source of truth per machine.
 
 **A distinction that keeps this campaign legal under the library's own laws:**
