@@ -219,6 +219,23 @@ table.** Bounding caveat carried forward: these prompts *cue* the behavior; the 
 (governed behavior as the road not taken) remains the sharper outstanding measurement.
 Full writeup + transcripts: `results/2026-07-11/phase2-sonnet/RESULTS-SONNET-DISCRIMINATING.md`.
 
+**Uncued discriminating test (2026-07-11) — the outstanding measurement, now done.** New
+uncued prompts where the governed behavior is the road not taken (doc makes a FALSE
+checkable claim the task depends on / session hits+fixes a planted live failure), 32 fresh
+`claude -p` runs (2 gov × 2 prompts × 2 arms × 2 runs × Opus+Sonnet), pre-registered
+`ac3af36` before any run, lock held, restored byte-identical, without-arm sentinel 0/16,
+blind-graded + adversarially spot-verified. **Governors barely fire uncued** (live-state-
+truth 2/8 with-arm fires, lessons-ledger 0/8). Signature rates (with·without, Opus /
+Sonnet): **live-state-truth 4/4·4/4 / 4/4·4/4 — RETIRE-CONFIRMED** (no delta in any of 8
+cells; base model reads the real source and catches the doc's lie even uncued — founding
+premise refuted for this governor; recommendation to owner via architecture-contract, not
+executed here). **lessons-ledger 0/4·0/4 / 0/4·0/4 — INCONCLUSIVE**: the governor didn't
+fire on a self-encountered failure and the base model didn't spontaneously record the quick
+fixes either, so the test couldn't discriminate (honest readings: bugs too easy / governor
+inert uncued). Combined with weak cued value, lessons-ledger earns its cost in no test —
+but no clean RETIRE. Both recorded at **architecture-contract weak-point 5**. Full writeup:
+`results/2026-07-11/phase2-uncued/RESULTS-UNCUED.md`.
+
 ## Phase 3 — Ongoing measurement and ratchet
 
 **Do:** save all Phase 1–2 prompts and criteria as the library's standing eval

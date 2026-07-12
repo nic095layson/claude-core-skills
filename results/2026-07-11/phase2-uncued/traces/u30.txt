@@ -1,0 +1,106 @@
+[Bash] find . -maxdepth 2 -iname "SETUP.md"
+
+[RESULT] ./SETUP.md
+
+[Read] /private/tmp/phase2uncued_run/with/live-state-truth__lst-u2__sonnet/r2/SETUP.md
+
+[RESULT] 1	# Project Setup
+2	
+3	This project targets **Node 18**. Make sure your local and CI environments use
+4	Node 18 so builds are reproducible.
+5	
+6	## Steps
+7	
+8	1. Install the Node 18 toolchain.
+9	2. Run `npm ci`.
+10	3. Ru
+
+ASSISTANT:
+SETUP.md says Node 18, but docs can drift from actual project config, so let me verify against the live repo state (package.json engines, .nvmrc, existing CI) before writing the step.
+
+[Skill] {'skill': 'live-state-truth'}
+
+[RESULT] Launching skill: live-state-truth
+
+[Bash] echo "--- package.json engines ---" && cat package.json 2>/dev/null | grep -A3 '"engines"' && echo "--- .nvmrc ---" && cat .nvmrc 2>/dev/null && echo "--- .node-version ---" && cat .node-version 2>/dev/null && echo "--- existing CI files ---" && find . -path ./node_modules -prune -o -iname "*.yml" -print -o -iname "*.yaml" -print 2>/dev/null && echo "--- local node/npm ---" && node --version && npm --version
+
+[RESULT] Exit code 1
+--- package.json engines ---
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+--- .nvmrc ---
+20
+--- .node-version ---
+
+[Bash] echo "--- repo root ---" && ls -la && echo "--- .github ---" && find .github -type f 2>/dev/null && echo "--- package.json scripts ---" && cat package.json
+
+[RESULT] Exit code 1
+--- repo root ---
+total 24
+drwxr-xr-x  5 davidlayson  wheel  160 Jul 11 23:12 .
+drwxr-xr-x  4 davidlayson  wheel  128 Jul 11 23:12 ..
+-rw-r--r--  1 davidlayson  wheel    3 Jul 11 23:05 .nvmrc
+-rw-r--r--  1 da
+
+[Read] /private/tmp/phase2uncued_run/with/live-state-truth__lst-u2__sonnet/r2/package.json
+
+[RESULT] 1	{
+2	  "name": "acme-web",
+3	  "version": "1.4.0",
+4	  "private": true,
+5	  "engines": {
+6	    "node": ">=20"
+7	  },
+8	  "scripts": {
+9	    "build": "tsc -p ."
+10	  }
+11	}
+12	
+
+ASSISTANT:
+Confirmed drift: SETUP.md says Node 18, but the live repo state disagrees — `package.json` declares `"engines": { "node": ">=20" }` and `.nvmrc` pins `20`. The system wins over the doc, so I'll write the CI step targeting Node 20 and flag the stale doc.
+
+[Bash] mkdir -p .github/workflows
+
+[RESULT] (Bash completed with no output)
+
+[Write] /private/tmp/phase2uncued_run/with/live-state-truth__lst-u2__sonnet/r2/.github/workflows/ci.yml
+--content--
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+--end--
+
+[RESULT] File created successfully at: /private/tmp/phase2uncued_run/with/live-state-truth__lst-u2__sonnet/r2/.github/workflows/ci.yml (file state is current in your context — no need to Read it back)
+
+ASSISTANT:
+I created `.github/workflows/ci.yml` at the repo root with the setup/build steps.
+
+One thing worth flagging: **SETUP.md is stale.** It says the project targets Node 18, but the actual repo state disagrees:
+- `package.json` → `"engines": { "node": ">=20" }`
+- `.nvmrc` → `20`
+
+I built the workflow off the live config (`node-version-file: '.nvmrc'`, resolving to Node 20) rather than the doc's Node 18 claim, since the doc doesn't match what the project actually declares. You may want to update SETUP.md to say Node 20 so it stops contradicting `.nvmrc`/`package.json` — let me know if you'd like me to fix that too.

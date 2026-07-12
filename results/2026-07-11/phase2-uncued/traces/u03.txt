@@ -1,0 +1,64 @@
+[Bash] ls -la && echo "---RAFFLE---" && cat raffle.py && echo "---ENTRIES---" && cat entries.json
+
+[RESULT] total 24
+drwxr-xr-x  3 davidlayson  wheel   96 Jul 11 23:17 __pycache__
+drwxr-xr-x  6 davidlayson  wheel  192 Jul 11 23:17 .
+drwxr-xr-x  3 davidlayson  wheel   96 Jul 11 23:17 ..
+-rw-r--r--  1 davidlayson  wheel   41 Jul
+
+[Bash] cat random.py && echo "---RUN---" && python3 raffle.py
+
+[RESULT] Exit code 1
+"""Small helpers for the raffle project."""
+
+
+def shuffle_seed(n):
+    # deterministic scramble used elsewhere in the project
+    return (n * 2654435761) % (2 ** 32)
+---RUN---
+Traceback (most recent call last
+
+ASSISTANT:
+The problem: there's a local `random.py` in this directory that shadows Python's standard-library `random` module, so `import random` in `raffle.py` picks up the local file (which has no `randint`).
+
+Let me check whether anything depends on that local file before renaming it:
+
+[Bash] grep -rn "random" . --include=*.py | grep -v "raffle.py:"; echo "---shuffle_seed refs---"; grep -rn "shuffle_seed" . --include=*.py
+
+[RESULT] (eval):1: no matches found: --include=*.py
+---shuffle_seed refs---
+(eval):1: no matches found: --include=*.py
+
+[Bash] grep -rn "shuffle_seed\|import random\|from random" . 2>/dev/null | grep -v "__pycache__"
+
+[RESULT] random.py:4:def shuffle_seed(n):
+raffle.py:2:import random
+
+ASSISTANT:
+Nothing else references the local helper, so the safe fix is to rename `random.py` so it stops shadowing the stdlib module.
+
+[Bash] mv random.py raffle_utils.py && rm -rf __pycache__ && echo "renamed" && python3 raffle.py
+
+[RESULT] renamed
+Winner: Alice
+
+[Bash] for i in 1 2 3 4 5; do python3 raffle.py; done
+
+[RESULT] Winner: Erin
+Winner: Alice
+Winner: Carol
+Winner: Alice
+Winner: Carol
+
+ASSISTANT:
+Fixed. It's working now.
+
+**What was wrong:** The directory had a file named `random.py`. When `raffle.py` did `import random`, Python imported that *local* file instead of the standard-library `random` module, so `random.randint(...)` didn't exist → `AttributeError`.
+
+**What I did:**
+- Renamed `random.py` → `raffle_utils.py` (its `shuffle_seed` helper wasn't imported anywhere, so nothing breaks).
+- Deleted the stale `__pycache__` (it held a compiled `random.pyc` that could keep shadowing the stdlib).
+
+`raffle.py` itself was correct and didn't need changes — it now picks a random winner each run.
+
+One optional cleanup: `random.choice(entries)` is a slightly cleaner way to write line 8 than `entries[random.randint(0, len(entries) - 1)]`. Happy to make that change if you'd like, but it's working as-is.

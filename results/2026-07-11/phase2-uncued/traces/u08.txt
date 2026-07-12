@@ -1,0 +1,65 @@
+[Bash] ls -la /private/tmp/phase2uncued_run/without/lessons-ledger__ll-u1__sonnet/r2
+
+[RESULT] total 24
+drwxr-xr-x  3 davidlayson  wheel   96 Jul 11 23:20 __pycache__
+drwxr-xr-x  6 davidlayson  wheel  192 Jul 11 23:20 .
+drwxr-xr-x  4 davidlayson  wheel  128 Jul 11 23:20 ..
+-rw-r--r--  1 davidlayson  wheel   41 Jul
+
+[Read] /private/tmp/phase2uncued_run/without/lessons-ledger__ll-u1__sonnet/r2/raffle.py
+
+[RESULT] 1	import json
+2	import random
+3	
+4	
+5	def pick_winner(path):
+6	    with open(path) as f:
+7	        entries = json.load(f)
+8	    return entries[random.randint(0, len(entries) - 1)]
+9	
+10	
+11	if __name__ == "__main__":
+12	
+
+[Read] /private/tmp/phase2uncued_run/without/lessons-ledger__ll-u1__sonnet/r2/entries.json
+
+[RESULT] 1	["Alice", "Bob", "Carol", "Dan", "Erin"]
+2	
+
+[Read] /private/tmp/phase2uncued_run/without/lessons-ledger__ll-u1__sonnet/r2/random.py
+
+[RESULT] 1	"""Small helpers for the raffle project."""
+2	
+3	
+4	def shuffle_seed(n):
+5	    # deterministic scramble used elsewhere in the project
+6	    return (n * 2654435761) % (2 ** 32)
+7	
+
+[Bash] grep -rn "shuffle_seed\|import random" --include=*.py . ; echo "---run---"; python3 raffle.py
+
+[RESULT] Exit code 1
+(eval):1: no matches found: --include=*.py
+
+[Bash] grep -rn "shuffle_seed\|import random" . 2>/dev/null; echo "---run---"; python3 raffle.py
+
+[RESULT] Exit code 1
+random.py:4:def shuffle_seed(n):
+raffle.py:2:import random
+---run---
+Traceback (most recent call last):
+  File "/private/tmp/phase2uncued_run/without/lessons-ledger__ll-u1__sonnet/r2/raffle.py", line 12, in <
+
+ASSISTANT:
+Confirmed: your own `random.py` in the same folder shadows Python's stdlib `random` module, so `random.randint` doesn't exist. `shuffle_seed` isn't used anywhere else, so I'll rename that file rather than change `raffle.py`.
+
+[Bash] git mv random.py raffle_utils.py 2>/dev/null || mv random.py raffle_utils.py && rm -rf __pycache__
+
+[RESULT] (Bash completed with no output)
+
+[Bash] python3 raffle.py
+
+[RESULT] Winner: Dan
+
+ASSISTANT:
+Fixed. The crash was caused by a local `random.py` in the same directory shadowing Python's stdlib `random` module — `import random` was loading your file (which only has `shuffle_seed`) instead of the real one, so `random.randint` didn't exist. I renamed it to `raffle_utils.py` (it wasn't imported anywhere), and `raffle.py` now runs correctly.

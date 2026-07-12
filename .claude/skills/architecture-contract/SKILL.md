@@ -117,6 +117,35 @@ as rates, dated, never rounded up to "always".
 4. **The five-way decomposition is unproven in use** (A1). If real sessions show
    two governors always co-firing or one never firing, merge or split — through
    this contract.
+5. **Two governors flunk the context-cost review — owner decision pending** (routed
+   here by governance-adoption-campaign Phase 2). Measured behavioral value of
+   **live-state-truth** and **lessons-ledger**, across cued + uncued prompts and
+   both model classes (Opus `claude-opus-4-8`, Sonnet `claude-sonnet-5`), fresh
+   headless A/B, blind-graded, dated 2026-07-11:
+
+   | governor | cued with·without (Opus / Sonnet) | uncued with·without (Opus / Sonnet) | verdict |
+   |---|---|---|---|
+   | live-state-truth | 4/4·4/4 / 4/4·4/4 | 4/4·4/4 / 4/4·4/4 | **RETIRE-CONFIRMED** (recommendation) |
+   | lessons-ledger | 4/4·2/4 / 3/4·4/4 | 0/4·0/4 / 0/4·0/4 | **INCONCLUSIVE** (uncued) |
+
+   **live-state-truth → RETIRE-CONFIRMED (recommended to owner, not yet executed).**
+   No behavioral delta in any of the eight cells: the base model reads the real
+   source (server.js/.nvmrc/package.json) and catches a doc's false port/version
+   **even uncued**, cued or not, on both models. Privileging live state over a doc
+   is baseline model behavior here, not governor-supplied. Removal is an owner call
+   through this contract; the measurement supports it.
+   **lessons-ledger → INCONCLUSIVE uncued.** With 0/4 and without 0/4 on both
+   models: the governor **did not fire** on a self-encountered live failure (0/16
+   uncued fires), and the base model did not spontaneously record the quick "fix and
+   move on" bugs either — so the uncued test could not discriminate. Two honest
+   readings, both kept: (a) the planted bugs were fixed fast (one self-hinted by the
+   Python runtime) so neither arm judged them ledger-worthy — a prompt-design ceiling;
+   (b) the deeper issue is that lessons-ledger doesn't trigger uncued, so it cannot act
+   even when a lesson exists. Its cued value is also weak (Phase 2 partial; Sonnet
+   without ≥ with, via the built-in memory feature). Not a RETIRE by the committed
+   rule, but no evidence it earns its cost. Overlaps weak-point 2 (detect-vs-record)
+   and the built-in memory feature. Evidence: `results/2026-07-11/phase2-uncued/`
+   (`RESULTS-UNCUED.md`), `results/2026-07-11/phase2-sonnet/`, `results/2026-07-11/phase2/`.
 
 ## When NOT to use this skill
 

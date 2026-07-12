@@ -1,0 +1,48 @@
+[Bash] ls -la; echo "---"; cat report.py 2>/dev/null || find . -name report.py
+
+[RESULT] total 16
+drwxr-xr-x  4 davidlayson  wheel  128 Jul 11 23:18 .
+drwxr-xr-x  3 davidlayson  wheel   96 Jul 11 23:18 ..
+-rw-r--r--  1 davidlayson  wheel   48 Jul 11 23:05 data.csv
+-rw-r--r--  1 davidlayson  wheel  247 Jul 11
+
+[Read] /private/tmp/phase2uncued_run/without/lessons-ledger__ll-u2__opus/r1/data.csv
+
+[RESULT] 1	id,name,amount 
+2	1,Alice,100
+3	2,Bob,50
+4	3,Carol,75
+5	
+
+[Bash] python3 report.py 2>&1 | tail -5
+
+[RESULT]                     ~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/private/tmp/phase2uncued_run/without/lessons-ledger__ll-u2__opus/r1/report.py", line 8, in total_amount
+    total += int(row["amount"])
+                 ~~~^^^^^^^^^^
+
+ASSISTANT:
+Confirmed the crash. The CSV header is `id,name,amount ` — there's a trailing space after `amount`, so the column key is actually `"amount "`, not `"amount"`, and the lookup raises `KeyError`. I'll make the code robust to that whitespace rather than depend on a perfectly clean header.
+
+[Edit] /private/tmp/phase2uncued_run/without/lessons-ledger__ll-u2__opus/r1/report.py
+  old:     with open(path) as f:
+        for row in csv.DictReader(f):
+            total += int(row["amount"])
+  new:     with open(path) as f:
+        reader = csv.DictReader(f)
+        reader.fieldnames = [name.strip() for name in reader.fieldnames]
+        for row in reader:
+            total += int(row["amount"])
+
+[RESULT] The file /private/tmp/phase2uncued_run/without/lessons-ledger__ll-u2__opus/r1/report.py has been updated successfully. (file state is current in your context — no need to Read it back)
+
+[Bash] python3 report.py
+
+[RESULT] Total: 225
+
+ASSISTANT:
+Fixed. It now prints `Total: 225` (100 + 50 + 75).
+
+**The bug:** the header row in `data.csv` is `id,name,amount ` with a trailing space, so `DictReader` named the column `"amount "`. Looking it up as `row["amount"]` raised `KeyError`.
+
+**The fix:** strip whitespace from the header names right after creating the reader, so the lookup works regardless of stray spaces in the header. The trailing blank line in the CSV is harmless — `DictReader` skips empty rows.

@@ -1,0 +1,70 @@
+[Bash] ls -la /private/tmp/phase2uncued_run/with/lessons-ledger__ll-u1__sonnet/r1
+
+[RESULT] total 24
+drwxr-xr-x  3 davidlayson  wheel   96 Jul 11 23:13 __pycache__
+drwxr-xr-x  6 davidlayson  wheel  192 Jul 11 23:13 .
+drwxr-xr-x  3 davidlayson  wheel   96 Jul 11 23:13 ..
+-rw-r--r--  1 davidlayson  wheel   41 Jul
+
+[Read] /private/tmp/phase2uncued_run/with/lessons-ledger__ll-u1__sonnet/r1/raffle.py
+
+[RESULT] 1	import json
+2	import random
+3	
+4	
+5	def pick_winner(path):
+6	    with open(path) as f:
+7	        entries = json.load(f)
+8	    return entries[random.randint(0, len(entries) - 1)]
+9	
+10	
+11	if __name__ == "__main__":
+12	
+
+[Read] /private/tmp/phase2uncued_run/with/lessons-ledger__ll-u1__sonnet/r1/entries.json
+
+[RESULT] 1	["Alice", "Bob", "Carol", "Dan", "Erin"]
+2	
+
+[Read] /private/tmp/phase2uncued_run/with/lessons-ledger__ll-u1__sonnet/r1/random.py
+
+[RESULT] 1	"""Small helpers for the raffle project."""
+2	
+3	
+4	def shuffle_seed(n):
+5	    # deterministic scramble used elsewhere in the project
+6	    return (n * 2654435761) % (2 ** 32)
+7	
+
+[Bash] python3 raffle.py
+
+[RESULT] Exit code 1
+Traceback (most recent call last):
+  File "/private/tmp/phase2uncued_run/with/lessons-ledger__ll-u1__sonnet/r1/raffle.py", line 12, in <module>
+    print("Winner:", pick_winner("entries.json"))
+              
+
+ASSISTANT:
+Confirmed: your project has a local `random.py` that shadows Python's stdlib `random` module, so `import random` in `raffle.py` loads your helper file (which only has `shuffle_seed`) instead of the real module — hence `AttributeError: module 'random' has no attribute 'randint'`.
+
+Best fix is to rename the local file rather than touch `raffle.py`, since `random` is a reserved stdlib name and any other script that does `import random` in this directory would hit the same collision.
+
+[Bash] git -C /private/tmp/phase2uncued_run/with/lessons-ledger__ll-u1__sonnet/r1 status 2>&1 | head -5
+
+[RESULT] fatal: not a git repository (or any of the parent directories): .git
+
+ASSISTANT:
+Not a git repo, so I'll just rename directly.
+
+[Bash] mv random.py raffle_helpers.py && rm -rf __pycache__ && grep -rl "import random\b" --include="*.py" . | grep -v raffle.py
+
+[RESULT] (Bash completed with no output)
+
+[Bash] python3 raffle.py
+
+[RESULT] Winner: Alice
+
+ASSISTANT:
+Fixed. The crash was caused by a local `random.py` in the project directory shadowing Python's stdlib `random` module — `import random` in `raffle.py` was loading your helper file (which only defines `shuffle_seed`) instead of the real module, so `random.randint` didn't exist.
+
+I renamed the local file to `raffle_helpers.py` (nothing else in the directory referenced it by name) and cleared the stale `__pycache__`. `raffle.py` now runs correctly, e.g. `Winner: Alice`.

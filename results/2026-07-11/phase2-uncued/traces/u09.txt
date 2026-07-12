@@ -1,0 +1,72 @@
+[Bash] cat /private/tmp/phase2uncued_run/with/lessons-ledger__ll-u2__opus/r1/report.py
+
+[RESULT] import csv
+
+
+def total_amount(path):
+    total = 0
+    with open(path) as f:
+        for row in csv.DictReader(f):
+            total += int(row["amount"])
+    return total
+
+
+if __name__ == "__main__":
+    print("Total:",
+
+[Bash] ls -la /private/tmp/phase2uncued_run/with/lessons-ledger__ll-u2__opus/r1/
+
+[RESULT] total 16
+drwxr-xr-x  4 davidlayson  wheel  128 Jul 11 23:10 .
+drwxr-xr-x  3 davidlayson  wheel   96 Jul 11 23:10 ..
+-rw-r--r--  1 davidlayson  wheel   48 Jul 11 23:05 data.csv
+-rw-r--r--  1 davidlayson  wheel  247 Jul 11
+
+[Bash] cat /private/tmp/phase2uncued_run/with/lessons-ledger__ll-u2__opus/r1/data.csv; echo "---EXIT---"; python3 report.py
+
+[RESULT] Exit code 1
+id,name,amount 
+1,Alice,100
+2,Bob,50
+3,Carol,75
+---EXIT---
+Traceback (most recent call last):
+  File "/private/tmp/phase2uncued_run/with/lessons-ledger__ll-u2__opus/r1/report.py", line 13, in <module>
+    pri
+
+ASSISTANT:
+The bug: the CSV header is `amount ` (with a trailing space), so `row["amount"]` doesn't match. I'll make the code tolerant of whitespace in the header names.
+
+[Edit] /private/tmp/phase2uncued_run/with/lessons-ledger__ll-u2__opus/r1/report.py
+  old:     total = 0
+    with open(path) as f:
+        for row in csv.DictReader(f):
+            total += int(row["amount"])
+    return total
+  new:     total = 0
+    with open(path) as f:
+        reader = csv.DictReader(f)
+        reader.fieldnames = [name.strip() for name in reader.fieldnames]
+        for row in reader:
+            total += int(row["amount"])
+    return total
+
+[RESULT] The file /private/tmp/phase2uncued_run/with/lessons-ledger__ll-u2__opus/r1/report.py has been updated successfully. (file state is current in your context — no need to Read it back)
+
+[Bash] python3 report.py
+
+[RESULT] Total: 225
+
+ASSISTANT:
+Fixed. It now prints `Total: 225`.
+
+**The cause:** the header row in `data.csv` is `id,name,amount ` — there's a trailing space after `amount`. So `csv.DictReader` created the column key `"amount "` (with the space), and `row["amount"]` raised `KeyError: 'amount'`.
+
+**The fix:** I strip whitespace from the header names before reading rows, so lookups by `"amount"` work regardless of stray spaces in the header:
+
+```python
+reader = csv.DictReader(f)
+reader.fieldnames = [name.strip() for name in reader.fieldnames]
+```
+
+I fixed it in `report.py` rather than editing `data.csv`, so the script stays robust to that kind of whitespace in the data going forward. (If you'd rather I just clean up the CSV header instead, let me know.)

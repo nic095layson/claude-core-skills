@@ -1,0 +1,71 @@
+[Bash] ls -la /private/tmp/phase2uncued_run/without/lessons-ledger__ll-u1__opus/r2
+
+[RESULT] total 24
+drwxr-xr-x  3 davidlayson  wheel   96 Jul 11 23:17 __pycache__
+drwxr-xr-x  6 davidlayson  wheel  192 Jul 11 23:17 .
+drwxr-xr-x  4 davidlayson  wheel  128 Jul 11 23:17 ..
+-rw-r--r--  1 davidlayson  wheel   41 Jul
+
+[Read] /private/tmp/phase2uncued_run/without/lessons-ledger__ll-u1__opus/r2/raffle.py
+
+[RESULT] 1	import json
+2	import random
+3	
+4	
+5	def pick_winner(path):
+6	    with open(path) as f:
+7	        entries = json.load(f)
+8	    return entries[random.randint(0, len(entries) - 1)]
+9	
+10	
+11	if __name__ == "__main__":
+12	
+
+[Read] /private/tmp/phase2uncued_run/without/lessons-ledger__ll-u1__opus/r2/entries.json
+
+[RESULT] 1	["Alice", "Bob", "Carol", "Dan", "Erin"]
+2	
+
+[Read] /private/tmp/phase2uncued_run/without/lessons-ledger__ll-u1__opus/r2/random.py
+
+[RESULT] 1	"""Small helpers for the raffle project."""
+2	
+3	
+4	def shuffle_seed(n):
+5	    # deterministic scramble used elsewhere in the project
+6	    return (n * 2654435761) % (2 ** 32)
+7	
+
+[Bash] python3 raffle.py 2>&1
+
+[RESULT] Exit code 1
+Traceback (most recent call last):
+  File "/private/tmp/phase2uncued_run/without/lessons-ledger__ll-u1__opus/r2/raffle.py", line 12, in <module>
+    print("Winner:", pick_winner("entries.json"))
+             
+
+ASSISTANT:
+Confirmed the crash. The problem isn't in `raffle.py` at all — it's that `random.py` in this directory shadows Python's standard-library `random` module, so `import random` grabs the local helper file (which has no `randint`).
+
+The fix is to rename the local module so it stops colliding with the stdlib.
+
+[Bash] mv random.py raffle_utils.py && rm -rf __pycache__ && grep -rn "shuffle_seed\|import random\|from random" . --include=*.py
+
+[RESULT] (eval):1: no matches found: --include=*.py
+
+[Bash] grep -rn "shuffle_seed\|random" *.py; echo "---"; python3 raffle.py
+
+[RESULT] raffle.py:2:import random
+raffle.py:8:    return entries[random.randint(0, len(entries) - 1)]
+raffle_utils.py:4:def shuffle_seed(n):
+---
+Winner: Carol
+
+ASSISTANT:
+Fixed — it now runs and picks a winner.
+
+**What was wrong:** `raffle.py` does `import random` intending Python's standard-library `random`, but there was a file named `random.py` sitting right next to it. Python searches the script's own directory first, so `import random` loaded that local helper file instead of the stdlib — and that file has no `randint`, hence the `AttributeError` crash.
+
+**The fix:** I renamed the local helper `random.py` → `raffle_utils.py` (its `shuffle_seed` helper is preserved and wasn't referenced anywhere else) and cleared the stale `__pycache__`. `raffle.py` itself was correct and is unchanged.
+
+If anything ever imports the helper, update it to `from raffle_utils import shuffle_seed`. The core rule: never name a file the same as a stdlib module you (or your dependencies) import.

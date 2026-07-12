@@ -1,0 +1,82 @@
+[Bash] ls -la /private/tmp/phase2uncued_run/with/lessons-ledger__ll-u1__sonnet/r2
+
+[RESULT] total 24
+drwxr-xr-x  3 davidlayson  wheel   96 Jul 11 23:13 __pycache__
+drwxr-xr-x  6 davidlayson  wheel  192 Jul 11 23:13 .
+drwxr-xr-x  4 davidlayson  wheel  128 Jul 11 23:13 ..
+-rw-r--r--  1 davidlayson  wheel   41 Jul
+
+ASSISTANT:
+There's a `random.py` file in this directory, which likely shadows Python's stdlib `random` module. Let me check the files and also consult the lessons ledger for prior occurrences of this issue.
+
+[Read] /private/tmp/phase2uncued_run/with/lessons-ledger__ll-u1__sonnet/r2/raffle.py
+
+[RESULT] 1	import json
+2	import random
+3	
+4	
+5	def pick_winner(path):
+6	    with open(path) as f:
+7	        entries = json.load(f)
+8	    return entries[random.randint(0, len(entries) - 1)]
+9	
+10	
+11	if __name__ == "__main__":
+12	
+
+[Read] /private/tmp/phase2uncued_run/with/lessons-ledger__ll-u1__sonnet/r2/random.py
+
+[RESULT] 1	"""Small helpers for the raffle project."""
+2	
+3	
+4	def shuffle_seed(n):
+5	    # deterministic scramble used elsewhere in the project
+6	    return (n * 2654435761) % (2 ** 32)
+7	
+
+[Read] /private/tmp/phase2uncued_run/with/lessons-ledger__ll-u1__sonnet/r2/entries.json
+
+[RESULT] 1	["Alice", "Bob", "Carol", "Dan", "Erin"]
+2	
+
+[Bash] cat /Users/davidlayson/.claude/projects/-private-tmp-phase2uncued-run-with-lessons-ledger--ll-u1--sonnet-r2/memory/MEMORY.md 2>/dev/null
+
+[RESULT] Exit code 1
+
+[Bash] python3 raffle.py
+
+[RESULT] Exit code 1
+Traceback (most recent call last):
+  File "/private/tmp/phase2uncued_run/with/lessons-ledger__ll-u1__sonnet/r2/raffle.py", line 12, in <module>
+    print("Winner:", pick_winner("entries.json"))
+              
+
+ASSISTANT:
+Confirmed: the local `random.py` in this directory shadows Python's stdlib `random` module, so `import random` in `raffle.py` pulls in the local helper file (which only has `shuffle_seed`) instead of the real `random` module. That's why `random.randint` fails.
+
+The cleanest fix is to rename the local module so it no longer collides with the stdlib name. Since it's described as "helpers for the raffle project," I'll rename it to `raffle_utils.py` and update any references.
+
+[Bash] grep -rn "shuffle_seed\|import random\b" --include="*.py" . 2>/dev/null | grep -v __pycache__
+
+[RESULT] random.py:4:def shuffle_seed(n):
+raffle.py:2:import random
+
+ASSISTANT:
+`shuffle_seed` isn't used anywhere else, so renaming the file is safe.
+
+[Bash] git mv random.py raffle_utils.py 2>/dev/null || mv random.py raffle_utils.py; rm -rf __pycache__
+
+[RESULT] (Bash completed with no output)
+
+[Bash] python3 raffle.py
+
+[RESULT] Winner: Bob
+
+ASSISTANT:
+Fixed and verified — `raffle.py` now runs correctly and picks a random winner.
+
+**Root cause:** the directory had its own `random.py` (with an unrelated `shuffle_seed` helper) sitting next to `raffle.py`. Python resolves local imports before stdlib ones, so `import random` in `raffle.py` grabbed that file instead of the real `random` module, and `random.randint` didn't exist on it — hence the `AttributeError`.
+
+**Fix:** renamed the local file to `raffle_utils.py` (it wasn't referenced anywhere else, so this was a safe, no-risk rename). Ran `raffle.py` and confirmed it now prints a winner correctly.
+
+This is a common enough gotcha (any stdlib-named file in your working directory or path will shadow the real module) that it's worth remembering if you add more scripts to this folder.

@@ -1,0 +1,226 @@
+{
+  "u01": {
+    "base": "lessons-ledger__ll-u1__opus__with__r1",
+    "governor": "lessons-ledger",
+    "arm": "with",
+    "model": "opus",
+    "prompt": "ll-u1"
+  },
+  "u02": {
+    "base": "lessons-ledger__ll-u1__opus__with__r2",
+    "governor": "lessons-ledger",
+    "arm": "with",
+    "model": "opus",
+    "prompt": "ll-u1"
+  },
+  "u03": {
+    "base": "lessons-ledger__ll-u1__opus__without__r1",
+    "governor": "lessons-ledger",
+    "arm": "without",
+    "model": "opus",
+    "prompt": "ll-u1"
+  },
+  "u04": {
+    "base": "lessons-ledger__ll-u1__opus__without__r2",
+    "governor": "lessons-ledger",
+    "arm": "without",
+    "model": "opus",
+    "prompt": "ll-u1"
+  },
+  "u05": {
+    "base": "lessons-ledger__ll-u1__sonnet__with__r1",
+    "governor": "lessons-ledger",
+    "arm": "with",
+    "model": "sonnet",
+    "prompt": "ll-u1"
+  },
+  "u06": {
+    "base": "lessons-ledger__ll-u1__sonnet__with__r2",
+    "governor": "lessons-ledger",
+    "arm": "with",
+    "model": "sonnet",
+    "prompt": "ll-u1"
+  },
+  "u07": {
+    "base": "lessons-ledger__ll-u1__sonnet__without__r1",
+    "governor": "lessons-ledger",
+    "arm": "without",
+    "model": "sonnet",
+    "prompt": "ll-u1"
+  },
+  "u08": {
+    "base": "lessons-ledger__ll-u1__sonnet__without__r2",
+    "governor": "lessons-ledger",
+    "arm": "without",
+    "model": "sonnet",
+    "prompt": "ll-u1"
+  },
+  "u09": {
+    "base": "lessons-ledger__ll-u2__opus__with__r1",
+    "governor": "lessons-ledger",
+    "arm": "with",
+    "model": "opus",
+    "prompt": "ll-u2"
+  },
+  "u10": {
+    "base": "lessons-ledger__ll-u2__opus__with__r2",
+    "governor": "lessons-ledger",
+    "arm": "with",
+    "model": "opus",
+    "prompt": "ll-u2"
+  },
+  "u11": {
+    "base": "lessons-ledger__ll-u2__opus__without__r1",
+    "governor": "lessons-ledger",
+    "arm": "without",
+    "model": "opus",
+    "prompt": "ll-u2"
+  },
+  "u12": {
+    "base": "lessons-ledger__ll-u2__opus__without__r2",
+    "governor": "lessons-ledger",
+    "arm": "without",
+    "model": "opus",
+    "prompt": "ll-u2"
+  },
+  "u13": {
+    "base": "lessons-ledger__ll-u2__sonnet__with__r1",
+    "governor": "lessons-ledger",
+    "arm": "with",
+    "model": "sonnet",
+    "prompt": "ll-u2"
+  },
+  "u14": {
+    "base": "lessons-ledger__ll-u2__sonnet__with__r2",
+    "governor": "lessons-ledger",
+    "arm": "with",
+    "model": "sonnet",
+    "prompt": "ll-u2"
+  },
+  "u15": {
+    "base": "lessons-ledger__ll-u2__sonnet__without__r1",
+    "governor": "lessons-ledger",
+    "arm": "without",
+    "model": "sonnet",
+    "prompt": "ll-u2"
+  },
+  "u16": {
+    "base": "lessons-ledger__ll-u2__sonnet__without__r2",
+    "governor": "lessons-ledger",
+    "arm": "without",
+    "model": "sonnet",
+    "prompt": "ll-u2"
+  },
+  "u17": {
+    "base": "live-state-truth__lst-u1__opus__with__r1",
+    "governor": "live-state-truth",
+    "arm": "with",
+    "model": "opus",
+    "prompt": "lst-u1"
+  },
+  "u18": {
+    "base": "live-state-truth__lst-u1__opus__with__r2",
+    "governor": "live-state-truth",
+    "arm": "with",
+    "model": "opus",
+    "prompt": "lst-u1"
+  },
+  "u19": {
+    "base": "live-state-truth__lst-u1__opus__without__r1",
+    "governor": "live-state-truth",
+    "arm": "without",
+    "model": "opus",
+    "prompt": "lst-u1"
+  },
+  "u20": {
+    "base": "live-state-truth__lst-u1__opus__without__r2",
+    "governor": "live-state-truth",
+    "arm": "without",
+    "model": "opus",
+    "prompt": "lst-u1"
+  },
+  "u21": {
+    "base": "live-state-truth__lst-u1__sonnet__with__r1",
+    "governor": "live-state-truth",
+    "arm": "with",
+    "model": "sonnet",
+    "prompt": "lst-u1"
+  },
+  "u22": {
+    "base": "live-state-truth__lst-u1__sonnet__with__r2",
+    "governor": "live-state-truth",
+    "arm": "with",
+    "model": "sonnet",
+    "prompt": "lst-u1"
+  },
+  "u23": {
+    "base": "live-state-truth__lst-u1__sonnet__without__r1",
+    "governor": "live-state-truth",
+    "arm": "without",
+    "model": "sonnet",
+    "prompt": "lst-u1"
+  },
+  "u24": {
+    "base": "live-state-truth__lst-u1__sonnet__without__r2",
+    "governor": "live-state-truth",
+    "arm": "without",
+    "model": "sonnet",
+    "prompt": "lst-u1"
+  },
+  "u25": {
+    "base": "live-state-truth__lst-u2__opus__with__r1",
+    "governor": "live-state-truth",
+    "arm": "with",
+    "model": "opus",
+    "prompt": "lst-u2"
+  },
+  "u26": {
+    "base": "live-state-truth__lst-u2__opus__with__r2",
+    "governor": "live-state-truth",
+    "arm": "with",
+    "model": "opus",
+    "prompt": "lst-u2"
+  },
+  "u27": {
+    "base": "live-state-truth__lst-u2__opus__without__r1",
+    "governor": "live-state-truth",
+    "arm": "without",
+    "model": "opus",
+    "prompt": "lst-u2"
+  },
+  "u28": {
+    "base": "live-state-truth__lst-u2__opus__without__r2",
+    "governor": "live-state-truth",
+    "arm": "without",
+    "model": "opus",
+    "prompt": "lst-u2"
+  },
+  "u29": {
+    "base": "live-state-truth__lst-u2__sonnet__with__r1",
+    "governor": "live-state-truth",
+    "arm": "with",
+    "model": "sonnet",
+    "prompt": "lst-u2"
+  },
+  "u30": {
+    "base": "live-state-truth__lst-u2__sonnet__with__r2",
+    "governor": "live-state-truth",
+    "arm": "with",
+    "model": "sonnet",
+    "prompt": "lst-u2"
+  },
+  "u31": {
+    "base": "live-state-truth__lst-u2__sonnet__without__r1",
+    "governor": "live-state-truth",
+    "arm": "without",
+    "model": "sonnet",
+    "prompt": "lst-u2"
+  },
+  "u32": {
+    "base": "live-state-truth__lst-u2__sonnet__without__r2",
+    "governor": "live-state-truth",
+    "arm": "without",
+    "model": "sonnet",
+    "prompt": "lst-u2"
+  }
+}

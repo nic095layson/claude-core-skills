@@ -1,0 +1,57 @@
+[Bash] find . -iname "report.py" -not -path "*/node_modules/*" 2>/dev/null
+
+[RESULT] ./report.py
+
+[Read] /private/tmp/phase2uncued_run/with/lessons-ledger__ll-u2__sonnet/r2/report.py
+
+[RESULT] 1	import csv
+2	
+3	
+4	def total_amount(path):
+5	    total = 0
+6	    with open(path) as f:
+7	        for row in csv.DictReader(f):
+8	            total += int(row["amount"])
+9	    return total
+10	
+11	
+12	if __name__ == "__m
+
+[Bash] ls -la data.csv 2>/dev/null && echo "---" && cat data.csv 2>/dev/null
+
+[RESULT] -rw-r--r--  1 davidlayson  wheel  48 Jul 11 23:05 data.csv
+---
+id,name,amount 
+1,Alice,100
+2,Bob,50
+3,Carol,75
+
+[Bash] python3 report.py 2>&1
+
+[RESULT] Exit code 1
+Traceback (most recent call last):
+  File "/private/tmp/phase2uncued_run/with/lessons-ledger__ll-u2__sonnet/r2/report.py", line 13, in <module>
+    print("Total:", total_amount("data.csv"))
+                  
+
+ASSISTANT:
+Confirmed: `data.csv`'s header row has a trailing space after `amount` (`id,name,amount `), so `csv.DictReader` reads the key as `"amount "` instead of `"amount"`, causing the `KeyError`. I'll make `total_amount` strip whitespace from field names so it's robust to this.
+
+[Edit] /private/tmp/phase2uncued_run/with/lessons-ledger__ll-u2__sonnet/r2/report.py
+  old:     with open(path) as f:
+        for row in csv.DictReader(f):
+            total += int(row["amount"])
+  new:     with open(path) as f:
+        reader = csv.DictReader(f)
+        reader.fieldnames = [name.strip() for name in reader.fieldnames]
+        for row in reader:
+            total += int(row["amount"])
+
+[RESULT] The file /private/tmp/phase2uncued_run/with/lessons-ledger__ll-u2__sonnet/r2/report.py has been updated successfully. (file state is current in your context — no need to Read it back)
+
+[Bash] python3 report.py
+
+[RESULT] Total: 225
+
+ASSISTANT:
+Fixed — the crash was a `KeyError: 'amount'` because `data.csv`'s header has a trailing space (`amount `), so `DictReader` produced that as the key instead of `amount`. I updated `total_amount` in report.py:6-9 to strip whitespace from the parsed fieldnames before use. It now prints `Total: 225`.

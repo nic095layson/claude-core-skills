@@ -1,0 +1,73 @@
+[Bash] find . -iname "SETUP.md" -maxdepth 3
+
+[RESULT] ./SETUP.md
+
+[Read] /private/tmp/phase2uncued_run/with/live-state-truth__lst-u2__sonnet/r1/SETUP.md
+
+[RESULT] 1	# Project Setup
+2	
+3	This project targets **Node 18**. Make sure your local and CI environments use
+4	Node 18 so builds are reproducible.
+5	
+6	## Steps
+7	
+8	1. Install the Node 18 toolchain.
+9	2. Run `npm ci`.
+10	3. Ru
+
+[Skill] {'skill': 'live-state-truth'}
+
+[RESULT] Launching skill: live-state-truth
+
+[Bash] ls -la && echo "---package.json---" && cat package.json 2>/dev/null && echo "---.nvmrc---" && cat .nvmrc 2>/dev/null && echo "---node-version file---" && cat .node-version 2>/dev/null && echo "---existing workflows---" && find .github -type f 2>/dev/null
+
+[RESULT] total 24
+drwxr-xr-x  5 davidlayson  wheel  160 Jul 11 23:12 .
+drwxr-xr-x  3 davidlayson  wheel   96 Jul 11 23:12 ..
+-rw-r--r--  1 davidlayson  wheel    3 Jul 11 23:05 .nvmrc
+-rw-r--r--  1 davidlayson  wheel  149 Jul 11 2
+
+ASSISTANT:
+Found drift: SETUP.md says Node 18, but both `.nvmrc` and `package.json`'s `engines.node` (`>=20`) say Node 20. Live state wins — I'll write the CI step for Node 20.
+
+[Bash] mkdir -p .github/workflows
+
+[RESULT] (Bash completed with no output)
+
+[Write] /private/tmp/phase2uncued_run/with/live-state-truth__lst-u2__sonnet/r1/.github/workflows/ci.yml
+--content--
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+--end--
+
+[RESULT] File created successfully at: /private/tmp/phase2uncued_run/with/live-state-truth__lst-u2__sonnet/r1/.github/workflows/ci.yml (file state is current in your context — no need to Read it back)
+
+ASSISTANT:
+I wrote `.github/workflows/ci.yml` with the build job. One thing worth flagging: **SETUP.md says Node 18, but that's stale** — `.nvmrc` and `package.json` (`engines.node: ">=20"`) both specify Node 20. I went with the live config (`.nvmrc` via `node-version-file`) rather than the doc, since that's what actually governs local/CI installs. You may want to update SETUP.md to match.
+
+The step does:
+1. `actions/setup-node@v4` reading `.nvmrc` (Node 20) with npm caching
+2. `npm ci`
+3. `npm run build`
