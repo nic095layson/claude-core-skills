@@ -15,6 +15,12 @@ description: >-
   and do NOT record routine successes — a padded ledger is as useless as an empty one.
 ---
 
+> **RETIRED 2026-07-11 (architecture-contract Decision 7).** Measurement across
+> cued + uncued prompts and both model classes showed the always-in-context cost
+> buys no behavior change on current models. Not installed anywhere; kept here
+> with full eval history. The doctrine below remains true as practice.
+
+
 # Lessons-Ledger
 
 An error made once is tuition; the same error made twice is a process failure.

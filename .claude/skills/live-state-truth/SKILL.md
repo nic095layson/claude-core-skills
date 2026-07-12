@@ -16,6 +16,12 @@ description: >-
   drift's history (lessons-ledger).
 ---
 
+> **RETIRED 2026-07-11 (architecture-contract Decision 7).** Measurement across
+> cued + uncued prompts and both model classes showed the always-in-context cost
+> buys no behavior change on current models. Not installed anywhere; kept here
+> with full eval history. The doctrine below remains true as practice.
+
+
 # Live-State-Truth
 
 One law with two halves: **a document is a claim about the past; the live system

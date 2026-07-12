@@ -10,15 +10,15 @@ but intended to govern Claude holistically. This repo is the general form; that
 repo keeps its project-specific instances, which **take precedence inside that
 project** (see `architecture-contract`, Decision 2).
 
-## The five governors
+## The governors (three active, two retired)
 
 | Skill | Governs | One-line law |
 |---|---|---|
 | [`plan-gate`](.claude/skills/plan-gate/SKILL.md) | Before acting | No consequential action before a written goal, assumption register, success criteria, and phased plan with predictions |
 | [`adversarial-verify`](.claude/skills/adversarial-verify/SKILL.md) | Before delivering | Attack your own work, grade against pre-committed criteria, report faithfully — the author is the worst grader of their own work |
-| [`live-state-truth`](.claude/skills/live-state-truth/SKILL.md) | Every factual claim | Live state outranks every description of it; measure instead of eyeball; capabilities don't travel between environments |
+| [`live-state-truth`](.claude/skills/live-state-truth/SKILL.md) *(RETIRED 2026-07-11)* | Every factual claim | Live state outranks every description of it; measure instead of eyeball; capabilities don't travel between environments |
 | [`scope-fence`](.claude/skills/scope-fence/SKILL.md) | During the work | The prompt defines the fence; adjacent problems get flagged, never silently fixed; approval is per-scope |
-| [`lessons-ledger`](.claude/skills/lessons-ledger/SKILL.md) | After failure | Incidents, drifts, and dead ends get recorded as symptom → root cause → evidence → status, and consulted before re-attempts |
+| [`lessons-ledger`](.claude/skills/lessons-ledger/SKILL.md) *(RETIRED 2026-07-11)* | After failure | Incidents, drifts, and dead ends get recorded as symptom → root cause → evidence → status, and consulted before re-attempts |
 
 They compose over a task's lifecycle: plan-gate opens it, live-state-truth feeds
 it facts, scope-fence bounds it, adversarial-verify closes it, lessons-ledger
@@ -45,7 +45,7 @@ remembers what it cost.
 **Claude Code, any machine (the intended footprint — governors only):**
 
 ```bash
-for s in plan-gate adversarial-verify live-state-truth scope-fence lessons-ledger; do
+for s in plan-gate adversarial-verify scope-fence; do
   mkdir -p ~/.claude/skills/$s && cp .claude/skills/$s/SKILL.md ~/.claude/skills/$s/
 done
 ```

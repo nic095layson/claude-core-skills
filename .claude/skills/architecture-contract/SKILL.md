@@ -59,7 +59,7 @@ library. The source repo pinned this with an eval (its case 3: "Council: what's 
 of 80?" must skip ceremony and answer 12); this library inherits the doctrine as an
 invariant.
 
-## Decision 5 — Activation footprint: install the five governors personally; the eight support skills load per-project
+## Decision 5 — Activation footprint: install the active governors personally; the eight support skills load per-project
 
 **Rationale.** Every installed description sits in every session's context
 (domain-reference, consequence 2). The governors govern all work and earn that
@@ -67,6 +67,8 @@ cost; the support skills (authoring, debugging, campaign, this contract) matter
 only when working ON the library or on skills, which happens inside this repo where
 they auto-load as project skills.
 **Status:** assumption A3 in domain-reference — owner-adjustable, not doctrine.
+**Amended 2026-07-11 by Decision 7:** the active set is three (plan-gate,
+adversarial-verify, scope-fence).
 
 ## Decision 6 — Laws carry lineage
 
@@ -75,6 +77,34 @@ which laws carried over. **Rationale:** the owner's explicit requirement at
 extraction ("ensure that no operational prowess or laws are lost") is only
 auditable if each skill declares what it carried; an unattributed law cannot be
 checked against its origin.
+
+## Decision 7 — Retirement of live-state-truth and lessons-ledger (2026-07-11, owner-decided)
+
+The owner retired both governors from all installs (personal `~/.claude/skills/`
+and claude.ai uploads) on the campaign's evidence: live-state-truth
+RETIRE-CONFIRMED (zero behavioral delta in all eight cells, cued + uncued, Opus +
+Sonnet — base models check live state natively); lessons-ledger inert (0/16
+uncued firing, weak cued value against built-in memory — earns its cost in no
+test, though its uncued verdict is formally INCONCLUSIVE, see weak-point 5).
+
+**What survives retirement:** the doctrines remain true and citable — the
+measure-instead-of-eyeball table, the drift definitions, the recording rule, the
+`.claude/LESSONS.md` project-ledger convention all stay in force as *practice*,
+carried by base-model behavior, platform memory features, and the remaining
+skills' references. Only the always-in-context *skills* were retired, because
+measurement showed the context cost buys no behavior change.
+
+**Reversibility:** both SKILL.md files remain in this repo, marked RETIRED, with
+their full eval history. Reinstate = copy back to `~/.claude/skills/` and re-run
+the discriminating tests on the then-current models — base-model behavior is a
+volatile fact; a future model class that stops checking live state re-opens this
+decision.
+
+**Deferred cleanup (flagged, not silently done):** the three active governors'
+descriptions and bodies still contain NOT-clause pointers to the retired pair.
+Harmless while retired (a routing pointer to an absent skill is a no-op), but the
+next gated wording pass should reword them; that edit goes through
+research-methodology like any other.
 
 ## The invariants — what any edit must preserve
 
