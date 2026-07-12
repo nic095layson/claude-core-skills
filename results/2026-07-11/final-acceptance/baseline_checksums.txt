@@ -1,0 +1,6 @@
+7e0c29156c9a8f6d59de966d98f59310869561fd99f70c426ba4a63973ab14f8  /Users/davidlayson/.claude/skills/plan-gate/SKILL.md
+7e0c29156c9a8f6d59de966d98f59310869561fd99f70c426ba4a63973ab14f8  /Users/davidlayson/claude-core-skills/.claude/skills/plan-gate/SKILL.md
+188d48e5a01adb33fc96c108c396d36e41fc4df8ef5942b3dd4f91b9c16c3399  /Users/davidlayson/.claude/skills/adversarial-verify/SKILL.md
+188d48e5a01adb33fc96c108c396d36e41fc4df8ef5942b3dd4f91b9c16c3399  /Users/davidlayson/claude-core-skills/.claude/skills/adversarial-verify/SKILL.md
+53566c0c38771c2a82478dcc0da06dcac3f13e22e1a3fc0638d6f78e3a8c2b9b  /Users/davidlayson/.claude/skills/scope-fence/SKILL.md
+53566c0c38771c2a82478dcc0da06dcac3f13e22e1a3fc0638d6f78e3a8c2b9b  /Users/davidlayson/claude-core-skills/.claude/skills/scope-fence/SKILL.md

@@ -267,6 +267,23 @@ register flip from unconfirmed to **measured-with-date, with the observed rates
 recorded** (not to an unqualified "verified" — see the Phase 1 distinction);
 architecture-contract weak-points 1 and 4 close.
 
+**FINAL ACCEPTANCE — Claude Code headless surface, ship date 2026-07-11: PASS
+(regression-clean).** The shipped Decision-7 config (3 active governors) was run
+against its standing eval sets as a regression test (fresh `claude -p`, out-of-repo
+cwd, clean scratchpad, `claude-opus-4-8[1m]`, 2 runs/prompt, 32 runs; same FIRED
+parser). Every governor within one run of — or above — its last-measured rates:
+**plan-gate** should-fire 6/6, silent 4/4 (gate PASS); **adversarial-verify** 6/6,
+4/4 (gate PASS); **scope-fence** core should-fire 6/6 (id1 the flaky case fired 2/2,
+a favorable within-one-run fluctuation over its 3/5 anchor — **does NOT flip the
+trigger gate, which remains FAIL**; hooks stay the open path), silent 4/4, no
+regression. Canary fired nothing 2/2; **zero** retired-governor (live-state-truth /
+lessons-ledger) invocations across all 32 runs — no stale copy fires anywhere; zero
+co-fires. Static state all PASS (tree clean/HEAD==origin, lint 13/13, 3 governors
+byte-identical repo↔personal, retired absent outside repo, instructions names only
+the three). **Rollout status this surface: SHIPPED / regression-clean.** Other
+surfaces (interactive Claude Code, claude.ai) remain OPEN (claude.ai `.skill`
+re-upload still owed). Full record: `results/2026-07-11/FINAL-ACCEPTANCE.md`.
+
 ## Ranked solution menu (if resources are constrained)
 
 1. **Phase 1 alone** — cheapest, kills the biggest risk (silent non-triggering,
