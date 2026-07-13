@@ -102,6 +102,9 @@ concrete code" class is unfireable in headless under any wording) and lessons-le
 architecture-contract open question: description-based triggering appears to have a
 ceiling for triggers that require the model to pause mid-hands-on-work to consult a
 governor; mechanical enforcement (hooks, weak-point 3) may be the only lever past it.
+(Update 2026-07-12: that lever shipped — `hooks/scope-fence-reminder.sh`, a
+once-per-session PreToolUse Edit|Write context injection, installed user-scope on
+the primary machine and verified live. See hooks/README.md.)
 Rollout may proceed for the 3 accepted governors on this surface; scope-fence and
 lessons-ledger remain gated. The 3 accepted governors' claude.ai `.skill` uploads are
 now STALE (owner re-upload needed). Full A/B results + transcripts:
