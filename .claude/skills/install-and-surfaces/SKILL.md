@@ -24,7 +24,7 @@ proof is registration observed in a fresh session.
 
 | Surface | Install action | Scope | Verify |
 |---|---|---|---|
-| Claude Code, this repo | Nothing — project skills auto-discover from `.claude/skills/` | Sessions in this repo | Fresh session lists all 13 |
+| Claude Code, this repo | Nothing — project skills auto-discover from `.claude/skills/` | Sessions in this repo | Fresh session lists every skill in `.claude/skills/` (20 as of 2026-07-13) |
 | Claude Code, any machine | Copy governor dirs to `~/.claude/skills/<name>/` | All sessions on that machine | Fresh session lists the governors |
 | claude.ai web/mobile | Upload a `.skill` zip per skill (Settings → Capabilities → Skills), toggle on | That account | Fire a should-trigger prompt; check it loads |
 | Other/managed surfaces | Per that surface's plugin/skill config | Varies | Same principle: observe registration |
@@ -32,6 +32,8 @@ proof is registration observed in a fresh session.
 Default footprint per architecture-contract Decision 5: the **five governors**
 personally installed; the eight support skills stay project-scoped (they
 auto-load when working in this repo). Owner-adjustable (assumption A3).
+Capability skills (2026-07-13) are project-scoped by default and upload to
+claude.ai selectively — Decision 8 and `results/2026-07-13/` record which.
 
 ## Runbook 1 — personal install (Claude Code machine)
 
@@ -63,9 +65,26 @@ unzip -l <name>.skill                   # expect exactly: <name>/SKILL.md
 ```
 
 Upload via Settings → Capabilities → Skills, toggle on, then live-fire one
-should-trigger prompt. Note: skills that ship `scripts/` are Claude Code-oriented;
-on claude.ai the script-dependent checks fall back to the manual table in
-diagnostics-and-tooling.
+should-trigger prompt. (Candidate 2026-07-13: current platform docs say
+Settings → Features — verify the live UI path on next upload and update here.)
+
+**Multi-file skills (added 2026-07-13).** The platform `.skill` format accepts
+bundled scripts and reference files, not only SKILL.md — doc-verified 2026-07-13
+against platform.claude.com/docs agent-skills overview; no live multi-file
+upload has been run yet. Package the whole directory when the skill ships
+companions (pdf: `scripts/`, `forms.md`):
+
+```bash
+cd "$(mktemp -d)" && cp -r <repo>/.claude/skills/<name> . && zip -qr <name>.skill <name>/
+unzip -l <name>.skill    # expect SKILL.md plus every companion under <name>/
+```
+
+The one-file zip above remains the minimal form for body-only skills.
+**Name collisions:** claude.ai ships built-in pdf/docx/pptx/xlsx skills
+(doc-verified 2026-07-13); custom-vs-built-in same-name precedence is
+undocumented — rename the packaged directory AND its frontmatter `name`
+(e.g. `pdf-extract`) when uploading a same-named skill. A rename is a
+deliberate per-surface fork: record it in a dated `results/` entry.
 
 ## Runbook 3 — update installed copies after an accepted edit
 

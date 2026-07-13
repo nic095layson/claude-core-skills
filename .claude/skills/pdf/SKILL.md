@@ -133,6 +133,9 @@ Not extractable: pages 5-6 have no text layer (scanned images)
   do not dump 400 pages into context to answer one question.
 - **User asks for a NEW PDF:** route away (When NOT, below) — this skill
   reads and modifies PDFs, it does not author documents.
+- **Restyle an existing PDF:** three-hop route — extract content here,
+  re-author via **docx** (+ **brand-standard** if in David's name), convert
+  back to PDF (docx step 8). No single skill restyles a PDF in place.
 
 ## Volatile facts
 

@@ -5,8 +5,10 @@
     "fire_signature": "Session reaches for openpyxl (install check, then Workbook()/load_workbook); cells written typed (int/float/date, never numeric strings); formulas written as formula strings so the workbook stays live; number formats set explicitly; delivery includes a reopen-and-assert check, with the data_only/None-cache caveat stated when values are claimed.",
     "silent_signature": "No openpyxl ceremony: slide decks routed to pptx, prose to docx, PDF table extraction to pdf, and a CSV kept as CSV written directly with no skill. Shipping a strings-only grid renamed .xlsx, or pasting precomputed totals where formulas belong, counts as a failure even if the skill fired.",
     "committed_before_runs": "2026-07-13",
-    "surface": "Claude Code headless (claude -p), personal-scope install",
-    "gate": ">=3/4 should-fire prompts fire; >=2/3 near-miss prompts stay silent"
+    "surface": "Claude Code headless (claude -p), project-scope install in this repo",
+    "surface_amended": "2026-07-13: aligned personal->project scope per architecture-contract Decision 8 (capability skills are project-scoped); amended pre-first-run, no runs had occurred.",
+    "gate": ">=3/4 should-fire prompts fire; >=2/3 near-miss prompts stay silent",
+    "gate_note": "3/4-fire and 2/3-silent are the small-N analogues of the governors' >=5/6 / >=3/4 convention (rate thresholds per architecture-contract invariant-3 scope note); measured rates get recorded as rates."
   },
   "evals": [
     { "id": 1,

@@ -63,10 +63,13 @@ evals are pre-registered in `evals/` but unrun, same as the governors.
 | [`xlsx`](.claude/skills/xlsx/SKILL.md) | Genuine Excel workbooks via openpyxl: typed cells, live formulas, number formats, native tables, the data_only cache caveat stated honestly |
 | [`mcp-builder`](.claude/skills/mcp-builder/SKILL.md) | Scaffold an MCP server from a plain-language tool description: FastMCP template, clientless smoke test, `claude mcp add` registration |
 
-They auto-load here as project skills. Whether any join the personal install
-footprint is an owner call (architecture-contract Decision 5 / assumption A3);
-none are installed personally yet. The requested `brand-guidelines` capability
-was **not** added — `brand-standard` already owns that scope.
+They auto-load here as project skills — project-scoped by default per
+architecture-contract Decision 8; none are installed personally yet. The
+requested `brand-guidelines` capability was **not** added — `brand-standard`
+already owns that scope. Conflict audit against the pre-existing library and
+the claude.ai upload decisions (frontend-design yes; pdf conditional/renamed;
+docx/pptx/xlsx/mcp-builder no — built-ins own that surface):
+[`results/2026-07-13/CAPABILITY-SKILLS-CONFLICT-AUDIT.md`](results/2026-07-13/CAPABILITY-SKILLS-CONFLICT-AUDIT.md).
 
 ## Install
 

@@ -6,7 +6,8 @@
     "silent_signature": "No server scaffolding ceremony: the ask is answered by authoring a SKILL.md (skill-authoring's job), by packaging/installing (install-and-surfaces), or by simply calling tools on an already-connected server.",
     "committed_before_runs": "2026-07-13",
     "surface": "Claude Code headless (claude -p), project-scope install",
-    "gate": ">=3/4 should-fire runs fire; >=2/3 should-not runs stay silent"
+    "gate": ">=3/4 should-fire runs fire; >=2/3 should-not runs stay silent",
+    "gate_note": "3/4-fire and 2/3-silent are the small-N analogues of the governors' >=5/6 / >=3/4 convention (rate thresholds per architecture-contract invariant-3 scope note); measured rates get recorded as rates."
   },
   "evals": [
     { "id": 1,

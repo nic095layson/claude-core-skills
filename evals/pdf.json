@@ -6,7 +6,8 @@
     "silent_signature": "For near-miss prompts the session routes elsewhere: new-PDF authoring goes to docx/frontend-design, spreadsheet work goes to xlsx, brand-styled deliverables go to brand-standard. No pdf-skill load, no parser ceremony on files that are not PDFs.",
     "committed_before_runs": "2026-07-13",
     "surface": "Claude Code headless (claude -p), project-scope install in this repo",
-    "gate": ">=3/4 should-fire runs fire; >=2/3 should-not runs stay silent; any fire that then states PDF content without parser output counts as a failure even if the skill loaded"
+    "gate": ">=3/4 should-fire runs fire; >=2/3 should-not runs stay silent; any fire that then states PDF content without parser output counts as a failure even if the skill loaded",
+    "gate_note": "3/4-fire and 2/3-silent are the small-N analogues of the governors' >=5/6 / >=3/4 convention (rate thresholds per architecture-contract invariant-3 scope note); measured rates get recorded as rates."
   },
   "evals": [
     { "id": 1,

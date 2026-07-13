@@ -6,9 +6,10 @@ description: >-
   ("=SUM(B2:B10)"), real number formats (currency, percent, thousands),
   styled headers, freeze panes, native sortable tables, conditional
   formatting, charts, and multi-sheet layouts (data/calcs/summary) — not a
-  CSV renamed .xlsx. Load whenever the deliverable is a spreadsheet: "make me
-  a spreadsheet", "turn this CSV into an Excel file", "add formulas/totals to
-  this sheet", "build a budget/tracker workbook". Do NOT load for slides
+  CSV renamed .xlsx. Load whenever the deliverable — or the file to read or
+  edit — is a spreadsheet: "make me a spreadsheet", "turn this CSV into an
+  Excel file", "add formulas/totals to this sheet", "build a budget/tracker
+  workbook", "what's in this xlsx". Do NOT load for slides
   built from this data (pptx — it pairs with this skill for CSV-to-board-deck
   work), prose reports (docx), or pulling tables out of a PDF (pdf extracts
   first, then here); a quick CSV the user will keep as CSV needs no skill.
@@ -67,6 +68,8 @@ where formulas belong, which go stale the moment the user edits an input.
        c.number_format = "yyyy-mm-dd"
    for c in ws[1]:
        c.font = Font(bold=True, color="FFFFFF")
+       # generic example fill — workbooks in David's name take brand-standard's
+       # exact values instead (Space Blue 0F436E), never a lookalike
        c.fill = PatternFill("solid", fgColor="1F4E79")
    ws.column_dimensions["B"].width = 14              # per-column widths
    ws.freeze_panes = "A2"        # row 1 stays visible while scrolling

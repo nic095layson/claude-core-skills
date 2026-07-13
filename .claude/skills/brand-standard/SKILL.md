@@ -119,7 +119,8 @@ Usage rules:
 - **Space Blue anchors.** Masthead/name, section headings, key stats. Contrast
   on white ≈ 10.7:1 — safe for text at any size.
 - **Muted Space Blue is decorative.** Rules, dividers, table accents, background
-  tints. Contrast on white ≈ 2.1:1 — **never body or heading text on white.**
+  tints. Contrast on white is 2.16:1 (computed 2026-07-13, WCAG 2.1) — **never
+  body or heading text on white.**
   Dark text on a Muted Space Blue background is fine.
 - Body text is near-black/grey, never blue, for anything longer than a callout.
 - Print deliverables carry the CMYK/Pantone values; screen uses HEX.
@@ -128,7 +129,10 @@ Usage rules:
 
 1. Load this skill before drafting; pick Register A or B and say which.
 2. Style documents per Part 2/3: Eurostile + Space Blue for structure, Poppins
-   + greys for content, Muted Space Blue for rules and accents only.
+   + greys for content, Muted Space Blue for rules and accents only. Execute
+   through the capability skill that owns the format (docx / pptx / xlsx /
+   frontend-design, added 2026-07-13) — this file supplies identity; those
+   supply the mechanics.
 3. State in the delivery note if the render environment lacked the brand fonts
    (see the volatile fact).
 4. Reformatting and rewriting are separate scopes: a "reformat" keeps content
@@ -139,6 +143,9 @@ Usage rules:
 
 ## When NOT to use
 
+- Alone, for executing a format: Word / PowerPoint / Excel / web-page mechanics
+  live in **docx** / **pptx** / **xlsx** / **frontend-design** — load them WITH
+  this skill; this file wins on identity, they win on execution.
 - Internal repo documentation, commit messages, code comments — the repo's own
   house style governs (see architecture-contract).
 - Text in another party's voice, or neutral/joint documents (contracts, shared

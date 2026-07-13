@@ -110,6 +110,9 @@ roughly 100–170 total lines (measured 2026-07-11; count includes frontmatter).
 
 ## When NOT to use this skill
 
+- Giving Claude new callable tools (wrap an API, database, or service as tools)
+  → **mcp-builder** — a skill teaches a workflow; an MCP server exposes tools.
+  Decide which artifact class the ask needs before authoring anything.
 - Concepts (what is a trigger/frontmatter/.skill) → **domain-reference**.
 - A finished skill misbehaves → **debugging-playbook**.
 - Packaging/installing/verifying per surface → **install-and-surfaces**.
@@ -127,5 +130,5 @@ inside it.
 
 Re-verify: lint script present — `ls .claude/skills/diagnostics-and-tooling/scripts/`;
 boundary map intact — `grep -l "When NOT to use" .claude/skills/*/SKILL.md` (expect
-all 13). Update when: the lint script's checks change, a house rule is overturned
+one hit per skill directory — 20 as of 2026-07-13). Update when: the lint script's checks change, a house rule is overturned
 by practice, or the platform adds frontmatter fields (via domain-reference first).

@@ -106,6 +106,23 @@ Harmless while retired (a routing pointer to an absent skill is a no-op), but th
 next gated wording pass should reword them; that edit goes through
 research-methodology like any other.
 
+## Decision 8 — Capability skills are a third class, project-scoped by default (2026-07-13, owner-directed)
+
+Six capability skills (frontend-design, pdf, docx, pptx, xlsx, mcp-builder)
+added on the owner's request — runbooks for producing artifacts, not governors
+and not library-support skills. Footprint within Decision 5's taxonomy:
+**project-scoped by default**; promoting any of them to the personal install is
+a separate owner call recorded here when made. claude.ai uploads are selective
+(conflict audit 2026-07-13, `results/2026-07-13/`): frontend-design yes; pdf
+conditional under a renamed package (name-collision with the surface's built-in
+pdf skill); docx/pptx/xlsx/mcp-builder no — claude.ai's built-in document skills
+own that surface, and duplicating them pays permanent context for shipped
+capability (Decision 4's anti-bloat law applied to uploads).
+**Deferred to gated wording passes** (flagged, not silently done): adding
+workbooks/spreadsheets to brand-standard's artifact enumeration, and an
+mcp-builder phrase in skill-authoring's description NOT clause — their body
+When-NOT sections carry the routing meanwhile (2026-07-13).
+
 ## The invariants — what any edit must preserve
 
 | # | Invariant | Breaking it looks like |

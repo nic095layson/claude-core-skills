@@ -129,8 +129,10 @@ if __name__ == "__main__":
   what comes back, when to prefer a sibling tool. It is the caller's only manual.
 - **Return errors as data, never raise** — a raise hands the model a stack trace;
   a returned `{"error": "...use search_tickets"}` says what to do next.
-- **No secrets in tool code** — env vars via `-e` or `.mcp.json`'s `env` block,
-  because server code gets checked in and keys must not.
+- **No secrets in tool code or checked-in config** — a project-scope `.mcp.json`
+  is committed, so its `env` block carries only non-secret config; real keys
+  pass via `-e` at local scope or the machine's environment. Server code and
+  repo config get checked in; keys must not.
 
 ## Edge cases and proportionality
 

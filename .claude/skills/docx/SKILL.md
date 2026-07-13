@@ -8,7 +8,7 @@ description: >-
   this as a Word doc", "create a .docx", "save it as a Word document", "fill
   in this Word template", "edit this docx without breaking formatting", "add
   a section to the report.docx". Also covers .docx-to-PDF conversion via
-  LibreOffice. Do NOT load for slide decks (pptx owns those), spreadsheets or
+  LibreOffice — the authoring route when the ask is a NEW PDF from scratch. Do NOT load for slide decks (pptx owns those), spreadsheets or
   tabular data (xlsx), reading or extracting from an existing PDF (pdf), or
   output that will live as Markdown or plain text — that needs no skill. For
   anything external in David's name, brand-standard supplies the fonts,
@@ -132,6 +132,15 @@ document through plain text, which silently destroys its run formatting.
   instead of surgically editing the output — the script is the source of truth.
 - A template whose placeholders are shattered across runs: fix the template
   once; do not build a cross-run replacement engine for one letter.
+- Branded documents (brand-standard loaded): customize the style OBJECTS —
+  style names stay intact for navigation/TOC while the look follows the brand
+  (verified 2026-07-13, round-trips):
+  ```python
+  from docx.shared import RGBColor
+  doc.styles["Heading 1"].font.name = "Eurostile"
+  doc.styles["Heading 1"].font.color.rgb = RGBColor(0x0F, 0x43, 0x6E)
+  doc.styles["Normal"].font.name = "Poppins"
+  ```
 
 ## Volatile facts (dated)
 

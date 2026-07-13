@@ -48,7 +48,8 @@ lacks PyYAML; install PyYAML for full YAML validation).
 repo-specific facts leaking into a governor's procedure (architecture-contract,
 Decision 2); output-format blocks where the product has a required shape.
 
-**Verified 2026-07-11 on this library:** all 13 skills lint with 0 FAILs each —
+**Verified 2026-07-11 on this library (13 skills then; re-verified 2026-07-13
+across all 20):** every skill lints with 0 FAILs —
 on a PyYAML-less machine the verdict reads `PASS (with warnings)`, the sole
 warning being the environment-level fallback notice; with PyYAML installed
 expect plain `PASS`. The failure path was verified against a synthetic skill
@@ -62,7 +63,8 @@ for d in .claude/skills/*/; do
 done
 ```
 
-Run before any push and after any restructuring. Expect PASS × 13; any FAIL
+Run before any push and after any restructuring. Expect PASS for every
+directory under `.claude/skills/` (20 as of 2026-07-13); any FAIL
 blocks the push (scope-fence: fixing the failing skill is a blocking dependency
 of shipping, hence in scope).
 
@@ -96,11 +98,12 @@ specific and stays there; this library's parity needs are covered by the manual
 fallback table until it ships zipped artifacts.
 
 Re-verify: `bash .claude/skills/diagnostics-and-tooling/scripts/lint_skill.sh
-.claude/skills/plan-gate` — expect PASS; audit loop above — expect PASS × 13.
+.claude/skills/plan-gate` — expect PASS; audit loop above — expect PASS for
+every skill directory (20 as of 2026-07-13).
 Update when: the script's checks change, a new script lands in `scripts/`, or
 the library gains zipped release artifacts (then port `check_release_parity.sh`).
-**Gate for script-check changes** (the script defines PASS/FAIL for all 13
-skills, so a check change is a behavior change): state the expected lint deltas
+**Gate for script-check changes** (the script defines PASS/FAIL for every
+skill in the library, so a check change is a behavior change): state the expected lint deltas
 across the whole library before editing, run the audit loop before and after,
 accept only if the deltas match the prediction — research-methodology's
 discipline applied to bash instead of prose — and keep this doc in sync (the

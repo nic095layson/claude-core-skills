@@ -6,7 +6,8 @@
     "silent_signature": "For near-miss prompts the session routes elsewhere: prose documents go to docx, spreadsheet analysis goes to xlsx, PDF reading goes to pdf. No pptx-skill load and no slide machinery on deliverables that are not decks.",
     "committed_before_runs": "2026-07-13",
     "surface": "Claude Code headless (claude -p), project-scope install in this repo",
-    "gate": ">=3/4 should-fire runs fire; >=2/3 should-not runs stay silent; a fire that then ships a chart as an image, or bullets as free textboxes, counts as a failure even if the skill loaded"
+    "gate": ">=3/4 should-fire runs fire; >=2/3 should-not runs stay silent; a fire that then ships a chart as an image, or bullets as free textboxes, counts as a failure even if the skill loaded",
+    "gate_note": "3/4-fire and 2/3-silent are the small-N analogues of the governors' >=5/6 / >=3/4 convention (rate thresholds per architecture-contract invariant-3 scope note); measured rates get recorded as rates."
   },
   "evals": [
     { "id": 1,

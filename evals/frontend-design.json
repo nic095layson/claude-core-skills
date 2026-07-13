@@ -3,10 +3,12 @@
   "_grading": {
     "operationalization": "FIRED := the frontend-design Skill tool is invoked in the fresh-session stream-json transcript (directly observed tool_use, name=Skill, skill=frontend-design). SILENT := no such invocation. Behavioral signature recorded as corroboration, not the primary gate.",
     "fire_signature": "A :root token block (spacing/type/color custom properties) is established before component CSS; contrast pairs are computed with the checker (or quoted from the verified defaults); no raw hex or off-grid px values appear inside component rules; the tells list is applied to the result.",
-    "silent_signature": "The deliverable is produced under the owning sibling's conventions (brand-standard identity, docx/pptx/xlsx/pdf document tooling, chart conventions) with no frontend-design token ceremony.",
+    "silent_signature": "The deliverable is produced under the owning sibling's conventions (brand-standard identity, docx/pptx/xlsx/pdf document tooling) with no frontend-design token ceremony.",
     "committed_before_runs": "2026-07-13",
+    "amended": "2026-07-13 pre-first-run (no runs had occurred): id 4 swapped for an unambiguous near-miss, id 6 flipped to FIRES after the charts carve-out reword (embedded charts take fd tokens/contrast; mark/axis design out of scope), id 7 added to keep three should-nots.",
     "surface": "Claude Code headless (claude -p), project-scope install",
-    "gate": ">=3/3 should-fire runs fire; >=2/3 should-not runs stay silent"
+    "gate": ">=3/4 should-fire runs fire; >=2/3 should-not runs stay silent",
+    "gate_note": "3/4-fire and 2/3-silent are the small-N analogues of the governors' >=5/6 / >=3/4 convention (rate thresholds per architecture-contract invariant-3 scope note); measured rates get recorded as rates."
   },
   "evals": [
     { "id": 1,
@@ -31,7 +33,11 @@
       "files": [] },
     { "id": 6,
       "prompt": "Make a bar chart of our monthly signups — render it as an HTML artifact I can share.",
-      "expected_output": "SILENT: data visualization — chart conventions (axes, series palettes, mark design) govern, which frontend-design explicitly scopes out despite the HTML surface.",
+      "expected_output": "FIRES: HTML artifact surface — frontend-design governs the page's tokens, spacing, and contrast (including chart text/background pairs); chart mark/axis design stays outside the skill's scope and is not graded.",
+      "files": [] },
+    { "id": 7,
+      "prompt": "Write up our Q2 findings as a Word document with a title page and section headings.",
+      "expected_output": "SILENT: Word deliverable — docx owns .docx mechanics; no HTML/CSS surface, no frontend-design token ceremony.",
       "files": [] }
   ]
 }

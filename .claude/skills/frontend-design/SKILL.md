@@ -10,10 +10,11 @@ description: >-
   Trigger phrasings: "build a landing page", "design a UI", "make this look
   professional", "make it look less AI-generated", "style this
   artifact/dashboard/page". Do NOT use alone for artifacts in David's name —
-  brand-standard supplies palette and typography and wins on identity (this
-  skill still governs spacing and layout); Office/PDF deliverables go to docx,
-  pptx, xlsx, or pdf; charts and data visualization follow their own
-  conventions; for authoring skills, see skill-authoring.
+  brand-standard wins on identity, palette, and typography (this skill keeps
+  spacing and layout); existing Office/PDF files go to docx, pptx, xlsx, or
+  pdf (a NEW PDF: docx then convert, or HTML here); embedded charts take these
+  tokens and contrast checks, but mark/axis design is out of scope; for
+  authoring skills, see skill-authoring.
 ---
 
 # Frontend Design
@@ -133,6 +134,8 @@ PY
   not inflate a ten-line HTML answer into a design system.
 - **Existing design system.** A project's own tokens/components win; this
   skill fills gaps only (the architecture-contract Decision 2 precedence law).
+- **Narrow edit to an existing stylesheet.** Fix only the asked property; flag
+  off-token values in one line rather than sweeping them (scope-fence law).
 - **David's brand.** brand-standard palette/typography replace the placeholder
   color/type tokens; spacing, layout, and contrast procedure still apply —
   re-run the checker (Muted Space Blue `#9EB3C5` is 2.16:1 on white: never text).
@@ -152,9 +155,12 @@ PY
 
 - Artifacts in David's name → **brand-standard** supplies palette/typography
   and wins on identity; this skill keeps governing spacing, layout, contrast.
-- Word / PowerPoint / Excel / PDF deliverables → **docx**, **pptx**, **xlsx**,
-  **pdf**; MCP servers → **mcp-builder**.
-- Charts and data visualization — their own conventions govern; out of scope.
+- Existing Word / PowerPoint / Excel / PDF files → **docx**, **pptx**, **xlsx**,
+  **pdf**. A NEW PDF is authored via **docx** then converted, or as HTML here.
+  MCP servers → **mcp-builder**.
+- Chart mark/axis design — unowned in this library (candidate 2026-07-13 for a
+  future dataviz skill); charts embedded in a page still take this skill's
+  tokens and contrast checks.
 - Authoring or restructuring a skill → **skill-authoring**.
 
 ## Provenance and maintenance
