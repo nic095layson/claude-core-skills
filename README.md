@@ -37,6 +37,12 @@ remembers what it cost.
 | `install-and-surfaces` | Install/package/verify per surface; what does not carry between environments |
 | `governance-adoption-campaign` | The decision-gated plan for proving the governors actually fire and change behavior |
 
+## The standards
+
+| Skill | Answers |
+|---|---|
+| [`brand-standard`](.claude/skills/brand-standard/SKILL.md) | How anything published in David's name sounds and looks — voice/tone (evidence-derived), typography (Eurostile display / Poppins body), and the color system (Space Blue, Muted Space Blue, black + greys) with exact CMYK/RGB/HEX/Pantone/SW values. Loads before any external-facing document. |
+
 ## Install
 
 **Claude Code, this repo:** nothing — project skills auto-load from
