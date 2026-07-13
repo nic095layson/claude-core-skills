@@ -87,8 +87,11 @@ Decision 7 (retired governors reduced to standing principles). Updated
 standard for all external document creation going forward). Updated
 2026-07-13: on-demand uploads section added (adoption of the external layer;
 paste block untouched). The paste block
-measures ~2,400 characters. **Re-paste pending** — the settings box still holds
-the three-pointer version until David pastes this block into claude.ai.
+measures ~2,400 characters. **Re-paste done 2026-07-13** (owner-confirmed;
+brand-standard .skill uploaded the same day). Behavioral evidence the 4-skill
+config is live: `results/2026-07-13/CLAUDE-AI-VALIDATION.md` rows 1–2
+(brand-standard fired with deep-body reads). Box-vs-file diff not
+independently run — owner report + behavioral consistency is the basis.
 
 Re-verify: the settings box content equals the paste block (copy out, diff).
 Update when: a governor is added/retired (Decision 5/7), the smoke test or a
