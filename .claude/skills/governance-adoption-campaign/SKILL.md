@@ -35,9 +35,11 @@ do not proceed — every later phase measures a skill that must first exist.
 **Status: DONE for the primary machine, 2026-07-11** — the five governors were
 copied to `~/.claude/skills/` and observed appearing in a live session's
 available-skills list the same day (registration observed, not assumed).
-claude.ai: files-uploaded 2026-07-11 (five spec-compliant .skill uploads
-accepted by the validator, old versions removed first) — registration/firing
-on that surface still unobserved; the 10-prompt smoke test is the check.
+claude.ai: SHIPPED / acceptance-passed 2026-07-12 — three Decision-7 .skill
+uploads + versioned custom instructions passed the 7-row owner-run acceptance
+test 7/7 (fire tests 3/3 with full signatures incl. a before/after delta on
+row 1; silence tests 4/4 incl. the canary). Record:
+results/2026-07-12/CLAUDE-AI-ACCEPTANCE.md.
 Other machines: OPEN. `ls ~/.claude/skills/` remains the
 source of truth per machine.
 
