@@ -44,6 +44,20 @@ remembers what it cost.
 |---|---|
 | [`brand-standard`](.claude/skills/brand-standard/SKILL.md) | How anything published in David's name sounds and looks — voice/tone (evidence-derived), typography (Eurostile display / Poppins body), and the color system (Space Blue, Muted Space Blue, black + greys) with exact CMYK/RGB/HEX/Pantone/SW values. Loads before any external-facing document. |
 
+## The external layer (adopted 2026-07-13)
+
+Alongside the core library sits an **on-demand capability layer** adopted from
+the external-library analysis (`results/2026-07-13/external-skill-analysis/`,
+PR #2): 13 vendored skills in [`external-skills/vendored/`](external-skills/README.md)
+(engineering execution, writing hygiene, security checklists — each with
+upstream LICENSE + provenance) and install runbooks in
+[`external-skills/PACKS.md`](external-skills/PACKS.md) for the big packs
+(Anthropic document skills, Trail of Bits security, science/PM/IaC/career
+collections). Nothing in this layer auto-loads or goes always-on — install per
+season of work via `tools/install-external-skill.sh`, verify, uninstall when
+done. The day-to-day workflow across surfaces is one page:
+[`OPERATIONS.md`](OPERATIONS.md).
+
 ## Install
 
 **Claude Code, this repo:** nothing — project skills auto-load from

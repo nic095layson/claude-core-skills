@@ -63,13 +63,30 @@ topics simply.
 
 ---- END PASTE ----
 
+## On-demand uploads (outside the paste block — 2026-07-13)
+
+The paste block above is deliberately UNCHANGED by the 2026-07-13 external-
+skills adoption, so the 2026-07-12 acceptance run (PASS 7/7) remains valid.
+The adopted layer is on-demand, not always-on: when a season of work calls
+for it, package a claude.ai-compatible vendored skill
+(`tools/install-external-skill.sh --package <name>`) and upload it for the
+duration — then remove it. Current claude.ai-compatible candidates:
+`avoid-ai-writing` (external-facing prose sweeps; brand-standard still wins
+on voice), `owasp-security` (security checklists), `receiving-code-review`,
+`fable-judge`. If one of these ever earns a *standing* upload + a fifth
+pointer in the paste block, that change gates through research-methodology
+and a fresh acceptance run — do not add pointers casually; every pointer
+costs trigger sharpness.
+
 ## Provenance and maintenance
 
 Authored 2026-07-11 from: the five-pointer draft (this repo's session history),
 the llm-council verdict (sequencing + two repairs), architecture-contract
 Decision 7 (retired governors reduced to standing principles). Updated
 2026-07-12: pointer 4 added for brand-standard (David's directive: it is the
-standard for all external document creation going forward). The paste block
+standard for all external document creation going forward). Updated
+2026-07-13: on-demand uploads section added (adoption of the external layer;
+paste block untouched). The paste block
 measures ~2,400 characters. **Re-paste pending** — the settings box still holds
 the three-pointer version until David pastes this block into claude.ai.
 
