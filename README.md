@@ -2,7 +2,8 @@
 
 A general-purpose governance library for Claude: five **governors** that shape how
 any session plans, verifies, fact-checks, scopes, and learns — plus eight support
-skills for maintaining and proving the library itself.
+skills for maintaining and proving the library itself, and one personal standard
+(`brand-standard`) governing external-facing documents produced in David's name.
 
 Extracted 2026-07-11 from [`nic095layson/claude`](https://github.com/nic095layson/claude)
 (the claude-council skill library), whose operational laws were written repo-scoped
