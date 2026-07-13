@@ -49,15 +49,16 @@ remembers what it cost.
 **Claude Code, this repo:** nothing — project skills auto-load from
 `.claude/skills/`.
 
-**Claude Code, any machine (the intended footprint — governors only):**
+**Claude Code, any machine (the intended footprint — governors plus the personal
+brand standard):**
 
 ```bash
-for s in plan-gate adversarial-verify scope-fence; do
+for s in plan-gate adversarial-verify scope-fence brand-standard; do
   mkdir -p ~/.claude/skills/$s && cp .claude/skills/$s/SKILL.md ~/.claude/skills/$s/
 done
 ```
 
-Then verify in a fresh session that the five appear in the skills list — files in
+Then verify in a fresh session that they appear in the skills list — files in
 place is half an install; registration observed is the half that counts.
 
 **claude.ai:** package each skill per `install-and-surfaces` Runbook 2 and upload
