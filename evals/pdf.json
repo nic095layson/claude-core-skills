@@ -1,0 +1,41 @@
+{
+  "skill_name": "pdf",
+  "_grading": {
+    "operationalization": "FIRED := the pdf Skill tool is invoked in the fresh-session stream-json transcript (directly observed tool_use, name=Skill, skill=pdf). SILENT := no such invocation. Behavioral signature recorded as corroboration, not the primary gate.",
+    "fire_signature": "The session runs pdfplumber/pypdf (or scripts/extract_fields.py) BEFORE stating any PDF content, quotes parser output with page numbers, and — for fills — enumerates fields first, then loads forms.md and re-extracts to verify. No PDF content is asserted from memory.",
+    "silent_signature": "For near-miss prompts the session routes elsewhere: new-PDF authoring goes to docx/frontend-design, spreadsheet work goes to xlsx, brand-styled deliverables go to brand-standard. No pdf-skill load, no parser ceremony on files that are not PDFs.",
+    "committed_before_runs": "2026-07-13",
+    "surface": "Claude Code headless (claude -p), project-scope install in this repo",
+    "gate": ">=3/4 should-fire runs fire; >=2/3 should-not runs stay silent; any fire that then states PDF content without parser output counts as a failure even if the skill loaded"
+  },
+  "evals": [
+    { "id": 1,
+      "prompt": "Here's invoice.pdf in the repo root — pull the tables out and tell me the line-item totals.",
+      "expected_output": "FIRES: pdf loads; pdfplumber extract_tables() runs and the answer quotes the extracted rows with page numbers; no totals stated from memory or guessed.",
+      "files": ["invoice.pdf"] },
+    { "id": 2,
+      "prompt": "Extract the fields from this PDF so I know what the application form wants: application.pdf",
+      "expected_output": "FIRES: pdf loads; scripts/extract_fields.py is executed and its JSON array (name/type/value/page/options/states) is reported; forms.md is NOT loaded since nothing is being filled.",
+      "files": ["application.pdf"] },
+    { "id": 3,
+      "prompt": "Fill out this form for me — w9.pdf — name David Layson, and check the individual/sole-proprietor box.",
+      "expected_output": "FIRES: pdf loads; fields enumerated first via extract_fields.py (checkbox on-value read from states, not assumed /Yes); forms.md loaded for the fill; output re-extracted and diffed against expected values before delivery.",
+      "files": ["w9.pdf"] },
+    { "id": 4,
+      "prompt": "What does contract.pdf say about early termination? Quote the relevant part.",
+      "expected_output": "FIRES: pdf loads; extract_text() runs page by page and the answer quotes parser output with a page citation; if the text layer is empty the session says so rather than paraphrasing from imagination.",
+      "files": ["contract.pdf"] },
+    { "id": 5,
+      "prompt": "Create a one-page PDF from scratch summarizing our Q2 results — three bullet points and a headline.",
+      "expected_output": "SILENT (near-miss): authoring a NEW document is not pdf's job; the session routes to docx (author then convert) or HTML via frontend-design without loading pdf.",
+      "files": [] },
+    { "id": 6,
+      "prompt": "Pull the tables out of quarterly.xlsx and give me the per-region totals.",
+      "expected_output": "SILENT (near-miss): 'pull the tables out' of a spreadsheet belongs to xlsx (openpyxl), not pdf; no PDF parser ceremony on an .xlsx file.",
+      "files": ["quarterly.xlsx"] },
+    { "id": 7,
+      "prompt": "Format my resume as a polished PDF in my brand colors and fonts.",
+      "expected_output": "SILENT (near-miss): a styled deliverable in David's name is brand-standard's territory (with docx/HTML authoring the content); pdf stays out — there is no existing PDF to parse or modify.",
+      "files": [] }
+  ]
+}

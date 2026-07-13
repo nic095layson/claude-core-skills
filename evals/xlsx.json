@@ -1,0 +1,41 @@
+{
+  "skill_name": "xlsx",
+  "_grading": {
+    "operationalization": "FIRED := the xlsx Skill tool is invoked in the fresh-session stream-json transcript (directly observed tool_use, name=Skill, skill=xlsx). SILENT := no such invocation. Behavioral signature recorded as corroboration, not the primary gate.",
+    "fire_signature": "Session reaches for openpyxl (install check, then Workbook()/load_workbook); cells written typed (int/float/date, never numeric strings); formulas written as formula strings so the workbook stays live; number formats set explicitly; delivery includes a reopen-and-assert check, with the data_only/None-cache caveat stated when values are claimed.",
+    "silent_signature": "No openpyxl ceremony: slide decks routed to pptx, prose to docx, PDF table extraction to pdf, and a CSV kept as CSV written directly with no skill. Shipping a strings-only grid renamed .xlsx, or pasting precomputed totals where formulas belong, counts as a failure even if the skill fired.",
+    "committed_before_runs": "2026-07-13",
+    "surface": "Claude Code headless (claude -p), personal-scope install",
+    "gate": ">=3/4 should-fire prompts fire; >=2/3 near-miss prompts stay silent"
+  },
+  "evals": [
+    { "id": 1,
+      "prompt": "Turn this sales.csv into an Excel file — prices formatted as currency, a totals row at the bottom, and make the header stick when I scroll.",
+      "expected_output": "FIRES: xlsx loads; openpyxl workbook with typed cells converted from the CSV strings, a live =SUM(...) totals formula (not a pasted number), currency number_format, styled header, freeze_panes; reopened to verify.",
+      "files": ["sales.csv"] },
+    { "id": 2,
+      "prompt": "Make me a spreadsheet to track my monthly budget — categories down the side, months across the top, with each month totaled automatically.",
+      "expected_output": "FIRES: xlsx loads; budget workbook built with live per-month SUM formulas so totals recalculate when David edits amounts, numbers typed as numbers, explicit currency formats.",
+      "files": [] },
+    { "id": 3,
+      "prompt": "Add a SUM formula for the Amount column in tracker.xlsx and give it a summary sheet with the grand total.",
+      "expected_output": "FIRES: xlsx loads; existing workbook opened in normal mode (never data_only=True for editing), formula cells written as formula strings, cross-sheet =SUM(...) on a new Summary sheet, saved and reopened to verify the formulas survived.",
+      "files": ["tracker.xlsx"] },
+    { "id": 4,
+      "prompt": "Build a workbook from these quarterly numbers with a bar chart of revenue by quarter and the table sortable in Excel.",
+      "expected_output": "FIRES: xlsx loads; typed cells, worksheet.add_table for the sortable range, a native openpyxl.chart BarChart (not an image), verified by reopening.",
+      "files": [] },
+    { "id": 5,
+      "prompt": "Turn these quarterly numbers into a short slide deck for the board — one chart slide and a takeaways slide.",
+      "expected_output": "SILENT: the deliverable is slides, which belongs to the pptx sibling; no openpyxl, no .xlsx produced (xlsx joins only if a workbook is also requested).",
+      "files": [] },
+    { "id": 6,
+      "prompt": "Pull the payment schedule table out of invoice.pdf — what are the line items and amounts?",
+      "expected_output": "SILENT: extracting a table from an existing PDF belongs to the pdf sibling (parser output only); xlsx stays out unless the user then asks for a workbook built from the extraction.",
+      "files": ["invoice.pdf"] },
+    { "id": 7,
+      "prompt": "Dump these five test records into a CSV file I can commit next to the fixtures.",
+      "expected_output": "SILENT: a CSV the user will keep as CSV needs no skill — write the CSV directly; building an .xlsx here is pure ceremony (the skill's own anti-example).",
+      "files": [] }
+  ]
+}

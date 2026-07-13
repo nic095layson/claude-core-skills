@@ -1,0 +1,41 @@
+{
+  "skill_name": "pptx",
+  "_grading": {
+    "operationalization": "FIRED := the pptx Skill tool is invoked in the fresh-session stream-json transcript (directly observed tool_use, name=Skill, skill=pptx). SILENT := no such invocation. Behavioral signature recorded as corroboration, not the primary gate.",
+    "fire_signature": "The session builds slides with python-pptx: layouts chosen from the master (template surveyed when one exists), text in placeholders not free textboxes, charts as native chart parts via CategoryChartData + add_chart (never a pasted image), and the saved deck reopened to assert slide count / chart presence before delivery.",
+    "silent_signature": "For near-miss prompts the session routes elsewhere: prose documents go to docx, spreadsheet analysis goes to xlsx, PDF reading goes to pdf. No pptx-skill load and no slide machinery on deliverables that are not decks.",
+    "committed_before_runs": "2026-07-13",
+    "surface": "Claude Code headless (claude -p), project-scope install in this repo",
+    "gate": ">=3/4 should-fire runs fire; >=2/3 should-not runs stay silent; a fire that then ships a chart as an image, or bullets as free textboxes, counts as a failure even if the skill loaded"
+  },
+  "evals": [
+    { "id": 1,
+      "prompt": "Make a deck out of this: quarterly revenue by region is in sales.csv — board-ready, a few slides, one chart.",
+      "expected_output": "FIRES: pptx loads; CSV aggregated, then the section-header -> chart-slide -> takeaway-bullets trio emitted with a native COLUMN/BAR chart from CategoryChartData; deck reopened and slide count + has_chart asserted before delivery.",
+      "files": ["sales.csv"] },
+    { "id": 2,
+      "prompt": "Turn these meeting notes into a presentation — 4 or 5 slides with a title slide and bullet-point takeaways: notes.md",
+      "expected_output": "FIRES: pptx loads; slides built on real layouts (Title Slide, Title and Content) with text in placeholders and bullet levels via text_frame paragraphs — not a doc chopped into pages of textboxes.",
+      "files": ["notes.md"] },
+    { "id": 3,
+      "prompt": "Add a chart slide to deck.pptx showing these numbers: East 412, West 519, Midwest 337. Keep the existing template look.",
+      "expected_output": "FIRES: pptx loads; Presentation('deck.pptx') opened so the existing masters/theme are inherited, layouts surveyed by name, and a native editable chart added via chart_data + add_chart — never a pasted image of a chart.",
+      "files": ["deck.pptx"] },
+    { "id": 4,
+      "prompt": "Put these numbers into a few slides for tomorrow's standup: signups 1.2k, churn 3.1%, NPS 41.",
+      "expected_output": "FIRES: pptx loads; a short deck on default or existing layouts with placeholders; proportionality respected — three simple slides, no heavy chart machinery unless a chart genuinely helps.",
+      "files": [] },
+    { "id": 5,
+      "prompt": "Write up the Q2 results as a two-page Word report with headings and a summary table.",
+      "expected_output": "SILENT (near-miss): a prose report is docx territory (real Word styles, tables); no pptx load, no slide machinery on a paged document.",
+      "files": [] },
+    { "id": 6,
+      "prompt": "Take sales.csv and build me a workbook with per-region totals, a monthly pivot, and formulas I can audit.",
+      "expected_output": "SILENT (near-miss): the analysis belongs in a spreadsheet — xlsx owns it (openpyxl workbook, formulas). pptx only joins later if the user asks to present the results as a deck.",
+      "files": ["sales.csv"] },
+    { "id": 7,
+      "prompt": "What do the slides in pitch.pdf say about pricing? Pull out the relevant pages.",
+      "expected_output": "SILENT (near-miss): reading an existing PDF — even one that renders slides — is pdf's job (pdfplumber/pypdf extraction with page citations); no pptx load.",
+      "files": ["pitch.pdf"] }
+  ]
+}

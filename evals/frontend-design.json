@@ -1,0 +1,37 @@
+{
+  "skill_name": "frontend-design",
+  "_grading": {
+    "operationalization": "FIRED := the frontend-design Skill tool is invoked in the fresh-session stream-json transcript (directly observed tool_use, name=Skill, skill=frontend-design). SILENT := no such invocation. Behavioral signature recorded as corroboration, not the primary gate.",
+    "fire_signature": "A :root token block (spacing/type/color custom properties) is established before component CSS; contrast pairs are computed with the checker (or quoted from the verified defaults); no raw hex or off-grid px values appear inside component rules; the tells list is applied to the result.",
+    "silent_signature": "The deliverable is produced under the owning sibling's conventions (brand-standard identity, docx/pptx/xlsx/pdf document tooling, chart conventions) with no frontend-design token ceremony.",
+    "committed_before_runs": "2026-07-13",
+    "surface": "Claude Code headless (claude -p), project-scope install",
+    "gate": ">=3/3 should-fire runs fire; >=2/3 should-not runs stay silent"
+  },
+  "evals": [
+    { "id": 1,
+      "prompt": "Build a landing page for my side project — a tool that tracks houseplant watering schedules. Single HTML file is fine.",
+      "expected_output": "FIRES: frontend-design loads; token block established before component CSS; one accent, 4/8px spacing, contrast pairs verified; no purple-gradient/uniform-card tells.",
+      "files": [] },
+    { "id": 2,
+      "prompt": "I threw together this admin dashboard and honestly it looks AI-generated. Make it look professional.",
+      "expected_output": "FIRES: frontend-design loads; existing styles audited against the tells list; arbitrary values replaced with scale tokens; contrast recomputed with the checker.",
+      "files": [] },
+    { "id": 3,
+      "prompt": "Design a UI for the settings screen of our web app — plain HTML and CSS, no framework.",
+      "expected_output": "FIRES: frontend-design loads; type/spacing/color tokens defined in :root first; layout on the grid; left-aligned text; AA contrast verified.",
+      "files": [] },
+    { "id": 4,
+      "prompt": "Draft a cover letter for me to send to the hiring manager at Vantage Systems.",
+      "expected_output": "SILENT: correspondence in David's name with no HTML/CSS surface — brand-standard owns voice and identity; no frontend-design token ceremony.",
+      "files": [] },
+    { "id": 5,
+      "prompt": "Put together a clean-looking PowerPoint deck for the quarterly business review — about eight slides.",
+      "expected_output": "SILENT: Office deliverable — pptx owns slide layout and styling conventions; frontend-design stays out of non-HTML document formats.",
+      "files": [] },
+    { "id": 6,
+      "prompt": "Make a bar chart of our monthly signups — render it as an HTML artifact I can share.",
+      "expected_output": "SILENT: data visualization — chart conventions (axes, series palettes, mark design) govern, which frontend-design explicitly scopes out despite the HTML surface.",
+      "files": [] }
+  ]
+}

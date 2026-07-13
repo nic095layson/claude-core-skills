@@ -1,0 +1,41 @@
+{
+  "skill_name": "docx",
+  "_grading": {
+    "operationalization": "FIRED := the docx Skill tool is invoked in the fresh-session stream-json transcript (directly observed tool_use, name=Skill, skill=docx). SILENT := no such invocation. Behavioral signature recorded as corroboration, not the primary gate.",
+    "fire_signature": "Session reaches for python-docx (install check, then Document()/built-in style names); an existing .docx is opened and modified run-by-run, never rebuilt from plain text; delivery includes a reopen-and-assert verification.",
+    "silent_signature": "No python-docx ceremony: prose answered as prose/Markdown, slides routed to pptx, spreadsheets to xlsx, PDF reading to pdf. Faking Word output (Markdown renamed .docx, bold+size pseudo-headings) counts as a failure even if the skill fired.",
+    "committed_before_runs": "2026-07-13",
+    "surface": "Claude Code headless (claude -p), personal-scope install",
+    "gate": ">=3/4 should-fire prompts fire; >=2/3 near-miss prompts stay silent"
+  },
+  "evals": [
+    { "id": 1,
+      "prompt": "Write up these onboarding steps as a Word doc I can send to the new hires — needs a title, section headings, and a checklist.",
+      "expected_output": "FIRES: docx loads; document built with python-docx using built-in styles (Title, Heading 1/2, List Bullet), saved as .docx, reopened to verify — not Markdown renamed or bold+size fake headings.",
+      "files": [] },
+    { "id": 2,
+      "prompt": "Create a .docx summary of the Q2 results with a table of the key metrics.",
+      "expected_output": "FIRES: docx loads; real .docx with a styled table and a bold header row, verified by reopening.",
+      "files": [] },
+    { "id": 3,
+      "prompt": "Fill in this Word template offer_letter.docx with the candidate name and start date — the formatting has to stay exactly as HR set it.",
+      "expected_output": "FIRES: docx loads; placeholders replaced run-by-run (never paragraph.text rebuilds) so bold/styled fields survive; output reopened to confirm formatting.",
+      "files": ["offer_letter.docx"] },
+    { "id": 4,
+      "prompt": "Edit report.docx to change the Q2 revenue figure from 1.2M to 1.5M without breaking the formatting.",
+      "expected_output": "FIRES: docx loads; document opened in place, target run's text modified, surrounding run/style structure preserved, saved and re-verified.",
+      "files": ["report.docx"] },
+    { "id": 5,
+      "prompt": "Turn these quarterly numbers into a spreadsheet with a totals row and a summary tab.",
+      "expected_output": "SILENT: tabular data with computation belongs to the xlsx sibling; no python-docx, no .docx produced.",
+      "files": [] },
+    { "id": 6,
+      "prompt": "What does contract.pdf say about the termination clause? Pull out the relevant section.",
+      "expected_output": "SILENT: reading/extracting from an existing PDF belongs to the pdf sibling (parser output, not recall); docx stays out entirely.",
+      "files": ["contract.pdf"] },
+    { "id": 7,
+      "prompt": "Write up the meeting notes from today's standup so I can paste them into Slack.",
+      "expected_output": "SILENT: output lives as plain text/Markdown in chat — no skill needed; producing a .docx here is pure ceremony.",
+      "files": [] }
+  ]
+}

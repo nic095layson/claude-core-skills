@@ -2,8 +2,10 @@
 
 A general-purpose governance library for Claude: five **governors** that shape how
 any session plans, verifies, fact-checks, scopes, and learns — plus eight support
-skills for maintaining and proving the library itself, and one personal standard
-(`brand-standard`) governing external-facing documents produced in David's name.
+skills for maintaining and proving the library itself, one personal standard
+(`brand-standard`) governing external-facing documents produced in David's name,
+and six **capability skills** (added 2026-07-13) for document, design, and
+tool-building work.
 
 Extracted 2026-07-11 from [`nic095layson/claude`](https://github.com/nic095layson/claude)
 (the claude-council skill library), whose operational laws were written repo-scoped
@@ -44,6 +46,28 @@ remembers what it cost.
 |---|---|
 | [`brand-standard`](.claude/skills/brand-standard/SKILL.md) | How anything published in David's name sounds and looks — voice/tone (evidence-derived), typography (Eurostile display / Poppins body), and the color system (Space Blue, Muted Space Blue, black + greys) with exact CMYK/RGB/HEX/Pantone/SW values. Loads before any external-facing document. |
 
+## The capability skills (added 2026-07-13)
+
+Runbooks for producing real artifacts, authored in house style: trigger
+descriptions with NOT clauses, dated volatile facts, and snippets executed
+in-container at authoring time (anything unrunnable there is labeled
+assumption/candidate inside the skill, per the no-oversell law). Trigger-case
+evals are pre-registered in `evals/` but unrun, same as the governors.
+
+| Skill | Does |
+|---|---|
+| [`frontend-design`](.claude/skills/frontend-design/SKILL.md) | Web UIs/HTML artifacts that don't look AI-generated: 4/8px spacing grid, fixed type scale, semantic tokens, computed WCAG AA contrast (runnable checker), AI-tells list |
+| [`pdf`](.claude/skills/pdf/SKILL.md) | Read/extract/fill/redact existing PDFs from parser output only — ships `scripts/extract_fields.py` (AcroForm metadata as JSON) and `forms.md` (loaded only when filling) |
+| [`docx`](.claude/skills/docx/SKILL.md) | Genuine Word files via python-docx: built-in styles, run-by-run template fills that preserve formatting, LibreOffice PDF conversion |
+| [`pptx`](.claude/skills/pptx/SKILL.md) | Genuine PowerPoint decks via python-pptx: template masters, placeholders, native editable charts, the CSV→board-deck pipeline |
+| [`xlsx`](.claude/skills/xlsx/SKILL.md) | Genuine Excel workbooks via openpyxl: typed cells, live formulas, number formats, native tables, the data_only cache caveat stated honestly |
+| [`mcp-builder`](.claude/skills/mcp-builder/SKILL.md) | Scaffold an MCP server from a plain-language tool description: FastMCP template, clientless smoke test, `claude mcp add` registration |
+
+They auto-load here as project skills. Whether any join the personal install
+footprint is an owner call (architecture-contract Decision 5 / assumption A3);
+none are installed personally yet. The requested `brand-guidelines` capability
+was **not** added — `brand-standard` already owns that scope.
+
 ## Install
 
 **Claude Code, this repo:** nothing — project skills auto-load from
@@ -81,6 +105,14 @@ Each SKILL.md ends with a Provenance section naming exactly what carried over.
 The source repo is **private** — the `gh api` re-verification one-liners in
 those sections require owner access; everyone else should treat the lineage as
 historical record.
+
+## Status (as of 2026-07-13)
+
+2026-07-13: six capability skills added (see above); all 20 skills lint PASS
+with zero warnings. Each new skill was adversarially reviewed at authoring
+(independent reviewer per skill: zero blocking/important findings; all minor
+findings fixed in-tree). Their trigger reliability is unmeasured — same A2
+caveat as the governors below.
 
 ## Status (as of 2026-07-11)
 

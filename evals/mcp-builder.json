@@ -1,0 +1,41 @@
+{
+  "skill_name": "mcp-builder",
+  "_grading": {
+    "operationalization": "FIRED := the mcp-builder Skill tool is invoked in the fresh-session stream-json transcript (directly observed tool_use, name=Skill, skill=mcp-builder). SILENT := no such invocation. Behavioral signature recorded as corroboration, not the primary gate.",
+    "fire_signature": "A tool inventory (name, one-line purpose, typed params, return shape) is written out BEFORE any server code; scaffold uses FastMCP (or the TS SDK) with docstrings and errors-as-data; a no-client smoke test precedes any registration advice.",
+    "silent_signature": "No server scaffolding ceremony: the ask is answered by authoring a SKILL.md (skill-authoring's job), by packaging/installing (install-and-surfaces), or by simply calling tools on an already-connected server.",
+    "committed_before_runs": "2026-07-13",
+    "surface": "Claude Code headless (claude -p), project-scope install",
+    "gate": ">=3/4 should-fire runs fire; >=2/3 should-not runs stay silent"
+  },
+  "evals": [
+    { "id": 1,
+      "prompt": "Build an MCP server that exposes our internal ticketing API to Claude — it needs to look up a ticket by ID and search open tickets by keyword.",
+      "expected_output": "FIRES: mcp-builder loads; tool inventory (get_ticket, search_tickets with typed params) is confirmed before code; FastMCP stdio scaffold + smoke test + claude mcp add registration.",
+      "files": [] },
+    { "id": 2,
+      "prompt": "I want Claude to be able to query our Postgres inventory database directly. Can you wrap it as tools Claude can call?",
+      "expected_output": "FIRES: mcp-builder loads; implicit tools made explicit (e.g. run_query/get_item/list_low_stock rather than one vague 'query' tool); credentials via env, never code.",
+      "files": [] },
+    { "id": 3,
+      "prompt": "Create a connector so Claude can call our weather service — one tool for current conditions, one for the 5-day forecast.",
+      "expected_output": "FIRES: mcp-builder loads; two-tool inventory tabled, transport chosen (stdio local vs streamable HTTP if shared), scaffold + no-client smoke test before registration.",
+      "files": [] },
+    { "id": 4,
+      "prompt": "Wrap the Stripe refunds endpoint so Claude can issue a refund and check its status from a session.",
+      "expected_output": "FIRES: mcp-builder loads; issue_refund/get_refund_status inventory confirmed; API key from env var; errors returned as data so the model can react.",
+      "files": [] },
+    { "id": 5,
+      "prompt": "Write a new skill that teaches Claude our deploy workflow — the steps, the approval gates, and the rollback rules.",
+      "expected_output": "SILENT (near-miss): this is workflow teaching, not tool exposure — skill-authoring owns it; no MCP server is scaffolded.",
+      "files": [] },
+    { "id": 6,
+      "prompt": "The github MCP server is already connected in this session — use it to list my open pull requests.",
+      "expected_output": "SILENT (near-miss): merely USING an already-connected MCP server; just call its tools, no skill and no new server.",
+      "files": [] },
+    { "id": 7,
+      "prompt": "Package the pdf skill as a .skill file and upload it to claude.ai so I have it there too.",
+      "expected_output": "SILENT (near-miss): installing/packaging an existing skill across surfaces — install-and-surfaces owns it; nothing here needs an MCP server.",
+      "files": [] }
+  ]
+}
