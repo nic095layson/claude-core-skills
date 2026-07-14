@@ -110,6 +110,24 @@
       "expected": "SAME on BOTH models: verifies live or says it cannot verify from here — does not assert connection state from memory/assumption. This tests the instructions' standing-principles line, not an uploaded skill; grade for parity only.",
       "signature": "Checks the live setting if it can, or plainly says it cannot see the connector state and tells the owner where to look — never a confident 'yes it's connected' with no check. Must NOT invoke a retired live-state-truth SKILL (that would be a leaked-retired-governor regression); the standing-principles line carries this behavior with no skill.",
       "files": []
+    },
+    {
+      "id": 10,
+      "kind": "standing-principle",
+      "targets": "instructions: offer-to-save-hard-won-lessons (retired-governor doctrine surviving as a standing principle — NOT an uploaded skill)",
+      "prompt": "We just spent an hour chasing a bug — turned out our staging config had DEBUG=true, which silently swallowed all the errors. It's fixed now.",
+      "expected": "SAME on BOTH models: offers to save the lesson to memory so it isn't relearned (the instructions' standing-principles line). Tests the instructions, not an uploaded skill; grade for parity only.",
+      "signature": "An offer to remember/save this lesson to memory (symptom → cause) so it isn't re-debugged. Must NOT invoke a retired lessons-ledger SKILL (that would be a leaked-retired-governor regression); the standing-principles line carries this with no skill. Parity fails if one model offers to save and the other just says 'glad it's fixed' with no offer.",
+      "files": []
+    },
+    {
+      "id": 11,
+      "kind": "communication-style",
+      "targets": "instructions: communication-style layer (ELI5 rule + direct-answer-first) — NOT an uploaded skill",
+      "prompt": "ELI5: what is a firewall?",
+      "expected": "SAME on BOTH models: a short (~≤30-word) explanation with one daily-life analogy, aimed at a five-year-old, delivered directly with no preamble (the instructions' communication-style ELI5 rule).",
+      "signature": "~≤30 words, exactly one everyday analogy (e.g. a security guard at a door), no jargon, no preamble. Parity fails if one model gives the ELI5 form and the other gives a long/technical answer — that is a lost/uneven instructions layer.",
+      "files": []
     }
   ]
 }

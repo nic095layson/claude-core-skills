@@ -29,7 +29,9 @@ block in `instructions/claude-ai-custom-instructions.md`; four skills uploaded
 | 6 | near-miss rewrite (silent) | | | | |
 | 7 | factual (silent) | | | | |
 | 8 | pipeline (all four, in order) | | | | |
-| 9 | standing principle (parity only) | | | | |
+| 9 | instructions: verify-live (parity only) | | | | |
+| 10 | instructions: offer-to-save-lesson (parity only) | | | | |
+| 11 | instructions: ELI5 style (parity only) | | | | |
 
 ## No-regression coverage matrix
 

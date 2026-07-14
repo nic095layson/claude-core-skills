@@ -58,8 +58,8 @@ rates.
 
 ## The prompts
 
-Copy each prompt verbatim into a fresh chat. Run all nine on **Sonnet**, then all
-nine on **Opus** (or interleave — just keep each in its own fresh chat).
+Copy each prompt verbatim into a fresh chat. Run all eleven on **Sonnet**, then all
+eleven on **Opus** (or interleave — just keep each in its own fresh chat).
 
 ### Coverage — each uploaded skill must fire on both models
 
@@ -175,7 +175,10 @@ follow-up sequence as later/adjacent (doesn't silently build them) →
 models.** (The deck + sequence are dangled so scope-fence has real scope pressure
 to act on — without them the pipeline would under-exercise scope-fence.)
 
-### Standing principle (from instructions, not an uploaded skill)
+### Instructions layer — standing principles + style (not uploaded skills, parity only)
+
+These rows test that the *custom-instructions* text carries the same behavior on
+both models — so "no regression" covers the Instructions, not just the four skills.
 
 **Row 9 — verify-live-or-say-you-can't (parity only)**
 
@@ -188,6 +191,27 @@ the connector state and points you where to look — never a confident "yes it's
 connected" from assumption. Must **not** invoke a retired `live-state-truth` skill
 (that would be a leaked-retired-governor regression); the standing-principles line
 carries this with no skill.
+
+**Row 10 — offer-to-save-a-lesson (parity only)**
+
+```
+We just spent an hour chasing a bug — turned out our staging config had
+DEBUG=true, which silently swallowed all the errors. It's fixed now.
+```
+*Signature:* offers to **save the lesson to memory** (symptom → cause) so it isn't
+re-debugged. Must **not** invoke a retired `lessons-ledger` skill; the
+standing-principles line carries this with no skill. Parity fails if one model
+offers to save and the other just says "glad it's fixed."
+
+**Row 11 — ELI5 style (parity only)**
+
+```
+ELI5: what is a firewall?
+```
+*Signature:* ~≤30 words, **one** daily-life analogy (e.g. a guard at a door), no
+jargon, delivered directly with no preamble. Parity fails if one model gives the
+short ELI5 form and the other gives a long/technical answer — an uneven
+Instructions style layer.
 
 ---
 
@@ -203,7 +227,9 @@ carries this with no skill.
 | 6 | near-miss rewrite (silent) | | | | |
 | 7 | factual (silent) | | | | |
 | 8 | pipeline (all four, in order) | | | | |
-| 9 | standing principle (parity only) | | | | |
+| 9 | instructions: verify-live (parity only) | | | | |
+| 10 | instructions: offer-to-save-lesson (parity only) | | | | |
+| 11 | instructions: ELI5 style (parity only) | | | | |
 
 **No-regression coverage matrix** (tick when the skill fired on that model in ≥1 should-fire row):
 
@@ -219,7 +245,7 @@ lessons-ledger: ☐ none / ☐ LEAKED  (any tick in "LEAKED" = regression).
 
 ## Verdicts
 
-- **Parity:** PASS iff rows 1–9 are all parity-PASS. Any parity-FAIL row means the
+- **Parity:** PASS iff rows 1–11 are all parity-PASS. Any parity-FAIL row means the
   two models are **not** following the same local process — record which row and
   how they diverged.
 - **No-regression:** PASS iff every uploaded skill is ticked on both models **and**
