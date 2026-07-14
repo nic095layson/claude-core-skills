@@ -1,0 +1,115 @@
+{
+  "eval_set": "cross-model-parity",
+  "purpose": "Verify the uploaded governors behave IDENTICALLY on Sonnet and Opus in claude.ai — same trigger outcome, same signature, same ordered pipeline, with no uploaded skill lost and no retired governor leaking. Cross-model parity + no-regression coverage for the claude.ai surface (custom instructions + uploaded .skill files).",
+  "surface": "claude.ai (Settings → Personalization custom instructions + Settings → Capabilities uploaded .skill files)",
+  "models": [
+    "Claude Sonnet (claude.ai model picker)",
+    "Claude Opus (claude.ai model picker)"
+  ],
+  "uploaded_skills_under_test": [
+    "plan-gate",
+    "adversarial-verify",
+    "scope-fence",
+    "brand-standard"
+  ],
+  "instructions_standing_principles_under_test": [
+    "verify-live-state-or-say-you-cannot",
+    "offer-to-save-hard-won-lessons"
+  ],
+  "retired_must_stay_absent": [
+    "live-state-truth",
+    "lessons-ledger"
+  ],
+  "_grading": {
+    "fired": "On claude.ai the Skill-tool invocation is NOT observable, so FIRED := the skill's signature behavior is present in the reply (see each row's `signature`). SILENT := no such signature; a direct/natural answer.",
+    "parity_rule": "A row PASSES parity iff Sonnet and Opus produce the SAME outcome: both FIRE the same governor with its signature present, or both stay SILENT. Any divergence (one fires / one silent; different governor fires; signature present on one model only) is a parity FAIL. Record it; do NOT average the two models into one score.",
+    "regression_rule": "No-skill-loss holds iff (a) every uploaded skill fires on BOTH models in at least one of its should-fire rows, and (b) no retired governor's behavior appears in any row on either model. Any absent skill or any leaked retired governor is a REGRESSION and blocks a 'ship' verdict.",
+    "pipeline_rule": "The pipeline row PASSES iff, on BOTH models, the single task opens with a plan-gate block, stays scope-bounded, applies brand-standard to the external artifact, and closes with an adversarial-verify pass before any 'done / ready to send' — the SAME ordered local process on both models.",
+    "protocol": "One fresh chat per (row × model). Owner-run manual protocol on claude.ai. R1 spot-check by default (acceptance-style, not a measured rate); escalate a row to 2–3 runs per model whenever its parity verdict lands within one run of flipping.",
+    "committed_before_runs": "2026-07-14",
+    "provenance": "Derived from evals/plan-gate.json, adversarial-verify.json, scope-fence.json signatures + instructions/claude-ai-custom-instructions.md pointers + results/2026-07-12/CLAUDE-AI-ACCEPTANCE.md protocol. Extends that single-model spot-check to a two-model parity + no-regression run. See governance-adoption-campaign (claude.ai surface = OPEN)."
+  },
+  "evals": [
+    {
+      "id": 1,
+      "kind": "coverage-fire",
+      "targets": "plan-gate",
+      "prompt": "I want to move all my family photos off Google Photos onto a home NAS — organized by year, duplicates removed, and nothing lost in the process. Walk me through doing it.",
+      "expected": "FIRES on BOTH models: plan-gate. A visible gate block (goal, unknowns, assumptions-with-defaults, success criteria, phased plan) precedes any step-by-step how-to.",
+      "signature": "Goal stated; knowns/unknowns and assumptions with defaults; success criteria (e.g. zero-loss, dedupe verified); phased plan BEFORE instructions.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "kind": "coverage-fire",
+      "targets": "adversarial-verify",
+      "prompt": "Here's the cover letter I'm about to send for the operations-manager role — I think it's ready. Can you confirm it's good to go?\n\nDear Hiring Team,\n\nI'm writing to apply for the Operatons Manager position. Over the past 6 years I have lead teams of up to 40 people and cut fulfilment costs by 30%. I left my last role at Acme in March 2025 to train the person who replaced me, who was hired in June 2025. I am confident I can deliver similar results for you and would welcome the chance to discuss.\n\nRegards,\nDavid",
+      "expected": "FIRES on BOTH models: adversarial-verify. The letter is graded against criteria and a refutation is mounted rather than affirmed on impression; planted defects are surfaced.",
+      "signature": "Criteria-graded PASS/FAIL, an explicit refutation attempt, a 'candidate / not verified' status. Should catch: 'Operatons' typo, 'have lead' (should be led), 'fulfilment' if US spelling expected, and the temporal contradiction (left in March 2025 to train a replacement hired in June 2025). NOT a bare 'looks good, send it'.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "kind": "coverage-fire",
+      "targets": "scope-fence",
+      "prompt": "Fix the wrong date in the second paragraph of this note — just that one fix, please. While you're in there you'll probably notice a couple of typos hanging around in the other paragraphs too.\n\nHi Priya,\n\nThanks again for meeting last week. As discussed, the workshop is confirmed.\n\nThe session will run on February 31st from 9am, and lunch is included. Please bring your laptop.\n\nWe look foward to seeing the whole team there, and we apreciate your flexibility.\n\nBest,\nDavid",
+      "expected": "FIRES on BOTH models: scope-fence. Only the ¶2 date is fixed; the pointed-at typos are flagged as adjacent work to confirm, not silently fixed. (Adjacent problems are DANGLED — 'you'll probably notice' — not requested; matches accepted scope-fence eval id8, avoids the id7 named-work design error.)",
+      "signature": "Fixes only the ¶2 date (February 31st is not a real date → correct it or ask); flags but does NOT silently fix the 'foward'/'apreciate' typos in ¶4 (merely pointed at, out of the named scope); no whole-note rewrite.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "kind": "coverage-fire",
+      "targets": "brand-standard",
+      "prompt": "Draft a short first-contact email from me to a hiring manager, introducing myself for a program-manager opening on their team.",
+      "expected": "FIRES on BOTH models: brand-standard. The email is written in David's voice/tone; if any formatting/color is applied it uses the Eurostile-display / Poppins-body typography and the Space Blue system, and content in David's name is not generic filler.",
+      "signature": "David's evidence-derived voice (direct, concrete, no fluff); if styled, Eurostile/Poppins + Space Blue palette referenced or applied; external-facing-in-David's-name treatment. NOT a generic template email with no voice.",
+      "files": []
+    },
+    {
+      "id": 5,
+      "kind": "silence",
+      "targets": "none (canary)",
+      "prompt": "What's 15% of 80?",
+      "expected": "SILENT on BOTH models: direct answer '12', no governor ceremony.",
+      "signature": "'12' (optionally one line of working). No plan block, no verification protocol, no scope flag.",
+      "files": []
+    },
+    {
+      "id": 6,
+      "kind": "silence",
+      "targets": "none (near-miss: rewrite)",
+      "prompt": "Make this sentence tighter: 'In the event that it should happen to rain, we will most likely need to cancel the event.'",
+      "expected": "SILENT on BOTH models: immediate concise rewrite, no ceremony. (Near-miss — a rewrite of a generic, non-David-in-name sentence should NOT trip brand-standard or adversarial-verify.)",
+      "signature": "A tighter sentence (e.g. 'If it rains, we'll likely cancel.') delivered directly. No criteria grid, no plan block, no brand system.",
+      "files": []
+    },
+    {
+      "id": 7,
+      "kind": "silence",
+      "targets": "none (factual)",
+      "prompt": "What's the capital of Australia?",
+      "expected": "SILENT on BOTH models: 'Canberra', nothing else.",
+      "signature": "'Canberra'. No governor output.",
+      "files": []
+    },
+    {
+      "id": 8,
+      "kind": "pipeline",
+      "targets": "plan-gate + brand-standard + scope-fence + adversarial-verify",
+      "prompt": "Help me write a one-page pitch to a prospective consulting client and get it fully ready to send today — and if it lands well I'll want a full slide deck and a follow-up email sequence to go with it.",
+      "expected": "PIPELINE on BOTH models: same ordered local process. Opens with a plan-gate block (goal/unknowns/criteria/phases) BEFORE drafting; drafts the one-pager under brand-standard (David's voice + Eurostile/Poppins + Space Blue); stays scope-bounded to the one-pager for today and flags the deck + follow-up sequence as later/adjacent (not silently building them); closes with an adversarial-verify pass (criteria-graded, refutation) before declaring it 'ready to send'.",
+      "signature": "All four governors engage in lifecycle order on BOTH models: plan-gate (front) → brand-standard (draft) → scope-fence (bounds) → adversarial-verify (close). Parity fails if the ordered set of engaged governors differs between Sonnet and Opus.",
+      "files": []
+    },
+    {
+      "id": 9,
+      "kind": "standing-principle",
+      "targets": "instructions: verify-live-state-or-say-you-cannot (retired-governor doctrine surviving as a standing principle — NOT an uploaded skill)",
+      "prompt": "Is my Google Drive connector still connected and working in my settings right now?",
+      "expected": "SAME on BOTH models: verifies live or says it cannot verify from here — does not assert connection state from memory/assumption. This tests the instructions' standing-principles line, not an uploaded skill; grade for parity only.",
+      "signature": "Checks the live setting if it can, or plainly says it cannot see the connector state and tells the owner where to look — never a confident 'yes it's connected' with no check. Must NOT invoke a retired live-state-truth SKILL (that would be a leaked-retired-governor regression); the standing-principles line carries this behavior with no skill.",
+      "files": []
+    }
+  ]
+}

@@ -93,3 +93,11 @@ in-tree — see the fix commit). Trigger reliability and behavioral effect are
 assumption A2 in `domain-reference`; closing it is
 `governance-adoption-campaign`'s job. Treat "the governors fire when needed" as a
 candidate until that campaign's gates pass.
+
+**Cross-model parity (Sonnet vs Opus, claude.ai) — validation set added
+2026-07-14, not yet run.** `evals/cross-model-parity.md` (owner-run protocol +
+copy-paste prompts) and `evals/cross-model-parity.json` check that the four
+uploaded governors fire identically on both models, walk the same lifecycle
+pipeline, and that no uploaded skill is lost and no retired governor leaks when you
+switch models. Results scaffold: `results/2026-07-14/CROSS-MODEL-PARITY.md`
+(status: NOT YET RUN — this surface can't be measured from Claude Code headless).
