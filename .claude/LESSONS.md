@@ -225,3 +225,21 @@ evidence → status. An entry without evidence is a rumor and does not belong he
   grade the choice in it — a chat-only, no-deliverable framing measures the wrong thing.
   Prefer an **uncued** prompt where the governed behavior is the road not taken. Related:
   governance-adoption-campaign's uncued discriminating test.
+
+### INC-7 — Near-ceiling baseline can't test a discipline; make the silent move the attractor
+
+- Date: 2026-07-15 (terminal A/B for the "No silent defaults" law, real Claude Code surface).
+  Status: run recorded INCONCLUSIVE; next round redesigned before spending more runs
+  (`results/2026-07-15/no-silent-defaults-terminal-ab.md`).
+- Symptom: an A/B for an instruction sentence returned SURFACED OLD 3/4 · NEW 4/4 — a one-cell
+  delta that reads as "maybe it helps" but is inside N=2 noise, so it proves nothing.
+- Root cause: the baseline was already near ceiling — top models surfaced the planted ambiguity
+  *without* the sentence — so the sentence had no headroom to demonstrate an effect. Adding runs
+  would only sharpen a saturated number.
+- Evidence: OLD opus 2/2 SURFACED, OLD sonnet 1/2; the single OLD miss (sonnet_r1) was the only
+  cell where the governed behavior was actually the road not taken — and it was n=1.
+- Lesson: before spending runs, design the scenario so the **silent default is the attractor**,
+  not the exception — plant a buried fact that makes the default wrong, bait the responsible-
+  looking-but-silent move (e.g. an idempotency `WHERE` that sidesteps the real question), and
+  suppress the ask path — so the baseline drops off ceiling and the discipline has something to
+  catch. More runs at a saturated baseline buy precision on the wrong thing.

@@ -73,8 +73,18 @@ opus+sonnet, N=2 — full record: `results/2026-07-15/no-silent-defaults-proxy-a
 - **Case-2 (named-work over-fire) not run** — deferred; only the trivia over-fire control was
   exercised (it was embedded in the migration prompt).
 
+**TERMINAL A/B RUN 2026-07-15 (real Claude Code surface, uncued, artifact-delivering — the
+sharper test) — STILL INCONCLUSIVE; law stays CANDIDATE.** Full record:
+`results/2026-07-15/no-silent-defaults-terminal-ab.md`. SURFACED (target): OLD 3/4 · NEW 4/4;
+zero over-fire, zero regression; the entire delta is one cell (OLD_sonnet_r1, a textbook silent
+default) flipping — inside N=2 noise. Ceiling effect (OLD already 3/4) is the binding problem.
+The weaker model (sonnet) is where the only signal lives, and it's n=1. Owner hand-verified the
+decisive cells rather than trusting the LLM grader.
+
 The wording remains live in the canonical instructions file as an **owner-directed candidate**
-(that file's Provenance) — *not* gate-passed. **Next:** the real claude.ai settings-box A/B,
-and ideally an **uncued** variant where the model must *deliver* an artifact (so a silent
-default has somewhere to hide). On confirm → note in the instructions Provenance, dated. On
-fail → append to `.claude/LESSONS.md` as a dead end and revert the pointer-1 wording.
+(that file's Provenance) — *not* gate-passed. **Next (do the harder prompt before more runs):**
+stiffen the scenario so the silent default is the *attractor* (plant a buried fact that makes
+the blanket UPDATE wrong; bait the idempotency-WHERE move; suppress the ask path) to pull the
+baseline off ceiling, THEN a powered run (~10–15/arm/model). On confirm → note in the
+instructions Provenance, dated. On fail → append to `.claude/LESSONS.md` as a dead end and
+revert the pointer-1 wording.
