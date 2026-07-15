@@ -200,3 +200,28 @@ evidence → status. An entry without evidence is a rumor and does not belong he
   alone** — the deliverable is Section 8, and scope/plan/verify decisions often leave no mark
   in it. Require the PATH TRACE §4–7 and reconcile self-report against artifact (method §3
   step 11). Codified in `evals/cross-model-path-consistency-METHOD.md` L1.
+
+### INC-6 — "Reply-only" proxy A/B suppressed the delivered-artifact behavior under test
+
+- Date: 2026-07-15 (proxy A/B for the "No silent defaults" instruction law). Status: noted;
+  the proxy verdict was scoped to "inconclusive on benefit" accordingly
+  (`results/2026-07-15/no-silent-defaults-proxy-ab.md`).
+- Symptom: an A/B meant to test whether an instruction line stops models from *silently
+  defaulting* on ambiguous behavior-changing calls showed OLD (no law) already surfacing the
+  ambiguity 4/4 — no room for the law to help — which contradicted the real claude.ai run
+  where Opus silently defaulted (narrowed a blanket UPDATE) in its delivered script.
+- Root cause: the proxy runner prompt said "just write your chat reply — do NOT use tools, do
+  NOT edit files." That nudges the model toward *discussing and asking* rather than *delivering
+  a finished artifact*. The silent-default disposition lives in the **delivered artifact**, not
+  the discussion — so the test framing structurally suppressed the behavior it was trying to
+  measure.
+- Evidence: 8/8 proxy runs surfaced-and-flagged the ambiguity in prose (or engineered around
+  it), none silently shipped a defaulted artifact — vs the real claude.ai Opus deliverable
+  (`opus-migrate_users_orders.hardened.sh`) which silently added `WHERE status IS DISTINCT FROM
+  'migrated'`. Base surfaced at ceiling on a *cued* prompt (the live-state-truth / lessons-ledger
+  "base-already-does-it on cued prompts" pattern).
+- Lesson: to test a disposition that manifests in a **produced artifact** (silent-default,
+  scope-fold-in, over-claiming "done"), the A/B must let each arm **produce the artifact** and
+  grade the choice in it — a chat-only, no-deliverable framing measures the wrong thing.
+  Prefer an **uncued** prompt where the governed behavior is the road not taken. Related:
+  governance-adoption-campaign's uncued discriminating test.

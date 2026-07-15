@@ -59,8 +59,22 @@ existing `evals/*.json` prompts.
 
 ## Status
 
-**PRE-REGISTERED, NOT YET RUN.** The wording is live in the canonical file as an
-**owner-directed candidate** (see that file's Provenance) — it is *not* gate-passed. Until
-this A/B runs and passes, treat "the No-silent-defaults law changes behavior" as a candidate.
-On confirm → note in the instructions Provenance, dated. On fail → append to `.claude/LESSONS.md`
-as a dead end and revert the pointer-1 wording.
+**PROXY A/B RUN 2026-07-15 — INCONCLUSIVE on benefit, PASS on safety. Law stays CANDIDATE.**
+The pre-registered claude.ai A/B is still **owed** (that surface is unreachable from the run
+environment). A proxy was run instead — Claude Code subagents, OLD vs NEW instruction text,
+opus+sonnet, N=2 — full record: `results/2026-07-15/no-silent-defaults-proxy-ab.md`.
+
+- **Benefit: INCONCLUSIVE (no measurable delta).** OLD (base) already surfaces the ambiguity
+  4/4 — ceiling hit on this cued prompt — so NEW has no room to show a positive delta. Plus a
+  framing confound (the proxy asked for a chat reply, not a delivered artifact, suppressing the
+  delivered-artifact silent-default the law targets). Per **R3**, inconclusive → not accepted.
+- **Safety: PASS.** NEW = 0/4 over-fire on the trivia control (8/8 direct across both arms),
+  0 regressions. No evidence the law degrades anything.
+- **Case-2 (named-work over-fire) not run** — deferred; only the trivia over-fire control was
+  exercised (it was embedded in the migration prompt).
+
+The wording remains live in the canonical instructions file as an **owner-directed candidate**
+(that file's Provenance) — *not* gate-passed. **Next:** the real claude.ai settings-box A/B,
+and ideally an **uncued** variant where the model must *deliver* an artifact (so a silent
+default has somewhere to hide). On confirm → note in the instructions Provenance, dated. On
+fail → append to `.claude/LESSONS.md` as a dead end and revert the pointer-1 wording.
