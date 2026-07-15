@@ -401,3 +401,47 @@ evidence → status. An entry without evidence is a rumor and does not belong he
   instinct. Also: always pair a receipt with a veracity check; a self-reported ✓
   is worth nothing without reconciliation against the observed load (INC-5).
   And: re-test the web-blocked cases with web available before trusting their rate.
+
+### INC-10 — Nested `claude -p` runs inherit the parent session id → one shared transcript → Stop-hook contamination
+
+- Date: 2026-07-15 (plan Phase 2b A/B). Status: **RESOLVED same session** — cause
+  identified, harness fixed (strip session env), clean re-run gave the true result.
+- Symptom: the first Phase 2b ENFORCE run (concurrency 4) scored SF1/SF2 at 1/3 and
+  read as a partial enforcement failure — contradicting the internal transcript,
+  which plainly showed the Stop hook blocking and the model then loading
+  adversarial-verify on web-derailed Rivian/Nvidia turns.
+- Root cause: the nested `claude -p` processes **inherited `CLAUDE_CODE_SESSION_ID`**
+  (and sibling session vars) from the parent Claude Code session, so all 36 runs
+  logged to a **single shared session transcript** (named with the parent's session
+  id, confirmed). The Stop hook reads `transcript_path` to decide whether a governor
+  loaded *this turn*; under concurrency it read a transcript jumbled by other
+  in-flight runs and mis-decided (allowed turns that should have blocked). The
+  per-run stream-json stdout (used for load counts) was clean and separate — so
+  only the Stop hook's transcript-based decision was corrupted.
+- Evidence: `ls` of the project transcript dir showed exactly **1** `.jsonl` named
+  with the parent session id; clearing `CLAUDE_CODE_SESSION_ID` /
+  `CLAUDE_CODE_REMOTE_SESSION_ID` / `CLAUDE_CODE_ENTRYPOINT` / `CLAUDE_CODE_CHILD_SESSION`
+  for a child produced a fresh session id and a distinct transcript (3 distinct
+  files after the fix vs 1 before). Clean re-run (fresh session per run) → SF1/SF2/SF3
+  all **3/3** (`results/2026-07-15/phase2b-enforce-RESULT.md`).
+- Lesson: any nested-`claude` harness whose hooks read `transcript_path` MUST strip
+  the inherited session env so each run gets its own session/transcript — otherwise
+  concurrent runs cross-contaminate the transcript and any transcript-reading hook
+  mis-fires. This is the INC-4 shared-global-state hazard in a new place (session
+  transcript, not `~/.claude/skills`). Note the bug is **specific to the concurrent
+  test harness**: a real single-user Claude Code session has one transcript, so the
+  Stop hook works correctly in production. General rule (again): distrust a smooth
+  partial result; read the primary artifact (here the internal transcript) before
+  concluding — it showed enforcement working and overturned the contaminated rate.
+
+### Phase 2b SUCCESS — the enforcement lever closes the gap on Claude Code (2026-07-15)
+
+- Not an incident — a milestone worth recording beside the dead-ends. After DEAD-3
+  (wording can't) and INC-9 (requested receipt is gamed), the **Stop-hook
+  enforcement** (block a governed answer lacking a real governor load) drove the
+  verbatim Rivian incident prompt from **0/3 → 3/3**, all governed cases 3/3, zero
+  over-fire, zero confabulation (pre-registered, clean isolated-session run). This
+  is the "each and every time" the owner asked for — achievable where a mechanical
+  hook layer exists (Claude Code), still impossible on claude.ai (no hook layer).
+  The lever ladder is now empirically ordered: mechanical enforcement (works) >
+  description wording (DEAD-3, doesn't) > requested receipt (INC-9, gamed).

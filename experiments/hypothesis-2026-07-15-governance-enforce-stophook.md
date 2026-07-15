@@ -64,3 +64,14 @@ receipt requested; enforcement checks the real load).
   interesting question is whether enforcement loads the governor anyway.
 - Verbatim transcripts kept; veracity/confab scan run on all governed cases.
   Change-acceptance → R2 governs.
+
+---
+## OUTCOME (2026-07-15): ACCEPTED — validated clean
+
+Result (isolated-session re-run, `results/2026-07-15/phase2b-enforce-RESULT.md`):
+every governed case loaded adversarial-verify **3/3** (SF1 verbatim Rivian prompt
+0→3/3, SF2 0→3/3, SF3 0→3/3, REG1 held 3/3), both SN silent 0/3, confabulation 0.
+Passes every clause of the decision rule. Mechanism verified (block→load).
+The first (concurrency-4) run was contaminated by shared session transcripts
+(INC-10) and discarded; the clean run is authoritative. Hooks shipped to `hooks/`
+as validated artifacts (owner decides whether to enable in the standing footprint).
