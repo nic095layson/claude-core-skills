@@ -16,8 +16,11 @@ change — the settings box and this file must never disagree (drift law).**
 
 **Operating discipline.** I have four governance skills these instructions steer —
 plan-gate, adversarial-verify, scope-fence, brand-standard. These instructions say
-*when* to use them; the skills define *how*. If a skill fails to load, follow the
-principle stated here anyway.
+*when* to use them; the skills define *how*. **The load is the procedure (law):**
+when a pointer below applies, load the named skill before doing the governed work —
+applying its principle from memory is not compliance, it is the exact skip this law
+exists to catch. Only if a load fails *after you attempt it*: say the load failed in
+your reply, then follow the principle stated here.
 
 1. **Before starting any non-trivial task** (multi-step, costly if wrong, or
    anything I'll rely on): use the **plan-gate** skill — state the goal,
@@ -43,6 +46,21 @@ principle stated here anyway.
    documents): use the **brand-standard** skill — my voice and tone, Eurostile
    display / Poppins body typography, and the Space Blue color system. A
    reformat keeps content verbatim; flag stale content instead of rewriting it.
+
+**Governance receipt (law).** Every reply that delivers governed work — a plan,
+a substantial deliverable, an analysis I'll rely on, or an external-facing
+document — ends with one audit line naming, for **all four** pointers, what
+actually fired, e.g.
+`Governance: plan-gate ✓ · adversarial-verify ✓ · scope-fence n/a · brand-standard n/a`.
+A pointer that applied but was skipped appears as `skipped (reason)` — a visible
+skip I can correct beats a silent one. **When in doubt, emit the receipt:** if
+*any* pointer is even arguably in play, the reply owes a line — the exempt cases
+are only clearly-casual chat, trivia, and creative writing. If a reply is both
+external-facing (pointer 4) and creative, pointer 4 wins and the receipt is owed.
+Honest limit, so I don't over-trust this: the receipt is a self-report, not proof
+— on claude.ai a load isn't externally observable, so a ✓ can be wrong, and a
+reply I misjudge as "casual" emits no line and its skip stays silent. It surfaces
+skips you concede; it cannot catch skips you never file as governed.
 
 **Standing principles** (no skill involved): when stating facts about current
 state (my accounts, settings, connections, versions), verify now or say you
@@ -87,11 +105,47 @@ retained as cheap insurance, revert unforced. Also updated 2026-07-15: the openi
 was reworded from "four custom skills installed" to "four governance skills these
 instructions steer" — a factual-accuracy fix (the owner's claude.ai carries
 additional skills: frontend-design, pdf-extract, council, skill-creator); **no
-behavioral/steering change**. The paste block measures ~2,750 characters.
-**Re-paste owed** — paste this block into claude.ai so the settings box equals this
-file (drift law).
+behavioral/steering change**.
+
+Updated 2026-07-15 (second edit, owner-directed after incident INC-8 in
+`.claude/LESSONS.md`, transcript at `results/2026-07-14/rivian-incident-transcript.md`
+— the Rivian analysis where Opus applied the governors "in spirit" without loading
+any): two changes. (1) The fallback clause "If a skill fails to load, follow the
+principle stated here anyway" was narrowed to **"The load is the procedure
+(law)"** — the old clause made principle-compliance a legitimate substitute for
+loading, a license *consistent with* the model's behavior in the incident (the
+transcript shows it skipping loads and defending the skips as spirit-compliance;
+it does not show the model *citing* the clause, so the causal link is inference,
+not fact). (2) A **governance-receipt law** was added: one audit line on governed
+deliverables naming which pointers fired or were skipped. **Neither change fixes
+the incident's dominant causes** and this file does not pretend otherwise: the
+incident was driven mostly by discretionary non-invocation on an uncued prompt
+with no mid-answer tool juncture (INC-8 causes 2 and 4), and no prose edit on a
+surface with no hook layer counters those. What these two edits do is narrower and
+honest — the clause-narrowing removes a self-grading loophole; the receipt
+converts skips *the model concedes* into visible ones (it does **not** convert
+silent skips wholesale — a confabulated ✓ or a reply misfiled as "casual" stays
+silent, so "audit aid, not proof"). Together they standing-order a weaker,
+always-on version of the interrogation the owner ran manually in INC-8.
+**Empirical status of both: adopted owner-directed candidates, NOT validated**
+(same labeling discipline as the No-silent-defaults law above — but note that law
+at least had zero-regression run data; these have no run data of any kind yet);
+the A/B is pre-registered at
+`experiments/hypothesis-2026-07-15-load-is-procedure.md` — validate or revert
+there, one variable at a time. Self-report caveat: a load isn't externally
+observable on claude.ai, so the receipt must be treated as testimony and
+reconciled against the delivered artifact wherever one exists — the reconcile-
+self-report-against-artifacts discipline of INC-5. The paste block measures ~4,190
+characters (was ~2,880, measured via `awk '/BEGIN PASTE/,/END PASTE/' | wc -c` on
+each version; the custom-instructions box has ample headroom — the 1024-char cap in
+INC-3 is the *skill-description* limit, not this surface). **Re-paste owed** — paste this block into claude.ai so the settings
+box equals this file (drift law). This is the second consecutive owner-directed
+pre-evidence adoption (No-silent-defaults was the first); the maintenance-trigger
+list below is amended to name that as a legal update class.
 
 Re-verify: the settings box content equals the paste block (copy out, diff).
-Update when: a governor is added/retired (Decision 5/7), the smoke test or a
-gated wording experiment changes the winning text, or claude.ai changes its
-instructions surface.
+Update when: a governor is added/retired (Decision 5/7); the smoke test or a
+gated wording experiment changes the winning text; claude.ai changes its
+instructions surface; or **the owner adopts a candidate law ahead of its A/B**
+(labeled NOT validated, with the pre-registration filed) — the case for both
+2026-07-15 updates.

@@ -252,3 +252,85 @@ evidence → status. An entry without evidence is a rumor and does not belong he
   the pilot's only "miss" was a grader error, overturned on read. Meta-trap named and avoided:
   do not keep re-tuning the scenario until the treatment "wins" — that is designing the test to
   manufacture the delta (p-hacking by scenario). Three converging inconclusive runs → stop.
+
+### INC-8 — Governors applied "in spirit," never loaded — first live weak-point-3 sighting (claude.ai)
+
+- Date: 2026-07-15 (incident 2026-07-14, owner-relayed transcript archived at
+  `results/2026-07-14/rivian-incident-transcript.md`).
+- Symptom: on claude.ai, Opus answered "analyze Rivian … when will it hit $27.50"
+  with a substantively well-governed analysis (pulled live price data, refuted the
+  premise that a date is knowable, flagged a personal Rivian-concentration risk)
+  — but, per its own accounting when the owner interrogated it, loaded **zero**
+  governor skills: adversarial-verify "arguably owed, not run," scope-fence
+  "applied in spirit, not loaded," plan-gate "skipped, borderline." Instructions
+  pointer 2 explicitly names "analyses" as adversarial-verify territory, and the
+  adversarial-verify description itself names "analyses that drive a decision" —
+  so this was *not* a prompt outside the governors' stated WHEN. **Evidence
+  caveat (load-bearing):** the zero-load fact is the model's **own self-report**;
+  claude.ai does not expose a `Skill`-invocation log
+  (`results/2026-07-12/CLAUDE-AI-ACCEPTANCE.md`: "not observable on this surface"),
+  so the incident's central fact is itself an unreconciled self-report — the exact
+  fallibility INC-5 warns of.
+- Root cause (compound; the two dominant causes get NO shipped counter on
+  claude.ai — see Status):
+  1. **Skill invocation is model-discretionary** — architecture-contract
+     weak-point 3 ("a skill can instruct but not compel; a session can ignore a
+     governor silently"), here observed live for the first time. Note pointer 2
+     was already an *unconditional* command in the 2026-07-12 settings box
+     ("Before delivering substantial work … use the adversarial-verify skill")
+     and was skipped anyway — the load decision, not the wording, is the gap.
+  2. **The prompt is uncued** — a stock-analysis phrasing carries none of the
+     skill-name / "verify" / "plan" tokens that reliably fire the descriptions.
+     No firing rate exists for the three active governors on any uncued
+     analysis-class prompt (`domain-reference` A1 flags this gap explicitly). The
+     nearest datum is different on every axis: the uncued test measured only the
+     two *retired* governors (live-state-truth 2/8, lessons-ledger 0/8 WITH-arm
+     fires) on *coding* prompts in *Claude Code headless*
+     (`results/2026-07-11/phase2-uncued/RESULTS-UNCUED.md`) — suggestive that
+     uncued firing is low, but **not a measurement of this class**.
+  3. **The instructions licensed spirit-compliance** — the pre-fix fallback
+     clause "If a skill fails to load, follow the principle stated here anyway"
+     made principle-following a legitimate compliance path. (By its literal terms
+     it was not even operative here — no load was *attempted*, so none *failed* —
+     which is itself why narrowing it may not move the load rate; see Status.)
+  4. **Chat-deliverable shape** — adversarial-verify's moment ("before
+     delivering") arrives mid-generation with no natural tool-use juncture; the
+     chat-form of DEAD-1's ceiling ("when handed concrete code the model just
+     codes and handles adjacent work inline; it does not pause to consult a
+     governance skill, regardless of description wording").
+  5. **Coverage gap, not regression** — the claude.ai acceptance (7/7,
+     2026-07-12) was a single-run spot check on *cued* prompts; the uncued
+     analysis class was never in its rows, and that record states its bounds.
+- Evidence: the archived transcript (above) in which the model itemizes the skips
+  pointer by pointer; `instructions/claude-ai-custom-instructions.md` fallback
+  clause (pre-fix text, recoverable via `git show`); `RESULTS-UNCUED.md` (retired
+  governors, coding prompts, headless — cited for what it is, not as this class);
+  DEAD-1/DEAD-2 above (wording ceilings; "mechanical enforcement (hooks), not
+  wording" already named there as the next lever).
+- Status: **INSTRUCTION CHANGES SHIPPED as owner-directed candidates, NOT
+  validated, and honestly NOT a fix for the dominant causes.** Two edits to
+  `instructions/claude-ai-custom-instructions.md`: (a) the fallback clause
+  narrowed to "the load is the procedure"; (b) a **governance-receipt law** (one
+  audit line on governed deliverables naming what fired or was skipped). Both are
+  **self-grading / visibility repairs**: they target cause 3 (and make a skip
+  *the model concedes* visible), not causes 2 and 4, which are the dominant
+  drivers and receive **no counter on claude.ai** because that surface has no hook
+  layer. Re-paste to the settings box owed. A/B pre-registered at
+  `experiments/hypothesis-2026-07-15-load-is-procedure.md` before any run.
+  **Mechanical enforcement** — a hook that *blocks or intercepts* a tool call —
+  is possible only on Claude Code and remains **unbuilt** (the shipped
+  `hooks/scope-fence-reminder.sh` is a *trigger aid* that injects one context
+  line; it compels nothing). On claude.ai no such layer exists at all.
+- Lesson: prose — skills plus instructions — raises compliance *rates* and can
+  never pin them to 1.0; a "LAW" in the every-single-time sense requires an
+  enforcement layer **outside** the model, which claude.ai does not have. The
+  levers, strongest first: (1) make enforcement mechanical where a hook layer
+  exists (Claude Code — still to be built); (2) make triggers match the prompt
+  class (uncued evals + description work — the higher-leverage lever for causes 2
+  and 4); (3) make conceded skips *visible at delivery* where nothing mechanical
+  exists (the receipt line — weakest, because a ✓ can be confabulated and a reply
+  the model misfiles as "casual" emits no line at all, leaving that skip as silent
+  as before). Do not headline a prose edit as "fixing" a discretionary-invocation
+  incident. And: "passed acceptance" on cued prompts says nothing about uncued
+  classes; a receipt-style self-report is itself fallible and must be reconciled
+  against artifacts where any exist (INC-5).

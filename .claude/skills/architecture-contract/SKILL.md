@@ -144,6 +144,24 @@ as rates, dated, never rounded up to "always".
    Code hooks in `settings.json` can block or intercept tool calls — but this
    library deliberately ships as prose-only; wiring governors into hooks is a
    **candidate** hardening path, unexplored as of 2026-07-11.
+   **Status update, dated:** (2026-07-12) the hook path is no longer unexplored —
+   `hooks/scope-fence-reminder.sh` shipped and was verified live, user scope.
+   Note it is a *trigger aid* (injects one context line at first edit), not the
+   *blocking/intercepting* enforcement this weak point describes as possible;
+   that stronger form remains unbuilt on every surface.
+   (2026-07-15) first **observed live instance** of this weak point (N=1, and the
+   zero-load fact is model self-report — claude.ai does not expose a load log):
+   a claude.ai session delivered a governed-class analysis with zero governor
+   loads, self-reporting "applied in spirit, not loaded" under interrogation
+   (`.claude/LESSONS.md` INC-8; transcript `results/2026-07-14/`). claude.ai has
+   **no hook layer**, so on that surface the counters remain trigger quality and
+   visibility only; the instructions' governance-receipt law (2026-07-15, owner
+   candidate, NOT validated) surfaces skips the model *concedes* — it does not
+   convert silently-misfiled skips, since its own emission is gated on the same
+   discretionary classification that failed in the incident. **Working conclusion
+   (dated 2026-07-15, not promoted to a numbered Decision — that needs the owner):**
+   per-event ("every time") enforcement appears achievable only where a mechanical
+   layer exists; recorded as an observation, not rounded up to an "always."
 4. **The five-way decomposition is unproven in use** (A1). If real sessions show
    two governors always co-firing or one never firing, merge or split — through
    this contract.
