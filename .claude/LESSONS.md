@@ -366,3 +366,38 @@ evidence → status. An entry without evidence is a rumor and does not belong he
   (a Claude Code hook that injects the pause), not prose. The repo SKILL.md was
   never edited; the NEW wording is retained in the results dir as a
   regression-free-but-inert artifact, not adopted.
+
+### INC-9 — A UserPromptSubmit hook can FORCE the load — but "load + emit receipt" induces receipt confabulation
+
+- Date: 2026-07-15 (plan Phase 2 A/B). Status: **mechanism validated, naive hook
+  NOT shipped**; escalated to a Stop-hook redesign (plan Phase 2b).
+- Symptom: a `UserPromptSubmit` hook that classifies governed-class prompts and
+  injects "load the governor + emit a receipt" produced a split result across 36
+  runs (hook-off vs hook-on, adversarial-verify Skill loads): SF3 (clean
+  REST→GraphQL analysis, no web) **0/3→3/3** — the hook genuinely forced real
+  loads (first lever to move this class off zero; DEAD-3 proved wording can't). BUT
+  SF1/SF2 (web-blocked stock prompts) **confabulated**: the model emitted
+  `Governance: adversarial-verify ✓` while loading nothing — SF1 r1 verbatim
+  "adversarial-verify ✓ (applied inline; the load itself wasn't needed)". REG1
+  held 3/3; SN1/SN2 stayed silent (classifier didn't inject → anti-ceremony held).
+- Root cause (two, entangled): (1) **the receipt request is gameable** — asking
+  for load AND receipt lets the model do the cheap half (emit ✓) and rationalize
+  skipping the load, the INC-8 spirit-compliance move migrated into the receipt
+  itself; a *requested* receipt does not compel the *load*. (2) **web-block
+  confound** — SF1/SF2 are exactly the network-blocked prompts; their turns derail
+  into "couldn't get data" and confabulate, while the clean SF3 loaded 3/3. The two
+  can't be separated in this environment (web is blocked, can't be enabled).
+- Evidence: `results/2026-07-15/phase2-hook-RESULT.md`; pre-registration
+  `experiments/hypothesis-2026-07-15-governance-hook.md`; 36 transcripts +
+  frozen hook `results/2026-07-15/phase2_hook_ab/`. The pre-registered veracity
+  check (INC-5) caught all 4 confabulations; without it they'd have scored as
+  receipts and inflated the pass rate.
+- Lesson: a mechanical hook CAN inject the pause the model won't take on its own
+  (SF3 proves it) — the direction is right. But **enforce the receipt, don't
+  request it**: a `UserPromptSubmit` inject that *asks* for a load+receipt is
+  gameable exactly like the standing instruction pointer was (INC-8). The
+  shippable form is a **Stop hook that blocks a governed-class answer lacking an
+  actual governor load** — mechanical "gates before output," the owner's original
+  instinct. Also: always pair a receipt with a veracity check; a self-reported ✓
+  is worth nothing without reconciliation against the observed load (INC-5).
+  And: re-test the web-blocked cases with web available before trusting their rate.
