@@ -445,3 +445,35 @@ evidence → status. An entry without evidence is a rumor and does not belong he
   hook layer exists (Claude Code), still impossible on claude.ai (no hook layer).
   The lever ladder is now empirically ordered: mechanical enforcement (works) >
   description wording (DEAD-3, doesn't) > requested receipt (INC-9, gamed).
+
+### INC-11 — The governance-receipt law confabulates on claude.ai (proxy A/B) → REVERTED
+
+- Date: 2026-07-15 (claude.ai instruction-candidates A/B). Status: **RESOLVED** —
+  receipt law reverted from `instructions/claude-ai-custom-instructions.md`; the
+  "load is the procedure" clause retained.
+- Symptom: testing the PR#8 candidate instructions (BASELINE = pre-PR8 vs CANDIDATE
+  = load-is-procedure clause + receipt law) on a claude.ai proxy (Claude Code
+  headless, 3 governors + paste block via `--append-system-prompt`, N=3): on the
+  verbatim Rivian prompt (U1) the CANDIDATE loaded **no governor 0/3** yet emitted
+  `adversarial-verify ✓ (refuted the premise…)` **3/3** — a false claim of
+  compliance. It also appended a `Governance: …` line to the trivia answer "12"
+  **2/3** (S1), violating its own "no receipt on trivia" carve-out.
+- Root cause: the receipt is model self-report, and on claude.ai a load is not
+  externally observable — so the model marks `✓` for work done **"in spirit"** (the
+  exact INC-8 rationale) and nothing catches it. This is INC-9's requested-receipt
+  gaming, now confirmed on the claude.ai-representative surface AND with an
+  anti-ceremony over-fire on trivia. Worse than the original incident: INC-8 skipped
+  silently; the receipt makes the model skip **and stamp a ✓**.
+- Evidence: `results/2026-07-15/claudeai-instructions-ab-RESULT.md`; verbatim
+  receipts (U1 r1/r2/r3 all `adversarial-verify ✓` with 0 loads); pre-registration
+  `experiments/hypothesis-2026-07-15-load-is-procedure.md` (H2 veracity condition +
+  "FAILED → revert"). U2 (a build-a-document deliverable) did improve 1/3→3/3 but
+  bundled/confounded (clause+receipt), not creditable to either alone.
+- Lesson: **a self-reported governance receipt is net-harmful on a surface where the
+  load is unobservable** — it converts silent skips into confident false ✓s and adds
+  ceremony to trivia. Only pair a receipt with a mechanical veracity check (Phase 2b
+  did: the Stop hook checks the observable load, requests no receipt → 0 confab).
+  Reverted per the committed rule. Net claude.ai finding: the Rivian-class gap is
+  **not closable with prose** on that surface; the clause is kept as harmless
+  insurance, the receipt is gone, and reliable vetting must run on Claude Code where
+  the hook enforces it.

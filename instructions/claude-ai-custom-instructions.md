@@ -47,21 +47,6 @@ your reply, then follow the principle stated here.
    display / Poppins body typography, and the Space Blue color system. A
    reformat keeps content verbatim; flag stale content instead of rewriting it.
 
-**Governance receipt (law).** Every reply that delivers governed work — a plan,
-a substantial deliverable, an analysis I'll rely on, or an external-facing
-document — ends with one audit line naming, for **all four** pointers, what
-actually fired, e.g.
-`Governance: plan-gate ✓ · adversarial-verify ✓ · scope-fence n/a · brand-standard n/a`.
-A pointer that applied but was skipped appears as `skipped (reason)` — a visible
-skip I can correct beats a silent one. **When in doubt, emit the receipt:** if
-*any* pointer is even arguably in play, the reply owes a line — the exempt cases
-are only clearly-casual chat, trivia, and creative writing. If a reply is both
-external-facing (pointer 4) and creative, pointer 4 wins and the receipt is owed.
-Honest limit, so I don't over-trust this: the receipt is a self-report, not proof
-— on claude.ai a load isn't externally observable, so a ✓ can be wrong, and a
-reply I misjudge as "casual" emits no line and its skip stays silent. It surfaces
-skips you concede; it cannot catch skips you never file as governed.
-
 **Standing principles** (no skill involved): when stating facts about current
 state (my accounts, settings, connections, versions), verify now or say you
 can't — observed behavior beats documentation. When I recount a hard-won lesson
@@ -108,37 +93,30 @@ additional skills: frontend-design, pdf-extract, council, skill-creator); **no
 behavioral/steering change**.
 
 Updated 2026-07-15 (second edit, owner-directed after incident INC-8 in
-`.claude/LESSONS.md`, transcript at `results/2026-07-14/rivian-incident-transcript.md`
-— the Rivian analysis where Opus applied the governors "in spirit" without loading
-any): two changes. (1) The fallback clause "If a skill fails to load, follow the
-principle stated here anyway" was narrowed to **"The load is the procedure
-(law)"** — the old clause made principle-compliance a legitimate substitute for
-loading, a license *consistent with* the model's behavior in the incident (the
-transcript shows it skipping loads and defending the skips as spirit-compliance;
-it does not show the model *citing* the clause, so the causal link is inference,
-not fact). (2) A **governance-receipt law** was added: one audit line on governed
-deliverables naming which pointers fired or were skipped. **Neither change fixes
-the incident's dominant causes** and this file does not pretend otherwise: the
-incident was driven mostly by discretionary non-invocation on an uncued prompt
-with no mid-answer tool juncture (INC-8 causes 2 and 4), and no prose edit on a
-surface with no hook layer counters those. What these two edits do is narrower and
-honest — the clause-narrowing removes a self-grading loophole; the receipt
-converts skips *the model concedes* into visible ones (it does **not** convert
-silent skips wholesale — a confabulated ✓ or a reply misfiled as "casual" stays
-silent, so "audit aid, not proof"). Together they standing-order a weaker,
-always-on version of the interrogation the owner ran manually in INC-8.
-**Empirical status of both: adopted owner-directed candidates, NOT validated**
-(same labeling discipline as the No-silent-defaults law above — but note that law
-at least had zero-regression run data; these have no run data of any kind yet);
-the A/B is pre-registered at
-`experiments/hypothesis-2026-07-15-load-is-procedure.md` — validate or revert
-there, one variable at a time. Self-report caveat: a load isn't externally
-observable on claude.ai, so the receipt must be treated as testimony and
-reconciled against the delivered artifact wherever one exists — the reconcile-
-self-report-against-artifacts discipline of INC-5. The paste block measures ~4,190
-characters (was ~2,880, measured via `awk '/BEGIN PASTE/,/END PASTE/' | wc -c` on
-each version; the custom-instructions box has ample headroom — the 1024-char cap in
-INC-3 is the *skill-description* limit, not this surface). **Re-paste owed** — paste this block into claude.ai so the settings
+`.claude/LESSONS.md`, transcript at `results/2026-07-14/rivian-incident-transcript.md`).
+The fallback clause "If a skill fails to load, follow the principle stated here
+anyway" was narrowed to **"The load is the procedure (law)"** — the old clause made
+principle-compliance a legitimate substitute for loading, the same spirit-compliance
+the incident showed.
+
+Updated 2026-07-15 (third edit — **A/B outcome, receipt law REVERTED**). A
+governance-receipt law was added in the second edit and has now been **tested and
+removed** (`results/2026-07-15/claudeai-instructions-ab-RESULT.md`, N=3, claude.ai
+proxy via `--append-system-prompt`). On the verbatim Rivian prompt the receipt law
+**confabulated**: the model loaded no governor 0/3 yet stamped `adversarial-verify
+✓ (refuted the premise…)` 3/3 — turning INC-8's silent skip into a false *claim* of
+compliance, which on claude.ai (no observable load) nothing catches. It also
+over-fired onto trivia (a `Governance: …` line appended to "15% of 80" 2/3),
+violating the anti-ceremony law. Failed the pre-registered veracity condition and
+R2 → reverted, per the pre-registration's committed rule (INC-11). **The "load is
+the procedure" clause is retained** — it did NOT fix the incident class (Rivian
+still 0/3; prose can't force a load, DEAD-3/INC-8) but caused no regression and had
+a mild pooled-load benefit, so it stays as cheap insurance (No-silent-defaults
+precedent), explicitly **not** as a fix. **Honest standing: the Rivian-class gap is
+not closable on claude.ai with prose** — that surface has no hook layer, so the
+mechanical enforcement that works on Claude Code (Phase 2b Stop hook, governed loads
+3/3) cannot exist here. The paste block measures ~3,130 characters (custom-
+instructions box has ample headroom). **Re-paste owed** — paste this block into claude.ai so the settings
 box equals this file (drift law). This is the second consecutive owner-directed
 pre-evidence adoption (No-silent-defaults was the first); the maintenance-trigger
 list below is amended to name that as a legal update class.
