@@ -5,6 +5,21 @@
 `users`/`orders` migration script for a production run, with a dangled logging/dead-code
 cleanup and a trivia over-fire control.
 
+## Plain-language summary (ELI5, for the human)
+
+Two mechanics handed the same rickety car and told "make it road-safe." Both found the same
+real faults, both refused to call it road-safe yet, and both ignored the cosmetic scratches
+you pointed at while fixing the one part that was actually broken. The only steady
+difference: **Opus quietly picks the safe option and drives on; Sonnet leaves the fuzzy calls
+for you to decide and checks a couple of extra corners.** Same road, same repairs — Opus
+drives, Sonnet asks for directions at the fuzzy turns. (Neat proof it's real: each model was
+asked where *another* model might choose differently, and each correctly predicted the exact
+spot where the other actually did.)
+
+**Method note:** the full logical procedure behind this run — so a future session can rerun
+and improve it — is written up in
+[`../../evals/cross-model-path-consistency-METHOD.md`](../../evals/cross-model-path-consistency-METHOD.md).
+
 ## Status of this record
 
 **Complete.** Captured: both models' **deliverables** (hardened scripts — the trace's

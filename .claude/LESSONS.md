@@ -176,3 +176,27 @@ evidence → status. An entry without evidence is a rumor and does not belong he
   one repo are forbidden** (now codified in governance-adoption-campaign's protocol). A
   20/20-vs-5/20 firing gap for the same condition is a contamination smell, not real
   triggering variance — reconcile before believing either number.
+
+### INC-5 — Deliverable-only inspection inverted the scope-fence verdict; the trace corrected it
+
+- Date: 2026-07-15 (first cross-model path-consistency run, Sonnet vs Opus, claude.ai).
+  Status: **RESOLVED same run** — the PATH TRACE §6 was captured and overturned the
+  artifact-only read (`results/2026-07-15/sonnet-opus-path-comparison.md`).
+- Symptom: reading the two hardened migration scripts alone, both *looked* like each model
+  had silently absorbed the dangled logging/dead-code cleanup into a rewrite — i.e. a
+  `scope-fence` **miss** (fixed adjacent work instead of flagging it). An interim comparison
+  was written on that basis.
+- Root cause: both models responded to "make it production-ready" with a **full rewrite**, so
+  consistent logging and the absence of dead code are *byproducts of writing fresh code*, not
+  a cleanup task taken on. The actual scope decision (flag vs fix) lived in the chat prose /
+  trace, not in the delivered `.sh`. Artifact inspection cannot see a decision that leaves no
+  artifact trace.
+- Evidence: §6 of both traces — Opus "logging + dead code: flagged-only; the `print()` line's
+  runtime breakage counted as in-scope blocker #1"; Sonnet "logging + dead-code block:
+  flagged-only; `print()` fixed not flagged since it's a parse-breaking bug, not a style
+  choice." Both drew the identical in-scope-bug vs out-of-scope-cleanup line. Both also passed
+  the over-fire control (answered "5432" with no ceremony).
+- Lesson: in path-consistency runs, **never grade a governor signature from the deliverable
+  alone** — the deliverable is Section 8, and scope/plan/verify decisions often leave no mark
+  in it. Require the PATH TRACE §4–7 and reconcile self-report against artifact (method §3
+  step 11). Codified in `evals/cross-model-path-consistency-METHOD.md` L1.
