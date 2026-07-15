@@ -59,6 +59,32 @@ governor — spirit-compliance without the procedure, the incident's signature.
    edit still goes through research-methodology R1/R2. Sonnet is a cheap add if a
    future read is ambiguous; this one is not.
 
+## Baseline review — positive control (added 2026-07-15, same session)
+
+Before building on 0/9, the killer confound to rule out: *does headless `claude -p`
+auto-load any skill at all on a single prompt?* If not, 0/9 measures the harness,
+not the descriptions. Ran cued should-fire prompts in the identical setup:
+
+| control prompt | governor | fired |
+|---|---|---|
+| `c1_plangate_cued` — "help me build a migration script for our postgres schema" | plan-gate | **2/2** ✓ |
+| `c2_advverify_cued` — "I finished writing this migration script… double-check it before prod" (no script in dir) | adversarial-verify | 0/2 (confounded) |
+| `c3_advverify_inline` — same ask with the script pasted **inline** | adversarial-verify | **2/2** ✓ |
+
+**Conclusion: baseline VALIDATED.** The harness observes real governor fires
+(plan-gate 2/2, adversarial-verify 2/2 with an inline artifact; raw-grep confirmed
+`"skill":"plan-gate"` / `"skill":"adversarial-verify"` tool_use). So 0/9 on the
+uncued analysis class is a genuine coverage gap, not a headless artifact. The
+`c2` 0/2 was the absent-artifact trap (INC-2/DEAD-1): the prompt referenced a
+script not present, so the model went hunting via Bash instead of triggering —
+disambiguated by `c3` firing 2/2 inline.
+
+**Sharpened finding for Phase 1.** adversarial-verify fires on *"check this
+artifact"* (inline code 2/2) but not on *"produce an analysis/advice/prediction
+I'll rely on"* (0/3 on u1/u2). The description's trigger surface covers
+review-of-a-given-artifact, not produce-an-analysis. That boundary is exactly what
+Phase 1 must widen. Control transcripts: `phase0_baseline/transcripts_control/`.
+
 ## Artifacts
 
 Transcripts: `phase0_baseline/transcripts/*.jsonl` (kept for spot-check).
