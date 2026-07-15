@@ -334,3 +334,35 @@ evidence → status. An entry without evidence is a rumor and does not belong he
   incident. And: "passed acceptance" on cued prompts says nothing about uncued
   classes; a receipt-style self-report is itself fallible and must be reconciled
   against artifacts where any exist (INC-5).
+
+### DEAD-3 — Widening adversarial-verify's description does NOT fire it on the produce-an-analysis class
+
+- Date: 2026-07-15 (plan Phase 1 A/B). Status: **ABANDONED** (description lever
+  exhausted for this trigger class; escalated to the mechanical hook, plan Phase 2).
+- Symptom: a NEW adversarial-verify description that explicitly names the incident
+  shape — "analyze X and advise", "when will this hit $Y", "substantive analysis…
+  the user will act on" — failed to fire on the analysis class. Pre-registered A/B,
+  36 runs, one variable (description only, bodies byte-identical), OLD vs NEW:
+  SF1 (verbatim Rivian prompt) 0/3→**0/3**, SF2 (Nvidia) 0/3→**0/3**, SF3 (GraphQL
+  analysis) 0/3→1/3; regression net REG1 (inline "check this script") held 3/3;
+  over-fire nets SN1/SN2 silent 0/3. NEW is harmless but misses the target.
+- Root cause: the **same ceiling as DEAD-1** ("when handed concrete code the model
+  just codes … it does not pause to consult a governance skill, regardless of
+  description wording"), now confirmed for *produce-an-analysis*. adversarial-verify
+  fires when an artifact is **handed over to check** (REG1 3/3 — a discrete "check
+  this" juncture) but not when the task is to **produce** the analysis: "produce
+  it, then refute your own claims" is not a natural tool-call juncture, so the model
+  produces and ships without loading the governor. Wording cannot manufacture that
+  pause. Spot-check: SF1 NEW r1 produced a full 2,880-char analysis, reached its
+  deliver moment, invoked no governor — the expected fail mode, not a crash.
+- Evidence: `results/2026-07-15/phase1-advverify-RESULT.md`; pre-registration
+  `experiments/hypothesis-2026-07-15-advverify-analysis-trigger.md`; 36 transcripts
+  + both variants + runner `results/2026-07-15/phase1_advverify_ab/`. Flat 0/3 held
+  on a clean non-finance analysis (SF3, no web dependency), so it is not the
+  web-block confound.
+- Lesson: don't keep rewording adversarial-verify's description to catch
+  produce-an-analysis prompts — the ceiling is structural (produce-then-self-refute
+  has no tool juncture), matching DEAD-1/DEAD-2. The lever past it is **mechanical**
+  (a Claude Code hook that injects the pause), not prose. The repo SKILL.md was
+  never edited; the NEW wording is retained in the results dir as a
+  regression-free-but-inert artifact, not adopted.
