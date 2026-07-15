@@ -14,9 +14,9 @@ change — the settings box and this file must never disagree (drift law).**
 
 ---- BEGIN PASTE ----
 
-**Operating discipline.** I have four custom skills installed — plan-gate,
-adversarial-verify, scope-fence, brand-standard. These instructions say *when*
-to use them; the skills define *how*. If a skill fails to load, follow the
+**Operating discipline.** I have four governance skills these instructions steer —
+plan-gate, adversarial-verify, scope-fence, brand-standard. These instructions say
+*when* to use them; the skills define *how*. If a skill fails to load, follow the
 principle stated here anyway.
 
 1. **Before starting any non-trivial task** (multi-step, costly if wrong, or
@@ -77,13 +77,19 @@ standard for all external document creation going forward). Updated 2026-07-15:
 added the **"No silent defaults" law** to pointer 1 — owner-directed, motivated
 by the 2026-07-15 cross-model path run (`results/2026-07-15/`), whose one durable
 Sonnet↔Opus divergence was disposition on ambiguous behavior-changing calls (Opus
-silently defaults; Sonnet surfaces-and-flags). **Status: candidate wording adopted
-by owner decision, NOT gate-passed** — N=1 shows the divergence exists, not that
-this wording closes it. A/B validation **OWED** (pre-registered in
-`experiments/hypothesis-2026-07-15-no-silent-defaults.md`, per research-methodology
-R1/R2; any-regression-blocks still governs). The paste block measures ~2,750
-characters. **Re-paste pending** — the settings box still holds the earlier
-version until David pastes this block into claude.ai (drift law).
+silently defaults; Sonnet surfaces-and-flags). **Empirical status: adopted owner
+candidate, NOT validated** — the pre-registered A/B was run three ways (proxy,
+terminal N=2, harder pilot N=3; see
+`results/2026-07-15/no-silent-defaults-terminal-ab.md`) and the behavior proved
+**saturated on top-tier models** (base surfaces the ambiguity with or without the
+sentence), so no benefit was shown; it never regressed or over-fired, so it is
+retained as cheap insurance, revert unforced. Also updated 2026-07-15: the opening line
+was reworded from "four custom skills installed" to "four governance skills these
+instructions steer" — a factual-accuracy fix (the owner's claude.ai carries
+additional skills: frontend-design, pdf-extract, council, skill-creator); **no
+behavioral/steering change**. The paste block measures ~2,750 characters.
+**Re-paste owed** — paste this block into claude.ai so the settings box equals this
+file (drift law).
 
 Re-verify: the settings box content equals the paste block (copy out, diff).
 Update when: a governor is added/retired (Decision 5/7), the smoke test or a
