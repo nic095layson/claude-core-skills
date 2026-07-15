@@ -77,6 +77,37 @@ baseline off the ceiling** by making the silent default the *attractor*:
 Then a **powered run** (~10–15/arm/model) on both models. Target vs FIXED_SILENT becomes a real
 contest, and the sentence's marginal effect (if any) has room to show.
 
+## Harder-prompt pilot (2026-07-15) — ran, backfired, empirical thread CLOSED
+
+The stiffened prompt (§Next) was piloted N=3/cell. It made surfacing **easier**, not harder:
+verified **SURFACED — OLD 6/6, NEW 6/6** (both models 3/3 each arm). The grader initially scored
+`NEW_sonnet_r2` as FIXED_SILENT; hand-verification overturned it — that reply scoped the UPDATE
+to exclude the admin/QA accounts and said so three times (grader error, not a real miss). True
+OLD↔NEW gap: **zero**, both at ceiling.
+
+**Why it backfired (the useful finding):**
+1. **Announcing the fact ≠ burying it.** The prompt *states* "the new DB already has admin +
+   QA/test accounts," handing the model the discriminating fact on a platter. Connecting "DB has
+   admins" + "UPDATE all users" is then trivial — every cell did it, baseline included. A fact
+   that makes the default *wrong* also makes it *salient* when stated outright; to keep headroom
+   the fact must be **inferable, not announced**.
+2. **The silent move and the good move converged.** A properly scoped `WHERE` is *both* the
+   re-runnability fix the user asked for *and* the thing that protects admins — so the model
+   lands on the right behavior without the "no silent defaults" nudge. The sentence has nothing
+   to bite on.
+
+**FINAL verdict (empirical thread CLOSED):** the "No silent defaults" law is **not validated**
+and is most likely **redundant on top-tier models for this behavior class** — base behavior
+surfaces the ambiguity ~100% with or without the sentence (three runs agree: proxy, terminal
+N=2, harder pilot N=3). It never regressed and never over-fired. **Disposition (owner):**
+retained as a cheap, safe, owner-preference **candidate** (encodes the transparent disposition
+the owner wants; ~2 sentences; zero observed cost) — **not** promoted to "validated"; reverting
+is available and unforced. **Sole open route if validation is ever wanted** (deliberately not
+pursued, to avoid designing the test to win): a *genuinely buried* fact (admins only inferable —
+"the ops team still logs in tonight", never "admins are rows in `users`") + a request framed
+purely as "make it safe to re-run," so an idempotency-only `WHERE` fully satisfies the ask and
+noticing the admin collision requires going *beyond* it. Recorded, not run.
+
 ## Provenance
 
 Run 2026-07-15 on the owner's laptop (`claude -p`, real Claude Code surface). Raw replies +

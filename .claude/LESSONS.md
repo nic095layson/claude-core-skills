@@ -243,3 +243,12 @@ evidence → status. An entry without evidence is a rumor and does not belong he
   looking-but-silent move (e.g. an idempotency `WHERE` that sidesteps the real question), and
   suppress the ask path — so the baseline drops off ceiling and the discipline has something to
   catch. More runs at a saturated baseline buy precision on the wrong thing.
+- Refinement (harder-pilot, same day, verified): the stiffening **backfired** — baseline went
+  3/4 → **6/6**. Two traps: (1) **announcing the fact ≠ burying it** — a fact that makes the
+  default *wrong* also makes it *salient* when stated outright, so connecting it is trivial and
+  every arm surfaces; keep it **inferable, not announced**. (2) Beware scenarios where the
+  **silent move and the good move converge** — if one correct `WHERE` both satisfies the ask and
+  averts the danger, the discipline has nothing to bite on. And: **hand-verify decisive cells** —
+  the pilot's only "miss" was a grader error, overturned on read. Meta-trap named and avoided:
+  do not keep re-tuning the scenario until the treatment "wins" — that is designing the test to
+  manufacture the delta (p-hacking by scenario). Three converging inconclusive runs → stop.

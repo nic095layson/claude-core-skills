@@ -88,3 +88,14 @@ the blanket UPDATE wrong; bait the idempotency-WHERE move; suppress the ask path
 baseline off ceiling, THEN a powered run (~10–15/arm/model). On confirm → note in the
 instructions Provenance, dated. On fail → append to `.claude/LESSONS.md` as a dead end and
 revert the pointer-1 wording.
+
+**FINAL 2026-07-15 — EMPIRICAL THREAD CLOSED.** The harder pilot backfired: *announcing* the
+buried fact made surfacing easier, so verified SURFACED = **OLD 6/6 = NEW 6/6** (both at ceiling;
+the grader's lone NEW "miss" was overturned by hand-check). Behavior is **saturated on top-tier
+models**; the sentence has nothing to bite on (the silent move and the good move converge). Law
+is **NOT validated**, most likely redundant on this behavior class for Opus/Sonnet — retained as
+an owner-adopted **candidate / cheap insurance** (never regressed, never over-fired), not
+promoted to validated; revert available and unforced. Sole open route (deliberately not pursued,
+to avoid designing-to-win): a *genuinely inferable* (not announced) fact + an ask that an
+idempotency-only WHERE fully satisfies. Full record:
+`results/2026-07-15/no-silent-defaults-terminal-ab.md`; lesson `.claude/LESSONS.md` INC-7.
