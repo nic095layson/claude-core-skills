@@ -477,3 +477,25 @@ evidence → status. An entry without evidence is a rumor and does not belong he
   **not closable with prose** on that surface; the clause is kept as harmless
   insurance, the receipt is gone, and reliable vetting must run on Claude Code where
   the hook enforces it.
+
+### WIN-1 — The user-held lever: an explicit in-prompt cue fires the governor on claude.ai
+
+- Date: 2026-07-16 (owner's idea, tested). Status: **VALIDATED (proxy) + corroborated
+  on real claude.ai**. The first lever that works on claude.ai.
+- Finding: appending an explicit cue to the prompt converts an *uncued* prompt (0/3
+  governor loads — the incident) into a *cued* one that fires. Measured (claude.ai
+  proxy, Opus, N=3, `results/2026-07-16/in-prompt-cue-RESULT.md`): Rivian prompt +
+  "use your adversarial-verify skill" → **adversarial-verify 3/3**; + generic "run the
+  skills process" → a governor **3/3** (but plan-gate, not adversarial-verify — a vague
+  cue triggers the machinery, not necessarily the right governor); uncued → 0/3.
+- Why it matters: this is NOT in tension with DEAD-3/INC-8/INC-11 (those are *automatic*
+  firing on *uncued* prompts, which fails). It is *user-cued* firing, which succeeds —
+  as the positive control (2/2) and the real-claude.ai 7/7 cued acceptance already
+  showed. So it inherits external validity from a true-surface result.
+- Lesson: on claude.ai (no hook layer), the reliable lever is **the user, in the
+  prompt**: name the skill you want ("use your adversarial-verify skill on this") and
+  it loads deterministically here (3/3). Not automatic — the user must remember — but
+  it works where no prose-to-the-model lever does. On Claude Code the Phase-2b Stop
+  hook removes the need to remember. The full lever map is now: **Claude Code →
+  automatic mechanical enforcement (Stop hook, 3/3); claude.ai → user-cued by name
+  (3/3) or nothing reliable.**
