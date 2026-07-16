@@ -527,3 +527,31 @@ evidence → status. An entry without evidence is a rumor and does not belong he
   was about skill *descriptions*, not *instruction* imperatives, and doesn't
   generalize to "no instruction wording can help." (c) Best claude.ai design =
   always-on rule (automatic ~83%) + GAUNTLET keyword (manual 3/3 override).
+
+### WIN-3 — GAUNTLET confirmed on the REAL claude.ai surface (owner-relayed, 2026-07-16)
+
+- Date: 2026-07-16. Status: **real-surface confirmation** — upgrades WIN-1/GAUNTLET
+  from proxy-validated to confirmed on true claude.ai.
+- Finding: the owner ran "research the spin360 fan… Run the Gaunlet" on real
+  claude.ai. Full governance fired: a substantive **plan-gate** block (Goal /
+  Unknowns / Plan / Assumption A1 / Success criteria) BEFORE the answer, and
+  **adversarial-verify** after (C1/C2 graded PASS, a real refutation of the
+  "independent" blog review's possible affiliate bias, caveat flagged), plus a
+  truthful "Skills fired: plan-gate, adversarial-verify" receipt. Evidence:
+  `results/2026-07-16/gauntlet_real_surface/` (writeup + verbatim session).
+- Three sub-findings: (a) **typo-tolerant** — the owner typed "Gaunlet" and it still
+  fired. (b) **No confabulation** — unlike INC-11, the receipt was backed by full
+  visible signatures, not a bare ✓; the GAUNTLET-scoped "name which fired" works
+  because it rides on actual firing, vindicating the INC-11 revert of the free-
+  floating receipt law. (c) **Governance improved the answer** — adversarial-verify
+  flagged solicited "collected from invite" reviews, unverifiable marketing
+  testimonials, and possible affiliate bias, exactly the scrutiny the original
+  Rivian incident lacked.
+- Bound: N=1 real-surface, owner-relayed; "fired" judged by signature (tool-load not
+  observable on claude.ai, same bar as the 7/7 acceptance). Recorded as a dated
+  observation, not a rate. The re-paste-owed drift item appears resolved (GAUNTLET
+  had to be in the settings box for this to work).
+- Lesson: the lever the owner most wanted now works end-to-end on their real surface.
+  Full validated map: Claude Code hook = 100% automatic; claude.ai always-on = ~83%
+  automatic; claude.ai GAUNTLET keyword = manual, now real-surface-confirmed and
+  typo-tolerant.
