@@ -47,13 +47,19 @@ your reply, then follow the principle stated here.
    display / Poppins body typography, and the Space Blue color system. A
    reformat keeps content verbatim; flag stale content instead of rewriting it.
 
-**Trigger word — GAUNTLET.** When my message contains the word **GAUNTLET**, treat
-it as an explicit instruction to run the full governance process for that task:
-actually LOAD the applicable skills with the Skill tool (plan-gate if the task is
-non-trivial; adversarial-verify before you deliver an analysis or answer I'll rely
-on; scope-fence / brand-standard if relevant) — load them, do not apply them from
-memory — and end by naming which fired. GAUNTLET on a trivial or casual message
-means: still skip, in one line.
+**GAUNTLET — the governance process, automatic by default and on command.**
+
+- **Always-on (default).** Run the full GAUNTLET process on EVERY non-trivial task
+  automatically — actually load the applicable skills (plan-gate, adversarial-verify)
+  with the Skill tool before delivering — WHETHER OR NOT I type the word GAUNTLET.
+  Treat every analysis or answer I'll rely on as if GAUNTLET were present. Only skip
+  for genuinely trivial or casual messages.
+- **On command.** When my message contains the word **GAUNTLET**, run that full
+  process explicitly no matter how the task looks: actually LOAD the applicable
+  skills with the Skill tool (plan-gate if non-trivial; adversarial-verify before you
+  deliver an analysis or answer I'll rely on; scope-fence / brand-standard if
+  relevant) — load them, do not apply them from memory — and end by naming which
+  fired. GAUNTLET on a trivial or casual message means: still skip, in one line.
 
 **Standing principles** (no skill involved): when stating facts about current
 state (my accounts, settings, connections, versions), verify now or say you
@@ -122,19 +128,25 @@ still 0/3; prose can't force a load, DEAD-3/INC-8) but caused no regression and 
 a mild pooled-load benefit, so it stays as cheap insurance (No-silent-defaults
 precedent), explicitly **not** as a fix.
 
-Updated 2026-07-16 (fourth edit — **GAUNTLET trigger word added, validated**). The
-Rivian-class gap is not closable by any *automatic* prose lever on claude.ai (no
-hook layer), but it **is** closable by a *user-cued* one (WIN-1): a named cue fires
-the governor. GAUNTLET packages that as a single codeword — when my message contains
-it, the model loads the applicable governors (not from memory) and skips on trivia.
-Validated `results/2026-07-16/gauntlet-trigger-RESULT.md` (claude.ai proxy, N=3):
-Rivian prompt + GAUNTLET → plan-gate + adversarial-verify **3/3**; on trivia →
-skipped 3/3 (no over-fire); vs 1/3 flaky without it. **The word is swappable** —
-GAUNTLET is arbitrary; any distinctive token works if the definition names it and it
-won't occur in normal prompts. The catch, stated plainly: it is **user-driven** — I
-must remember to type it; Claude Code needs no codeword (the Phase-2b hook enforces
-the load automatically). The paste block measures ~3,660 characters (custom-
-instructions box has ample headroom). **Re-paste owed** — paste this block into claude.ai so the settings
+Updated 2026-07-16 (fourth edit — **GAUNTLET added: always-on + on-command, both
+validated**). Two modes, both measured on the claude.ai proxy (headless, 3 governors
++ block via `--append-system-prompt`, Opus, N=3), real loads raw-grep verified:
+- **Always-on (default):** a blunt standing rule ("load the skills on EVERY
+  non-trivial task, whether or not I type GAUNTLET") fires the governor
+  **automatically ~83%** — Rivian adversarial-verify 2/3, GraphQL 3/3 — with **no
+  over-fire** on trivia/casual (0/3) and no confabulation
+  (`results/2026-07-16/alwayson-gauntlet-RESULT.md`). This **corrects** the third
+  edit's claim that the gap is "not closable with prose": the softer wordings gave
+  0/3, but a blunt unconditional imperative gives ~83%. Accurate statement: not
+  *guaranteed* by prose (Rivian flaky 2/3; still gameable per turn), only the Claude
+  Code Phase-2b hook is 100%.
+- **On command:** typing **GAUNTLET** forces the full process explicitly — validated
+  3/3 on the Rivian prompt, skips 3/3 on trivia (`results/2026-07-16/gauntlet-trigger-RESULT.md`).
+**The word is swappable** (GAUNTLET is arbitrary; any distinctive token works if the
+definition names it). Best claude.ai design = always-on (automatic ~83%) + keyword
+(manual 3/3 override); neither reaches the hook's 100%. The paste block measures
+~4,080 characters (custom-instructions box has ample headroom). **Re-paste owed** —
+paste this block into claude.ai so the settings
 box equals this file (drift law). This is the second consecutive owner-directed
 pre-evidence adoption (No-silent-defaults was the first); the maintenance-trigger
 list below is amended to name that as a legal update class.
