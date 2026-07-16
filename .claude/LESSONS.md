@@ -555,3 +555,34 @@ evidence → status. An entry without evidence is a rumor and does not belong he
   Full validated map: Claude Code hook = 100% automatic; claude.ai always-on = ~83%
   automatic; claude.ai GAUNTLET keyword = manual, now real-surface-confirmed and
   typo-tolerant.
+
+### WIN-4 — ALWAYS-ON fired on real claude.ai with NO trigger word; scope-fence caught a live credential
+
+- Date: 2026-07-16 (owner-relayed). Status: **real-surface confirmation of the
+  always-on rule** (WIN-2 was the proxy; this is true claude.ai) + first real-surface
+  scope-fence fire. Recorded ABSTRACTLY — the source email contained a real coworker's
+  plaintext password and personnel PII, so it is deliberately **not archived
+  verbatim** (recording it would be the exact exposure scope-fence flagged; a small
+  live demonstration of the data-handling discipline).
+- Finding: the owner asked claude.ai to "break this To-Do email into a clear task
+  list" — an uncued deliverable, **no GAUNTLET typed**. All three applicable governors
+  fired automatically: **plan-gate** (Goal / Knowns / Unknowns / Assumption A1 /
+  Success criteria before the list), **adversarial-verify** (criteria graded PASS with
+  evidence, a real refutation — noted the email says to notify a contact it never
+  identifies — Status delivered-assuming-A1), and **scope-fence**, which flagged an
+  adjacent security problem (a plaintext password sitting in the pasted email) as
+  out-of-scope, offered a ~2-min fix, and did NOT touch it.
+- Why it matters: (a) confirms the ~83% always-on default fires on the real surface
+  without a codeword; (b) **scope-fence fired on a genuine real-world task** — notable
+  because scope-fence was the hardest to trigger in testing (DEAD-1: unfireable via
+  description on inline-code prompts). Here a real adjacent issue existed, and it
+  behaved textbook: flagged, didn't silently fix, stayed in scope. (c) The governance
+  produced concrete value — surfacing a real credential exposure the owner should
+  remediate (reset + scrub from thread).
+- Bound: N=1 real-surface, owner-relayed, signature-judged (tool-load not observable
+  on claude.ai). Dated observation, not a rate.
+- Lesson: the two automatic claude.ai rungs are now both real-surface-confirmed —
+  GAUNTLET-cued (WIN-3) and always-on-uncued (this). And a reminder in practice: when
+  recording examples that contain secrets/PII, record the finding, not the artifact —
+  don't commit the sensitive content (here: no password, no personnel details, no
+  verbatim email in the repo).
