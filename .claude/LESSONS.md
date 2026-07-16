@@ -499,3 +499,31 @@ evidence → status. An entry without evidence is a rumor and does not belong he
   hook removes the need to remember. The full lever map is now: **Claude Code →
   automatic mechanical enforcement (Stop hook, 3/3); claude.ai → user-cued by name
   (3/3) or nothing reliable.**
+
+### WIN-2 / CORRECTION — A blunt always-on instruction DOES fire ~83% automatically on claude.ai (my earlier "not closable with prose" was too strong)
+
+- Date: 2026-07-16. Status: **corrects the record** (INC-11 provenance said the
+  Rivian-class gap is "not closable with prose on claude.ai"; that was overstated).
+- Finding: an *automatic* standing instruction fires the governor without any keyword
+  — IF the wording is blunt enough. Tested (claude.ai proxy, Opus, N=3,
+  `results/2026-07-16/alwayson-gauntlet-RESULT.md`) with "Run the full GAUNTLET
+  process on EVERY non-trivial task automatically — actually load the skills with the
+  Skill tool — whether or not I type the word": Rivian analysis adversarial-verify
+  **2/3**, GraphQL **3/3** (real loads, raw-grep verified), trivia **0/3** and casual
+  **0/3** (no over-fire), confabulation 0. Pooled governed ~83%.
+- Why it corrects earlier work: my 0/3 conclusions were on the *softer* wordings
+  (operating-discipline pointers; the conditional "load is the procedure" clause).
+  The blunt unconditional "actually load on EVERY task, whether or not I type it"
+  crosses a wording threshold they didn't. So the earlier "prose can't do it
+  automatically" was specific to those wordings, not a law about prose.
+- Honest bound (don't over-correct the other way): ~83% is "usually, automatically",
+  NOT the hook's 100%. Rivian was 2/3 (flaky on the web-derailed turn); N=3, proxy
+  surface; still prose → gameable on any given turn. R3: a flaky target isn't a
+  guarantee. Only the Claude Code Phase-2b Stop hook enforces 3/3.
+- Lesson: (a) intellectual-honesty correction — a blunter always-on instruction beats
+  the softer pointers by a lot (0/3 → ~83%), so "not closable with prose" was wrong;
+  the accurate statement is "not *guaranteed* with prose — the hook is the only 100%."
+  (b) Wording bluntness/unconditionality is itself a lever I under-weighted; DEAD-3
+  was about skill *descriptions*, not *instruction* imperatives, and doesn't
+  generalize to "no instruction wording can help." (c) Best claude.ai design =
+  always-on rule (automatic ~83%) + GAUNTLET keyword (manual 3/3 override).
