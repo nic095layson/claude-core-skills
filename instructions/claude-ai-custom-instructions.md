@@ -47,6 +47,14 @@ your reply, then follow the principle stated here.
    display / Poppins body typography, and the Space Blue color system. A
    reformat keeps content verbatim; flag stale content instead of rewriting it.
 
+**Trigger word — GAUNTLET.** When my message contains the word **GAUNTLET**, treat
+it as an explicit instruction to run the full governance process for that task:
+actually LOAD the applicable skills with the Skill tool (plan-gate if the task is
+non-trivial; adversarial-verify before you deliver an analysis or answer I'll rely
+on; scope-fence / brand-standard if relevant) — load them, do not apply them from
+memory — and end by naming which fired. GAUNTLET on a trivial or casual message
+means: still skip, in one line.
+
 **Standing principles** (no skill involved): when stating facts about current
 state (my accounts, settings, connections, versions), verify now or say you
 can't — observed behavior beats documentation. When I recount a hard-won lesson
@@ -112,10 +120,20 @@ R2 → reverted, per the pre-registration's committed rule (INC-11). **The "load
 the procedure" clause is retained** — it did NOT fix the incident class (Rivian
 still 0/3; prose can't force a load, DEAD-3/INC-8) but caused no regression and had
 a mild pooled-load benefit, so it stays as cheap insurance (No-silent-defaults
-precedent), explicitly **not** as a fix. **Honest standing: the Rivian-class gap is
-not closable on claude.ai with prose** — that surface has no hook layer, so the
-mechanical enforcement that works on Claude Code (Phase 2b Stop hook, governed loads
-3/3) cannot exist here. The paste block measures ~3,130 characters (custom-
+precedent), explicitly **not** as a fix.
+
+Updated 2026-07-16 (fourth edit — **GAUNTLET trigger word added, validated**). The
+Rivian-class gap is not closable by any *automatic* prose lever on claude.ai (no
+hook layer), but it **is** closable by a *user-cued* one (WIN-1): a named cue fires
+the governor. GAUNTLET packages that as a single codeword — when my message contains
+it, the model loads the applicable governors (not from memory) and skips on trivia.
+Validated `results/2026-07-16/gauntlet-trigger-RESULT.md` (claude.ai proxy, N=3):
+Rivian prompt + GAUNTLET → plan-gate + adversarial-verify **3/3**; on trivia →
+skipped 3/3 (no over-fire); vs 1/3 flaky without it. **The word is swappable** —
+GAUNTLET is arbitrary; any distinctive token works if the definition names it and it
+won't occur in normal prompts. The catch, stated plainly: it is **user-driven** — I
+must remember to type it; Claude Code needs no codeword (the Phase-2b hook enforces
+the load automatically). The paste block measures ~3,660 characters (custom-
 instructions box has ample headroom). **Re-paste owed** — paste this block into claude.ai so the settings
 box equals this file (drift law). This is the second consecutive owner-directed
 pre-evidence adoption (No-silent-defaults was the first); the maintenance-trigger
