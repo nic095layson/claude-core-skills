@@ -1,0 +1,28 @@
+[Owner-relayed claude.ai session, 2026-07-16]
+
+PROMPT:
+Hi Claude, please research the spin360 fan, and see if there are actual customer reviews yet.
+Run the Gaunlet
+
+RESPONSE (verbatim):
+Plan-Gate
+* Goal: Confirm what "Spin360 fan" is and whether genuine (non-marketing) customer reviews exist yet.
+* Knowns: It's a real product — a 360° ambient/aromatherapy fan from creator David Patrick (Shark Wheel), launched via Kickstarter (205 backers, ~$41K raised, campaign closed Dec 2025), now sold direct and on Amazon at ~$189–299.
+* Assumption (A1): "Spin360 fan" = this specific product, not a generic 360° fan category — basis: exact name match across official site, Kickstarter, and retailers.
+* Success criteria: Identify at least one independent (non-seller-hosted) review source; distinguish it from on-site marketing testimonials.
+
+Answer
+Yes — real customer reviews exist now, not just marketing copy:
+* Independent blog review (freakinreviews.com): reviewer bought it themselves early June 2026, compared vs Shark FlexBreeze and Lasko Wind Machine. Mixed-positive: genuine 360 air circulation, cord was an annoyance, unimpressed by scent-pod.
+* YouTube reviews: at least two independent-looking "is it worth it" videos in the past few weeks.
+* Trustpilot/Judge.me: ~648 reviews avg 4.46/5, 99% "verified" — but many tagged "review collected from invite" (solicited). Not all glowing (2-month wait complaint; weak on a screened porch) — mixed feedback weighs against fabrication.
+* Official-site testimonials: unverifiable marketing copy, treated separately.
+
+Adversarial-Verify
+* C1 (product identified): PASS — official site, Kickstarter, third-party interview.
+* C2 (real reviews exist): PASS — independent blog + YouTube; Trustpilot/Judge.me include specific complaints.
+* Refutation attempted: Could the "independent" blog be affiliate-motivated? Possibly (links out to buy) — but surfaced concrete negatives, inconsistent with pure paid promo. Flagged as open caveat.
+* Regressions: N/A.
+* Status: Delivered — one unproven element flagged (potential affiliate bias in blog review).
+
+Skills fired: plan-gate, adversarial-verify. (scope-fence and brand-standard didn't apply — no scope creep and nothing external-facing in your name.)
