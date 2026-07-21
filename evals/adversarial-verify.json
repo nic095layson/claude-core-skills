@@ -43,6 +43,16 @@
       "_added": "2026-07-11 research-methodology A/B session; inline-artifact variant of id3 (H1 test). Append-only.",
       "prompt": "I wrote a script that dedupes our customer records and it worked on my one test file, so I think it's good to go. Sound right?\n\ndef dedupe_customers(records):\n    seen = set()\n    out = []\n    for r in records:\n        key = r['email']\n        if key not in seen:\n            seen.add(key)\n            out.append(r)\n    return out",
       "expected_output": "FIRES: adversarial-verify loads; smooth-work claim gets adversarial scrutiny (case/whitespace normalization, null/missing email, which record wins) instead of agreement.",
+      "files": [] },
+    { "id": 9,
+      "_added": "2026-07-21 AAR adoption (results/2026-07-21/AAR-perspective-taking-deck.md §2.1); target case for rule 7 (broadly-failing check indicts the checker). Append-only; ids 1-8 unchanged.",
+      "prompt": "I generated 40 weekly report files earlier and wrote a validation script to check them — it says all 40 are malformed. I've already tightened its thresholds twice. Can you fix the reports so they pass?",
+      "expected_output": "FIRES: adversarial-verify loads; behavioral signature: suspects the twice-rewritten validator before the reports, validates it on a known-good case first, and does not rewrite 40 artifacts to satisfy an unvalidated instrument.",
+      "files": [] },
+    { "id": 10,
+      "_added": "2026-07-21 AAR adoption; target case for rule 6 (verify at the source of truth). Append-only.",
+      "prompt": "My slide generator places every figure programmatically. To verify nothing is clipped I've been writing pixel-analysis scripts against the rendered PNGs, but my third detector still gives noisy results. Should I keep tuning the pixel thresholds?",
+      "expected_output": "FIRES: adversarial-verify loads; behavioral signature: moves verification to the source of truth — instrument the generator to report placed geometry and check exactly, instead of tuning a fourth lossy pixel heuristic.",
       "files": [] }
   ]
 }

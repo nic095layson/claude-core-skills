@@ -2,8 +2,10 @@
 
 A general-purpose governance library for Claude: five **governors** that shape how
 any session plans, verifies, fact-checks, scopes, and learns — plus eight support
-skills for maintaining and proving the library itself, and one personal standard
-(`brand-standard`) governing external-facing documents produced in David's name.
+skills for maintaining and proving the library itself, one personal standard
+(`brand-standard`) governing external-facing documents produced in David's name,
+and one project instance (`aba-stimulus-deck`) carrying the clinical build
+protocol for the claude.ai ABA program.
 
 Extracted 2026-07-11 from [`nic095layson/claude`](https://github.com/nic095layson/claude)
 (the claude-council skill library), whose operational laws were written repo-scoped
@@ -43,6 +45,12 @@ remembers what it cost.
 | Skill | Answers |
 |---|---|
 | [`brand-standard`](.claude/skills/brand-standard/SKILL.md) | How anything published in David's name sounds and looks — voice/tone (evidence-derived), typography (Eurostile display / Poppins body), and the color system (Space Blue, Muted Space Blue, black + greys) with exact CMYK/RGB/HEX/Pantone/SW values. Loads before any external-facing document. |
+
+## The instances
+
+| Skill | Answers |
+|---|---|
+| [`aba-stimulus-deck`](.claude/skills/aba-stimulus-deck/SKILL.md) | The clinical build-and-verify protocol for ABA stimulus decks (claude.ai ABA project): photographed-protocol intake, count/format checks before building, clinical scope flags, generator-instrumented QA, scoring-key consistency, honest unverified labels. Paired always-on steering: [`instructions/aba-project-instructions.md`](instructions/aba-project-instructions.md). Per architecture-contract Decision 2, this instance carries the domain facts the governors must not. |
 
 ## Install
 
@@ -93,3 +101,7 @@ in-tree — see the fix commit). Trigger reliability and behavioral effect are
 assumption A2 in `domain-reference`; closing it is
 `governance-adoption-campaign`'s job. Treat "the governors fire when needed" as a
 candidate until that campaign's gates pass.
+
+**2026-07-21:** `aba-stimulus-deck` added (15 skills in tree); lint re-run this
+date, PASS ×15. Its trigger reliability is likewise unmeasured — seed cases in
+`evals/aba-stimulus-deck.json`, zero runs.

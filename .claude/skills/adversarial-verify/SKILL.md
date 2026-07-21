@@ -125,6 +125,14 @@ Delivery shape (adapt labels; keep every section honest, omit only what's empty)
    justified exception at a time.
 5. **The pass is proportional** — a five-line fix gets a five-minute pass, not the
    full table; skipping refutation entirely is the only wrong size.
+6. **Verify at the source of truth** — when you built the thing being checked,
+   instrument the builder to report what it did rather than inferring it from its
+   output; reverse-engineering your own artifact is a lossy proxy for facts you
+   already hold exactly.
+7. **A broadly-failing check indicts the checker** — a detector that fails most or
+   all cases is almost always the broken part; validate it on a known-answer case
+   before acting on its verdict, and after two failed detector rewrites change
+   measurement strategy, not thresholds.
 
 ## When NOT to use this skill
 
@@ -151,6 +159,13 @@ inflated verdicts), and failure-archaeology INC-1 (the ran-nothing incident behi
 the behavioral-check law). The repo-specific eval protocol (evals.json schema,
 fresh-session trigger tests) remains in that repo and applies when editing skills
 there.
+
+Rules 6–7 added 2026-07-21 from the perspective-taking deck AAR
+(`results/2026-07-21/AAR-perspective-taking-deck.md` §2.1: five pixel-heuristic
+detectors produced zero verified information the generator could have reported
+exactly, and a 10/10-failure verdict was believed over the artifact for two more
+rewrites). Status: **adopted owner candidate, not yet A/B-validated** —
+pre-registered in `experiments/hypothesis-2026-07-21-{verify-at-source,suspect-the-instrument}.md`.
 
 Re-verify lineage: `gh api repos/nic095layson/claude/contents/.claude/skills --jq '.[].name'`
 — expect `validation-and-evals`, `logic-tree`, `claude-council`, `failure-archaeology`.

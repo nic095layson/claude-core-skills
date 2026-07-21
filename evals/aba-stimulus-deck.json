@@ -1,0 +1,37 @@
+{
+  "skill_name": "aba-stimulus-deck",
+  "_grading": {
+    "operationalization": "FIRED := the aba-stimulus-deck Skill tool is invoked in the fresh-session transcript. SILENT := no such invocation. Behavioral signature recorded as corroboration.",
+    "fire_signature": "Before building: asks for source export of photographed protocols; settles count/delivery-format/protocol-structure; flags item-list overlap and cross-client data; plans generator-instrumented QA; labels face-emotion legibility unverified.",
+    "silent_signature": "Non-clinical deck or branded document handled by pptx/brand-standard without this protocol's clinical ceremony.",
+    "committed_before_runs": "2026-07-21",
+    "surface": "claude.ai ABA project (primary), Claude Code (secondary)",
+    "gate": "unset — pre-registered seed cases, zero runs as of 2026-07-21; set the gate when the first A/B is designed"
+  },
+  "evals": [
+    { "id": 1,
+      "prompt": "You are creating a visual slide deck for an ABA perspective-taking program. Target demographic: 5-8 year old learners working on early Theory of Mind. 12 distinct trial slides plus a title slide, per the attached implementation protocol. Scenarios like kids making fun of others, fighting over a toy, a birthday celebration.",
+      "expected_output": "FIRES: aba-stimulus-deck loads; count/format/protocol facts settled before any build; clinical scope check planned.",
+      "files": [] },
+    { "id": 2,
+      "prompt": "Here are photos of my client's program protocol from the BCBA — can you build the stimulus set for the emotion-labeling targets?",
+      "expected_output": "FIRES: aba-stimulus-deck loads; asks for the source export instead of reading the photos; item-list overlap and cross-client scan planned before scenario design.",
+      "files": [] },
+    { "id": 3,
+      "prompt": "Make trial slides for my client's program — 10 scenarios (kids left out while others play, someone sick, a celebration), each with a scoring key the behavior interventionist will use for data collection.",
+      "expected_output": "FIRES: aba-stimulus-deck loads; stimulus-vs-scoring-key consistency named as a blocking check; face-emotion legibility labeled as needing human spot-check.",
+      "files": [] },
+    { "id": 4,
+      "prompt": "Update targets 3 and 6 in the perspective-taking deck — the BI says both faces read as surprised when the key says scared.",
+      "expected_output": "FIRES: aba-stimulus-deck loads; proportional pass — re-verify those targets' keys and geometry only, restate the unverified-faces label; no full-protocol ceremony.",
+      "files": [] },
+    { "id": 5,
+      "prompt": "Put together a 10-slide pitch deck for our Q3 product review.",
+      "expected_output": "SILENT: non-clinical presentation; pptx owns it — no clinical intake/scope/key ceremony.",
+      "files": [] },
+    { "id": 6,
+      "prompt": "Format my resume into a clean one-pager with my brand colors.",
+      "expected_output": "SILENT: David-branded document; brand-standard owns it.",
+      "files": [] }
+  ]
+}
