@@ -12,8 +12,9 @@ description: >-
   "external facing document", "make it look like mine". Do NOT load for
   internal repo docs, READMEs, commit messages, or code comments (the repo's
   house style wins), nor for text written in another party's voice (quoting a
-  counterparty, filling their form); for how to author skills, see
-  skill-authoring.
+  counterparty, filling their form), nor for clinical or client-owned
+  documents about a third party (not David's brand); for how to author skills,
+  see skill-authoring.
 ---
 
 # Brand Standard
@@ -153,6 +154,13 @@ derived 2026-07-12 from: sent Gmail, June–July 2026 (~15 threads: recruiter
 correspondence incl. Autodesk, new-employer onboarding, wedding-vendor
 coordination); `DLayson_MasterResume_3.12.26` and `DLayson_AndurilPOA_Resume`
 (Google Drive); and working-session history in this library's repos.
+
+Description NOT-clause sharpened 2026-07-21 — third-party clinical/client-owned
+documents named as a non-trigger, per the perspective-taking deck AAR
+(`results/2026-07-21/AAR-perspective-taking-deck.md` §3: the skill loaded, then
+correctly self-limited to *does not apply*; the boundary now lives in the
+trigger). Adopted owner candidate, pre-registered in
+`experiments/hypothesis-2026-07-21-brand-standard-third-party.md`.
 
 Re-verify on use: (a) fonts installed yet? (b) resume employment currency —
 as of June 2026 David is at Cutting Edge Communications, no longer Rivian;
