@@ -20,8 +20,12 @@ confirms the email lane).
 **Adoption procedure (in this order):**
 1. Package and upload `application-tailor` and `after-report` to claude.ai per
    install-and-surfaces Runbook 2; verify both register in a fresh session.
-2. Paste the block below into claude.ai → Settings → Personalization → custom
-   instructions.
+2. Paste the block below into claude.ai → Settings → **"Instructions for
+   Claude"** (UI label observed by the owner 2026-08-03; this is the
+   account-wide custom-instructions field formerly reached via
+   Personalization/Profile — external guides confirm the rename, same
+   surface). The canonical file's header still says "Personalization" —
+   stale label, fix it at promotion (step 3), not before.
 3. Promote: replace the canonical file's paste block with this one, move this
    file's notes into its provenance, delete this file. Box and canonical file
    agree again.
