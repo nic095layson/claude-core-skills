@@ -1,0 +1,149 @@
+{
+ "key": "prior-art",
+ "analysis": {
+  "findings": [
+   {
+    "claim": "Q1 \u2014 The library has NEVER considered, tested, or recorded cross-vendor delegation (Codex/GPT/a second-vendor model as implementer or reviewer). Every mention of Codex/OpenAI/GPT in the repo occurs only inside the 2026-07-13 external-skill-analysis, describing THIRD-PARTY repos' compatibility with other agent CLIs, never this library's own practice.",
+    "evidence": "/home/user/claude-core-skills/results/2026-07-13/external-skill-analysis/analysis-result.json (line 1524): \"Claude Code only (plus OpenAI Codex via marketplace compatibility)\"; (line 1780): \"a native .codex-plugin manifest for Codex CLI, and dispatch skills claimed to work on Cursor, Windsurf, Copilot, and Gemini CLI\"; (line 1467): \"plus other CLI agents: Gemini CLI, Cursor, Codex, Goose\". The only other GPT-adjacent string in tracked prose is an AI-writing-detection regex: /home/user/claude-core-skills/results/2026-07-13/external-skill-analysis/REPORT.md (line 123): \"leaks, `utm_source=chatgpt.com`, placeholder regexes\". A repo-wide case-insensitive grep for codex|gpt|openai|cross-vendor|multi-model matched nothing in .claude/skills/, hooks/, instructions/, evals/, or experiments/."
+   },
+   {
+    "claim": "Q1 (nuance) \u2014 'Cross-model' in this repo always means Anthropic-internal pairs (Opus vs Sonnet, with Haiku vs Sonnet as a planned extension), never cross-vendor. The one delegation-discipline artifact it endorses is Claude-subagent-based, not second-vendor.",
+    "evidence": "/home/user/claude-core-skills/evals/cross-model-path-consistency-METHOD.md (\u00a76): \"Extend coverage: other model pairs (e.g. Haiku vs Sonnet), other surfaces (interactive Claude Code)\". /home/user/claude-core-skills/results/2026-07-13/external-skill-analysis/REPORT.md (HIGHLY RECOMMEND #3, subagent-driven-development): \"Built-ins provide the dispatch mechanism; this supplies the operating discipline nothing in the stack has: model-tier economics (\\\"turn count beats token price\\\"; an omitted model silently inherits the expensive session model), the review-package BASE-never-HEAD~1 trap, file-based handoffs\" \u2014 Claude subagents, same vendor."
+   },
+   {
+    "claim": "Q2 \u2014 Multi-model evidence infrastructure #1: the campaign's cross-model discriminating test ran Opus-vs-Sonnet headless A/B with `claude -p`, arm-toggling of ~/.claude/skills under a lockfile, blind grading, and a without-arm fire sentinel.",
+    "evidence": "/home/user/claude-core-skills/.claude/skills/governance-adoption-campaign/SKILL.md (Cross-model discriminating test, 2026-07-11): \"exact Phase 2 prompts/planted/signatures reused, 16 fresh `claude -p` runs, cwd out-of-repo, lockfile held (isolated `CLAUDE_CONFIG_DIR` rejected \u2014 breaks keychain auth here), restored byte-identical, without-arm sentinel 0/8, blind-graded.\" And /home/user/claude-core-skills/results/2026-07-11/phase2-sonnet/RESULTS-SONNET-DISCRIMINATING.md: \"2 governors \u00d7 2 prompts \u00d7 2 arms \u00d7 2 runs = **16 fresh `claude -p` runs**, `--model claude-sonnet-5` in both arms, cwd **outside** the repo and `~/.claude` (`RUNROOT=/private/tmp/phase2sonnet_run`)\" and \"Graded **blind to arm**: 16 independent grader agents each saw one opaque trace (`t01`\u2013`t16`) + the governor's signature, never the arm\"."
+   },
+   {
+    "claim": "Q2 \u2014 Multi-model evidence infrastructure #2: the uncued Opus+Sonnet discriminating test (32 headless runs, pre-registered by commit hash before any run) and the FIRED-as-observed-Skill-tool-invocation measurement doctrine.",
+    "evidence": "/home/user/claude-core-skills/.claude/skills/governance-adoption-campaign/SKILL.md: \"32 fresh `claude -p` runs (2 gov \u00d7 2 prompts \u00d7 2 arms \u00d7 2 runs \u00d7 Opus+Sonnet), pre-registered `ac3af36` before any run, lock held, restored byte-identical, without-arm sentinel 0/16, blind-graded + adversarially spot-verified.\" Measurement definition in /home/user/claude-core-skills/results/2026-07-11/RESULTS.md: \"FIRED := the governor's **`Skill` tool was invoked** in that run's stream-json transcript (a `tool_use` with `name: \\\"Skill\\\"`, `skill: \\\"<governor>\\\"`) \u2014 a direct observation of the transcript, not an introspective 'would you have loaded it?'\"."
+   },
+   {
+    "claim": "Q2 \u2014 Multi-model evidence infrastructure #3: a dedicated, reusable cross-model path-consistency instrument (method + fixed prompt) exists in evals/, with a completed Sonnet-vs-Opus run on claude.ai in results/2026-07-15/. It compares whether two models take the same skill-governed path via a rigid diffable PATH TRACE, N>=2 fresh sessions, identical bytes to both models.",
+    "evidence": "/home/user/claude-core-skills/evals/cross-model-path-consistency-METHOD.md: \"a *path-comparison* \u2014 given identical input and the same installed governors, do model A and model B reach the answer the same way, and where do they diverge?\" and \"**Identical input to both models.** Same bytes. Any difference is then attributable to the model, not the prompt.\" First-run record /home/user/claude-core-skills/results/2026-07-15/sonnet-opus-path-comparison.md: \"The two models take substantially the same path, with one consistent, characterizable difference... **disposition on ambiguous business-logic calls** (Opus silently picks the safe default; Sonnet preserves original behavior and flags it)\"."
+   },
+   {
+    "claim": "Q3 \u2014 Dated-artifact convention: analysis/report artifacts live under `results/<date>/` at repo root, with a named topic subdirectory for a distinct investigation (e.g. results/2026-07-13/external-skill-analysis/REPORT.md + analysis-result.json; results/2026-07-11/{RESULTS.md,RESULTS-AB.md,FINAL-ACCEPTANCE.md,phase2/,phase2-sonnet/,phase2-uncued/,final-acceptance/}; results/2026-07-12/CLAUDE-AI-ACCEPTANCE.md; results/2026-07-15/ with per-model deliverables + comparison). The convention is written down as an output contract.",
+    "evidence": "/home/user/claude-core-skills/evals/cross-model-path-consistency-METHOD.md (\u00a74 'Output contract (what a finished run leaves behind)'): \"Under `results/<date>/`: - each model's deliverable (verbatim); - `*-path-comparison.md` with: status, bottom line, signature-hit matrix, convergences, divergence ledger (classified), the reconciliation note, instrument-validation checks, verdict, caveats\". Directory listing confirms: /home/user/claude-core-skills/results/{2026-07-11,2026-07-12,2026-07-13,2026-07-15}/ with topic subdirs (phase2, phase2-sonnet, phase2-uncued, final-acceptance, external-skill-analysis)."
+   },
+   {
+    "claim": "Q3 \u2014 Accepted-evidence record shape: a pre-registered hypothesis file in experiments/ (exact quoted OLD/NEW text + per-case predictions, dated, committed before running), verbatim jsonl transcripts, N=2-floor fresh-session A/B, rates recorded dated and never promoted to 'always', and any-regression-blocks; confirmed changes land citing the experiment file, failed ones become DEAD-n ledger entries.",
+    "evidence": "/home/user/claude-core-skills/experiments/hypothesis-2026-07-15-no-silent-defaults.md: \"**Pre-registered before any A/B run.**\" plus exact FROM/TO text and a per-case prediction table. /home/user/claude-core-skills/.claude/skills/governance-adoption-campaign/SKILL.md: \"A governor passing Phase 1 at 5/6 is recorded as 'fires at a measured ~83% on this prompt set, dated', never promoted to 'always fires'\". /home/user/claude-core-skills/.claude/skills/research-methodology/SKILL.md: \"**R1 \u2014 N=2 floor:** every case, at least 2 runs per variant\", \"**R2 \u2014 any regression blocks:** if ANY run of ANY case regresses under NEW, the [change is blocked]\", \"**Confirmed \u2192 accepted:** land the edit; cite the experiment file in the commit\", \"**Failed:** append to **lessons-ledger** as a dead end (`DEAD-n`, status ABANDONED)\", and the result-vs-anecdote table: \"Prediction: Pre-registered, dated file... Grading: Pass/fail against written criteria, verbatim outputs kept\"."
+   },
+   {
+    "claim": "Q4 \u2014 Neither hooks/ nor instructions/ delegates to any external CLI or second model. hooks/ contains exactly one artifact: scope-fence-reminder.sh, a bash+jq PreToolUse hook that injects a one-line context reminder into Claude's own session (the mechanical lever past the measured description-triggering ceiling). instructions/ contains only the claude.ai custom-instructions paste block steering Claude's own four governance skills.",
+    "evidence": "/home/user/claude-core-skills/hooks/README.md: \"A PreToolUse hook on Edit|Write injects a one-line scope reminder into model context at the first file edit of each session \u2014 once, then silent (sentinel in $TMPDIR keyed by session_id).\" /home/user/claude-core-skills/hooks/scope-fence-reminder.sh calls only `jq` and `printf` \u2014 no model, no CLI agent. /home/user/claude-core-skills/instructions/claude-ai-custom-instructions.md: \"I have four governance skills these instructions steer \u2014 plan-gate, adversarial-verify, scope-fence, brand-standard. These instructions say *when* to use them; the skills define *how*.\" Directory listing confirms these are the only files in each dir."
+   },
+   {
+    "claim": "Q5 \u2014 The library has one large prior-art record on adopting third-party skills: results/2026-07-13/external-skill-analysis/. Method: multi-agent inventory plus mandatory adversarial refutation of every high-tier call (10 of 13 downgraded), comparison against core skills, platform built-ins, and the base-model retirement standard; verdict tiers MUST ADD / HIGHLY RECOMMEND / NICE TO HAVE / NOT NEEDED / fold-don't-add; nothing executed without owner approval.",
+    "evidence": "/home/user/claude-core-skills/results/2026-07-13/external-skill-analysis/REPORT.md: \"Every MUST ADD / HIGHLY RECOMMEND call was then adversarially refutation-tested by an independent agent instructed to read the actual files plus architecture-contract, and to downgrade when torn. **10 of 13 high-tier calls were downgraded by that pass; 3 survived.**\"; comparison bar includes \"the base-model standard that retired live-state-truth (\\\"if the model already does it uncued, the skill is dead weight\\\")\"; \"Proposed next actions (pending owner approval \u2014 nothing executed)\"."
+   },
+   {
+    "claim": "Q5 \u2014 Third-party adoption house rules established by that report: nothing new earns always-on (plugins/on-demand only), external material folds into core skills only through research-methodology + architecture-contract gates, license text is never vendored when incompatible, third-party auth flows get trust-flagged, and adopted skills that conflict with a personal standard get project-scoped with the standard overriding.",
+    "evidence": "/home/user/claude-core-skills/results/2026-07-13/external-skill-analysis/REPORT.md: \"Nothing new earns always-on. The always-on set is unchanged: plan-gate, adversarial-verify, scope-fence (+ brand-standard...). Every recommendation above is a plugin or on-demand install \u2014 zero per-session context cost until invoked.\"; \"Every one gates through research-methodology (hypothesis \u2192 A/B \u2192 N=2 floor) and architecture-contract before any edit\"; \"**CC BY-SA 4.0: Trail of Bits \u2014 plugin-only, never copy text into this repo.**\"; \"**Trust flag: the Google Workspace block routes OAuth through a third party's cloud function with a hardcoded client ID (gmail/scripts/auth.py) and rejects personal Gmail accounts \u2014 do not use**\"; career-ops \"ships its own voice/typography that **conflicts with brand-standard** \u2014 if adopted, project-scoped with brand-standard explicitly overriding its voice assets.\""
+   },
+   {
+    "claim": "Q5 \u2014 Ledger entries bearing on evaluating/adopting any new skill (methodology traps a sol-skill adoption test would inherit): deliverable-only inspection inverts verdicts (INC-5), chat-only A/Bs suppress artifact-borne behavior (INC-6), near-ceiling baselines can't test a discipline (INC-7), A/B runs must isolate cwd and lock ~/.claude/skills (INC-4), and description-based triggering has a hard ceiling for mid-hands-on-work skills (DEAD-1/DEAD-2).",
+    "evidence": "/home/user/claude-core-skills/.claude/LESSONS.md: INC-5 \"never grade a governor signature from the deliverable alone\"; INC-6 \"a chat-only, no-deliverable framing measures the wrong thing\"; INC-7 \"before spending runs, design the scenario so the **silent default is the attractor**\"; INC-4 \"an experiment that mutates shared global state (`~/.claude/skills/`) must hold a **lockfile** or run against an **isolated config dir**\"; DEAD-1 \"when handed concrete code the model just codes and handles adjacent work inline; it does not pause to consult a governance skill, regardless of description wording\"."
+   },
+   {
+    "claim": "Q5 / install conventions \u2014 Any adopted skill is subject to the register-then-verify law and the per-surface fork discipline; installs never sync themselves and 'files in place' is not 'installed'.",
+    "evidence": "/home/user/claude-core-skills/.claude/skills/install-and-surfaces/SKILL.md: \"**an install is not done when the files are in place; it is done when the surface demonstrably loads them.**\" and \"Installed copies do not follow the repo \u2014 every install is a fork until re-copied (the stale-copy class, debugging-playbook \u00a74).\""
+   },
+   {
+    "claim": "Context finding \u2014 The retired lessons-ledger governor's doctrine (symptom \u2192 root cause \u2192 evidence \u2192 status; 'An entry without evidence is a rumor') remains the repo's operative record format even though the skill is retired; the project ledger .claude/LESSONS.md actively follows it through 2026-07-15.",
+    "evidence": "/home/user/claude-core-skills/.claude/skills/lessons-ledger/SKILL.md: \"**RETIRED 2026-07-11 (architecture-contract Decision 7).** ... Not installed anywhere; kept here with full eval history. The doctrine below remains true as practice.\" and entry format \"### <TYPE>-<n> \u2014 <one-line title> ... - Evidence: command output, path+lines, diff, hash. No evidence, no entry.\" /home/user/claude-core-skills/.claude/LESSONS.md carries INC-1 through INC-7 in exactly that format, latest dated 2026-07-15."
+   },
+   {
+    "claim": "Context finding \u2014 The instrument reuse convention: cross-model comparison scenarios must reuse phrasings already validated in evals/*.json, and the instrument's own Provenance section names which eval sets it borrowed from \u2014 a pattern any new multi-model instrument would be expected to follow.",
+    "evidence": "/home/user/claude-core-skills/evals/cross-model-path-consistency-prompt.md (Provenance): \"The scenario reuses non-leading phrasings validated in `evals/plan-gate.json`, `evals/adversarial-verify.json`, and `evals/scope-fence.json` (the migration-script, \\\"worked on my laptop,\\\" dangled-logging/dead-code, and trivia-control patterns).\""
+   }
+  ],
+  "summary": "The claude-core-skills library has zero prior art on cross-vendor delegation: no consideration, test, or record of Codex, GPT, or any non-Anthropic model as implementer or reviewer anywhere in skills, hooks, instructions, evals, or experiments \u2014 the only Codex/OpenAI mentions are descriptions of third-party repos' agent-CLI compatibility inside the 2026-07-13 external-skill-analysis. What it does have is substantial Anthropic-internal multi-MODEL infrastructure: Opus-vs-Sonnet headless A/B machinery (fresh `claude -p` runs with `--model` pinned, lockfile-guarded arm toggling of ~/.claude/skills, FIRED measured as observed Skill-tool invocations in stream-json transcripts, blind grading, pre-registration by commit hash) plus a reusable cross-model path-consistency instrument in evals/ with a completed Sonnet-vs-Opus run in results/2026-07-15/. Conventions are firm: dated artifacts live at `results/<date>/` (topic subdirectory for distinct investigations), accepted evidence requires a pre-registered experiments/hypothesis-*.md, N=2 fresh-session A/B, verbatim transcripts, dated rates never promoted to \"always,\" and any-regression-blocks; failures become DEAD-n entries in .claude/LESSONS.md. Hooks and instructions delegate nothing externally \u2014 the sole hook is a bash+jq context-injection reminder and the instructions file steers Claude's own governors. On adopting third-party skills, the 2026-07-13 report is the controlling precedent: adversarial refutation downgraded 10 of 13 high-tier calls, nothing new earns always-on, external ideas fold into core skills only through research-methodology gates, and licensing/trust flags plus register-then-verify install discipline apply to anything brought in."
+ },
+ "verification": {
+  "verdicts": [
+   {
+    "claim": "Q1 \u2014 The library has NEVER considered, tested, or recorded cross-vendor delegation; every Codex/OpenAI/GPT mention occurs only inside the 2026-07-13 external-skill-analysis describing third-party repos.",
+    "verdict": "confirmed",
+    "correction": "Verified. analysis-result.json line 1524 reads verbatim \"Claude Code only (plus OpenAI Codex via marketplace compatibility)\"; line 1467 \"plus other CLI agents: Gemini CLI, Cursor, Codex, Goose\"; line 1780 \"a native .codex-plugin manifest for Codex CLI, and dispatch skills claimed to work on Cursor, Windsurf, Copilot, and Gemini CLI\"; REPORT.md line 123 has the utm_source=chatgpt.com regex. Independent case-insensitive greps for codex|openai|gpt|cross-vendor|multi-model AND for gemini|cursor|windsurf|copilot|second model|another vendor|non-anthropic|delegate to|qwen|kimi across .claude/, evals/, experiments/, hooks/, instructions/, and README.md returned zero hits. The only matches outside results/2026-07-13 are incidental mixed-case substrings (gPT, GpT, cgpt) inside base64 tool-use IDs in results/2026-07-11 jsonl transcripts \u2014 spot-checked (e.g. \"...ZjrKZdmJiiiVcgpteqLYo...\"), not mentions. The 'tracked prose' qualification holds exactly."
+   },
+   {
+    "claim": "Q1 (nuance) \u2014 'Cross-model' in this repo always means Anthropic-internal pairs (Opus vs Sonnet, Haiku planned), and the one endorsed delegation-discipline artifact is Claude-subagent-based.",
+    "verdict": "confirmed",
+    "correction": "evals/cross-model-path-consistency-METHOD.md line 169: \"Extend coverage: other model pairs (e.g. Haiku vs Sonnet), other surfaces (interactive Claude Code)\" \u2014 verbatim. REPORT.md lines 77-86: subagent-driven-development is \"`obra/superpowers` \u00b7 MIT \u00b7 Claude Code only \u00b7 on-demand\" with the quoted model-tier-economics passage verbatim (lines 80-86). All cross-model tests in the repo pin --model to claude-sonnet-5 / Opus."
+   },
+   {
+    "claim": "Q2 #1 \u2014 Cross-model discriminating test: Opus-vs-Sonnet headless A/B with claude -p, lockfile-guarded arm toggling of ~/.claude/skills, blind grading, without-arm sentinel.",
+    "verdict": "confirmed",
+    "correction": "Both quotes verbatim: governance-adoption-campaign/SKILL.md lines 212-215 and phase2-sonnet/RESULTS-SONNET-DISCRIMINATING.md lines 23-25, 31-32. One precision note that does not flip anything: the 16 fresh runs were all `--model claude-sonnet-5` in both arms; the Opus side of the comparison is the prior Phase 2 Opus rates (SKILL.md line 216: \"live-state-truth Opus 4/4\u00b74/4, Sonnet 4/4\u00b74/4\") \u2014 the analyst's own evidence quote already states this."
+   },
+   {
+    "claim": "Q2 #2 \u2014 Uncued Opus+Sonnet discriminating test (32 runs, pre-registered ac3af36) and FIRED-as-observed-Skill-tool-invocation doctrine.",
+    "verdict": "confirmed",
+    "correction": "SKILL.md lines 229-232 match verbatim (\"32 fresh `claude -p` runs (2 gov \u00d7 2 prompts \u00d7 2 arms \u00d7 2 runs \u00d7 Opus+Sonnet), pre-registered `ac3af36` before any run... without-arm sentinel 0/16, blind-graded + adversarially spot-verified\"). results/2026-07-11/RESULTS.md lines 11-13 match the FIRED definition verbatim, under the header \"How 'fired' was measured (committed before running)\"."
+   },
+   {
+    "claim": "Q2 #3 \u2014 Reusable cross-model path-consistency instrument in evals/ with completed Sonnet-vs-Opus claude.ai run in results/2026-07-15/.",
+    "verdict": "confirmed",
+    "correction": "METHOD.md lines 21-22, 56-57 match verbatim; sonnet-opus-path-comparison.md lines 40-43 match verbatim. Minor bound the analyst's claim glosses: the N>=2 requirement is the method's rule (line 82); the completed first run was N=1 per model (METHOD.md L3: \"N=1, so it is 'observed once, dated,' not 'always'\") \u2014 the method file itself lists \"N=2 per model\" as ratchet item 2."
+   },
+   {
+    "claim": "Q3 \u2014 Dated-artifact convention: results/<date>/ with topic subdirectories, written down as an output contract.",
+    "verdict": "confirmed",
+    "correction": "METHOD.md \u00a74 (lines 117-124) matches verbatim. Directory listing confirms results/{2026-07-11,2026-07-12,2026-07-13,2026-07-15}; 2026-07-11 contains RESULTS.md, RESULTS-AB.md, FINAL-ACCEPTANCE.md and subdirs final-acceptance/, phase2/, phase2-sonnet/, phase2-uncued/; 2026-07-12 has CLAUDE-AI-ACCEPTANCE.md; 2026-07-13 has external-skill-analysis/; 2026-07-15 has both models' deliverables, both trace files, the comparison, and two A/B records. Note the \u00a74 contract is written for path-consistency runs specifically; the repo-wide convention is evidenced by uniform practice."
+   },
+   {
+    "claim": "Q3 \u2014 Accepted-evidence record shape: pre-registered hypothesis files, verbatim jsonl, N=2 floor, dated rates never promoted, any-regression-blocks, confirmed\u2192cite / failed\u2192DEAD-n.",
+    "verdict": "confirmed",
+    "correction": "All quotes verbatim: hypothesis-2026-07-15-no-silent-defaults.md line 3 \"**Pre-registered before any A/B run.**\" with FROM (exact)/TO (exact) blocks (lines 18, 23) and \"Pre-registered predictions (per case)\" (line 34); campaign SKILL.md lines 51-52 (~83% quote); research-methodology SKILL.md lines 88, 91-92, 108, 112, 120-122. See MISSED entry for a third outcome path the binary confirmed/DEAD framing omits."
+   },
+   {
+    "claim": "Q4 \u2014 hooks/ and instructions/ delegate to no external CLI or second model; one bash+jq hook, one custom-instructions paste block.",
+    "verdict": "confirmed",
+    "correction": "Directory listing: hooks/ contains exactly README.md + scope-fence-reminder.sh; instructions/ contains exactly claude-ai-custom-instructions.md. The 15-line script calls only cat, jq, touch, printf (read in full). hooks/README.md lines 6-9 and instructions file lines 17-19 match the quotes verbatim."
+   },
+   {
+    "claim": "Q5 \u2014 external-skill-analysis method: multi-agent inventory + mandatory adversarial refutation (10 of 13 downgraded), comparison bar incl. base-model retirement standard, tier verdicts, nothing executed without owner approval.",
+    "verdict": "confirmed",
+    "correction": "REPORT.md lines 14-24 match verbatim including \"**10 of 13 high-tier calls were downgraded by that pass; 3 survived.**\" and the base-model standard quote (lines 18-19); line 206 \"## Proposed next actions (pending owner approval \u2014 nothing executed)\". Tier headers confirmed at lines 35/62/88/146/158 (MUST ADD, HIGHLY RECOMMEND, NICE TO HAVE, NOT NEEDED, \"Fold, don't add\"). Method was a \"62-agent workflow\" (line 14)."
+   },
+   {
+    "claim": "Q5 \u2014 House rules: nothing new always-on, fold-through-gates only, no vendoring incompatible license text, trust-flagged third-party auth, brand-standard overrides conflicting adopted skills.",
+    "verdict": "confirmed",
+    "correction": "All five quotes verified verbatim: REPORT.md lines 181-184 (always-on unchanged), 161-162 (gates through research-methodology + architecture-contract), 191 (CC BY-SA plugin-only), 135-138 (Google Workspace OAuth trust flag), 118-121 (career-ops conflicts with brand-standard, project-scoped with brand-standard overriding)."
+   },
+   {
+    "claim": "Q5 \u2014 Ledger traps a sol-skill adoption test would inherit: INC-5, INC-6, INC-7, INC-4, DEAD-1/DEAD-2.",
+    "verdict": "confirmed",
+    "correction": "All five quotes verified in .claude/LESSONS.md (lines 199, 225, 241, 173-174, 56-58). One citation imprecision that does not flip the conclusion: the cwd-isolation half of \"A/B runs must isolate cwd and lock ~/.claude/skills (INC-4)\" belongs to the unnumbered entry \"### INC \u2014 Phase 2 'without-library' arm was contaminated by project-scope skills\" (line 107) and the phase2-sonnet protocol (\"cwd **outside** the repo and `~/.claude`... so no project-scope skill leak\"); INC-4 itself codifies only the lockfile/isolated-config-dir rule and the no-concurrent-campaign-sessions ban."
+   },
+   {
+    "claim": "Q5 / install conventions \u2014 register-then-verify law and every-install-is-a-fork discipline.",
+    "verdict": "confirmed",
+    "correction": "install-and-surfaces/SKILL.md line 19 (\"an install is not done when the files are in place; it is done when the surface demonstrably loads them\") and lines 72-73 (\"Installed copies do not follow the repo \u2014 every install is a fork until re-copied (the stale-copy class, debugging-playbook \u00a74)\") \u2014 both verbatim."
+   },
+   {
+    "claim": "Context \u2014 retired lessons-ledger doctrine remains the operative record format; .claude/LESSONS.md follows it through 2026-07-15.",
+    "verdict": "confirmed",
+    "correction": "lessons-ledger/SKILL.md lines 18-21 (RETIRED banner, \"The doctrine below remains true as practice\"), line 82 (entry format), line 86 (\"No evidence, no entry\"), line 41 (\"An entry without evidence is a rumor\") \u2014 all verbatim. LESSONS.md carries INC-1..INC-7 and DEAD-1/DEAD-2 in that format, with three entries dated 2026-07-15 (INC-5/6/7). Trivial nuance: two additional entries are unnumbered (\"### INC \u2014 ...\" at lines 107 and 128)."
+   },
+   {
+    "claim": "Context \u2014 instrument reuse convention: cross-model scenarios reuse phrasings validated in evals/*.json, named in the instrument's Provenance.",
+    "verdict": "confirmed",
+    "correction": "evals/cross-model-path-consistency-prompt.md lines 234-237 match verbatim, including the four named pattern sources; METHOD.md principle 2 (line 45) independently states \"Phrasings are reused from the already-validated `evals/*.json` sets.\""
+   },
+   {
+    "claim": "Summary paragraph",
+    "verdict": "confirmed",
+    "correction": "Every load-bearing assertion in the summary traced back to a verified quote; no contradiction found anywhere in scope. The zero-cross-vendor conclusion survived a second, broader grep (gemini|cursor|windsurf|copilot|qwen|kimi|second model|another vendor|non-anthropic|delegate to) over all non-results directories: zero hits."
+   },
+   {
+    "claim": "MISSED",
+    "verdict": "confirmed",
+    "correction": "Three overlooked items, none conclusion-flipping. (1) The accepted-evidence pipeline has a documented THIRD outcome beyond confirmed\u2192land and failed\u2192DEAD-n: the 2026-07-15 no-silent-defaults thread ended \"EMPIRICAL THREAD CLOSED... Law is **NOT validated**... retained as an owner-adopted **candidate / cheap insurance** (never regressed, never over-fired), not promoted to validated\" (experiments/hypothesis-2026-07-15-no-silent-defaults.md, final section; full records results/2026-07-15/no-silent-defaults-{proxy,terminal}-ab.md, verdict \"INCONCLUSIVE; law stays CANDIDATE\") \u2014 an inconclusive change can stay live as an explicitly-labeled owner candidate with ledger entries filed as INC (INC-6/INC-7), not DEAD. Directly relevant to how a sol-skill trial that neither confirms nor regresses would be recorded. (2) The library's own precedent for large-scale same-vendor delegation is quantified: \"Workflow cost: 62 agents, ~3.0M subagent tokens, 54 min, 0 agent errors\" (REPORT.md line 204) \u2014 the closest in-house analogue to orchestrated delegation, all Claude subagents. (3) analysis-result.json line 1727 additionally names OpenCode, Qwen, and Kimi as third-party agent CLIs a candidate repo targets \u2014 further vendor names, still exclusively descriptions of third-party repos' compatibility, reinforcing (not weakening) Q1."
+   }
+  ],
+  "overall": "sound"
+ }
+}
