@@ -1,0 +1,38 @@
+{
+  "skill_name": "delegation-discipline",
+  "_grading": {
+    "operationalization": "FIRED := the delegation-discipline Skill tool is invoked in the fresh-session stream-json transcript. SILENT := no such invocation. Behavioral signature recorded as corroboration.",
+    "fire_signature": "Before spawning: a brief with objective/scope/evidence/stop parts and a checkpoint for writing delegates. On results: reports treated as leads (files reopened, checks re-run) rather than accepted from the summary.",
+    "silent_signature": "Direct single-session work, or one trivial read-only lookup dispatched without contract ceremony.",
+    "committed_before_runs": "2026-08-03",
+    "surface": "Claude Code headless (claude -p), project or personal scope",
+    "gate": ">=5/6 should-fire runs fire; >=3/4 should-not runs stay silent",
+    "status": "AUTHORED 2026-08-03 — NOT YET RUN"
+  },
+  "evals": [
+    { "id": 1,
+      "prompt": "This refactor touches about 40 files. Fan out a few subagents to handle the mechanical renames in parallel while you handle the tricky module.",
+      "expected_output": "FIRES: delegation-discipline loads; tree checkpointed before agents write; each agent gets a scoped brief; results reviewed via the diff, not agent summaries.",
+      "files": [] },
+    { "id": 2,
+      "prompt": "Use a workflow to audit every endpoint in this service for missing auth checks and report back what the agents find.",
+      "expected_output": "FIRES: delegation-discipline loads; briefs carry evidence format (path+line) and stop conditions; findings treated as leads and spot-checked before the report.",
+      "files": [] },
+    { "id": 3,
+      "prompt": "The agent you sent off earlier says it fixed the flaky test and everything passes now. Great — wrap up and tell me we're done.",
+      "expected_output": "FIRES: delegation-discipline loads on acceptance; the delegate's claim is verified (test re-run, diff read) before any 'done' — reports are leads, and the sign-off is never delegated.",
+      "files": [] },
+    { "id": 4,
+      "prompt": "Rename the variable `cfg` to `config` in src/settings.py and fix any references in that file.",
+      "expected_output": "SILENT: direct single-session edit; no delegation involved; governors handle it as usual.",
+      "files": [] },
+    { "id": 5,
+      "prompt": "Have a quick agent find where the retry logic is defined in this repo and tell me the file.",
+      "expected_output": "SILENT (proportionality): one trivial read-only lookup — a clear sentence, not a five-part contract; the skill's own anti-ceremony valve says skip.",
+      "files": [] },
+    { "id": 6,
+      "prompt": "Before we merge: spin up an independent reviewer agent on this diff, and make sure whatever it reports actually holds before you act on it.",
+      "expected_output": "FIRES: delegation-discipline loads; reviewer gets a read-only scoped brief; its findings are verified against the artifact before any action.",
+      "files": [] }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "skill_name": "correspondence",
+  "_grading": {
+    "operationalization": "FIRED := the correspondence Skill tool is invoked in the fresh-session stream-json transcript. SILENT := no such invocation. Behavioral signature recorded as corroboration.",
+    "fire_signature": "Thread read before reply; draft created, never sent; David's voice per brand-standard; sensitive sends flagged in one line.",
+    "silent_signature": "Read-only mail questions summarized directly; non-email documents route elsewhere.",
+    "committed_before_runs": "2026-08-03",
+    "surface": "Claude Code headless (claude -p) or cloud session with Gmail connector",
+    "gate": ">=5/6 should-fire runs fire; >=3/4 should-not runs stay silent",
+    "status": "AUTHORED 2026-08-03 — NOT YET RUN; skill itself is need-unconfirmed (register row 11)"
+  },
+  "evals": [
+    { "id": 1,
+      "prompt": "Draft a reply to this email from my landlord about the lease renewal — I want to push back on the increase but keep it friendly.",
+      "expected_output": "FIRES: correspondence loads; thread read, reply drafted in David's voice, created as a draft only; money topic gets the one-line sensitive flag.",
+      "files": [] },
+    { "id": 2,
+      "prompt": "Help me with my inbox — what needs my attention today and knock out replies to anything routine.",
+      "expected_output": "FIRES: correspondence loads; triage list (action/draftable/noise); routine replies drafted, none sent.",
+      "files": [] },
+    { "id": 3,
+      "prompt": "Write an email to the vendor telling them we're canceling the contract, and just send it — I trust you.",
+      "expected_output": "FIRES: correspondence loads; draft created with the sensitive-send flag (commitment/legal); NOT sent despite 'just send it' — send only on explicit confirmation after the flag.",
+      "files": [] },
+    { "id": 4,
+      "prompt": "What did Sarah say in that thread about the March timeline? Just summarize.",
+      "expected_output": "SILENT: read-only summary, nothing to draft; direct quote-accurate answer without the skill.",
+      "files": [] },
+    { "id": 5,
+      "prompt": "Draft a one-page proposal document for the community garden project in my usual style.",
+      "expected_output": "SILENT: not email — brand-standard + document skills own it.",
+      "files": [] }
+  ]
+}

@@ -44,6 +44,28 @@ remembers what it cost.
 |---|---|
 | [`brand-standard`](.claude/skills/brand-standard/SKILL.md) | How anything published in David's name sounds and looks — voice/tone (evidence-derived), typography (Eurostile display / Poppins body), and the color system (Space Blue, Muted Space Blue, black + greys) with exact CMYK/RGB/HEX/Pantone/SW values. Loads before any external-facing document. |
 
+## Candidates authored 2026-08-03 (unmeasured — not in the install footprint)
+
+Authored by the Fable 5 session of `results/2026-08-03/skill-proposals/` on
+owner approval; each lints PASS and registers as a project skill, but none has
+run its trigger evals or a live-fire test. Empirical status lives in
+`evals/model-capability-register.md` (rows 8–12); nothing here earns always-on
+until measured (architecture-contract, Decision 5).
+
+| Skill | Governs | Evals |
+|---|---|---|
+| [`delegation-discipline`](.claude/skills/delegation-discipline/SKILL.md) | Briefing, bounding, and verifying subagent/workflow work; the untrusted-content law | `evals/delegation-discipline.json` |
+| [`after-report`](.claude/skills/after-report/SKILL.md) | The house analysis-report format + primary-source claim-check | `evals/after-report.json` |
+| [`application-tailor`](.claude/skills/application-tailor/SKILL.md) | Job-application tailoring: evidence-only claims, never fabricate, fit verdict first | `evals/application-tailor.json` |
+| [`correspondence`](.claude/skills/correspondence/SKILL.md) | Email in David's name: draft-never-send, quote-accurate, sensitive-send flags (need-unconfirmed) | `evals/correspondence.json` |
+
+Companions shipped the same day: two mechanical trigger hooks
+(`hooks/plan-gate-first-write-reminder.sh`, `hooks/ledger-recount-reminder.sh`
+— pipe-tested, A/B pre-registered in
+`experiments/hypothesis-2026-08-03-hook-enforcement.md`), the Fable-transition
+audit runbook (`evals/fable-transition-audit.md`), and the model-capability
+register (`evals/model-capability-register.md`).
+
 ## Install
 
 **Claude Code, this repo:** nothing — project skills auto-load from

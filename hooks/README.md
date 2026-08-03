@@ -17,3 +17,48 @@ Install (user scope):
 Verified live 2026-07-12 on the primary machine: pipe-test both paths PASS;
 reminder observed injected into a running session's context on first Write;
 sentinel confirmed; silent thereafter.
+
+## plan-gate-first-write-reminder.sh (shipped 2026-08-03, UNMEASURED)
+
+Same lever, aimed at plan-gate's blind spot: the DEAD-1 lesson class showed
+that once the model is hands-on with concrete code it "just codes" and does
+not consult governance skills, regardless of description wording. A PreToolUse
+hook on Write|Edit|NotebookEdit injects a one-line plan reminder at the first
+write-class tool use of each session — once, then silent. Deliberately
+advisory, never blocking: a hook cannot judge triviality, and a hard block on
+every edit would violate the anti-ceremony invariant (architecture-contract,
+invariant 5).
+
+Install (user scope):
+1. `cp hooks/plan-gate-first-write-reminder.sh ~/.claude/hooks/` and `chmod +x` it.
+2. Merge into `~/.claude/settings.json`:
+   `{"hooks":{"PreToolUse":[{"matcher":"Edit|Write|NotebookEdit","hooks":[{"type":"command","command":"bash ~/.claude/hooks/plan-gate-first-write-reminder.sh","timeout":10}]}]}}`
+   (coexists with scope-fence-reminder.sh — both may run on the same event;
+   their messages are distinct and each fires once per session).
+3. Verify: pipe-test (`echo '{"session_id":"t","tool_name":"Edit","tool_input":{}}' | bash ~/.claude/hooks/plan-gate-first-write-reminder.sh` → JSON once, empty on repeat), then observe on a real session's first write.
+
+Pipe-tested both paths PASS 2026-08-03 (repo copy, this session). Live-fire on
+the primary machine and the A/B measurement are owed:
+`experiments/hypothesis-2026-08-03-hook-enforcement.md`.
+
+## ledger-recount-reminder.sh (shipped 2026-08-03, UNMEASURED)
+
+The lever DEAD-2 named: append-on-diagnosis plateaued at ~80% under wording
+(and 0/16 uncued in phase-2), with "mechanical enforcement (hooks), not
+wording" recorded as the candidate next step. A UserPromptSubmit hook matches
+costly-diagnosis recount phrasings (drawn from evals/lessons-ledger.json's
+should-fire prompts: "burned/spent N hours", "turned out to be", "finally
+figured/cracked it", "root cause was", "kept failing until", "chasing a bug")
+and injects a one-line reminder to append to `.claude/LESSONS.md`. At most
+once per session; extend the phrase list only through the A/B, not ad hoc.
+
+Install (user scope):
+1. `cp hooks/ledger-recount-reminder.sh ~/.claude/hooks/` and `chmod +x` it.
+2. Merge into `~/.claude/settings.json`:
+   `{"hooks":{"UserPromptSubmit":[{"hooks":[{"type":"command","command":"bash ~/.claude/hooks/ledger-recount-reminder.sh","timeout":10}]}]}}`
+3. Verify: pipe-test a matching prompt (JSON once), a repeat (empty), and a
+   non-matching prompt in a fresh session id (empty).
+
+Pipe-tested all three paths PASS 2026-08-03 (repo copy, this session,
+including the "spent all afternoon" variant). Live-fire and A/B owed, same
+experiment file.
