@@ -47,10 +47,15 @@ remembers what it cost.
 ## Candidates authored 2026-08-03 (unmeasured — not in the install footprint)
 
 Authored by the Fable 5 session of `results/2026-08-03/skill-proposals/` on
-owner approval; each lints PASS and registers as a project skill, but none has
-run its trigger evals or a live-fire test. Empirical status lives in
-`evals/model-capability-register.md` (rows 8–12); nothing here earns always-on
-until measured (architecture-contract, Decision 5).
+owner approval; each lints PASS and registers as a project skill. **Trigger
+evals ran same-day** (60 headless runs on Sonnet 5,
+`results/2026-08-03/trigger-evals/`): zero over-fires anywhere; all four
+clear the ≥83% fire bar on description-testing prompts (correspondence passed
+its committed gate outright; the other three failed the naive aggregate via
+the INC-8 fixture trap, repaired append-only and confirmed). Behavioral value
+and claude.ai triggering remain unmeasured — empirical status lives in
+`evals/model-capability-register.md` (rows 8–12); nothing here earns
+always-on until Decision-5 review.
 
 | Skill | Governs | Evals |
 |---|---|---|

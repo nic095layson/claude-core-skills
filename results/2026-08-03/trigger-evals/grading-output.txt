@@ -1,0 +1,68 @@
+models observed: {'claude-sonnet-5': 60}
+
+skill                   id  run expect  fired  grade  invoked
+delegation-discipline   1   1   FIRE    False  FAIL   -
+delegation-discipline   1   2   FIRE    False  FAIL   -
+delegation-discipline   2   1   FIRE    False  FAIL   -
+delegation-discipline   2   2   FIRE    True   PASS   delegation-discipline
+delegation-discipline   3   1   FIRE    False  FAIL   adversarial-verify
+delegation-discipline   3   2   FIRE    False  FAIL   -
+delegation-discipline   4   1   SILENT  False  PASS   -
+delegation-discipline   4   2   SILENT  False  PASS   -
+delegation-discipline   5   1   SILENT  False  PASS   -
+delegation-discipline   5   2   SILENT  False  PASS   -
+delegation-discipline   6   1   FIRE    False  FAIL   -
+delegation-discipline   6   2   FIRE    False  FAIL   -
+delegation-discipline   7   1   FIRE    True   PASS   delegation-discipline
+delegation-discipline   7   2   FIRE    True   PASS   delegation-discipline
+delegation-discipline   8   1   FIRE    True   PASS   delegation-discipline
+delegation-discipline   8   2   FIRE    True   PASS   delegation-discipline
+delegation-discipline   9   1   FIRE    False  FAIL   -
+delegation-discipline   9   2   FIRE    True   PASS   delegation-discipline
+after-report            1   1   FIRE    False  FAIL   -
+after-report            1   2   FIRE    False  FAIL   -
+after-report            2   1   FIRE    True   PASS   after-report
+after-report            2   2   FIRE    True   PASS   after-report
+after-report            3   1   FIRE    False  FAIL   -
+after-report            3   2   FIRE    True   PASS   after-report
+after-report            4   1   SILENT  False  PASS   -
+after-report            4   2   SILENT  False  PASS   -
+after-report            5   1   SILENT  False  PASS   -
+after-report            5   2   SILENT  False  PASS   -
+after-report            6   1   FIRE    False  FAIL   -
+after-report            6   2   FIRE    False  FAIL   -
+after-report            7   1   FIRE    True   PASS   after-report
+after-report            7   2   FIRE    True   PASS   after-report
+after-report            8   1   FIRE    True   PASS   after-report
+after-report            8   2   FIRE    True   PASS   after-report
+application-tailor      1   1   FIRE    False  FAIL   -
+application-tailor      1   2   FIRE    False  FAIL   -
+application-tailor      2   1   FIRE    True   PASS   application-tailor
+application-tailor      2   2   FIRE    True   PASS   application-tailor
+application-tailor      3   1   FIRE    True   PASS   application-tailor
+application-tailor      3   2   FIRE    True   PASS   application-tailor
+application-tailor      4   1   SILENT  False  PASS   -
+application-tailor      4   2   SILENT  False  PASS   -
+application-tailor      5   1   SILENT  False  PASS   -
+application-tailor      5   2   SILENT  False  PASS   -
+application-tailor      6   1   FIRE    False  FAIL   -
+application-tailor      6   2   FIRE    False  FAIL   -
+application-tailor      7   1   FIRE    True   PASS   application-tailor
+application-tailor      7   2   FIRE    True   PASS   application-tailor,brand-standard
+application-tailor      8   1   FIRE    True   PASS   application-tailor,brand-standard
+application-tailor      8   2   FIRE    True   PASS   application-tailor,brand-standard
+correspondence          1   1   FIRE    False  FAIL   -
+correspondence          1   2   FIRE    True   PASS   correspondence
+correspondence          2   1   FIRE    True   PASS   correspondence
+correspondence          2   2   FIRE    True   PASS   correspondence
+correspondence          3   1   FIRE    True   PASS   correspondence
+correspondence          3   2   FIRE    True   PASS   correspondence
+correspondence          4   1   SILENT  False  PASS   -
+correspondence          4   2   SILENT  False  PASS   -
+correspondence          5   1   SILENT  False  PASS   brand-standard
+correspondence          5   2   SILENT  False  PASS   -
+
+delegation-discipline    should-fire 6/14  should-not 4/4  gate(>=83% SF, >=75% SN): FAIL
+after-report             should-fire 7/12  should-not 4/4  gate(>=83% SF, >=75% SN): FAIL
+application-tailor       should-fire 8/12  should-not 4/4  gate(>=83% SF, >=75% SN): FAIL
+correspondence           should-fire 5/6  should-not 4/4  gate(>=83% SF, >=75% SN): PASS
