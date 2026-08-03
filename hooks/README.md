@@ -37,9 +37,11 @@ Install (user scope):
    their messages are distinct and each fires once per session).
 3. Verify: pipe-test (`echo '{"session_id":"t","tool_name":"Edit","tool_input":{}}' | bash ~/.claude/hooks/plan-gate-first-write-reminder.sh` → JSON once, empty on repeat), then observe on a real session's first write.
 
-Pipe-tested both paths PASS 2026-08-03 (repo copy, this session). Live-fire on
-the primary machine and the A/B measurement are owed:
-`experiments/hypothesis-2026-08-03-hook-enforcement.md`.
+Pipe-tested both paths PASS 2026-08-03. **A/B ran same day: INCONCLUSIVE
+(INC-9)** — plan-gate fired 6/6 by description on its eval prompts and no
+baseline run reached a write, so the hook never activated; zero ceremony
+added (harmless, effect untested). Needs a straight-to-edit instrument
+(`results/2026-08-03/hook-ab/`). Wire it or not at owner's choice.
 
 ## ledger-recount-reminder.sh (shipped 2026-08-03, UNMEASURED)
 
@@ -59,6 +61,10 @@ Install (user scope):
 3. Verify: pipe-test a matching prompt (JSON once), a repeat (empty), and a
    non-matching prompt in a fresh session id (empty).
 
-Pipe-tested all three paths PASS 2026-08-03 (repo copy, this session,
-including the "spent all afternoon" variant). Live-fire and A/B owed, same
-experiment file.
+Pipe-tested all three paths PASS 2026-08-03. Regex corrected to spec the same
+day after a deterministic pre-run check (id3's "took me all afternoon" was
+missed; commit `848ee29`). **A/B ran same day: CONFIRMED for the cued-recount
+class** — 6/6 with hook (five real appends + one drafted offer) vs 0/6
+without, zero false fires on should-nots (`results/2026-08-03/hook-ab/`).
+The reminder string and regex are now gated text: edits re-run the A/B.
+Uncued planted-bug cell still open. **Recommended: install this one.**

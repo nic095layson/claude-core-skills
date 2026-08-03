@@ -280,3 +280,23 @@ evidence → status. An entry without evidence is a rumor and does not belong he
   carry a DEAD-1-class mid-action ceiling (a model told to delegate just
   delegates); assess against the repaired fixtures before any gated
   description reword.
+
+### INC-9 — H1's discriminating subset came back empty: plan-gate is at ceiling on its own eval prompts
+
+- Date: 2026-08-03 (hook A/B, `results/2026-08-03/hook-ab/`).
+- Symptom: the pre-registered H1 test (plan-gate first-write reminder hook)
+  could not discriminate — its committed subset ("prompts where the baseline
+  arm's first tool use is a write") contained zero prompts.
+- Root cause: on evals/plan-gate.json's should-fire prompts, plan-gate fires
+  by description alone (6/6 baseline, Sonnet-5) and sessions plan/ask instead
+  of writing within 6 turns — so the hook's PreToolUse trigger never occurs.
+  INC-7's species: a near-ceiling baseline cannot test a discipline; the
+  hook's blind spot (straight-to-edit sessions, DEAD-1's inline-code class)
+  is exactly the class the current plan-gate evals do not contain.
+- Evidence: hook context absent in all 10 hook-arm runs; zero baseline
+  writes; zero added ceremony on should-nots (hook measured harmless).
+  `results/2026-08-03/hook-ab/RESULTS.md`.
+- Status: OPEN — hook stays an owner candidate wired or not at owner's
+  choice; next discriminating instrument = straight-to-edit prompts with
+  inline code where the baseline's first move is a Write/Edit (append-only
+  additions to evals/plan-gate.json when authored, per the INC-8 rules).
