@@ -16,7 +16,7 @@ sid=$(printf '%s' "$input" | /usr/bin/jq -r '.session_id // "nosession"' 2>/dev/
 prompt=$(printf '%s' "$input" | /usr/bin/jq -r '.prompt // ""' 2>/dev/null || echo "")
 sentinel="${TMPDIR:-/tmp}/ledger-recount-reminder-${sid}"
 if [ -e "$sentinel" ]; then exit 0; fi
-if printf '%s' "$prompt" | grep -qiE '(burned|wasted|spent) (an?|all|two|three|[0-9]+) (hour|day|afternoon|morning|night)|turned out (to be|the|it was)|finally (figured|cracked|found) (it|out)|root cause was|kept failing until|chas(ed|ing) (a|the|this) bug'; then
+if printf '%s' "$prompt" | grep -qiE '(burned|wasted|spent|took me|took us) (an?|all|two|three|[0-9]+) (hour|day|afternoon|morning|night)|turned out (to be|the|it was)|finally (figured|cracked|found) (it|out)|root cause was|kept failing until|chas(ed|ing) (a|the|this) bug'; then
   touch "$sentinel"
   printf '%s' '{"hookSpecificOutput":{"hookEventName":"UserPromptSubmit","additionalContext":"Ledger check (lessons-ledger doctrine): this message reads like a costly-diagnosis recount. If a >=15-minute diagnosis, drift, or dead end was just described, append it to the project ledger (.claude/LESSONS.md) as symptom -> root cause -> evidence -> status, even if it is already fixed. Routine successes are NOT recorded. This reminder fires at most once per session."},"suppressOutput":true}'
 fi
