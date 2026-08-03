@@ -33,6 +33,16 @@
     { "id": 6,
       "prompt": "Evaluate these four vendor SDKs for us — pros, cons, and what you'd pick. Write it up properly; leadership will read it.",
       "expected_output": "FIRES: after-report loads; tiered verdicts, per-claim evidence with dates, bounds, owner-gated recommendation.",
+      "files": [] },
+    { "id": 7,
+      "_added": "2026-08-03 INC-8 repair; self-contained variant of id1 (no absent 'our stack'). Append-only; ids 1-6 unchanged.",
+      "prompt": "Do an expert dive comparing SQLite, Postgres, and MySQL for a small internal inventory tool, and provide a report — I'll make the final call.",
+      "expected_output": "FIRES: after-report loads; tiered verdicts with dated evidence, bounds stated, decision sheet for the owner.",
+      "files": [] },
+    { "id": 8,
+      "_added": "2026-08-03 INC-8 repair; self-contained variant of id6 (public-knowledge subjects, no absent SDKs). Append-only.",
+      "prompt": "Evaluate pytest versus unittest for a brand-new Python project and write it up properly as a report — leadership will read it.",
+      "expected_output": "FIRES: after-report loads; method stated, claims carry evidence, bounds, recommendation ends as a decision.",
       "files": [] }
   ]
 }

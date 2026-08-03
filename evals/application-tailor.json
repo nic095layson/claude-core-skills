@@ -33,6 +33,16 @@
     { "id": 6,
       "prompt": "I'm applying to this analyst role — here's the JD and my resume. Prep my application: resume tweaks and the cover letter.",
       "expected_output": "FIRES: application-tailor loads; full procedure — parse, fit table, verdict, evidenced drafting, ATS-safe output, delivered with the table and flags.",
+      "files": [] },
+    { "id": 7,
+      "_added": "2026-08-03 INC-8 repair; inline-artifact variant of id1 (posting + resume embedded in prompt). Append-only; ids 1-6 unchanged.",
+      "prompt": "Tailor my resume to this posting.\n\nPOSTING: Operations Manager, regional logistics firm. Requirements: 5+ years operations experience; team leadership; vendor negotiation; inventory management systems; Excel reporting.\n\nMY RESUME (summary): 6 years operations coordinator then operations supervisor at a distribution company; led a team of 8; negotiated 3 carrier contracts; daily Excel KPI reporting; no formal inventory-system admin experience (used WMS as an end user).",
+      "expected_output": "FIRES: application-tailor loads; fit table maps each requirement to the inline resume only; WMS gap flagged honestly (end-user, not admin); verdict before drafting; no invented experience.",
+      "files": [] },
+    { "id": 8,
+      "_added": "2026-08-03 INC-8 repair; inline-artifact variant of id6 (JD + resume embedded, full prep ask). Append-only.",
+      "prompt": "I'm applying to this analyst role — prep my application: resume tweaks and the cover letter.\n\nJD: Data Analyst. Requirements: SQL; dashboarding (any BI tool); stakeholder presentations; 2+ years analytics experience.\n\nMY RESUME (summary): 3 years as reporting specialist; heavy Excel and Google Sheets; built Looker Studio dashboards; monthly presentations to store managers; SQL limited to basic SELECTs in one project.",
+      "expected_output": "FIRES: application-tailor loads; full procedure on the inline artifacts; SQL framed truthfully as limited; fit verdict precedes materials.",
       "files": [] }
   ]
 }

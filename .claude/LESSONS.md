@@ -252,3 +252,31 @@ evidence → status. An entry without evidence is a rumor and does not belong he
   the pilot's only "miss" was a grader error, overturned on read. Meta-trap named and avoided:
   do not keep re-tuning the scenario until the treatment "wins" — that is designing the test to
   manufacture the delta (p-hacking by scenario). Three converging inconclusive runs → stop.
+
+### INC-8 — Authored trigger fixtures reproduced the INC-2 absent-artifact trap
+
+- Date: 2026-08-03 (first trigger-eval run of the four skills authored that day).
+- Symptom: three of four new skills failed their pre-committed should-fire
+  gates on the first battery (delegation-discipline 1/8, after-report 3/8,
+  application-tailor 4/8 should-fire) while every should-not stayed silent
+  (16/16 — zero over-fire).
+- Root cause: fixture design, not (primarily) description wording. Six of the
+  fifteen should-fire prompts reference absent artifacts or state ("my resume
+  is attached", "the agent you sent off earlier", "this diff", "our stack",
+  "these four vendor SDKs") — in an empty headless cwd the model chases the
+  missing artifact instead of the governed behavior. This is INC-2's recorded
+  lesson, reproduced by the authoring session with INC-2 in its context: a
+  ledger lesson not consulted at fixture-authoring time does not protect.
+- Evidence: `results/2026-08-03/trigger-evals/` (grading table + verbatim
+  stream-json transcripts). Discriminating pattern: self-contained prompts
+  fired well (application-tailor ids 2–3: 4/4; after-report id2: 2/2;
+  correspondence gate PASS 5/6·4/4) while absent-artifact prompts fired 0/4
+  each. All 46 runs served by claude-sonnet-5 (headless default — the
+  post-Fable daily model; rates recorded as Sonnet-5 rates in the register).
+- Status: CONTROLLED — self-contained/inline-artifact variants appended to the
+  three affected eval files (append-only with `_added` notes, per the
+  2026-07-11 adversarial-verify id6–7 precedent; original ids retained) and
+  re-run same-day. Residual open question: delegation-discipline may also
+  carry a DEAD-1-class mid-action ceiling (a model told to delegate just
+  delegates); assess against the repaired fixtures before any gated
+  description reword.

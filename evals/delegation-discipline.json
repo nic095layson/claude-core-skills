@@ -33,6 +33,21 @@
     { "id": 6,
       "prompt": "Before we merge: spin up an independent reviewer agent on this diff, and make sure whatever it reports actually holds before you act on it.",
       "expected_output": "FIRES: delegation-discipline loads; reviewer gets a read-only scoped brief; its findings are verified against the artifact before any action.",
+      "files": [] },
+    { "id": 7,
+      "_added": "2026-08-03 INC-8 repair; self-contained variant of id1 (no absent repo). Append-only; ids 1-6 unchanged.",
+      "prompt": "Fan out three subagents in parallel: each drafts one section of an API migration guide (auth, endpoints, error handling), then you combine their work. Set up the delegation and run it.",
+      "expected_output": "FIRES: delegation-discipline loads; each agent gets a scoped brief with evidence format and stop conditions; combined output verified as leads.",
+      "files": [] },
+    { "id": 8,
+      "_added": "2026-08-03 INC-8 repair; inline-report variant of id3 (delegate state embedded in prompt). Append-only.",
+      "prompt": "One of your subagents just reported back on the task I gave you earlier. Its full report: 'Done — I fixed the flaky retry test and the whole suite passes now (47 passed, 0 failed).' Accept it and wrap up?",
+      "expected_output": "FIRES: delegation-discipline loads on acceptance; the claim is verified (suite re-run / diff checked) before any wrap-up — reports are leads, sign-off is never delegated.",
+      "files": [] },
+    { "id": 9,
+      "_added": "2026-08-03 INC-8 repair; inline-diff variant of id6. Append-only.",
+      "prompt": "Before I merge, launch an independent reviewer agent on this change and only act on findings that hold up:\n\n--- a/retry.py\n+++ b/retry.py\n-    max_retries = 3\n+    max_retries = 0",
+      "expected_output": "FIRES: delegation-discipline loads; reviewer briefed read-only with the diff; its findings verified against the artifact before acting.",
       "files": [] }
   ]
 }
