@@ -1,5 +1,12 @@
 # The "product output" skill — survey and proposal (2026-08-10)
 
+> **Addendum, same day:** the owner clarified that "product output" meant
+> **image generation, particularly photo editing** — the re-scope this
+> report's bounds anticipated (assumption A1). The image-focused survey and
+> proposal live in [`../image-output-skill/REPORT.md`](../image-output-skill/REPORT.md).
+> This report stands as general context; its decision sheet remains
+> owner-gated and unexecuted.
+
 **Owner request (near verbatim):** "research what is the most powerful and
 best product output skill.md — propose to me what is the cleanest and most
 legit for you to implement here."

@@ -1,0 +1,170 @@
+{
+ "summary": "As of 2026-08-10, Claude has no native image generation on any surface \u2014 Anthropic's own vision docs FAQ states verbatim that Claude \"cannot generate, produce, edit, manipulate, or create images\" (EVIDENCE, fetched from platform.claude.com). All image-out paths for Claude/Claude Code are therefore wrappers around external models, in two forms: Claude Code skills that shell out to a vendor API via a script/CLI, and MCP servers exposing generate/edit tools. The dominant skill path is Google Gemini image generation (\"Nano Banana\"): kingbootoshi/nano-banana-2-skill (403 stars) and kkoppenhaver/cc-nano-banana (365 stars) both generate AND edit images using only a GEMINI_API_KEY; a 1,818-star companion repo (YouMind-OpenLab) is a prompt library, not a generator. The dominant MCP paths per provider: OpenAI gpt-image-1 via CLOUDWERX-DEV/gpt-image-1-mcp (create_image + create_image_edit with masks, OPENAI_API_KEY); Stability AI via tadasant/mcp-server-stability-ai (85 stars, 12 tools including outpaint/search-and-replace, 25 free credits then $0.01/credit); fal.ai via luminarylane/fal-mcp-server (52 stars, FLUX/SDXL generation plus inpainting/upscale/background removal, FAL_KEY); Black Forest Labs Flux direct via agentic-ai-forge/bfl-flux-mcp (BFL_API_KEY, Kontext editing models, but only 1 star \u2014 Flux is more commonly reached through fal or Replicate). Replicate ships an org-official MCP server (confirmed via replicate/replicate-mcp-code-mode, REPLICATE_API_TOKEN auth); its hosted endpoint mcp.replicate.com/sse appears widely in third-party configs (LEAD \u2014 replicate.com itself was egress-blocked). Every credible path requires a vendor API key with usage-based billing; multi-provider routers exist (e.g., MohamedAbdallah-14/prompt-to-asset, \"zero-key first\" via free-tier models). Editing/inpainting support is now table stakes: every top candidate except pure text-to-image servers supports editing existing photos. Vendor-official docs for Google/OpenAI/Replicate were unreachable through the egress proxy, so model-level capability claims rest on the fetched wrapper repos, not vendor pages.",
+ "candidates": [
+  {
+   "name": "kingbootoshi/nano-banana-2-skill (Gemini / Nano Banana skill)",
+   "source_url": "https://github.com/kingbootoshi/nano-banana-2-skill",
+   "approach": "Claude Code skill + plugin wrapping a TypeScript CLI that calls Google's Gemini image models (Gemini 3.1 Flash Image Preview default, Gemini 3 Pro Image optional) via a Google AI Studio API key. MIT license; cost is Google's per-image API pricing (not restated in repo). Supports reference images (-r flag) for style transfer, edit, combine; green-screen transparency.",
+   "description_quote": "AI image generation CLI powered by Gemini 3.1 Flash Image Preview (default) with support for Gemini 3 Pro and any Gemini model.",
+   "edits_existing_photos": true,
+   "requires_api_key": true,
+   "stars": "403",
+   "license": "MIT"
+  },
+  {
+   "name": "kkoppenhaver/cc-nano-banana (Gemini / Nano Banana skill)",
+   "source_url": "https://github.com/kkoppenhaver/cc-nano-banana",
+   "approach": "Claude Code skill (SKILL.md fetched raw) that drives Nano Banana through the Gemini CLI; default model gemini-2.5-flash-image, optional gemini-3-pro-image-preview. Requires GEMINI_API_KEY env var; Google API usage billing. Commands include /generate, /icon, /edit, /restore \u2014 both generation and editing of existing images. License not stated in fetched SKILL.md.",
+   "description_quote": "Generate and edit images using Nano Banana (Gemini CLI). Handles blog featured images, YouTube thumbnails, icons, diagrams, patterns, illustrations, photos, visual assets, graphics, artwork, pictures.",
+   "edits_existing_photos": true,
+   "requires_api_key": true,
+   "stars": "365",
+   "license": "not stated in fetched SKILL.md"
+  },
+  {
+   "name": "Replicate official MCP server (via replicate/replicate-mcp-code-mode)",
+   "source_url": "https://github.com/replicate/replicate-mcp-code-mode",
+   "approach": "Org-official Replicate MCP; the fetched repo demonstrates a 'code mode' variant where the model writes sandboxed code against Replicate. Auth: 'Set your Replicate API token as an environment variable.' Hosted endpoint mcp.replicate.com/sse with OAuth appears in third-party configs (LEAD \u2014 replicate.com egress-blocked). Pay-per-run billing per model. Editing: Replicate hosts image-to-image/Kontext-class models, but editing support is model-dependent and NOT explicitly stated in the fetched README \u2014 treat edits flag as inferred. No license stated in fetched README.",
+   "description_quote": "\"Code Mode\" makes Replicate's MCP server much faster",
+   "edits_existing_photos": true,
+   "requires_api_key": true,
+   "stars": "4 (org repo; the hosted server itself has no star count)",
+   "license": "not stated in fetched README"
+  },
+  {
+   "name": "tadasant/mcp-server-stability-ai (Stability AI MCP)",
+   "source_url": "https://github.com/tadasant/mcp-server-stability-ai",
+   "approach": "TypeScript MCP server calling Stability AI's REST API. 12 tools: generate-image, generate-image-sd35, remove-background, outpaint, search-and-replace, upscale-fast, upscale-creative, control-sketch, control-style, control-structure, replace-background-and-relight, search-and-recolor. Requires stability.ai API key; pricing quoted in README: '25 credits for free', '$0.01/credit, where 3 credits gets you an image generation on their Core model' (~$3 per 100 images). License badge shown but license text not confirmed in fetched README.",
+   "description_quote": "MCP Server integrating MCP Clients with Stability AI's latest & greatest Stable Diffusion image manipulation functionalities",
+   "edits_existing_photos": true,
+   "requires_api_key": true,
+   "stars": "85",
+   "license": "badge present, not confirmed in fetched README"
+  },
+  {
+   "name": "luminarylane/fal-mcp-server (fal.ai MCP)",
+   "source_url": "https://github.com/luminarylane/fal-mcp-server",
+   "approach": "Python MCP server against fal.ai's model platform: 18 tools spanning text-to-image ('Flux, SDXL, etc.'), image editing (inpainting, background removal, upscaling, resizing), plus video/music/audio (out of scope here). Requires FAL_KEY env var; fal per-inference billing with 'free tier available' and a built-in pricing tool to 'Check costs before generating content.' Server code MIT.",
+   "description_quote": "A Model Context Protocol (MCP) server that enables Claude Desktop (and other MCP clients) to generate images, videos, music, and audio using Fal.ai models.",
+   "edits_existing_photos": true,
+   "requires_api_key": true,
+   "stars": "52",
+   "license": "MIT"
+  },
+  {
+   "name": "CLOUDWERX-DEV/gpt-image-1-mcp (OpenAI gpt-image-1 MCP)",
+   "source_url": "https://github.com/CLOUDWERX-DEV/gpt-image-1-mcp",
+   "approach": "JavaScript MCP server calling OpenAI's gpt-image-1: create_image (text-to-image) and create_image_edit (edit existing images with text prompts and optional masks, i.e. inpainting). Requires 'OpenAI API key with access to gpt-image-1' via OPENAI_API_KEY; OpenAI per-image token billing. MIT license. Higher-starred alternative for the same model: lansespirit/image-gen-mcp (67 stars) but its description claims text-to-image only.",
+   "description_quote": "A Model Context Protocol (MCP) server for generating and editing images using the OpenAI gpt-image-1 model.",
+   "edits_existing_photos": true,
+   "requires_api_key": true,
+   "stars": "18",
+   "license": "MIT"
+  },
+  {
+   "name": "agentic-ai-forge/bfl-flux-mcp (Black Forest Labs Flux direct MCP)",
+   "source_url": "https://github.com/agentic-ai-forge/bfl-flux-mcp",
+   "approach": "Minimal Python MCP server against BFL's own API. Generation models: flux-pro-1.1 (default), flux-pro-1.1-ultra, flux-2-pro/flex/max, flux-pro, flux-dev; editing via edit_image tool with kontext-pro, kontext-max, fill-pro; expand-pro for outpainting. Requires BFL_API_KEY; BFL per-image billing. MIT license. Caveat: only 1 star \u2014 direct-BFL wrappers are thin on GitHub; Flux is more commonly reached via fal.ai or Replicate MCPs.",
+   "description_quote": "Minimal Python MCP server for Black Forest Labs Flux image generation API.",
+   "edits_existing_photos": true,
+   "requires_api_key": true,
+   "stars": "1",
+   "license": "MIT"
+  },
+  {
+   "name": "lansespirit/image-gen-mcp (gpt-image-1 + Gemini Imagen multi-model MCP)",
+   "source_url": "https://github.com/lansespirit/image-gen-mcp",
+   "approach": "Python MCP server bridging OpenAI gpt-image-1 and Google Imagen 4 for text-to-image. Per its GitHub description it is a text-to-image service (no editing claimed), so edits flag is false. Requires the respective provider API keys; usage billing per provider. License not verified (README not fetched \u2014 repo metadata only, LEAD-grade detail).",
+   "description_quote": "An MCP server that integrates with gpt-image-1 & Gemini imagen4 model for text-to-image generation services",
+   "edits_existing_photos": false,
+   "requires_api_key": true,
+   "stars": "67",
+   "license": "not verified"
+  },
+  {
+   "name": "MohamedAbdallah-14/prompt-to-asset (multi-provider asset router, MCP + CLI)",
+   "source_url": "https://github.com/MohamedAbdallah-14/prompt-to-asset",
+   "approach": "TypeScript MCP server + CLI that routes across 30+ image models (Flux, gpt-image-1, Recraft, Ideogom, Pollinations, per repo topics) for software assets (logos, icons, favicons, OG images); 'zero-key first' means it can run on free keyless models with optional API keys for premium ones. Editing support not claimed in metadata \u2014 flag false. License not verified (metadata only, LEAD-grade).",
+   "description_quote": "MCP server + CLI for production-grade software assets (logos, app icons, favicons, OG, illustrations) \u2014 routes across 30+ image models, zero-key first, validates before shipping.",
+   "edits_existing_photos": false,
+   "requires_api_key": false,
+   "stars": "16",
+   "license": "not verified"
+  }
+ ],
+ "findings": [
+  {
+   "claim": "Anthropic officially states Claude has no image generation or image editing capability \u2014 Claude is vision-in only. This is an explicit doc statement, not an absence.",
+   "source_url": "https://platform.claude.com/docs/en/docs/build-with-claude/vision",
+   "kind": "EVIDENCE",
+   "quote": "No, Claude is an image understanding model only. It can interpret and analyze images, but it cannot generate, produce, edit, manipulate, or create images."
+  },
+  {
+   "claim": "The kkoppenhaver/cc-nano-banana Claude Code skill (365 stars) generates AND edits images via Gemini, requiring only GEMINI_API_KEY; default model gemini-2.5-flash-image with gemini-3-pro-image-preview option; /edit and /restore commands cover editing existing photos.",
+   "source_url": "https://raw.githubusercontent.com/kkoppenhaver/cc-nano-banana/main/SKILL.md",
+   "kind": "EVIDENCE",
+   "quote": "Generate and edit images using Nano Banana (Gemini CLI). Handles blog featured images, YouTube thumbnails, icons, diagrams, patterns, illustrations, photos, visual assets, graphics, artwork, pictures."
+  },
+  {
+   "claim": "kingbootoshi/nano-banana-2-skill (403 stars, MIT, updated 2026-08-09) is the most-starred actively maintained Nano Banana generator skill; it edits/combines existing images via reference-image flags and needs a Google AI Studio GEMINI_API_KEY.",
+   "source_url": "https://raw.githubusercontent.com/kingbootoshi/nano-banana-2-skill/main/README.md",
+   "kind": "EVIDENCE",
+   "quote": "AI image generation CLI powered by Gemini 3.1 Flash Image Preview (default) with support for Gemini 3 Pro and any Gemini model."
+  },
+  {
+   "claim": "The single most-starred 'nano banana skill' repo (1,818 stars, YouMind-OpenLab/nano-banana-pro-prompts-recommend-skill) is a prompt-recommendation library, not an image generator \u2014 star counts in this niche overweight prompt packs.",
+   "source_url": "https://github.com/YouMind-OpenLab/nano-banana-pro-prompts-recommend-skill",
+   "kind": "EVIDENCE",
+   "quote": "AI skill for OpenClaw & Claude Code \u2014 recommend from 10000+ Nano Banana Pro (Gemini) image prompts. Smart search by use case, content remix, sample images."
+  },
+  {
+   "claim": "Replicate maintains an org-official MCP server authenticated by a Replicate API token; the code-mode variant executes model calls from sandboxed code.",
+   "source_url": "https://raw.githubusercontent.com/replicate/replicate-mcp-code-mode/main/README.md",
+   "kind": "EVIDENCE",
+   "quote": "Set your Replicate API token as an environment variable. You can get your API token from https://replicate.com/account/api-tokens"
+  },
+  {
+   "claim": "Replicate's hosted MCP endpoint is https://mcp.replicate.com/sse (also supports OAuth/DCR), per multiple independent third-party configuration files; replicate.com itself was egress-blocked so this is secondhand.",
+   "source_url": "https://github.com/novuhq/novu/blob/main/packages/shared/src/consts/providers/mcp-servers.ts",
+   "kind": "LEAD",
+   "quote": "id: 'replicate', name: 'Replicate', description: 'Discover, compare, and run AI models on Replicate.', url: 'https://mcp.replicate.com/sse'"
+  },
+  {
+   "claim": "Stability AI's leading community MCP server (tadasant, 85 stars) is edit-heavy (outpaint, search-and-replace, background removal, upscale, ControlNet-style controls) and documents concrete pricing.",
+   "source_url": "https://raw.githubusercontent.com/tadasant/mcp-server-stability-ai/main/README.md",
+   "kind": "EVIDENCE",
+   "quote": "25 credits for free ... $0.01/credit, where 3 credits gets you an image generation on their Core model"
+  },
+  {
+   "claim": "fal.ai is reachable from Claude via luminarylane/fal-mcp-server (FAL_KEY env var, MIT): FLUX/SDXL text-to-image plus inpainting, background removal, upscaling \u2014 and it exposes fal's whole model catalog.",
+   "source_url": "https://raw.githubusercontent.com/luminarylane/fal-mcp-server/main/README.md",
+   "kind": "EVIDENCE",
+   "quote": "A Model Context Protocol (MCP) server that enables Claude Desktop (and other MCP clients) to generate images, videos, music, and audio using Fal.ai models."
+  },
+  {
+   "claim": "OpenAI gpt-image-1 supports both generation and mask-based editing when wrapped as MCP: CLOUDWERX-DEV/gpt-image-1-mcp exposes create_image and create_image_edit and requires an OpenAI API key with gpt-image-1 access.",
+   "source_url": "https://raw.githubusercontent.com/CLOUDWERX-DEV/gpt-image-1-mcp/main/README.md",
+   "kind": "EVIDENCE",
+   "quote": "A Model Context Protocol (MCP) server for generating and editing images using the OpenAI gpt-image-1 model."
+  },
+  {
+   "claim": "Direct Black Forest Labs API integration exists but is marginal on GitHub (1 star): bfl-flux-mcp covers flux-pro/flux-2 generation plus Kontext editing (kontext-pro, kontext-max, fill-pro) and expand-pro outpainting, via BFL_API_KEY.",
+   "source_url": "https://raw.githubusercontent.com/agentic-ai-forge/bfl-flux-mcp/main/README.md",
+   "kind": "EVIDENCE",
+   "quote": "Minimal Python MCP server for Black Forest Labs Flux image generation API."
+  },
+  {
+   "claim": "No official fal-ai-org GitHub MCP repo was found: a 'mcp user:fal-ai' GitHub search returned zero results on 2026-08-10, so fal integration currently rides on community servers (or fal's hosted docs, which I could not fetch).",
+   "source_url": "https://github.com/search?q=mcp+user%3Afal-ai",
+   "kind": "EVIDENCE",
+   "quote": ""
+  },
+  {
+   "claim": "Local diffusion (one line, per scope): no notable ComfyUI/stable-diffusion Claude skill surfaced in any of the searches run; not further investigated.",
+   "source_url": "https://github.com/search?q=stability+ai+mcp+image+generation",
+   "kind": "EVIDENCE",
+   "quote": ""
+  }
+ ],
+ "bounds": "Egress proxy blocked replicate.com, ai.google.dev, and docs.anthropic.com (platform.claude.com worked and settled the Anthropic question); I did not attempt platform.openai.com, docs.bfl.ai, docs.fal.ai, or platform.stability.ai, so vendor-official model docs (gpt-image-1 editing semantics, Gemini/Nano Banana official model naming and pricing, Replicate's official MCP docs page, any first-party fal/BFL MCP) are unverified \u2014 model-capability claims rest on the fetched wrapper repos. The GitHub MCP get_file_contents tool was restricted to the session repo, so all file-level evidence came via raw.githubusercontent.com (8 successful fetches, 3 blocked, 11 total attempts \u2014 under the 12 budget). Star counts are as returned by the GitHub search API on 2026-08-10. Licenses marked 'not verified' where only repo metadata was read. I did not run or install any server/skill \u2014 no live testing of tools, auth flows, or output quality. Sampling: GitHub search only (top ~10 per query); marketplaces (Smithery, mcp.so, ClawHub) and the anthropics/skills official repo were not enumerated \u2014 anthropics/skills' canvas-design/artifact skills draw images programmatically (SVG/code), not via diffusion models, but I did not fetch it this session. Replicate edits_existing_photos=true is an inference from its model catalog, not from fetched text."
+}
