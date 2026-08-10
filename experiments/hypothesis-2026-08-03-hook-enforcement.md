@@ -1,8 +1,27 @@
 # Hypothesis — hook enforcement lifts the two measured trigger ceilings (2026-08-03)
 
-Pre-registered per research-methodology BEFORE any measurement run. Status:
-**REGISTERED, NOT RUN.** The hooks exist and pipe-test clean (hooks/README.md,
-2026-08-03); their behavioral effect is unmeasured.
+Pre-registered per research-methodology BEFORE any measurement run.
+
+**Status (updated 2026-08-03, same day — run complete, results
+`results/2026-08-03/hook-ab/`):**
+
+- **H2: CONFIRMED for the cued-recount class.** Baseline 0/6 (no appends, no
+  offers — no skill, no hook), hook arm 6/6 (five real `.claude/LESSONS.md`
+  appends + one drafted-entry offer where no repo existed), should-nots 4/4
+  silent with zero regex fires. Prediction ≥5/6 met. The uncued planted-bug
+  cell was NOT run — that prediction stays open. Pre-run instrument
+  correction (regex missing id3's "took me all afternoon" phrasing) was made
+  to spec after a deterministic offline check, before any arm ran (commit
+  `848ee29`). The hook's reminder string is now gated text.
+- **H1: INCONCLUSIVE — INC-9.** The committed discriminating subset (baseline
+  first tool use is a write) was empty: plan-gate fired 6/6 by description on
+  these prompts and no baseline run wrote within 6 turns, so the hook never
+  activated. Zero added ceremony on should-nots (harmless). Next instrument:
+  straight-to-edit inline-code prompts (DEAD-1 class), appended to
+  evals/plan-gate.json per the INC-8 append-only rules.
+
+All runs claude-sonnet-5, headless, N=2 per cell. Original registration
+below, unchanged.
 
 ## Background (the ceilings, as recorded)
 
