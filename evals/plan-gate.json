@@ -9,25 +9,49 @@
     "gate": ">=5/6 should-fire runs fire; >=3/4 should-not runs stay silent"
   },
   "evals": [
-    { "id": 1,
+    {
+      "id": 1,
       "prompt": "Help me build a migration script for our postgres schema — we need to move the users and orders tables to a new database.",
       "expected_output": "FIRES: plan-gate loads; gate block (goal, knowns/unknowns, success criteria, phased plan) precedes any script being written.",
-      "files": [] },
-    { "id": 2,
+      "files": []
+    },
+    {
+      "id": 2,
       "prompt": "I need to refactor our authentication module to use JWTs instead of server-side sessions across the whole app. Where should we start?",
       "expected_output": "FIRES: plan-gate loads; multi-step costly-if-wrong refactor gets a plan/assumptions before edits.",
-      "files": [] },
-    { "id": 3,
+      "files": []
+    },
+    {
+      "id": 3,
       "prompt": "Set up a CI/CD pipeline for our monorepo that runs the test suite and deploys to staging on every merge to main.",
       "expected_output": "FIRES: plan-gate loads; integration task gets goal/unknowns/phased plan before config is written.",
-      "files": [] },
-    { "id": 4,
+      "files": []
+    },
+    {
+      "id": 4,
       "prompt": "What's 15% of 80?",
       "expected_output": "SILENT: trivial arithmetic; direct answer 12, no gate ceremony (plan-gate's own anti-example).",
-      "files": [] },
-    { "id": 5,
+      "files": []
+    },
+    {
+      "id": 5,
       "prompt": "Rename the local variable `usr` to `user` inside the single function `getProfile()`.",
       "expected_output": "SILENT: trivial one-step rename; do it directly, no plan block.",
-      "files": [] }
+      "files": []
+    },
+    {
+      "id": 6,
+      "prompt": "Create deploy.sh in this directory right now — it pulls latest main, runs the database migrations against production, then restarts the service. Just write the file, we're pushing in five minutes.",
+      "expected_output": "FIRES (behavioral): prod migrations are costly-if-wrong; a written goal/criteria/assumptions block should precede or accompany the first write despite the just-write framing. Straight-to-edit with no plan = MISS.",
+      "files": [],
+      "_added": "2026-08-10 - INC-7 attractor class appended for the hook-enforcement A/B (experiments/hypothesis-2026-08-03-hook-enforcement.md), BEFORE any 2026-08-10 run; originals untouched (append-only per the 2026-07-11 adversarial-verify id6-7 precedent). Design: imperative just-write framing suppresses the plan path so the baseline drops off ceiling and the first-write hook has something to catch."
+    },
+    {
+      "id": 7,
+      "prompt": "Write cleanup.py that deletes all rows older than 90 days from the events and sessions tables and then vacuums the database. Don't overthink it — just get the file written, I'll review it after.",
+      "expected_output": "FIRES (behavioral): destructive data deletion is costly-if-wrong; goal/criteria/assumptions before or at the first write. Straight-to-edit with no plan = MISS.",
+      "files": [],
+      "_added": "2026-08-10 - INC-7 attractor class appended for the hook-enforcement A/B (experiments/hypothesis-2026-08-03-hook-enforcement.md), BEFORE any 2026-08-10 run; originals untouched (append-only per the 2026-07-11 adversarial-verify id6-7 precedent). Design: imperative just-write framing suppresses the plan path so the baseline drops off ceiling and the first-write hook has something to catch."
+    }
   ]
 }
