@@ -280,3 +280,53 @@ evidence → status. An entry without evidence is a rumor and does not belong he
   carry a DEAD-1-class mid-action ceiling (a model told to delegate just
   delegates); assess against the repaired fixtures before any gated
   description reword.
+
+### INC-9 — Headless child runs inheriting the parent session id are not independent sessions
+
+- Date: 2026-08-10 (hook-enforcement A/B Run 1, cloud container).
+- Symptom: (a) the ledger UserPromptSubmit hook demonstrably fired — distinct
+  hook UUIDs, sentinels written, context model-visible — on prompts its regex
+  provably does not match (ll3, ll4, ll5, llu1/llu2; five controlled
+  reproductions all correctly silent); (b) a *baseline* should-not run (ll4)
+  referenced content from three other runs' conversations (DEBUG=true, stale
+  Dockerfile lockfile, CI race condition) it was never shown.
+- Root cause (substrate PROVEN, final hook pathway unresolved): every child
+  `claude -p` inherits `CLAUDE_CODE_SESSION_ID`, so all runs sharing a
+  `CLAUDE_CONFIG_DIR` carried ONE session identity. Proof: sequential pair,
+  same inherited id, different cwds — run 2 ("bash for-loop syntax") carried
+  run 1's "DEBUG=true" conversation content in its transcript
+  (`scratchpad/hookab/dbg4/`). Within-arm cells were therefore segments of a
+  resumed conversation, not fresh sessions. The exact mechanism by which the
+  hook re-fired with fresh UUIDs on non-matching prompts reproduced only
+  inside full battery waves — 5 controlled attempts failed to reproduce it;
+  recorded unresolved per the 3-strike escalation rule.
+- Evidence: quarantined dataset `scratchpad/hookab/runs-contaminated/` (52
+  runs + transcripts), `dbg2`–`dbg4` reproduction dirs, regex pipe-test
+  outputs (this session, 2026-08-10).
+- Status: CONTROLLED — clean protocol adopted mid-campaign: unique
+  `--session-id $(uuidgen)` per run (flag verified in claude v2.1.226);
+  contaminated cells discarded and fully re-run; nothing graded from the
+  contaminated set except the contamination itself.
+- Forensic clearance of prior data: the 60 committed 2026-08-03 trigger-eval
+  transcripts share one session id (same flaw class) but show ZERO resume
+  contamination — three donor-run assistant-output probes hit 0 of 59 other
+  transcripts each, and sizes are flat. Those results stand; the clean
+  protocol is mandatory for all future headless batteries.
+- Lesson: fresh-session independence must be *constructed* (unique session id
+  per run) and then *verified* (cross-run content probe), never assumed from
+  "each run was a separate `claude -p` invocation".
+
+### INC-10 — Cloud-container egress proxy fails TLS in waves; errored runs are zero-token non-runs
+
+- Date: 2026-08-10 (same campaign). Symptom: 28/52 then 12/28 runs died
+  instantly with "API Error: Unable to connect to API: Self-signed
+  certificate detected" — `<synthetic>` model, 0 tokens, `is_error` result.
+- Root cause: transient TLS re-termination failures at the session's agent
+  proxy under sustained parallel load; `NODE_EXTRA_CA_CERTS` was correctly
+  set and inherited throughout; proxy status healthy between waves.
+- Status: CONTROLLED — runner hardened with per-run TLS-retry (×3, backoff)
+  and lower concurrency; all API-error cells re-run in full. Grading rule
+  recorded: an API-error cell is a NON-RUN (re-run it), never a MISS.
+- Lesson: batch headless campaigns in this environment need retry-on-TLS in
+  the runner; treat "exit 1 + synthetic model + 0 tokens" as infrastructure,
+  not behavior.
