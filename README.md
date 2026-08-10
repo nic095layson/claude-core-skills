@@ -71,6 +71,19 @@ Companions shipped the same day: two mechanical trigger hooks
 audit runbook (`evals/fable-transition-audit.md`), and the model-capability
 register (`evals/model-capability-register.md`).
 
+## Candidate adopted 2026-08-10 (unmeasured — project scope only)
+
+Owner-approved (decision A of `results/2026-08-10/image-output-skill/REPORT.md`,
+the image-output survey). Authored fresh in house style; the SKILL.md and its
+bundled script were live-fired end-to-end at authoring (measured crop, exact
+output, original hash-verified untouched). Trigger and behavioral value
+UNMEASURED; not in the personal install footprint until measured per
+Decision 5.
+
+| Skill | Governs | Evals |
+|---|---|---|
+| [`photo-editing`](.claude/skills/photo-editing/SKILL.md) | Deterministic edits to existing images under three laws: never overwrite the original; measure before you cut (`scripts/inspect_image.py`); see-edit-verify | `evals/photo-editing.json` (authored 2026-08-10, not yet run) |
+
 ## Install
 
 **Claude Code, this repo:** nothing — project skills auto-load from

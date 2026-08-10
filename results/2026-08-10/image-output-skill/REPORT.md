@@ -1,5 +1,12 @@
 # The image-output skill — survey and proposal (2026-08-10)
 
+> **Addendum, same day:** the owner approved decision A ("Proceed with A").
+> The draft was moved into the live tree — skill at
+> `.claude/skills/photo-editing/`, eval set at `evals/photo-editing.json` —
+> and the links below were updated to the live paths (single-copy law; no
+> draft duplicate retained). Trigger evals remain the adoption gate for
+> anything beyond project scope. Decision B (generation vendor) stays open.
+
 **Owner request (near verbatim):** "research what is the most powerful and
 best product output skill.md — propose to me what is the cleanest and most
 legit for you to implement here", clarified same day: "IMAGE generation. Not
@@ -109,13 +116,14 @@ popularity rankings mislead in this niche.
 
 ## 5. The proposal — `photo-editing`, authored fresh and live-verified
 
-Draft: [`draft/photo-editing/SKILL.md`](draft/photo-editing/SKILL.md) —
+Draft (now live at [`.claude/skills/photo-editing/SKILL.md`](../../../.claude/skills/photo-editing/SKILL.md)
+per the adoption addendum above) —
 lints **PASS, zero warnings**; description 995 chars (≤1000 house target);
 149 lines. Ships one bundled script,
-[`scripts/inspect_image.py`](draft/photo-editing/scripts/inspect_image.py)
+[`scripts/inspect_image.py`](../../../.claude/skills/photo-editing/scripts/inspect_image.py)
 (dimensions, format, alpha, EXIF orientation, content bounds in PIL
 crop-box convention). Trigger cases:
-[`draft/evals/photo-editing.json`](draft/evals/photo-editing.json) — 4
+[`evals/photo-editing.json`](../../../evals/photo-editing.json) — 4
 should-fire + 3 should-not with seeded image fixtures per INC-2/INC-8,
 grading committed 2026-08-10, **NOT YET RUN**.
 

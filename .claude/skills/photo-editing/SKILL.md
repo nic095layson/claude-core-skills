@@ -98,9 +98,9 @@ the settled parameters to the rest and spot-check a sample of outputs.
 
 ## Volatile facts (dated)
 
-- Authored 2026-08-10 as a proposal candidate; UNMEASURED — no trigger or
-  behavioral evals have run (eval set beside this draft; moves to
-  `evals/photo-editing.json` on adoption). *candidate*
+- Authored and owner-adopted (project scope) 2026-08-10; UNMEASURED at
+  adoption — trigger/behavioral status lives in `evals/photo-editing.json`,
+  authored same day. *candidate*
 - Toolchain per environment, verified 2026-08-10 in one Claude Code cloud
   container: no ImageMagick, no Pillow preinstalled; `pip install pillow`
   through the session proxy took 2.7 s and edits ran. Enumerate live before
@@ -129,7 +129,8 @@ the settled parameters to the rest and spot-check a sample of outputs.
 
 Proposed 2026-08-10 by the session of
 `results/2026-08-10/image-output-skill/REPORT.md` (owner-clarified request:
-image generation, "particularly photo editing"). The three laws are
+image generation, "particularly photo editing"); adopted into the project
+tree the same day on owner approval (that report's decision A). The three laws are
 convergent with the strongest surveyed community skill (`image-edit`,
 peterkrueck/Claude-Code-Development-Kit, MIT — "Never guess crop coordinates
 from visual inspection", "Always save to a NEW file. Never overwrite the
