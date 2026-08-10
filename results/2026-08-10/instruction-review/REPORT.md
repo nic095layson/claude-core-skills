@@ -32,7 +32,7 @@ daily lanes it was built to govern.
 | # | Check | Result (2026-08-10) |
 |---|---|---|
 | 1 | Library lint (`diagnostics-and-tooling/scripts/lint_skill.sh`, all 18 skills) | **18/18 PASS** (command output in session transcript) — EVIDENCE |
-| 2 | Description lengths vs the 1024-char limit (INC-3 class) | All ≤1024; max is plan-gate at **1003** — EVIDENCE |
+| 2 | Description lengths vs the 1024-char limit (INC-3 class) | All ≤1024; max is plan-gate at exactly **1000** (YAML-parsed — the value claude.ai receives; a cruder raw-text measure reads 1003) — EVIDENCE |
 | 3 | claude.ai instructions ↔ live roster | All six steered skills (plan-gate, adversarial-verify, scope-fence, brand-standard, application-tailor, after-report) present in the account-synced roster of this cloud session (`/root/.claude/skills/`, 16 skills + manifest) — EVIDENCE |
 | 4 | Unpromoted candidates correctly not installed | `correspondence` and `delegation-discipline` are repo-only — matching their register status (rows 8, 11), not a drift — EVIDENCE |
 | 5 | Fable-transition audit correctly parked | Fable 5 is still serving this account (this session runs on it, 2026-08-10); the runbook's trigger condition has not occurred — EVIDENCE |
@@ -43,8 +43,10 @@ daily lanes it was built to govern.
 Tiers: **DO NOW** (safe mechanical/factual, no gated wording) ·
 **GATED EXPERIMENT** (goes through research-methodology) ·
 **OWNER ACTION** (primary-machine or settings-box work only David can do) ·
-**OWNER DECISION** (a call, not a task). Nothing below was executed — this
-report proposes only, per the 2026-08-03 precedent.
+**OWNER DECISION** (a call, not a task). At first publication nothing below
+was executed. On the owner's approval ("Proceed and push", 2026-08-10) the
+two DO NOW items were executed same-day on this branch — marked EXECUTED
+below with their evidence; E3–E9 remain proposals.
 
 ### DO NOW
 
@@ -56,12 +58,27 @@ today), and says "Trigger reliability and behavioral effect are
 ("skill-count accuracy fix"). Demotion condition: none — this is factual
 accuracy, not doctrine. — claim EVIDENCE (README read + lint run today)
 
+> **EXECUTED 2026-08-10** (owner-approved, this branch): Status section
+> rewritten dated 2026-08-10 — 18 skills, measured trigger story pointing at
+> domain-reference A2 and the capability register, DEAD-1 ceiling and hook
+> lever named. Diff in this branch's second commit.
+
 **E2 — Add the description-length check to `lint_skill.sh`.** Suggested in
 INC-3 (2026-07-11: "Lint gained no length check yet (still suggested)"),
 still absent (grepped the script today: no length/1024 check). A ~5-line
 check — FAIL >1024, WARN >1000 — closes the recorded loose end and would
-have caught INC-3 automatically. plan-gate sits at 1003, 21 chars from the
-cliff; the warning band is not hypothetical. — EVIDENCE
+have caught INC-3 automatically. plan-gate sits exactly at the 1000
+boundary (YAML-parsed), 24 chars from the cliff — one added word enters the
+warning band. — EVIDENCE
+
+> **EXECUTED 2026-08-10** (owner-approved, this branch): check added to the
+> python helper in `lint_skill.sh` (FAIL >1024, WARN >1000, measured on the
+> YAML-parsed value — the string claude.ai receives). Verified same session:
+> all 18 skills re-lint PASS with the check active; a synthetic 1159-char
+> description FAILs ("description is 1159 chars (> 1024 claude.ai upload
+> limit, INC-3)"). Execution surfaced a measurement correction folded into
+> this report: plan-gate's description is exactly 1000 chars YAML-parsed,
+> not the 1003 a raw-text measure reads.
 
 ### GATED EXPERIMENT
 
@@ -161,8 +178,8 @@ not re-measured today. The lint and length checks are point-in-time
 
 | # | Item | Tier | Effort | Blocked on |
 |---|---|---|---|---|
-| E1 | README status refresh | DO NOW | minutes | nothing |
-| E2 | Lint length check | DO NOW | minutes | nothing |
+| E1 | README status refresh | **DONE 2026-08-10** | — | — |
+| E2 | Lint length check | **DONE 2026-08-10** | — | — |
 | E3 | Decision-7 pointer cleanup | GATED | one A/B session | research-methodology run |
 | E4 | Hook-enforcement A/B | OWNER ACTION | one primary-machine session | David's machine |
 | E5 | Instructions box diff | OWNER ACTION | one minute | David's eyes |
@@ -171,9 +188,9 @@ not re-measured today. The lint and length checks are point-in-time
 | E8 | delegation-discipline path | OWNER DECISION | phase-2 first | behavioral measurement |
 | E9 | Fold backlog + claude.ai live-fire | OWNER DECISION | standing | David's priority call |
 
-Recommended order if all approved: E4 first (it is the named next lever and
-the only unstarted measurement), E1+E2 in the same sitting (trivial), E5+E6
-whenever, E3 at the next wording pass, E7–E9 as the lanes come up live.
+Recommended order for the remainder: E4 first (it is the named next lever
+and the only unstarted measurement), E5+E6 whenever, E3 at the next wording
+pass, E7–E9 as the lanes come up live.
 
 ## Provenance
 
@@ -183,8 +200,12 @@ the month's artifacts (reports, ledger, register, experiments,
 instructions), then live checks executed this session — 18-skill lint run,
 per-skill description-length measurement, `/root/.claude/skills/` roster
 enumeration, retired-pointer greps. architecture-contract and after-report
-loaded per house law; adversarial self-check applied before delivery. No
-skill, hook, config, or instruction text was modified — proposals only.
+loaded per house law; adversarial self-check applied before delivery (it
+caught and corrected two defects pre-publication: an overstated duplicate
+tool count and a ledger-entry miscount). At first publication nothing was
+modified — proposals only. After owner approval, E1 and E2 were executed on
+this branch (README Status + lint length check); no governor SKILL.md, no
+hook, and no instruction text was touched.
 
 Re-verify: lint — `for d in .claude/skills/*/; do bash
 .claude/skills/diagnostics-and-tooling/scripts/lint_skill.sh "$d"; done`;

@@ -109,14 +109,27 @@ The source repo is **private** — the `gh api` re-verification one-liners in
 those sections require owner access; everyone else should treat the lineage as
 historical record.
 
-## Status (as of 2026-07-11)
+## Status (as of 2026-08-10)
 
-All 13 skills lint with zero FAILs (`diagnostics-and-tooling/scripts/lint_skill.sh`;
-on PyYAML-less machines the verdict is `PASS (with warnings)` — the warning is
-environmental, not skill content). Reviewed 2026-07-11 by three independent
-reviewers (factual, doctrine, usability; blocking and important findings fixed
-in-tree — see the fix commit). Trigger reliability and behavioral effect are
-**unmeasured** —
-assumption A2 in `domain-reference`; closing it is
-`governance-adoption-campaign`'s job. Treat "the governors fire when needed" as a
-candidate until that campaign's gates pass.
+All 18 skills lint with zero FAILs (`diagnostics-and-tooling/scripts/lint_skill.sh`,
+re-run 2026-08-10). The lint now also enforces the 1024-char description limit
+from INC-3, with a warning band above 1000 — no skill currently warns; the
+longest description (plan-gate) sits exactly at the 1000 boundary, so a single
+added word enters the band. On PyYAML-less machines the verdict is `PASS (with
+warnings)`; that warning is environmental, not skill content. The original 13
+skills were reviewed 2026-07-11 by three independent reviewers (factual,
+doctrine, usability; blocking and important findings fixed in-tree).
+
+Trigger reliability is **measured, not assumed** — assumption A2 in
+`domain-reference` carries the full dated story. In short: plan-gate and
+adversarial-verify passed their headless trigger gates after the 2026-07-11
+reword/trim passes (9/9 and 6/6); scope-fence triggers ~60–67% by description
+with a recorded inline-code ceiling (DEAD-1 — the `hooks/` pack is the lever
+there); the four 2026-08-03 candidates cleared the fire bar on
+description-testing prompts with zero over-fires anywhere
+(`results/2026-08-03/trigger-evals/`). Behavioral value is measured for the
+retired pair (Decision 7) and the governors (Phase 2), unmeasured for the
+candidates. The dated record of what carries each discipline on which model is
+[`evals/model-capability-register.md`](evals/model-capability-register.md);
+open items are tracked in the 2026-08-10 review
+(`results/2026-08-10/instruction-review/REPORT.md`).

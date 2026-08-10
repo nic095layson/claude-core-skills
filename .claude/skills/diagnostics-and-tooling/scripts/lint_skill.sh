@@ -11,7 +11,9 @@
 #   FAIL  frontmatter `description` missing/empty
 #   FAIL  `name` does not equal the directory basename
 #   FAIL  description has no trigger language (nothing saying WHEN to load it)
+#   FAIL  description longer than 1024 chars (claude.ai upload limit — INC-3)
 #   FAIL  body (after frontmatter) is trivial (< 50 words)
+#   WARN  description longer than 1000 chars (inside 24 of the 1024 limit)
 #   WARN  no "Provenance" section heading in the body
 #   WARN  no "When NOT to use" section heading in the body
 #
@@ -144,6 +146,17 @@ else:
     else:
         fail("description has no trigger language "
              "(add e.g. 'Use this skill when...' / 'Triggers on: ...')")
+    # INC-3: claude.ai's Agent-Skills spec caps descriptions at 1024 chars.
+    # Claude Code headless tolerates more, so an over-length description
+    # fails silently only at upload — exactly the founding-incident class.
+    dlen = len(desc.strip())
+    if dlen > 1024:
+        fail(f"description is {dlen} chars (> 1024 claude.ai upload limit, INC-3)")
+    elif dlen > 1000:
+        print(f"WARN: description is {dlen} chars (inside 24 of the 1024 "
+              "claude.ai upload limit — trim at next gated wording pass)")
+    else:
+        ok(f"description length {dlen} chars (limit 1024)")
 
 sys.exit(1 if failed else 0)
 PY
