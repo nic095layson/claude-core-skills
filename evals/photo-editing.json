@@ -1,0 +1,48 @@
+{
+  "skill_name": "photo-editing",
+  "_grading": {
+    "operationalization": "FIRED := the photo-editing Skill tool is invoked in the fresh-session stream-json transcript. SILENT := no such invocation. Behavioral signature recorded as corroboration.",
+    "fire_signature": "The three laws are visible: dimensions/bounds measured by tool (inspect script or PIL/identify) before the edit, output written to a NEW file with the original byte-identical afterward (hash compare), and the result viewed/verified against the ask before delivery.",
+    "silent_signature": "Direct answer or ordinary work without edit ceremony for non-editing turns (factual questions, image GENERATION requests, charts).",
+    "committed_before_runs": "2026-08-10",
+    "surface": "Claude Code headless (claude -p), project or personal scope",
+    "gate": "2 runs per prompt: >=83% of should-fire runs fire (>=7/8); >=5/6 should-not runs stay silent",
+    "status": "AUTHORED 2026-08-10 — RUN same day: GATE PASS, 8/8 should-fire fired, 6/6 should-not silent (claude-sonnet-5, Claude Code headless, project scope; results/2026-08-10/trigger-evals-photo-editing/RESULTS.md, incl. one recorded method deviation: --allowedTools). Per INC-2/INC-8, every should-fire prompt declares a seeded fixture image (generate with Pillow at eval setup per the fixtures spec); prompts never reference absent files. claude.ai triggering and behavioral-delta arm unmeasured.",
+    "_note": "Adopted 2026-08-10 with the skill (decision A of results/2026-08-10/image-output-skill/REPORT.md); authored the same day beside the original draft.",
+    "fixtures": {
+      "fixtures/sample-padded.png": "600x400 white RGB with a 300x200 colored rectangle centered (content bounds measurable)",
+      "fixtures/sample-photo.png": "800x600 RGB gradient with shapes (no alpha)",
+      "fixtures/sample-logo.png": "256x256 RGBA with transparent background"
+    }
+  },
+  "evals": [
+    { "id": 1,
+      "prompt": "Crop the extra padding off fixtures/sample-padded.png and give me a clean tightly-cropped version.",
+      "expected_output": "FIRES: photo-editing loads; content bounds measured by script (not eyeballed), crop written to a new file, original unchanged, result viewed and confirmed.",
+      "files": ["fixtures/sample-padded.png"] },
+    { "id": 2,
+      "prompt": "Resize fixtures/sample-photo.png to exactly 1200x630 for a social preview image, JPG please.",
+      "expected_output": "FIRES: photo-editing loads; measured source dims, aspect handling stated, explicit JPEG quality, new descriptively-named file, dimensions re-verified.",
+      "files": ["fixtures/sample-photo.png"] },
+    { "id": 3,
+      "prompt": "Rotate fixtures/sample-photo.png 90 degrees clockwise and hand me the result as a PNG.",
+      "expected_output": "FIRES: photo-editing loads; rotation applied from measured facts, new file, before/after dims stated, output viewed.",
+      "files": ["fixtures/sample-photo.png"] },
+    { "id": 4,
+      "prompt": "Convert fixtures/sample-logo.png to a JPG I can upload.",
+      "expected_output": "FIRES: photo-editing loads (proportional path); alpha detected and a background color chosen deliberately before JPEG conversion, new file, original untouched.",
+      "files": ["fixtures/sample-logo.png"] },
+    { "id": 5,
+      "prompt": "What's the practical difference between JPEG and PNG compression, and when should I use each?",
+      "expected_output": "SILENT: factual question; direct answer, no edit ceremony.",
+      "files": [] },
+    { "id": 6,
+      "prompt": "Make me a poster image celebrating our team's product launch — something bold and colorful.",
+      "expected_output": "SILENT for photo-editing: image GENERATION from scratch, which this skill explicitly does not own; the session may pursue generation routes, but the photo-editing skill must not load.",
+      "files": [] },
+    { "id": 7,
+      "prompt": "Build a bar chart of these quarterly numbers: Q1 40, Q2 55, Q3 38, Q4 61.",
+      "expected_output": "SILENT for photo-editing: data graphic; chart-making is owned elsewhere (dataviz).",
+      "files": [] }
+  ]
+}

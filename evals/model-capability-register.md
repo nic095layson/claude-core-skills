@@ -30,6 +30,7 @@ the unmeasured rows hold up once the daily models are all that's left.
 | 10 | Application tailoring, anti-fabrication fenced | `application-tailor` skill | 2026-08-03, trigger evals (same dir) | Sonnet 5, Code headless | Fires 8/8 on description-testing prompts, 0 over-fire; co-fired brand-standard 3/4 (compose design works); claude.ai untested | claude.ai live-fire; first live application |
 | 11 | Email drafting in-voice, draft-never-send | `correspondence` skill — **need still unconfirmed** | 2026-08-03, trigger evals (same dir) | Sonnet 5, Code headless | Gate PASS as committed: 5/6 fire · 4/4 silent; trigger measured, lane unconfirmed | Owner confirms the lane is real |
 | 12 | Fable→Opus classifier fallback (visibility of active model) | Platform (transcript notice, `/status`, statusline, `switchModelsOnFlag`) | 2026-08-03, docs re-verified | Fable 5 | Documented: noticed but sticky until `/model` | Docs change; any observed silent switch (would also be a lessons entry) |
+| 13 | Deterministic photo editing under the three laws (never-overwrite, measure-before-cut, see-edit-verify) | `photo-editing` skill (project scope) | 2026-08-10, trigger evals (`results/2026-08-10/trigger-evals-photo-editing/`) | Sonnet 5, Code headless | GATE PASS clean: 8/8 fire · 6/6 silent, 0 over-fire; laws held in-run (originals byte-stable, inspect-before-edit in all fire runs); behavioral delta vs no-skill un-isolated | claude.ai live-fire; any model-mix change; first live photo lane use |
 
 ## Maintenance
 

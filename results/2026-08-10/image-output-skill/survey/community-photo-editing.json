@@ -1,0 +1,114 @@
+{
+ "summary": "The strongest community photo-editing skill found is `image-edit` in peterkrueck/Claude-Code-Development-Kit (1,383 stars, MIT): Pillow+numpy with bundled deterministic scripts (analyze_bounds.py, crop_image.py) and a complete see-edit-verify loop \u2014 Read the image first, measure content bounds with a script, apply the edit, then \"Read the output image with the Read tool to visually confirm the result.\" Second is jezweb/claude-skills' `image-processing` (962 stars, MIT), Pillow-based with a bundled `img-process` CLI covering resize/crop/trim/convert/optimise/thumbnails, but with no visual verification step. ImageMagick-CLI reference skills are the most numerous (1,100+ SKILL.md code-search hits vs ~400 for Pillow), best exemplified by TerminalSkills/skills (Apache-2.0) and einverne/dotfiles (MIT, 658-line guide), but these are command references with no verify loop. ComposioHQ's own image-enhancer \u2014 the only editing entry in their 72k-star awesome list \u2014 is prompt-only with no toolchain, scripts, or verification. On standardization: raw volume favors ImageMagick CLI, but the best-engineered skills deliberately standardize on Pillow with bundled scripts (jezweb: \"Uses Pillow (Python) \u2014 no ImageMagick needed\"; peterkrueck rejects macOS sips for \"unreliable crop offset behavior\"); sharp appears mainly as a documented fallback and in auto-generated skill dumps. Exactly one candidate (peterkrueck) closes the loop with the model's vision, and it pairs vision with measurement: verify visually, but never GUESS coordinates visually \u2014 measure first. travisvn/awesome-claude-skills contains no photo-editing entries at all.",
+ "candidates": [
+  {
+   "name": "image-edit (Claude-Code-Development-Kit)",
+   "source_url": "https://github.com/peterkrueck/Claude-Code-Development-Kit/blob/main/skills/image-edit/SKILL.md",
+   "stars": "1,383 (repo)",
+   "approach": "Local deterministic: Python/Pillow + numpy in a temp venv, with two bundled scripts \u2014 analyze_bounds.py (outputs JSON content bounds, padding, suggested square crops) and crop_image.py (composable crop/mirror/rotate/resize). Workflow: Read image visually -> measure bounds with script -> compute coordinates -> apply -> Read output to verify, adjust and re-run.",
+   "description_quote": "Edit images with precision \u2014 crop, resize, mirror, rotate, trim, and reframe. Use this skill whenever the user asks to crop, resize, trim, mirror, flip, rotate, reframe, or otherwise manipulate an image.",
+   "edits_existing_photos": true,
+   "requires_api_key": false,
+   "license": "MIT (repo LICENSE fetched)"
+  },
+  {
+   "name": "image-processing (jezweb/claude-skills, design-assets plugin)",
+   "source_url": "https://github.com/jezweb/claude-skills/blob/main/plugins/design-assets/skills/image-processing/SKILL.md",
+   "stars": "962 (repo)",
+   "approach": "Local deterministic: Pillow (Python) via a bundled `img-process` CLI shipped in bin/ (resize, convert, trim, thumbnail, optimise, og-card, batch); generates custom Pillow scripts for compositing/watermarks; documents sips/sharp/ffmpeg as fallbacks. No visual verification step found in SKILL.md.",
+   "description_quote": "Process images for web development \u2014 resize, crop, trim whitespace, convert formats (PNG/WebP/JPG), optimise file size, generate thumbnails, create OG card images. Uses Pillow (Python) \u2014 no ImageMagick needed.",
+   "edits_existing_photos": true,
+   "requires_api_key": false,
+   "license": "MIT (repo LICENSE fetched)"
+  },
+  {
+   "name": "imagemagick (TerminalSkills/skills)",
+   "source_url": "https://github.com/TerminalSkills/skills/blob/main/skills/imagemagick/SKILL.md",
+   "stars": "126 (repo)",
+   "approach": "Local deterministic: ImageMagick CLI (magick/convert/mogrify/composite/identify) expert-prompt style with copy-paste recipes for resize, crop, format conversion, batch watermarking, compositing. No verification loop.",
+   "description_quote": "You are an expert in ImageMagick, the powerful command-line tool for creating, editing, compositing, and converting images. You help developers automate image processing pipelines using ImageMagick's `convert`, `mogrify`, `composite`, and `identify` commands \u2014 batch resizing, format conversion, watermarking, thumbnail generation, PDF manipulation, and complex image compositing.",
+   "edits_existing_photos": true,
+   "requires_api_key": false,
+   "license": "Apache-2.0 (SKILL.md frontmatter)"
+  },
+  {
+   "name": "imagemagick (einverne/dotfiles)",
+   "source_url": "https://github.com/einverne/dotfiles/blob/master/claude/skills/imagemagick/SKILL.md",
+   "stars": "119 (repo)",
+   "approach": "Local deterministic: ImageMagick CLI \u2014 a 658-line reference covering format conversion, resizing, cropping, effects, watermarks, borders, batch mogrify, geometry syntax, and v7 magick vs legacy convert. No verification loop.",
+   "description_quote": "Guide for using ImageMagick command-line tools to perform advanced image processing tasks including format conversion, resizing, cropping, effects, transformations, and batch operations. Use when manipulating images programmatically via shell commands.",
+   "edits_existing_photos": true,
+   "requires_api_key": false,
+   "license": "MIT (SKILL.md frontmatter)"
+  },
+  {
+   "name": "image-enhancer (ComposioHQ/awesome-claude-skills)",
+   "source_url": "https://github.com/ComposioHQ/awesome-claude-skills/blob/master/image-enhancer/SKILL.md",
+   "stars": "72,153 (whole awesome-list repo, not this skill)",
+   "approach": "Prompt-only: the full 99-line SKILL.md names no library, no script, no API \u2014 it describes intents (upscale, sharpen, reduce artifacts, keep originals as backup) and leaves implementation to the model. No verification loop.",
+   "description_quote": "Improves the quality of images, especially screenshots, by enhancing resolution, sharpness, and clarity. Perfect for preparing images for presentations, documentation, or social media posts.",
+   "edits_existing_photos": true,
+   "requires_api_key": false,
+   "license": "not visible in fetched SKILL.md; repo license not verified"
+  }
+ ],
+ "findings": [
+  {
+   "claim": "The peterkrueck image-edit skill includes an explicit see-edit-verify loop using the model's vision: it opens with a Read-tool inspection and closes with a verify step.",
+   "quote": "Step 5 \u2014 Verify ... Read the output image with the Read tool to visually confirm the result. If it doesn't look right, adjust and re-run \u2014 the original is untouched.",
+   "source_url": "https://raw.githubusercontent.com/peterkrueck/Claude-Code-Development-Kit/main/skills/image-edit/SKILL.md",
+   "kind": "EVIDENCE"
+  },
+  {
+   "claim": "The same skill pairs vision with measurement rather than trusting vision for coordinates \u2014 its core rule is measure-before-cut via a bundled analysis script.",
+   "quote": "Never guess crop coordinates from visual inspection. Images routinely have large invisible regions \u2014 transparent padding, solid-color borders, or dead space \u2014 that make visual estimates wildly wrong.",
+   "source_url": "https://raw.githubusercontent.com/peterkrueck/Claude-Code-Development-Kit/main/skills/image-edit/SKILL.md",
+   "kind": "EVIDENCE"
+  },
+  {
+   "claim": "The best-engineered editing skills standardize on Pillow with bundled deterministic scripts, explicitly avoiding ImageMagick/sips; peterkrueck justifies Pillow over sips.",
+   "quote": "Precision image manipulation using Python/Pillow. This skill exists because macOS `sips` has unreliable crop offset behavior and visual inspection alone leads to bad coordinates",
+   "source_url": "https://raw.githubusercontent.com/peterkrueck/Claude-Code-Development-Kit/main/skills/image-edit/SKILL.md",
+   "kind": "EVIDENCE"
+  },
+  {
+   "claim": "jezweb's image-processing skill also standardizes on Pillow and positions sharp (npm) only as a fallback alongside sips and ffmpeg.",
+   "quote": "Uses Pillow (Python) \u2014 no ImageMagick needed.",
+   "source_url": "https://raw.githubusercontent.com/jezweb/claude-skills/main/plugins/design-assets/skills/image-processing/SKILL.md",
+   "kind": "EVIDENCE"
+  },
+  {
+   "claim": "By raw volume, ImageMagick CLI is the most common toolchain in community SKILL.md files: GitHub code search returned total_count 1,142 for 'filename:SKILL.md ImageMagick crop resize' vs 412 for 'filename:SKILL.md Pillow resize watermark'; sharp hits are dominated by auto-generated dumps (agentskillexchange/skills, majiayu000/claude-skill-registry).",
+   "quote": "\"total_count\":1142",
+   "source_url": "https://api.github.com/search/code (queries: filename:SKILL.md ImageMagick crop resize; filename:SKILL.md Pillow resize watermark)",
+   "kind": "EVIDENCE"
+  },
+  {
+   "claim": "ComposioHQ's image-enhancer \u2014 the only photo-editing entry in the 72k-star ComposioHQ awesome list \u2014 is prompt-only: the full SKILL.md names no library, script, or API and contains no verification step.",
+   "quote": "This skill takes your images and screenshots and makes them look better\u2014sharper, clearer, and more professional.",
+   "source_url": "https://raw.githubusercontent.com/ComposioHQ/awesome-claude-skills/master/image-enhancer/SKILL.md",
+   "kind": "EVIDENCE"
+  },
+  {
+   "claim": "travisvn/awesome-claude-skills lists no photo/image-editing skills \u2014 only generation-adjacent entries (algorithmic-art, canvas-design, slack-gif-creator, web-asset-generator).",
+   "source_url": "https://github.com/travisvn/awesome-claude-skills",
+   "kind": "EVIDENCE"
+  },
+  {
+   "claim": "Neither of the two comprehensive ImageMagick reference skills (TerminalSkills/skills, einverne/dotfiles) contains any visual-verification or look-at-the-result instruction (grep for verify/visual/inspect/feedback over full downloaded files found none in workflow context).",
+   "source_url": "https://raw.githubusercontent.com/TerminalSkills/skills/main/skills/imagemagick/SKILL.md",
+   "kind": "EVIDENCE"
+  },
+  {
+   "claim": "Search results for image-editing SKILL.md files are heavily polluted by aggregator mirrors (majiayu000/claude-skill-registry, aiskillstore/marketplace, agentskillexchange/skills, ComeOnOliver/skillshub) that republish other authors' skills under renamed paths \u2014 originals should be preferred for provenance.",
+   "source_url": "https://api.github.com/search/code (filename:SKILL.md ImageMagick crop resize)",
+   "kind": "LEAD"
+  },
+  {
+   "claim": "SamurAIGPT/Generative-Media-Skills contains a core/edit SKILL.md, but the repo name indicates generative-media API orientation (sibling researcher's scope); not fetched or evaluated.",
+   "source_url": "https://github.com/SamurAIGPT/Generative-Media-Skills",
+   "kind": "LEAD"
+  }
+ ],
+ "bounds": "Not checked: skillsmp.com (egress proxy blocked the domain), claudemarketplaces.com and claudeskills.info (fetch budget exhausted ~12 network fetches). GitHub MCP get_file_contents and direct api.github.com/repos calls were restricted to the session repo (403), so file contents came from raw.githubusercontent.com and stars/licenses from the GitHub search API plus raw LICENSE files; ComposioHQ repo license not determined. Star counts are repo-level, never per-skill \u2014 image-enhancer inherits the 72k-star awesome list, not its own popularity. I did not download the bundled scripts (analyze_bounds.py, crop_image.py, img-process) to confirm they exist and run \u2014 only the SKILL.md text referencing them. The two awesome-list scans were WebFetch page fetches summarized by a small model, so an obscure editing entry could have been missed. Code search sampled top ~30 results of 1,100-4,600 total per query across five keyword combinations (ImageMagick, Pillow, sharp, background removal, vision-verify phrasings); niche skills using other toolchains (OpenCV, GraphicsMagick, rembg) were not specifically searched. The yangruihan pillow image-edit-skill seen in an OpenClaw marketplace mirror could not be traced to an original repo (user search 422'd). Toolchain-count comparison (1,142 vs 412) uses raw GitHub total_count, which includes duplicates and mirrors."
+}

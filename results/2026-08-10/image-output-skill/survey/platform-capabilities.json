@@ -1,0 +1,88 @@
+{
+ "summary": "Primary Anthropic docs establish a clear picture for image-skill authors. (1) Vision input: Claude accepts JPEG, PNG, GIF, and WebP; max 8000x8000 px per image; 10 MB per image on the Claude API and claude.ai (5 MB on Bedrock/Google Cloud); 20 images per claude.ai message, up to 100-600 per API request; animations unsupported (first frame only). (2) Image generation: the vision doc's FAQ states explicitly that Claude \"cannot generate, produce, edit, manipulate, or create images\" natively \u2014 any image output must come from tool-side code. (3) The API code-execution tool runs Python in a sandboxed container whose pre-installed library list explicitly includes pillow (plus matplotlib, seaborn, pdf2image, reportlab, Img2pdf, opencv NOT listed), and the container \"has no internet access, so Claude can't download or install additional packages at runtime\". (4) Claude Code cloud sessions are the opposite: Python 3.x with pip is pre-installed, the default \"Trusted\" network level allowlists PyPI/npm/RubyGems/crates.io, so `pip install` of image libraries works (fails only under \"None\" network access). (5) Artifacts: the strongest primary statement I could reach is the Anthropic-authored Artifact tool specification in this session's system prompt \u2014 \"A strict CSP blocks requests to any external host... embed assets as data: URIs\"; the public support.claude.com article confirming external-resource restrictions exists but was egress-blocked from this environment, so it is recorded as a LEAD. Net for skill authors: rely on vision input everywhere, never on native generation; produce/edit images with Pillow via code execution (API) or pip-installed libs (Claude Code cloud), and embed images as data: URIs in artifacts.",
+ "candidates": [
+  {
+   "name": "Anthropic code execution tool (Claude API)",
+   "source_url": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/code-execution-tool",
+   "description_quote": "Run Python and bash code in a sandboxed container to analyze data, generate files, and iterate on solutions.",
+   "approach": "Server-side sandboxed Python/Bash container; pre-installed image-capable libraries include pillow, matplotlib, seaborn, pdf2image, reportlab[pycairo], Img2pdf; files in/out via Files API; no internet, so only pre-installed libs",
+   "edits_existing_photos": true,
+   "requires_api_key": true,
+   "license": "Proprietary Anthropic API feature",
+   "stars": "n/a"
+  },
+  {
+   "name": "Claude Code cloud environments (claude.ai/code containers)",
+   "source_url": "https://code.claude.com/docs/en/cloud-environments",
+   "description_quote": "Configure cloud environments for Claude Code cloud sessions: network access levels, environment variables, setup scripts, and environment caching.",
+   "approach": "Isolated Ubuntu 24.04 VM with Python 3.x + pip/poetry/uv pre-installed; default Trusted network allowlists pypi.org and files.pythonhosted.org, so pip install pillow/opencv etc. works at runtime or via setup scripts",
+   "edits_existing_photos": true,
+   "requires_api_key": false,
+   "license": "Proprietary Anthropic product (Pro/Max/Team/Enterprise research preview)",
+   "stars": "n/a"
+  }
+ ],
+ "findings": [
+  {
+   "claim": "Vision input formats: Claude accepts JPEG, PNG, GIF, WebP; animations are ignored beyond the first frame.",
+   "source_url": "https://platform.claude.com/docs/en/build-with-claude/vision",
+   "kind": "EVIDENCE",
+   "quote": "Claude supports JPEG, PNG, GIF, and WebP images (`image/jpeg`, `image/png`, `image/gif`, `image/webp`). Animations are unsupported, and only the first frame is used."
+  },
+  {
+   "claim": "Vision input limits: 8000x8000 px max per image; 10 MB per image on the Claude API and on claude.ai (5 MB on Bedrock/Google Cloud); 20 images per claude.ai message, 100 per API request for 200k-context models, 600 otherwise.",
+   "source_url": "https://platform.claude.com/docs/en/build-with-claude/vision",
+   "kind": "EVIDENCE",
+   "quote": "The maximum dimensions per image are 8000x8000 px. ... 10 MB (base64-encoded) when using the Claude API directly. ... 20 per message on claude.ai. 100 per request on the API, for models with a 200k-token context window. 600 per request on the API, for all other models."
+  },
+  {
+   "claim": "No native image generation anywhere in the API or apps: the official vision doc FAQ explicitly denies generation, editing, and manipulation.",
+   "source_url": "https://platform.claude.com/docs/en/build-with-claude/vision",
+   "kind": "EVIDENCE",
+   "quote": "No, Claude is an image understanding model only. It can interpret and analyze images, but it cannot generate, produce, edit, manipulate, or create images."
+  },
+  {
+   "claim": "The API code-execution tool's sandboxed Python environment ships pillow pre-installed (listed under File processing), plus matplotlib and seaborn for visualization; opencv is NOT in the documented list.",
+   "source_url": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/code-execution-tool",
+   "kind": "EVIDENCE",
+   "quote": "File processing: pyarrow, openpyxl, xlsxwriter, xlrd, pillow, python-pptx, python-docx, pypdf, pdfplumber, pypdfium2, pdf2image, pdfkit, tabula-py, reportlab[pycairo], Img2pdf"
+  },
+  {
+   "claim": "The code-execution container cannot pip-install anything at runtime; skills targeting it must rely solely on the pre-installed libraries.",
+   "source_url": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/code-execution-tool",
+   "kind": "EVIDENCE",
+   "quote": "The container has no internet access, so Claude can't download or install additional packages at runtime: only the pre-installed libraries are available."
+  },
+  {
+   "claim": "Claude Code cloud sessions run in isolated VMs with network access limited by default and configurable down to none.",
+   "source_url": "https://code.claude.com/docs/en/claude-code-on-the-web",
+   "kind": "EVIDENCE",
+   "quote": "in Anthropic-hosted environments, network access is limited by default and can be disabled. In a self-hosted environment, you restrict session egress at your own network boundary."
+  },
+  {
+   "claim": "Claude Code cloud environments' default 'Trusted' network level allowlists package registries including PyPI, so pip installs work; under 'None' they fail. Access levels: None (no outbound), Trusted (allowlisted domains only: package registries, GitHub, cloud SDKs), Full (any domain), Custom (own allowlist). The default allowlist explicitly includes pypi.org and files.pythonhosted.org.",
+   "source_url": "https://code.claude.com/docs/en/cloud-environments",
+   "kind": "EVIDENCE",
+   "quote": "Network access for installs: package installs need to reach registries. The default Trusted level covers common package registries including npm, PyPI, RubyGems, and crates.io; with None network access, installs fail."
+  },
+  {
+   "claim": "Claude Code cloud VMs pre-install Python with pip (so an image skill can `pip install` Pillow/OpenCV at session time), and setup scripts run as root on Ubuntu 24.04 where apt and language package managers work; mid-session installs don't persist across sessions unless done in a cached setup script.",
+   "source_url": "https://code.claude.com/docs/en/cloud-environments",
+   "kind": "EVIDENCE",
+   "quote": "Python: Python 3.x with pip, poetry, uv, black, mypy, pytest, ruff ... Scripts run as root on Ubuntu 24.04, so `apt install` and most language package managers work."
+  },
+  {
+   "claim": "Artifacts (Cowork/Claude Code Artifact surface) enforce a strict CSP blocking all external hosts, so images must be embedded as data: URIs \u2014 stated in Anthropic's own Artifact tool specification delivered in this session's system prompt (primary Anthropic text, but not a public URL).",
+   "source_url": "internal://anthropic-system-prompt/Artifact-tool-spec (Claude Code/Cowork session, 2026-08-10)",
+   "kind": "EVIDENCE",
+   "quote": "A strict CSP blocks requests to any external host \u2014 CDN scripts, external stylesheets, fonts, remote images, fetch/XHR/WebSockets. Inline all CSS/JS and embed assets as data: URIs."
+  },
+  {
+   "claim": "An official Claude Help Center article on artifacts exists and, per secondhand search-result summaries, says artifacts cannot make external API calls / import external images \u2014 but the article itself could not be fetched (support.claude.com and support.anthropic.com are egress-blocked from this environment), so this remains a LEAD.",
+   "source_url": "https://support.claude.com/en/articles/9487310-what-are-artifacts-and-how-do-i-use-them",
+   "kind": "LEAD",
+   "quote": "Artifacts cannot make external API calls to third-party services (secondhand phrasing from search-result summaries, NOT verified against the article text)"
+  }
+ ],
+ "bounds": "Not checked: the claude.ai in-chat \"analysis tool\" documentation (it lives on support.claude.com, which is egress-blocked from this environment; note the analysis tool historically runs JavaScript in-browser and is distinct from the API code-execution tool I did verify). Fetch failures: support.claude.com and support.anthropic.com both returned EGRESS_BLOCKED, so the artifacts external-resource restriction could not be confirmed against the public help-center article \u2014 it rests on the Anthropic-authored Artifact tool spec in this session's system prompt (primary text, no public URL) plus a LEAD. I did not fetch the claude.ai consumer-app release notes, the Files API page, the vision-coordinates page, or any Bedrock/Vertex platform docs beyond what the vision page itself states. Exact package versions in the code-execution container and cloud VMs were not enumerated (docs say to run `check-tools` in a live session). Used about 8 fetches and 2 searches, under the 12-fetch cap; all fetches dated 2026-08-10."
+}

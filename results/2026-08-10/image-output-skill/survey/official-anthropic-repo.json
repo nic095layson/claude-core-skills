@@ -1,0 +1,106 @@
+{
+ "summary": "Cloned github.com/anthropics/skills (main, commit f17010c9bb483898c1d9c9f42dde2b3a98889434, 2026-08-07) and read every SKILL.md on 2026-08-10. The repo contains 17 skills; the image-producing/visual set is: canvas-design (static .png/.pdf art), algorithmic-art (p5.js generative art in a self-contained HTML artifact with client-side PNG download), slack-gif-creator (Pillow/imageio Python GIF pipeline), plus two styling-only skills, theme-factory and brand-guidelines, which apply colors/fonts to artifacts but render no raster images themselves. No skill's primary job is editing existing photographs; the closest is slack-gif-creator, whose SKILL.md explicitly covers loading user-uploaded images with PIL to animate or split into GIF frames. Rendering pipelines to .png/.gif are: PIL ImageDraw frames assembled by a bundled GIFBuilder (imageio.v3 + Pillow + numpy) for GIFs; p5.js canvas rendered in the browser with a Download PNG button for algorithmic art; and code-authored output for canvas-design, whose SKILL.md names no rendering library at all (grep for PIL/cairo/matplotlib/sharp/puppeteer returns nothing) but bundles 25+ OFL-licensed TTF fonts in ./canvas-fonts. All image/visual skills carry identical Apache License 2.0 LICENSE.txt files (md5-identical, header verified), unlike the document skills (docx/pdf/pptx/xlsx) whose frontmatter says 'Proprietary'. webapp-testing captures browser screenshots via Playwright but is a testing tool, not an image skill.",
+ "candidates": [
+  {
+   "name": "canvas-design",
+   "source_url": "https://github.com/anthropics/skills/blob/main/skills/canvas-design/SKILL.md",
+   "description_quote": "Create beautiful visual art in .png and .pdf documents using design philosophy. You should use this skill when the user asks to create a poster, piece of art, design, or other static piece. Create original visual designs, never copying existing artists' work to avoid copyright violations.",
+   "approach": "Two-step prompt workflow: write a 'design philosophy' .md, then express it as a single-page .png or .pdf via code ('Go back to the code and refine/polish'). SKILL.md names NO rendering library (grep for PIL/cairo/matplotlib/sharp/puppeteer/svg: no hits) \u2014 the model picks its own code pipeline. Ships 25+ OFL-licensed TTF fonts in ./canvas-fonts for typography.",
+   "edits_existing_photos": false,
+   "requires_api_key": false,
+   "license": "Apache License 2.0 (skill-local LICENSE.txt; frontmatter: 'Complete terms in LICENSE.txt')",
+   "stars": "n/a"
+  },
+  {
+   "name": "algorithmic-art",
+   "source_url": "https://github.com/anthropics/skills/blob/main/skills/algorithmic-art/SKILL.md",
+   "description_quote": "Creating algorithmic art using p5.js with seeded randomness and interactive parameter exploration. Use this when users request creating art using code, generative art, algorithmic art, flow fields, or particle systems. Create original algorithmic art rather than copying existing artists' work to avoid copyright violations.",
+   "approach": "p5.js generative sketches embedded in a single self-contained HTML artifact built from templates/viewer.html; p5.js 1.7.0 loaded from cdnjs CDN; seeded randomness (randomSeed/noiseSeed, Art Blocks pattern); 1200x1200 canvas; PNG produced client-side in the browser via the required 'Download PNG button'. No server-side raster pipeline.",
+   "edits_existing_photos": false,
+   "requires_api_key": false,
+   "license": "Apache License 2.0 (skill-local LICENSE.txt, md5-identical to canvas-design's)",
+   "stars": "n/a"
+  },
+  {
+   "name": "slack-gif-creator",
+   "source_url": "https://github.com/anthropics/skills/blob/main/skills/slack-gif-creator/SKILL.md",
+   "description_quote": "Knowledge and utilities for creating animated GIFs optimized for Slack. Provides constraints, validation tools, and animation concepts. Use when users request animated GIFs for Slack like \"make me a GIF of X doing Y for Slack.\"",
+   "approach": "Python: frames drawn with PIL ImageDraw primitives (ellipse/polygon/line/rectangle), assembled by bundled core/gif_builder.py GIFBuilder (imports imageio.v3, numpy, PIL.Image) into optimized .gif (128x128 emoji / 480x480 message, 48-128 colors); plus core/validators.py, core/easing.py, core/frame_composer.py. requirements.txt: pillow, imageio, imageio-ffmpeg, numpy.",
+   "edits_existing_photos": true,
+   "requires_api_key": false,
+   "license": "Apache License 2.0 (skill-local LICENSE.txt)",
+   "stars": "n/a"
+  },
+  {
+   "name": "theme-factory",
+   "source_url": "https://github.com/anthropics/skills/blob/main/skills/theme-factory/SKILL.md",
+   "description_quote": "Toolkit for styling artifacts with a theme. These artifacts can be slides, docs, reportings, HTML landing pages, etc. There are 10 pre-set themes with colors/fonts that you can apply to any artifact that has been creating, or can generate a new theme on-the-fly.",
+   "approach": "Styling-only, no image rendering pipeline: 10 theme .md files (hex palettes + font pairings) in themes/ plus a theme-showcase.pdf to display; the model applies the chosen colors/fonts to an existing artifact (deck, doc, HTML). Produces no raster/vector images itself.",
+   "edits_existing_photos": false,
+   "requires_api_key": false,
+   "license": "Apache License 2.0 (skill-local LICENSE.txt)",
+   "stars": "n/a"
+  },
+  {
+   "name": "brand-guidelines",
+   "source_url": "https://github.com/anthropics/skills/blob/main/skills/brand-guidelines/SKILL.md",
+   "description_quote": "Applies Anthropic's official brand colors and typography to any sort of artifact that may benefit from having Anthropic's look-and-feel. Use it when brand colors or style guidelines, visual formatting, or company design standards apply.",
+   "approach": "Styling-only: hex color constants (#141413, #faf9f5, #d97757, #6a9bcc, #788c5d etc.) and Poppins/Lora typography rules applied to existing artifacts; the only implementation detail named is 'Applied via python-pptx's RGBColor class'. No raster/vector image production of its own.",
+   "edits_existing_photos": false,
+   "requires_api_key": false,
+   "license": "Apache License 2.0 (skill-local LICENSE.txt)",
+   "stars": "n/a"
+  }
+ ],
+ "findings": [
+  {
+   "claim": "The official repo contains NO skill whose primary job is editing existing photographs. The only SKILL.md that addresses user-supplied images at all is slack-gif-creator, which handles uploads solely as GIF input/inspiration, not photo retouching.",
+   "source_url": "https://github.com/anthropics/skills/blob/main/skills/slack-gif-creator/SKILL.md",
+   "kind": "EVIDENCE",
+   "quote": "If a user uploads an image, consider whether they want to: Use it directly (e.g., \"animate this\", \"split this into frames\") ... Load and work with images using PIL"
+  },
+  {
+   "claim": "The repo's skills/ directory at commit f17010c9 (main, 2026-08-07) contains exactly 17 skills: algorithmic-art, brand-guidelines, canvas-design, claude-api, doc-coauthoring, docx, frontend-design, internal-comms, mcp-builder, pdf, pptx, skill-creator, slack-gif-creator, theme-factory, web-artifacts-builder, webapp-testing, xlsx \u2014 verified by full git clone, not a directory listing page.",
+   "source_url": "https://github.com/anthropics/skills/tree/main/skills",
+   "kind": "EVIDENCE",
+   "quote": ""
+  },
+  {
+   "claim": "Rendering pipeline to .png differs per skill: slack-gif-creator goes PIL ImageDraw frames -> bundled GIFBuilder using imageio.v3 + numpy + Pillow -> .gif; algorithmic-art renders p5.js (CDN 1.7.0) on an HTML canvas in the browser and exports PNG client-side via a mandated 'Download PNG button'; canvas-design instructs code-authored .png/.pdf output but names no library \u2014 the pipeline is left to the model, with bundled TTF fonts as the only shipped assets.",
+   "source_url": "https://github.com/anthropics/skills/blob/main/skills/slack-gif-creator/core/gif_builder.py",
+   "kind": "EVIDENCE",
+   "quote": "import imageio.v3 as imageio\nimport numpy as np\nfrom PIL import Image"
+  },
+  {
+   "claim": "canvas-design's SKILL.md never names a rendering library: grep -riE 'PIL|pillow|cairo|matplotlib|sharp|puppeteer|playwright|reportlab|svg' over the file returns zero matches; the body only says outputs are .md/.pdf/.png and refers to refining 'the code'.",
+   "source_url": "https://github.com/anthropics/skills/blob/main/skills/canvas-design/SKILL.md",
+   "kind": "EVIDENCE",
+   "quote": "Take a second pass. Go back to the code and refine/polish further to make this a philosophically designed masterpiece."
+  },
+  {
+   "claim": "algorithmic-art's PNG output happens in the viewer, not in a server-side pipeline: the artifact is a self-contained HTML file with p5.js from CDN and a fixed Actions section that must include a Download PNG button.",
+   "source_url": "https://github.com/anthropics/skills/blob/main/skills/algorithmic-art/SKILL.md",
+   "kind": "EVIDENCE",
+   "quote": "4. Actions (FIXED) - Always include exactly as shown: Regenerate button, Reset button, Download PNG button"
+  },
+  {
+   "claim": "All five image/visual skills (algorithmic-art, brand-guidelines, canvas-design, slack-gif-creator, theme-factory) ship byte-identical LICENSE.txt files (md5 0ee6429f4c66920b6744d818225fb58f) whose text is the Apache License Version 2.0; the document skills docx/pdf/pptx/xlsx share a different LICENSE.txt and declare 'Proprietary. LICENSE.txt has complete terms' in frontmatter.",
+   "source_url": "https://github.com/anthropics/skills/blob/main/skills/algorithmic-art/LICENSE.txt",
+   "kind": "EVIDENCE",
+   "quote": "Apache License, Version 2.0, January 2004"
+  },
+  {
+   "claim": "webapp-testing produces images only as a testing byproduct (Playwright browser screenshots) and is out of scope as an image-creation skill; frontend-design and web-artifacts-builder are HTML/UI guidance with no raster output.",
+   "source_url": "https://github.com/anthropics/skills/blob/main/skills/webapp-testing/SKILL.md",
+   "kind": "EVIDENCE",
+   "quote": "Toolkit for interacting with and testing local web applications using Playwright. Supports verifying frontend functionality, debugging UI behavior, capturing browser screenshots, and viewing browser logs."
+  },
+  {
+   "claim": "canvas-design ships 25+ open-font-licensed TTF families (Lora, Work Sans, IBM Plex, JetBrains Mono, etc., each with an -OFL.txt) in ./canvas-fonts, and SKILL.md directs the model to use them for typography in the artwork.",
+   "source_url": "https://github.com/anthropics/skills/tree/main/skills/canvas-design/canvas-fonts",
+   "kind": "EVIDENCE",
+   "quote": "IMPORTANT: Use different fonts if writing text. Search the `./canvas-fonts` directory."
+  }
+ ],
+ "bounds": "All claims come from a full shallow git clone of anthropics/skills at main (commit f17010c9bb483898c1d9c9f42dde2b3a98889434, committed 2026-08-07, fetched 2026-08-10) \u2014 every SKILL.md frontmatter was read, and full bodies were read for the five visual candidates; only ONE network fetch (the clone) was used. Not checked: GitHub star count (cloned via git, never loaded the repo web page \u2014 stars reported n/a); no skill code was executed; theme-factory's theme-showcase.pdf and the bundled font binaries were not opened; LICENSE.txt full text was read only for algorithmic-art, with the other four image skills verified Apache-2.0 by md5 identity to it; the distinct frontend-design LICENSE.txt was verified Apache-2.0 by header only. Scope was strictly this one repo \u2014 other Anthropic sources of image skills (claude-code plugins, claude.ai built-ins like artifact-design, or anthropics/courses) were not surveyed. Repo README contains no repo-level license statement (grep 'licen' returned nothing), so per-skill LICENSE.txt files are the license authority. The slack-gif-creator edits_existing_photos=true flag means it can load and incorporate an uploaded image into GIF animations (rotate, split into frames, fade via PIL) \u2014 it is not a photo-retouching tool."
+}
