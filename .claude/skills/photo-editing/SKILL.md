@@ -98,9 +98,11 @@ the settled parameters to the rest and spot-check a sample of outputs.
 
 ## Volatile facts (dated)
 
-- Authored and owner-adopted (project scope) 2026-08-10; UNMEASURED at
-  adoption — trigger/behavioral status lives in `evals/photo-editing.json`,
-  authored same day. *candidate*
+- Authored, owner-adopted (project scope), and trigger-measured 2026-08-10:
+  GATE PASS — 8/8 should-fire fired, 6/6 should-not silent (Sonnet, Code
+  headless; `results/2026-08-10/trigger-evals-photo-editing/RESULTS.md`).
+  *verified, that surface/model only* — claude.ai triggering and behavioral
+  delta vs no-skill remain unmeasured. *candidate on those axes*
 - Toolchain per environment, verified 2026-08-10 in one Claude Code cloud
   container: no ImageMagick, no Pillow preinstalled; `pip install pillow`
   through the session proxy took 2.7 s and edits ran. Enumerate live before

@@ -1,0 +1,19 @@
+ id run  FIRED  inspect  newfile    bytes
+  1   1   True     True     True    81858  expect=FIRE OK
+  1   2   True     True     True    78921  expect=FIRE OK
+  2   1   True     True     True   211487  expect=FIRE OK
+  2   2   True     True     True   208597  expect=FIRE OK
+  3   1   True     True     True   101453  expect=FIRE OK
+  3   2   True     True     True    98946  expect=FIRE OK
+  4   1   True     True     True    87068  expect=FIRE OK
+  4   2   True     True     True    86563  expect=FIRE OK
+  5   1  False    False    False    48590  expect=SILENT OK
+  5   2  False    False    False    48858  expect=SILENT OK
+  6   1  False    False    False    62277  expect=SILENT OK
+  6   2  False    False    False    49580  expect=SILENT OK
+  7   1  False    False    False   174275  expect=SILENT OK
+  7   2  False    False    False   145206  expect=SILENT OK
+
+should-fire: 8/8 fired (gate >=7/8)
+should-not:  6/6 silent (gate >=5/6)
+GATE: PASS

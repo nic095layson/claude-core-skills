@@ -7,7 +7,7 @@
     "committed_before_runs": "2026-08-10",
     "surface": "Claude Code headless (claude -p), project or personal scope",
     "gate": "2 runs per prompt: >=83% of should-fire runs fire (>=7/8); >=5/6 should-not runs stay silent",
-    "status": "AUTHORED 2026-08-10 — NOT YET RUN. Per INC-2/INC-8, every should-fire prompt declares a seeded fixture image (generate with Pillow at eval setup: a padded rectangle PNG, an RGBA logo PNG, a plain RGB photo-like PNG); prompts never reference absent files.",
+    "status": "AUTHORED 2026-08-10 — RUN same day: GATE PASS, 8/8 should-fire fired, 6/6 should-not silent (claude-sonnet-5, Claude Code headless, project scope; results/2026-08-10/trigger-evals-photo-editing/RESULTS.md, incl. one recorded method deviation: --allowedTools). Per INC-2/INC-8, every should-fire prompt declares a seeded fixture image (generate with Pillow at eval setup per the fixtures spec); prompts never reference absent files. claude.ai triggering and behavioral-delta arm unmeasured.",
     "_note": "Adopted 2026-08-10 with the skill (decision A of results/2026-08-10/image-output-skill/REPORT.md); authored the same day beside the original draft.",
     "fixtures": {
       "fixtures/sample-padded.png": "600x400 white RGB with a 300x200 colored rectangle centered (content bounds measurable)",

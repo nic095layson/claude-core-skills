@@ -76,13 +76,16 @@ register (`evals/model-capability-register.md`).
 Owner-approved (decision A of `results/2026-08-10/image-output-skill/REPORT.md`,
 the image-output survey). Authored fresh in house style; the SKILL.md and its
 bundled script were live-fired end-to-end at authoring (measured crop, exact
-output, original hash-verified untouched). Trigger and behavioral value
-UNMEASURED; not in the personal install footprint until measured per
-Decision 5.
+output, original hash-verified untouched). **Trigger evals ran same day**
+(14 headless runs on Sonnet 5): GATE PASS clean — 8/8 should-fire fired with
+the full behavioral signature, 6/6 should-not silent, and the seeded
+originals stayed byte-identical through all edit runs. claude.ai triggering
+and behavioral delta vs no-skill unmeasured; not in the personal install
+footprint until Decision-5 review.
 
 | Skill | Governs | Evals |
 |---|---|---|
-| [`photo-editing`](.claude/skills/photo-editing/SKILL.md) | Deterministic edits to existing images under three laws: never overwrite the original; measure before you cut (`scripts/inspect_image.py`); see-edit-verify | `evals/photo-editing.json` (authored 2026-08-10, not yet run) |
+| [`photo-editing`](.claude/skills/photo-editing/SKILL.md) | Deterministic edits to existing images under three laws: never overwrite the original; measure before you cut (`scripts/inspect_image.py`); see-edit-verify | `evals/photo-editing.json` (2026-08-10: 8/8 fire · 6/6 silent, PASS — `results/2026-08-10/trigger-evals-photo-editing/`) |
 
 ## Install
 
