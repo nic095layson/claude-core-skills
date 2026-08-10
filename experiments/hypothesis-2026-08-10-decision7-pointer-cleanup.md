@@ -16,17 +16,25 @@ OLD (final clause of `description`, quoted verbatim from repo HEAD):
 > planning work that has not started (plan-gate), or for checking a doc
 > against the live system before relying on it (live-state-truth).
 
-NEW (identical except the final parenthetical — the dead pointer is replaced
-by the direct instruction; the near-miss routing case itself is preserved per
-Decision 3):
+NEW (identical except the dead parenthetical pointer is dropped; the
+near-miss case itself — "checking a doc against the live system" — remains
+stated, so Decision 3's routing function survives without naming an absent
+skill):
 
 > Do NOT load for trivial single-step outputs with nothing to check, for
 > planning work that has not started (plan-gate), or for checking a doc
-> against the live system before relying on it — just check the live system.
+> against the live system before relying on it.
 
-No other character of the description changes. Side effect (predicted
+No other character of the description changes. Measured before any run:
+OLD = 972 chars, NEW = 950 (YAML-parsed). Side effect (predicted
 benign-to-positive): the description shortens; INC-3's bonus finding was
 that shorter descriptions fire more reliably.
+
+*Amendment note (2026-08-10, before any E3 run):* the first-committed NEW
+appended "— just check the live system." in the pointer's place; staging it
+measured +7 chars, contradicting the registered shortening claim. Amended to
+the pure removal above while still zero runs had executed. The change under
+test is unchanged: the pointer's presence is the single variable.
 
 ## Pre-registered predictions
 
