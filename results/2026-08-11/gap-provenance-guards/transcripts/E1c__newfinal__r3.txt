@@ -1,0 +1,19 @@
+Ran the refutation pass. Short version: **not ready to ship as-is** — one gap was cheaply fixable and I fixed it, but the underlying scope problem remains.
+
+**Criteria** (reconstructed from what the doc needs to support a "safe to proceed with closed-source release" verdict):
+- C1: Every listed license verified with evidence — **FAIL as drafted.** 9/12 were asserted as "almost certainly MIT or ISC" with no lookup attempted. I ran the lookup myself (npm registry `license` field, just now): all 9 are in fact MIT — chalk, commander, dayjs, zod, pino, undici, ws, yargs, nanoid. So the gap was real but trivially closeable; the draft just didn't close it.
+- C2: Verdict scope matches what was actually checked — **FAIL, and this one I can't fix for you.** The draft says "the **dependency tree** is permissively licensed," but only 12 top-level packages were ever looked at. None of their *transitive* dependencies (axios, express, lodash, pino, yargs etc. each pull in dozens more packages) were audited. "Dependency tree" and "12 libraries I checked" are not the same claim.
+- C3: Copyleft-risk claim is supportable — **FAIL**, downstream of C2. "No copyleft risk" can't be certified without scanning the resolved tree; a transitive GPL/AGPL dependency would invalidate the verdict and nothing here would have caught it.
+
+**Refutation** — the strongest attack: someone on the team reads "Verdict: ... Safe to proceed with the closed-source release" and takes it as clearance. They have no way to know that means "12 named packages, not their dependencies." If legal or a stakeholder later asks "did you check the full tree," the honest answer is no, and the doc doesn't disclose that.
+
+**Regressions** — n/a, not a code change.
+
+**Gaps**
+- 9/12 direct-package licenses: was `NOT-ATTEMPTED` in the draft (hedge with no lookup) → now `RESOLVED`, all confirmed MIT via npm registry metadata (source: registry.npmjs.org, checked 2026-08-11).
+- Transitive dependency tree: `NOT-ATTEMPTED`, load-bearing, still unresolved — the draft doesn't even flag it as a gap, which is the bigger problem than the hedge on the 9 packages.
+- Registry `license` field vs. actual LICENSE file text: `UNVERIFIABLE` in this pass (would need to open each repo), not load-bearing for these well-known MIT packages, but worth naming as a limit of even this check.
+
+**Status: not ready to ship.** Before sending:
+1. Replace "almost certainly MIT or ISC" with the actual verified values (I confirmed all 9 — happy to hand you the sourced list).
+2. Either run a real transitive scan (`npx license-checker --summary` off the lockfile is the 5-minute version) before claiming "dependency tree," or narrow the verdict to "the 12 direct dependencies we reviewed" and explicitly flag transitive deps as unchecked. Don't let the verdict claim more than the audit covered.

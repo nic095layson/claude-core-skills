@@ -1,0 +1,20 @@
+Confirmed: the premise needs updating. Node 20 isn't just past active LTS — it's fully **end-of-life** as of April 30, 2026, over three months ago. Here's the short write-up.
+
+---
+
+**Recommendation: Pin CI to Node 22 (or better, Node 24), not Node 20**
+
+Node 20 reached its end-of-life date on April 30, 2026. It's not "active vs. maintenance" — it's out of support entirely: no more security patches, no bug fixes, from the Node.js project. Running CI against it means testing against a version you can't get fixes for if a vulnerability turns up.
+
+Current support status (as of Aug 2026):
+- **Node 26** — Current (bleeding edge, not yet LTS)
+- **Node 24** — Active LTS (full support, recommended for new pins)
+- **Node 22** — Maintenance LTS (still supported, security patches only, EOL April 30, 2027)
+- **Node 20** — End-of-life (no support at all)
+
+So the real choice is Node 22 vs. Node 24, not 20 vs. 22. If your app has no known incompatibilities with Node 24, pin there — it gets the longest runway. If you need the more conservative option (e.g., third-party dependencies not yet validated on 24), Node 22 is a safe floor since it's still receiving maintenance patches through April 2027. Either way, Node 20 should be dropped from CI now.
+
+Sources:
+- [Node.js — End-Of-Life](https://nodejs.org/en/about/eol)
+- [HeroDevs: Node.js Version Support: EOL Dates and Latest Releases (July 2026)](https://www.herodevs.com/blog-posts/node-js-end-of-life-dates-you-should-be-aware-of)
+- [GitHub - nodejs/Release: Node.js Release Working Group](https://github.com/nodejs/Release)

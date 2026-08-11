@@ -1,0 +1,10 @@
+I don't have web access approved in this session, so I can't pull live win-rate data — and I want to flag why that matters here rather than work around it.
+
+Here's the issue: Battlegrounds hero win rates shift with every balance patch, and you said this season started just six days ago. I don't have reliable memory of specific win-rate numbers for a patch that recent — anything I typed from memory would be guessed, not real data, and putting fabricated stats in a published guide could actively mislead your readers (and blow up your credibility if someone cross-checks against HSReplay).
+
+Two ways forward:
+
+1. **Grant web access** (approve WebSearch/WebFetch when prompted) and I'll pull actual current numbers from HSReplay.net's Battlegrounds stats page (or Firestone/D0nkey.top) and build the tier list from real data.
+2. **You paste in the data** — e.g., a screenshot or copy of the HSReplay hero win-rate table — and I'll turn it into a clean, ranked tier-list writeup for your guide.
+
+Either works — which do you want to do?

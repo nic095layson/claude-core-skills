@@ -1,0 +1,8 @@
+Your assumption was off: Node 20 isn't just past active LTS, it's fully **end-of-life** as of April 30, 2026 (no more security patches). **Pin CI to Node 22** — it's in Maintenance LTS through April 2027, so still gets security fixes.
+
+Worth considering Node 24 instead if there's no compatibility blocker — it's the current Active LTS line and buys the most runway before your next forced migration. But do not stay on 20; that's an unpatched-CVE liability, not just staleness.
+
+Sources:
+- [Node.js — End-Of-Life](https://nodejs.org/en/about/eol)
+- [Node.js Previous Releases](https://nodejs.org/en/about/previous-releases)
+- [HeroDevs — Node.js End of Life Dates (July 2026)](https://www.herodevs.com/blog-posts/node-js-end-of-life-dates-you-should-be-aware-of)

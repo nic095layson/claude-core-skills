@@ -36,8 +36,17 @@ pass; the same failures surfaced by the user cost the work's credibility.
   none exists, write criteria NOW, before looking at the result — criteria written
   after seeing the output are a rationalization.
 - **Regression** — anything that worked before the change and no longer does.
+- **Gap provenance** — every unknown that reaches a deliverable carries one of
+  three states, stated rather than implied: `NOT-ATTEMPTED` (no attempt was made
+  — always a decision, never a limit), `ATTEMPTED-FAILED` (an attempt was made
+  and failed; name the attempt and the failure mode), `UNVERIFIABLE` (no
+  accessible source exists; name what was searched and why it cannot resolve).
+  Only the last two are limits. A bare "unconfirmed" collapses all three, which
+  is how a choice passes as a limit — invisible to the reader *and* to this pass.
+- **Load-bearing gap** — an unknown whose resolution either way would change a
+  conclusion, recommendation, or verdict in the deliverable.
 
-## The pass — run all five, in order
+## The pass — run all six, in order
 
 ### 1. Grade against the committed criteria
 
@@ -45,6 +54,13 @@ Take the success criteria from plan-gate and grade the deliverable row by row,
 PASS/FAIL, with the evidence beside each verdict. Grade each item in isolation
 before forming an overall opinion — an early PASS glow contaminates later rows.
 No criteria on file → write them first from the original request, then grade.
+
+**The grade is binary.** A criterion that is neither cleanly PASS nor FAIL is a
+FAIL with a reason, not a passing shade of one. If you find yourself writing
+PARTIAL, MIXED, or MOSTLY, you have written FAIL and softened the word: say what
+is missing and route it through Step 6 before any ship decision. An invented
+middle grade reads as passing to everyone including you, which is precisely how
+a criterion can be marked "not fully met" and shipped in the same breath.
 
 ### 2. Behavioral check, not inspection
 
@@ -87,10 +103,35 @@ narrative**; either the surprise invalidates the work (fix it) or it revises you
 understanding (say so in the delivery, and record it per lessons-ledger if it
 meets the recording rule).
 
+### 6. The gap audit
+
+Steps 1–5 test what the deliverable *claims*. This step tests what it left
+unexamined. A gap asserts nothing, so Steps 2–5 cannot see it at all, and Step 1
+sees it only when a criterion happens to be worded about coverage — here,
+detection is systematic instead of incidental.
+
+List every unknown, hedge, "unconfirmed", "couldn't verify", "likely",
+"probably", and TBD in the deliverable. Give each its gap provenance, then apply
+the **load-bearing test**: would the conclusion, recommendation, or verdict
+change if this unknown resolved the other way?
+
+| | Not load-bearing | Load-bearing |
+|---|---|---|
+| `NOT-ATTEMPTED` | Label it and ship | **Resolve it now, or withdraw the conclusion it supports.** Shipping is not an option. |
+| `ATTEMPTED-FAILED` | Label with the failure mode | Label, and state what the conclusion becomes under each resolution |
+| `UNVERIFIABLE` | Label it and ship | Label, and mark the conclusion `candidate` |
+
+A cheap `NOT-ATTEMPTED` gap under a load-bearing conclusion is the failure this
+step exists to catch: one tool call was the whole distance between an honest
+deliverable and a wrong one. Note the direction of the rule — it makes an honest
+`UNVERIFIABLE` *cheaper* to state, not harder. A real limit, named with what was
+searched, ships.
+
 ## Acceptance rule
 
-Deliver only when: every committed criterion passes with evidence, the refutation
-attempt found nothing unaddressed, and no regression appeared in any check. A
+Deliver only when: every committed criterion passes with evidence (a PARTIAL is
+not a pass), the refutation attempt found nothing unaddressed, no regression
+appeared in any check, and no load-bearing gap remains `NOT-ATTEMPTED`. A
 deliverable that improves the target but breaks something adjacent is rejected,
 not shipped with a caveat.
 
@@ -110,6 +151,8 @@ Delivery shape (adapt labels; keep every section honest, omit only what's empty)
 **Criteria** — C1: PASS (evidence) · C2: PASS (evidence) · C3: FAIL (output shown)
 **Refutation** — attacks tried, what they found (or "nothing survived")
 **Regressions** — none found in <checks actually run> / found: <which, output>
+**Gaps** — <n>: <n> not-attempted / <n> attempted-failed / <n> unverifiable ·
+             load-bearing: <resolved | conclusion withdrawn | candidate>
 **Status** — delivered | candidate (unproven parts named) | open (assuming A2…)
 ```
 
@@ -124,7 +167,24 @@ Delivery shape (adapt labels; keep every section honest, omit only what's empty)
 4. **Any-regression-blocks** — "unrelated" breakage is how quality erodes one
    justified exception at a time.
 5. **The pass is proportional** — a five-line fix gets a five-minute pass, not the
-   full table; skipping refutation entirely is the only wrong size.
+   full table; skipping refutation entirely is the only wrong size. Step 6 sizes
+   the same way: one line on a small deliverable, and absent entirely from a
+   conversational answer with no unknowns in it.
+6. **A claim of inability needs a receipt** — "couldn't verify", "unable to
+   confirm", "not available", "no data exists" and their variants may be written
+   only when the same sentence names what was attempted and how it failed. With
+   no attempt to cite, the honest phrasing is **"did not check"** — and if the
+   item is load-bearing, "did not check" is not a deliverable state. Reason: the
+   reader cannot tell a limit from a choice, so the writer must. A budget
+   decision dressed as an epistemic one is INFERENCE-as-EVIDENCE wearing a
+   different hat, and worse in one way — nobody argues with a stated limit, so it
+   also disables the reader's ability to correct it.
+7. **Aggregates are built from records, never from recall** — any count, tally,
+   classification, or comparison table of external facts is assembled from a
+   written record produced this session: tool output, a file, a command result.
+   Recall may generate candidate rows; it may never populate a published one.
+   Reason: a recalled row and a verified row look identical in the finished
+   table, so the reader cannot apply their own discount to the weak ones.
 
 ## When NOT to use this skill
 
@@ -135,7 +195,8 @@ Delivery shape (adapt labels; keep every section honest, omit only what's empty)
 - The verification surfaced a ~15-minute-plus diagnosis, drift, or dead end →
   record it in **lessons-ledger**.
 - Purely conversational answers with no artifact — proportionality: a quick
-  self-check, not this protocol.
+  self-check, not this protocol. No gap audit either: Step 6 audits unknowns in a
+  deliverable, and a conversational answer with no unknowns has nothing to audit.
 
 ## Provenance and maintenance
 
@@ -154,3 +215,18 @@ there.
 
 Re-verify lineage: `gh api repos/nic095layson/claude/contents/.claude/skills --jq '.[].name'`
 — expect `validation-and-evals`, `logic-tree`, `claude-council`, `failure-archaeology`.
+
+**Appended 2026-08-11** — `.claude/LESSONS.md` INC-9 (labeled "INC-2" in the
+owner's report; that number was taken). New: gap provenance + load-bearing gap
+(Terms), the binary-grade rule (§1), **Step 6**, the load-bearing-gap condition
+(Acceptance + delivery shape), rules 6–7. Nothing deleted or renumbered. Driving
+evidence: a report shipped 8 of 26 items unverified under "couldn't verify" with
+no lookup attempted, and *this pass certified it* — §1 graded the coverage
+criterion PARTIAL and delivery proceeded. The defect was therefore not an
+invisible gap but a noticed gap with no consequence, which is why §1 and the
+Acceptance rule changed and not only Step 6. Rule 7 comes from the same tally,
+which classified a minion as a spell from recall. Status: **cued mechanism
+CONFIRMED** (4/4 vs 0/2), proportionality guard **no regression** (2/2),
+**uncued value UNMEASURED** — `results/2026-08-11/gap-provenance-guards/`,
+pre-registered in `experiments/hypothesis-2026-08-11-gap-provenance.md`.
+Descriptions untouched, so trigger rates are unaffected by construction.

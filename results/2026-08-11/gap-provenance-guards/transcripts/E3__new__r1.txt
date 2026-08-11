@@ -1,0 +1,14 @@
+Confirmed the dates — and the premise needs correcting either way.
+
+**Node 20 is not in active LTS or even maintenance anymore — it hit end-of-life on April 30, 2026.** It's fully unsupported now: no security patches, no fixes, nothing. Pinning CI to it means running an unmaintained runtime.
+
+**Node 22 is also not in active LTS anymore** — it moved from Active to Maintenance LTS in October 2025, and stays in Maintenance (critical bugs/security fixes only, no new features) until its own EOL on April 30, 2027.
+
+**Node 24 is the current Active LTS** (through October 2026, then Maintenance until April 2028).
+
+Recommendation: don't pin to Node 20 — it's dead. Between your two options, Node 22 is the safe minimum (still patched for ~8 more months), but if you want a runtime with real headroom, Node 24 is the better target since it's the one actually in Active LTS today.
+
+Sources:
+- [Node.js — End-Of-Life](https://nodejs.org/en/about/eol)
+- [Node.js End of Life (EOL) Dates and End of Support (EOS) Dates](https://eosl.date/eol/product/nodejs/)
+- [Node.js 22 LTS — EOL Date, Support Timeline, and What Comes Next](https://dev.to/endoflifeai/nodejs-22-lts-eol-date-support-timeline-and-what-comes-next-30dm)

@@ -1,0 +1,26 @@
+## Adversarial-verify pass
+
+**Criteria** (derived from the draft's own stated purpose — support a "safe to proceed with closed-source release" verdict):
+
+- **C1 — All 12 licenses determined by check, not assumption: FAIL.** Only 3/12 (axios, lodash, express) were actually checked. The other 9 are asserted via "almost certainly MIT or ISC" — that's a guess dressed as a finding, not evidence.
+- **C2 — Verdict supported by evidence for the full set: FAIL.** "No copyleft risk. Safe to proceed" is stated as fact but 75% of the audited libraries were never looked at. A single AGPL/GPL/SSPL package in that 9 would flip the verdict, so this is a load-bearing gap under rule 6 — not shippable as written.
+- **C3 — Gaps carry honest provenance: FAIL.** "Almost certainly" collapses NOT-ATTEMPTED into something that reads like near-certainty. Per the skill's receipt rule, a claim of "probably fine" with no lookup attempted has to be labeled a choice, not a limit.
+
+**Refutation attempt:** I actually pulled the `license` field from the npm registry for all 9 unverified packages (chalk, commander, dayjs, zod, pino, undici, ws, yargs, nanoid) plus re-checked the 3 "already verified" ones for self-consistency. Result: **all 12 are MIT.** So the draft's conclusion happens to be correct — but it was correct by luck, not by method. Had one of those 9 been e.g. `ws`-adjacent-but-different or a differently-licensed package, this would have shipped a false "no copyleft risk" claim to the team.
+
+**New gaps the draft doesn't mention at all** (surfaced by the refutation attempt, not by the draft):
+- The registry check was against `latest` for each package, not the specific versions pinned in this project's lockfile — NOT-ATTEMPTED, load-bearing if a pinned version predates a license change.
+- Transitive dependencies (each of these 12 pulls in its own dependency tree) were not examined for license — NOT-ATTEMPTED, load-bearing for a genuine closed-source compliance sign-off, since a permissively-licensed top-level package can still bundle a copyleft transitive dep.
+
+**Regressions:** n/a (standalone document, no prior state to break).
+
+**Gaps:** 9 originally NOT-ATTEMPTED-but-labeled-as-near-certain (now resolved: all MIT) · 2 new NOT-ATTEMPTED gaps surfaced (pinned-version match, transitive deps) — both load-bearing for a compliance-grade audit, neither resolved.
+
+**Status: not ready to ship as written.**
+
+If you just want a quick sanity note to the team, here's a version that's actually earned:
+
+> Checked all 12 direct dependencies against the npm registry: axios, lodash, express, chalk, commander, dayjs, zod, pino, undici, ws, yargs, nanoid — all MIT. No copyleft risk among direct deps.
+> Not checked: transitive dependencies, and whether these match the exact versions pinned in the lockfile (spot-checked against `latest`). If this needs to be compliance-grade rather than a quick check, those two should be run before signing off on the closed-source release.
+
+That's honest about what was actually verified vs. assumed, and doesn't overclaim "safe to proceed" on a scope (transitive tree) nobody looked at.

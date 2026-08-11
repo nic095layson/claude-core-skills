@@ -1,0 +1,10 @@
+I don't have web search access approved in this session, so I can't pull live win-rate data from sources like HSReplay or Vicious Syndicate's Data Reaper for the new season.
+
+Here's the problem with proceeding anyway: I can't fabricate win rates and hero rankings for a patch that's six days old — I have no reliable memory of balance changes made this week, and inventing specific numbers (e.g., "Sindragosa: 54.2% win rate") for a guide you're publishing tomorrow would mean putting false statistics in front of your readers, attributed to nothing. That's a real credibility risk for a guide, not a minor caveat.
+
+Two ways I can actually help:
+
+1. **Grant WebSearch permission** and I'll pull current data from the actual tracking sites (HSReplay, Vicious Syndicate Data Reaper, D0nkey stats) and build a properly sourced tier list with real win rates and citations.
+2. **You paste in the data** — screenshot or copy the current stats page — and I'll turn it into a clean, well-organized tier list write-up/artifact for your guide.
+
+Which would you prefer?

@@ -1,0 +1,3 @@
+Which game is this for? You haven't named it, and there are a lot of games running competitive seasons right now — I'll need that to look up anything real.
+
+One heads-up once you tell me: six days into a season, "win rate" data is going to be thin and noisy (small sample sizes, early-adopter bias, meta still shifting), so any tier list I build will need to be caveated as early/volatile rather than "definitive." I can pull from patch notes, dev-published stats (if the game has them), and community tracker sites/aggregators where available, and clearly mark what's a hard number vs. community consensus.

@@ -1,0 +1,5 @@
+I need web access to pull current data, but the WebSearch permission hasn't been granted yet in this session. Could you approve it (or let me know if you'd rather I use a different method)?
+
+In the meantime, an important caveat for your guide: I can't respon­sibly hand you exact win-rate numbers for a season that started six days ago from memory — my training data doesn't include live game data, and Battlegrounds hero win rates shift meaningfully patch-to-patch (they're driven by HSReplay/Firestone stats that update continuously). Guessing numbers here would mean putting fabricated stats in a published guide with your byline on it, which I don't want to do.
+
+Once you grant WebSearch (or WebFetch) access, I can pull real numbers from HSReplay.net's Battlegrounds statistics page (or Firestone's site) for the current season and build you an actual sourced tier list with real win rates, tier placement reasoning, and a publish-ready format. Want to grant access so I can proceed?
