@@ -42,6 +42,16 @@ history) the governor must not duplicate — duplication is drift waiting to hap
 **Corollary:** no repo-specific fact may live in a governor's procedure. Lineage
 sections may cite the source repo as history; procedure text may not depend on it.
 
+**Owner override, 2026-08-12 — `aba-stimulus-deck` adopted into this library.**
+Decision 2's reading was that a clinical project instance belongs with its
+project, and that was the recommendation. The owner decided otherwise: it lives
+here. Recorded as an override rather than folded in silently, because the
+decision stands against the stated rationale and a future reader should see both.
+What it does **not** change: the corollary above still holds — no ABA-specific
+fact may enter a governor's procedure, and `aba-stimulus-deck` remains a leaf that
+governors act on, never one they depend on. If this repo later grows a second
+domain skill, revisit whether Decision 2 needs rewriting rather than overriding.
+
 ## Decision 3 — Descriptions carry the whole trigger; every skill carries a NOT clause
 
 Inherited from the source repo's hardest-won lesson class: a governance skill that

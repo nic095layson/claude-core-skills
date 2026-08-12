@@ -97,9 +97,24 @@ dup=$(grep -oE "^### (INC|DEAD|DRIFT)-[0-9A-Za-z]+" .claude/LESSONS.md 2>/dev/nu
 # removed, and merge-base is the only baseline that answers it.
 if git rev-parse --verify -q origin/main >/dev/null; then
   base=$(git merge-base HEAD origin/main 2>/dev/null)
-  d=$(git diff --diff-filter=D --name-only "$base"..HEAD 2>/dev/null | wc -l)
+  # Include the WORKING TREE and the index, not just committed history. The first
+  # version compared "$base"..HEAD only, so a staged deletion passed clean until
+  # after it was committed — the guard was blind exactly when it mattered most.
+  DEL=$( { git diff --diff-filter=D --name-only "$base"..HEAD;
+           git diff --diff-filter=D --name-only HEAD;
+           git diff --cached --diff-filter=D --name-only HEAD; } 2>/dev/null | sort -u )
+  ACK=.guard-acknowledged-deletions
+  unack=""
+  for f in $DEL; do
+    grep -qE "^[[:space:]]*${f//./\.}([[:space:]]|#|$)" "$ACK" 2>/dev/null || unack="$unack $f"
+  done
+  nd=$(printf '%s\n' $DEL | grep -c . || true)
+  if [ -z "$(echo $unack)" ]; then
+    [ "$nd" -eq 0 ] && ok "no files deleted" || ok "$nd deletion(s), all acknowledged in $ACK"
+  else
+    bad "UNACKNOWLEDGED DELETION(S):"; for f in $unack; do echo "        $f"; done
+  fi
   r=$(git diff --diff-filter=R --name-only "$base"..HEAD 2>/dev/null | wc -l)
-  [ "$d" -eq 0 ] && ok "no files deleted vs merge-base" || { bad "$d FILES DELETED vs merge-base"; git diff --diff-filter=D --name-only "$base"..HEAD | sed 's/^/        /'; }
   [ "$r" -eq 0 ] && ok "no files renamed vs merge-base" || bad "$r files renamed vs merge-base"
   behind=$(git rev-list --count HEAD..origin/main 2>/dev/null)
   [ "$behind" -eq 0 ] && ok "branch is current with origin/main" || bad "branch is BEHIND origin/main by $behind commit(s) — merge main before trusting this run"
