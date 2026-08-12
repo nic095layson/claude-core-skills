@@ -374,3 +374,44 @@ evidence → status. An entry without evidence is a rumor and does not belong he
   support for a claim is reasoning rather than a source, the honest grade is
   PARTIAL however sound the reasoning — and a user agreeing with you corroborates
   the reasoning, never promotes it to evidence.
+
+### INC-11 — Validated GAUNTLET definition lost because its branch never merged; a diff-clean paste overwrote it live
+
+- Date: developed 2026-07-16, silently lost 2026-08-03, discovered 2026-08-12
+  when the owner asked a chat session to "Run Gauntlet" and it correctly replied
+  that no such skill or definition existed.
+- Symptom: a trigger word the owner had used successfully for weeks stopped
+  meaning anything. The owner's first hypothesis was that a Max→Pro downgrade
+  had removed it. It had not — the account skill roster was byte-identical
+  before and after the downgrade (16 entries, verified live 2026-08-12).
+- Root cause: **the validated work never reached `main`.** GAUNTLET was authored
+  and measured on branch `claude/rivian-stock-analysis-h5y46x` (commits
+  `b731746`, `f63a656`, `01f6788`, `f679404` — on-command 3/3, trivia-skip 3/3,
+  always-on ~83% with 0/3 over-fire, then confirmed live on claude.ai in WIN-3),
+  and the owner pasted it into the settings box. That branch was **never merged**
+  — 17 commits and 239 files still sit unmerged. On 2026-08-03 a new instructions
+  block was authored *from main*, which had never carried the word. It was
+  diff-verified and honestly declared "base text otherwise verbatim" — **true
+  against main, false against the live settings box.** Pasting it overwrote
+  GAUNTLET. Same commit also dropped "The load is the procedure (law)", which
+  main had likewise never carried.
+- Evidence: `git log --all -S auntlet` → 6 commits, 4 on the unmerged branch;
+  `git merge-base --is-ancestor <each> origin/main` → false for all four; main's
+  own instruction-file history shows `gauntlet=0` at every revision; the
+  2026-08-03 file states "base text otherwise verbatim (diff-verified at proposal
+  time — only the declared changes)". All re-run 2026-08-12.
+- Status: **PARTIALLY FIXED 2026-08-12.** GAUNTLET now exists as a *skill*
+  (`.claude/skills/gauntlet/`, lints PASS, evals authored not run) and as pointer
+  7 plus the always-on paragraph in the instructions block. **The stranded branch
+  is still unmerged** and carries more than GAUNTLET — INC-8, DEAD-3, Phase 0/1/2
+  hook research, and a validated Stop-hook enforcement pair
+  (`governance-trigger.py` / `governance-enforce.py`, 0/3 → 3/3). Owner decision
+  outstanding. Its ledger entries also collide with this one's numbering (that
+  branch has its own INC-9, INC-10, INC-11) and must be reconciled on merge, not
+  renumbered.
+- Lesson: **a settings box is live state; a repo branch is not the record of it.**
+  "Diff-verified against the base" proves nothing when the base is a branch the
+  live system never came from — verify a steering artifact against *what is
+  actually deployed*, which for claude.ai means copying the box out and diffing
+  it. And measured, owner-confirmed work sitting on an unmerged branch is not
+  saved; it is one paste away from being deleted by an author who cannot see it.

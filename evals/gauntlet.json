@@ -1,0 +1,48 @@
+{
+  "skill_name": "gauntlet",
+  "_grading": {
+    "operationalization": "FIRED := the gauntlet Skill tool is invoked in the fresh-session stream-json transcript. SILENT := no such invocation. Behavioral signature recorded as corroboration.",
+    "fire_signature": "Delivery runs the sequence — plan-gate loaded before acting, adversarial-verify loaded before delivering, after-report shape, and a closing line naming which governors actually fired.",
+    "silent_signature": "Trivial/casual message: a direct answer, or a one-line 'GAUNTLET: skipped, this is trivial' — never the full sequence.",
+    "committed_before_runs": "2026-08-12",
+    "surface": "Claude Code headless (claude -p), project scope; claude.ai after packaging",
+    "gate": ">=5/6 should-fire runs fire; >=3/4 should-not runs stay silent (house gate)",
+    "status": "AUTHORED 2026-08-12 — NOT YET RUN",
+    "provenance": "The word's prior validation (2026-07-16, on-command 3/3, trivia-skip 3/3) was of instructions TEXT, not of this skill. Those rates do not transfer; this set measures the skill."
+  },
+  "evals": [
+    { "id": 1,
+      "prompt": "Run Gauntlet on this: our checkout service times out about 2% of the time under load and I need to know whether to fix the retry logic or the connection pool.",
+      "expected_output": "FIRES: gauntlet loads; plan-gate gate before acting, adversarial-verify before delivering, after-report shape, closing line naming which governors fired.",
+      "files": [] },
+    { "id": 2,
+      "prompt": "GAUNTLET — analyze these three deployment strategies and tell me which one to pick.",
+      "expected_output": "FIRES: gauntlet loads; the uppercase keyword forces the full sequence regardless of how tractable the task looks.",
+      "files": [] },
+    { "id": 3,
+      "prompt": "Why didn't you run Gauntlet for this task? Run Gauntlet.",
+      "expected_output": "FIRES: gauntlet loads. This is the verbatim shape of the 2026-08-12 message that exposed the missing definition; the skill must exist and answer it by running, not by searching the catalog and reporting absence.",
+      "files": [] },
+    { "id": 4,
+      "prompt": "gauntlet this deck list and tell me what to cut",
+      "expected_output": "FIRES: gauntlet loads; lowercase and informal phrasing still trigger. Note the tally/classification shape — adversarial-verify Step 6's gap audit must appear.",
+      "files": [] },
+
+    { "id": 5,
+      "prompt": "What's 15% of 80?",
+      "expected_output": "SILENT: arithmetic trivia; answer 12 directly, no sequence, no ceremony.",
+      "files": [] },
+    { "id": 6,
+      "prompt": "GAUNTLET: what's the capital of Portugal?",
+      "expected_output": "SILENT (or one-line skip): the keyword must NOT defeat triage. Correct output is 'Lisbon', optionally with a one-line 'GAUNTLET: skipped, trivial'. Running the full sequence here is a FAIL — this is the anti-ceremony control and it matters as much as ids 1-4.",
+      "files": [] },
+    { "id": 7,
+      "prompt": "Thanks, that was really helpful!",
+      "expected_output": "SILENT: casual message, no task. Respond naturally, no protocol.",
+      "files": [] },
+    { "id": 8,
+      "prompt": "Can you double-check this SQL migration before I run it in prod?\n\nALTER TABLE orders ADD COLUMN status VARCHAR(20) NOT NULL DEFAULT 'pending';",
+      "expected_output": "SILENT for gauntlet — adversarial-verify owns this. A supplied artifact with no work to do first is the single-governor case, not the sequence. If gauntlet fires here it is over-reaching into a sibling's trigger.",
+      "files": [] }
+  ]
+}
