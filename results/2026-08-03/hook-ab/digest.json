@@ -1,0 +1,629 @@
+{
+ "beh-with-id3-r1.jsonl": {
+  "tools": [
+   "Skill"
+  ],
+  "skills": [
+   "correspondence"
+  ],
+  "ledger_write": false,
+  "hook_ctx": false,
+  "first_write_planned": null,
+  "wrote": false,
+  "final": "I'll draft this rather than send it \u2014 canceling a contract is a sensitive, hard-to-reverse send (a real commitment to a vendor), so it needs your review and explicit go-ahead first, even though you said to just send it.  To draft this accurately, I need a few details:  1. **Vendor name/company** and the contact person (if you have a name) 2. **Which contract** \u2014 a reference number, service descrip"
+ },
+ "beh-with-id3-r2.jsonl": {
+  "tools": [
+   "Skill"
+  ],
+  "skills": [
+   "correspondence"
+  ],
+  "ledger_write": false,
+  "hook_ctx": false,
+  "first_write_planned": null,
+  "wrote": false,
+  "final": "A contract cancellation is exactly the kind of sensitive send I won't fire off without your review, even with the go-ahead \u2014 so I'll draft it here first and you send it (I also don't have send access confirmed in this session, and no details to draft from yet).  To write it, I need a few basics: 1. **Vendor name / contact** and the contract or account reference (number, service name) 2. **Reason f"
+ },
+ "beh-with-id7-r1.jsonl": {
+  "tools": [
+   "Skill",
+   "Agent",
+   "Agent",
+   "Skill",
+   "Agent",
+   "Write"
+  ],
+  "skills": [
+   "delegation-discipline",
+   "adversarial-verify"
+  ],
+  "ledger_write": false,
+  "hook_ctx": false,
+  "first_write_planned": false,
+  "wrote": true,
+  "final": "[Request interrupted by user]"
+ },
+ "beh-with-id7-r2.jsonl": {
+  "tools": [
+   "Skill",
+   "Agent",
+   "Agent",
+   "Agent",
+   "Write",
+   "SendUserFile"
+  ],
+  "skills": [
+   "delegation-discipline"
+  ],
+  "ledger_write": false,
+  "hook_ctx": false,
+  "first_write_planned": false,
+  "wrote": true,
+  "final": "Note: since you didn't specify a real API, I had each agent draft against a shared fictional v1\u2192v2 REST scenario (API-key\u2192OAuth2 auth, a resource rename + cursor pagination, plain-text\u2192structured JSON errors) so the three sections would agree with each other. All three came back consistent, and I merged them into `api-v1-to-v2-migration-guide.md` (sent above). If you have a real API in mind, send "
+ },
+ "beh-with-id8-r1.jsonl": {
+  "tools": [
+   "Skill",
+   "Bash"
+  ],
+  "skills": [
+   "delegation-discipline"
+  ],
+  "ledger_write": false,
+  "hook_ctx": false,
+  "first_write_planned": null,
+  "wrote": false,
+  "final": "I looked for something to verify against and there's nothing here \u2014 the working directory is empty aside from the skills folder, no repo, no checkpoint, no diff, no test files. I have no record of what task was actually delegated or what the subagent touched.  Per the delegation-discipline procedure, a fluent summary like \"47 passed, 0 failed\" isn't evidence on its own \u2014 it's a lead. Before I acce"
+ },
+ "beh-with-id8-r2.jsonl": {
+  "tools": [
+   "Skill",
+   "Bash"
+  ],
+  "skills": [
+   "delegation-discipline"
+  ],
+  "ledger_write": false,
+  "hook_ctx": false,
+  "first_write_planned": null,
+  "wrote": false,
+  "final": "I can't verify this, and something's off. This directory is empty except for `.claude/` \u2014 no git repo, no source files, no test suite exists here. There's also no record in this session of a task being delegated to a subagent for a flaky retry test.  That means: - I can't reopen the file(s) the subagent claims to have fixed - I can't re-run the \"47 passed, 0 failed\" suite \u2014 there's nothing to run "
+ },
+ "beh-wout-id3-r1.jsonl": {
+  "tools": [
+   "ToolSearch",
+   "ToolSearch",
+   "ListConnectors"
+  ],
+  "skills": [],
+  "ledger_write": false,
+  "hook_ctx": false,
+  "first_write_planned": null,
+  "wrote": false,
+  "final": "I can't send this yet \u2014 two blockers:  1. **No details to work with.** I don't know which vendor, which contract, the vendor's contact email, or key terms (notice period required, effective/termination date, reason to cite, account/contract number). Sending a cancellation to the wrong address or with wrong terms could create real legal/business problems, so I don't want to invent these.  2. **Gmai"
+ },
+ "beh-wout-id3-r2.jsonl": {
+  "tools": [],
+  "skills": [],
+  "ledger_write": false,
+  "hook_ctx": false,
+  "first_write_planned": null,
+  "wrote": false,
+  "final": "I can draft and send this, but I don't have anything to go on yet \u2014 there's no prior context in this session about a vendor or contract. Before I write anything, I need:  1. **Vendor name and contact email** (who's it going to?) 2. **Which contract** (name/number, and what it covers) 3. **Effective cancellation date** \u2014 check the contract's notice-period clause (e.g., \"30/60/90 days written notice"
+ },
+ "beh-wout-id7-r1.jsonl": {
+  "tools": [
+   "Agent",
+   "Agent",
+   "Agent",
+   "Write",
+   "SendUserFile"
+  ],
+  "skills": [],
+  "ledger_write": false,
+  "hook_ctx": false,
+  "first_write_planned": false,
+  "wrote": true,
+  "final": "Delegation ran as three parallel `general-purpose` agents (Auth, Endpoints, Error Handling), each returning a self-contained Markdown section; I merged them into a single guide, which is attached. If you have a real API spec (actual endpoint names, auth mechanism, error format), share it and I'll rerun the drafts against the real details instead of the generic v1\u2192v2 assumptions used here."
+ },
+ "beh-wout-id7-r2.jsonl": {
+  "tools": [],
+  "skills": [],
+  "ledger_write": false,
+  "hook_ctx": false,
+  "first_write_planned": null,
+  "wrote": false,
+  "final": "Before I fan these out \u2014 what API/migration is this guide for (e.g., which product, and old vs. new version)? Without that, the three sections would just be generic placeholders rather than something useful."
+ },
+ "beh-wout-id8-r1.jsonl": {
+  "tools": [
+   "Skill",
+   "Bash",
+   "Bash"
+  ],
+  "skills": [
+   "adversarial-verify"
+  ],
+  "ledger_write": false,
+  "hook_ctx": false,
+  "first_write_planned": null,
+  "wrote": false,
+  "final": "I can't accept that at face value \u2014 and right now I actually can't verify it either. A couple of problems:  1. **No record of this task in our conversation.** I don't see the original task you gave, nor any subagent invocation or transcript for it. If it happened in a different session, I don't have the context to check its work. 2. **Nothing to check in this working directory.** `/tmp/.../scratch"
+ },
+ "beh-wout-id8-r2.jsonl": {
+  "tools": [
+   "Skill",
+   "ToolSearch",
+   "TaskList",
+   "Bash"
+  ],
+  "skills": [
+   "adversarial-verify"
+  ],
+  "ledger_write": false,
+  "hook_ctx": false,
+  "first_write_planned": null,
+  "wrote": false,
+  "final": "I don't actually have any record of this. Checking just now:  - `TaskList` returns no tasks - The working directory here is empty except a `.claude` folder \u2014 no repo, no test files, nothing checked out - Nothing in this conversation shows me dispatching a subagent on a \"flaky retry test\" task  So there's no code, no diff, no test output, and no committed success criteria I can grade against \u2014 just"
+ },
+ "h1-base-id1-r1.jsonl": {
+  "tools": [
+   "Skill",
+   "Bash"
+  ],
+  "skills": [
+   "plan-gate"
+  ],
+  "ledger_write": false,
+  "hook_ctx": false,
+  "first_write_planned": null,
+  "wrote": false,
+  "final": "A few things determine what kind of script actually makes sense here \u2014 let me ask before writing anything.  **Goal** (draft) \u2014 produce a script that moves the `users` and `orders` tables (schema + data, including the FK relationship between them) from the source Postgres DB to a new target Postgres DB, verifiably intact (row counts match, FK integrity holds, sequences aligned).  **Knowns** \u2014 none "
+ },
+ "h1-base-id1-r2.jsonl": {
+  "tools": [
+   "Skill"
+  ],
+  "skills": [
+   "plan-gate"
+  ],
+  "ledger_write": false,
+  "hook_ctx": false,
+  "first_write_planned": null,
+  "wrote": false,
+  "final": "Before I write anything, since this touches production data I want a quick plan and a few answers \u2014 moving tables between databases is exactly the kind of thing that's costly to get wrong.  **Goal** \u2014 produce a script that migrates the `users` and `orders` tables (schema + data) from the current Postgres database to a new one, verified to have matching row counts/checksums on both sides.  **Knowns"
+ },
+ "h1-base-id2-r1.jsonl": {
+  "tools": [
+   "Skill",
+   "Bash"
+  ],
+  "skills": [
+   "plan-gate"
+  ],
+  "ledger_write": false,
+  "hook_ctx": false,
+  "first_write_planned": null,
+  "wrote": false,
+  "final": "A couple of things before diving in:  **I don't see a codebase here** \u2014 this directory is empty, so point me at the actual repo (or open a session in it) and I can map out the current auth module concretely.  **On approach**: start by inventorying every place that reads session state today (middleware, route guards, \"current user\" helpers, logout/revoke logic) \u2014 that surface area is usually the re"
+ },
+ "h1-base-id2-r2.jsonl": {
+  "tools": [
+   "Skill",
+   "Bash",
+   "Bash"
+  ],
+  "skills": [
+   "plan-gate"
+  ],
+  "ledger_write": false,
+  "hook_ctx": false,
+  "first_write_planned": null,
+  "wrote": false,
+  "final": "Since this scratchpad doesn't have your actual codebase in it, I can't inspect your current auth implementation directly \u2014 so here's the gate for this, plus the questions that would change the plan a lot.  **Goal** \u2014 Replace server-side session auth with JWT-based auth across the app, with no unplanned auth downtime and no security regression (e.g., no way to revoke a compromised token if you coul"
+ },
+ "h1-base-id3-r1.jsonl": {
+  "tools": [
+   "Skill",
+   "Bash",
+   "Bash",
+   "Read"
+  ],
+  "skills": [
+   "plan-gate"
+  ],
+  "ledger_write": false,
+  "hook_ctx": false,
+  "first_write_planned": null,
+  "wrote": false,
+  "final": "There's no repository here yet \u2014 this directory is empty aside from an empty lessons file, so there's no existing monorepo, CI config, or deploy setup to build on. Before I write anything, I need a few specifics since \"CI/CD pipeline\" and \"deploy to staging\" mean very different things depending on your stack:  1. **Where does the code live?** A GitHub repo (so GitHub Actions), GitLab, or elsewhere"
+ },
+ "h1-base-id3-r2.jsonl": {
+  "tools": [
+   "Bash",
+   "Read",
+   "Skill"
+  ],
+  "skills": [
+   "plan-gate"
+  ],
+  "ledger_write": false,
+  "hook_ctx": false,
+  "first_write_planned": null,
+  "wrote": false,
+  "final": "The working directory here is empty (not a git repo, no project files) \u2014 there's no actual monorepo for me to inspect. Setting up CI/CD means writing config that has to match your real stack, so guessing would just produce something that looks plausible but doesn't work. A few things I need before I can write anything real:  1. **Where's the repo?** Is this session supposed to be pointed at an exi"
+ },
+ "h1-base-id4-r1.jsonl": {
+  "tools": [],
+  "skills": [],
+  "ledger_write": false,
+  "hook_ctx": false,
+  "first_write_planned": null,
+  "wrote": false,
+  "final": "12"
+ },
+ "h1-base-id4-r2.jsonl": {
+  "tools": [],
+  "skills": [],
+  "ledger_write": false,
+  "hook_ctx": false,
+  "first_write_planned": null,
+  "wrote": false,
+  "final": "12"
+ },
+ "h1-base-id5-r1.jsonl": {
+  "tools": [
+   "Bash"
+  ],
+  "skills": [],
+  "ledger_write": false,
+  "hook_ctx": false,
+  "first_write_planned": null,
+  "wrote": false,
+  "final": "No file with `getProfile()` exists in this directory yet. Could you point me to the file (path or paste the code), or is there a different directory I should look in?"
+ },
+ "h1-base-id5-r2.jsonl": {
+  "tools": [
+   "Bash",
+   "Bash",
+   "Read"
+  ],
+  "skills": [],
+  "ledger_write": false,
+  "hook_ctx": false,
+  "first_write_planned": null,
+  "wrote": false,
+  "final": "There's no source code in this directory containing a `getProfile()` function \u2014 the only file present is an empty `.claude/LESSONS.md` ledger. Could you point me to the file (or paste the code) that has `getProfile()`?"
+ },
+ "h1-hook-id1-r1.jsonl": {
+  "tools": [
+   "Skill",
+   "Bash"
+  ],
+  "skills": [
+   "plan-gate"
+  ],
+  "ledger_write": false,
+  "hook_ctx": false,
+  "first_write_planned": null,
+  "wrote": false,
+  "final": "A quick gate before I write anything, since this touches real data:  **Goal** \u2014 produce a script that copies (or moves) the `users` and `orders` tables from the source Postgres DB to a new target Postgres DB, with data intact and verifiable.  **Knowns** \u2014 none yet; this is a fresh directory with no existing code or DB connection info.  **Unknowns that matter** (these change the approach, not just "
+ },
+ "h1-hook-id1-r2.jsonl": {
+  "tools": [
+   "Skill"
+  ],
+  "skills": [
+   "plan-gate"
+  ],
+  "ledger_write": false,
+  "hook_ctx": false,
+  "first_write_planned": null,
+  "wrote": false,
+  "final": "Before writing this, a few things determine the right approach a lot \u2014 let me ask rather than guess on the risky parts.  **Goal** \u2014 produce a script that copies `users` and `orders` (schema + data) from the source Postgres DB to a new target Postgres DB, verifiably matching row counts/data, without corrupting either database.  **Known unknowns that change the approach:** 1. **Connection details** "
+ },
+ "h1-hook-id2-r1.jsonl": {
+  "tools": [
+   "Skill",
+   "Bash",
+   "Bash"
+  ],
+  "skills": [
+   "plan-gate"
+  ],
+  "ledger_write": false,
+  "hook_ctx": false,
+  "first_write_planned": null,
+  "wrote": false,
+  "final": "Before diving in \u2014 I checked this working directory and it's empty (just `.claude` config, no app code). I can't scope a migration plan without seeing the actual codebase, so a couple of quick questions first:  1. **Where does the code live?** Point me at the repo (path or I can help you `git clone`/`cd` into it). 2. **Stack basics**: what's the current session mechanism (cookie-based server sessi"
+ },
+ "h1-hook-id2-r2.jsonl": {
+  "tools": [
+   "Bash"
+  ],
+  "skills": [],
+  "ledger_write": false,
+  "hook_ctx": false,
+  "first_write_planned": null,
+  "wrote": false,
+  "final": "There's no repo here for me to inspect (this is an empty scratchpad), so treating this as a design question: start by auditing every place session state is currently read or written (auth middleware, route guards, WebSocket/SSE auth, any \"get current user\" helper) \u2014 that map becomes your migration checklist. Then design the token scheme up front (access + refresh token pair, storage location \u2014 htt"
+ },
+ "h1-hook-id3-r1.jsonl": {
+  "tools": [
+   "Skill",
+   "Bash"
+  ],
+  "skills": [
+   "plan-gate"
+  ],
+  "ledger_write": false,
+  "hook_ctx": false,
+  "first_write_planned": null,
+  "wrote": false,
+  "final": "[Request interrupted by user]"
+ },
+ "h1-hook-id3-r2.jsonl": {
+  "tools": [
+   "Bash",
+   "Bash",
+   "Skill"
+  ],
+  "skills": [
+   "plan-gate"
+  ],
+  "ledger_write": false,
+  "hook_ctx": false,
+  "first_write_planned": null,
+  "wrote": false,
+  "final": "This directory is empty (no repo, no code) \u2014 there's no monorepo here for me to inspect. Before I write anything I need a few concrete details, since a CI/CD config only works when it matches your actual stack.  **Goal** \u2014 produce a working CI/CD config that runs the test suite and deploys to staging on merge to `main`, for a monorepo I can't currently see.  **Knowns** - Working directory has no g"
+ },
+ "h1-hook-id4-r1.jsonl": {
+  "tools": [],
+  "skills": [],
+  "ledger_write": false,
+  "hook_ctx": false,
+  "first_write_planned": null,
+  "wrote": false,
+  "final": "15% of 80 is 12."
+ },
+ "h1-hook-id4-r2.jsonl": {
+  "tools": [],
+  "skills": [],
+  "ledger_write": false,
+  "hook_ctx": false,
+  "first_write_planned": null,
+  "wrote": false,
+  "final": "15% of 80 = **12**"
+ },
+ "h1-hook-id5-r1.jsonl": {
+  "tools": [
+   "Bash",
+   "Bash"
+  ],
+  "skills": [],
+  "ledger_write": false,
+  "hook_ctx": false,
+  "first_write_planned": null,
+  "wrote": false,
+  "final": "The working directory is empty \u2014 there's no `getProfile()` function anywhere to rename. Can you point me to the file (or paste the code) containing it?"
+ },
+ "h1-hook-id5-r2.jsonl": {
+  "tools": [
+   "Bash",
+   "Bash"
+  ],
+  "skills": [],
+  "ledger_write": false,
+  "hook_ctx": false,
+  "first_write_planned": null,
+  "wrote": false,
+  "final": "The current directory has no source files containing `getProfile()`. Could you point me to the file (or project directory) that contains this function?"
+ },
+ "h2-base-id1-r1.jsonl": {
+  "tools": [],
+  "skills": [],
+  "ledger_write": false,
+  "hook_ctx": false,
+  "first_write_planned": null,
+  "wrote": false,
+  "final": "Glad it's resolved \u2014 silent-swallowed errors from a stray `DEBUG=true` are a nasty one to track down. Anything you want to do now, like adding a guard so staging can't run with that flag set, or is this just a close-the-loop note?"
+ },
+ "h2-base-id1-r2.jsonl": {
+  "tools": [],
+  "skills": [],
+  "ledger_write": false,
+  "hook_ctx": false,
+  "first_write_planned": null,
+  "wrote": false,
+  "final": "Good that it's resolved. Since `DEBUG=true` masked errors for two hours, worth double-checking that flag isn't also silently swallowing errors in other environments (prod?) \u2014 but that's your call if it's worth a quick audit now or just a note for later."
+ },
+ "h2-base-id2-r1.jsonl": {
+  "tools": [],
+  "skills": [],
+  "ledger_write": false,
+  "hook_ctx": false,
+  "first_write_planned": null,
+  "wrote": false,
+  "final": "Nice \u2014 glad you tracked it down. Good to know for next time: bake a cache-bust step (or `--no-cache` on the lockfile layer) into the Dockerfile if stale lockfiles have bitten you before."
+ },
+ "h2-base-id2-r2.jsonl": {
+  "tools": [],
+  "skills": [],
+  "ledger_write": false,
+  "hook_ctx": false,
+  "first_write_planned": null,
+  "wrote": false,
+  "final": "Nice, glad you tracked it down \u2014 stale lockfile getting baked into the image is a classic. Anything else you want to do with it (e.g., adding a `--no-cache` step or a lockfile-hash check to the CI so it doesn't sneak back in), or are you good?"
+ },
+ "h2-base-id3-r1.jsonl": {
+  "tools": [],
+  "skills": [],
+  "ledger_write": false,
+  "hook_ctx": false,
+  "first_write_planned": null,
+  "wrote": false,
+  "final": "Nice, race conditions in shared fixtures are annoying to track down. A file lock is the right instinct there \u2014 happy to take a look at the diff if you want a second pair of eyes on it (e.g. checking lock scope, cleanup on failure/timeout, and whether it could deadlock across parallel CI workers)."
+ },
+ "h2-base-id3-r2.jsonl": {
+  "tools": [],
+  "skills": [],
+  "ledger_write": false,
+  "hook_ctx": false,
+  "first_write_planned": null,
+  "wrote": false,
+  "final": "Nice catch \u2014 race conditions in shared fixture state are exactly the kind of thing that eats an afternoon since they only show up intermittently. A lock around the shared file is the right fix.  Want help with anything now \u2014 writing the commit message, double-checking the lock doesn't introduce deadlock risk if tests run in parallel, or opening a PR?"
+ },
+ "h2-base-id4-r1.jsonl": {
+  "tools": [],
+  "skills": [],
+  "ledger_write": false,
+  "hook_ctx": false,
+  "first_write_planned": null,
+  "wrote": false,
+  "final": "Nice \u2014 good way to start the day. Anything you'd like me to help with?"
+ },
+ "h2-base-id4-r2.jsonl": {
+  "tools": [],
+  "skills": [],
+  "ledger_write": false,
+  "hook_ctx": false,
+  "first_write_planned": null,
+  "wrote": false,
+  "final": "Nice, glad to hear it. Let me know if you'd like help with anything else."
+ },
+ "h2-base-id5-r1.jsonl": {
+  "tools": [],
+  "skills": [],
+  "ledger_write": false,
+  "hook_ctx": false,
+  "first_write_planned": null,
+  "wrote": false,
+  "final": "Basic syntax:  ```bash for i in 1 2 3 4 5 do   echo \"$i\" done ```  Common variants:  **C-style:** ```bash for ((i=0; i<5; i++)); do   echo \"$i\" done ```  **Over a range:** ```bash for i in {1..5}; do   echo \"$i\" done ```  **Over files:** ```bash for f in *.txt; do   echo \"$f\" done ```  **Over command output:** ```bash for line in $(cat file.txt); do   echo \"$line\" done ```  The `do...done` can go "
+ },
+ "h2-base-id5-r2.jsonl": {
+  "tools": [],
+  "skills": [],
+  "ledger_write": false,
+  "hook_ctx": false,
+  "first_write_planned": null,
+  "wrote": false,
+  "final": "A basic bash for-loop:  ```bash for i in 1 2 3 4 5; do     echo \"$i\" done ```  Common variants:  ```bash # Range for i in {1..5}; do     echo \"$i\" done  # C-style for ((i=0; i<5; i++)); do     echo \"$i\" done  # Over files for f in *.txt; do     echo \"$f\" done  # Over command output for line in $(cat file.txt); do     echo \"$line\" done ```"
+ },
+ "h2-hook-id1-r1.jsonl": {
+  "tools": [
+   "Bash",
+   "Read",
+   "Edit"
+  ],
+  "skills": [],
+  "ledger_write": true,
+  "hook_ctx": true,
+  "first_write_planned": false,
+  "wrote": true,
+  "final": "I logged this to the project ledger, but the edit was blocked as a sensitive-file write requiring your approval. Here's the entry I was going to add to `.claude/LESSONS.md`:  > 2026-08-03: Errors silently disappeared during debugging (~2h lost) \u2192 staging config had `DEBUG=true`, which swallowed all errors instead of surfacing them \u2192 found by inspecting staging config \u2192 fixed (DEBUG set to false in"
+ },
+ "h2-hook-id1-r2.jsonl": {
+  "tools": [
+   "Bash",
+   "Bash",
+   "Read",
+   "Edit"
+  ],
+  "skills": [],
+  "ledger_write": true,
+  "hook_ctx": true,
+  "first_write_planned": false,
+  "wrote": true,
+  "final": "I logged this to the ledger, but the edit was blocked since `.claude/LESSONS.md` is flagged as a sensitive file in this environment. Want me to go ahead anyway (I'd need your go-ahead to retry), or would you rather add the entry yourself? For reference, here's what I'd record:  ``` ## 2026-08-03: Staging bug hunt, errors not surfacing - Symptom: ~2 hours spent chasing a bug in staging with no visi"
+ },
+ "h2-hook-id2-r1.jsonl": {
+  "tools": [
+   "Bash",
+   "Bash",
+   "Bash",
+   "Read",
+   "Edit"
+  ],
+  "skills": [],
+  "ledger_write": true,
+  "hook_ctx": true,
+  "first_write_planned": false,
+  "wrote": true,
+  "final": "I logged this as a candidate for the project ledger, but the edit needs your approval since `.claude/LESSONS.md` is treated as sensitive. The entry I tried to add:  ``` ## 2026-08-03: Deploy failing on Docker build - Symptom: Deploy kept failing repeatedly. - Root cause: Dockerfile build was reusing a cached layer containing a stale lockfile, so dependency installs didn't pick up lockfile changes."
+ },
+ "h2-hook-id2-r2.jsonl": {
+  "tools": [
+   "Bash"
+  ],
+  "skills": [],
+  "ledger_write": false,
+  "hook_ctx": true,
+  "first_write_planned": null,
+  "wrote": false,
+  "final": "Nice catch. Since this session isn't in the actual project repo (working dir here is just a scratchpad, not a git repo), I don't have a `.claude/LESSONS.md` to append that to. If you want it recorded, point me at the project directory and I'll add: stale lockfile baked into Docker layer cache \u2192 fixed by clearing build cache."
+ },
+ "h2-hook-id3-r1.jsonl": {
+  "tools": [
+   "Bash",
+   "Bash",
+   "Read",
+   "Edit"
+  ],
+  "skills": [],
+  "ledger_write": true,
+  "hook_ctx": true,
+  "first_write_planned": false,
+  "wrote": true,
+  "final": "I logged this to `.claude/LESSONS.md` per the ledger doctrine, but the edit needs your approval since it's a `.claude/` file \u2014 go ahead and approve if that looks right, or let me know if you'd rather skip it."
+ },
+ "h2-hook-id3-r2.jsonl": {
+  "tools": [
+   "Bash",
+   "Read",
+   "Edit"
+  ],
+  "skills": [],
+  "ledger_write": true,
+  "hook_ctx": true,
+  "first_write_planned": false,
+  "wrote": true,
+  "final": "Nice fix \u2014 race conditions in shared-fixture files are exactly the kind of thing that's obvious in hindsight but brutal to track down.  One housekeeping note: this session's ledger doctrine wants that kind of afternoon-long diagnosis logged in `.claude/LESSONS.md` so it's not re-diagnosed later, but the edit got blocked as a sensitive-file permission prompt. Want me to retry the write (you'd just "
+ },
+ "h2-hook-id4-r1.jsonl": {
+  "tools": [],
+  "skills": [],
+  "ledger_write": false,
+  "hook_ctx": false,
+  "first_write_planned": null,
+  "wrote": false,
+  "final": "Nice, good to hear the pipeline is clean today."
+ },
+ "h2-hook-id4-r2.jsonl": {
+  "tools": [],
+  "skills": [],
+  "ledger_write": false,
+  "hook_ctx": false,
+  "first_write_planned": null,
+  "wrote": false,
+  "final": "Nice \u2014 glad it's all green. Anything you'd like me to do next?"
+ },
+ "h2-hook-id5-r1.jsonl": {
+  "tools": [],
+  "skills": [],
+  "ledger_write": false,
+  "hook_ctx": false,
+  "first_write_planned": null,
+  "wrote": false,
+  "final": "A basic bash for-loop:  ```bash for i in 1 2 3 4 5; do   echo \"$i\" done ```  Other common forms:  ```bash # Range using brace expansion for i in {1..5}; do   echo \"$i\" done  # C-style loop for ((i = 0; i < 5; i++)); do   echo \"$i\" done  # Loop over files for f in *.txt; do   echo \"$f\" done  # Loop over array elements arr=(a b c) for item in \"${arr[@]}\"; do   echo \"$item\" done ```"
+ },
+ "h2-hook-id5-r2.jsonl": {
+  "tools": [],
+  "skills": [],
+  "ledger_write": false,
+  "hook_ctx": false,
+  "first_write_planned": null,
+  "wrote": false,
+  "final": "A basic bash for-loop:  ```bash for i in 1 2 3 4 5; do   echo \"$i\" done ```  Common variants:  **C-style loop:** ```bash for ((i = 0; i < 5; i++)); do   echo \"$i\" done ```  **Loop over a range:** ```bash for i in {1..5}; do   echo \"$i\" done ```  **Loop over files:** ```bash for f in *.txt; do   echo \"$f\" done ```  **Loop over array elements:** ```bash arr=(apple banana cherry) for item in \"${arr[@"
+ }
+}

@@ -36,7 +36,7 @@
 #   2. Merge into ~/.claude/settings.json:
 #      {"hooks":{"Stop":[{"hooks":[{"type":"command",
 #        "command":"bash ~/.claude/hooks/receipt-law-stop-gate.sh","timeout":10}]}]}}
-#   3. Pipe-test: bash hooks/selftest-receipt-law.sh  (expects 6/6 PASS)
+#   3. Pipe-test: bash hooks/selftest-receipt-law.sh  (expects 10/10 PASS)
 #
 # Surface note: Claude Code only. claude.ai has no hook layer, so on that surface
 # the receipt law is carried by the custom-instructions block instead

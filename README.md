@@ -143,7 +143,18 @@ unmeasured** — full record and bounds in
 [`results/2026-08-11/gap-provenance-guards/`](results/2026-08-11/gap-provenance-guards/RESULTS.md),
 ledger entries `.claude/LESSONS.md` INC-9 and INC-10 (OPEN).
 
-All 19 skills lint with zero FAILs (`diagnostics-and-tooling/scripts/lint_skill.sh`,
+**2026-08-12 — INC-11: GAUNTLET restored as a skill.** A validated trigger word
+went missing because the branch that carried it (`claude/rivian-stock-analysis-h5y46x`,
+2026-07-16) was **never merged**; a later instructions block authored from `main`
+was diff-clean against main, false against the live settings box, and overwrote it
+on paste. GAUNTLET is now [`gauntlet`](.claude/skills/gauntlet/SKILL.md) — a skill
+that sequences plan-gate → work → adversarial-verify → after-report — plus pointer 7
+in the instructions. **That branch is still unmerged and carries 17 commits / 239
+files**, including INC-8, DEAD-3, and a validated Stop-hook enforcement pair that
+drove a governor 0/3 → 3/3. Owner decision outstanding; its ledger numbering
+collides with `.claude/LESSONS.md` and must be reconciled on merge, not renumbered.
+
+All 20 skills lint with zero FAILs (`diagnostics-and-tooling/scripts/lint_skill.sh`,
 re-run 2026-08-11; the count read "18" here since 2026-08-10 and was one behind
 the tree — corrected against a live `ls`, not by trusting the line). The lint now also enforces the 1024-char description limit
 from INC-3, with a warning band above 1000 — no skill currently warns; the

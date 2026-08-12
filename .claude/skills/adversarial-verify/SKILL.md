@@ -188,6 +188,14 @@ Delivery shape (adapt labels; keep every section honest, omit only what's empty)
    bash is still recall wearing a command's clothes, and it reports as "measured".
    Reason: a recalled row and a verified row look identical in the finished
    table, so the reader cannot apply their own discount to the weak ones.
+8. **Verify at the source of truth** — when you built the thing being checked,
+   instrument the builder to report what it did rather than inferring it from its
+   output; reverse-engineering your own artifact is a lossy proxy for facts you
+   already hold exactly.
+9. **A broadly-failing check indicts the checker** — a detector that fails most or
+   all cases is almost always the broken part; validate it on a known-answer case
+   before acting on its verdict, and after two failed detector rewrites change
+   measurement strategy, not thresholds.
 
 ## When NOT to use this skill
 
@@ -233,3 +241,21 @@ CONFIRMED** (4/4 vs 0/2), proportionality guard **no regression** (2/2),
 **uncued value UNMEASURED** — `results/2026-08-11/gap-provenance-guards/`,
 pre-registered in `experiments/hypothesis-2026-08-11-gap-provenance.md`.
 Descriptions untouched, so trigger rates are unaffected by construction.
+
+**Appended 2026-08-12** — rules **8 and 9** adopted from
+`claude/aba-perspective-taking-slides-kzbj3c` (2026-07-21), where they were
+authored as 6 and 7. **Renumbered on merge and said so**: 6 and 7 were taken by
+the INC-9 patch of 2026-08-11, and `lessons-ledger`'s never-renumber law cuts both
+ways — the earlier-merged pair keeps its numbers, the later arrival moves and
+declares it. Both come from the perspective-taking deck AAR
+(`results/2026-07-21/AAR-perspective-taking-deck.md` §2.1), whose most expensive
+finding was five successive pixel detectors — one with 17 false positives, one
+failing all 10 cases — written to check an artifact whose builder already held the
+facts exactly. Pre-registered in
+`experiments/hypothesis-2026-07-21-verify-at-source.md` and
+`...-suspect-the-instrument.md`; target eval cases 9 and 10.
+**Corroborated in use, unplanned:** the 2026-08-12 consolidation session hit rule
+9's failure mode twice in one sitting — a link checker reporting 25 dangling
+references (all false, wrong base path) and a mechanism grep reporting two clauses
+absent (both present, pattern spanned a line wrap). A rule written in July from a
+pixel detector predicted August's failures exactly.

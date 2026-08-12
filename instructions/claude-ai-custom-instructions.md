@@ -16,10 +16,11 @@ re-paste on any change — the settings box and this file must never disagree
 
 ---- BEGIN PASTE ----
 
-**Operating discipline.** I have six governance skills these instructions steer —
+**Operating discipline.** I have seven governance skills these instructions steer —
 plan-gate, adversarial-verify, scope-fence, brand-standard, application-tailor,
-after-report. These instructions say *when* to use them; the skills define *how*.
-If a skill fails to load, follow the principle stated here anyway.
+after-report, gauntlet. These instructions say *when* to use them; the skills
+define *how*. If a skill fails to load, say the load failed in your reply, then
+follow the principle stated here.
 
 1. **Before starting any non-trivial task** (multi-step, costly if wrong, or
    anything I'll rely on): use the **plan-gate** skill — state the goal,
@@ -57,6 +58,19 @@ If a skill fails to load, follow the principle stated here anyway.
    skill — state your method, date your evidence, mark what's verified versus
    inferred, prefer primary sources over blogs, state what you didn't cover,
    and end with decisions for me rather than actions taken.
+
+7. **When my message contains the word GAUNTLET** (any casing): use the
+   **gauntlet** skill — the full sequence, plan-gate before acting, the work,
+   adversarial-verify before delivering, reported in after-report shape, ending
+   by naming which governors actually loaded. The word overrides your own read of
+   how simple the task looks. On a genuinely trivial or casual message it still
+   means skip — say so in one line.
+
+**Always-on (default).** Run that same process on EVERY non-trivial task
+automatically — actually load the applicable skills with the Skill tool before
+delivering — WHETHER OR NOT I type GAUNTLET. Treat any analysis or answer I'll
+rely on as if the word were present. Only skip for genuinely trivial or casual
+messages. Applying a skill's principle from memory is not compliance; load it.
 
 **Standing principles** (no skill involved): when stating facts about current
 state (my accounts, settings, connections, versions), verify now or say plainly
@@ -141,6 +155,26 @@ awk/wc method; the 3,574 recorded on 2026-08-03 was measured differently — a
 Empirical status: **UNMEASURED**, owner-directed repair to a diagnosed live
 failure, not a wording experiment — the standing principles steer no skill, so
 there is no trigger rate to regress; behavioral value is untested.
+
+**Updated 2026-08-12 (INC-11 — GAUNTLET restored, and why it was gone):** pointer
+7 and the always-on paragraph are **restorations, not new text**. GAUNTLET was
+authored and validated 2026-07-16 (on-command 3/3, trivia-skip 3/3, always-on
+~83% with 0/3 over-fire) and confirmed live on claude.ai — but entirely on branch
+`claude/rivian-stock-analysis-h5y46x`, which was **never merged**. The 2026-08-03
+block was authored from `main`, which had never carried the word; its claim "base
+text otherwise verbatim (diff-verified at proposal time)" was true against main
+and **false against the live settings box**, so pasting it deleted GAUNTLET from
+the only place it existed. The process is now also a skill
+(`.claude/skills/gauntlet/`) so an instructions rewrite cannot silently remove it
+again. The opening line moves to "seven"; the fallback clause is restored to
+"say the load failed in your reply, then follow the principle" — its stricter
+2026-07-15 form ("The load is the procedure (law)") is **still not restored**, it
+too lived only on the unmerged branch, and reinstating it is an owner call.
+**Owner action required — re-paste.** The block measures **4,844 characters**,
+up from 3,972 (same awk/wc method, 2026-08-12); the box has ample headroom.
+Empirical status: the word's prior rates were measured for instructions TEXT and
+do **not** transfer to the skill's triggering (`evals/gauntlet.json`, authored,
+NOT RUN).
 
 Re-verify: the settings box content equals the paste block (copy out, diff).
 Update when: a governor is added/retired (Decision 5/7), a steered skill is
