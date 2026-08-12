@@ -231,3 +231,64 @@ a command's exit path is not evidence that the thing it names actually happened.
 hold divergent history that has not been reconciled. They stay until this PR is
 merged and someone confirms nothing further is wanted from them. Deleting a source
 branch before its migration has landed is how INC-11 happened.
+
+---
+
+## HOLD branches salvaged and retired (2026-08-12)
+
+Both HOLD branches were opened, assessed file by file, and drained of what the
+library actually wants. **Taken: 8 files. Left behind: 68.** The split was not
+about age or size — it was about whether taking a file creates an obligation the
+repo has no mechanism to meet.
+
+### Taken
+
+| From | What | Why |
+|---|---|---|
+| `skill-md-audit` | `evals/{docx,frontend-design,pdf,pptx,xlsx}.json` | Trigger evals work regardless of where the skill lives. The owner uses all five daily with **zero** measurement on any of them. |
+| `skill-md-audit` | `CAPABILITY-SKILLS-CONFLICT-AUDIT.md` | Analysis worth keeping |
+| `fable-skill-library` | `CLAUDE-AI-VALIDATION.md` | Same |
+| `fable-skill-library` | `.gitignore` | Main had none; extended with `__pycache__/`, which the rescued `hooks/*.py` generate |
+| *(authored fresh)* | `CLAUDE.md` | **Main had none.** A repo with 21 skills, 300+ result files, a ledger and a guard gave an arriving session no orientation at all. Written new rather than ported — the branch copy references an `external-skills/` layer we deliberately did not take, so porting it verbatim would have shipped a doc that lies on arrival. |
+
+### Left behind, deliberately
+
+**The 13 vendored third-party skills** (`owasp-security`, `test-driven-development`,
+`systematic-debugging`, `writing-plans`, `fable-method`, and 8 more — 69 files).
+Vendoring third-party code means owning its staleness, provenance and update
+policy. This repo has none of that, and the branch's own README states the policy
+("never edited in place — re-vendor from upstream") with no mechanism behind it.
+Thirteen skills rotting silently is a liability, not an asset.
+
+**Five duplicate capability SKILL.mds** (`docx`, `frontend-design`, `pdf`, `pptx`,
+`xlsx`). All five already exist at account level. A repo copy of an account-level
+skill is two sources of truth that drift apart in silence — INC-11's exact
+mechanism, in the library whose purpose is preventing it.
+
+**`mcp-builder`** (skill + `evals/mcp-builder.json`). Owner-declined. Unlike the
+other five it is *not* a duplicate — it is a genuine capability the account does
+not have, which scaffolds MCP servers (tools Claude can call) rather than skills
+(workflows Claude follows). Nothing in current use resembles "expose my API as
+tools for Claude". Declined on `architecture-contract` Decision 5 grounds: every
+installed description is permanent context, and this one has never been needed.
+Its eval set was left *with* it rather than salvaged — an eval for an absent skill
+is a dangling reference, and this repo already fixed one of those this week.
+
+**`tools/install-external-skill.sh`, `OPERATIONS.md`, `external-skills/*`** — all
+serve the vendored layer that was declined.
+
+### Retrieval, if any of this is ever wanted
+
+Both branches remain on the remote (deletion is blocked repo-wide; see the
+ATTEMPTED-FAILED record above). Nothing below needs re-deriving:
+
+```bash
+# mcp-builder, whole skill + its evals
+git checkout origin/claude/skill-md-audit-1v5bl6 -- .claude/skills/mcp-builder evals/mcp-builder.json
+
+# the 13 vendored skills + installer
+git checkout origin/claude/fable-skill-library-analysis-b9ysxy -- external-skills tools/install-external-skill.sh
+```
+
+Both branches are now **drained of everything the library wants**. They hold only
+declined content, and that content is one command away.

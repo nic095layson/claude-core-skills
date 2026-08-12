@@ -1,0 +1,9 @@
+# Build output
+dist/
+
+# Python bytecode — the rescued hooks/*.py generate this on import/compile
+__pycache__/
+*.py[cod]
+
+# OS noise
+.DS_Store
