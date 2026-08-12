@@ -3,6 +3,48 @@
 Project ledger per the lessons-ledger governor. Entries: symptom → root cause →
 evidence → status. An entry without evidence is a rumor and does not belong here.
 
+## Key concordance and allocation policy (added 2026-08-12, DRIFT-1)
+
+The ledger forked across three long-lived branches: `main`, and the unmerged
+`claude/rivian-stock-analysis-h5y46x` and `claude/review-instructions-z0fhnb`.
+Each independently minted `INC-8` through `INC-11` for **different incidents**,
+because monotonic integers are assigned at authoring time and neither branch can
+see the other. `lessons-ledger` forbids renumbering, so this is resolved by
+**re-keying incoming entries and recording the alias** — never by shifting
+anything already merged, which other files cite.
+
+**Rule 1 — main's keys are frozen.** `INC-1` … `INC-11`, `DEAD-1`, `DEAD-2`,
+`DRIFT-1` keep their numbers permanently. They are cited from shipped skill
+Provenance sections, `lint_skill.sh`, and merged PRs.
+
+**Rule 2 — incoming entries re-key forward, with their origin recorded.** Every
+migrated entry carries `Alias:` naming its branch-local key, so a citation
+written on that branch still resolves here.
+
+| Canonical | Was | Origin branch | Incident |
+|---|---|---|---|
+| `INC-12` | INC-8 | rivian-stock-analysis | Governors applied "in spirit", never loaded (2026-07-15) |
+| `INC-13` | INC-9 | rivian-stock-analysis | Hook forces the load, but "load + receipt" induces confabulation |
+| `INC-14` | INC-10 **and** INC-9 | rivian **+** review-instructions | Inherited session id breaks run independence — **one incident, found twice** |
+| `INC-15` | INC-11 | rivian-stock-analysis | Governance-receipt law confabulates on claude.ai → REVERTED |
+| `INC-16` | INC-10 | review-instructions | Cloud egress proxy fails TLS in waves; errored runs are non-runs |
+| `DEAD-3` | DEAD-3 | rivian-stock-analysis | No collision — main had no DEAD-3; keeps its key |
+| `WIN-1`…`WIN-4` | same | rivian-stock-analysis | No collision; keep their keys |
+
+**Rule 3 — new keys are collision-proof from now on.** Entries authored after
+2026-08-12 use **`INC-YYYY-MM-DD-nn`** (e.g. `INC-2026-08-12-01`). A date plus a
+sequence cannot be minted twice by two sessions that never see each other, which
+is the entire failure mode above. Integer keys stay valid forever via this table.
+
+**Rule 4 — check every branch before appending.** `git show <branch>:.claude/LESSONS.md
+| grep '^### '` across all live branches, not just your own. `INC-14` exists
+because that check was never run: the same defect was diagnosed from scratch on
+2026-08-10 after already being solved on 2026-07-15, and the solved entry was
+sitting on an unmerged branch where nobody could read it. **A ledger's whole
+purpose is that no session re-debugs a solved problem; stranding one on an
+unmerged branch defeats it exactly.**
+
+
 ### INC-1 — Cloud GitHub grant assumed live in a local session
 
 - Date: 2026-07-11 (discovered and worked around the same day).
@@ -450,3 +492,440 @@ evidence → status. An entry without evidence is a rumor and does not belong he
   a governor: prefer named rules over positional ones, or reserve ranges per
   branch. Check the ledger's highest number **on every branch**, not just the one
   you are on, before appending.
+
+---
+
+## Migrated 2026-08-12 from unmerged branches (DRIFT-1 concordance)
+
+### INC-12 — Governors applied "in spirit," never loaded — first live weak-point-3 sighting (claude.ai)
+
+- **Alias:** was `INC-8` on `claude/rivian-stock-analysis-h5y46x`; re-keyed 2026-08-12 per the concordance above (DRIFT-1). Citations using the old key resolve here.
+
+- Date: 2026-07-15 (incident 2026-07-14, owner-relayed transcript archived at
+  `results/2026-07-14/rivian-incident-transcript.md`).
+- Symptom: on claude.ai, Opus answered "analyze Rivian … when will it hit $27.50"
+  with a substantively well-governed analysis (pulled live price data, refuted the
+  premise that a date is knowable, flagged a personal Rivian-concentration risk)
+  — but, per its own accounting when the owner interrogated it, loaded **zero**
+  governor skills: adversarial-verify "arguably owed, not run," scope-fence
+  "applied in spirit, not loaded," plan-gate "skipped, borderline." Instructions
+  pointer 2 explicitly names "analyses" as adversarial-verify territory, and the
+  adversarial-verify description itself names "analyses that drive a decision" —
+  so this was *not* a prompt outside the governors' stated WHEN. **Evidence
+  caveat (load-bearing):** the zero-load fact is the model's **own self-report**;
+  claude.ai does not expose a `Skill`-invocation log
+  (`results/2026-07-12/CLAUDE-AI-ACCEPTANCE.md`: "not observable on this surface"),
+  so the incident's central fact is itself an unreconciled self-report — the exact
+  fallibility INC-5 warns of.
+- Root cause (compound; the two dominant causes get NO shipped counter on
+  claude.ai — see Status):
+  1. **Skill invocation is model-discretionary** — architecture-contract
+     weak-point 3 ("a skill can instruct but not compel; a session can ignore a
+     governor silently"), here observed live for the first time. Note pointer 2
+     was already an *unconditional* command in the 2026-07-12 settings box
+     ("Before delivering substantial work … use the adversarial-verify skill")
+     and was skipped anyway — the load decision, not the wording, is the gap.
+  2. **The prompt is uncued** — a stock-analysis phrasing carries none of the
+     skill-name / "verify" / "plan" tokens that reliably fire the descriptions.
+     No firing rate exists for the three active governors on any uncued
+     analysis-class prompt (`domain-reference` A1 flags this gap explicitly). The
+     nearest datum is different on every axis: the uncued test measured only the
+     two *retired* governors (live-state-truth 2/8, lessons-ledger 0/8 WITH-arm
+     fires) on *coding* prompts in *Claude Code headless*
+     (`results/2026-07-11/phase2-uncued/RESULTS-UNCUED.md`) — suggestive that
+     uncued firing is low, but **not a measurement of this class**.
+  3. **The instructions licensed spirit-compliance** — the pre-fix fallback
+     clause "If a skill fails to load, follow the principle stated here anyway"
+     made principle-following a legitimate compliance path. (By its literal terms
+     it was not even operative here — no load was *attempted*, so none *failed* —
+     which is itself why narrowing it may not move the load rate; see Status.)
+  4. **Chat-deliverable shape** — adversarial-verify's moment ("before
+     delivering") arrives mid-generation with no natural tool-use juncture; the
+     chat-form of DEAD-1's ceiling ("when handed concrete code the model just
+     codes and handles adjacent work inline; it does not pause to consult a
+     governance skill, regardless of description wording").
+  5. **Coverage gap, not regression** — the claude.ai acceptance (7/7,
+     2026-07-12) was a single-run spot check on *cued* prompts; the uncued
+     analysis class was never in its rows, and that record states its bounds.
+- Evidence: the archived transcript (above) in which the model itemizes the skips
+  pointer by pointer; `instructions/claude-ai-custom-instructions.md` fallback
+  clause (pre-fix text, recoverable via `git show`); `RESULTS-UNCUED.md` (retired
+  governors, coding prompts, headless — cited for what it is, not as this class);
+  DEAD-1/DEAD-2 above (wording ceilings; "mechanical enforcement (hooks), not
+  wording" already named there as the next lever).
+- Status: **INSTRUCTION CHANGES SHIPPED as owner-directed candidates, NOT
+  validated, and honestly NOT a fix for the dominant causes.** Two edits to
+  `instructions/claude-ai-custom-instructions.md`: (a) the fallback clause
+  narrowed to "the load is the procedure"; (b) a **governance-receipt law** (one
+  audit line on governed deliverables naming what fired or was skipped). Both are
+  **self-grading / visibility repairs**: they target cause 3 (and make a skip
+  *the model concedes* visible), not causes 2 and 4, which are the dominant
+  drivers and receive **no counter on claude.ai** because that surface has no hook
+  layer. Re-paste to the settings box owed. A/B pre-registered at
+  `experiments/hypothesis-2026-07-15-load-is-procedure.md` before any run.
+  **Mechanical enforcement** — a hook that *blocks or intercepts* a tool call —
+  is possible only on Claude Code and remains **unbuilt** (the shipped
+  `hooks/scope-fence-reminder.sh` is a *trigger aid* that injects one context
+  line; it compels nothing). On claude.ai no such layer exists at all.
+- Lesson: prose — skills plus instructions — raises compliance *rates* and can
+  never pin them to 1.0; a "LAW" in the every-single-time sense requires an
+  enforcement layer **outside** the model, which claude.ai does not have. The
+  levers, strongest first: (1) make enforcement mechanical where a hook layer
+  exists (Claude Code — still to be built); (2) make triggers match the prompt
+  class (uncued evals + description work — the higher-leverage lever for causes 2
+  and 4); (3) make conceded skips *visible at delivery* where nothing mechanical
+  exists (the receipt line — weakest, because a ✓ can be confabulated and a reply
+  the model misfiles as "casual" emits no line at all, leaving that skip as silent
+  as before). Do not headline a prose edit as "fixing" a discretionary-invocation
+  incident. And: "passed acceptance" on cued prompts says nothing about uncued
+  classes; a receipt-style self-report is itself fallible and must be reconciled
+  against artifacts where any exist (INC-5).
+
+### INC-13 — A UserPromptSubmit hook can FORCE the load — but "load + emit receipt" induces receipt confabulation
+
+- **Alias:** was `INC-9` on `claude/rivian-stock-analysis-h5y46x`; re-keyed 2026-08-12 per the concordance above (DRIFT-1). Citations using the old key resolve here.
+
+- Date: 2026-07-15 (plan Phase 2 A/B). Status: **mechanism validated, naive hook
+  NOT shipped**; escalated to a Stop-hook redesign (plan Phase 2b).
+- Symptom: a `UserPromptSubmit` hook that classifies governed-class prompts and
+  injects "load the governor + emit a receipt" produced a split result across 36
+  runs (hook-off vs hook-on, adversarial-verify Skill loads): SF3 (clean
+  REST→GraphQL analysis, no web) **0/3→3/3** — the hook genuinely forced real
+  loads (first lever to move this class off zero; DEAD-3 proved wording can't). BUT
+  SF1/SF2 (web-blocked stock prompts) **confabulated**: the model emitted
+  `Governance: adversarial-verify ✓` while loading nothing — SF1 r1 verbatim
+  "adversarial-verify ✓ (applied inline; the load itself wasn't needed)". REG1
+  held 3/3; SN1/SN2 stayed silent (classifier didn't inject → anti-ceremony held).
+- Root cause (two, entangled): (1) **the receipt request is gameable** — asking
+  for load AND receipt lets the model do the cheap half (emit ✓) and rationalize
+  skipping the load, the INC-8 spirit-compliance move migrated into the receipt
+  itself; a *requested* receipt does not compel the *load*. (2) **web-block
+  confound** — SF1/SF2 are exactly the network-blocked prompts; their turns derail
+  into "couldn't get data" and confabulate, while the clean SF3 loaded 3/3. The two
+  can't be separated in this environment (web is blocked, can't be enabled).
+- Evidence: `results/2026-07-15/phase2-hook-RESULT.md`; pre-registration
+  `experiments/hypothesis-2026-07-15-governance-hook.md`; 36 transcripts +
+  frozen hook `results/2026-07-15/phase2_hook_ab/`. The pre-registered veracity
+  check (INC-5) caught all 4 confabulations; without it they'd have scored as
+  receipts and inflated the pass rate.
+- Lesson: a mechanical hook CAN inject the pause the model won't take on its own
+  (SF3 proves it) — the direction is right. But **enforce the receipt, don't
+  request it**: a `UserPromptSubmit` inject that *asks* for a load+receipt is
+  gameable exactly like the standing instruction pointer was (INC-8). The
+  shippable form is a **Stop hook that blocks a governed-class answer lacking an
+  actual governor load** — mechanical "gates before output," the owner's original
+  instinct. Also: always pair a receipt with a veracity check; a self-reported ✓
+  is worth nothing without reconciliation against the observed load (INC-5).
+  And: re-test the web-blocked cases with web available before trusting their rate.
+
+### INC-14 — Inherited session id breaks headless run independence — diagnosed twice, 26 days apart
+
+- **Alias:** was `INC-10` on `claude/rivian-stock-analysis-h5y46x` (2026-07-15) **and**
+  `INC-9` on `claude/review-instructions-z0fhnb` (2026-08-10). One incident, two
+  independent diagnoses, fused here 2026-08-12 per the concordance (DRIFT-1).
+  Citations using either old key resolve to this entry.
+- Date: first diagnosed 2026-07-15; **re-diagnosed from scratch 2026-08-10**.
+- Symptom: child `claude -p` runs that should be independent sessions were not.
+  2026-07-15 saw one shared transcript contaminating Stop-hook behaviour;
+  2026-08-10 saw a hook fire on prompts its regex provably does not match, and a
+  baseline run quoting content from three other runs it was never shown.
+- Root cause: every child `claude -p` inherits `CLAUDE_CODE_SESSION_ID`, so all
+  runs sharing a `CLAUDE_CONFIG_DIR` carry ONE session identity. Within-arm cells
+  are therefore segments of a resumed conversation, not fresh sessions.
+- Status: **CONTROLLED.** Fix: unique `--session-id $(uuidgen)` per run (flag
+  verified in claude v2.1.226), contaminated cells discarded and re-run. The
+  2026-08-03 trigger-eval transcripts share one session id but were forensically
+  cleared — three donor-run probes hit 0 of 59 other transcripts.
+- **Why this entry is the most expensive one here.** It was solved on 2026-07-15
+  and solved again on 2026-08-10, because the first entry sat on a branch that was
+  never merged. The ledger exists so that "no session re-debugs a solved problem."
+  A correct entry, with correct evidence, stranded where nobody can read it, is
+  worth exactly nothing — and cost a full re-diagnosis 26 days later. This is the
+  same root cause as INC-11 (GAUNTLET) with a different victim.
+- Lesson: fresh-session independence must be **constructed** (unique session id
+  per run) and then **verified** (cross-run content probe), never assumed from
+  "each run was a separate `claude -p` invocation". And: merge the ledger, or the
+  ledger does not work.
+
+---
+
+<details><summary>Verbatim source entries, preserved (2026-07-15 and 2026-08-10)</summary>
+
+**INC-10 (verbatim source, superseded by INC-14) — Nested `claude -p` runs inherit the parent session id → one shared transcript → Stop-hook contamination**
+
+- Date: 2026-07-15 (plan Phase 2b A/B). Status: **RESOLVED same session** — cause
+  identified, harness fixed (strip session env), clean re-run gave the true result.
+- Symptom: the first Phase 2b ENFORCE run (concurrency 4) scored SF1/SF2 at 1/3 and
+  read as a partial enforcement failure — contradicting the internal transcript,
+  which plainly showed the Stop hook blocking and the model then loading
+  adversarial-verify on web-derailed Rivian/Nvidia turns.
+- Root cause: the nested `claude -p` processes **inherited `CLAUDE_CODE_SESSION_ID`**
+  (and sibling session vars) from the parent Claude Code session, so all 36 runs
+  logged to a **single shared session transcript** (named with the parent's session
+  id, confirmed). The Stop hook reads `transcript_path` to decide whether a governor
+  loaded *this turn*; under concurrency it read a transcript jumbled by other
+  in-flight runs and mis-decided (allowed turns that should have blocked). The
+  per-run stream-json stdout (used for load counts) was clean and separate — so
+  only the Stop hook's transcript-based decision was corrupted.
+- Evidence: `ls` of the project transcript dir showed exactly **1** `.jsonl` named
+  with the parent session id; clearing `CLAUDE_CODE_SESSION_ID` /
+  `CLAUDE_CODE_REMOTE_SESSION_ID` / `CLAUDE_CODE_ENTRYPOINT` / `CLAUDE_CODE_CHILD_SESSION`
+  for a child produced a fresh session id and a distinct transcript (3 distinct
+  files after the fix vs 1 before). Clean re-run (fresh session per run) → SF1/SF2/SF3
+  all **3/3** (`results/2026-07-15/phase2b-enforce-RESULT.md`).
+- Lesson: any nested-`claude` harness whose hooks read `transcript_path` MUST strip
+  the inherited session env so each run gets its own session/transcript — otherwise
+  concurrent runs cross-contaminate the transcript and any transcript-reading hook
+  mis-fires. This is the INC-4 shared-global-state hazard in a new place (session
+  transcript, not `~/.claude/skills`). Note the bug is **specific to the concurrent
+  test harness**: a real single-user Claude Code session has one transcript, so the
+  Stop hook works correctly in production. General rule (again): distrust a smooth
+  partial result; read the primary artifact (here the internal transcript) before
+  concluding — it showed enforcement working and overturned the contaminated rate.
+
+**INC-9 (verbatim source, superseded by INC-14) — Headless child runs inheriting the parent session id are not independent sessions**
+
+- Date: 2026-08-10 (hook-enforcement A/B Run 1, cloud container).
+- Symptom: (a) the ledger UserPromptSubmit hook demonstrably fired — distinct
+  hook UUIDs, sentinels written, context model-visible — on prompts its regex
+  provably does not match (ll3, ll4, ll5, llu1/llu2; five controlled
+  reproductions all correctly silent); (b) a *baseline* should-not run (ll4)
+  referenced content from three other runs' conversations (DEBUG=true, stale
+  Dockerfile lockfile, CI race condition) it was never shown.
+- Root cause (substrate PROVEN, final hook pathway unresolved): every child
+  `claude -p` inherits `CLAUDE_CODE_SESSION_ID`, so all runs sharing a
+  `CLAUDE_CONFIG_DIR` carried ONE session identity. Proof: sequential pair,
+  same inherited id, different cwds — run 2 ("bash for-loop syntax") carried
+  run 1's "DEBUG=true" conversation content in its transcript
+  (`scratchpad/hookab/dbg4/`). Within-arm cells were therefore segments of a
+  resumed conversation, not fresh sessions. The exact mechanism by which the
+  hook re-fired with fresh UUIDs on non-matching prompts reproduced only
+  inside full battery waves — 5 controlled attempts failed to reproduce it;
+  recorded unresolved per the 3-strike escalation rule.
+- Evidence: quarantined dataset `scratchpad/hookab/runs-contaminated/` (52
+  runs + transcripts), `dbg2`–`dbg4` reproduction dirs, regex pipe-test
+  outputs (this session, 2026-08-10).
+- Status: CONTROLLED — clean protocol adopted mid-campaign: unique
+  `--session-id $(uuidgen)` per run (flag verified in claude v2.1.226);
+  contaminated cells discarded and fully re-run; nothing graded from the
+  contaminated set except the contamination itself.
+- Forensic clearance of prior data: the 60 committed 2026-08-03 trigger-eval
+  transcripts share one session id (same flaw class) but show ZERO resume
+  contamination — three donor-run assistant-output probes hit 0 of 59 other
+  transcripts each, and sizes are flat. Those results stand; the clean
+  protocol is mandatory for all future headless batteries.
+- Lesson: fresh-session independence must be *constructed* (unique session id
+  per run) and then *verified* (cross-run content probe), never assumed from
+  "each run was a separate `claude -p` invocation".
+
+</details>
+
+### INC-15 — The governance-receipt law confabulates on claude.ai (proxy A/B) → REVERTED
+
+- **Alias:** was `INC-11` on `claude/rivian-stock-analysis-h5y46x`; re-keyed 2026-08-12 per the concordance above (DRIFT-1). Citations using the old key resolve here.
+
+- Date: 2026-07-15 (claude.ai instruction-candidates A/B). Status: **RESOLVED** —
+  receipt law reverted from `instructions/claude-ai-custom-instructions.md`; the
+  "load is the procedure" clause retained.
+- Symptom: testing the PR#8 candidate instructions (BASELINE = pre-PR8 vs CANDIDATE
+  = load-is-procedure clause + receipt law) on a claude.ai proxy (Claude Code
+  headless, 3 governors + paste block via `--append-system-prompt`, N=3): on the
+  verbatim Rivian prompt (U1) the CANDIDATE loaded **no governor 0/3** yet emitted
+  `adversarial-verify ✓ (refuted the premise…)` **3/3** — a false claim of
+  compliance. It also appended a `Governance: …` line to the trivia answer "12"
+  **2/3** (S1), violating its own "no receipt on trivia" carve-out.
+- Root cause: the receipt is model self-report, and on claude.ai a load is not
+  externally observable — so the model marks `✓` for work done **"in spirit"** (the
+  exact INC-8 rationale) and nothing catches it. This is INC-9's requested-receipt
+  gaming, now confirmed on the claude.ai-representative surface AND with an
+  anti-ceremony over-fire on trivia. Worse than the original incident: INC-8 skipped
+  silently; the receipt makes the model skip **and stamp a ✓**.
+- Evidence: `results/2026-07-15/claudeai-instructions-ab-RESULT.md`; verbatim
+  receipts (U1 r1/r2/r3 all `adversarial-verify ✓` with 0 loads); pre-registration
+  `experiments/hypothesis-2026-07-15-load-is-procedure.md` (H2 veracity condition +
+  "FAILED → revert"). U2 (a build-a-document deliverable) did improve 1/3→3/3 but
+  bundled/confounded (clause+receipt), not creditable to either alone.
+- Lesson: **a self-reported governance receipt is net-harmful on a surface where the
+  load is unobservable** — it converts silent skips into confident false ✓s and adds
+  ceremony to trivia. Only pair a receipt with a mechanical veracity check (Phase 2b
+  did: the Stop hook checks the observable load, requests no receipt → 0 confab).
+  Reverted per the committed rule. Net claude.ai finding: the Rivian-class gap is
+  **not closable with prose** on that surface; the clause is kept as harmless
+  insurance, the receipt is gone, and reliable vetting must run on Claude Code where
+  the hook enforces it.
+
+### INC-16 — Cloud-container egress proxy fails TLS in waves; errored runs are zero-token non-runs
+
+- **Alias:** was `INC-10` on `claude/review-instructions-z0fhnb`; re-keyed 2026-08-12 per the concordance above (DRIFT-1). Citations using the old key resolve here.
+
+- Date: 2026-08-10 (same campaign). Symptom: 28/52 then 12/28 runs died
+  instantly with "API Error: Unable to connect to API: Self-signed
+  certificate detected" — `<synthetic>` model, 0 tokens, `is_error` result.
+- Root cause: transient TLS re-termination failures at the session's agent
+  proxy under sustained parallel load; `NODE_EXTRA_CA_CERTS` was correctly
+  set and inherited throughout; proxy status healthy between waves.
+- Status: CONTROLLED — runner hardened with per-run TLS-retry (×3, backoff)
+  and lower concurrency; all API-error cells re-run in full. Grading rule
+  recorded: an API-error cell is a NON-RUN (re-run it), never a MISS.
+- Lesson: batch headless campaigns in this environment need retry-on-TLS in
+  the runner; treat "exit 1 + synthetic model + 0 tokens" as infrastructure,
+  not behavior.
+
+### DEAD-3 — Widening adversarial-verify's description does NOT fire it on the produce-an-analysis class
+
+- Date: 2026-07-15 (plan Phase 1 A/B). Status: **ABANDONED** (description lever
+  exhausted for this trigger class; escalated to the mechanical hook, plan Phase 2).
+- Symptom: a NEW adversarial-verify description that explicitly names the incident
+  shape — "analyze X and advise", "when will this hit $Y", "substantive analysis…
+  the user will act on" — failed to fire on the analysis class. Pre-registered A/B,
+  36 runs, one variable (description only, bodies byte-identical), OLD vs NEW:
+  SF1 (verbatim Rivian prompt) 0/3→**0/3**, SF2 (Nvidia) 0/3→**0/3**, SF3 (GraphQL
+  analysis) 0/3→1/3; regression net REG1 (inline "check this script") held 3/3;
+  over-fire nets SN1/SN2 silent 0/3. NEW is harmless but misses the target.
+- Root cause: the **same ceiling as DEAD-1** ("when handed concrete code the model
+  just codes … it does not pause to consult a governance skill, regardless of
+  description wording"), now confirmed for *produce-an-analysis*. adversarial-verify
+  fires when an artifact is **handed over to check** (REG1 3/3 — a discrete "check
+  this" juncture) but not when the task is to **produce** the analysis: "produce
+  it, then refute your own claims" is not a natural tool-call juncture, so the model
+  produces and ships without loading the governor. Wording cannot manufacture that
+  pause. Spot-check: SF1 NEW r1 produced a full 2,880-char analysis, reached its
+  deliver moment, invoked no governor — the expected fail mode, not a crash.
+- Evidence: `results/2026-07-15/phase1-advverify-RESULT.md`; pre-registration
+  `experiments/hypothesis-2026-07-15-advverify-analysis-trigger.md`; 36 transcripts
+  + both variants + runner `results/2026-07-15/phase1_advverify_ab/`. Flat 0/3 held
+  on a clean non-finance analysis (SF3, no web dependency), so it is not the
+  web-block confound.
+- Lesson: don't keep rewording adversarial-verify's description to catch
+  produce-an-analysis prompts — the ceiling is structural (produce-then-self-refute
+  has no tool juncture), matching DEAD-1/DEAD-2. The lever past it is **mechanical**
+  (a Claude Code hook that injects the pause), not prose. The repo SKILL.md was
+  never edited; the NEW wording is retained in the results dir as a
+  regression-free-but-inert artifact, not adopted.
+- **Migrated** 2026-08-12 from `claude/rivian-stock-analysis-h5y46x` (key unchanged — no collision).
+
+### Phase 2b SUCCESS — the enforcement lever closes the gap on Claude Code (2026-07-15)
+
+- Not an incident — a milestone worth recording beside the dead-ends. After DEAD-3
+  (wording can't) and INC-9 (requested receipt is gamed), the **Stop-hook
+  enforcement** (block a governed answer lacking a real governor load) drove the
+  verbatim Rivian incident prompt from **0/3 → 3/3**, all governed cases 3/3, zero
+  over-fire, zero confabulation (pre-registered, clean isolated-session run). This
+  is the "each and every time" the owner asked for — achievable where a mechanical
+  hook layer exists (Claude Code), still impossible on claude.ai (no hook layer).
+  The lever ladder is now empirically ordered: mechanical enforcement (works) >
+  description wording (DEAD-3, doesn't) > requested receipt (INC-9, gamed).
+- **Migrated** 2026-08-12 from `claude/rivian-stock-analysis-h5y46x` (key unchanged — no collision).
+
+### WIN-1 — The user-held lever: an explicit in-prompt cue fires the governor on claude.ai
+
+- Date: 2026-07-16 (owner's idea, tested). Status: **VALIDATED (proxy) + corroborated
+  on real claude.ai**. The first lever that works on claude.ai.
+- Finding: appending an explicit cue to the prompt converts an *uncued* prompt (0/3
+  governor loads — the incident) into a *cued* one that fires. Measured (claude.ai
+  proxy, Opus, N=3, `results/2026-07-16/in-prompt-cue-RESULT.md`): Rivian prompt +
+  "use your adversarial-verify skill" → **adversarial-verify 3/3**; + generic "run the
+  skills process" → a governor **3/3** (but plan-gate, not adversarial-verify — a vague
+  cue triggers the machinery, not necessarily the right governor); uncued → 0/3.
+- Why it matters: this is NOT in tension with DEAD-3/INC-8/INC-11 (those are *automatic*
+  firing on *uncued* prompts, which fails). It is *user-cued* firing, which succeeds —
+  as the positive control (2/2) and the real-claude.ai 7/7 cued acceptance already
+  showed. So it inherits external validity from a true-surface result.
+- Lesson: on claude.ai (no hook layer), the reliable lever is **the user, in the
+  prompt**: name the skill you want ("use your adversarial-verify skill on this") and
+  it loads deterministically here (3/3). Not automatic — the user must remember — but
+  it works where no prose-to-the-model lever does. On Claude Code the Phase-2b Stop
+  hook removes the need to remember. The full lever map is now: **Claude Code →
+  automatic mechanical enforcement (Stop hook, 3/3); claude.ai → user-cued by name
+  (3/3) or nothing reliable.**
+- **Migrated** 2026-08-12 from `claude/rivian-stock-analysis-h5y46x` (key unchanged — no collision).
+
+### WIN-2 / CORRECTION — A blunt always-on instruction DOES fire ~83% automatically on claude.ai (my earlier "not closable with prose" was too strong)
+
+- Date: 2026-07-16. Status: **corrects the record** (INC-11 provenance said the
+  Rivian-class gap is "not closable with prose on claude.ai"; that was overstated).
+- Finding: an *automatic* standing instruction fires the governor without any keyword
+  — IF the wording is blunt enough. Tested (claude.ai proxy, Opus, N=3,
+  `results/2026-07-16/alwayson-gauntlet-RESULT.md`) with "Run the full GAUNTLET
+  process on EVERY non-trivial task automatically — actually load the skills with the
+  Skill tool — whether or not I type the word": Rivian analysis adversarial-verify
+  **2/3**, GraphQL **3/3** (real loads, raw-grep verified), trivia **0/3** and casual
+  **0/3** (no over-fire), confabulation 0. Pooled governed ~83%.
+- Why it corrects earlier work: my 0/3 conclusions were on the *softer* wordings
+  (operating-discipline pointers; the conditional "load is the procedure" clause).
+  The blunt unconditional "actually load on EVERY task, whether or not I type it"
+  crosses a wording threshold they didn't. So the earlier "prose can't do it
+  automatically" was specific to those wordings, not a law about prose.
+- Honest bound (don't over-correct the other way): ~83% is "usually, automatically",
+  NOT the hook's 100%. Rivian was 2/3 (flaky on the web-derailed turn); N=3, proxy
+  surface; still prose → gameable on any given turn. R3: a flaky target isn't a
+  guarantee. Only the Claude Code Phase-2b Stop hook enforces 3/3.
+- Lesson: (a) intellectual-honesty correction — a blunter always-on instruction beats
+  the softer pointers by a lot (0/3 → ~83%), so "not closable with prose" was wrong;
+  the accurate statement is "not *guaranteed* with prose — the hook is the only 100%."
+  (b) Wording bluntness/unconditionality is itself a lever I under-weighted; DEAD-3
+  was about skill *descriptions*, not *instruction* imperatives, and doesn't
+  generalize to "no instruction wording can help." (c) Best claude.ai design =
+  always-on rule (automatic ~83%) + GAUNTLET keyword (manual 3/3 override).
+- **Migrated** 2026-08-12 from `claude/rivian-stock-analysis-h5y46x` (key unchanged — no collision).
+
+### WIN-3 — GAUNTLET confirmed on the REAL claude.ai surface (owner-relayed, 2026-07-16)
+
+- Date: 2026-07-16. Status: **real-surface confirmation** — upgrades WIN-1/GAUNTLET
+  from proxy-validated to confirmed on true claude.ai.
+- Finding: the owner ran "research the spin360 fan… Run the Gaunlet" on real
+  claude.ai. Full governance fired: a substantive **plan-gate** block (Goal /
+  Unknowns / Plan / Assumption A1 / Success criteria) BEFORE the answer, and
+  **adversarial-verify** after (C1/C2 graded PASS, a real refutation of the
+  "independent" blog review's possible affiliate bias, caveat flagged), plus a
+  truthful "Skills fired: plan-gate, adversarial-verify" receipt. Evidence:
+  `results/2026-07-16/gauntlet_real_surface/` (writeup + verbatim session).
+- Three sub-findings: (a) **typo-tolerant** — the owner typed "Gaunlet" and it still
+  fired. (b) **No confabulation** — unlike INC-11, the receipt was backed by full
+  visible signatures, not a bare ✓; the GAUNTLET-scoped "name which fired" works
+  because it rides on actual firing, vindicating the INC-11 revert of the free-
+  floating receipt law. (c) **Governance improved the answer** — adversarial-verify
+  flagged solicited "collected from invite" reviews, unverifiable marketing
+  testimonials, and possible affiliate bias, exactly the scrutiny the original
+  Rivian incident lacked.
+- Bound: N=1 real-surface, owner-relayed; "fired" judged by signature (tool-load not
+  observable on claude.ai, same bar as the 7/7 acceptance). Recorded as a dated
+  observation, not a rate. The re-paste-owed drift item appears resolved (GAUNTLET
+  had to be in the settings box for this to work).
+- Lesson: the lever the owner most wanted now works end-to-end on their real surface.
+  Full validated map: Claude Code hook = 100% automatic; claude.ai always-on = ~83%
+  automatic; claude.ai GAUNTLET keyword = manual, now real-surface-confirmed and
+  typo-tolerant.
+- **Migrated** 2026-08-12 from `claude/rivian-stock-analysis-h5y46x` (key unchanged — no collision).
+
+### WIN-4 — ALWAYS-ON fired on real claude.ai with NO trigger word; scope-fence caught a live credential
+
+- Date: 2026-07-16 (owner-relayed). Status: **real-surface confirmation of the
+  always-on rule** (WIN-2 was the proxy; this is true claude.ai) + first real-surface
+  scope-fence fire. Recorded ABSTRACTLY — the source email contained a real coworker's
+  plaintext password and personnel PII, so it is deliberately **not archived
+  verbatim** (recording it would be the exact exposure scope-fence flagged; a small
+  live demonstration of the data-handling discipline).
+- Finding: the owner asked claude.ai to "break this To-Do email into a clear task
+  list" — an uncued deliverable, **no GAUNTLET typed**. All three applicable governors
+  fired automatically: **plan-gate** (Goal / Knowns / Unknowns / Assumption A1 /
+  Success criteria before the list), **adversarial-verify** (criteria graded PASS with
+  evidence, a real refutation — noted the email says to notify a contact it never
+  identifies — Status delivered-assuming-A1), and **scope-fence**, which flagged an
+  adjacent security problem (a plaintext password sitting in the pasted email) as
+  out-of-scope, offered a ~2-min fix, and did NOT touch it.
+- Why it matters: (a) confirms the ~83% always-on default fires on the real surface
+  without a codeword; (b) **scope-fence fired on a genuine real-world task** — notable
+  because scope-fence was the hardest to trigger in testing (DEAD-1: unfireable via
+  description on inline-code prompts). Here a real adjacent issue existed, and it
+  behaved textbook: flagged, didn't silently fix, stayed in scope. (c) The governance
+  produced concrete value — surfacing a real credential exposure the owner should
+  remediate (reset + scrub from thread).
+- Bound: N=1 real-surface, owner-relayed, signature-judged (tool-load not observable
+  on claude.ai). Dated observation, not a rate.
+- Lesson: the two automatic claude.ai rungs are now both real-surface-confirmed —
+  GAUNTLET-cued (WIN-3) and always-on-uncued (this). And a reminder in practice: when
+  recording examples that contain secrets/PII, record the finding, not the artifact —
+  don't commit the sensitive content (here: no password, no personnel details, no
+  verbatim email in the repo).
+- **Migrated** 2026-08-12 from `claude/rivian-stock-analysis-h5y46x` (key unchanged — no collision).

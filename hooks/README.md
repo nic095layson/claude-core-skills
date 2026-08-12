@@ -117,3 +117,36 @@ carried by the custom-instructions block alone
 (`instructions/claude-ai-custom-instructions.md`, standing principles). This
 hook hardens the surface where the incident did *not* happen. That is worth
 having and is not a substitute for the paste.
+
+## governance-trigger.py + governance-enforce.py (RESCUED 2026-08-12, validated 2026-07-15, NOT installed)
+
+**The strongest enforcement artifact this repo has, and it was stranded for a
+month.** A `Stop` hook pair that answers the question the prose layer cannot:
+*did a governor actually load on a turn that needed one?* If the turn is
+governed-class and no governor Skill loaded, it **blocks and forces the load**.
+
+Validated 2026-07-15 (pre-registered OFF-vs-ENFORCE A/B, isolated sessions):
+**every governed case loads adversarial-verify 3/3, including the verbatim
+incident prompt that scored 0/3 unenforced** — both should-not cases stayed
+silent 0/3, confabulation 0. Mechanism confirmed in the transcripts: model skips
+→ `GOV-ENFORCE` block → loads. Full record: `results/2026-07-15/phase2b_enforce_ab/`.
+
+Two design choices its own A/B proved necessary, and both are load-bearing:
+- **Enforce, don't request.** Injecting "load the skill" works; asking the model
+  to *emit a receipt* that it loaded produces confabulated receipts (INC-13 —
+  4 confabulations vs 0). Never ask a model to certify its own compliance.
+- **A classifier anti-ceremony gate.** `governance-trigger.py` classifies the
+  prompt first, so trivia is never injected into. Without it the hook would
+  violate invariant 5 on every casual message.
+
+Recovered from `claude/rivian-stock-analysis-h5y46x` (unmerged, INC-11 route).
+Both compile clean (`python3 -m py_compile`, 2026-08-12). **Not installed and not
+re-validated against the current CLI** — the A/B is 4 weeks old and `claude` has
+moved (v2.1.228 here). Re-run `results/2026-07-15/phase2b_enforce_ab/` before
+trusting the 3/3 on today's version.
+
+Relationship to `receipt-law-stop-gate.sh`: complementary, not competing. This
+pair enforces **that a governor loads**; that one enforces **that a claim of
+inability carries a receipt**. Both are `Stop` hooks and can coexist.
+
+**Surface limit:** Claude Code only. claude.ai has no hook layer.
