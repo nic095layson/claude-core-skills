@@ -194,6 +194,26 @@ on the branch itself, so there was nothing to lose. That discrepancy is why the
 per-commit check was run at all; the file-count check alone would have been a
 weaker basis than it looked.
 
+**DELETION ATTEMPTED-FAILED (2026-08-12).** `git push origin --delete <branch>`
+returned **HTTP 403** for all three. This session's git credentials can create and
+update refs but not delete them; the GitHub MCP surface exposes `create_branch`
+with no delete counterpart, so there is no second route from here. The branches
+are still on the remote, verified with `git ls-remote --heads`. **Owner action to
+finish:** run the three commands below from a machine with delete rights, or use
+the GitHub branch UI.
+
+```bash
+git push origin --delete claude/chat-error-verification-fix-flq49c
+git push origin --delete claude/product-output-skill-research-jt42nu
+git push origin --delete claude/sonnet-opus-verification-prompt-746x8n
+```
+
+*Recorded honestly rather than as "done": a first pass of this command printed
+"deleted" for all three because the shell `&&` was chained to a `tail` that
+succeeded while the push underneath it failed. The branches were still there. The
+verification that caught it was `git ls-remote`, not the command's own output —
+a command's exit path is not evidence that the thing it names actually happened.*
+
 **Any of these can be restored** with
 `git push origin <sha>:refs/heads/<branch-name>`:
 
