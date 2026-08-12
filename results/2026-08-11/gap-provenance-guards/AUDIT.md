@@ -151,3 +151,48 @@ and validated against the verbatim INC-9 text, but never run inside a real
 session (`NOT-ATTEMPTED`, by choice: it is a proposal, not installed). Uncued
 firing of the patched skills remains `NOT-ATTEMPTED` for the same reason given in
 `RESULTS.md`.
+
+---
+
+## Final pre-merge validation (2026-08-12, post-upload)
+
+Re-run in full after the owner uploaded the three skills and re-pasted the
+instructions block. **Result: full PASS, merged.**
+
+| Check | Result |
+|---|---|
+| Working tree clean · local == remote · 4 commits ahead | PASS |
+| Fast-forwardable onto `main`; merge conflicts | PASS · **0** |
+| `lint_skill.sh` × 19 skills | **19 PASS**, 0 warnings |
+| Frontmatter byte-identical to pre-patch baseline × 19 | **19/19 identical** |
+| Files deleted / renamed on branch | **0 / 0** |
+| Eval JSON valid (11) · shell syntax (6) · exec bits | PASS |
+| Hook pipe-test | **10/10 PASS** |
+| All 24 patch mechanisms present in shipped text | **24/24** |
+| Document self-consistency (counts, rates, char totals) | PASS |
+| Ledger numbering duplicates | **0** |
+| **Install drift: synced == repo, all three skills** | **CLOSED** |
+| **Three-way match: package == repo == synced** | **3/3 YES** |
+
+**The drift is verified closed, live.** `/root/.claude/skills/synced/` re-synced
+during this check (directory mtime within seconds of the read) and all three
+patched skills now hash-match the repo — so the account-level copies carry Step 6,
+the receipt law, and the corrected rule 7. `application-tailor`, `brand-standard`
+and `scope-fence` remain untouched throughout, which is the control that makes
+the three-way match meaningful rather than coincidental.
+
+*Method correction, recorded because it would have produced two false failures:*
+the mechanism sweep initially reported rule 7's bash-loophole clause and
+plan-gate's cheap-unknown clause as **ABSENT**. Both were present; both grep
+patterns spanned a line wrap. Re-run with whitespace-normalized matching: 24/24
+present. This is the second time in this audit a mechanical check was itself the
+defect — the first was the link checker's 25 false positives. Recorded as the
+standing caveat: *a grep is only as good as its pattern, and a failing check
+earns the same scrutiny as a failing artifact.*
+
+**What this validation does NOT cover, stated per the law it enforces:** the
+claude.ai **instructions box** cannot be read from here. Its contents are
+`ATTEMPTED-FAILED` — no API path exists from this environment — and rest on the
+owner's report that the paste was completed. The skill uploads, by contrast, are
+`EVIDENCE`: hash-matched against the live synced copies above. The distinction is
+the point of the patch.
