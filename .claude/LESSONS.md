@@ -415,3 +415,38 @@ evidence → status. An entry without evidence is a rumor and does not belong he
   actually deployed*, which for claude.ai means copying the box out and diffing
   it. And measured, owner-confirmed work sitting on an unmerged branch is not
   saved; it is one paste away from being deleted by an author who cannot see it.
+
+### DRIFT-1 — The ledger forked three ways; three branches each wrote their own INC-9
+
+- Date: discovered 2026-08-12 during the repo-wide inventory
+  (`results/2026-08-12/repo-inventory/REPORT.md`).
+- Symptom: `INC-9`, `INC-10` and `INC-11` each name **different incidents** on
+  `main`, on `claude/rivian-stock-analysis-h5y46x`, and on
+  `claude/review-instructions-z0fhnb`. Nine entries, five numbers, no overlap in
+  meaning. Separately, `adversarial-verify` rules **6 and 7** are two different
+  pairs of rules on `main` (receipt law / aggregates-from-records, merged
+  2026-08-11) and on `claude/aba-perspective-taking-slides-kzbj3c`
+  (verify-at-source / a-broadly-failing-check-indicts-the-checker, 2026-07-21).
+- Root cause: the ledger and the governors both use **monotonic integers assigned
+  at authoring time**, on long-lived branches, with no reservation mechanism. Two
+  sessions working in parallel both take the next free number, correctly, and
+  neither can see the other. The rule "never renumber existing entries — later
+  references depend on them" makes this unfixable *after* the fact by the obvious
+  route: whichever branch merges second cannot simply shift.
+- Evidence: `git show <branch>:.claude/LESSONS.md | grep '^### INC-(9|10|11)'`
+  across the three branches, run 2026-08-12; `git show
+  origin/claude/aba-perspective-taking-slides-kzbj3c:.claude/skills/adversarial-verify/SKILL.md`
+  for the rule collision. Full table in the inventory report.
+- Status: **OPEN — blocking.** Nothing merges cleanly until this is resolved. The
+  reconciliation must **re-key, not renumber**: give colliding entries a
+  date-and-origin key (`INC-2026-07-16-01`) or a suffix (`INC-9a/9b/9c`), keep
+  every original number resolvable, and update every citing file in the same
+  commit. INC-11 already showed what happens when a branch's record is treated as
+  disposable.
+- Lesson: **monotonic integers are a merge conflict waiting to happen in any
+  artifact edited on parallel branches.** A ledger key should be collision-proof
+  at authoring time — date plus a short origin token — so two sessions that never
+  see each other cannot mint the same identifier. Same for numbered rules inside
+  a governor: prefer named rules over positional ones, or reserve ranges per
+  branch. Check the ledger's highest number **on every branch**, not just the one
+  you are on, before appending.
