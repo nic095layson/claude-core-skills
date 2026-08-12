@@ -62,3 +62,39 @@ Install (user scope):
 Pipe-tested all three paths PASS 2026-08-03 (repo copy, this session,
 including the "spent all afternoon" variant). Live-fire and A/B owed, same
 experiment file.
+
+## receipt-law-stop-gate.sh (PROPOSED 2026-08-12, pipe-tested, NOT installed)
+
+The lever for INC-9. A **Stop** hook — the first in this pack that may *block*
+rather than remind, and the reason it may is worth stating: the house rule
+against blocking exists because a hook cannot judge triviality. This one never
+has to. It asks a textual question with a factual answer — *does this claim of
+inability name an attempt and a failure mode?* — and blocks only when the answer
+is no. Once per turn, never on a continuation it caused, fail-open on any error.
+
+**The design correction that matters.** The first version passed any turn in
+which some verification tool had run. Tested against the real incident, that
+**allowed it**: the founding session ran three searches, stopped, and then wrote
+"couldn't verify" about eight items it had never touched. *Some tool ran* proves
+nothing about a *specific* claim. The receipt is owed per claim, not per turn —
+so the tool count now only enriches the block message and never grants a pass.
+The regression is pinned as selftest case `t3-tools-ran-no-receipt`.
+
+Install (user scope):
+1. `cp hooks/receipt-law-stop-gate.sh ~/.claude/hooks/` and `chmod +x` it.
+2. Merge into `~/.claude/settings.json`:
+   `{"hooks":{"Stop":[{"hooks":[{"type":"command","command":"bash ~/.claude/hooks/receipt-law-stop-gate.sh","timeout":10}]}]}}`
+3. Verify: `bash hooks/selftest-receipt-law.sh` (expects 10/10 PASS), then
+   observe a real turn that claims an unreceipted inability.
+
+Pipe-tested 10/10 PASS 2026-08-12, twice consecutively (repo copy, this
+session), plus a fixture built from the **verbatim INC-9 report text** including
+its three real `WebSearch` calls: v1 → BLOCK, corrected v2 → ALLOW. Live-fire
+and A/B owed (`experiments/hypothesis-2026-08-11-gap-provenance.md`, H8).
+
+**Surface limit, stated plainly:** Claude Code only. claude.ai has no hook
+layer, and INC-9 happened on claude.ai — so on that surface the receipt law is
+carried by the custom-instructions block alone
+(`instructions/claude-ai-custom-instructions.md`, standing principles). This
+hook hardens the surface where the incident did *not* happen. That is worth
+having and is not a substitute for the paste.

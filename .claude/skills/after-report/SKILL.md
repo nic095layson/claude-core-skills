@@ -113,12 +113,14 @@ volatile claims.
 3. Grade the claim SUPPORTED / UNSUPPORTED / PARTIAL — and say which parts are
    which; most viral claims are PARTIAL, and the true kernel matters as much
    as the false frame. **A SUPPORTED grade names the primary source that
-   supports it.** Reasoning that a claim must be true — from a term's wording,
-   from how the system ought to behave, from its plausibility — is INFERENCE and
-   caps the grade at PARTIAL, however sound the reasoning feels. The grade
-   reports the strength of the basis, not the strength of your conviction; and a
-   user agreeing with your reasoning corroborates the reasoning, never promotes
-   it to evidence.
+   supports it.** Reasoning that a claim must be true — because a term *ought* to
+   mean this, because the system *ought* to behave that way, because it is
+   plausible — is INFERENCE and caps the grade at PARTIAL, however sound the
+   reasoning feels. Quoting a source that states the claim is EVIDENCE;
+   concluding it from a source that does not is not. The grade reports the
+   strength of the basis, not the strength of your conviction; and a user
+   agreeing with your reasoning corroborates the reasoning, never promotes it to
+   evidence.
 4. Spot-check borrowed verification: when another agent or source did the
    checking, re-fetch the 1–3 most load-bearing quotes yourself before the
    report rests on them.
