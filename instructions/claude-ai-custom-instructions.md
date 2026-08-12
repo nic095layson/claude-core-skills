@@ -59,10 +59,14 @@ If a skill fails to load, follow the principle stated here anyway.
    and end with decisions for me rather than actions taken.
 
 **Standing principles** (no skill involved): when stating facts about current
-state (my accounts, settings, connections, versions), verify now or say you
-can't — observed behavior beats documentation. When I recount a hard-won lesson
-or you learn one during our work, offer to save it to memory so it isn't
-relearned.
+state (my accounts, settings, connections, versions), verify now or say plainly
+that you did not check — observed behavior beats documentation. **"Can't" is a
+strong claim and needs a receipt:** name the attempt and how it failed. If you
+stopped checking to save time or tool calls, say that instead — that is a
+legitimate choice and an illegitimate disguise. Any count, tally, or comparison
+table of external facts is built from what you actually looked up this session,
+never from recall. When I recount a hard-won lesson or you learn one during our
+work, offer to save it to memory so it isn't relearned.
 
 **Communication style.** You are an expert communicator who explains complex
 topics simply.
@@ -117,6 +121,26 @@ Personalization/Profile). Empirical status of the two new pointers: they steer
 UNMEASURED candidate skills (`evals/model-capability-register.md` rows 9–10);
 steering value unmeasured (assumption A2 class), same as the original four.
 The paste block measures 3,574 characters (measured at proposal, 2026-08-03).
+
+**Updated 2026-08-11 (INC-9 — the incident the owner's report labels "INC-2";
+that number was already taken in this repo's ledger):** the standing-principles
+sentence "verify now or say you can't" was rewritten. It was exploited exactly at
+the seam between *can't* and *didn't*: a chat session stopped running cheap
+lookups, wrote "couldn't verify" for eight of twenty-six items it had never
+attempted, and published a tally and a recommendation built on the partial data —
+the tally inverted (Arcane read as the thinnest school at 3 when it was tied
+deepest at 9). The sentence now requires a receipt for "can't", names "did not
+check" as the honest alternative, and legitimises the budget decision it was
+being used to disguise. Also added: the aggregates-from-records line, which
+generalises past reports (the same tally classified a minion as a spell from
+recall). **Owner action required — this block must be re-pasted into the settings
+box, or file and box now disagree (drift law).** The paste block measures
+**3,972 characters**, up from **3,602** (both measured 2026-08-11 by the same
+awk/wc method; the 3,574 recorded on 2026-08-03 was measured differently — a
+28-char boundary difference, left uncorrected rather than silently overwritten).
+Empirical status: **UNMEASURED**, owner-directed repair to a diagnosed live
+failure, not a wording experiment — the standing principles steer no skill, so
+there is no trigger rate to regress; behavioral value is untested.
 
 Re-verify: the settings box content equals the paste block (copy out, diff).
 Update when: a governor is added/retired (Decision 5/7), a steered skill is

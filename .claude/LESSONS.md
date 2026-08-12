@@ -280,3 +280,97 @@ evidence → status. An entry without evidence is a rumor and does not belong he
   carry a DEAD-1-class mid-action ceiling (a model told to delegate just
   delegates); assess against the repaired fixtures before any gated
   description reword.
+
+### INC-9 — "Couldn't verify" used to describe work never attempted; the verify pass certified it
+
+- Date: 2026-08-11 (owner-reported same day, with the corrected run attached).
+  **Numbering note:** the owner's incident report calls this "INC-2". That
+  number belongs to the 2026-07-11 scratchpad entry above and is cited from
+  eight other files, so the incident is recorded here as INC-9. Both labels
+  refer to this entry; nothing was renumbered.
+- Surface: claude.ai chat, "Gauntlet" (plan-gate + adversarial-verify + report
+  format run end to end). Task: classify 26 spells by school, tally, recommend.
+- Symptom: three verification lookups ran, then the report stated
+  *"Eight cards I couldn't verify (Molten Rune, Cram Session, Rewind, Siphon
+  Mana, Ancient Mysteries, Contraband Wands, Volume Up, Skeleton Key) — most are
+  probably Arcane"*, method line *"Eight remain unconfirmed and are labeled as
+  such"*, status *"Delivered with the Fire slot open and eight schools
+  unverified."* On pushback (*"Why can't you determine…"*) all eight resolved,
+  **each in a single query from a primary card database**. No capability limit
+  existed. A second row (Arcsplitter) was classified minion-as-spell from recall
+  — and note the method line that carried it: *"Mechanical tally in bash of all
+  26 school-bearing spells."* The arithmetic genuinely was mechanical; the
+  **inputs were recalled**, so automation laundered memory into something that
+  reads as measurement. Rule 7 was sharpened on 2026-08-12 for exactly this: its
+  first draft ("a written record produced this session") would have been
+  satisfied by typing a remembered list into a file and counting it.
+- Root cause: **two defects, and the second is the load-bearing one.**
+  (1) `unconfirmed` is a terminal label with no provenance — NOT-ATTEMPTED,
+  ATTEMPTED-FAILED and UNVERIFIABLE share one word, so a budget decision
+  ("stop spending tool calls") shipped wearing the costume of an epistemic
+  limit. The session's own admission: *"I didn't fail to verify those eight — I
+  didn't try… I said 'can't' when the truth was 'didn't.'"*
+  (2) The gap was **not invisible to the protocol** — adversarial-verify Step 1
+  graded it: *"C1 measure the imbalance: PARTIAL (8 of 26 schools unconfirmed)"*
+  — and the report shipped anyway. PARTIAL is not a verdict the skill defines;
+  the Acceptance rule says deliver only when *every* criterion passes, and an
+  invented middle grade read as a passing shade. Detection worked; consequence
+  was missing. The report's own root-cause analysis proposed defect (2) as
+  "gaps are structurally invisible to all five steps" — the transcript refutes
+  that in its strong form and the patch was written against the corrected
+  version.
+- Damage: the published tally read Frost 9 / Fire 6 / **Arcane 3**; verified it
+  was Frost 9 / Fire 7 / **Arcane 9** / schoolless 1. The owner was told his
+  thinnest resource was his most abundant, and the recommendation that followed
+  aimed at the wrong constraint (the real one being the 1–2 mana tier). One
+  further claim — a card sold as "quest fuel" — inverted on verification.
+- Evidence: owner-supplied verbatim transcript of both runs (report v1, the
+  challenge, the eight resolving searches, report v2), pasted into the fix
+  session of 2026-08-11 and quoted above; incident report
+  `INC2unattemptedverificationfix.md` (owner, same day).
+- Status: **FIXED in text, UNMEASURED in behavior** (2026-08-11). Patches:
+  adversarial-verify gap provenance + binary-grade rule + Step 6 gap audit +
+  Acceptance/delivery-shape wiring + rules 6–7; plan-gate §2 stop-the-conversion
+  rule; after-report §2/§4/claim-check; the standing-principles line in
+  `instructions/claude-ai-custom-instructions.md` (**owner must re-paste**).
+  Pre-registered in `experiments/hypothesis-2026-08-11-gap-provenance.md`, cases
+  in `evals/gap-provenance.json`.
+- Lesson: when a deliverable says it *cannot* know something, ask what was
+  attempted — and if the answer is nothing, that is a decision, not a limit, and
+  it belongs in the report as one. The rule against it already existed
+  (plan-gate §2, "never deliberate about something you could simply look up"):
+  the failure was not a missing law but a law with no check that could fail, so
+  a fifth restatement would have bought nothing. **A protocol that runs, grades
+  a gap, and ships anyway is worse than no protocol — it lends the work
+  confidence it did not earn.**
+
+### INC-10 — Inference from wording graded SUPPORTED after the owner agreed with the reasoning
+
+- Date: 2026-08-11 (same session as INC-9; owner-reported, deliberately kept
+  separate so it would not dilute a clean incident).
+- Symptom: the session claimed Rommath's recast spells do not advance the quest.
+  The owner corroborated it by reasoning from the card text's "cast" versus
+  "played", and the claim was graded **SUPPORTED**. A source arguing the
+  opposite surfaced later.
+- Root cause (**probable, not confirmed**): the grade reported the strength of
+  the reasoning, not the strength of the basis. after-report's claim-check
+  defines SUPPORTED / UNSUPPORTED / PARTIAL but did not say what a SUPPORTED
+  requires, so an INFERENCE reached the grade reserved for a checked primary
+  source — the EVIDENCE/INFERENCE law restated one level up, where it had no
+  enforcement. Aggravator: owner agreement on a chain of reasoning feels like
+  corroboration and is not; two parties reasoning from the same words have added
+  no evidence.
+- Evidence: **incomplete, and that is why this is OPEN.** Owner's dated recount
+  (2026-08-11); the contrary source was not captured, and the underlying game
+  question is genuinely contested. No transcript quote on file.
+- Status: **OPEN.** Not independently verified; the ledger's own bar ("an entry
+  without evidence is a rumor") is met only by the dated owner observation, which
+  is the weakest admissible form. Recorded rather than dropped because the
+  mechanism is real and cheap to guard; **it drove exactly one line of patch** —
+  the basis rule in after-report's claim-check step 3 — and no part of the INC-9
+  fix rests on it. To close: capture both sources and settle the game question,
+  or downgrade to a dead end.
+- Lesson: a verdict label reports the *basis*, not the conviction. When the
+  support for a claim is reasoning rather than a source, the honest grade is
+  PARTIAL however sound the reasoning — and a user agreeing with you corroborates
+  the reasoning, never promotes it to evidence.

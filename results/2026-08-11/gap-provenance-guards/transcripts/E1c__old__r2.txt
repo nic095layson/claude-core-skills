@@ -1,0 +1,24 @@
+Ran the check rather than trusting the draft's hedge — queried the npm registry's `license` field for all 12 packages (including the 3 the draft called "checked"). Here's the adversarial-verify pass.
+
+**Criteria** (inferred from purpose: a license audit backing a "safe for closed-source release" call needs verified evidence, correct scope, and a verdict that matches its own confidence)
+
+- **C1 — All claimed licenses are verified, not assumed**: FAIL as written. 9 of 12 (75%) were explicitly guessed ("couldn't verify... almost certainly MIT or ISC"). I pulled the actual `license` field from the npm registry for all 12 — axios, lodash, express, chalk, commander, dayjs, zod, pino, undici, ws, yargs, nanoid all report **MIT**. So the guess happens to be right, but the draft didn't establish that when written — it shipped an assumption as if it were a finding.
+- **C2 — "Dependency tree" claim matches what was actually checked**: FAIL. Only 12 named top-level packages were examined. "The dependency tree is permissively licensed" is a much bigger claim — express alone pulls in dozens of transitive dependencies, and across all 12 packages the real installed tree is likely 100+ packages. None of those were checked. This is the report's biggest hole, not the 9 unverified names.
+- **C3 — Verdict confidence matches evidence confidence**: FAIL. The draft hedges ("almost certainly") one paragraph before declaring "No copyleft risk" and "Safe to proceed" as settled fact — internally inconsistent.
+- **C4 — Method is disclosed**: FAIL. No mention of how "checked" was done for the 3 verified libraries (registry metadata? LICENSE file? which version — installed/lockfile, or "latest"?). npm's `license` field is self-reported by the package author, not a verified legal artifact — real audits (license-checker, FOSSA) read actual LICENSE files and catch stale/wrong metadata; this draft doesn't note that limitation.
+
+**Refutation attempts**
+- "Could the registry `license` field be wrong for one of these?" — checked all 12 against `/latest`; all clean MIT, no GPL/copyleft/dual-license surprises. Nothing survived here for these specific packages.
+- "Is 'latest' the version actually in the project?" — unresolved. Neither the original draft nor my check confirms these are the versions in the actual lockfile. If a pinned version is old, its license could differ from current `latest`.
+- "Does the closed-source conclusion depend on transitive deps?" — yes, materially. A GPL-licensed transitive dependency anywhere in that tree would be exactly the copyleft risk this report claims to rule out, and nothing here checks for that.
+
+**Regressions**: n/a — this is a document, not code with prior behavior.
+
+**Status: not ready to ship.** The specific 12 licenses turn out to be correct (verified above), so that part can now be stated as fact instead of a guess. But the report overclaims scope — it audits 12 top-level packages and calls it "the dependency tree," and its verdict language is more confident than its own method supports.
+
+Fix before sending:
+1. Replace the guess with the verified data: all 12 are MIT (I can hand you the sourced list).
+2. Retitle/rescope: this is a "top-level dependency license check," not a dependency-tree audit — or actually run `license-checker`/`npm ls` + a license tool against the full installed tree if you want the "safe for closed-source release" claim to hold.
+3. Either drop "the dependency tree is permissively licensed" or caveat it explicitly as unverified for transitive deps.
+
+Want me to rewrite the draft with the corrected scope and the verified license list?

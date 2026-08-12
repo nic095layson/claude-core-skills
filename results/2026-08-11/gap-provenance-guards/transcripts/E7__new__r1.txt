@@ -1,0 +1,8 @@
+Which game is this for? I can pull current tier-list/win-rate data once I know that.
+
+A couple of things worth flagging up front regardless of the game:
+
+- **Six days in, sample sizes are small.** Early-season win rates swing hard as the playerbase figures out the meta — "definitive" this early is a bit of a contradiction. I can give you the current snapshot, but I'd frame it as "week 1 read" rather than settled.
+- **I'll need to search live sources** (stats sites, patch notes, pro/high-elo data) rather than rely on memory, since this is post-cutoff or fast-moving info either way.
+
+Tell me the game (and if relevant, the mode/rank bracket you care about — e.g., ranked ladder vs. pro play), and I'll build the list.

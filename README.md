@@ -125,10 +125,27 @@ The source repo is **private** — the `gh api` re-verification one-liners in
 those sections require owner access; everyone else should treat the lineage as
 historical record.
 
-## Status (as of 2026-08-10)
+## Status (as of 2026-08-11)
 
-All 18 skills lint with zero FAILs (`diagnostics-and-tooling/scripts/lint_skill.sh`,
-re-run 2026-08-10). The lint now also enforces the 1024-char description limit
+**2026-08-11 — INC-9 repair (the "unattempted verification" hole).** A chat
+session shipped a tally and a recommendation built on eight of twenty-six items
+it described as ones it "couldn't verify" but had never looked up — and the
+adversarial-verify pass ran, graded the coverage criterion PARTIAL, and delivered
+anyway. Patched: gap provenance (`NOT-ATTEMPTED` / `ATTEMPTED-FAILED` /
+`UNVERIFIABLE`) defined once in `adversarial-verify` and referenced elsewhere,
+the receipt law, a new **Step 6 gap audit** with the load-bearing test wired into
+the Acceptance rule, aggregates-from-records, plan-gate's stop-the-conversion
+rule, after-report's Bounds split, and the standing-principles line in
+`instructions/` (**owner must re-paste that one**). Measured same day on
+`claude-sonnet-5`: cued mechanism 4/4 vs 0/2 baseline, proportionality guard
+2/2 no-regression, honest-limit control 8/8 no-regression, **uncued value
+unmeasured** — full record and bounds in
+[`results/2026-08-11/gap-provenance-guards/`](results/2026-08-11/gap-provenance-guards/RESULTS.md),
+ledger entries `.claude/LESSONS.md` INC-9 and INC-10 (OPEN).
+
+All 19 skills lint with zero FAILs (`diagnostics-and-tooling/scripts/lint_skill.sh`,
+re-run 2026-08-11; the count read "18" here since 2026-08-10 and was one behind
+the tree — corrected against a live `ls`, not by trusting the line). The lint now also enforces the 1024-char description limit
 from INC-3, with a warning band above 1000 — no skill currently warns; the
 longest description (plan-gate) sits exactly at the 1000 boundary, so a single
 added word enters the band. On PyYAML-less machines the verdict is `PASS (with

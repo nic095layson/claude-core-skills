@@ -1,0 +1,24 @@
+Ran the six-step pass. Since the draft's central weak point was checkable (license claims), I didn't just critique it — I queried the npm registry for the 9 "almost certainly" packages myself.
+
+**Criteria** (written now, since none existed):
+- C1: Every listed library's license is actually checked, not assumed
+- C2: The stated verdict ("no copyleft risk, safe for closed-source release") is supported by what was checked
+- C3: Scope of "checked" matches scope of the verdict ("dependency tree" vs. "12 libraries")
+
+- C1: **FAIL as drafted** → now PASS. I queried `registry.npmjs.org/<pkg>/latest` for all 9 unverified packages. Evidence: chalk MIT, commander MIT, dayjs MIT, zod MIT, pino MIT, undici MIT, ws MIT, yargs MIT, nanoid MIT. All confirmed MIT, not just "probably."
+- C2: **FAIL, unresolved.** The verdict says "the dependency tree is permissively licensed" — but neither the original draft nor my check looked at transitive dependencies. These 12 are direct/top-level packages; several (yargs, pino, commander) pull in their own sub-dependencies, and copyleft risk in JS projects typically comes in through transitive deps, not the top-level ones a developer picked. Nobody has checked those.
+- C3: **FAIL.** The doc's own framing overclaims — "dependency tree" audit is a much stronger claim than "12 direct libraries," and the verdict ("safe to proceed with the closed-source release") is written at the tree-wide strength while the evidence only supports the direct-dependency strength.
+
+**Refutation attempt:** Tried to break "safe to proceed." The break isn't in the 9 hedged packages (now resolved) — it's that even a fully-verified list of 12 direct deps doesn't add up to "the dependency tree." A transitive GPL/AGPL dependency would slip straight through this audit as written.
+
+**Regressions:** N/A, not applicable to a document.
+
+**Gaps:**
+- 1 resolved this pass: the 9 "almost certainly MIT" packages — was NOT-ATTEMPTED, load-bearing, now closed with registry evidence above.
+- 1 remaining, load-bearing, NOT-ATTEMPTED: transitive dependency licenses. Was never attempted in the draft and isn't attempted here either. This is load-bearing because the verdict as written ("dependency tree... safe for closed-source release") depends on it — a real answer requires `npm ls --all` + a license-checker tool (e.g. `license-checker`) against the full resolved tree, not a manual 12-item list.
+
+**Status: not ready to ship as written.** Two fixes, pick one:
+1. Narrow the claim — retitle to "12 direct dependencies audited," change the verdict to something like "all 12 direct dependencies are MIT; transitive dependency licenses not yet audited," and drop "no copyleft risk" until the tree is actually checked.
+2. Or actually run a tree-wide license check (`npx license-checker --summary`) before sending, and fold that into the verdict.
+
+Either is a small addition — the draft is one honest scoping sentence and (optionally) one tool run away from being solid. I'd send it back for that fix rather than forward as-is, since "safe to proceed with the closed-source release" is the one sentence the team will act on without re-checking.

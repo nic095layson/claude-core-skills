@@ -1,0 +1,23 @@
+All 12 packages check out as MIT per the npm registry's license metadata — I verified this directly rather than trusting the draft's "almost certainly" guess. Here's the adversarial-verify pass:
+
+**Criteria** (inferred, since none were pre-committed — this is a license audit meant to justify a closed-source release decision)
+- C1: All 12 libraries' licenses actually confirmed — **FAIL as drafted**. Only 3/12 were checked; 9/12 were guessed ("almost certainly MIT or ISC"). I ran the actual npm registry lookups just now: chalk, commander, dayjs, zod, pino, undici, ws, yargs, nanoid, plus axios/lodash/express — **all 12 report `license: MIT`**. So the underlying claim is now true, but the draft as written did not establish it.
+- C2: Verdict follows from evidence, not inference — **FAIL as drafted**. "No copyleft risk. Safe to proceed with the closed-source release" was resting 75% on a guess about popular packages generally being permissive, which is not a valid substitute for checking — plenty of popular npm packages are GPL/LGPL/AGPL (e.g., some CLI/PDF/image tools).
+- C3: Audit scope matches what's needed to greenlight a closed-source release — **open, not resolved**. See gap below.
+
+**Refutation attempt**
+- Tried: "one of the 9 unverified packages is copyleft" → refuted by actual lookup, all MIT.
+- Tried: "the verdict claims the *dependency tree* is clean, but the draft only names 12 top-level libraries" → this survives. `express`, `axios`, `ws`, `yargs`, etc. each pull in dozens of transitive dependencies. The draft's own words say "dependency tree," which is a broader claim than "the 12 packages I listed." Nothing in the draft says whether transitive deps were included or excluded.
+- Tried: "license field checked is for `latest`, not necessarily the version pinned in the project's lockfile" — a package's license can legally change between versions (rare but real, e.g. relicensing controversies). Not checked either way.
+- Stranger test: a teammate reading this can't tell whether "12 libraries" means the full tree or just direct deps — ambiguous enough to cause a wrong read of what was actually covered.
+
+**Regressions** — N/A, no prior artifact to regress against.
+
+**Gaps**
+1. 9/12 license lookups: was `NOT-ATTEMPTED` in the draft despite being a one-call check — **load-bearing** (directly under the "no copyleft risk" verdict). Resolved now: all 12 confirmed MIT via npm registry metadata.
+2. Transitive dependency coverage: `NOT-ATTEMPTED`, and I can't resolve it without the project's actual `package-lock.json`/`npm ls` output, which wasn't provided — **load-bearing**, since the verdict says "dependency tree" not "these 12 packages." Conclusion should stay `candidate` until someone runs `npm ls --all` (or a tool like `license-checker`) against the real lockfile.
+3. Version-pinned vs. `latest` license drift: not checked — low stakes for these specific packages (none have a history of relicensing), noted but not load-bearing enough to block.
+
+**Status: not ready to ship as written.** Two fixes before sending:
+1. Replace "I couldn't verify... almost certainly MIT or ISC" with the actual confirmed result (all 12 are MIT) — don't ship a guess dressed as near-certainty when the real check takes one npm lookup per package.
+2. Either scope the verdict explicitly to "these 12 direct dependencies" (drop "dependency tree" language), or actually run a full transitive scan (`npx license-checker --summary` against the real lockfile) before claiming the tree is clean — that's where copyleft risk (GPL/LGPL) typically hides in practice, not in well-known top-level packages.

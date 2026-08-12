@@ -58,6 +58,19 @@ act on without reading further.
   but a lead. Mark EVIDENCE vs INFERENCE wherever a reader could confuse them.
 - Raw supporting artifacts (agent outputs, transcripts, JSON) are committed
   beside the report, not summarized away.
+- Unknowns carry gap provenance — `NOT-ATTEMPTED` / `ATTEMPTED-FAILED` /
+  `UNVERIFIABLE`, defined in **adversarial-verify**'s Terms — never a bare
+  "unconfirmed". The taxonomy exists because EVIDENCE/INFERENCE is binary, so an
+  item nobody looked at has nowhere honest to sit and drifts into INFERENCE,
+  which implies reasoning from evidence. It was not reasoning from anything.
+- **The receipt law.** "Couldn't verify", "unable to confirm", "not available",
+  "no data exists" and their variants may appear only in a sentence that also
+  names what was attempted and how it failed. No attempt to cite → write **"did
+  not check"**. This applies to every inability claim in the report, the Bounds
+  section included: "not covered" is honest, "could not be covered" needs a
+  receipt.
+- Counts, tallies, and comparison tables follow adversarial-verify's rule 7 —
+  assembled from a record produced this session, never from recall.
 
 ### 3. Verdicts, tiered
 
@@ -73,6 +86,12 @@ One section on what the analysis did NOT cover and what was single-pass,
 sampled, or assumed — silent truncation reads as "covered everything." Include
 what you could not see (e.g., "chat history from other sessions is not
 visible; 'history' here means what the repo records").
+
+Split the section in two, because they read alike and only one is safe: **out of
+scope by design** (deliberately not analyzed) versus **in scope and unverified**
+(should have been analyzed, was not). Both currently read as "didn't cover"; the
+second is the one that can invert a decision, and it is the one a decision-maker
+must be able to find. Anything in the second list carries its gap provenance.
 
 ### 5. Next steps as owner decisions
 
@@ -93,7 +112,15 @@ volatile claims.
    measurement you run yourself. Quote it verbatim, dated.
 3. Grade the claim SUPPORTED / UNSUPPORTED / PARTIAL — and say which parts are
    which; most viral claims are PARTIAL, and the true kernel matters as much
-   as the false frame.
+   as the false frame. **A SUPPORTED grade names the primary source that
+   supports it.** Reasoning that a claim must be true — because a term *ought* to
+   mean this, because the system *ought* to behave that way, because it is
+   plausible — is INFERENCE and caps the grade at PARTIAL, however sound the
+   reasoning feels. Quoting a source that states the claim is EVIDENCE;
+   concluding it from a source that does not is not. The grade reports the
+   strength of the basis, not the strength of your conviction; and a user
+   agreeing with your reasoning corroborates the reasoning, never promotes it to
+   evidence.
 4. Spot-check borrowed verification: when another agent or source did the
    checking, re-fetch the 1–3 most load-bearing quotes yourself before the
    report rests on them.
@@ -140,3 +167,18 @@ Re-verify: precedent reports present — `ls results/2026-07-13/ results/2026-08
 eval set present — `ls evals/after-report.json`. Update when: a report ships
 that the owner corrects on format (fold the correction in, dated), or the
 results/ convention changes.
+
+**Appended 2026-08-11** — `.claude/LESSONS.md` INC-9 (labeled "INC-2" in the
+owner's report; that number was taken). §2 gained the gap-provenance and
+receipt-law bullets plus the aggregates pointer; §4 gained the
+by-design/in-scope-unverified split; claim-check step 3 gained the basis rule for
+SUPPORTED. Gap provenance is defined in **adversarial-verify** and only
+referenced here, so the two cannot drift apart. The claim-check clause answers a
+second, weaker defect of the same session (ledger **INC-10**, OPEN and
+contested): an inference from a term's wording was graded SUPPORTED after the
+owner agreed with the reasoning. Included because it is the same law — the label
+reports the basis, not the conviction — and flagged because it is the one edit
+here the owner did not request; reverting costs one paragraph. Nothing deleted or
+renumbered. Status: **UNMEASURED** —
+`experiments/hypothesis-2026-08-11-gap-provenance.md`; description untouched, so
+trigger rates are unaffected by construction.

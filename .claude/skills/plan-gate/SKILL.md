@@ -73,6 +73,17 @@ measure) can settle an unknown in seconds, do that BEFORE planning around it.
 Never deliberate about something you could simply look up — and never trust a doc
 where you could check the live system (see live-state-truth).
 
+**Stopping the conversion is itself a consequential decision**, and falls under
+the no-silent-defaults law. Mid-task, once the cheap lookups start costing time
+or tool calls, the pressure is to stop and describe what is left as if it were
+unknowable. If you stop for reasons of cost, say so in one line — "stopped
+verifying after N of M; the rest are cheap and unchecked by choice" — and
+register it if anything downstream depends on it. A budget decision recorded as
+an epistemic limit is the most damaging silent default of all, because it also
+removes the reader's ability to correct it. A cheap unknown never becomes an
+assumption: the register (§3) is for what you *cannot* cheaply resolve, so
+anything that could have been settled by one tool call does not belong in it.
+
 ### 3. Register the assumptions
 
 Every unknown you cannot cheaply resolve becomes a numbered register row:
@@ -164,3 +175,13 @@ that repo and take precedence there.
 
 Re-verify lineage: `gh api repos/nic095layson/claude/contents/.claude/skills --jq '.[].name'`
 — expect `logic-tree`, `change-control`, `research-methodology` among the listing.
+
+**Appended 2026-08-11** — `.claude/LESSONS.md` INC-9 (labeled "INC-2" in the
+owner's report; that number was taken). §2 gained the stop-the-conversion rule
+and the cheap-unknowns-are-not-assumptions clause. §2's convert-cheap-unknowns
+law was already correct and was **not** what failed — it was skipped mid-task,
+after planning, and nothing made the skip visible. A fourth restatement was
+considered and rejected; what was added is a disclosure requirement, which can
+fail a check. Nothing deleted or renumbered. Status: **UNMEASURED** —
+`experiments/hypothesis-2026-08-11-gap-provenance.md`; description untouched, so
+trigger rates are unaffected by construction.

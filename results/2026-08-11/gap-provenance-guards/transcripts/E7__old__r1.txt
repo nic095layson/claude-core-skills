@@ -1,0 +1,5 @@
+Which game is this for? You haven't named it, and I don't want to guess — a wrong guess here would mean either fabricating a tier list for the wrong title or inventing win-rate numbers, neither of which is useful to you.
+
+Once I know the game, a couple of quick notes:
+- Season 6 days old means sample sizes are thin — I'll pull from real sources (patch notes, stats-tracking sites, pro/high-elo data aggregators) rather than inventing numbers, and I'll flag if solid win-rate data isn't out yet for some picks.
+- Tell me your rank/bracket if it matters (win rates often diverge a lot between low elo and top-tier competitive play).

@@ -1,0 +1,27 @@
+## Verification results
+
+**What I did beyond reading:** the draft hedges "almost certainly MIT or ISC" for 9 packages, then the verdict drops the hedge entirely ("No copyleft risk. Safe to proceed"). That gap between *stated confidence* and *stated certainty* is exactly what this skill flags, so I pulled the actual `license` field from the npm registry for all 12 packages instead of trusting the inference.
+
+**Criteria** (written from what a license audit needs to support its own verdict):
+- C1: Every license claim is evidence-based, not inferred from popularity — **FAIL** (9/12 were unverified guesses)
+- C2: Scope claimed matches scope checked ("dependency tree" vs. what was audited) — **FAIL**
+- C3: Verdict logic is internally consistent (no copyleft ≠ fully compliant) — **FAIL**
+- C4: Report is reproducible (versions/date/method stated) — **FAIL**
+
+**Refutation attempt:**
+- *Verification gap*: I checked all 12 against the npm registry — all currently report `"license": "MIT"`. So the 9 guesses happen to be correct today. But the draft didn't know that when it wrote "safe to proceed" — it shipped a legal conclusion on an assumption. If this had gone to the team as-is and one of the nine had been e.g. GPL-licensed (it happens — `colors.js`, `faker.js`, and others have burned teams this way), the audit would have been wrong with high confidence language.
+- *Scope mismatch (the bigger issue)*: the draft audits 12 **direct** dependencies but concludes "**the dependency tree** is permissively licensed." A real app pulling in axios/lodash/express/etc. resolves hundreds of **transitive** dependencies (check `node_modules` or the lockfile) — none of those were examined. This is the standard failure mode license audits exist to catch; direct deps being clean says nothing about what those packages themselves depend on.
+- *Legal nuance*: "no copyleft risk" ≠ "no compliance obligations." MIT still requires retaining copyright/license notices in distributed software. The verdict conflates "no viral licensing" with "fully compliant," which could mislead whoever reads this as clearance to ship without an attribution step.
+- *No methodology stated*: no date, no tool used (npm registry? `license-checker`? manual reading of LICENSE files?), no package versions/lockfile referenced — not reproducible if challenged later.
+
+**Regressions**: n/a (standalone document).
+
+## Status: not ready to ship as-is
+
+**Status** — candidate, with a concrete fix path:
+
+1. Drop "almost certainly" — replace with actual data. All 12 direct deps do check out as MIT per the npm registry (I verified this just now); state that as checked fact, not inference.
+2. Either run the transitive tree through a real tool (`npx license-checker --summary` or similar) and report that, or explicitly scope the verdict down to "12 direct dependencies checked; transitive tree not yet audited" — don't let the headline claim outrun what was checked.
+3. Soften "Safe to proceed with the closed-source release" to reflect that MIT/ISC compliance still requires attribution — it's "no copyleft blocker found in direct deps," not a full compliance clearance.
+
+Once the transitive-dependency scope is either covered or explicitly disclaimed, this is fine to send.

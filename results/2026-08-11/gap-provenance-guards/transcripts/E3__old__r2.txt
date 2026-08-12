@@ -1,0 +1,16 @@
+Good news: this settles the question decisively — Node 20 isn't just past active LTS, it's fully **end-of-life as of April 30, 2026**. That changes the framing from "which is safer" to "one option is not viable."
+
+## Recommendation: Pin CI to Node 22 (or consider Node 24)
+
+**Node 20 status:** Reached EOL April 30, 2026. No more security patches, no bug fixes, nothing — as of today (Aug 2026) it's been unsupported for over three months. Pinning CI to it means testing against a runtime with known, unpatched vulnerabilities.
+
+**Node 22 status:** Entered Active LTS Oct 2024, moved to Maintenance LTS Oct 2025, and stays supported (security patches only) until April 30, 2027 — about 8 months of runway from today.
+
+**Node 24 status:** Currently in Active LTS, the longest-runway option if you want to avoid another migration conversation soon.
+
+**Bottom line:** Node 20 is off the table — it's not a "safer, more conservative" choice, it's an unsupported one. Move to Node 22 as the minimum bar. If you'd rather not revisit this again in a few months, Node 24 gives more headroom since Node 22 is already in maintenance mode (bug/security fixes only, no new features backported).
+
+Sources:
+- [Node.js End-of-Life](https://nodejs.org/en/about/eol)
+- [Node.js Version Support: EOL Dates and Latest Releases (July 2026)](https://www.herodevs.com/blog-posts/node-js-end-of-life-dates-you-should-be-aware-of)
+- [Node.js | endoflife.date](https://endoflife.date/nodejs)
