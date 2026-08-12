@@ -7,11 +7,11 @@ Runs for `experiments/hypothesis-2026-08-11-gap-provenance.md`, the repair for
 refute its root-cause analysis, implement an effective catch-all fix, and make it
 testable rather than aspirational.
 
-**Headline.** The patched text works when the skill is loaded (cued, 2/2 vs 0/2)
+**Headline.** The patched text works when the skill is loaded (cued, 4/4 vs 0/2)
 and costs nothing on trivia (2/2 silent). It is **not** shown to work uncued —
 the skill did not fire on its own in any un-cued run here, which means three of
 the five cases below measured the base model rather than the patch. Stated as a
-rate, not rounded up: **cued mechanism 2/2; uncued mechanism 0 opportunities
+rate, not rounded up: **cued mechanism 4/4; uncued mechanism 0 opportunities
 observed.**
 
 ## Method
@@ -160,6 +160,6 @@ other than `claude-sonnet-5` (`NOT-ATTEMPTED`).
 ## Provenance
 
 Produced by the Claude Code session of 2026-08-11 on branch
-`claude/chat-error-verification-fix-flq49c`. 21 transcripts in `transcripts/`,
+`claude/chat-error-verification-fix-flq49c`. 23 transcripts in `transcripts/`,
 verbatim, including the `stream-json` run whose `init` event is the evidence for
 the model ID and for the finding that the skills registered but did not fire.
