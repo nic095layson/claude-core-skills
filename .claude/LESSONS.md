@@ -929,3 +929,32 @@ unmerged branch defeats it exactly.**
   don't commit the sensitive content (here: no password, no personnel details, no
   verbatim email in the repo).
 - **Migrated** 2026-08-12 from `claude/rivian-stock-analysis-h5y46x` (key unchanged — no collision).
+
+### DEAD-4 — `photo-editing` withdrawn: a capability that passed its gate and still was not wanted
+
+- Date: adopted 2026-08-10, withdrawn 2026-08-12 (owner: "Throw out photo-editing
+  and delete. No longer wanted"). Status: **ABANDONED** — withdrawn, not failed.
+- What it was: deterministic edits to existing images under three laws (never
+  overwrite the original, measure before you cut via a bundled
+  `inspect_image.py`, see-edit-verify).
+- Why this is recorded even though nothing broke: it **passed everything asked of
+  it** — 8/8 should-fire with the full behavioral signature, 6/6 should-not
+  silent, zero over-fires, seeded originals byte-identical through all 14 edit
+  runs. It was promoted to the standing install footprint on 2026-08-12 and
+  withdrawn hours later. Nothing failed; the owner simply did not want it.
+- Evidence kept, deliberately: `results/2026-08-10/image-output-skill/` (survey +
+  decision record) and `results/2026-08-10/trigger-evals-photo-editing/` (14
+  transcripts + grades). **Deleting a capability and deleting the measurement of
+  it are different acts.** The skill is gone; the record that it worked stays, so
+  a future session proposing image editing starts from evidence rather than from
+  scratch.
+- Also recorded, because it was nearly a silent regression: the promotion commit
+  found that `.skill` packaging carries `SKILL.md` only, so the bundled measuring
+  script never travels to claude.ai — "measure before you cut" degrades to a
+  manual table there. Any future bundled-script skill inherits this: **a skill
+  with a `scripts/` directory is strictly weaker on claude.ai, and the package
+  format will not warn you.**
+- Lesson: an eval gate answers "does it work", never "is it wanted". Do not read
+  a passed gate as a mandate to keep something. And when withdrawing, separate
+  the artifact from its evidence — the second is cheap to keep and expensive to
+  re-earn.

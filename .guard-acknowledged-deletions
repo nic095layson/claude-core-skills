@@ -1,0 +1,7 @@
+# Deletions this repo has consciously accepted. Format: <path>  # <date> <reason>
+# The guard fails on ANY deletion not listed here. Adding a line is a deliberate
+# act that shows up in review — which is the point. Never add one to silence a
+# surprise; investigate the surprise first.
+.claude/skills/photo-editing/SKILL.md              # 2026-08-12 owner: skill no longer wanted; research kept (DEAD-4)
+.claude/skills/photo-editing/scripts/inspect_image.py  # 2026-08-12 same
+evals/photo-editing.json                           # 2026-08-12 same

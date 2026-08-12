@@ -71,21 +71,20 @@ Companions shipped the same day: two mechanical trigger hooks
 audit runbook (`evals/fable-transition-audit.md`), and the model-capability
 register (`evals/model-capability-register.md`).
 
-## Candidate adopted 2026-08-10 (unmeasured — project scope only)
+## Retired 2026-08-12 — `photo-editing` removed
 
-Owner-approved (decision A of `results/2026-08-10/image-output-skill/REPORT.md`,
-the image-output survey). Authored fresh in house style; the SKILL.md and its
-bundled script were live-fired end-to-end at authoring (measured crop, exact
-output, original hash-verified untouched). **Trigger evals ran same day**
-(14 headless runs on Sonnet 5): GATE PASS clean — 8/8 should-fire fired with
-the full behavioral signature, 6/6 should-not silent, and the seeded
-originals stayed byte-identical through all edit runs. claude.ai triggering
-and behavioral delta vs no-skill unmeasured; not in the personal install
-footprint until Decision-5 review.
+Adopted 2026-08-10 on decision A of the image-output survey, trigger-gated clean
+(8/8 fire · 6/6 silent), and **removed 2026-08-12 at the owner's direction — no
+longer wanted.** The skill and its eval set are deleted; the research that
+produced it is **kept**, because deleting measured evidence and deleting a
+capability are different acts:
 
-| Skill | Governs | Evals |
-|---|---|---|
-| [`photo-editing`](.claude/skills/photo-editing/SKILL.md) | Deterministic edits to existing images under three laws: never overwrite the original; measure before you cut (`scripts/inspect_image.py`); see-edit-verify | `evals/photo-editing.json` (2026-08-10: 8/8 fire · 6/6 silent, PASS — `results/2026-08-10/trigger-evals-photo-editing/`) |
+- `results/2026-08-10/image-output-skill/` — the survey and the decision record
+- `results/2026-08-10/trigger-evals-photo-editing/` — 14 transcripts and grades
+
+Retirement rationale and what a future session should NOT re-derive are in
+`.claude/LESSONS.md` (`DEAD-4`). This is a withdrawn capability, not a failed
+one; the gate it passed still stands in the record.
 
 ## Install
 

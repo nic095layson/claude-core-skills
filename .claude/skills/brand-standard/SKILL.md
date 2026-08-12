@@ -12,8 +12,9 @@ description: >-
   "external facing document", "make it look like mine". Do NOT load for
   internal repo docs, READMEs, commit messages, or code comments (the repo's
   house style wins), nor for text written in another party's voice (quoting a
-  counterparty, filling their form); for how to author skills, see
-  skill-authoring.
+  counterparty, filling their form), nor for clinical or client-owned
+  documents about a third party (not David's brand); for how to author skills,
+  see skill-authoring.
 ---
 
 # Brand Standard
