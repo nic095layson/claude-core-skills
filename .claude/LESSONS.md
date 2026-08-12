@@ -297,7 +297,13 @@ evidence → status. An entry without evidence is a rumor and does not belong he
   such"*, status *"Delivered with the Fire slot open and eight schools
   unverified."* On pushback (*"Why can't you determine…"*) all eight resolved,
   **each in a single query from a primary card database**. No capability limit
-  existed. A second row (Arcsplitter) was classified minion-as-spell from recall.
+  existed. A second row (Arcsplitter) was classified minion-as-spell from recall
+  — and note the method line that carried it: *"Mechanical tally in bash of all
+  26 school-bearing spells."* The arithmetic genuinely was mechanical; the
+  **inputs were recalled**, so automation laundered memory into something that
+  reads as measurement. Rule 7 was sharpened on 2026-08-12 for exactly this: its
+  first draft ("a written record produced this session") would have been
+  satisfied by typing a remembered list into a file and counting it.
 - Root cause: **two defects, and the second is the load-bearing one.**
   (1) `unconfirmed` is a terminal label with no provenance — NOT-ATTEMPTED,
   ATTEMPTED-FAILED and UNVERIFIABLE share one word, so a budget decision

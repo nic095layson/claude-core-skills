@@ -181,8 +181,11 @@ Delivery shape (adapt labels; keep every section honest, omit only what's empty)
    also disables the reader's ability to correct it.
 7. **Aggregates are built from records, never from recall** — any count, tally,
    classification, or comparison table of external facts is assembled from a
-   written record produced this session: tool output, a file, a command result.
-   Recall may generate candidate rows; it may never populate a published one.
+   record that came from *outside* this session: tool output, a fetched source, a
+   file you did not author from memory. Recall may generate candidate rows; it
+   may never populate a published one. **Mechanizing the arithmetic does not
+   verify the inputs** — typing a remembered list into a file and counting it in
+   bash is still recall wearing a command's clothes, and it reports as "measured".
    Reason: a recalled row and a verified row look identical in the finished
    table, so the reader cannot apply their own discount to the weak ones.
 
