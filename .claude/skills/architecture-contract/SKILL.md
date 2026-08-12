@@ -69,6 +69,15 @@ they auto-load as project skills.
 **Status:** assumption A3 in domain-reference — owner-adjustable, not doctrine.
 **Amended 2026-07-11 by Decision 7:** the active set is three (plan-gate,
 adversarial-verify, scope-fence).
+**Amended 2026-08-12 (owner-directed):** `photo-editing` added to the personal
+footprint, making it five installed (three governors + brand-standard +
+photo-editing). It is not a governor — it is a capability skill that earns the
+context cost on measured triggering (8/8 fire · 6/6 silent, 2026-08-10) and on
+the owner's judgement that image edits recur often enough to want it always
+available. Behavioral value versus no-skill is **unmeasured**; recorded as an
+owner call, not as evidence of value. Note the surface asymmetry this creates:
+its bundled measuring script does not travel to claude.ai, so the same skill is
+strictly weaker there.
 
 ## Decision 6 — Laws carry lineage
 

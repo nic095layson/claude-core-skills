@@ -87,6 +87,18 @@ footprint until Decision-5 review.
 |---|---|---|
 | [`photo-editing`](.claude/skills/photo-editing/SKILL.md) | Deterministic edits to existing images under three laws: never overwrite the original; measure before you cut (`scripts/inspect_image.py`); see-edit-verify | `evals/photo-editing.json` (2026-08-10: 8/8 fire · 6/6 silent, PASS — `results/2026-08-10/trigger-evals-photo-editing/`) |
 
+**PROMOTED 2026-08-12 (owner-directed, Decision-5 review executed):**
+`photo-editing` moves from project-scope candidate into the **standing install
+footprint** — the loop above now installs five skills, not four. Basis: the
+trigger gate it already passed (8/8 fire · 6/6 silent, zero over-fires, seeded
+originals byte-identical through every edit run). Behavioral delta versus a
+no-skill arm remains **unmeasured**; this is an owner call on measured triggering,
+not a claim that value is proven. **Caveat that matters on claude.ai:** the
+`.skill` package carries `SKILL.md` only, so the bundled `scripts/inspect_image.py`
+does **not** travel — and "measure before you cut" is one of the skill's three
+laws. On that surface it degrades to the manual measuring table; the script-backed
+form is Claude Code only.
+
 ## Install
 
 **Claude Code, this repo:** nothing — project skills auto-load from
@@ -96,7 +108,7 @@ footprint until Decision-5 review.
 brand standard):**
 
 ```bash
-for s in plan-gate adversarial-verify scope-fence brand-standard; do
+for s in plan-gate adversarial-verify scope-fence brand-standard photo-editing; do
   mkdir -p ~/.claude/skills/$s && cp .claude/skills/$s/SKILL.md ~/.claude/skills/$s/
 done
 ```
