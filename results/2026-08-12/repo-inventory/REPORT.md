@@ -180,3 +180,34 @@ month of drift (`NOT-ATTEMPTED` — not opened file-by-file, only inventoried);
 whether the rivian branch's hooks still run against the current CLI
 (`NOT-ATTEMPTED`); the content of PR #11's draft measurements beyond its file list
 (`NOT-ATTEMPTED`). All three are cheap to resolve and unchecked by choice.
+
+---
+
+## Deleted branches — recovery record (2026-08-12)
+
+Deleted after proving zero loss two independent ways: (a) `git diff
+origin/main..<branch> --diff-filter=A` returns **0 files** at each branch tip, and
+(b) every unique commit's files were checked individually against main. The two
+files that first read as "absent from main" on `product-output-skill-research`
+turned out to be absent from the **branch tip** as well — added and then removed
+on the branch itself, so there was nothing to lose. That discrepancy is why the
+per-commit check was run at all; the file-count check alone would have been a
+weaker basis than it looked.
+
+**Any of these can be restored** with
+`git push origin <sha>:refs/heads/<branch-name>`:
+
+| Branch | Tip SHA | Basis for deletion |
+|---|---|---|
+| `claude/chat-error-verification-fix-flq49c` | `2e0cc65606f08f5ad03f3822584f3fee07cdc1e1` | Ancestor of `main` — fully merged via PR #14 |
+| `claude/product-output-skill-research-jt42nu` | `0464cb078984859089f2f46d5264b3204bd27145` | 0 files main lacks; landed via PR #12 |
+| `claude/sonnet-opus-verification-prompt-746x8n` | `2d6eca4688d0de0820a28764eb82e6257dedbc44` | 0 files main lacks; its instructions copy is the 2026-07-15 version — no GAUNTLET, no receipt law, strictly superseded |
+
+**Not deleted, deliberately:** `claude/rivian-stock-analysis-h5y46x`,
+`claude/sol-skill-analysis-vkog26`, `claude/review-instructions-z0fhnb`,
+`claude/sonnet-opus-validation-055lae`, `add-claude-code-global-doctrine`. Their
+*additive* content was migrated to this branch, but the migration deliberately did
+**not** take their versions of files main already had — so those branches still
+hold divergent history that has not been reconciled. They stay until this PR is
+merged and someone confirms nothing further is wanted from them. Deleting a source
+branch before its migration has landed is how INC-11 happened.
