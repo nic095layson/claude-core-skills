@@ -123,7 +123,7 @@ n_lookups = sum(1 for t in tools if t in VERIFY_TOOLS or t.startswith("mcp__"))
 
 # --- sanitize: the rule must not fire on text that merely DISCUSSES the rule ---
 clean = re.sub(r"```.*?```", " ", text, flags=re.DOTALL)   # fenced blocks
-clean = re.sub(r"`[^`\n]*`", " ", clean)                   # inline code
+clean = re.sub(r"\x60[^\x60\n]*\x60", " ", clean)          # inline code
 clean = re.sub(r"^\s*>.*$", " ", clean, flags=re.MULTILINE)  # blockquotes
 
 INABILITY = re.compile(
