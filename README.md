@@ -71,6 +71,25 @@ Companions shipped the same day: two mechanical trigger hooks
 audit runbook (`evals/fable-transition-audit.md`), and the model-capability
 register (`evals/model-capability-register.md`).
 
+## Adopted 2026-08-12 — `product-output`
+
+Owner-approved from the 2026-08-10 draft (`results/2026-08-10/product-output-skill/`),
+which sat unadopted for two days. The finish-line standard: when a session is
+about to hand something over, a real dated **file** comes out — not a chat blob
+where a file was asked for. It routes rather than formats: classify the
+deliverable and audience, pick the format, call the owning skills, run the
+validate-fix-repeat loop, deliver with a short manifest.
+
+| Skill | Governs | Evals |
+|---|---|---|
+| [`product-output`](.claude/skills/product-output/SKILL.md) | The finish line: format choice, composition of standards, handover | `evals/product-output.json` |
+
+**Empirical status: UNMEASURED.** Lints PASS; its eval set is authored and
+**not run**. It is a coordinator — it owns no format mechanics, no voice, no
+correctness grading — so its value depends entirely on whether "answered in chat
+when a file was wanted" is a recurring annoyance. Project scope only; no
+Decision-5 promotion.
+
 ## Retired 2026-08-12 — `photo-editing` removed
 
 Adopted 2026-08-10 on decision A of the image-output survey, trigger-gated clean
