@@ -54,6 +54,15 @@ catch. Goal, knowns/unknowns, assumptions, success criteria, phased plan. Its
 a tool call can settle **before** planning around it, and if you stop converting
 for cost, say so.
 
+**Named firing covers shape, not just load.** A GAUNTLET task is research-shaped
+by default, so it fails plan-gate's sizing test and owes the full block —
+including §5 phases with branch rules — emitted as its own turn content **before**
+the work, not folded into the finished report. Report which of the two happened:
+`plan-gate: loaded and full block emitted pre-work` or `plan-gate: loaded,
+compressed block`. The owner cannot tell these apart from the delivery, and the
+second one reads to them exactly like a skipped load — which is the whole cost
+recorded in `.claude/LESSONS.md` INC-2026-08-19-01.
+
 ### 3. Do the work
 
 Inside the fence the prompt drew. Adjacent problems get flagged in one line, not
@@ -90,7 +99,7 @@ more than a confident list.
 **Gaps** — <n>: not-attempted / attempted-failed / unverifiable · load-bearing: <disposition>
 **Bounds** — out of scope by design | in scope and unverified
 **Status** — delivered | candidate | open
-**Fired** — plan-gate · adversarial-verify · <others, or "none — and why">
+**Fired** — plan-gate (full block, pre-work | compressed) · adversarial-verify · <others, or "none — and why">
 ```
 
 ## Rules, each with its reason
@@ -124,6 +133,8 @@ more than a confident list.
   3/3, trivia-skip 3/3, always-on ~83% with 0/3 over-fire (2026-07-16, claude.ai
   proxy, Opus, N=3). Those rates do **not** transfer to this skill's triggering.
   *verified, but for a different carrier*
+- §2's shape reporting was added 2026-08-20 and is **UNMEASURED** — no run has yet
+  been graded on whether the two states get distinguished honestly. *candidate*
 
 ## Provenance and maintenance
 
@@ -142,3 +153,13 @@ Re-verify: the governors it sequences exist —
 Update when: a governor in the sequence is retired or renamed, the owner changes
 the trigger word (it is arbitrary — any distinctive token works if the definition
 names it), or the trigger evals run and the candidate status resolves.
+
+**Appended 2026-08-20** — `.claude/LESSONS.md` INC-2026-08-19-01. A real GAUNTLET
+run loaded plan-gate as tool call #4, before any research, and still delivered a
+3-of-5 gate block nested inside the final report; the owner's reasonable read was
+"you didn't run it." Named firing was truthful and still uninformative, because it
+reported the load and the load was never what was in doubt. §2 now names the two
+states the report must distinguish, and the `**Fired**` line carries the
+distinction. This adds no law (rule 5) — the sizing test and the emission rule
+both live in plan-gate; §2 only makes their outcome visible in the report.
+Description untouched, so triggering is unaffected by construction.

@@ -117,7 +117,19 @@ Number the phases. For each consequential phase write, BEFORE executing it:
 - **Expected observation** — a concrete, checkable prediction ("the test count
   should be 12", "this search should return the config file").
 - **Branch rule** — "if I see X instead, go to Y" for foreseeable failures.
-  A plan with no branch rules is a hope, not a plan.
+  A plan with no branch rules is a hope, not a plan. **Mandatory, not optional,
+  for any phase whose expected observation depends on a source outside the
+  session** — a web page, an API, a file you have not read, another person's
+  answer. The rule names what happens if that source is absent, **scoped
+  differently than you assumed**, or contradictory.
+
+  *Worked example (INC-2026-08-19-01).* Phase "resolve spell schools from the
+  wiki" returned a page scoped to Standard, not Wild. With no branch rule the
+  session improvised a withdrawal mid-stream and the owner learned of it only in
+  the Gaps section. The rule that was owed, written in advance: *"if the source
+  returns a scoped subset, branch to the Wild-scoped page; if none exists,
+  withdraw the dependent tally and say which claim it was supporting."* Same
+  outcome, but pre-committed and visible instead of improvised.
 - **Fenced wrong paths** — approaches considered and rejected, with the reason,
   so nobody (including future-you) re-fights a settled battle.
 
@@ -140,8 +152,18 @@ short:
 **Plan** — numbered phases, each with expected observation and branch rule.
 ```
 
-For small-but-non-trivial tasks this can be five lines. Length is not rigor;
-pre-commitment is.
+**The sizing test — the compressed form is earned, not chosen.** Five lines are
+permitted only when BOTH hold: the task needs **no source outside this session**
+(no search, no fetch, no reading an unfamiliar file to decide the approach), AND
+it commits **no more than two consequential actions**. Fail either half and the
+full block is required, §5 included. Research tasks, anything spending several
+tool calls, and anything the user will rely on downstream all fail the first
+half by construction.
+
+Length is not rigor; pre-commitment is — but under output-length pressure the
+short form is the one that gets picked by default, which is how a nine-lookup
+research task ends up wearing the shape built for a two-step one (INC-2026-08-19-01).
+The test above is what makes that a checkable error rather than a matter of taste.
 
 ## Rules, each with its reason
 
@@ -151,7 +173,15 @@ pre-commitment is.
    cannot check is decoration.
 3. **If you cannot name what the task will change or produce, do not start** — the
    inability to predict is itself the finding; investigate or ask.
-4. **No ceremony on trivia** — over-triggering this gate erodes the user's trust in
+4. **The gate's output is emitted as its own turn content before the first
+   consequential action, never nested inside the finished deliverable** — a gate
+   the reader receives after the work cannot redirect the work, and reads
+   identically to a gate that never ran. Rule 1 governs when you *plan*; this rule
+   governs when the reader *sees it*, and only the second one is checkable from
+   outside. A session that plans internally, works, then presents the plan inside
+   its delivery produces a transcript indistinguishable from one that skipped the
+   gate entirely — so the honest run and the skipped run cost the same trust.
+5. **No ceremony on trivia** — over-triggering this gate erodes the user's trust in
    it, and that erosion is what kills governance skills.
 
 ## When NOT to use this skill
@@ -185,3 +215,23 @@ considered and rejected; what was added is a disclosure requirement, which can
 fail a check. Nothing deleted or renumbered. Status: **UNMEASURED** —
 `experiments/hypothesis-2026-08-11-gap-provenance.md`; description untouched, so
 trigger rates are unaffected by construction.
+
+**Appended 2026-08-20** — `.claude/LESSONS.md` INC-2026-08-19-01 (owner-reported
+2026-08-19; the report proposed the next free integer, but the ledger's Rule 3
+allocation policy of 2026-08-12 mints date keys, and `INC-12` was already taken
+by a re-keyed entry — see the concordance). Two defects, patched separately
+because they fail independently: the Output-format five-line allowance had **no
+sizing test**, so the compressed form was the default under length pressure (P1);
+and nothing required the gate's *output* to precede the work, so an honest run and
+a skipped run produced identical transcripts from the owner's side (P2, now rule
+4). §5 gained the mandatory branch rule for externally-dependent phases with the
+incident's worked example (P3). Rule 1 was **not** the failure and was not
+touched — it governs when you plan, and it held; what was missing was a rule about
+when the reader sees it. Nothing deleted or renumbered; the anti-ceremony valve
+moved from rule 4 to rule 5 with its text unchanged, and the sizing test is
+deliberately two-sided so that P1 cannot be read as "always emit the long form"
+(that over-correction would break architecture-contract invariant 5). Status:
+**UNMEASURED** — `experiments/hypothesis-2026-08-20-plan-gate-emission.md`,
+cases in `evals/plan-gate-emission.json`; description untouched (byte-identical
+to `HEAD`), so trigger rates are unaffected by construction and only output shape
+is under test.

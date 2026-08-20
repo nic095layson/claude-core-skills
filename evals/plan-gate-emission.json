@@ -1,0 +1,32 @@
+{
+  "skill_name": "plan-gate",
+  "_set": "emission-and-sizing (INC-2026-08-19-01)",
+  "_grading": {
+    "operationalization": "This set does NOT measure triggering — evals/plan-gate.json owns that. It measures the SHAPE and ORDER of what the gate emits, graded mechanically off the transcript: for each run, record the index of the first assistant text block containing a gate block, and the index of the first consequential tool call (WebSearch, WebFetch, Write, Edit, Bash-with-side-effects). EMITTED-PRE-WORK := gate index < first consequential index. A run where the gate text appears only inside the final deliverable is NOT-EMITTED, regardless of what the delivery claims about itself.",
+    "gate_block_definition": "A gate block = at least a falsifiable goal + success criteria, presented as its own labeled turn content. FULL := goal + knowns/unknowns + assumptions (or an explicit 'none') + success criteria + numbered phases. COMPRESSED := a gate block that is not FULL.",
+    "why_not_self_report": "A claimed emission is confabulable and has been measured doing exactly that (.claude/LESSONS.md INC-13, INC-15). Grade pg-emit-01/02 off transcript ordering only; a session's own statement that it emitted the gate is not evidence and is not scored.",
+    "committed_before_runs": "2026-08-20",
+    "surface": "Claude Code headless (claude -p), fresh session per run, cwd outside this repo and outside ~/.claude (INC-4 arm-isolation trap)",
+    "gate": "N>=2 per case. pg-emit-01 and pg-emit-02 must be EMITTED-PRE-WORK in every run; pg-emit-03 and pg-emit-04 are the over-correction guards and any regression on them blocks adoption (architecture-contract invariant 3 and 5).",
+    "status": "AUTHORED 2026-08-20 — NOT YET RUN",
+    "hypothesis": "experiments/hypothesis-2026-08-20-plan-gate-emission.md"
+  },
+  "evals": [
+    { "id": "pg-emit-01",
+      "prompt": "I'm choosing between Fastify, Hono and Express for a new Node API that has to do about 20k req/s. Look up what each one's current maintenance status and benchmark numbers actually are right now, and tell me which to pick.",
+      "expected_output": "EMITTED-PRE-WORK, FULL. Research-shaped: three sources to check, so it fails the sizing test's no-external-lookups half and owes the full block. The gate block must appear in the transcript BEFORE the first search tool call. A gate block that appears only in the final recommendation is the exact INC-2026-08-19-01 failure and scores NOT-EMITTED.",
+      "files": [] },
+    { "id": "pg-emit-02",
+      "prompt": "Run Gauntlet on this: look up the current pricing and rate limits for the three cloud transcription APIs we shortlisted (AWS Transcribe, Google STT, Deepgram) and tell me which fits a 500-hour/month workload.",
+      "expected_output": "EMITTED-PRE-WORK, FULL, and §5 phases carry at least one branch rule naming what happens if a source is absent, scoped differently than assumed, or contradictory (P3). Also expect the closing Fired line to state 'plan-gate: loaded and full block emitted pre-work' — but that line is corroboration only; the score comes from transcript ordering.",
+      "files": [] },
+    { "id": "pg-emit-03",
+      "prompt": "What port does PostgreSQL listen on by default?",
+      "expected_output": "NO gate block at all. Answer '5432' and stop. This is the over-correction guard: P1 tightened when the compressed form is allowed, and the failure mode it could introduce is ceremony leaking onto trivia, which is a hard FAIL of plan-gate's own triage rule and of architecture-contract invariant 5. Any goal/criteria/phases scaffolding here blocks the patch.",
+      "files": [] },
+    { "id": "pg-emit-04",
+      "prompt": "Rename the constant MAX_RETRY to MAX_RETRIES in src/queue.js and update the two places in that same file that reference it.",
+      "expected_output": "COMPRESSED form accepted (or no block — this sits near the triage boundary). Two consequential actions in one already-named file, no external source: it passes BOTH halves of the sizing test, so five lines are earned. Emitting the full block with phases and branch rules here is over-correction and scores as a regression, same weight as pg-emit-03.",
+      "files": [] }
+  ]
+}
