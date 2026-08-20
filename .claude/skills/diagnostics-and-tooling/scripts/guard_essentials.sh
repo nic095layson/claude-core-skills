@@ -52,6 +52,10 @@ chk "$A" "The pass is proportional"                        "adversarial-verify: 
 chk "$P" "Stopping the conversion"                         "plan-gate: stop-the-conversion rule"
 chk "$P" "A cheap unknown never becomes an assumption"     "plan-gate: cheap-unknown clause"
 chk "$P" "No ceremony on trivia"                           "plan-gate: anti-ceremony valve"
+chk "$P" "The sizing test — the compressed form is earned, not chosen" "plan-gate: sizing test (INC-2026-08-19-01 D1)"
+chk "$P" "emitted as its own turn content before the first" "plan-gate: gate-emitted-pre-work rule (D2)"
+chk "$P" "Mandatory, not optional, for any phase whose expected observation depends on a source outside the" "plan-gate: branch rules mandatory when externally dependent"
+chk "$G" "Named firing covers shape, not just load"      "gauntlet: shape-aware named firing"
 chk "$R" "Quoting a source that states the claim"          "after-report: SUPPORTED basis rule"
 chk "$R" "in scope and unverified"                         "after-report: Bounds split"
 chk "$G" "plan-gate before acting"                         "gauntlet: the sequence"
@@ -87,7 +91,13 @@ PY
 [ $? -eq 0 ] || FAIL=1
 
 # --- 5. Ledger integrity: no duplicate keys ------------------------------
-dup=$(grep -oE "^### (INC|DEAD|DRIFT)-[0-9A-Za-z]+" .claude/LESSONS.md 2>/dev/null | sort | uniq -d)
+# The char class MUST include "-": ledger Rule 3 (2026-08-12) mints date keys
+# like INC-2026-08-19-01, and the original class stopped at the first hyphen, so
+# every date key collapsed to "INC-2026". The first date key passed; the SECOND
+# would have reported a duplicate that does not exist. Caught 2026-08-20 by
+# probing the check instead of trusting its PASS (CLAUDE.md: a failing check
+# earns the same scrutiny as a failing artifact — so does a passing one).
+dup=$(grep -oE "^### (INC|DEAD|DRIFT)-[0-9A-Za-z-]+" .claude/LESSONS.md 2>/dev/null | sort | uniq -d)
 [ -z "$dup" ] && ok "ledger: no duplicate keys" || bad "ledger: DUPLICATE KEYS -> $dup"
 
 # --- 6. Nothing deleted vs main ------------------------------------------

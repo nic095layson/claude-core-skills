@@ -958,3 +958,86 @@ unmerged branch defeats it exactly.**
   a passed gate as a mandate to keep something. And when withdrawing, separate
   the artifact from its evidence — the second is cheap to keep and expensive to
   re-earn.
+
+### INC-2026-08-19-01 — plan-gate loaded and gated honestly, but emitted an under-sized block *after* the work
+
+- **Date:** 2026-08-19 (owner-reported). Recorded 2026-08-20.
+- **Key note:** the owner's report proposed "the next free integer". That is
+  superseded by Rule 3 of the concordance above (2026-08-12): entries authored
+  after that date take `INC-YYYY-MM-DD-nn`. The next free integer would also have
+  been wrong on its own terms — `INC-12`…`INC-16` are taken by the re-keyed
+  migrations, which is the exact collision DRIFT-1 exists to prevent. Rule 4 check
+  run before appending: `git show <branch>:.claude/LESSONS.md | grep '^### '`
+  across both live branches (`origin/main`, `origin/claude/plan-gate-sizing-defect-vuryrj`),
+  28 entries each, no `INC-2026-*` key present.
+- **Surface:** claude.ai chat, Opus. **Skill under test:** `plan-gate`, firing
+  inside a `gauntlet` sequence.
+- **Severity:** medium. The governor fired and the work was sound; the *visible
+  product* of the gate was wrong, which cost owner trust in the governor.
+
+- **Symptom:** owner issued `Run Gauntlet` on a Hearthstone deck evaluation
+  requiring external lookups. The session loaded `gauntlet`, then `plan-gate` as
+  tool call #4 — before any research — then ran ~9 external lookups and delivered
+  a report whose header carried Goal, Assumptions and Success criteria and nothing
+  else from the gate. Owner replied: *"Did you run Gauntlet? I don't see Plan-gate
+  invoked."*
+
+- **Evidence:** the load is real and checkable in the transcript (tool call #4,
+  ahead of every lookup). Against `plan-gate` §§1–5 the delivered block contained
+  3 of 5 parts:
+
+  | Gate part | Emitted? |
+  |---|---|
+  | §1 falsifiable goal | yes |
+  | §2 knowns vs unknowns inventory | **no** |
+  | §3 assumption register | yes (A1, A2) |
+  | §4 success criteria | yes (C1–C4, pre-committed before the deliverable) |
+  | §5 phased plan, expected observations, branch rules | **no** |
+
+  Placement was also wrong: the block appeared *inside* the final report, after
+  all research had been spent.
+
+- **Root cause — two defects, not one.**
+  - **D1, no sizing test.** §"Output format" said *"For small-but-non-trivial
+    tasks this can be five lines"* and defined nothing about which tasks qualify.
+    Under output-length pressure the five-line form is therefore the default, and
+    a nine-lookup research task took the shape built for a two-step one.
+  - **D2, nothing ordered the gate's *output* before the work.** Rule 1 says the
+    plan precedes the first consequential action — and it did. But rule 1 governs
+    the *planning*, not the *emission*. A session can plan internally, act, then
+    present the plan inside the delivery. **That indistinguishability is the whole
+    failure: an honest load and a skipped load produce identical transcripts from
+    the owner's side.**
+
+- **Downstream cost, concretely:** the missing branch rules were load-bearing.
+  The phase "resolve spell schools from the wiki" hit an unforeseen result — the
+  source page was Standard-scoped, not Wild — and the session made a mid-stream
+  judgement call to withdraw the dependent tally. A branch rule written in advance
+  (*"if the source returns a scoped subset, branch to the Wild page or withdraw
+  the dependent claim"*) would have made that a visible pre-committed gate instead
+  of an improvisation the owner learned about only in the Gaps section.
+
+- **What did NOT fail (explicitly not patched):** §2's stop-the-conversion
+  disclosure fired correctly — the session said it had stopped verifying for cost
+  rather than dressing a budget decision as an epistemic limit; success criteria
+  were written before the deliverable and graded honestly; `adversarial-verify`
+  rule 7 held, with an unsourceable tally withdrawn rather than estimated. That is
+  the INC-9 mechanism working as intended, and re-touching any of it would risk
+  the INC-9 patch's measured guards.
+
+- **Fix (2026-08-20, this branch):** `plan-gate` Output format gained a two-sided
+  sizing test — the compressed form requires no external source AND ≤2
+  consequential actions; `plan-gate` rule 4 (new) requires the gate's output to be
+  emitted as its own turn content before the first consequential action, never
+  nested in the deliverable; `plan-gate` §5 makes branch rules mandatory for
+  externally-dependent phases and carries this incident as the worked example;
+  `gauntlet` §2 and its `**Fired**` line now distinguish "full block emitted
+  pre-work" from "loaded, compressed block". Guard assertions added for all four.
+
+- **Status: OPEN / UNMEASURED.** The patch is applied but no run has graded it.
+  Cases `pg-emit-01`…`pg-emit-04` in `evals/plan-gate-emission.json`, predictions
+  pre-registered in `experiments/hypothesis-2026-08-20-plan-gate-emission.md`.
+  Descriptions untouched, so trigger rates are unaffected by construction; only
+  output shape is under test. The known risk of the fix is over-correction —
+  ceremony leaking onto trivia — which is why two of the four cases are guards and
+  either one regressing blocks adoption (architecture-contract invariants 3, 5).
