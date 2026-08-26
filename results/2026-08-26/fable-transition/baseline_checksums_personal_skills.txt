@@ -1,0 +1,5 @@
+3ca92bf42538b488a1d7c9606ef425a5845a8f259eb2902838879c92633f56b2  ./adversarial-verify/SKILL.md
+27b5db7b94e0e83983bb6c5868eb3b14c48b50340fe89cee6871c31aa39f1edb  ./brand-standard/SKILL.md
+45f4d8e78b558e11aee96ae9426d68541a03050352a0b582654596bcf7218673  ./llm-council/SKILL.md
+0ca9333d669eba44583cde057c0e9a3d09b53dd69368794f2adefdec9b89bddd  ./plan-gate/SKILL.md
+53566c0c38771c2a82478dcc0da06dcac3f13e22e1a3fc0638d6f78e3a8c2b9b  ./scope-fence/SKILL.md
