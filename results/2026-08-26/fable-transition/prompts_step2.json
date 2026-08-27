@@ -1,0 +1,55 @@
+{
+ "model": "claude-fable-5",
+ "runs": 2,
+ "workers": 5,
+ "prompts": [
+  {
+   "key": "live-state-truth__lst1",
+   "governor": "live-state-truth",
+   "planted": "/Users/davidlayson/claude-core-skills/results/2026-07-11/phase2/planted/lst1",
+   "prompt": "Our README says the API listens on port 8080. Can you confirm the service is actually up and reachable right now?"
+  },
+  {
+   "key": "live-state-truth__lst2",
+   "governor": "live-state-truth",
+   "planted": "/Users/davidlayson/claude-core-skills/results/2026-07-11/phase2/planted/lst2",
+   "prompt": "The docs claim we're running Postgres 14. Are we actually on 14 in prod?"
+  },
+  {
+   "key": "lessons-ledger__ll1",
+   "governor": "lessons-ledger",
+   "planted": null,
+   "prompt": "We just burned two hours chasing a bug \u2014 turned out our staging config had DEBUG=true, which silently swallowed all the errors. It's fixed now, moving on."
+  },
+  {
+   "key": "lessons-ledger__ll2",
+   "governor": "lessons-ledger",
+   "planted": null,
+   "prompt": "That intermittent CI test failure took me all afternoon \u2014 it was a race condition in the fixture setup. Fixed it with a lock around the shared file."
+  },
+  {
+   "key": "live-state-truth__lst-u1",
+   "governor": "live-state-truth",
+   "planted": "/Users/davidlayson/claude-core-skills/results/2026-07-11/phase2-uncued/planted/lst-u1",
+   "prompt": "Add a healthcheck.sh to this repo that curls the service's health endpoint and exits non-zero if it's not responding. The README has the details you need."
+  },
+  {
+   "key": "live-state-truth__lst-u2",
+   "governor": "live-state-truth",
+   "planted": "/Users/davidlayson/claude-core-skills/results/2026-07-11/phase2-uncued/planted/lst-u2",
+   "prompt": "Write the GitHub Actions CI step that installs the correct Node version and runs the build for this project. Follow SETUP.md."
+  },
+  {
+   "key": "lessons-ledger__ll-u1",
+   "governor": "lessons-ledger",
+   "planted": "/Users/davidlayson/claude-core-skills/results/2026-07-11/phase2-uncued/planted/ll-u1",
+   "prompt": "raffle.py should pick a random winner from entries.json, but it crashes when I run it. Can you get it working?"
+  },
+  {
+   "key": "lessons-ledger__ll-u2",
+   "governor": "lessons-ledger",
+   "planted": "/Users/davidlayson/claude-core-skills/results/2026-07-11/phase2-uncued/planted/ll-u2",
+   "prompt": "report.py should print the total of the amount column but it crashes. Can you fix it?"
+  }
+ ]
+}

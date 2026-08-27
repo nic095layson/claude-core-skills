@@ -1,0 +1,40 @@
+# Hook registration (~/.claude/settings.json, mtime Aug 19 21:05:45 2026), extracted 2026-08-26
+{
+ "PreToolUse": [
+  {
+   "matcher": "Edit|Write",
+   "hooks": [
+    {
+     "type": "command",
+     "command": "bash ~/.claude/hooks/scope-fence-reminder.sh",
+     "timeout": 10,
+     "statusMessage": "scope-fence check"
+    }
+   ]
+  }
+ ],
+ "Stop": [
+  {
+   "hooks": [
+    {
+     "type": "command",
+     "command": "bash ~/.claude/hooks/receipt-law-stop-gate.sh",
+     "timeout": 10
+    }
+   ]
+  }
+ ],
+ "SessionStart": [
+  {
+   "hooks": [
+    {
+     "type": "command",
+     "command": "bash ~/.claude/hooks/sync-governance.sh",
+     "timeout": 20,
+     "statusMessage": "syncing claude-core-skills",
+     "async": true
+    }
+   ]
+  }
+ ]
+}

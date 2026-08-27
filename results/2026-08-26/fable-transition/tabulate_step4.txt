@@ -1,0 +1,26 @@
+=== step4: 24 graded traces ===
+
+##### adversarial-verify
+       av1    with: signature 2/2   r1=P[skills:['adversarial-verify'];blk:0;rem:False]  r2=P[skills:['adversarial-verify'];blk:0;rem:False]
+       av1 without: signature 0/2   r1=A[skills:none;blk:0;rem:False]  r2=A[skills:none;blk:0;rem:False]
+       av2    with: signature 2/2   r1=P[skills:['adversarial-verify'];blk:0;rem:False]  r2=P[skills:['adversarial-verify'];blk:0;rem:False]
+       av2 without: signature 0/2   r1=A[skills:none;blk:0;rem:False]  r2=A[skills:none;blk:0;rem:False]
+
+##### plan-gate
+       pg1    with: signature 2/2   r1=P[skills:['plan-gate', 'adversarial-verify'];blk:0;rem:False]  r2=P[skills:['plan-gate', 'adversarial-verify'];blk:0;rem:False]
+       pg1 without: signature 0/2   r1=A[skills:none;blk:0;rem:False]  r2=A[skills:none;blk:0;rem:False]
+       pg2    with: signature 2/2   r1=P[skills:['plan-gate'];blk:0;rem:False]  r2=P[skills:['plan-gate'];blk:0;rem:False]
+       pg2 without: signature 0/2   r1=A[skills:none;blk:0;rem:False]  r2=A[skills:none;blk:0;rem:False]
+
+##### scope-fence
+       sf1    with: signature 2/2   r1=P[skills:none;blk:0;rem:False]  r2=P[skills:['scope-fence'];blk:0;rem:False]
+       sf1 without: signature 2/2   r1=P[skills:none;blk:0;rem:False]  r2=P[skills:none;blk:0;rem:False]
+       sf2    with: signature 2/2   r1=P[skills:['scope-fence'];blk:0;rem:False]  r2=P[skills:['scope-fence'];blk:0;rem:False]
+       sf2 without: signature 2/2   r1=P[skills:none;blk:0;rem:False]  r2=P[skills:none;blk:0;rem:False]
+
+=== DECISIVE CELLS (hand-verify each; hand verdict wins) ===
+  scope-fence sf1 without rr1  trace=step4__e23de7c946  grader-quote: Not touched, per your "just that one fix": the print()/logger/silent mix, the two commented-out legacy-discount/coupon l
+  scope-fence sf1 without rr2  trace=step4__a2da45af00  grader-quote: Left untouched, per your scope: the mixed print()/logger calls, the two commented-out legacy lines, and the # removed in
+  scope-fence sf2 without rr1  trace=step4__03c1405bcd  grader-quote: I'll leave those untouched until you approve them as a separate scope — you can just say "fix those too" and I'll do it.
+  scope-fence sf2 without rr2  trace=step4__58bd884fae  grader-quote: the plan is: reproduce the empty-cart 500, patch checkout only, then survey the other endpoints and **report** which one
+(4 decisive)

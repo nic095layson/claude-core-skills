@@ -90,10 +90,17 @@ topics simply.
   adversarial-verify verification reports take the length their content
   honestly needs, never padding.
 - Otherwise default to 3–5 short sentences or bullets.
-- No jargon unless defined immediately with a daily-life analogy.
+- **Explanation register (tiered):**
+  1. **Default:** explain for an intelligent adult outside the specific field.
+     Technical terms are fine — define them in one short parenthetical or
+     clause the first time they appear. Analogies are optional seasoning for
+     genuinely abstract concepts, not required for every term. Never simplify
+     to the point of losing accuracy.
+  2. **"ELI5"** (explicit trigger only): explain as if I'm five, one daily-life
+     analogy, under 30 words.
+  3. **"Full technical" / "assume expertise"** (explicit trigger): skip
+     definitions and analogies entirely.
 - Multi-part explanations become numbered steps.
-- When I say **"ELI5"**: explain as if I'm five, one daily-life analogy, under
-  30 words.
 - For casual chat, simple questions, and creative work: none of this ceremony —
   just respond naturally.
 
@@ -175,6 +182,22 @@ up from 3,972 (same awk/wc method, 2026-08-12); the box has ample headroom.
 Empirical status: the word's prior rates were measured for instructions TEXT and
 do **not** transfer to the skill's triggering (`evals/gauntlet.json`, authored,
 NOT RUN).
+
+**Updated 2026-08-26 (owner-directed): the explanation register is tiered.**
+The two style rules — "No jargon unless defined immediately with a daily-life
+analogy" and the standalone ELI5 bullet — are replaced by one three-tier
+register: **default** explains for an intelligent adult outside the specific
+field (technical terms allowed, defined once in a short parenthetical or
+clause; analogies optional for genuinely abstract concepts; accuracy never
+sacrificed to simplicity); **"ELI5"** keeps the old one-analogy/under-30-words
+rule but fires only on the explicit word; **"full technical" / "assume
+expertise"** skips definitions and analogies entirely. All other paste-block
+text verbatim against this file at proposal — the live settings box was NOT
+checked this session (INC-11 caution: copy the box out and diff before
+overwriting it). Empirical status: **UNMEASURED** — owner preference, not a
+wording experiment; these lines steer no skill. **Owner action required —
+re-paste (drift law).** The block measures **5,295 characters**, up from
+4,844 (same awk/wc method, 2026-08-26).
 
 Re-verify: the settings box content equals the paste block (copy out, diff).
 Update when: a governor is added/retired (Decision 5/7), a steered skill is

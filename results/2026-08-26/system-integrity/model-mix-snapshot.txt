@@ -1,0 +1,5 @@
+# Model-mix snapshot (fable-transition-audit step 1), session of 2026-08-26
+Session-start env header declared: 'You are powered by the model named Sonnet 5' (harness snapshot, predates switch)
+Owner ran /model claude-fable-5 in this session; local-command stdout: 'Set model to claude-fable-5'
+Owner statement this session: ~1 month without Fable capability before today
+Weights not introspectable from inside the session; A2 unconfirmed either way

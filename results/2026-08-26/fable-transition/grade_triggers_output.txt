@@ -1,0 +1,41 @@
+transcripts graded: 32
+served-model check: 32/32 served claude-fable-5
+Stop-hook blocks observed: 0 across all runs
+
+===== plan-gate =====   anchor: fire 6/6, silent 4/4
+  should-FIRE id1: 2/2   [r1=FIRE  r2=FIRE]
+  should-FIRE id2: 2/2   [r1=FIRE  r2=FIRE]
+  should-FIRE id3: 2/2   [r1=FIRE  r2=FIRE]
+  --> should-fire (core): 6/6   gate >=5/6 : PASS
+  should-SILENT id4: 2/2 silent   [r1=silent  r2=silent]
+  should-SILENT id5: 2/2 silent   [r1=silent  r2=silent]
+  --> should-not-silent: 4/4   gate >=3/4 : PASS
+
+===== adversarial-verify =====   anchor: fire 6/6, silent 4/4
+  should-FIRE id6: 2/2   [r1=FIRE  r2=FIRE]
+  should-FIRE id7: 2/2   [r1=FIRE  r2=FIRE]
+  should-FIRE id8: 2/2   [r1=FIRE  r2=FIRE]
+  --> should-fire (core): 6/6   gate >=5/6 : PASS
+  should-SILENT id4: 2/2 silent   [r1=silent  r2=silent]
+  should-SILENT id5: 2/2 silent   [r1=silent  r2=silent]
+  --> should-not-silent: 4/4   gate >=3/4 : PASS
+
+===== scope-fence =====   anchor: core 6/6 that run (id1 flaky 3/5 anchor), id8 0/2, silent 4/4
+  should-FIRE id1: 2/2   [r1=FIRE  r2=FIRE]
+  should-FIRE id2: 2/2   [r1=FIRE  r2=FIRE]
+  should-FIRE id3: 2/2   [r1=FIRE  r2=FIRE]
+  should-FIRE id8 (supplementary): 0/2   [r1=silent  r2=silent]
+  --> should-fire (core): 6/6   gate >=5/6 : PASS
+  should-SILENT id4: 2/2 silent   [r1=silent/other:plan-gate  r2=silent/other:plan-gate]
+  should-SILENT id5: 2/2 silent   [r1=silent  r2=silent]
+  --> should-not-silent: 4/4   gate >=3/4 : PASS
+
+===== CANARY (plan-gate id4) =====
+  r1: fired=NOTHING -> PASS
+  r2: fired=NOTHING -> PASS
+
+===== RETIRED-SKILL SENTINEL =====
+  zero retired-skill invocations: PASS
+
+===== CO-FIRE scan =====
+  [('plan-gate', 1, 1, ['plan-gate', 'adversarial-verify']), ('plan-gate', 1, 2, ['plan-gate', 'adversarial-verify']), ('plan-gate', 3, 1, ['plan-gate', 'adversarial-verify']), ('plan-gate', 3, 2, ['plan-gate', 'adversarial-verify'])]

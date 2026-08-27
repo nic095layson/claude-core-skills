@@ -63,7 +63,7 @@ Pipe-tested all three paths PASS 2026-08-03 (repo copy, this session,
 including the "spent all afternoon" variant). Live-fire and A/B owed, same
 experiment file.
 
-## receipt-law-stop-gate.sh (PROPOSED 2026-08-12, pipe-tested, NOT installed)
+## receipt-law-stop-gate.sh (proposed 2026-08-12; installed and live-verified 2026-08-26)
 
 The lever for INC-9. A **Stop** hook — the first in this pack that may *block*
 rather than remind, and the reason it may is worth stating: the house rule
@@ -110,6 +110,18 @@ run produced an unreceipted inability claim — two attempts, both self-correcte
 So the no-false-positive property is EVIDENCE from live sessions; the blocking
 path remains proven by fixture only, including against the verbatim incident
 text. A/B still owed (`experiments/hypothesis-2026-08-11-gap-provenance.md`, H8).
+
+**Update 2026-08-26 — installed, and the first live BLOCK observed.** The hook
+is installed at user scope on the primary machine and registered as a Stop hook
+in `~/.claude/settings.json` (settings mtime 2026-08-19, observed 2026-08-26).
+In a real session on 2026-08-26 it blocked a turn that wrote "couldn't check"
+about the claude.ai settings box with no attempt named: the block message cited
+the turn's 9 lookups, the corrected turn shipped a proper receipt (what was
+available and why none of it could reach the box), and the gate passed it. The
+blocking path is now live-proven, not fixture-only; the paragraph above stands
+as the honest record of what was known before this firing. Selftest re-run
+2026-08-26: 10/10, twice. Evidence: `results/2026-08-26/system-integrity/`.
+The A/B (H8) remains owed — one live block is an existence proof, not a rate.
 
 **Surface limit, stated plainly:** Claude Code only. claude.ai has no hook
 layer, and INC-9 happened on claude.ai — so on that surface the receipt law is

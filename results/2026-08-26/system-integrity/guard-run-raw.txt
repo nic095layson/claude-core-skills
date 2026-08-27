@@ -1,0 +1,54 @@
+== guard_essentials ==
+  ok    lint: 21/21 skills PASS
+  ok    adversarial-verify: gap provenance
+  ok    adversarial-verify: NOT-ATTEMPTED state
+  ok    adversarial-verify: binary-grade rule
+  ok    adversarial-verify: Step 6
+  ok    adversarial-verify: Acceptance wired
+  ok    adversarial-verify: rule 6 receipt law
+  ok    adversarial-verify: rule 7 loophole closed
+  ok    adversarial-verify: proportionality valve
+  ok    plan-gate: stop-the-conversion rule
+  ok    plan-gate: cheap-unknown clause
+  ok    plan-gate: anti-ceremony valve
+  ok    plan-gate: sizing test (INC-2026-08-19-01 D1)
+  ok    plan-gate: gate-emitted-pre-work rule (D2)
+  ok    plan-gate: branch rules mandatory when externally dependent
+  ok    gauntlet: shape-aware named firing
+  ok    after-report: SUPPORTED basis rule
+  ok    after-report: Bounds split
+  ok    gauntlet: the sequence
+  ok    gauntlet: triage valve
+  ok    instructions: GAUNTLET in paste block
+  ok    instructions: receipt law in paste block
+  ok    instructions: aggregates law in paste block
+  FAIL  instructions: stated char count disagrees with measured (    5295)
+  FAIL  frontmatter unparseable: .claude/skills/aba-stimulus-deck/SKILL.md
+  FAIL  frontmatter unparseable: .claude/skills/adversarial-verify/SKILL.md
+  FAIL  frontmatter unparseable: .claude/skills/after-report/SKILL.md
+  FAIL  frontmatter unparseable: .claude/skills/application-tailor/SKILL.md
+  FAIL  frontmatter unparseable: .claude/skills/architecture-contract/SKILL.md
+  FAIL  frontmatter unparseable: .claude/skills/brand-standard/SKILL.md
+  FAIL  frontmatter unparseable: .claude/skills/correspondence/SKILL.md
+  FAIL  frontmatter unparseable: .claude/skills/debugging-playbook/SKILL.md
+  FAIL  frontmatter unparseable: .claude/skills/delegation-discipline/SKILL.md
+  FAIL  frontmatter unparseable: .claude/skills/diagnostics-and-tooling/SKILL.md
+  FAIL  frontmatter unparseable: .claude/skills/domain-reference/SKILL.md
+  FAIL  frontmatter unparseable: .claude/skills/gauntlet/SKILL.md
+  FAIL  frontmatter unparseable: .claude/skills/governance-adoption-campaign/SKILL.md
+  FAIL  frontmatter unparseable: .claude/skills/install-and-surfaces/SKILL.md
+  FAIL  frontmatter unparseable: .claude/skills/lessons-ledger/SKILL.md
+  FAIL  frontmatter unparseable: .claude/skills/live-state-truth/SKILL.md
+  FAIL  frontmatter unparseable: .claude/skills/plan-gate/SKILL.md
+  FAIL  frontmatter unparseable: .claude/skills/product-output/SKILL.md
+  FAIL  frontmatter unparseable: .claude/skills/research-methodology/SKILL.md
+  FAIL  frontmatter unparseable: .claude/skills/scope-fence/SKILL.md
+  FAIL  frontmatter unparseable: .claude/skills/skill-authoring/SKILL.md
+
+  ok    ledger: no duplicate keys
+  ok    no files deleted
+  ok    no files renamed vs merge-base
+  ok    branch is current with origin/main
+  ok    evals: all JSON valid
+  ok    hooks/scripts: shell syntax valid
+== RESULT: FAIL ==

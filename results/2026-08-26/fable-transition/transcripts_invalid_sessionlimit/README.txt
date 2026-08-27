@@ -1,0 +1,30 @@
+# Batch A interruption, 2026-08-26: owner's session usage limit hit mid-batch (message: 'You've hit your session limit · resets 5:10pm America/Los_Angeles').
+# 28/44 runs returned the limit message as their result (rc=1, 2-4s). Excluded per PREREG stop rule (platform condition), re-run after reset. Files kept here as evidence; manifest rows with rc=1 are these.
+adversarial-verify__av1__with__r1.jsonl
+adversarial-verify__av1__with__r2.jsonl
+adversarial-verify__av2__with__r1.jsonl
+adversarial-verify__av2__with__r2.jsonl
+adversarial-verify__id5__with__r1.jsonl
+adversarial-verify__id5__with__r2.jsonl
+plan-gate__id1__with__r1.jsonl
+plan-gate__id1__with__r2.jsonl
+plan-gate__pg1__with__r1.jsonl
+plan-gate__pg1__with__r2.jsonl
+plan-gate__pg2__with__r1.jsonl
+plan-gate__pg2__with__r2.jsonl
+scope-fence__id1__with__r1.jsonl
+scope-fence__id1__with__r2.jsonl
+scope-fence__id2__with__r1.jsonl
+scope-fence__id2__with__r2.jsonl
+scope-fence__id3__with__r1.jsonl
+scope-fence__id3__with__r2.jsonl
+scope-fence__id4__with__r1.jsonl
+scope-fence__id4__with__r2.jsonl
+scope-fence__id5__with__r1.jsonl
+scope-fence__id5__with__r2.jsonl
+scope-fence__id8__with__r1.jsonl
+scope-fence__id8__with__r2.jsonl
+scope-fence__sf1__with__r1.jsonl
+scope-fence__sf1__with__r2.jsonl
+scope-fence__sf2__with__r1.jsonl
+scope-fence__sf2__with__r2.jsonl

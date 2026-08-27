@@ -1,0 +1,31 @@
+>>> MOVE OUT active governors -> /Users/davidlayson/.claude/skills_fta_backup
+    moved out plan-gate
+    moved out adversarial-verify
+    moved out scope-fence
+>>> without-arm state, ~/.claude/skills: brand-standard llm-council 
+=== prompts_step2.json arm=without: 8 prompts x 2 = 16 runs, 5 workers, model=claude-fable-5, RUNROOT=/private/tmp/fta_2026-08-26 ===
+  done live-state-truth__lst2 without r2 rc=0 26s 31118B
+  done live-state-truth__lst1 without r2 rc=0 35s 53448B
+  done lessons-ledger__ll1 without r1 rc=0 35s 29288B
+  done live-state-truth__lst2 without r1 rc=0 37s 41686B
+  done live-state-truth__lst1 without r1 rc=0 45s 60825B
+  done lessons-ledger__ll1 without r2 rc=0 23s 21312B
+  done lessons-ledger__ll2 without r2 rc=0 15s 17707B
+  done lessons-ledger__ll2 without r1 rc=0 38s 36060B
+  done live-state-truth__lst-u2 without r1 rc=0 34s 34618B
+  done live-state-truth__lst-u2 without r2 rc=0 33s 32411B
+  done lessons-ledger__ll-u1 without r1 rc=0 32s 41152B
+  done lessons-ledger__ll-u2 without r1 rc=0 27s 34399B
+  done lessons-ledger__ll-u1 without r2 rc=0 40s 46685B
+  done lessons-ledger__ll-u2 without r2 rc=0 38s 48355B
+  done live-state-truth__lst-u1 without r2 rc=0 99s 65613B
+  LIMIT live-state-truth__lst-u1 without r1 — session limit hit, transcript discarded
+=== COMPLETE ===
+>>> runs finished rc=0; trap restores now
+>>> RESTORE (trap): moving governors back to /Users/davidlayson/.claude/skills
+    restored plan-gate
+    restored adversarial-verify
+    restored scope-fence
+>>> checksum verify vs baseline:
+    BYTE-IDENTICAL to baseline
+WINDOW B EXIT 0
