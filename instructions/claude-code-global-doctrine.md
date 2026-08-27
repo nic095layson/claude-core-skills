@@ -1,14 +1,12 @@
 # Claude Code global doctrine — canonical copy
 
-> **STALENESS NOTICE (added 2026-08-12 on migration).** This copy was captured
-> **2026-07-13** and migrated to `main` from the unmerged branch
-> `add-claude-code-global-doctrine` on 2026-08-12. It has **not** been diffed
-> against the live `~/.claude/CLAUDE.md` since capture — that file lives on the
-> owner's Mac and is not readable from a cloud session (`ATTEMPTED-FAILED`: no
-> path exists from here). Treat it as a dated record, not as current state.
-> **Re-verify before relying on it:** `diff ~/.claude/CLAUDE.md instructions/claude-code-global-doctrine.md`
-> on the primary machine. A steering artifact whose copy silently diverges from
-> the deployed original is the INC-11 failure mode exactly.
+> **VERIFIED CURRENT (2026-08-25, primary machine).** The re-verify requested by
+> the 2026-08-12 migration notice was run on the owner's Mac: `diff
+> ~/.claude/CLAUDE.md` against this file's embedded body — **zero drift**. The
+> 2026-07-13 capture (migrated to `main` from the unmerged branch
+> `add-claude-code-global-doctrine` by `cd49f36`; the PR itself, #4, closed as
+> superseded 2026-08-25) matches the live deployed dotfile exactly. The drift law
+> below remains the standing rule: re-run the diff on any edit to either copy.
 
 
 Canonical copy of `~/.claude/CLAUDE.md`, the user-global memory file Claude Code
