@@ -3,7 +3,8 @@
 # ACTIVE governors out of personal scope (the retired two must already be absent),
 # holds the campaign lock (INC-4: never two jobs on one machine's ~/.claude/skills),
 # runs one prompt set, restores under trap, verifies byte-identical vs baseline.
-# Usage: without_arm.sh <prompts.json>
+# Usage: without_arm.sh <prompts.json> [<prompts.json> ...]   (one toggle window, sets run in order;
+#        run_set.py skips cells that already have a valid transcript, so re-runs are safe)
 set -u
 SKILLS="$HOME/.claude/skills"
 BACKUP="$HOME/.claude/skills_fta_backup"
@@ -12,7 +13,7 @@ RETIRED=(live-state-truth lessons-ledger)
 HERE="$(cd "$(dirname "$0")" && pwd)"
 LOCK=/private/tmp/fta-campaign.lock
 export RUNROOT="${RUNROOT:-/private/tmp/fta_2026-08-26}"
-PROMPTS="$1"
+PROMPT_SETS=("$@")
 
 restore() {
   echo ">>> RESTORE (trap): moving governors back to $SKILLS"
@@ -47,5 +48,8 @@ for g in "${GOVS[@]}"; do
   [ -e "$SKILLS/$g" ] && { echo "!! $g STILL PRESENT — ABORT"; exit 1; }
 done
 echo ">>> without-arm state, ~/.claude/skills: $(ls "$SKILLS" | tr '\n' ' ')"
-python3 "$HERE/run_set.py" "$PROMPTS" without
-echo ">>> runs finished rc=$?; trap restores now"
+for P in "${PROMPT_SETS[@]}"; do
+  python3 "$HERE/run_set.py" "$P" without
+  echo ">>> set $P finished rc=$?"
+done
+echo ">>> all sets finished; trap restores now"

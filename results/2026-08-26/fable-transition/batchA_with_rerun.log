@@ -1,0 +1,49 @@
+=== prompts_triggers.json arm=with: 16 prompts x 2 = 32 runs, 5 workers, model=claude-fable-5, RUNROOT=/private/tmp/fta_2026-08-26 ===
+  skip plan-gate__id3 with r1 (exists)
+  skip plan-gate__id2 with r1 (exists)
+  skip plan-gate__id4 with r1 (exists)
+  skip plan-gate__id2 with r2 (exists)
+  skip plan-gate__id5 with r1 (exists)
+  skip plan-gate__id4 with r2 (exists)
+  skip plan-gate__id3 with r2 (exists)
+  skip plan-gate__id5 with r2 (exists)
+  skip adversarial-verify__id6 with r2 (exists)
+  skip adversarial-verify__id6 with r1 (exists)
+  skip adversarial-verify__id7 with r1 (exists)
+  skip adversarial-verify__id7 with r2 (exists)
+  skip adversarial-verify__id8 with r1 (exists)
+  skip adversarial-verify__id8 with r2 (exists)
+  skip adversarial-verify__id4 with r1 (exists)
+  skip adversarial-verify__id4 with r2 (exists)
+  done adversarial-verify__id5 with r2 rc=0 8s 14106B
+  done adversarial-verify__id5 with r1 rc=0 8s 14479B
+  done scope-fence__id1 with r1 rc=0 28s 40665B
+  done scope-fence__id2 with r1 rc=0 26s 41080B
+  done scope-fence__id1 with r2 rc=0 28s 38733B
+  done scope-fence__id2 with r2 rc=0 31s 44406B
+  done scope-fence__id3 with r2 rc=0 26s 38706B
+  done scope-fence__id3 with r1 rc=0 30s 45063B
+  done scope-fence__id8 with r1 rc=0 20s 21640B
+  done scope-fence__id8 with r2 rc=0 28s 28391B
+  done scope-fence__id5 with r1 rc=0 7s 12318B
+  done scope-fence__id5 with r2 rc=0 7s 12351B
+  done scope-fence__id4 with r2 rc=0 30s 48858B
+  done scope-fence__id4 with r1 rc=0 47s 72972B
+  done plan-gate__id1 with r1 rc=0 402s 248576B
+  done plan-gate__id1 with r2 rc=0 412s 300733B
+=== COMPLETE ===
+=== prompts_step4.json arm=with: 6 prompts x 2 = 12 runs, 5 workers, model=claude-fable-5, RUNROOT=/private/tmp/fta_2026-08-26 ===
+  done adversarial-verify__av1 with r1 rc=0 36s 47607B
+  done plan-gate__pg2 with r2 rc=0 56s 63071B
+  done plan-gate__pg2 with r1 rc=0 65s 64372B
+  done adversarial-verify__av1 with r2 rc=0 57s 64464B
+  done scope-fence__sf1 with r1 rc=0 19s 21411B
+  done adversarial-verify__av2 with r1 rc=0 80s 70379B
+  done scope-fence__sf1 with r2 rc=0 27s 32266B
+  done adversarial-verify__av2 with r2 rc=0 90s 77441B
+  done scope-fence__sf2 with r1 rc=0 26s 34656B
+  done scope-fence__sf2 with r2 rc=0 27s 39351B
+  done plan-gate__pg1 with r1 rc=0 383s 233666B
+  done plan-gate__pg1 with r2 rc=0 408s 263654B
+=== COMPLETE ===
+BATCH A RERUN EXIT 0

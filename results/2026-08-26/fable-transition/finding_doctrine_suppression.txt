@@ -1,0 +1,27 @@
+# Finding (2026-08-26, window A): retired skills discovered but never loaded — doctrine suppression
+
+Prediction (PREREG step 2): with-retired arm fires cued >=3/4. Observed: 0/16 Skill loads across all
+with-retired runs (8 cued + 8 uncued).
+
+Evidence 1 — discovery worked (system-init event of the transcripts lists the temporarily installed
+skills):
+  live-state-truth__lst1__with__r1.jsonl | discovered skills: ['adversarial-verify', 'lessons-ledger',
+  'live-state-truth', 'plan-gate', 'scope-fence']
+  lessons-ledger__ll1__with__r1.jsonl   | same
+
+Evidence 2 — the session's own stated reason (lessons-ledger__ll1__with__r1.jsonl, assistant text):
+  "**Didn't** load the `lessons-ledger` skill — your global doctrine retired it on 2026-07-11 and says
+  not to reactivate, so I just wrote the note directly."
+
+Cause: ~/.claude/CLAUDE.md (global doctrine, mtime 2026-07-13) loads in every headless session and says
+"Retired — do not reactivate ... Do not re-add them to the active doctrine." The doctrine outranks the
+install. The 2026-07-11 8-cell runs predate that file.
+
+Interpretation for this audit: the with-retired arm is not a skill-supplied arm under the deployed
+configuration; both arms measure native+doctrine behavior. Step 2's decisive number is therefore the
+native signature rate (without-arm, corroborated by the effectively-native with-arm). Re-opening
+Decision 7 on this machine would require a doctrine-free harness for the with-arm — a follow-up, not
+run today (owner decision).
+
+Side observation: a receipt-law Stop-hook BLOCK occurred inside a headless run (lst2 with r2) — the
+second live block observed on 2026-08-26.

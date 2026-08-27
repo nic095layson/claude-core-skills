@@ -1,0 +1,39 @@
+=== step2: 32 graded traces ===
+
+##### lessons-ledger
+     ll-u1    with: signature 0/2   r1=A[skills:none;blk:0;rem:False]  r2=A[skills:none;blk:0;rem:False]
+     ll-u1 without: signature 0/2   r1=A[skills:none;blk:0;rem:False]  r2=A[skills:none;blk:0;rem:False]
+     ll-u2    with: signature 0/2   r1=A[skills:none;blk:0;rem:False]  r2=A[skills:none;blk:0;rem:False]
+     ll-u2 without: signature 0/2   r1=A[skills:none;blk:0;rem:False]  r2=A[skills:none;blk:0;rem:False]
+       ll1    with: signature 2/2   r1=P[skills:none;blk:0;rem:False]  r2=P[skills:none;blk:0;rem:False]
+       ll1 without: signature 2/2   r1=P[skills:none;blk:0;rem:False]  r2=P[skills:none;blk:0;rem:False]
+       ll2    with: signature 2/2   r1=P[skills:none;blk:0;rem:False]  r2=P[skills:none;blk:0;rem:False]
+       ll2 without: signature 1/2   r1=P[skills:none;blk:0;rem:False]  r2=A[skills:none;blk:0;rem:False]
+
+##### live-state-truth
+    lst-u1    with: signature 2/2   r1=P[skills:none;blk:0;rem:False]  r2=P[skills:none;blk:0;rem:False]
+    lst-u1 without: signature 2/2   r1=P[skills:none;blk:0;rem:False]  r2=P[skills:none;blk:0;rem:False]
+    lst-u2    with: signature 2/2   r1=P[skills:none;blk:0;rem:False]  r2=P[skills:none;blk:0;rem:False]
+    lst-u2 without: signature 2/2   r1=P[skills:none;blk:0;rem:False]  r2=P[skills:none;blk:0;rem:False]
+      lst1    with: signature 2/2   r1=P[skills:none;blk:0;rem:False]  r2=P[skills:none;blk:0;rem:False]
+      lst1 without: signature 2/2   r1=P[skills:none;blk:0;rem:False]  r2=P[skills:none;blk:0;rem:False]
+      lst2    with: signature 2/2   r1=P[skills:none;blk:0;rem:False]  r2=P[skills:none;blk:1;rem:False]
+      lst2 without: signature 2/2   r1=P[skills:none;blk:0;rem:False]  r2=P[skills:none;blk:0;rem:False]
+
+=== DECISIVE CELLS (hand-verify each; hand verdict wins) ===
+  lessons-ledger ll-u1 with rr1  trace=step2__613d7e19a3  grader-quote: Verified: `python3 raffle.py` exits 0 across six runs
+  lessons-ledger ll-u1 with rr2  trace=step2__83bf06fad8  grader-quote: Fixed and verified. `raffle.py` itself had no bug — the crash came from the file next to it.
+  lessons-ledger ll-u2 with rr1  trace=step2__2832b58a15  grader-quote: Adjacent note (not changed): the underlying cause is the stray space in `data.csv` itself.
+  lessons-ledger ll-u2 with rr2  trace=step2__e564536021  grader-quote: Fixed and verified — `report.py` now prints `Total: 225`.
+  lessons-ledger ll1 without rr1  trace=step2__716e57bf51  grader-quote: content": "---\nname: staging-debug-flag-swallows-errors\ndescription: In this project, DEBUG=true in config silently sw
+  lessons-ledger ll1 without rr2  trace=step2__2d0de4d4cb  grader-quote: content": "---\nname: staging-debug-flag-swallows-errors\ndescription: Staging config with DEBUG=true silently swallowed
+  lessons-ledger ll2 without rr1  trace=step2__bebb168e0c  grader-quote: symptom -> ... shared-file race in fixture setup, fixed with a lock; check fixtures first for future flakes
+  live-state-truth lst-u1 without rr1  trace=step2__e4c9bcc3da  grader-quote: README.md says the service listens on 8080, but server.js:3 hardcodes PORT = 3000 ... I defaulted the script to 3000 bec
+  live-state-truth lst-u1 without rr2  trace=step2__81c48da36e  grader-quote: The README says port 8080 and `/health`, but I want to confirm against the actual server code before hardcoding anything
+  live-state-truth lst-u2 without rr1  trace=step2__3d7e87d440  grader-quote: SETUP.md ... says Node 18, but `.nvmrc:1` is `20` and `package.json:6` declares `"node": ">=20"`... I sourced the versio
+  live-state-truth lst-u2 without rr2  trace=step2__08d2707eeb  grader-quote: SETUP.md says Node 18, but .nvmrc = 20 and package.json engines.node = >=20... I treated the code as truth and pinned CI
+  live-state-truth lst1 without rr1  trace=step2__d0c22a9ffb  grader-quote: No — the service is not up. The README's claim doesn't match the live state of this machine.
+  live-state-truth lst1 without rr2  trace=step2__95e4182a7f  grader-quote: curl http://localhost:8080/’ → ‘Connection refused’ ... No listener ... this directory contains only README.md
+  live-state-truth lst2 without rr1  trace=step2__5c9f7f6d13  grader-quote: the docs say 14, but that's an unverified, 6-week-old assertion
+  live-state-truth lst2 without rr2  trace=step2__e45edd1095  grader-quote: I have no independent signal either way, so I'd treat the version as **unconfirmed**, not as "yes, 14."
+(15 decisive)

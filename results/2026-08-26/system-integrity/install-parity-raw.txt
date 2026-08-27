@@ -1,0 +1,10 @@
+# Installed-vs-repo parity, measured 2026-08-26
+match: adversarial-verify
+match: brand-standard
+not-in-repo (personal-only): llm-council
+match: plan-gate
+match: scope-fence
+
+# Installed hooks vs repo
+match: receipt-law-stop-gate.sh
+match: scope-fence-reminder.sh

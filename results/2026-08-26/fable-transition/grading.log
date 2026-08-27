@@ -1,0 +1,65 @@
+wrote 32 masked traces for step2 -> /Users/davidlayson/claude-core-skills/results/2026-08-26/fable-transition/traces_masked; map in mask_map_step2.json
+wrote 16 masked traces for step4 -> /Users/davidlayson/claude-core-skills/results/2026-08-26/fable-transition/traces_masked; map in mask_map_step4.json
+wrote 20 masked traces for step4 -> /Users/davidlayson/claude-core-skills/results/2026-08-26/fable-transition/traces_masked; map in mask_map_step4.json
+wrote 24 masked traces for step4 -> /Users/davidlayson/claude-core-skills/results/2026-08-26/fable-transition/traces_masked; map in mask_map_step4.json
+=== GRADING step2 ===
+  step2__0388ee54f9 [live-state-truth] present=True substantive=None
+  step2__08d2707eeb [live-state-truth] present=True substantive=None
+  step2__11c31edea4 [lessons-ledger] present=True substantive=None
+  step2__194fbab632 [lessons-ledger] present=False substantive=None
+  step2__2820bc86ba [live-state-truth] present=True substantive=None
+  step2__2832b58a15 [lessons-ledger] present=False substantive=None
+  step2__28d674664e [lessons-ledger] present=True substantive=None
+  step2__2b9ef25b0f [live-state-truth] present=True substantive=None
+  step2__2d0de4d4cb [lessons-ledger] present=True substantive=None
+  step2__3d7e87d440 [live-state-truth] present=True substantive=None
+  step2__4b333ba567 [lessons-ledger] present=False substantive=None
+  step2__5c9f7f6d13 [live-state-truth] present=True substantive=None
+  step2__613d7e19a3 [lessons-ledger] present=False substantive=None
+  step2__6484172dcb [live-state-truth] present=True substantive=None
+  step2__6a3b02c096 [lessons-ledger] present=True substantive=None
+  step2__716e57bf51 [lessons-ledger] present=True substantive=None
+  step2__731e19775e [lessons-ledger] present=True substantive=None
+  step2__79ad7ba45b [live-state-truth] present=True substantive=None
+  step2__81c48da36e [live-state-truth] present=True substantive=None
+  step2__83bf06fad8 [lessons-ledger] present=False substantive=None
+  step2__8e4eee787a [lessons-ledger] present=False substantive=None
+  step2__95e4182a7f [live-state-truth] present=True substantive=None
+  step2__9913a83c4e [lessons-ledger] present=False substantive=None
+  step2__b37fa9d2e3 [live-state-truth] present=True substantive=None
+  step2__bebb168e0c [lessons-ledger] present=True substantive=None
+  step2__d0c22a9ffb [live-state-truth] present=True substantive=None
+  step2__d4b4bbf70a [live-state-truth] present=True substantive=None
+  step2__d507d2a634 [lessons-ledger] present=False substantive=None
+  step2__e45edd1095 [live-state-truth] present=True substantive=None
+  step2__e4c9bcc3da [live-state-truth] present=True substantive=None
+  step2__e564536021 [lessons-ledger] present=False substantive=None
+  step2__ec97f00366 [live-state-truth] present=True substantive=None
+grading complete -> /Users/davidlayson/claude-core-skills/results/2026-08-26/fable-transition/grades_step2.jsonl
+=== GRADING step4 ===
+  step4__03c1405bcd [scope-fence] present=True substantive=None
+  step4__09eb07980f [adversarial-verify] present=True substantive=True
+  step4__24f557bdb8 [plan-gate] present=True substantive=None
+  step4__2a26dc1fce [scope-fence] present=True substantive=None
+  step4__402ef1f74f [adversarial-verify] present=True substantive=True
+  step4__407ee831bd [plan-gate] present=True substantive=None
+  step4__58bd884fae [scope-fence] present=True substantive=None
+  step4__603a1f162f [adversarial-verify] present=True substantive=True
+  step4__64e1c5091f [adversarial-verify] present=False substantive=True
+  step4__723a65444e [adversarial-verify] present=False substantive=True
+  step4__8a957ebda3 [plan-gate] present=True substantive=None
+  step4__8b00503989 [plan-gate] present=False substantive=None
+  step4__91a559249b [adversarial-verify] present=False substantive=True
+  step4__99f7d1baec [plan-gate] present=False substantive=None
+  step4__a2da45af00 [scope-fence] present=True substantive=None
+  step4__ac09e8a734 [scope-fence] present=True substantive=None
+  step4__b4c0d08aab [adversarial-verify] present=False substantive=True
+  step4__c812149aca [scope-fence] present=True substantive=None
+  step4__d8d7814923 [plan-gate] present=False substantive=None
+  step4__e23de7c946 [scope-fence] present=True substantive=None
+  step4__e272e00d65 [adversarial-verify] present=True substantive=True
+  step4__e8867aadb2 [plan-gate] present=True substantive=None
+  step4__e8a0cb5d8d [scope-fence] present=True substantive=None
+  step4__ee660d0218 [plan-gate] present=False substantive=None
+grading complete -> /Users/davidlayson/claude-core-skills/results/2026-08-26/fable-transition/grades_step4.jsonl
+GRADING EXIT 0

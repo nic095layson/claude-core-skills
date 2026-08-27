@@ -1,0 +1,6 @@
+# SessionStart probe, 2026-08-26 14:35 — headless CLI session launched from within the SDK session
+command: claude -p 'reply with just: ok' --model haiku
+log lines before: 706 / after: 707
+new entry: 2026-08-26 14:35:31 pull: Already up to date.
+conclusion: SessionStart fires for headless CLI (print-mode) sessions; hook+registration healthy.
+residual: SDK-harness-launched sessions (like the one running this probe) logged nothing at their own start — launch-path difference, labeled INFERENCE.

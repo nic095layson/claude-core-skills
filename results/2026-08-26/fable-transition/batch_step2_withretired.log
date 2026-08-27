@@ -1,0 +1,28 @@
+    installed live-state-truth (temporary)
+    installed lessons-ledger (temporary)
+>>> with-retired state, ~/.claude/skills: adversarial-verify brand-standard lessons-ledger live-state-truth llm-council plan-gate scope-fence 
+=== prompts_step2.json arm=with: 8 prompts x 2 = 16 runs, 5 workers, model=claude-fable-5, RUNROOT=/private/tmp/fta_2026-08-26 ===
+  done live-state-truth__lst1 with r1 rc=0 30s 46190B
+  done lessons-ledger__ll1 with r1 rc=0 30s 29514B
+  done live-state-truth__lst1 with r2 rc=0 36s 42810B
+  done live-state-truth__lst2 with r1 rc=0 41s 39854B
+  done live-state-truth__lst2 with r2 rc=0 53s 55794B
+  done lessons-ledger__ll1 with r2 rc=0 32s 25506B
+  done lessons-ledger__ll2 with r1 rc=0 36s 34547B
+  done lessons-ledger__ll2 with r2 rc=0 32s 25224B
+  done live-state-truth__lst-u2 with r1 rc=0 31s 33009B
+  done live-state-truth__lst-u2 with r2 rc=0 32s 33699B
+  done lessons-ledger__ll-u1 with r1 rc=0 53s 57863B
+  done lessons-ledger__ll-u2 with r1 rc=0 27s 34680B
+  done lessons-ledger__ll-u1 with r2 rc=0 36s 45635B
+  done lessons-ledger__ll-u2 with r2 rc=0 37s 44507B
+  done live-state-truth__lst-u1 with r2 rc=0 184s 123772B
+  done live-state-truth__lst-u1 with r1 rc=0 228s 148850B
+=== COMPLETE ===
+>>> runs finished rc=0; trap cleans up now
+>>> CLEANUP (trap): removing retired governors from personal scope
+    removed live-state-truth
+    removed lessons-ledger
+>>> checksum verify vs baseline:
+    BYTE-IDENTICAL to baseline
+WINDOW A EXIT 0

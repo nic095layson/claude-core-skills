@@ -1,0 +1,47 @@
+>>> MOVE OUT active governors -> /Users/davidlayson/.claude/skills_fta_backup
+    moved out plan-gate
+    moved out adversarial-verify
+    moved out scope-fence
+>>> without-arm state, ~/.claude/skills: brand-standard llm-council 
+=== prompts_step2.json arm=without: 8 prompts x 2 = 16 runs, 5 workers, model=claude-fable-5, RUNROOT=/private/tmp/fta_2026-08-26 ===
+  skip live-state-truth__lst2 without r1 (exists)
+  skip live-state-truth__lst2 without r2 (exists)
+  skip live-state-truth__lst1 without r2 (exists)
+  skip live-state-truth__lst1 without r1 (exists)
+  skip lessons-ledger__ll2 without r2 (exists)
+  skip lessons-ledger__ll1 without r2 (exists)
+  skip lessons-ledger__ll1 without r1 (exists)
+  skip lessons-ledger__ll2 without r1 (exists)
+  skip live-state-truth__lst-u2 without r2 (exists)
+  skip live-state-truth__lst-u1 without r2 (exists)
+  skip live-state-truth__lst-u2 without r1 (exists)
+  skip lessons-ledger__ll-u1 without r1 (exists)
+  skip lessons-ledger__ll-u1 without r2 (exists)
+  skip lessons-ledger__ll-u2 without r2 (exists)
+  skip lessons-ledger__ll-u2 without r1 (exists)
+  done live-state-truth__lst-u1 without r1 rc=0 661s 63710B
+=== COMPLETE ===
+>>> set prompts_step2.json finished rc=0
+=== prompts_step4.json arm=without: 6 prompts x 2 = 12 runs, 5 workers, model=claude-fable-5, RUNROOT=/private/tmp/fta_2026-08-26 ===
+  done adversarial-verify__av1 without r1 rc=0 26s 23432B
+  done plan-gate__pg2 without r1 rc=0 30s 26785B
+  done plan-gate__pg2 without r2 rc=0 35s 28180B
+  done adversarial-verify__av1 without r2 rc=0 28s 24657B
+  done scope-fence__sf1 without r1 rc=0 19s 20400B
+  done adversarial-verify__av2 without r1 rc=0 54s 35260B
+  done scope-fence__sf1 without r2 rc=0 17s 19749B
+  done adversarial-verify__av2 without r2 rc=0 58s 34582B
+  done scope-fence__sf2 without r1 rc=0 30s 42075B
+  done scope-fence__sf2 without r2 rc=0 33s 43124B
+  done plan-gate__pg1 without r2 rc=0 276s 148245B
+  done plan-gate__pg1 without r1 rc=0 535s 281506B
+=== COMPLETE ===
+>>> set prompts_step4.json finished rc=0
+>>> all sets finished; trap restores now
+>>> RESTORE (trap): moving governors back to /Users/davidlayson/.claude/skills
+    restored plan-gate
+    restored adversarial-verify
+    restored scope-fence
+>>> checksum verify vs baseline:
+    BYTE-IDENTICAL to baseline
+WINDOW C EXIT 0

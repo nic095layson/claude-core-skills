@@ -1,0 +1,5 @@
+# Scope-fence sentinels in TMPDIR, re-listed 2026-08-26 after this session's first Write (hook fired live)
+-rw-r--r--@   1 davidlayson  staff        0 Aug 25 21:35 scope-fence-reminder-4027141e-51b5-433f-9773-d5bfaa8cbec5
+-rw-r--r--@   1 davidlayson  staff        0 Aug 25 19:26 scope-fence-reminder-84126bf5-0661-4b63-8f32-5352b6bbdcc4
+-rw-r--r--@   1 davidlayson  staff        0 Aug 26 14:29 scope-fence-reminder-a1c652e0-9a98-57ad-92b2-31eba753f107
+-rw-r--r--@   1 davidlayson  staff        0 Aug 26 14:24 scope-fence-reminder-gauntlet-test-95334

@@ -1,4 +1,4 @@
-# Fable-transition audit — runbook (authored 2026-08-03, not yet run)
+# Fable-transition audit — runbook (authored 2026-08-03; first run 2026-08-26)
 
 Purpose: when the model mix serving this account changes — Fable 5 leaving the
 plan is the motivating event — re-measure which of this library's disciplines
@@ -10,8 +10,11 @@ model class that stops checking live state re-opens this decision." This
 runbook is the procedure for that re-opening, generalized to every measured
 calibration in the repo.
 
-**Status: authored ahead of the event. Nothing below has been run on a
-post-Fable mix.** Companion artifact: `model-capability-register.md` (same
+**Status: first run 2026-08-26** — triggered by Fable 5 *returning* to the mix
+after ~1 month (the "gains a model class" case). Steps 1–4 run on `claude-fable-5`;
+step 2's third instrument (no-silent-defaults) skipped by its own re-open
+condition; step 5 written as register rows 14–19; step 6 routed as owner
+decisions. Results: `results/2026-08-26/fable-transition/RESULTS.md`. Companion artifact: `model-capability-register.md` (same
 directory) — the dated record this runbook feeds.
 
 ## When to run
@@ -88,3 +91,26 @@ Re-verify before first use: instruments still present —
 `grep -c '^### ' .claude/LESSONS.md`. Update when: a run completes (link its
 results dir here, dated), an instrument is superseded, or the register's
 format changes.
+
+## Runs
+
+**Run 1 — 2026-08-26, Fable 5 returns** → `results/2026-08-26/fable-transition/`
+(PREREG `65defbb`, 88 valid runs, RESULTS.md, GRADES.md). Verdicts: retirements
+hold (live-state-truth native 8/8; lessons-ledger inconclusive again); all three
+active governors pass their trigger gates; plan-gate and adversarial-verify keep
+clean behavioral deltas; scope-fence shows **no delta** under the deployed
+doctrine. Three methodology lessons this runbook did not anticipate, now binding
+on the next run:
+
+1. **The global doctrine (`~/.claude/CLAUDE.md`) sits in both arms and outranks
+   the install.** A with-arm for a *retired* skill is impossible under it (0/16
+   loads even when installed — INC-2026-08-26-02); a with/without design cannot
+   attribute behavior between doctrine prose and the base model. Any re-argument
+   of Decision 7, and any attribution question like scope-fence's, needs a
+   doctrine-free arm (isolated config **without** `CLAUDE_CONFIG_DIR`, which the
+   07-11 keychain finding rules out — design it before running).
+2. **Session-limit refusals are success-shaped transcripts** (INC-2026-08-26-01):
+   29 runs lost before the harness checked result text. `run_set.py` now detects
+   and discards them; reuse it or its check.
+3. **Runs can see sibling run directories** under `RUNROOT/<arm>/<key>/r<n>` and
+   three did (harmless here). Next harness: one isolated root per run.

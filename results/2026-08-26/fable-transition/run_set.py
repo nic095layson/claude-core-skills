@@ -71,6 +71,15 @@ def run_one(p, n):
     if sz == 0:
         os.remove(out)
         return f"EMPTY {key} {ARM} r{n} rc={rc} {time.time()-t0:.0f}s"
+    # A usage/session-limit refusal arrives as a normal-looking transcript whose result
+    # is the limit message (batch A, 2026-08-26: 28/44 runs). It is not a run; discard
+    # it so a relaunch re-does the cell, and flag it in the manifest.
+    if "hit your session limit" in open(out, errors="replace").read():
+        os.rename(out, out + ".LIMIT")
+        with open(MANIFEST, "a") as m:
+            m.write(json.dumps({"key": key, "arm": ARM, "run": n, "rc": rc, "LIMIT": True,
+                                "finished": time.strftime("%Y-%m-%d %H:%M:%S")}) + "\n")
+        return f"LIMIT {key} {ARM} r{n} — session limit hit, transcript discarded"
     sm = served_model(out)
     with open(MANIFEST, "a") as m:
         m.write(json.dumps({"key": key, "arm": ARM, "run": n, "rc": rc,

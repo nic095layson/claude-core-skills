@@ -1041,3 +1041,68 @@ unmerged branch defeats it exactly.**
   output shape is under test. The known risk of the fix is over-correction —
   ceremony leaking onto trivia — which is why two of the four cases are guards and
   either one regressing blocks adoption (architecture-contract invariants 3, 5).
+
+### INC-2026-08-26-01 — Session-limit refusals arrive as success-shaped headless transcripts
+
+- **Date:** 2026-08-26. Recorded the same day. Rule 4 check run before appending:
+  `git show <branch>:.claude/LESSONS.md | grep '^### '` across all 17 remote
+  branches — no `INC-2026-08-2*` key anywhere.
+- **Surface:** Claude Code headless (`claude -p`, CLI 2.1.246), owner account under
+  its session usage limit, during the fable-transition audit
+  (`results/2026-08-26/fable-transition/`).
+- **Severity:** medium — 29 runs lost (28/44 in batch A, 1/16 in window B), no bad
+  rate shipped because the transcripts were checked before grading.
+
+- **Symptom:** the batch runner reported exit 0 and 44 non-empty transcripts. 28 of
+  them had completed in 2–4 seconds with `rc=1`, and their `result` event carried
+  `subtype: "success"`, `is_error: false`, and the text *"You've hit your session
+  limit · resets 5:10pm (America/Los_Angeles)"*.
+- **Root cause:** the harness's validity check was "transcript non-empty" (inherited
+  from the 2026-07-11 runners). A limit refusal is a well-formed stream-json
+  transcript with a success-shaped result event; nothing in the envelope marks it
+  as a non-run. The same class as INC-16 (errored runs are non-runs), one layer
+  deeper — here the run is not even errored.
+- **Evidence:** `transcripts_invalid_sessionlimit/` (28 files + README),
+  `run_manifest.jsonl` rows with `rc: 1` / `LIMIT: true`, `batchA_with.log`.
+- **Fix:** `run_set.py` now content-matches the limit message, renames the transcript
+  `.LIMIT`, flags the manifest row, and lets a relaunch redo the cell; batch A was
+  re-run after the reset with all 28 cells recovered and served by the intended model.
+- **Rule going forward:** a transcript is a run only if its result event is a real
+  completion — check the text, not the envelope. Parallelism (5 workers) reaches the
+  limit faster; plan batches against the reset clock.
+- **Status:** FIXED in the harness; the exclusion rule is pre-registered for
+  served-model fallback and applies to this class by the same logic.
+
+### INC-2026-08-26-02 — The global doctrine outranks the install: retired skills discovered but never loaded
+
+- **Date:** 2026-08-26. Recorded the same day.
+- **Surface:** Claude Code headless, `claude-fable-5`, fable-transition audit step 2
+  (with-retired arm: `live-state-truth` and `lessons-ledger` temporarily copied into
+  `~/.claude/skills/`, diff-verified against the repo).
+- **Severity:** low as a defect (nothing is broken), high as a methodology constraint.
+
+- **Symptom:** pre-registered prediction was ≥3/4 skill loads on the cued prompts
+  (they fired 3/3 on 2026-07-11). Observed **0/16** loads across all with-retired runs.
+- **Root cause:** `~/.claude/CLAUDE.md` (global doctrine, mtime 2026-07-13) loads in
+  every Claude Code session, headless included, and says *"Retired — do not
+  reactivate … Do not re-add them to the active doctrine."* Sessions obey it over
+  the presence of the skill. One said so verbatim
+  (`lessons-ledger__ll1__with__r1.jsonl`): *"Didn't load the `lessons-ledger` skill —
+  your global doctrine retired it on 2026-07-11 and says not to reactivate, so I just
+  wrote the note directly."*
+- **Evidence:** transcript init events list both skills as discovered;
+  `finding_doctrine_suppression.txt`; `tabulate_step2.txt` (skills:none in every
+  with-retired cell).
+- **Consequences:**
+  1. Under the deployed doctrine there is no such thing as a with-arm for a retired
+     skill on this machine. Decision 7 can only be re-argued with a doctrine-free
+     harness (register row 14 re-open condition; runbook Runs §1).
+  2. The doctrine is itself a measured carrier now (register row 19): it also
+     appears to carry scope-fence's flag-don't-fix behavior in the without-arm
+     (4/4, sessions citing "your scope-fence doctrine"), so with/without deltas on
+     this surface measure *skill over doctrine*, not *skill over base model*.
+  3. In the favorable direction: the retirement rule is self-enforcing — a stale
+     or accidentally re-installed retired skill will not fire here.
+- **Status:** OPEN as a standing constraint (no fix wanted; the doctrine behaved as
+  written). Owner decisions D-A / D-C in
+  `results/2026-08-26/fable-transition/RESULTS.md`.
