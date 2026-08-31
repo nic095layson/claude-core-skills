@@ -231,9 +231,10 @@ cheap, and educational — the compounding asset is the ledger.
   completed experiments (recommended), or commission now.
 
 **Executed during this analysis (report-of-record, not proposals):** this
-report + evidence file committed on the designated branch and pushed; the
-draft PR for the branch is opened immediately after this commit and its URL
-added here in a follow-up commit; nothing else — no skills added or edited,
+report + evidence file committed on the designated branch and pushed
+(`229d91b`); draft PR opened —
+<https://github.com/nic095layson/claude-core-skills/pull/23> (URL recorded
+in the planned follow-up commit); nothing else — no skills added or edited,
 no external actions taken.
 
 ## 6. Bounds
@@ -286,9 +287,9 @@ contract parts: PASS, checked row-by-row against after-report §1–§6.
 pass also caught and fixed two defects pre-commit: a recalled query tally
 ("five") contradicting the session record (eight — a rule-7 case), and a
 premature "PR opened" claim written before any PR existed (removed; the URL
-lands in the follow-up commit). (3) guard PASS after changes, branch
-correct at commit time; push and draft PR execute immediately after this
-commit and are recorded with the PR URL in the follow-up commit. (4) chat
+lands in the follow-up commit). (3) PASS — guard PASS after changes; pushed
+to the designated branch (`229d91b`); draft PR opened:
+<https://github.com/nic095layson/claude-core-skills/pull/23>. (4) chat
 delivery carries this verdict. Known residual risk:
 A1 — every "the article says" claim rests on snippet reconstruction; the
 owner, whose network is unrestricted, can settle A1 in one read of the
