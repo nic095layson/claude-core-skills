@@ -79,6 +79,13 @@ const Num2 = (text) =>
     spacing: { after: 70, line: 264 },
   });
 
+const Num3 = (text) =>
+  new Paragraph({
+    numbering: { reference: "skillloop", level: 0 },
+    children: runs(text),
+    spacing: { after: 70, line: 264 },
+  });
+
 const Num = (text) =>
   new Paragraph({
     numbering: { reference: "steps", level: 0 },
@@ -238,7 +245,7 @@ children.push(callout([
 children.push(new Paragraph({ children: [new PageBreak()] }));
 // ---- 2. Modernizing the Workflow (owner's notes, 2026-10-09) ----
 children.push(H1("2. Modernizing the Workflow"));
-children.push(P("A force multiplier needs aim. Two practices turn an AI assistant from a chat window into a working teammate: a structured brief for every task, and a knowledge base the AI searches before it answers."));
+children.push(P("A force multiplier needs aim. Three practices turn an AI assistant from a chat window into a working teammate: a structured brief for every task, a knowledge base the AI searches before it answers, and skills that carry the team's know-how from one task to the next."));
 children.push(H2("The four-part brief"));
 children.push(P("Every task given to an AI agent carries four main areas of context. When one is missing, the model fills the gap with a guess, and the guess is invisible in the output.", { keepNext: true }));
 children.push(table(
@@ -262,6 +269,29 @@ children.push(Num2("**Live sources outrank stored copies.** A stored snapshot is
 children.push(Num2("**The record is the memory.** Work that is not saved back to the knowledge base does not exist for the next session or the next person (Handshake H10)."));
 children.push(Num2("**Access follows the person, not the tool.** The AI retrieves only what the person asking is permitted to see."));
 children.push(P("**In practice.** The research system treats its stored project files as a snapshot that is stale by default. Its pull-first rule fetches the live record before answering, labels any fallback to the snapshot as possibly stale, and resolves every conflict toward the live record with a one-line flag.", { before: 120 }));
+children.push(P("**Beyond finding documents.** Once the records are in reach, two further uses follow, each under the same laws.", { before: 60, keepNext: true }));
+children.push(Bullet("**Generate insights on data across multiple documents.** Every insight names the documents and figures it rests on, so a reader can trace it back. A pattern noticed across documents is labeled as an inference until the numbers behind it are computed (Laws L2 and L5)."));
+children.push(Bullet("**Data cleaning and charts.** Cleaning is a logged, repeatable step: every record dropped, merged, or corrected is listed with its reason, and the raw source is kept beside the cleaned version. Charts are drawn from the cleaned, computed data, never from figures copied out of a summary."));
+children.push(P("**In practice.** The decision tool's historical statistics come from two independent public sources and are kept only where both agree within rounding. The few conflicts are listed beside the clean record instead of being resolved silently, the raw source pages are pinned by a cryptographic hash, and two runs of the cleaning produce byte-identical output.", { before: 120 }));
+
+children.push(H2("Agent Building: Skills"));
+children.push(P("A skill is a reusable instruction file that gives an agent the context for one kind of work: how something works, what good looks like, and what has gone wrong before. Skills are how a team's know-how outlasts a single chat session."));
+children.push(P("**Providing context into \u201Chow does something work.\u201D** A skill explains the mechanism of the work, not only the steps, so the agent can handle cases its author never foresaw. Skills improve through a four-step loop:", { keepNext: true }));
+children.push(Num3("**Building off initial draft to always look to improve context.** A skill starts as a draft and is improved with every use. A draft in use beats a perfect skill never shipped."));
+children.push(Num3("**Investigate: have agent use draft to fill gaps.** The agent runs the draft on real work and reports where the draft was silent or wrong. Those gaps become the next revision."));
+children.push(Num3("**Find what works / doesn't work, and continuously update.** Each change is tested, not assumed: the prediction is written down first, the before and after are compared, and any regression blocks the change (Section 7). Dead ends are recorded so they are not retried."));
+children.push(Num3("**(CURATE) Have agent write \u201Cwhat did you learn, what can you make easier for next agent.\u201D Have agent write final tool call.** Curation is the last action of every session: the agent writes down what it learned and what would make the next agent faster. Making it the final step means it cannot be skipped when time runs short."));
+children.push(P("Three authoring rules keep skills effective:", { before: 120, keepNext: true }));
+children.push(table(
+  ["Rule", "Why it works"],
+  [
+    ["**Lead with description**", "The description is the only part an agent sees before deciding whether to use the skill. It carries the whole trigger: when to use it, the phrasings that should call it, and when not to use it."],
+    ["**Keep main file lean**", "Descriptions are always loaded and the main file loads every time the skill is used, so every line costs attention on every run. Detail, references, and scripts live in supporting files that load only when needed."],
+    ["**Explain why, don't command**", "A bare \u201Cmust\u201D teaches compliance; a reasoned rule teaches judgment. An agent that understands why a rule exists applies it to cases the author never listed."],
+  ],
+  [2600, 7048],
+));
+children.push(P("**In practice.** The governance library behind this standard is built this way. All 21 of its modules lead with a description that states when to use the module and when not to, and the repository's guard checks every description on every change. Rules in the governance modules carry their reasons. Improvements are recorded as dated amendments that name the incident behind them, and a 30-entry ledger records failures, dead ends, and wins as symptom, root cause, evidence, and status. Trigger accuracy is measured, not assumed (Section 8).", { before: 120 }));
 
 children.push(H1("3. The Ten Laws"));
 children.push(P("These apply to every non-trivial task, on every surface. Domain procedures operate inside them and never override them."));
@@ -416,6 +446,8 @@ children.push(table(
   [
     ["**Four-part brief**", "Persona: a proposal compliance reviewer. Task: build the compliance matrix for this solicitation. Context: the solicitation and every amendment, plus the capture plan. Format: one row per requirement with its paragraph reference, response location, and status."],
     ["**Knowledge base**", "\u201CWhat are all the documents we have on past performance with this customer?\u201D returns each document with its date and location, and names every repository searched and any it could not reach."],
+    ["**Insights across documents**", "A summary of recurring themes across past proposal debriefs cites each debrief by name and date, and counts how many debriefs raise each theme rather than describing it as \u201Ccommon.\u201D"],
+    ["**Skills**", "A proposal-review skill leads with a description of when to use it and when not to, explains the reason behind each review rule, and ends every review with the agent recording what it learned for the next review."],
     ["**L1, L3**", "A regulatory clause or standard cited in a response is retrieved from the official source during the session and cited with its revision and access date. A clause reproduced from model memory is a defect."],
     ["**L2**", "A compliance coverage figure states its origin: \"computed from the compliance matrix, N of M rows mapped,\" never an unexplained percentage."],
     ["**L4**", "\"Requirement not found\" names the documents and sections searched. If no search ran, the response says \"did not check.\""],
@@ -435,6 +467,8 @@ children.push(table(
   ["Rule", "Origin", "Date"],
   [
     ["Section 2", "The owner's workflow notes (the four-part brief and the knowledge-base question), matched to practice: the research system's master brief and inputs file, and its pull-first rule for stored project files", "2026-07 (practice), 2026-10-09 (notes)"],
+    ["Section 2, data", "Historical statistics kept only where two independent sources agree within rounding; conflicts listed beside the record; raw pages pinned by hash", "2026-10-09"],
+    ["Section 2, skills", "The library's authoring standard: description as the trigger, a \u201Cwhen not to use\u201D clause in every module, rules with their reasons; dated amendments; the failure ledger; pre-registered tests", "2026-07-11 onward"],
     ["L1, L3", "Data policy written after 39 of 220 records were found filled from model memory; two-source rule for any fact that moves a valuation", "2026-07-13"],
     ["L2, L6", "Operating principles written because a prior tool invented statistics, version numbers, and \"monitoring agents\"", "2026-07-13"],
     ["L4, L5", "INC-9: \"couldn't verify\" written about eight items never attempted; a tally built partly from recall inverted its own conclusion", "2026-08-11"],
@@ -481,6 +515,8 @@ const doc = new Document({
       { reference: "bullets", levels: [{ level: 0, format: LevelFormat.BULLET, text: "•", alignment: AlignmentType.LEFT,
         style: { paragraph: { indent: { left: 400, hanging: 260 } }, run: { color: SPACE_BLUE } } }] },
       { reference: "kbrules", levels: [{ level: 0, format: LevelFormat.DECIMAL, text: "%1.", alignment: AlignmentType.LEFT,
+        style: { paragraph: { indent: { left: 400, hanging: 300 } }, run: { color: SPACE_BLUE, bold: true } } }] },
+      { reference: "skillloop", levels: [{ level: 0, format: LevelFormat.DECIMAL, text: "%1.", alignment: AlignmentType.LEFT,
         style: { paragraph: { indent: { left: 400, hanging: 300 } }, run: { color: SPACE_BLUE, bold: true } } }] },
       { reference: "steps", levels: [{ level: 0, format: LevelFormat.DECIMAL, text: "%1.", alignment: AlignmentType.LEFT,
         style: { paragraph: { indent: { left: 400, hanging: 300 } }, run: { color: SPACE_BLUE, bold: true } } }] },

@@ -10,7 +10,7 @@ AI-assisted workflow could adopt.
 
 | File | What |
 |---|---|
-| `Rules-of-Engagement-Operational-AI_2026-10-09.docx` | The deliverable (11 pages, US Letter) |
+| `Rules-of-Engagement-Operational-AI_2026-10-09.docx` | The deliverable (13 pages, US Letter) |
 | `Rules-of-Engagement-Operational-AI_2026-10-09.pdf` | Render of the .docx, for review and sending |
 | `build_roe.js` | Generator (docx-js). Every claim in the document is a literal in this file; edit here, re-run `node build_roe.js` |
 
@@ -49,6 +49,28 @@ AI-assisted workflow could adopt.
   the tool", added for the owner's industry and flagged to him. Sections 2-7
   renumbered to 3-8; every cross-reference updated and checked. Appendix A and B
   each gained rows for the new section. Document grew from 9 to 11 pages.
+
+- **2026-10-09, third owner note:** Section 2 gained "Beyond finding
+  documents" (his fragments "Generate insights on data across multiple
+  documents" and "Data cleaning and charts") and a third subsection, **Agent
+  Building: Skills**, built on his notes: "how does something work" with a
+  four-step improvement loop (initial draft, investigate, find what works,
+  CURATE) and three authoring rules (lead with description, keep main file
+  lean, explain why, don't command). Owner wording verbatim apart from
+  capitalization and punctuation ("Agent building - SKILLS" -> "Agent Building:
+  Skills"; "investigate -" -> "Investigate:"; "Keep Main file" -> "Keep main
+  file"). **Interpretation flagged to owner:** "Have agent write final tool call"
+  read as "curation is the session's last action". **No repo basis:** the
+  charts principle (no charting practice found; the repo "chart" hits are depth
+  charts). Grounding read this session: the deck repo's two-outlet actuals
+  record (`README.md`, `47deea3`); this library's skill-authoring standard,
+  domain-reference (progressive disclosure), and the ledger. Counts measured
+  2026-10-09: 21 modules, 21/21 with a do-not-use clause in the description,
+  10 with a "Rules, each with its reason" section, 4 DEAD entries, 30 ledger
+  entries. A cross-reference checker first reported four wrong targets; the
+  checker was matching numbered list items as headings (adversarial-verify
+  rule 9). Re-run against the source's H1 calls: all 17 references correct.
+  Document grew from 11 to 13 pages.
 
 ## Sources read (commit at time of reading)
 
