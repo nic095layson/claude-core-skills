@@ -21,6 +21,18 @@ AI-assisted workflow could adopt.
 - Positioning: **principles only, no vendor discussion.** No model or vendor is named in the document.
 - "Resume" means a showcase of the system, honest about what is unmeasured.
 
+## Revisions
+
+- **2026-10-09, after v1.0 shipped:** Section 1 opens with a pull-quote of the
+  owner's guiding principle, supplied by him in-session: "AI is a force
+  multiplier. How can we use AI to solve faster, smarter, and to scale?"
+  Verbatim except "Is" lowercased. Source per the owner: his own notes from an
+  AI excellence seminar at Rivian. The seminar is deliberately **not** named in
+  the document (principles-only decision above); add it if the owner asks. The
+  sentence after the quote ("A multiplier works on whatever it is given…") is
+  Claude's bridge, flagged to the owner to keep or cut. Pages 2-9 verified
+  text-identical to the prior PDF.
+
 ## Sources read (commit at time of reading)
 
 | Repo | Commit | Read |

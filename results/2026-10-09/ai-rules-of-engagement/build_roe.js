@@ -168,6 +168,23 @@ function mono(lines) {
 
 const spacer = (after = 120) => new Paragraph({ children: [], spacing: { after } });
 
+function pullQuote(text, attribution) {
+  return [
+    new Paragraph({
+      children: [new TextRun({ text: "\u201C" + text + "\u201D", font: DISPLAY, size: 28, color: SPACE_BLUE })],
+      spacing: { before: 80, after: 60, line: 320 },
+      indent: { left: 360, right: 360 },
+      border: { left: { style: BorderStyle.SINGLE, size: 24, color: MUTED_BLUE, space: 12 } },
+      keepNext: true,
+    }),
+    new Paragraph({
+      children: [new TextRun({ text: "\u2014 " + attribution, font: BODY_FONT, size: 18, color: SECONDARY })],
+      spacing: { after: 200 },
+      indent: { left: 360 },
+    }),
+  ];
+}
+
 // =====================================================================
 // CONTENT
 // =====================================================================
@@ -199,6 +216,8 @@ children.push(
 
 // ---- 1. Purpose ----
 children.push(H1("1. Purpose"));
+children.push(...pullQuote("AI is a force multiplier. How can we use AI to solve faster, smarter, and to scale?", "David Layson"));
+children.push(P("A multiplier works on whatever it is given. Applied to unverified output, it scales errors as fast as it scales value. This standard is how the multiplier gets applied to work that can be trusted."));
 children.push(P("AI assistants fail in a predictable way. They produce confident, well-formatted output that is partly wrong, and nothing in the output tells the reader which part. Hallucinated facts, stale data, invented numbers, and silent assumptions all look identical to verified work once they are on the page."));
 children.push(P("This standard closes that gap. It defines how an AI-assisted workflow plans, gathers facts, verifies its own output, and reports, so that **every claim can be traced to a source and every gap is visible to the reader.** It does not depend on any particular model or vendor."));
 children.push(P("Every rule here traces to a specific failure that occurred in real use and was then converted into a rule or a machine check. Appendix B lists the origin of each one. Section 7 states plainly which rules are measured and which are not yet proven."));
