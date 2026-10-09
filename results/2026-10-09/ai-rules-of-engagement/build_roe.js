@@ -293,6 +293,20 @@ children.push(table(
 ));
 children.push(P("**In practice.** The governance library behind this standard is built this way. All 21 of its modules lead with a description that states when to use the module and when not to, and the repository's guard checks every description on every change. Rules in the governance modules carry their reasons. Improvements are recorded as dated amendments that name the incident behind them, and a 30-entry ledger records failures, dead ends, and wins as symptom, root cause, evidence, and status. Trigger accuracy is measured, not assumed (Section 8).", { before: 120 }));
 
+children.push(H2("3 habits that compound"));
+children.push(P("The three practices above become habits through repetition, and each habit makes the next one stronger.", { keepNext: true }));
+children.push(table(
+  ["Habit", "What it looks like", "Where it lives"],
+  [
+    ["**Prompting**", "Every task starts with a full brief: persona, task, context, and format. Gaps in the brief show exactly what context is missing.", "The four-part brief, above"],
+    ["**Skill Building**", "The context a good brief needed once is written into a skill, so the next task starts from it instead of from nothing.", "Agent Building: Skills, above"],
+    ["**Collaboration**", "People and agents share one record: skills, the knowledge base, and the state of the work. Disagreements are surfaced and resolved, never smoothed over.", "The knowledge base, above; the handshakes (Section 5); Law L9"],
+  ],
+  [1900, 5248, 2500],
+));
+children.push(P("Together they compound: better briefs expose missing context, skills capture it, and a shared record lets the whole team start from everyone's best work. Every rule in this standard is a compounded lesson of that kind, a failure recorded once and then reused (Appendix B).", { before: 120 }));
+
+children.push(new Paragraph({ children: [new PageBreak()] }));
 children.push(H1("3. The Ten Laws"));
 children.push(P("These apply to every non-trivial task, on every surface. Domain procedures operate inside them and never override them."));
 children.push(table(

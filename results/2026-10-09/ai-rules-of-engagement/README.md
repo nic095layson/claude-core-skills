@@ -12,6 +12,7 @@ AI-assisted workflow could adopt.
 |---|---|
 | `Rules-of-Engagement-Operational-AI_2026-10-09.docx` | The deliverable (13 pages, US Letter) |
 | `Rules-of-Engagement-Operational-AI_2026-10-09.pdf` | Render of the .docx, for review and sending |
+| `check_row_parity.py` | Render check: every bolded lead in `build_roe.js` must appear in the PDF. Run after every conversion |
 | `build_roe.js` | Generator (docx-js). Every claim in the document is a literal in this file; edit here, re-run `node build_roe.js` |
 
 ## Owner decisions recorded (2026-10-09, in-session)
@@ -71,6 +72,19 @@ AI-assisted workflow could adopt.
   checker was matching numbered list items as headings (adversarial-verify
   rule 9). Re-run against the source's H1 calls: all 17 references correct.
   Document grew from 11 to 13 pages.
+
+- **2026-10-09, final owner note:** Section 2 closes with "3 habits that
+  compound" (Prompting, Skill Building, Collaboration), owner wording verbatim
+  except "SKill" -> "Skill". Each habit is mapped to where it lives in the
+  standard; the closing sentence ("Together they compound…") is Claude's.
+  **Render defect caught and fixed:** after this addition LibreOffice dropped
+  laws L2-L10 from the PDF where the laws table split across pages 4-5 (the
+  .docx held all ten; the page count fell from 13 to 12, which is what exposed
+  it). Fix: Section 3 starts on a fresh page. New guard for this folder:
+  `check_row_parity.py` (every bolded lead in the source must appear in the
+  PDF). Known-answer test: it flags all nine missing laws on the broken PDF, and
+  passes the previously pushed PDF (`9ca7e1d`) and the final one. Two PDF
+  conversions produce identical text. Final document: 13 pages.
 
 ## Sources read (commit at time of reading)
 
