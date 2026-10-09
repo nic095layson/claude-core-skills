@@ -10,7 +10,7 @@ AI-assisted workflow could adopt.
 
 | File | What |
 |---|---|
-| `Rules-of-Engagement-Operational-AI_2026-10-09.docx` | The deliverable (9 pages, US Letter) |
+| `Rules-of-Engagement-Operational-AI_2026-10-09.docx` | The deliverable (11 pages, US Letter) |
 | `Rules-of-Engagement-Operational-AI_2026-10-09.pdf` | Render of the .docx, for review and sending |
 | `build_roe.js` | Generator (docx-js). Every claim in the document is a literal in this file; edit here, re-run `node build_roe.js` |
 
@@ -33,6 +33,23 @@ AI-assisted workflow could adopt.
   Claude's bridge, flagged to the owner to keep or cut. Pages 2-9 verified
   text-identical to the prior PDF.
 
+- **2026-10-09, second owner note:** new **Section 2, Modernizing the
+  Workflow**, built on the owner's notes: the four areas of context for an
+  agent (Persona, Task, Context, Format), with his example ("You are a project
+  manager…", "delivering a report to the CEO"), and "Workplace Intelligence and
+  Knowledge Base" with his anchor question ("What are all the documents I have
+  on ___ topic?"). Owner explicitly invited elaboration. Owner wording kept
+  verbatim except two added articles ("a" project manager, "the" CEO). Everything
+  else in Section 2 is Claude's elaboration, grounded in
+  `fantasy-basketball-2026-27` `PROMPT.md` (persona, task, inputs file,
+  deliverables spec, defaults listed as A1, A2…) and
+  `instructions/claude-ai-project-instructions.md` (pull-first rule, Freshness
+  Protocol step 5), both read this session at `00203c2`. **One elaboration has
+  no basis in the repos:** knowledge-base rule 5, "Access follows the person, not
+  the tool", added for the owner's industry and flagged to him. Sections 2-7
+  renumbered to 3-8; every cross-reference updated and checked. Appendix A and B
+  each gained rows for the new section. Document grew from 9 to 11 pages.
+
 ## Sources read (commit at time of reading)
 
 | Repo | Commit | Read |
@@ -41,7 +58,7 @@ AI-assisted workflow could adopt.
 | `nic095layson/fantasy-basketball-2026-27` | `00203c2` | `CLAUDE.md`, `README.md`, `INPUTS.md`, `PROMPT.md`, `DATA-PULL.md`, `instructions/claude-ai-project-instructions.md`, roster-audit postmortem |
 | `nic095layson/yahoo-fantasy-basketball` | `47deea3` | `README.md`, both skills, `arena/README.md`, `LESSONS.md` lessons 1–12 |
 
-## Counts in Section 7 (measured 2026-10-09)
+## Counts in Section 8 (measured 2026-10-09; was Section 7 before the 2026-10-09 renumbering)
 
 ```
 ls .claude/skills | wc -l                                              -> 21

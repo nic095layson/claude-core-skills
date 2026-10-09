@@ -72,6 +72,13 @@ const Bullet = (text, level = 0) =>
     spacing: { after: 70, line: 264 },
   });
 
+const Num2 = (text) =>
+  new Paragraph({
+    numbering: { reference: "kbrules", level: 0 },
+    children: runs(text),
+    spacing: { after: 70, line: 264 },
+  });
+
 const Num = (text) =>
   new Paragraph({
     numbering: { reference: "steps", level: 0 },
@@ -220,16 +227,43 @@ children.push(...pullQuote("AI is a force multiplier. How can we use AI to solve
 children.push(P("A multiplier works on whatever it is given. Applied to unverified output, it scales errors as fast as it scales value. This standard is how the multiplier gets applied to work that can be trusted."));
 children.push(P("AI assistants fail in a predictable way. They produce confident, well-formatted output that is partly wrong, and nothing in the output tells the reader which part. Hallucinated facts, stale data, invented numbers, and silent assumptions all look identical to verified work once they are on the page."));
 children.push(P("This standard closes that gap. It defines how an AI-assisted workflow plans, gathers facts, verifies its own output, and reports, so that **every claim can be traced to a source and every gap is visible to the reader.** It does not depend on any particular model or vendor."));
-children.push(P("Every rule here traces to a specific failure that occurred in real use and was then converted into a rule or a machine check. Appendix B lists the origin of each one. Section 7 states plainly which rules are measured and which are not yet proven."));
+children.push(P("Every rule here traces to a specific failure that occurred in real use and was then converted into a rule or a machine check. Appendix B lists the origin of each one. Section 8 states plainly which rules are measured and which are not yet proven."));
 children.push(spacer(60));
 children.push(callout([
   "**How to read this document**",
-  "Section 2: the ten laws.  Section 3: the order of operations.  Section 4: the handshakes between the person and the AI.  Section 5: the machine-enforced controls.  Section 6: how the rules themselves are changed.  Section 7: evidence and honest status.  Appendix A: illustrative application to compliance and proposal work.",
+  "Section 2: modernizing the workflow.  Section 3: the ten laws.  Section 4: the order of operations.  Section 5: the handshakes between the person and the AI.  Section 6: the machine-enforced controls.  Section 7: how the rules themselves are changed.  Section 8: evidence and honest status.  Appendix A: illustrative application to compliance and proposal work.",
 ]));
 
 // ---- 2. The Ten Laws ----
 children.push(new Paragraph({ children: [new PageBreak()] }));
-children.push(H1("2. The Ten Laws"));
+// ---- 2. Modernizing the Workflow (owner's notes, 2026-10-09) ----
+children.push(H1("2. Modernizing the Workflow"));
+children.push(P("A force multiplier needs aim. Two practices turn an AI assistant from a chat window into a working teammate: a structured brief for every task, and a knowledge base the AI searches before it answers."));
+children.push(H2("The four-part brief"));
+children.push(P("Every task given to an AI agent carries four main areas of context. When one is missing, the model fills the gap with a guess, and the guess is invisible in the output.", { keepNext: true }));
+children.push(table(
+  ["Element", "What it supplies", "Example: a report to the CEO"],
+  [
+    ["Persona", "The role, expertise, and standards the AI applies. A persona sets judgment. It never licenses a claim the AI cannot support.", "\u201CYou are a project manager\u2026\u201D"],
+    ["Task", "The deliverable and the decision it serves, stated so that success or failure is checkable.", "Delivering a report to the CEO, so the CEO can decide whether to add resources this quarter"],
+    ["Context", "The facts, documents, constraints, and audience the AI cannot infer. A missing fact becomes a named assumption, never a silent default (Law L7).", "The current schedule, the last three status reports, the open risk register, and the CEO's stated priorities"],
+    ["Format", "The shape of the output: length, structure, sections, and file type. A format fixed in advance is checkable at delivery.", "One page: the decision needed, status, the top three risks with owners, and a recommendation"],
+  ],
+  [1500, 4548, 3600],
+));
+children.push(P("**In practice.** The master brief behind the research system described in Section 8 is built on these four parts. It opens with a persona (\u201CYou are an expert \u2026 analyst\u201D), states one task and the decision it serves, reads its context from a fill-in inputs file and a dated baseline, and specifies the deliverable's required sections in order. Inputs left blank are never guessed. Each takes a stated default and is listed in the report as a numbered assumption the reader can correct.", { before: 120 }));
+children.push(P("The brief is the input to Step 1 of the order of operations (Section 4). The plan gate restates it as a goal that could fail, an assumption register, and success criteria, and shows that back to the person before any work starts."));
+children.push(H2("Workplace Intelligence and Knowledge Base"));
+children.push(callout(["**The anchor question:**  \u201CWhat are all the documents I have on ___ topic?\u201D"]));
+children.push(P("Often the most valuable request is not \u201Cwrite me something\u201D but \u201Cwhat do we already know?\u201D A knowledge base lets the AI answer from the organization's own records, such as past work, policies, and lessons learned, instead of from its training data. It replaces recall with records, which is the core defense in Laws L1 and L5. Five rules make it trustworthy.", { before: 120 }));
+children.push(Num2("**Answers cite the record.** Every document named in an answer is one the AI retrieved in the session, with its title, date, and location."));
+children.push(Num2("**Coverage is stated.** An answer to \u201Cwhat do we have on this?\u201D names the collections searched and any it could not reach. \u201CNothing found\u201D is valid only with the search shown (Law L4)."));
+children.push(Num2("**Live sources outrank stored copies.** A stored snapshot is treated as possibly stale. When a live source contradicts it, the live source wins and the conflict is flagged in one line, never resolved silently."));
+children.push(Num2("**The record is the memory.** Work that is not saved back to the knowledge base does not exist for the next session or the next person (Handshake H10)."));
+children.push(Num2("**Access follows the person, not the tool.** The AI retrieves only what the person asking is permitted to see."));
+children.push(P("**In practice.** The research system treats its stored project files as a snapshot that is stale by default. Its pull-first rule fetches the live record before answering, labels any fallback to the snapshot as possibly stale, and resolves every conflict toward the live record with a one-line flag.", { before: 120 }));
+
+children.push(H1("3. The Ten Laws"));
 children.push(P("These apply to every non-trivial task, on every surface. Domain procedures operate inside them and never override them."));
 children.push(table(
   ["#", "Law", "What it prevents"],
@@ -249,14 +283,14 @@ children.push(table(
 ));
 
 // ---- 3. Order of Operations ----
-children.push(H1("3. Order of Operations"));
+children.push(H1("4. Order of Operations"));
 children.push(P("Every non-trivial task runs the same sequence. Each step has an exit condition, and the next step does not start until it is met. Internally this sequence is called **the Gauntlet**.", { keepNext: true }));
 children.push(table(
   ["Step", "Gate", "Required output", "Exit condition"],
   [
     ["0", "**Triage**", "One-line call: trivial or not", "Trivial: answer directly and stop. When unsure, treat as non-trivial."],
     ["1", "**Plan gate**", "Goal stated so it could fail; verified facts vs. guesses; numbered assumption register; success criteria; phased plan with an expected result and a fallback per phase", "Plan is shown to the person **before** work starts, not folded into the final report"],
-    ["2", "**Pre-flight**", "Every input the work depends on is verified fresh; a freshness card (Section 4, H1)", "No consequential step runs on unverified inputs"],
+    ["2", "**Pre-flight**", "Every input the work depends on is verified fresh; a freshness card (Section 5, H1)", "No consequential step runs on unverified inputs"],
     ["3", "**Execute in the fence**", "The work itself; adjacent issues flagged in one line", "Output matches the request, nothing more"],
     ["4", "**Adversarial verification**", "Six-step refutation pass (below)", "Every success criterion passes with evidence; no load-bearing gap left unattempted"],
     ["5", "**Report**", "Method first; dated evidence; evidence vs. inference marked; bounds stated; decisions left to the owner", "A reader can tell proven from inferred on every line"],
@@ -285,7 +319,7 @@ children.push(table(
 ));
 
 // ---- 4. Handshakes ----
-children.push(H1("4. Handshakes"));
+children.push(H1("5. Handshakes"));
 children.push(P("Handshakes are the agreements between the person and the AI that keep both sides looking at the same state. They were developed under the hardest operating condition available: live, time-boxed sessions where a wrong answer costs something within seconds and cannot be undone. They generalize to any workflow where the AI changes shared state."));
 children.push(table(
   ["#", "Handshake", "The agreement"],
@@ -305,7 +339,7 @@ children.push(table(
 ));
 
 // ---- 5. Controls ----
-children.push(H1("5. Controls: Machine Checks Over Checklists"));
+children.push(H1("6. Controls: Machine Checks Over Checklists"));
 children.push(P("A rule the AI can skip will eventually be skipped. Each failure that recurred became a check that **refuses** to proceed, rather than a reminder that asks. The operating principle for every control: **if the gate refuses, fix the data, never the gate.**"));
 children.push(table(
   ["Control", "Refuses when", "Origin"],
@@ -328,7 +362,7 @@ children.push(callout([
 ]));
 
 // ---- 6. Change control ----
-children.push(H1("6. Change Control for the Rules Themselves"));
+children.push(H1("7. Change Control for the Rules Themselves"));
 children.push(P("The rules are operational infrastructure and change under the same discipline as the work they govern."));
 children.push(Bullet("**Pre-register before running.** A hypothesis, its exact wording, and its predicted outcome are written down before any test runs."));
 children.push(Bullet("**One variable per experiment, two runs minimum.** A single good run is an anecdote."));
@@ -339,7 +373,7 @@ children.push(Bullet("**Failures go in an append-only ledger.** Symptom, root ca
 children.push(Bullet("**Deployed instructions are diffed against the record.** A validated rule was lost when an instruction block authored from an outdated copy was pasted over the live one (found 2026-08-12). The live setting is the truth; the stored copy is only a record of it."));
 
 // ---- 7. Evidence ----
-children.push(H1("7. Evidence and Honest Status"));
+children.push(H1("8. Evidence and Honest Status"));
 children.push(P("Counts were measured from the source repositories on October 9, 2026. Measured results carry their test date and sample size. Items not yet proven are listed as such, because a standard that overstates its own evidence would violate Law L6."));
 children.push(H2("What was built (July to October 2026)"));
 children.push(table(
@@ -380,6 +414,8 @@ children.push(P("**Illustrative only.** The examples below show how each rule wo
 children.push(table(
   ["Rule", "In a compliance or proposal workflow"],
   [
+    ["**Four-part brief**", "Persona: a proposal compliance reviewer. Task: build the compliance matrix for this solicitation. Context: the solicitation and every amendment, plus the capture plan. Format: one row per requirement with its paragraph reference, response location, and status."],
+    ["**Knowledge base**", "\u201CWhat are all the documents we have on past performance with this customer?\u201D returns each document with its date and location, and names every repository searched and any it could not reach."],
     ["**L1, L3**", "A regulatory clause or standard cited in a response is retrieved from the official source during the session and cited with its revision and access date. A clause reproduced from model memory is a defect."],
     ["**L2**", "A compliance coverage figure states its origin: \"computed from the compliance matrix, N of M rows mapped,\" never an unexplained percentage."],
     ["**L4**", "\"Requirement not found\" names the documents and sections searched. If no search ran, the response says \"did not check.\""],
@@ -394,10 +430,11 @@ children.push(table(
 
 // ---- Appendix B ----
 children.push(H1("Appendix B. Provenance"));
-children.push(P("Each rule's origin in the working record. Dates are when the failure occurred or the rule was adopted. Incident identifiers refer to the append-only ledgers in the source repositories."));
+children.push(P("Each rule's origin in the working record. Dates are when the failure occurred or the rule was adopted. Incident identifiers refer to the append-only ledgers in the source repositories.", { keepNext: true }));
 children.push(table(
   ["Rule", "Origin", "Date"],
   [
+    ["Section 2", "The owner's workflow notes (the four-part brief and the knowledge-base question), matched to practice: the research system's master brief and inputs file, and its pull-first rule for stored project files", "2026-07 (practice), 2026-10-09 (notes)"],
     ["L1, L3", "Data policy written after 39 of 220 records were found filled from model memory; two-source rule for any fact that moves a valuation", "2026-07-13"],
     ["L2, L6", "Operating principles written because a prior tool invented statistics, version numbers, and \"monitoring agents\"", "2026-07-13"],
     ["L4, L5", "INC-9: \"couldn't verify\" written about eight items never attempted; a tally built partly from recall inverted its own conclusion", "2026-08-11"],
@@ -419,7 +456,7 @@ children.push(table(
     ["H7", "Recovery commands made single-step, with the prior state preserved for rollback", "2026-08-09"],
     ["H8", "Speed rule for a 45-second decision clock: one command per turn, no side research", "by 2026-07-12"],
     ["H9", "The same missed item recurred because a hand-run checklist was skippable", "2026-09-08"],
-    ["Controls", "See the Origin column in Section 5", "2026-07-13 to 2026-10-08"],
+    ["Controls", "See the Origin column in Section 6", "2026-07-13 to 2026-10-08"],
     ["Change control", "Withdrawn finding (t = 3.06 to t = 0.4 on fresh data); lost instruction rule (INC-11)", "2026-07-12, 2026-08-12"],
   ],
   [1900, 5848, 1900],
@@ -443,6 +480,8 @@ const doc = new Document({
     config: [
       { reference: "bullets", levels: [{ level: 0, format: LevelFormat.BULLET, text: "•", alignment: AlignmentType.LEFT,
         style: { paragraph: { indent: { left: 400, hanging: 260 } }, run: { color: SPACE_BLUE } } }] },
+      { reference: "kbrules", levels: [{ level: 0, format: LevelFormat.DECIMAL, text: "%1.", alignment: AlignmentType.LEFT,
+        style: { paragraph: { indent: { left: 400, hanging: 300 } }, run: { color: SPACE_BLUE, bold: true } } }] },
       { reference: "steps", levels: [{ level: 0, format: LevelFormat.DECIMAL, text: "%1.", alignment: AlignmentType.LEFT,
         style: { paragraph: { indent: { left: 400, hanging: 300 } }, run: { color: SPACE_BLUE, bold: true } } }] },
     ],
