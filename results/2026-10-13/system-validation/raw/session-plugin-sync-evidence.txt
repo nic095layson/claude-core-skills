@@ -1,0 +1,49 @@
+# Synced plugin directory listing, observed 2026-10-13 (this cloud container)
+/root/.claude/plugins/synced/9587cd04-935a-44c9-8ae7-1ecd0ed9397c_34d96f17-c2f3-4cf1-b91c-7d808be44f96/core-governance:
+total 32
+drwxr-xr-x 6 root root 4096 2026-10-13 05:37:14.599077647 +0000 .
+drwxr-xr-x 5 root root 4096 2026-10-13 06:14:13.311022279 +0000 ..
+drwxr-xr-x 2 root root 4096 2026-10-13 05:37:14.553684276 +0000 .claude-plugin
+drwxr-xr-x 2 root root 4096 2026-10-13 06:14:25.735021969 +0000 .in_use
+-rw-r--r-- 1 root root 6790 2026-10-13 05:26:24.000000000 +0000 README.md
+drwxr-xr-x 2 root root 4096 2026-10-13 05:37:14.547077648 +0000 hooks
+drwxr-xr-x 3 root root 4096 2026-10-13 05:57:06.415047905 +0000 scripts
+
+/root/.claude/plugins/synced/9587cd04-935a-44c9-8ae7-1ecd0ed9397c_34d96f17-c2f3-4cf1-b91c-7d808be44f96/core-governance/scripts/__pycache__:
+total 16
+drwxr-xr-x 2 root root 4096 2026-10-13 05:57:06.417847139 +0000 .
+drwxr-xr-x 3 root root 4096 2026-10-13 05:57:06.415047905 +0000 ..
+-rw-r--r-- 1 root root 5426 2026-10-13 05:57:06.417847139 +0000 govclass.cpython-313.pyc
+
+# Owner prompt timestamps from the session transcript (05:37:57 and 05:46:45 prompts)
+2026-10-13T05:37:57.301Z 'Uploaded the skills and plugin. Please provide new, thorough and effec'
+2026-10-13T05:46:45.706Z 'Conduct full system validation and calibration to ensure these skills,'
+
+# Earlier observation of the same cache, as recorded in this session's transcript (tool output)
+# tool result recorded at 2026-10-13T05:51:47.396Z:
+== synced plugin pyc ==
+total 16
+drwxr-xr-x 2 root root 4096 2026-10-13T05:37:57 .
+drwxr-xr-x 3 root root 4096 2026-10-13T05:37:57 ..
+-rw-r--r-- 1 root root 5426 2026-10-13T05:37:57 govclass.cpython-313.pyc
+== synced dir mtimes ==
+/root/.claude/plugins/synced/9587cd04-935a-44c9-8ae7-1ecd0ed9397c_34d96f17-c2f3-4cf1-b91c-7d808be44f96/core-governance:
+total 32
+drwxr-xr-x 6 root root 4096 05:37:14 .
+drwxr-xr-x 5 root root 4096 05:37:14 ..
+drwxr-xr-x 2 root root 4096 05:37:14 .claude-plugin
+drwxr-xr-x 2 root root 4096 05:39:51 .in_use
+-rw-r--r-- 1 root root 6790 05:26:24 README.md
+drwxr-xr-x 2 root root 4096 05:37:14 hooks
+drwxr-xr-x 3 root root 4096 05:37:57 scripts
+
+/root/.claude/plugins/synced/9587cd04-935a-44c9-8ae7-1ecd0ed9397c_34d96f17-c2f3-4cf1-b91c-7d808be44f96/core-governance/scripts:
+total 80
+drwxr-xr-x 3 root root 4096 05:37:57 .
+drwxr-xr-x 6 root root 4096 05:37:14 ..
+drwxr-xr-x 2
+
+# Why the file on disk now reads 05:57:06: the P1 integrity sweep (2026-10-13 05:56:38 UTC) ran the
+# self-tests inside each copy, including the synced plugin's scripts/, then deleted each copy's __pycache__
+# folder. A plugin hook run at 05:57:06 (the plugin-off check's 'on' arm) regenerated it. The cache is a
+# derived file; nothing else in the synced plugin directory was changed (README/hooks/.claude-plugin mtimes above).

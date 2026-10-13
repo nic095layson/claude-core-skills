@@ -79,7 +79,7 @@ all three `CLAUDE.md` files and the canonical file. Plugin validator passes on t
 - `brand-standard`'s account description lacks the clause keeping it off "clinical or client-owned
   documents about a third party". Body identical.
 
-### 3.2 Where governance actually ran in this session — EVIDENCE (harness Stop-hook records)
+### 3.2 Where governance actually ran in this session — EVIDENCE (harness Stop-hook records, extracted to `raw/session-stop-hook-records.jsonl`)
 
 | Window (UTC) | Stop hooks recorded | Meaning |
 |---|---|---|
@@ -87,10 +87,15 @@ all three `CLAUDE.md` files and the canonical file. Plugin validator passes on t
 | 05:33–05:34 | harness git check only | after a worker restart the session started above three clones: **no repo hook ran** (the documentation's multi-repo statement, observed) |
 | 05:45:12 | harness git check + plugin's two gates through `run-unless-project-wired.sh` | the synced plugin's hooks run in a several-repository cloud session |
 
-The synced plugin's classifier cache (`__pycache__/govclass.cpython-313.pyc`) was written 05:37:57,
-the second the owner's prompt arrived, 43 seconds after the plugin synced (05:37:14). EVIDENCE that
-a plugin Python hook ran then; INFERENCE that it was the prompt trigger, silent because the
-classifier does not govern that prompt.
+The synced plugin's classifier cache (`__pycache__/govclass.cpython-313.pyc`) was observed at 05:51 with
+a write time of 05:37:57, the second the owner's prompt arrived (transcript timestamp 05:37:57.301),
+43 seconds after the plugin synced (05:37:14). EVIDENCE that a plugin Python hook ran then; INFERENCE
+that it was the prompt trigger, silent because the classifier does not govern that prompt. Record:
+`raw/session-plugin-sync-evidence.txt`. **Side effect to disclose:** the P1 sweep at 05:56 ran the
+self-tests inside the synced plugin's folder and then deleted that folder's `__pycache__`; a hook run
+at 05:57:06 regenerated it, so the file on disk now reads 05:57:06 and the 05:37:57 reading survives
+only in the session's recorded tool output (quoted in that evidence file). The cache is derived; no
+other file in the synced plugin was touched.
 
 ### 3.3 Mechanism (P2, P3, P3b) — 18 runs, $9.22
 
