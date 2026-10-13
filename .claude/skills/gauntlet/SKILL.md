@@ -87,6 +87,13 @@ End with the governors that actually loaded this run. If one that should have
 fired did not, say that — an honest "adversarial-verify did not load" is worth
 more than a confident list.
 
+**Re-attached is not loaded.** Governor text that is in context only because the
+harness carried it across a compaction — bound to the task it was loaded for — does
+not count as loaded for the current task. Say so in the Fired line (`plan-gate:
+re-attached from an earlier task, not loaded`) and load it afresh before relying on
+it. A re-attached copy reads as "already handled", which is how a long session
+answers every new question ungoverned while every governor appears to be present.
+
 ## Output format
 
 ```
@@ -99,7 +106,7 @@ more than a confident list.
 **Gaps** — <n>: not-attempted / attempted-failed / unverifiable · load-bearing: <disposition>
 **Bounds** — out of scope by design | in scope and unverified
 **Status** — delivered | candidate | open
-**Fired** — plan-gate (full block, pre-work | compressed) · adversarial-verify · <others, or "none — and why">
+**Fired** — plan-gate (full block, pre-work | compressed | re-attached, not loaded) · adversarial-verify · <others, or "none — and why">
 ```
 
 ## Rules, each with its reason
@@ -163,3 +170,19 @@ states the report must distinguish, and the `**Fired**` line carries the
 distinction. This adds no law (rule 5) — the sizing test and the emission rule
 both live in plan-gate; §2 only makes their outcome visible in the report.
 Description untouched, so triggering is unaffected by construction.
+
+**Appended 2026-10-13** — `.claude/LESSONS.md` INC-2026-10-13-01. A three-week
+cloud session loaded no governor at all (census: 4 Skill-tool loads since
+2026-09-23, none a governor) while plan-gate and adversarial-verify were
+re-attached after each of 28 compactions with an earlier task's arguments. Named
+firing could not have caught it: the word was never typed, and the re-attached text
+would have let an honest Fired line read "present". §6 gained "re-attached is not
+loaded" and the Fired line a third state. This adds no law (rule 5): the sequence
+still loads what its governors say to load; it only names a state the report must
+distinguish. The un-keyworded case is covered one layer down — the enforcement
+hooks (`hooks/governance-enforce.py`) block a governed-class turn that finished
+without a load, and count only Skill calls after the owner's latest message, so a
+re-attached copy cannot satisfy them. Description untouched, so triggering is
+unaffected by construction. Status: **UNMEASURED** for the wording;
+the hook's behaviour is measured in
+`experiments/hypothesis-2026-10-13-project-enforcement-pack.md`.

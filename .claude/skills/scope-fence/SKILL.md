@@ -62,6 +62,16 @@ Ask: **can the requested work be completed correctly without doing this?**
   the reality doesn't. (One genuine borderline exists — trivial fixes inside
   files the ask already touches — and rule 5's margin test governs it.)
 
+**A question gets an assessment, not a fix.** When the ask is a question or an
+objection — "is X being taken into account?", "I don't agree with Y", "why does
+Z?" — the deliverable is the assessment: what the work actually does, whether the
+objection holds, and what the options are. A fix, a rewrite, a candidate, or a dry
+run built to answer the question is adjacent work, even in scratch and even if
+nothing lands: it commits the session to an approach, shapes what the owner is
+shown next, and is exactly the unreviewed change rule 1 exists to prevent. Build it
+when the owner asks for it, not before — and say in one line what you would build
+if asked, so the option is visible without being taken.
+
 ### 3. The flag format
 
 One compact block, at the moment of discovery or collected at delivery:
@@ -82,6 +92,12 @@ approval of an action does not carry to today's session (and one environment's
 authorization does not carry to another — see live-state-truth's boundary rule).
 When the user moves the fence, the new fence is the fence — re-run the mid-task
 test against it, not against the original.
+
+**A stated requirement is not a build order.** "X is critical", "Y is essential to
+the model" tells you what the work must respect; it authorizes nothing new. Apply
+it inside the current fence, and if meeting it would mean building something the
+ask did not name, flag that and ask — a requirement arriving mid-turn is the
+easiest message to misread as a yes.
 
 ### 5. Done means the ask, verified
 
@@ -130,3 +146,21 @@ remains in that repo and is the instance of rule 1 there.
 
 Re-verify lineage: `gh api repos/nic095layson/claude/contents/.claude/skills --jq '.[].name'`
 — expect `change-control`, `logic-tree`.
+
+**Appended 2026-10-13** — `.claude/LESSONS.md` INC-2026-10-13-01 (owner-reported
+2026-10-13; kit after-report `after-report-2026-10-13-scope-fence.md`). Answering
+an owner's question ("is X being taken into account?"), a session built a 326-line
+replacement candidate in scratch, 9 minutes after the question and without a flag,
+and a mid-turn requirement ("usage on new team is critical") was followed 8 minutes
+later by a build implementing it. §2 gained "a question gets an assessment, not a
+fix" and §4 "a stated requirement is not a build order". Both existed before only as
+session memory — the first in 12 of 28 compaction summaries of that session and in
+no committed file — which is why they are written here now: a rule that lives in
+one session's memory dies with that session. The deeper cause was that this skill
+was never loaded for the question (its text first entered the session when the
+owner asked about it); that is addressed by the enforcement hooks, whose classifier
+now routes owner disputes and mid-turn requirements to this skill. Nothing deleted
+or renumbered. Status: **UNMEASURED** —
+`experiments/hypothesis-2026-10-13-project-enforcement-pack.md` (body edits listed
+as not measured); description byte-identical to `HEAD`, so trigger rates are
+unaffected by construction.
