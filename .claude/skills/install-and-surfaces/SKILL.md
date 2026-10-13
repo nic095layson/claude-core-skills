@@ -83,6 +83,53 @@ Silence = in sync. claude.ai: rebuild and re-upload the affected `.skill` —
 testing new wording against an old upload voids the run
 (research-methodology's protocol table).
 
+## Runbook 4 — the project enforcement pack (cloud-safe; added 2026-10-13)
+
+The personal install (Runbook 1) never reaches a Claude Code **cloud** session: the
+container has no `~/.claude/CLAUDE.md`, no `~/.claude/settings.json`, and only the
+account-synced skills (observed 2026-10-13, two sessions; `.claude/LESSONS.md`
+INC-2026-10-13-01). What a cloud session *does* read is the repository: its
+`CLAUDE.md`, and — in a session started inside one repository — its
+`.claude/settings.json`, hooks included (Claude Code settings documentation,
+"Settings in cloud sessions", read 2026-10-13). So the pack lives in the repo.
+
+1. **Copy the hooks.** From this library: `hooks/govclass.py`,
+   `hooks/governance-trigger.py`, `hooks/governance-enforce.py`,
+   `hooks/session-doctrine.sh`, `hooks/plan-gate-first-write-reminder.sh`,
+   `hooks/scope-fence-reminder.sh`, `hooks/receipt-law-stop-gate.sh`, and the
+   two self-tests, into the target repo's `hooks/`. Keep them together: the
+   trigger and the Stop gate import the same classifier so they cannot disagree.
+2. **Copy `.claude/settings.json`** from this library (it references the hooks
+   through `$CLAUDE_PROJECT_DIR`, so no path edits). If the target already has
+   one, merge the `hooks` key.
+3. **Paste the doctrine block** (`instructions/project-doctrine-block.md`,
+   between its markers) into the target's `CLAUDE.md`, below the project's own
+   domain rules. Project-root `CLAUDE.md` is re-read after every compaction
+   (memory documentation, read 2026-10-13), so the block survives compaction.
+4. **Self-test before committing:** `python3 hooks/selftest-governance-classify.py`
+   and `bash hooks/selftest-receipt-law.sh` must pass.
+5. **Verify live, then commit:** in a fresh session on the repo, the first file
+   write produces the plan-gate and scope-fence reminders in context, and a
+   governed-class prompt produces the "Governance auto-trigger" line. (In the
+   authoring session of 2026-10-13 both appeared within minutes of the settings
+   file being written — the harness read the project settings live.) Commit the
+   three pieces together; a pack half-copied is a promise with no mechanism.
+
+**Multi-repository cloud sessions — the pack does not run.** In an
+Anthropic-hosted session with several repositories attached, the session starts
+above the clones and reads only `enabledPlugins` and `extraKnownMarketplaces` from
+each repo's settings, not hooks (same documentation page). That is exactly the
+incident's configuration (kit + deck in one session). There the carriers are the
+`CLAUDE.md` block (still read) and, for enforcement, the **plugin route**: package
+the pack as a Claude Code plugin (`.claude-plugin/plugin.json` + `hooks/hooks.json`,
+hooks referenced through `${CLAUDE_PLUGIN_ROOT}`), publish it from a marketplace
+(a GitHub repository can be one), and enable it from each repo's
+`.claude/settings.json` via `enabledPlugins` + `extraKnownMarketplaces`. Plugin
+hooks merge with settings hooks (plugin manifest reference, read 2026-10-13).
+**Not built as of 2026-10-13** — proposed in
+`results/2026-10-13/gauntlet-fortification/REPORT.md`; verify on a live
+multi-repo session before trusting it.
+
 ## The environment-boundary rules (what does NOT carry)
 
 Verified the hard way, 2026-07-11 (this repo's ledger, `.claude/LESSONS.md`

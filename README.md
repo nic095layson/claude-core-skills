@@ -71,6 +71,22 @@ Companions shipped the same day: two mechanical trigger hooks
 audit runbook (`evals/fable-transition-audit.md`), and the model-capability
 register (`evals/model-capability-register.md`).
 
+## Adopted 2026-10-13 — the project enforcement pack (owner-directed, after INC-2026-10-13-01)
+
+A three-week cloud session loaded no governor at all; the kit's `CLAUDE.md` promised
+they run but nothing on that surface could load them (no user doctrine file, no
+settings, hooks wired nowhere). This repository now carries its own mechanism:
+`.claude/settings.json` wires every hook in `hooks/` at project scope (cloud sessions
+started inside one repository read it), the hooks share one classifier that
+recognises owner questions, disputes and mid-turn requirements (fixture: 27 cases),
+`CLAUDE.md` carries the doctrine block that `instructions/project-doctrine-block.md`
+defines for any project, and the guard fails if the pack is unwired or the block
+drifts. plan-gate, scope-fence and gauntlet carry the three rules the incident found
+unwritten (bodies only; descriptions unchanged, UNMEASURED). Live A/B, 8 headless
+runs: pack off 0/2 governor loads, pack on 4/4, trivia 0/2 with no block. Open:
+multi-repository cloud sessions, which the documentation says do not read repo hooks.
+Record: `results/2026-10-13/gauntlet-fortification/`.
+
 ## Adopted 2026-08-12 — `product-output`
 
 Owner-approved from the 2026-08-10 draft (`results/2026-08-10/product-output-skill/`),
