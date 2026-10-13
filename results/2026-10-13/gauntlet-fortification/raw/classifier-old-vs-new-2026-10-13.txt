@@ -1,0 +1,13 @@
+# Classifier comparison, 2026-10-13 — OLD = hooks/governance-trigger.py at HEAD 3833334 (2026-07-15 patterns); NEW = hooks/govclass.py
+
+| message | OLD | NEW |
+|---|---|---|
+| 23:41 question | silent | FIRES: dispute→adversarial-verify+scope-fence |
+| 23:42 requirement | silent | FIRES: requirement→scope-fence |
+| 23:51 objection | silent | FIRES: dispute→adversarial-verify+scope-fence |
+| 23:54 scope question | FIRES: from your operating rules | FIRES: dispute→adversarial-verify+scope-fence |
+| trivia: 15% of 80 | silent | silent |
+| trivia: thanks | silent | silent |
+| trivia: draft in | FIRES: from your operating rules | silent |
+| trivia: sky | silent | silent |
+| trivia: Lakers draft | FIRES: from your operating rules | silent |

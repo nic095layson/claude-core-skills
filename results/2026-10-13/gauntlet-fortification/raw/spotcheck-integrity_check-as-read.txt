@@ -1,0 +1,18 @@
+# Integrity and environment check, run 2026-10-13T00:10:02Z
+== /home/user/fantasy-basketball-2026-27
+HEAD 89fe5a535ad84dfb88bc833a2427f3e2b072b51f (claude/market-data-workorder-mnfi2b)
+origin/main 89fe5a535ad84dfb88bc833a2427f3e2b072b51f
+tracked changes vs HEAD: 0
+untracked outside the evidence folder: 0
+== /home/user/yahoo-fantasy-basketball
+HEAD 8ec736bb9898ed0e217558407787186a96eff553 (main)
+origin/main 8ec736bb9898ed0e217558407787186a96eff553
+tracked changes vs HEAD: 0
+untracked outside the evidence folder: 0
+== global doctrine file ~/.claude/CLAUDE.md: ABSENT
+== ~/.claude/skills: session-start-hook synced 
+== synced skills: aba-stimulus-deck adversarial-verify after-report application-tailor brand-standard built-in-browser chrome-browser computer-use council deep-research docs docx frontend-design gauntlet google-workspace import-memory morning pdf pdf-extract plan-gate pptx scope-fence skill-creator xlsx 
+   lessons-ledger synced here: NO
+   live-state-truth synced here: NO
+   research-methodology synced here: NO
+== the last publish of the deck page on record: v60, id 1791847492-747e (after-report-2026-10-12-wo5.md); Artifact tool calls since: see timeline.json (none listed)
