@@ -1171,6 +1171,15 @@ unmerged branch defeats it exactly.**
   through the instructions block and skill descriptions alone (it loaded three governors). Status stays
   **OPEN** for fresh sessions until one started from claude.ai/code shows `core-governance@synced`
   loaded (owner check D-SV-4).
+  **Update 2026-10-13 16:45 UTC (owner check D-SV-4 returned):** a fresh session the owner started
+  from claude.ai/code ran `claude plugin list` and listed `core-governance@synced`, version 0.1.1,
+  status loaded (owner screenshot,
+  `results/2026-10-13/system-validation/raw/p7-owner-fresh-session-plugin-list.png`; N=1). The
+  mechanism is now observed on every surface tested: a single-repository session (the pack), a running
+  several-repository session (the plugin, 05:45) and a fresh web-started session (the plugin, 0.1.1).
+  Status: **FIXED** as to the mechanism. Still unmeasured, not a blocker on this entry: the trigger
+  line on a governed prompt in a fresh web-started session (the owner's check message was not a
+  governed prompt), and the API-created-session absence (N=1) stands as its own observation.
 - **Lesson:** a `CLAUDE.md` that *says* governors run is a promise; check for the
   mechanism that loads them on the surface in question (`test -f ~/.claude/CLAUDE.md`,
   `cat .claude/settings.json`) before trusting it — and bind the classifier to the
@@ -1195,6 +1204,12 @@ unmerged branch defeats it exactly.**
   three fixture checks pin it. Library `hooks/`, plugin 0.1.1, kit PR 105, deck PR 106. The account
   plugin carries the fix only after re-upload (owner decision D-SV-2).
 - **Status:** FIXED in the repositories; OPEN on the account until the 0.1.1 plugin is uploaded.
+  **Update 2026-10-13 16:45 UTC:** uploaded. The account's plugin manifest shows the upload at
+  16:40:15 UTC (generation 2); it synced into the authoring session as a second folder whose nine hook
+  files are sha256-identical to `plugin/core-governance/` at `14b3da3`, with the 0.1.0 folder marked
+  stale; a fresh web-started session lists 0.1.1 loaded (INC-2026-10-13-01 update). Record:
+  `results/2026-10-13/system-validation/raw/account-sync-after-reupload.txt`. Status: **FIXED**
+  everywhere observed. The kit and deck copies land when PR 105 and PR 106 merge.
 - **Lesson:** anything that reads "the latest user message" from a transcript must skip harness-written
   user entries, not just the ones marked `isMeta` — the same class as the 2026-10-13 isMeta false block,
   in the other direction.
@@ -1212,5 +1227,10 @@ unmerged branch defeats it exactly.**
   parsed as YAML and compared after whitespace normalisation).
 - **Fix:** re-packaged `.skill` files delivered 2026-10-13 (owner decision D-SV-1).
 - **Status:** OPEN until re-uploaded.
+  **Update 2026-10-13 16:45 UTC:** re-uploaded. The account's skills manifest shows adversarial-verify
+  at 16:40:28 UTC and brand-standard at 16:40:32 UTC; both synced bodies are sha256-identical to the
+  library's after the frontmatter is stripped (record:
+  `results/2026-10-13/system-validation/raw/account-sync-after-reupload.txt`). Status: **FIXED**.
+  The cause (uploads are copies, nothing checks them) is unchanged; Runbook 4 step 8 is the control.
 - **Lesson:** a validation that diffs only the repository cannot see the surface the owner actually
   uses; compare the account copies (`~/.claude/skills/synced/` in a cloud container) on every validation.

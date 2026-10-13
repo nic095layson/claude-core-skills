@@ -36,9 +36,12 @@ independent refuters; their findings and what changed are in §8.
 4. **A real defect was found and fixed:** the Stop gate let governed, unloaded answers through
    whenever a background task finished mid-turn (reproduced red-first, fixed, pinned).
 5. **The uploaded plugin did not load in a fresh cloud session** created through the remote-session
-   API; it does run in this long-lived session, which received the upload while open.
+   API; it does run in this long-lived session, which received the upload while open. *(Update 16:45
+   UTC: a fresh session the owner started from claude.ai/code after re-uploading listed 0.1.1 loaded,
+   N=1; §4, §6.)*
 6. **Two account skills are stale:** adversarial-verify (uploaded 2026-08-12 00:26 UTC, before rules 8
-   and 9) and brand-standard (2026-07-13).
+   and 9) and brand-standard (2026-07-13). *(Update 16:45 UTC: both re-uploaded at 16:40 UTC; synced
+   bodies now match the library; §6.)*
 
 ---
 
@@ -240,7 +243,7 @@ Archived after. Records: `raw/p7-probe-session-events.json`.
 | Cloud session, one repository carrying the pack | yes (re-paste reported by the probe) | yes | **yes** (observed 01:37) | INFERENCE: yes once synced, duplicate trigger line (D-GF-9); not observed |
 | Cloud session, several repositories | this session holds the 2026-10-09 snapshot | yes | **no** (observed 05:33) | **yes**, in this session after the upload (observed 05:45) |
 | Fresh cloud session, API-created | yes (probe-reported) | yes | n/a (kit `main`) | **no** (observed, N=1) |
-| Fresh cloud session, created from claude.ai/code | — | — | — | **not measured** |
+| Fresh cloud session, created from claude.ai/code | not checked in that session | not checked in that session | not checked | **yes**: 0.1.1 listed loaded (owner check D-SV-4, after the 16:40 UTC upload, N=1, `raw/p7-owner-fresh-session-plugin-list.png`); a hook firing there not observed |
 | claude.ai chat | not checked | yes, two stale | n/a | n/a (no hooks on that surface) |
 
 ## 5. Bounds
@@ -252,10 +255,11 @@ Archived after. Records: `raw/p7-probe-session-events.json`.
 - The owner's Mac personal copies and `~/.claude/CLAUDE.md`: not reachable from this container.
 
 **In scope and unverified**
-- A fresh session started from claude.ai/code: `NOT-ATTEMPTED` — the one session-starting tool here,
-  the remote-session API's create call, produced the API-origin probe in §3.7, and no tool here opens
-  the claude.ai/code web interface. Load-bearing for whether the plugin covers the start of new
-  sessions; the owner check in §6 resolves it.
+- A fresh session started from claude.ai/code: was `NOT-ATTEMPTED` from this container (no tool here
+  opens the web interface; the API-created probe in §3.7 is a different origin). **Resolved 2026-10-13
+  16:45 UTC by the owner check (§6):** the plugin is listed loaded there, N=1. What remains
+  `NOT-ATTEMPTED` in such a session is the trigger line on a governed prompt; the check message was
+  not governed. Not load-bearing for any verdict above.
 - A synced plugin's trigger line on a governed prompt in a several-repository session: `NOT-ATTEMPTED`
   as a live prompt (the owner's two prompts after the sync were not classified as governed); the hooks
   running there is observed.
@@ -273,14 +277,14 @@ Archived after. Records: `raw/p7-probe-session-events.json`.
 
 | id | decision | default if silent |
 |---|---|---|
-| D-SV-1 | Re-upload `adversarial-verify.skill` and `brand-standard.skill` | the account keeps the stale copies |
-| D-SV-2 | Re-upload `core-governance.plugin` 0.1.1 | the account runs the gate that lets turns through when a background task finishes mid-turn |
+| D-SV-1 | **DONE 2026-10-13 16:40 UTC** — both skills re-uploaded; synced bodies sha256-identical to the library (`raw/account-sync-after-reupload.txt`) | — |
+| D-SV-2 | **DONE 2026-10-13 16:40 UTC** — plugin 0.1.1 uploaded (manifest generation 2); synced hook files sha256-identical to the repo; 0.1.0 folder marked stale | — |
 | D-SV-3 | Classifier: (a) keep the current one; (b) adopt the round-2 candidate despite the bar (recall 14→23/36, false enforcement 6→2/36; 3 lost positives, 1 new false enforcement); (c) design change: an advisory cue on every owner prompt that is not harness text or a one-line acknowledgement, with the classifier used only for blocking | (a) |
-| D-SV-4 | Run the one-message check below in a new claude.ai/code session and tell me the result | the fresh-session question stays open; INC-2026-10-13-01 stays OPEN |
+| D-SV-4 | **DONE 2026-10-13, after the 16:40 UTC upload** — the owner's fresh claude.ai/code session listed `core-governance@synced` 0.1.1 loaded (`raw/p7-owner-fresh-session-plugin-list.png`, N=1); INC-2026-10-13-01 FIXED as to the mechanism | — |
 | D-SV-5 | The trivial-request block: (a) make the gate accept a one-line triviality skip, which the trigger line already invites; (b) remove that clause from the trigger line; (c) exempt one-step requests in the classifier, under the adoption rule | not changed; the gate can block a trivial request the model correctly skipped |
 | D-SV-6 | Merge PR 24, PR 105, PR 106 (supersedes D-GF-11) | unmerged |
 | D-SV-7 | `ledger-recount-reminder.sh`: wire it, or retire it with its governor | left unwired; the READMEs now say so |
-| carried | D-GF-8 (`/usr/bin/jq` path), D-GF-9 (duplicate trigger line); D-GF-10 is answered for a running several-repository session and stays open for fresh sessions (D-SV-4) | not fixed |
+| carried | D-GF-8 (`/usr/bin/jq` path), D-GF-9 (duplicate trigger line); D-GF-10 is answered for a running several-repository session and, as of the D-SV-4 result, for a fresh web-started session's plugin list; the trigger line on a governed prompt in such a session is still unobserved | not fixed |
 
 **Owner check for D-SV-4.** Start a new session from claude.ai/code on any repository and send:
 "Run `claude plugin list` and paste the output." Expected: `core-governance@synced`, Status loaded.
@@ -343,6 +347,17 @@ and that batch contradicts "not the log" for the SQL-migration prompt (§3.6 cor
 had folded the 6 ten-turn re-checks into "84 trigger"; it now lists them. The plugin package built at
 06:21 carried one README line older than the repo; it was rebuilt, compared and validated. New live
 evidence since the first version: the compaction hook and the reminder re-arm (§3.2, §5).
+
+**Owner check returned (2026-10-13 16:45 UTC).** The owner re-uploaded the three files and started a
+fresh claude.ai/code session; its `claude plugin list` output (screenshot,
+`raw/p7-owner-fresh-session-plugin-list.png`) lists `core-governance@synced` 0.1.1 loaded. Checked
+here against the account sync that reached this container at 16:40 UTC
+(`raw/account-sync-after-reupload.txt`): the plugin's hook files and both skill bodies are
+sha256-identical to the repo. D-SV-1, D-SV-2 and D-SV-4 are marked done; the §4 table, §5 and the
+ledger entries INC-2026-10-13-01/02/03 carry dated updates. The screenshot is an owner-supplied record
+of a session this container did not observe (EVIDENCE as a record, N=1); the sync state is this
+container's own observation. That session also noted that no skills appear under a
+`core-governance:` prefix, which is correct: the plugin ships hooks only.
 
 ## In plain language
 
