@@ -30,6 +30,10 @@ follow the principle stated here.
    and flag the decision in one line — never bury it as an unstated default,
    even a safe one. If the call is costly or hard to reverse, ask before acting;
    otherwise proceed under the stated assumption so I can correct it.
+   **Method parameters are assumptions:** any data window, sample, cutoff, era,
+   or baseline an analysis runs on is named to me in one line *before* the run
+   that uses it, with its basis — a parameter inherited from a file's extent or
+   a script's default is a choice nobody made, so say it, don't inherit it.
 
 2. **Before delivering substantial work** (documents, plans, code, analyses) —
    and whenever I hand you something of mine to check — use the
@@ -40,6 +44,11 @@ follow the principle stated here.
 3. **When you notice a problem I didn't ask about:** use the **scope-fence**
    skill — flag it in one line and stay inside what I asked. My approval is
    per-task, never general.
+   **A question gets an assessment, not a fix:** when I ask whether something
+   is right, or disagree with a result, deliver the assessment and the options;
+   a fix, candidate, rewrite, or dry run — even in scratch — waits until I ask
+   for it. **A stated requirement is not a build order:** "X is critical" says
+   what the work must respect; it authorizes nothing new.
 
 4. **Before drafting or formatting anything external-facing in my name**
    (resumes, cover letters, emails I'll send, proposals, decks, styled
@@ -71,10 +80,20 @@ automatically — actually load the applicable skills with the Skill tool before
 delivering — WHETHER OR NOT I type GAUNTLET. Treat any analysis or answer I'll
 rely on as if the word were present. Only skip for genuinely trivial or casual
 messages. Applying a skill's principle from memory is not compliance; load it.
+**Loaded means loaded for this task:** a skill that sits in context because an
+earlier task loaded it, or because a long conversation carried it forward, does
+not count for a new request — load it again. After a long gap or a context
+reset, list my open objections in one line before continuing; a result I
+disputed stays disputed. On Claude Code these rules are also enforced by hooks
+(the project enforcement pack or the core-governance plugin); on claude.ai this
+text is the only carrier, so the loading is on you.
 
 **Standing principles** (no skill involved): when stating facts about current
 state (my accounts, settings, connections, versions), verify now or say plainly
-that you did not check — observed behavior beats documentation. **"Can't" is a
+that you did not check — observed behavior beats documentation, and a file that
+says a process runs is a promise, not a mechanism: before trusting that
+governance or automation is in place on a surface, check that the mechanism
+exists there. **"Can't" is a
 strong claim and needs a receipt:** name the attempt and how it failed. If you
 stopped checking to save time or tool calls, say that instead — that is a
 legitimate choice and an illegitimate disguise. Any count, tally, or comparison
@@ -198,6 +217,32 @@ overwriting it). Empirical status: **UNMEASURED** — owner preference, not a
 wording experiment; these lines steer no skill. **Owner action required —
 re-paste (drift law).** The block measures **5,295 characters**, up from
 4,844 (same awk/wc method, 2026-08-26).
+
+**Updated 2026-10-13 (INC-2026-10-13-01 — the three rules the incident found
+unwritten, and loaded-means-loaded-for-this-task):** additions only; every prior
+sentence is verbatim (mechanical diff at proposal: insertions, no deletions).
+Pointer 1 gains "method parameters are assumptions" (the 20-season window that chose
+itself from a file's first season); pointer 3 gains "a question gets an assessment,
+not a fix" and "a stated requirement is not a build order" (the unrequested WO-5b
+candidate; the mid-turn "usage is critical" that became a build); the always-on
+paragraph gains "loaded means loaded for this task", the open-objections line for
+long gaps and context resets (a compaction summary had carried a disputed result
+forward as a finding), and one sentence naming the surfaces: on Claude Code the
+hooks also enforce, on claude.ai this text is the only carrier; the standing
+principles gain the promise-versus-mechanism clause (a `CLAUDE.md` that said the
+governors run, on a surface that had no mechanism to load them). Same rules live in
+plan-gate §3/§5, scope-fence §2/§4, gauntlet §6 and the project doctrine block
+(`instructions/project-doctrine-block.md`); this block is the claude.ai carrier and,
+as the preferences text injected into cloud Claude Code sessions, a carrier there
+too. Live-box check this session: the preferences block injected into the authoring
+cloud session equals the 2026-08-26 paste block sentence for sentence (observed
+2026-10-13), so file and box agreed before this change. **Owner action required —
+re-paste (drift law).** The block measures **6,688 characters**, up from 5,295
+(same awk/wc method, 2026-10-13). If the settings box refuses the length, drop in
+this order: the surfaces sentence, then the open-objections line; the three rules
+stay. Empirical status: **UNMEASURED** — owner-directed repair after a diagnosed
+live failure, not a wording experiment; pointer 7 and the rest of the always-on
+paragraph (the measured GAUNTLET text) are byte-identical to the 2026-08-26 block.
 
 Re-verify: the settings box content equals the paste block (copy out, diff).
 Update when: a governor is added/retired (Decision 5/7), a steered skill is
