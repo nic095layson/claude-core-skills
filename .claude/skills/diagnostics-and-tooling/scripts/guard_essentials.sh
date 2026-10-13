@@ -136,5 +136,22 @@ jb=0; for f in evals/*.json; do python3 -c "import json;json.load(open('$f'))" 2
 sb=0; for f in hooks/*.sh .claude/skills/*/scripts/*.sh; do [ -f "$f" ] || continue; bash -n "$f" 2>/dev/null || { bad "shell syntax: $f"; sb=1; }; done
 [ "$sb" -eq 0 ] && ok "hooks/scripts: shell syntax valid"
 
+# --- 8. Enforcement pack + doctrine carrier (INC-2026-10-13-01) -----------
+# A promise with no mechanism was the incident; these assert the mechanism stays wired.
+python3 - <<'PY' 2>/dev/null && ok "enforcement pack: .claude/settings.json wires trigger, Stop gate, compaction hook" || bad "enforcement pack: .claude/settings.json missing or unwired"
+import json
+h=json.load(open('.claude/settings.json'))['hooks']
+def has(ev,frag): return any(frag in x['command'] for e in h.get(ev,[]) for x in e['hooks'])
+assert has('UserPromptSubmit','governance-trigger') and has('Stop','governance-enforce') and has('SessionStart','session-doctrine') and has('PreToolUse','scope-fence-reminder')
+PY
+python3 hooks/selftest-governance-classify.py >/dev/null 2>&1 && ok "enforcement pack: classifier + Stop-gate fixture passes" || bad "enforcement pack: classifier fixture FAILS (run hooks/selftest-governance-classify.py)"
+python3 - <<'PY' 2>/dev/null && ok "doctrine block: CLAUDE.md copy equals instructions/project-doctrine-block.md" || bad "doctrine block: CLAUDE.md copy DRIFTED from instructions/project-doctrine-block.md"
+import re,sys
+def blk(p):
+    t=open(p,encoding='utf-8').read(); m=re.search(r'---- BEGIN BLOCK ----\n(.*?)\n---- END BLOCK ----',t,re.S)
+    return re.sub(r'\s+',' ',m.group(1)).strip() if m else None
+a=blk('instructions/project-doctrine-block.md'); b=blk('CLAUDE.md'); sys.exit(0 if a and a==b else 1)
+PY
+
 echo "== RESULT: $([ $FAIL -eq 0 ] && echo PASS || echo FAIL) =="
 exit $FAIL

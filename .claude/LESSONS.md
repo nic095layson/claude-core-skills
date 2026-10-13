@@ -1106,3 +1106,57 @@ unmerged branch defeats it exactly.**
 - **Status:** OPEN as a standing constraint (no fix wanted; the doctrine behaved as
   written). Owner decisions D-A / D-C in
   `results/2026-08-26/fable-transition/RESULTS.md`.
+
+### INC-2026-10-13-01 — Three weeks, zero governor loads: the kit's "governors run on every session" had no mechanism on the cloud surface
+
+- **Date:** incident 2026-10-12 23:41–23:54 UTC (owner caught it live); reported by the
+  owner 2026-10-13 with the kit's `report/after-reports/after-report-2026-10-13-scope-fence.md`;
+  recorded here 2026-10-13. Keys on every remote branch checked first (Rule 4): no
+  `2026-10` key existed.
+- **Surface:** Claude Code on the web, one long-lived session (log from 2026-09-23) with
+  the kit and the deck both attached.
+- **Severity:** high as a governance failure (two scope breaches caught by the owner, not
+  the process); no data damage (both repos clean, nothing published).
+
+- **Symptom:** answering an owner question, the session ran a 20-season backtest whose
+  window was never stated as a choice (visible only in one tool label and two script
+  docstrings), then built an unrequested 326-line replacement candidate in scratch. A
+  mid-turn requirement ("usage on new team is critical") was followed 8 minutes later by a
+  build implementing it. A compaction summary carried the disputed result forward as a
+  finding.
+- **Root cause (confirmed, recounted this session from `out/timeline.json` and
+  `out/integrity_check.txt`):** nothing could load a governor. (1) `~/.claude/CLAUDE.md`,
+  which the kit's `CLAUDE.md` points to, does not exist in cloud containers (ABSENT in the
+  incident session and in this one). (2) The kit has no `.claude/` directory and this
+  library's hooks were wired in no `settings.json` anywhere — the validated enforcement
+  pair (3/3 vs 0/3, 2026-07-15) existed only as files. (3) The 2026-07-15 classifier would
+  have stayed silent on 3 of the 4 owner messages anyway, and fired on "what time zone is
+  the draft in?" (`draft (a|the|me)?` matched "draft in"). (4) plan-gate and
+  adversarial-verify were re-attached after each of 28 compactions carrying an earlier
+  task's arguments, which reads as "already handled". (5) Three house rules ("a question
+  gets an assessment, not a fix"; method parameters stated before the run; a stated
+  requirement is not a build order) lived only in that session's memory — in 12 of 28
+  compaction summaries and in no committed file.
+- **Evidence:** census — 4 Skill-tool loads since 2026-09-23 (after-report ×3, pdf-extract
+  ×1), 0 governors, 28 compactions, 28 re-attachments with D51R arguments
+  (`out/timeline.json`, recounted 2026-10-13); `out/integrity_check.txt` (doctrine file
+  ABSENT, three skills not synced); era check re-run byte-identical
+  (`out/league_per36.json`); classifier fixture run 2026-10-13 (3/4 silent, 1/3 trivia
+  fired); docs quotes dated 2026-10-13 in
+  `results/2026-10-13/gauntlet-fortification/REPORT.md`.
+- **Fix (this library, PR on `claude/trusting-curie-d2ft62`):** project-scope enforcement
+  pack — shared classifier `hooks/govclass.py` with `dispute` and `requirement` classes and
+  the `draft` pattern narrowed, both hooks rebuilt on it, `hooks/session-doctrine.sh`
+  (post-compaction protocol + reminder re-arm), `.claude/settings.json` wiring all seven
+  hooks, pinned by `hooks/selftest-governance-classify.py`; the doctrine block
+  (`instructions/project-doctrine-block.md`) pasted into `CLAUDE.md` with a guard drift
+  check; plan-gate §3/§5, scope-fence §2/§4, gauntlet §6 carry the three rules and
+  "re-attached is not loaded". Kit and deck: proposed text only (no push access).
+- **Status:** FIXED here for single-repository sessions (live A/B in the report);
+  **OPEN** for multi-repository cloud sessions — the incident's own configuration — where
+  the settings documentation says repo hooks are not read; the plugin route is proposed,
+  not built.
+- **Lesson:** a `CLAUDE.md` that *says* governors run is a promise; check for the
+  mechanism that loads them on the surface in question (`test -f ~/.claude/CLAUDE.md`,
+  `cat .claude/settings.json`) before trusting it — and bind the classifier to the
+  owner's real phrasing (questions, disputes, requirements), not only to verbs.
