@@ -341,7 +341,7 @@ PR 105 (`CLAUDE.md` per §4.1 with the block between its markers, the nine hooks
 Deck: same branch name, draft PR 106 (pack, new `CLAUDE.md` with the block, `LESSONS.md` lesson 24
 per §4.3, `.claude/skills/` untouched). Both branches based on their `main` tips of the day, one
 commit each. Verification: a Workflow applied each in parallel and ran independent read-only
-refuters — kit **PASS, 0 defects, 9 checks**; the deck refuter **did not run** (the account's
+refuters — kit **PASS, 0 defects, 10 checks**; the deck refuter **did not run** (the account's
 session limit was hit before it started), so the authoring session ran the same checks itself
 (byte-identity, modes, both self-tests, append-only ledger diff, untouched skills, base, trailers,
 no CRLF — all PASS). The plugin refuter returned **FAIL** on three findings, each dispositioned
