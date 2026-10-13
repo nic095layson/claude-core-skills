@@ -142,9 +142,18 @@ byte-identical copies of `hooks/`, guarded):
 7. **Verify on the surface that failed:** a cloud session with the kit and the deck
    both attached — `claude plugin list` must show `core-governance@synced` loaded,
    and a disputed question must produce the "Governance auto-trigger" line.
-   **Unverified as of 2026-10-13:** a synced plugin's hooks firing in a cloud
-   session — documented for terminal sessions, observed nowhere yet. Until that
-   observation exists, ledger INC-2026-10-13-01 stays OPEN.
+   **Observed 2026-10-13 (system validation):** in a running cloud session with
+   three repositories attached, the synced plugin's Stop gates ran within minutes
+   of the upload. **Not observed:** the plugin in a fresh session — one created
+   through the remote-session API had no plugins installed three minutes in.
+   Check a fresh session started from claude.ai/code with `claude plugin list`;
+   until it shows `core-governance@synced` loaded, treat the instructions block
+   and the account skills as the only carriers at the start of a new session.
+8. **Compare the account copies on every validation.** In a cloud container the
+   account's skills sit under `~/.claude/skills/synced/<id>/`; diff each against
+   the library after parsing the frontmatter (claude.ai re-serializes it). The
+   2026-10-13 validation found adversarial-verify two months stale there (ledger
+   INC-2026-10-13-03).
 
 ## The environment-boundary rules (what does NOT carry)
 

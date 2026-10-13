@@ -1,0 +1,1 @@
+Which of these two variable names reads better to you: maxRetryCount or retryLimit?

@@ -45,6 +45,10 @@ component paths that leave the plugin root.
    a synced plugin's hooks firing in a cloud session — the synced plugin at hand had no hooks.
    Verify after upload: in a cloud session, `claude plugin list` shows `core-governance@synced`
    loaded, and a disputed question produces the trigger line.
+   **Observed 2026-10-13:** loaded and running (Stop gates through the wrapper) in a long-lived
+   cloud session with three repositories attached, minutes after the upload. **Not loaded** in a
+   fresh session created through the remote-session API (no plugins three minutes in). Fresh
+   sessions started from claude.ai/code: not yet measured.
 2. **Marketplace (terminal).** `claude plugin marketplace add nic095layson/claude-core-skills`
    then `claude plugin install core-governance@core-skills`, or in one step
    `/plugin install core-governance --marketplace nic095layson/claude-core-skills`.
@@ -83,6 +87,12 @@ component paths that leave the plugin root.
   it flagged the stream-attribution gap (answered by the debug run above), the original yield
   rule (replaced by the rule above), and a hard-coded `/usr/bin/jq` in the two first-write
   reminders inherited from `hooks/` (not fixed here; owner decision in the after-report).
+
+## 0.1.1 (2026-10-13)
+
+`governance-enforce.py` now skips harness-written user entries (task notifications, wake envelopes)
+when it looks for the owner's prompt. Before, a background task finishing mid-turn let a governed,
+unloaded answer through (ledger INC-2026-10-13-02; reproduced red-first, pinned by three fixture checks).
 
 ## Package for upload
 

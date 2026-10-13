@@ -1164,7 +1164,53 @@ unmerged branch defeats it exactly.**
   from one sentence of the page and is withdrawn. The plugin is built and is to be enabled on the
   claude.ai account (install-and-surfaces Runbook 4, steps 6–7). Closes when a cloud session with
   several repositories is observed running the synced plugin's hooks.
+  **Update 2026-10-13 (system validation):** observed — the authoring session, with three repositories
+  attached, ran the synced plugin's Stop gates through its wrapper (05:45:12 UTC) after the project pack
+  had stopped running there (05:33–05:34). Not observed: the plugin in a FRESH cloud session — one
+  created through the remote-session API had no plugins installed three minutes in, and governed itself
+  through the instructions block and skill descriptions alone (it loaded three governors). Status stays
+  **OPEN** for fresh sessions until one started from claude.ai/code shows `core-governance@synced`
+  loaded (owner check D-SV-4).
 - **Lesson:** a `CLAUDE.md` that *says* governors run is a promise; check for the
   mechanism that loads them on the surface in question (`test -f ~/.claude/CLAUDE.md`,
   `cat .claude/settings.json`) before trusting it — and bind the classifier to the
   owner's real phrasing (questions, disputes, requirements), not only to verbs.
+
+### INC-2026-10-13-02 — The Stop gate let governed, unloaded turns through whenever a background task finished mid-turn
+
+- **Date:** found and fixed 2026-10-13 by the full-system validation
+  (`results/2026-10-13/system-validation/`). Keys on every remote branch checked first (Rule 4):
+  only `INC-2026-10-13-01` existed for this date.
+- **Surface:** every surface the enforcement pack or the `core-governance` plugin runs on.
+- **Symptom (reproduced red-first, not seen in production):** a governed owner prompt, an answer with
+  no governor load, and a `<task-notification>` or `[SYSTEM NOTIFICATION` user entry in between →
+  the gate ALLOWED (2 of 2 synthetic transcripts); the same transcript without the notification BLOCKED.
+- **Root cause:** `governance-enforce.py` takes the last un-marked user text as "the owner's prompt".
+  Harness notifications arrive as ordinary user entries, `classify()` maps them to no class by design,
+  so the gate judged the notification, found nothing governed, and allowed. Long sessions run background
+  tasks constantly, so the hole was open most of the time in exactly the sessions INC-2026-10-13-01 was about.
+- **Evidence:** `raw/p4b/` (five transcripts, old and fixed verdicts); the extended fixture fails its
+  two new checks against the old gate and passes 30/30 against the fixed one.
+- **Fix:** the gate skips harness-marked user texts (`HARNESS_MARKERS`) when locating the prompt;
+  three fixture checks pin it. Library `hooks/`, plugin 0.1.1, kit PR 105, deck PR 106. The account
+  plugin carries the fix only after re-upload (owner decision D-SV-2).
+- **Status:** FIXED in the repositories; OPEN on the account until the 0.1.1 plugin is uploaded.
+- **Lesson:** anything that reads "the latest user message" from a transcript must skip harness-written
+  user entries, not just the ones marked `isMeta` — the same class as the 2026-10-13 isMeta false block,
+  in the other direction.
+
+### INC-2026-10-13-03 — Account skills drifted from the library for two months (adversarial-verify, brand-standard)
+
+- **Date:** found 2026-10-13 (validation P1). Class: drift.
+- **Symptom:** the claude.ai account's `adversarial-verify` lacks rules 8 and 9 and their provenance
+  note (adopted on `main` 2026-08-12); its `brand-standard` description lacks the "clinical or
+  client-owned documents about a third party" clause. Every claude.ai and cloud session read the old copies.
+- **Root cause:** the account copies are uploads, not links; an edit merged to the library changes no
+  account copy (install-and-surfaces Runbook 3 states this; nothing checked it). The guard compares
+  repo copies only.
+- **Evidence:** `raw/p1-account-skill-drift.txt` (26 branch-only lines, 0 account-only; descriptions
+  parsed as YAML and compared after whitespace normalisation).
+- **Fix:** re-packaged `.skill` files delivered 2026-10-13 (owner decision D-SV-1).
+- **Status:** OPEN until re-uploaded.
+- **Lesson:** a validation that diffs only the repository cannot see the surface the owner actually
+  uses; compare the account copies (`~/.claude/skills/synced/` in a cloud container) on every validation.

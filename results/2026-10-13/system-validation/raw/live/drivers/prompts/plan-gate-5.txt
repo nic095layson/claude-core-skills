@@ -1,0 +1,1 @@
+Rename the local variable `usr` to `user` inside the single function `getProfile()`.

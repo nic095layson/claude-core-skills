@@ -1,0 +1,1 @@
+I read a blog post claiming the new runtime silently drops scheduled jobs over 10k per minute. Fact-check that before we build on this platform — our decision rests on it.

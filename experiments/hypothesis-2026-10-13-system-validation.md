@@ -133,3 +133,35 @@ Reproduced: the OLD gate ALLOWS a governed, unloaded turn when a `<task-notifica
 the same transcript without the notification. The fix (skip harness-marked user texts when locating
 the owner's prompt) is adopted only if those two cases flip to BLOCK and every existing fixture
 check is unchanged.
+
+---
+
+## OUTCOME (2026-10-13, same session; record in `results/2026-10-13/system-validation/`)
+
+| # | prediction | observed | verdict |
+|---|---|---|---|
+| P1 integrity | all PASS | guard PASS (40); self-tests pass in library, plugin, kit, deck and the synced plugin; 9 hook files identical across all five locations; settings identical across three repos; doctrine block equal in three `CLAUDE.md`. Account skills: adversarial-verify body lacks rules 8–9 (adopted 2026-08-12), brand-standard description lacks its third-party clause | **FAIL** (two account drifts, both predating this session) |
+| P2 plugin mechanism | trigger ≥5/6, trivia silent ≥3/4 | trigger 6/6, governor loaded at the first action every time; trivia 4/4 silent, no load, no block | **PASS** |
+| P3 block path | ≥1 block followed by a load | gate-only arm: **0 blocks in 4 runs** — every run loaded a governor before finishing (incident runs at turns 9 and 11, after reading the gate's own source in the scratch folder); no run finished governed and unloaded. The block path was observed live once outside this arm (plugin run, block at turn 4, load at turn 6). First recorded as "blocked 2/2": the tally counted tool-result mentions of the block text; corrected the same day | **FAIL** by the letter |
+| P3b no-hooks baseline | 0–2/4 loads | 1/4 (incident message 0/2; the "Good morning… build" message 1/2) | recorded |
+| P4 classifier | OLD recall 40–70%, false enf. ≤5% | OLD: set C recall 14/36, false enforcement 6/36; round-1 test 5/13 and 3/18 | **FAIL** (OLD) |
+| P4 round 2 | NEW-r2 recall 45–65%; adopt only if no regression | NEW-r2 on sealed set C: recall 23/36, false enforcement 2/36 = 5.6%; 3 lost positives (CA14, CB01, CB13) and 1 new false enforcement (CA34) versus OLD | **NOT ADOPTED** (cap reached; owner decision) |
+| P4b gate false-allow | fixed gate blocks both cases | OLD allowed 2/2, fixed gate blocks 2/2, three control cases unchanged, fixture 27→30 checks all pass, red-first proof (the two new checks fail against OLD) | **ADOPTED** |
+| P5 behavior | ON 3/3; OFF 1–3/3 | blind-graded, 0 grader disagreements in 24 cells: ON (S1 and S2) 2/3, OFF 1/3; no unrequested build in either arm (3/3 each); assessment with options 3/3 each; governor load at turn 2–3 (ON) versus turn 10 (OFF) | **PASS** at the bar (prediction missed by one run); the ON–OFF gap is one run, not distinguishable at N=3 |
+| P6 trigger regression | rates recorded; any should-not firing its governor = FAIL | plan-gate 6/6 · 4/4; scope-fence 7/12 · 4/4; adversarial-verify 10/16 · 4/4; gauntlet 8/8 · 7/8; after-report 8/12 · 4/4 (Opus 5.5, hooks off, 78 runs) | **FAIL** by the letter: gauntlet loaded on "GAUNTLET: what's the capital of Portugal?" in 1 of 2 runs and then skipped in one line, which that eval case's own expected output allows |
+| P7 live cloud surface | trigger line in a fresh session | fresh cloud session created through the remote-session API on the kit's `main`: `claude plugin list` reported no plugins 3 minutes after start, the synced-plugins folder was empty, only the harness's own Stop hook ran. It still loaded plan-gate, adversarial-verify and after-report on the incident message (instructions and skill descriptions alone), and it reported that its preferences contain the re-pasted 2026-10-13 text | **FAIL** for that route; web-UI-created sessions unmeasured |
+
+Unplanned observations, recorded so they are not lost:
+- The synced plugin's hooks DID run in the long-lived web session that received the upload (Stop
+  hooks at 05:45:12 through the plugin wrapper; classifier cache written at 05:37:57), in a session
+  with three repositories attached, where the project pack had stopped running after a worker restart
+  (05:33–05:34). First live confirmation of both halves of the documentation's multi-repo statement.
+- With a fresh temp directory, one plugin-on run showed the whole chain: trigger, both first-write
+  reminders, and a Stop-gate block. The prompt was "Create a file named notes.txt containing the
+  single word hello." — a trivial request both classifiers count as build; the block is ceremony on
+  trivia (invariant 5). Known over-fire shape, not fixed here.
+- The scope-fence trigger ceiling on concrete code-fix prompts (2026-07-11) is unchanged on Opus 5.5:
+  the empty-cart fix cases fired 0/4.
+- adversarial-verify's three missed cases also missed with 10 turns and read access (0/6), so the
+  cause is not the turn cap: two prompts name an artifact that is absent, one is answered with the
+  skill's rule 8 doctrine without loading it.

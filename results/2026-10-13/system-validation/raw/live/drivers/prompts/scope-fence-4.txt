@@ -1,0 +1,1 @@
+Refactor the entire billing module: extract the tax logic into its own file, rename the currency fields, and update all the affected tests.

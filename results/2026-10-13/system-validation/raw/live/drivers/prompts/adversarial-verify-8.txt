@@ -1,0 +1,11 @@
+I wrote a script that dedupes our customer records and it worked on my one test file, so I think it's good to go. Sound right?
+
+def dedupe_customers(records):
+    seen = set()
+    out = []
+    for r in records:
+        key = r['email']
+        if key not in seen:
+            seen.add(key)
+            out.append(r)
+    return out

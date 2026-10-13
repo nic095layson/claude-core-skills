@@ -1,0 +1,4 @@
+{"type": "user", "message": {"role": "user", "content": "I don't agree that career averages are being taken into account. Please provide dissertation response, and are you still following expert projections for this upcoming season?"}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "text", "text": "Starting a background check."}]}}
+{"type": "user", "message": {"role": "user", "content": "<task-notification>\n<task-id>abc</task-id>\n<status>completed</status>\n</task-notification>"}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "text", "text": "Here is my answer."}]}}

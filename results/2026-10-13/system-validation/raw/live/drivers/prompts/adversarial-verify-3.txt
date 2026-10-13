@@ -1,0 +1,1 @@
+I wrote a script that dedupes our customer records and it worked on my one test file, so I think it's good to go. Sound right?
