@@ -300,3 +300,73 @@ on your exact message from that night: without the pack, neither run opened a ru
 One honest limit: when a web session has two repositories attached at once, which is how that
 session ran, Claude Code does not read hooks from either repository. The fix for that case is a
 plugin, and it is described but not built. Nothing is merged until you say so.
+
+---
+
+## Correction and application record (2026-10-13, later the same day)
+
+**Correction to §4.4 (the plugin route).** The settings-page sentence quoted in §4.4 continues:
+"The marketplaces and plugins those two keys declare still don't load in a cloud session." The
+cloud-environments page's carry-over table says the same ("Plugins and marketplaces declared in your
+repo's `.claude/settings.json` — No"), and the plugin loading reference gives the reason: adding a
+repository-declared marketplace needs the workspace trust dialog, which a cloud session never shows
+(all three pages re-read 2026-10-13). §4.4's proposal — enable the plugin from each repository's
+settings — rested on the first sentence alone and is withdrawn. What caught it: re-fetching the page
+for the exact JSON shape before building, one sentence further on the same page. Runbook 4 (steps
+6–7), `hooks/README.md`, `README.md` and the ledger entry carry the correction.
+
+**What replaces it — the account route.** A plugin enabled on claude.ai (Customize → Plugins → Add →
+Upload plugin; `.plugin` or `.zip` holding one `.claude-plugin/plugin.json`) "downloads as a synced
+plugin the next time you start a session signed in to the same account" (claude.com plugins page);
+in terminal sessions a synced plugin's hooks load (loading reference). EVIDENCE from this container:
+`claude plugin list` shows a claude.ai-synced plugin `loaded` in this cloud session, and the
+governors sit under `~/.claude/skills/synced/`. INFERENCE: a synced plugin's hooks therefore reach
+cloud sessions too — **not yet observed** (the synced plugin at hand carries no hooks).
+
+**Built (D-GF-5, re-specified).** `plugin/core-governance/` + `.claude-plugin/marketplace.json`
+(commit `14eabf7` and the follow-up on this branch). `claude plugin validate --strict` passes for
+both. Scripts are byte-identical copies of `hooks/` (guard section 9). Wrapper
+`run-unless-project-wired.sh` yields only in a local session whose project hooks key wires the same
+hook; in a cloud session it always runs (the verifier found the first rule could silence both
+copies in a several-repository cloud session; pinned by `selftest-wrapper.sh`, 9/9).
+`--plugin-dir` smoke, one headless run per arm (mechanism check, N=1, stated before the run):
+incident message → trigger context once, `adversarial-verify` + `scope-fence` loaded, no block,
+0.28 USD; "what time zone is the draft in?" → nothing fired, direct answer, 0.08 USD. Attribution of
+the fired hooks to the plugin comes from a separate `--debug-file` run, not from the smoke stream,
+which names events but not commands (`raw/plugin-smoke/attribution-debug-2026-10-13.txt`:
+"Registered 6 hooks", no project settings file named).
+
+**Applied (D-GF-2, D-GF-3, D-GF-4).** Kit: branch `claude/governance-pack-2026-10-13`, draft
+PR 105 (`CLAUDE.md` per §4.1 with the block between its markers, the nine hooks, settings).
+Deck: same branch name, draft PR 106 (pack, new `CLAUDE.md` with the block, `LESSONS.md` lesson 24
+per §4.3, `.claude/skills/` untouched). Both branches based on their `main` tips of the day, one
+commit each. Verification: a Workflow applied each in parallel and ran independent read-only
+refuters — kit **PASS, 0 defects, 9 checks**; the deck refuter **did not run** (the account's
+session limit was hit before it started), so the authoring session ran the same checks itself
+(byte-identity, modes, both self-tests, append-only ledger diff, untouched skills, base, trailers,
+no CRLF — all PASS). The plugin refuter returned **FAIL** on three findings, each dispositioned
+above or below. No kit/deck setting declares plugin keys (inert on cloud by the documentation).
+
+**Verifier findings not fixed here.**
+- `hooks/plan-gate-first-write-reminder.sh:14` and `hooks/scope-fence-reminder.sh:9` call
+  `/usr/bin/jq` by absolute path (`session-doctrine.sh` uses `jq` from PATH). On a host without
+  `/usr/bin/jq`, `sid` falls back to `nosession` and the once-per-session sentinel becomes
+  machine-wide. Present on this host; pre-existing in `hooks/` since 2026-07-12; inherited
+  byte-for-byte by the plugin, the kit and the deck. Outside this task's fence; one-word fix,
+  then re-copy to all three. **D-GF-8 below.**
+- Governance hooks would run twice in a one-repository cloud session that carries the pack once
+  the plugin is enabled (duplicate trigger line; same Stop verdict twice). Accepted cost of the
+  fail-safe rule; a per-session sentinel in `governance-trigger.py` would remove it. **D-GF-9.**
+
+**Delivered to the owner (this session):** `plan-gate.skill`, `scope-fence.skill`,
+`gauntlet.skill` (each exactly `<name>/SKILL.md`, byte-identical to this branch) and
+`core-governance.plugin` (the plugin directory zipped; one `.claude-plugin/plugin.json`).
+
+**Decision sheet, continued**
+
+| id | decision | default if silent |
+|---|---|---|
+| D-GF-8 | Fix the `/usr/bin/jq` path in the two reminders (PATH `jq`), then re-copy to plugin, kit, deck | not fixed; works wherever `/usr/bin/jq` exists |
+| D-GF-9 | De-duplicate the trigger when plugin and pack both run (per-session sentinel) | not built; duplicate line accepted |
+| D-GF-10 | Upload `core-governance.plugin` to the claude.ai account, then observe one several-repository cloud session (`claude plugin list`, a disputed question) and record the result against INC-2026-10-13-01 | the ledger entry stays OPEN |
+| D-GF-11 | Merge PR 105 (kit) and PR 106 (deck), separately from PR 24 | unmerged; nothing changes in those repos |

@@ -170,6 +170,7 @@ for need in ('governance-trigger.py','governance-enforce.py','session-doctrine.s
     assert any(need in c for c in cmds), need
 PY2
 [ -x plugin/core-governance/scripts/run-unless-project-wired.sh ] && ok "plugin: defer wrapper present and executable" || bad "plugin: scripts/run-unless-project-wired.sh missing or not executable"
+bash plugin/core-governance/scripts/selftest-wrapper.sh >/dev/null 2>&1 && ok "plugin: wrapper self-test passes (yields only local + project-wired)" || bad "plugin: selftest-wrapper.sh FAILS (run it for the case)"
 if command -v claude >/dev/null 2>&1; then
   claude plugin validate --strict plugin/core-governance >/dev/null 2>&1 && ok "plugin: claude plugin validate --strict passes" || bad "plugin: claude plugin validate --strict FAILS"
   claude plugin validate --strict . >/dev/null 2>&1 && ok "marketplace: claude plugin validate --strict passes" || bad "marketplace: .claude-plugin/marketplace.json validate --strict FAILS"

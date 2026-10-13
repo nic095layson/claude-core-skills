@@ -16,10 +16,17 @@ carried the mechanism).
 | `PreToolUse` (`Edit\|Write\|NotebookEdit`) | `plan-gate-first-write-reminder.sh`, `scope-fence-reminder.sh` | once-per-session reminders at the first file write |
 | `SessionStart` (`compact\|resume`) | `session-doctrine.sh` | post-compaction protocol; re-arms the reminders |
 
-Every hook runs through `scripts/run-unless-project-wired.sh`. If the session's project
-already wires the same hook in its own `.claude/settings.json`, the wrapper exits silently
-(fail-open), so a single-repository session that carries the pack does not run each hook
-twice. Where repository hooks are not read, the plugin's copy runs.
+Every hook runs through `scripts/run-unless-project-wired.sh`. It yields (exits silently,
+fail-open) only where repository hooks are known to run: a **local** session
+(`CLAUDE_CODE_REMOTE` unset) whose project `.claude/settings.json` wires this same hook under
+its `hooks` key (parsed, not grepped: an allow rule naming the file does not count). In a
+**cloud** session the plugin always runs. Reason: the cloud harness reads repository hooks in
+a one-repository session and not in a several-repository one, and a hook process cannot tell
+which it is in; a yield there could silence both copies in exactly the case the plugin exists
+for (independent verifier finding, 2026-10-13). The cost is a duplicate trigger line in a
+one-repository cloud session that also carries the pack; the first-write reminders and the
+receipt-law gate keep per-session sentinels and do not double-fire. The rule is pinned by
+`scripts/selftest-wrapper.sh` (9 cases).
 
 `scripts/*.py` and `scripts/*.sh` (other than the wrapper) are **byte-identical copies** of
 `hooks/*` in this repository; the guard (`guard_essentials.sh`) fails if they drift. Edit
@@ -63,6 +70,19 @@ component paths that leave the plugin root.
   pre-registered A/B): incident message → trigger context injected once, `adversarial-verify`
   and `scope-fence` loaded, no block; "what time zone is the draft in?" → nothing fired, direct
   answer. Evidence: `results/2026-10-13/gauntlet-fortification/raw/plugin-smoke/`.
+
+- Hook-source attribution: the stream-json of the smoke runs names the hook event but not its
+  command, so it cannot by itself show the plugin fired. A separate one-turn run with
+  `--debug-file` (trivia prompt, same plugin, scratch directory) logged "Read hooks.json for
+  plugin core-governance", "Loading hooks from plugin: core-governance" and "Registered 6
+  hooks", and named no project settings file: `raw/plugin-smoke/attribution-debug-2026-10-13.txt`.
+- Wrapper self-test (`scripts/selftest-wrapper.sh`): 9/9 — yields only local+wired; runs on
+  cloud+wired, allow-rule-only, bare, and unparseable settings; stdin reaches the Stop gate.
+- Independent verifier (read-only agent, 2026-10-13): validator, hooks.json shape, parity,
+  symlinks/modes, ignore rules, wrapper behaviour, smoke fields, plugin.json fields all PASS;
+  it flagged the stream-attribution gap (answered by the debug run above), the original yield
+  rule (replaced by the rule above), and a hard-coded `/usr/bin/jq` in the two first-write
+  reminders inherited from `hooks/` (not fixed here; owner decision in the after-report).
 
 ## Package for upload
 

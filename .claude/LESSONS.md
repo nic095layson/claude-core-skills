@@ -1151,11 +1151,19 @@ unmerged branch defeats it exactly.**
   hooks, pinned by `hooks/selftest-governance-classify.py`; the doctrine block
   (`instructions/project-doctrine-block.md`) pasted into `CLAUDE.md` with a guard drift
   check; plan-gate §3/§5, scope-fence §2/§4, gauntlet §6 carry the three rules and
-  "re-attached is not loaded". Kit and deck: proposed text only (no push access).
+  "re-attached is not loaded". Kit and deck: applied later the same day once push access was granted — branches
+  `claude/governance-pack-2026-10-13`, fantasy-basketball-2026-27 draft PR 105 and
+  yahoo-fantasy-basketball draft PR 106 (the pack, `CLAUDE.md` with the block, deck lesson 24);
+  the kit PR verified by an independent agent (PASS), the deck PR by the authoring session after
+  its verifier hit the account session limit. Plugin twin `plugin/core-governance/` built the same
+  day for sessions that do not read repo settings.
 - **Status:** FIXED here for single-repository sessions (live A/B in the report);
   **OPEN** for multi-repository cloud sessions — the incident's own configuration — where
-  the settings documentation says repo hooks are not read; the plugin route is proposed,
-  not built.
+  the settings documentation says repo hooks are not read **and** (correction, same day) the
+  plugin keys in repo settings do not load in cloud sessions either — the §4.4 route was proposed
+  from one sentence of the page and is withdrawn. The plugin is built and is to be enabled on the
+  claude.ai account (install-and-surfaces Runbook 4, steps 6–7). Closes when a cloud session with
+  several repositories is observed running the synced plugin's hooks.
 - **Lesson:** a `CLAUDE.md` that *says* governors run is a promise; check for the
   mechanism that loads them on the surface in question (`test -f ~/.claude/CLAUDE.md`,
   `cat .claude/settings.json`) before trusting it — and bind the classifier to the
