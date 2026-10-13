@@ -179,3 +179,13 @@ classifier number reproduces from the frozen files. Re-measured rather than rewo
 grading (redacted packets, identical result), the after-report and adversarial-verify misses (ten
 turns, an empty working folder so a run cannot read its own log), a seeded-defect test of the guard,
 and the post-compaction hook's resume branch. Records: `results/2026-10-13/system-validation/raw/verification/`.
+
+**Correction, 2026-10-13 07:12 UTC (second pass by the authoring session).** The bullet above on
+adversarial-verify's misses is true of the first, ten-turn re-check, run in a folder holding its own
+log (0/6). It is not the whole result. In the clean re-check, an empty folder, the SQL-migration
+prompt (case 2) loaded the skill 2/2 and cases 9 and 10 stayed 0/4. Both batches' startup records show
+the same model, tools, skills and plugins, so the folder's contents are the one setup difference found;
+on 2 runs per batch, the inference is that the run's own log files suppressed loading on case 2, and
+P6's adversarial-verify 10/16 is a rate under that confound. The P6
+verdict does not change: it rests on the gauntlet silent case. Streams:
+`raw/live/trig/recheck-adversarial-verify-*` and `raw/live/trig/recheck3-adversarial-verify-*`.

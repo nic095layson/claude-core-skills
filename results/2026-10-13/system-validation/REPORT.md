@@ -97,6 +97,7 @@ copies are what this cloud container loads; claude.ai chat was not checked (§5)
 | 01:37–01:38 | project pack's two gates + the harness's git check | session started inside one repository: repo hooks read |
 | 05:33–05:34 | harness git check only | after a worker restart the session started above three clones: no repo hook ran — consistent with the documentation's "not hooks" half; its plugin-keys half is untested (no repo declares plugin keys) |
 | 05:45:12 | git check + the plugin's two gates through `run-unless-project-wired.sh` | the synced plugin's hooks run in a several-repository cloud session |
+| 07:05:04 | (SessionStart, not Stop) the plugin's `session-doctrine.sh` through the wrapper, exit 0, on an automatic compaction | the post-compaction protocol reached the session live; on the first Edit after it, at 07:10:51, both first-write reminders fired again, so the re-arm works (`raw/session-compaction-hook-records.json`, added after the report's first version) |
 
 At 05:51 the synced plugin's classifier cache read a write time of 05:37:57, the second the owner's
 prompt arrived (05:37:57.301) and 43 seconds after the plugin synced. EVIDENCE that a plugin Python
@@ -184,11 +185,13 @@ repositories contain the incident's own after-report, which several runs read, s
 is conditional on that cue. What the pack visibly changes is when the governors load. The incident's
 condition — a three-week session through 28 compactions — is not reproducible in a 30-turn run.
 
-### 3.6 Description-only skill triggering (P6) — 84 runs plus 10 clean re-checks
+### 3.6 Description-only skill triggering (P6) — 78 runs, then 6 ten-turn and 10 clean re-checks
 
 Hooks off, account-synced skills, working folder outside any repository, `--max-turns 3`. The Skill
 tool was pre-approved; other tools stayed usable under the session's permission mode, and each run's
-folder held its own output log. Re-checks used ten turns and an empty working folder.
+folder held its own output log. Two re-check batches followed the 78 runs. The first gave ten turns
+and read tools in the same kind of folder, log included. The clean batch gave ten turns and an empty
+working folder.
 
 | Governor | should fire | should stay silent | 2026-07-11 (Opus 4.8) |
 |---|---|---|---|
@@ -204,8 +207,14 @@ folder held its own output log. Re-checks used ten turns and an empty working fo
 - scope-fence: the three should-fire prompts that paste code fired 1 of 6 (two empty-cart cases 0/4,
   the parseConfig case 1/2); the July finding that this class does not trigger by description holds.
 - adversarial-verify: two prompts ask to check an artifact that is not supplied; one asks whether to
-  build a pixel detector and is answered with rule 8's doctrine without loading the skill. Clean
-  re-check, ten turns, empty folder: 0/6 again — not the turn cap, not the log.
+  build a pixel detector and is answered with rule 8's doctrine without loading the skill. Ten-turn
+  re-check in a folder holding the run's log: 0/6, and one run searched those log files for the SQL.
+  Clean re-check in an empty folder: 2/6. The SQL-migration prompt loaded the skill 2/2; the other two
+  prompts stayed 0/4. So the turn cap is not the cause for any of the three. The two batches' startup
+  records show the same model, tools, skills and plugins; the folder's contents were the only setup
+  difference found. INFERENCE, on 2 runs per batch: the run's own log files suppressed loading on the
+  SQL-migration prompt. The 10/16 above is a measured rate under that confound, not a clean rate. (Corrected 2026-10-13 07:11 UTC; the first version of this bullet said
+  0/6 for the clean batch.)
 - after-report: both prompts name libraries or vendors that are not given. In the main runs two asked
   and two hit the cap; in the clean re-check all four asked which ones were meant (0 loads).
 
@@ -243,16 +252,17 @@ Archived after. Records: `raw/p7-probe-session-events.json`.
 - The owner's Mac personal copies and `~/.claude/CLAUDE.md`: not reachable from this container.
 
 **In scope and unverified**
-- A fresh session started from claude.ai/code: `NOT-ATTEMPTED` — this container cannot start one; the
-  probe is a different origin. Load-bearing for whether the plugin covers the start of new sessions;
-  the owner check in §6 resolves it.
+- A fresh session started from claude.ai/code: `NOT-ATTEMPTED` — the one session-starting tool here,
+  the remote-session API's create call, produced the API-origin probe in §3.7, and no tool here opens
+  the claude.ai/code web interface. Load-bearing for whether the plugin covers the start of new
+  sessions; the owner check in §6 resolves it.
 - A synced plugin's trigger line on a governed prompt in a several-repository session: `NOT-ATTEMPTED`
   as a live prompt (the owner's two prompts after the sync were not classified as governed); the hooks
   running there is observed.
 - The receipt-law gate's live block path: `NOT-ATTEMPTED` — 0 blocks in every run that reached Stop,
   none of which was built to provoke one; fixture 10/10 only.
-- The post-compaction hook on a real compaction or resume: `NOT-ATTEMPTED` live; pipe tests of the
-  compact, resume and startup branches pass.
+- The post-compaction hook on a real resume: `NOT-ATTEMPTED` live; pipe tests of the resume and
+  startup branches pass. The compact branch is now observed live once, for the plugin copy (§3.2).
 - `ledger-recount-reminder.sh`: shipped 2026-08-03, unmeasured, and wired nowhere; not validated.
 - The deployed instructions block beyond one phrase: `NOT-ATTEMPTED` (a verbatim dump and diff was
   possible from the probe and was not asked for).
@@ -288,7 +298,8 @@ Archived after. Records: `raw/p7-probe-session-events.json`.
 ## 7. Provenance
 
 Produced in session `session_01AYc6fhZNmvyoAQ67RgbJuK` on `claude-opus-5-5`. Committed headless runs:
-119 ($28.95): 18 mechanism, 6 behavioral, 84 trigger, 10 clean re-checks, 1 reminder chain; plus 2
+119 ($28.95): 18 mechanism, 6 behavioral, 78 trigger, 6 ten-turn re-checks, 10 clean re-checks,
+1 reminder chain; plus 2
 plugin-off checks ($0.22, `raw/verification/plugin-off-check/`). Probe session
 `session_012cD9g1BptDy557rw4kjuRR`, $1.22 per its result events (`raw/p7-probe-session-events.json`),
 archived. Workflows: held-out set (4 agents), owner-record labels (2), grading and set C (6), report
@@ -307,8 +318,9 @@ number reproduces from the frozen files, and that the adoption verdicts follow t
 Changed as a result:
 
 - **Re-measured:** the behavioral grading from redacted packets (identical); the after-report and
-  adversarial-verify misses in an empty folder with ten turns (same outcome); a seeded-defect test of
-  the guard (it fails on all three seeds); the post-compaction hook's resume branch (pipe test passes).
+  adversarial-verify misses in an empty folder with ten turns (after-report same outcome;
+  adversarial-verify 2/6, see the next paragraph); a seeded-defect test of the guard (it fails on all
+  three seeds); the post-compaction hook's resume branch (pipe test passes).
 - **Verdicts corrected:** P3 (no block in the gate-only arm — the first tally counted the model reading
   the gate's source as blocks, and an earlier chat message reported "blocked 2 of 2"), P5 (strict count,
   arms equal on stating method), P7 (trigger test inconclusive as pre-registered; probe cues disclosed).
@@ -319,6 +331,18 @@ Changed as a result:
   reported as a trigger-versus-gate contradiction.
 - **Records added:** plugin-off checks, probe events and appended prompt, snapshot status, account
   manifest lines, Stop-hook and plugin-sync extracts, workflow briefs, re-check streams.
+
+**Second pass, on the rewritten version (2026-10-13 07:08–07:12 UTC, by the authoring session).** The
+claims added after the refuters ran had not been refuted by anyone, so each was re-derived from its raw
+record with a fresh parser. Reproduced: the 78-run trigger table cell for cell; the 18-run mechanism
+table, with the block detector first confirmed on the one run known to contain a block; the behavioral
+counts and load positions from the run streams; the redacted re-grade (24 cells, 0 differences, 0
+grader disagreements); the guard's three seeded failures; the plugin-off hook counts (6 on, 0 off);
+the snapshot status. **One claim was wrong:** the clean adversarial-verify re-check was 2/6, not 0/6,
+and that batch contradicts "not the log" for the SQL-migration prompt (§3.6 corrected). The run count in §3.6 and §7
+had folded the 6 ten-turn re-checks into "84 trigger"; it now lists them. The plugin package built at
+06:21 carried one README line older than the repo; it was rebuilt, compared and validated. New live
+evidence since the first version: the compaction hook and the reminder re-arm (§3.2, §5).
 
 ## In plain language
 
