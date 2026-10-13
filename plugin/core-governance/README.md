@@ -66,7 +66,8 @@ component paths that leave the plugin root.
 
 - `claude plugin validate --strict` on the plugin and on the marketplace: `Validation passed`
   (Claude Code 2.1.296, 2026-10-13).
-- Self-tests from the copied location: classifier + Stop gate 27/27, receipt law 10/10.
+- Self-tests from the copied location: classifier + Stop gate 27/27 at 0.1.0, 30/30 at 0.1.1;
+  receipt law 10/10.
 - Wrapper pipe tests: defers (no output) when the project wires the hook; runs the trigger on
   the incident message and stays silent on trivia when it does not; passes stdin through to the
   Stop gate (block observed on a synthetic transcript).

@@ -76,9 +76,11 @@ register (`evals/model-capability-register.md`).
 A three-week cloud session loaded no governor at all; the kit's `CLAUDE.md` promised
 they run but nothing on that surface could load them (no user doctrine file, no
 settings, hooks wired nowhere). This repository now carries its own mechanism:
-`.claude/settings.json` wires every hook in `hooks/` at project scope (cloud sessions
+`.claude/settings.json` wires the seven governance hooks in `hooks/` at project scope
+(`ledger-recount-reminder.sh`, which steers a retired governor, stays unwired; cloud sessions
 started inside one repository read it), the hooks share one classifier that
-recognises owner questions, disputes and mid-turn requirements (fixture: 27 cases),
+recognises owner questions, disputes and mid-turn requirements (fixture: 30 checks since
+the 2026-10-13 gate fix),
 `CLAUDE.md` carries the doctrine block that `instructions/project-doctrine-block.md`
 defines for any project, and the guard fails if the pack is unwired or the block
 drifts. plan-gate, scope-fence and gauntlet carry the three rules the incident found

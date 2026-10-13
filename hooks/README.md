@@ -7,7 +7,8 @@
 > through `$CLAUDE_PROJECT_DIR`. Cloud sessions started inside this one repository
 > read that file; the reminders and the trigger were observed firing in the authoring
 > web session within minutes. The trigger and the Stop gate share one classifier,
-> `govclass.py`, pinned by `selftest-governance-classify.py` (27 cases, including the
+> `govclass.py`, pinned by `selftest-governance-classify.py` (27 checks at first, 30 since the
+> 2026-10-13 gate fix for mid-turn notifications, ledger INC-2026-10-13-02; including the
 > four owner messages of the 2026-10-12 incident). Live A/B, 8 headless runs:
 > pack off 0/2 governor loads, pack on 4/4, trivia 0/2 with no block —
 > `results/2026-10-13/gauntlet-fortification/`. The status lines below each hook are
