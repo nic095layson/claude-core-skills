@@ -370,3 +370,11 @@ above or below. No kit/deck setting declares plugin keys (inert on cloud by the 
 | D-GF-9 | De-duplicate the trigger when plugin and pack both run (per-session sentinel) | not built; duplicate line accepted |
 | D-GF-10 | Upload `core-governance.plugin` to the claude.ai account, then observe one several-repository cloud session (`claude plugin list`, a disputed question) and record the result against INC-2026-10-13-01 | the ledger entry stays OPEN |
 | D-GF-11 | Merge PR 105 (kit) and PR 106 (deck), separately from PR 24 | unmerged; nothing changes in those repos |
+
+**Applied pack exercised in the clones (added after the PRs opened, 2026-10-13).** One headless run
+per clone at the PR heads, incident message, nothing present but the committed files
+(`raw/applied-smoke/`): kit — trigger context once, `adversarial-verify` + `scope-fence` loaded, no
+block, run ended on the 12-turn cap (0.52 USD); deck — trigger once, same two loads, no block,
+assessment delivered ("I partly agree with you. Career averages enter the projections only in a
+narrow way…", 0.25 USD). Three hook events each (one UserPromptSubmit, two Stop), as the settings
+wire. N=1 per clone; a mechanism check.
