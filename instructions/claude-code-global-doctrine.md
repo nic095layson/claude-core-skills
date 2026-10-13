@@ -70,3 +70,13 @@ projections baseline, and the edit-CSV → rerun → board-regenerates workflow.
 top, domain within.
 
 ---- END CLAUDE.md ----
+
+**Surface note, 2026-10-13 (INC-2026-10-13-01):** this file does not exist in Claude
+Code **cloud** containers — observed ABSENT in two sessions on 2026-10-13 (`test -f
+~/.claude/CLAUDE.md`), and the settings documentation read the same day says user-level
+settings are not read in cloud sessions. A project `CLAUDE.md` that merely points here
+("governed by the global operating doctrine") therefore binds nothing on that surface.
+The cloud carrier is `instructions/project-doctrine-block.md`, pasted into each
+project's `CLAUDE.md`, backed by the enforcement pack (`hooks/` + `.claude/settings.json`,
+install-and-surfaces Runbook 4). This file remains the canonical copy for the owner's
+machine; the drift law above still applies to it.

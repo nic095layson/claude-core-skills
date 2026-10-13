@@ -1,0 +1,2237 @@
+{
+ "rule": "set C: fresh blind authoring (same two angles), all sealed test for round 2",
+ "n": 72,
+ "agreement_top_label": 72,
+ "items": [
+  {
+   "id": "CA01",
+   "author": "A",
+   "text": "you said punt FT% beat the balanced build last year but I think that was one weird season. rerun the backtest over 2021-22 through 2025-26, 12 teams, H2H 9-cat, and show me week-by-week win rates for both",
+   "intended_label": "GOVERNED",
+   "intended_classes": [
+    "analysis",
+    "dispute"
+   ],
+   "angle": "doubts prior backtest, asks rerun",
+   "split": "C",
+   "labeler1": {
+    "id": "CA01",
+    "label": "GOVERNED",
+    "classes": [
+     "analysis",
+     "dispute"
+    ],
+    "reason": "Disputes a prior backtest conclusion and orders a new multi-season rerun with week-by-week output."
+   },
+   "labeler2": {
+    "id": "CA01",
+    "label": "GOVERNED",
+    "classes": [
+     "analysis",
+     "dispute"
+    ],
+    "reason": "Disputes a prior backtest result and orders a new multi-season backtest with week-by-week output."
+   },
+   "gold": {
+    "label": "GOVERNED",
+    "classes": [
+     "analysis",
+     "dispute"
+    ],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "CA02",
+   "author": "A",
+   "text": "Draft the Section 3 technical approach for the Army RFP response. Use the compliance matrix rows as the outline and cite the SOW paragraph for each one.",
+   "intended_label": "GOVERNED",
+   "intended_classes": [
+    "build"
+   ],
+   "angle": "proposal section drafting imperative",
+   "split": "C",
+   "labeler1": {
+    "id": "CA02",
+    "label": "GOVERNED",
+    "classes": [
+     "build"
+    ],
+    "reason": "Drafts a new RFP proposal section structured on the compliance matrix, with SOW citations."
+   },
+   "labeler2": {
+    "id": "CA02",
+    "label": "GOVERNED",
+    "classes": [
+     "build"
+    ],
+    "reason": "Drafting an RFP technical section is a new deliverable the owner will rely on."
+   },
+   "gold": {
+    "label": "GOVERNED",
+    "classes": [
+     "build"
+    ],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "CA03",
+   "author": "A",
+   "text": "why is Duren above Bam on the board?? his blk z looks way too high, did the script double count blocks somewhere",
+   "intended_label": "GOVERNED",
+   "intended_classes": [
+    "dispute",
+    "review"
+   ],
+   "angle": "objection phrased as question",
+   "split": "C",
+   "labeler1": {
+    "id": "CA03",
+    "label": "GOVERNED",
+    "classes": [
+     "dispute",
+     "review"
+    ],
+    "reason": "Questions the board ranking and suspects the script double-counts blocks, so the method needs checking."
+   },
+   "labeler2": {
+    "id": "CA03",
+    "label": "GOVERNED",
+    "classes": [
+     "dispute",
+     "review"
+    ],
+    "reason": "Questions the board's ranking and suspects the script double-counts, which calls for checking the method."
+   },
+   "gold": {
+    "label": "GOVERNED",
+    "classes": [
+     "dispute",
+     "review"
+    ],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "CA04",
+   "author": "A",
+   "text": "approved all six. apply them, rerun the guard before and after, then push to the branch and open the PR",
+   "intended_label": "GOVERNED",
+   "intended_classes": [
+    "build",
+    "review"
+   ],
+   "angle": "approval plus new push actions",
+   "split": "C",
+   "labeler1": {
+    "id": "CA04",
+    "label": "GOVERNED",
+    "classes": [
+     "build",
+     "review"
+    ],
+    "reason": "Approves fixes but also orders new consequential actions: apply them, run the guard, push, and open a PR."
+   },
+   "labeler2": {
+    "id": "CA04",
+    "label": "GOVERNED",
+    "classes": [
+     "build",
+     "review"
+    ],
+    "reason": "Approval plus new consequential actions: apply, run the guard, push, open a PR."
+   },
+   "gold": {
+    "label": "GOVERNED",
+    "classes": [
+     "build",
+     "review"
+    ],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "CA05",
+   "author": "A",
+   "text": "Provide a gap analysis of the AS9100 internal audit findings against the corrective action log. Which CARs are overdue, and which findings never got a CAR at all?",
+   "intended_label": "GOVERNED",
+   "intended_classes": [
+    "analysis",
+    "review"
+   ],
+   "angle": "compliance gap analysis request",
+   "split": "C",
+   "labeler1": {
+    "id": "CA05",
+    "label": "GOVERNED",
+    "classes": [
+     "analysis",
+     "review"
+    ],
+    "reason": "Asks for a gap analysis of audit findings against the corrective action log."
+   },
+   "labeler2": {
+    "id": "CA05",
+    "label": "GOVERNED",
+    "classes": [
+     "analysis",
+     "review"
+    ],
+    "reason": "A gap analysis of audit findings against the CAR log is multi-step, compliance-relevant work."
+   },
+   "gold": {
+    "label": "GOVERNED",
+    "classes": [
+     "analysis",
+     "review"
+    ],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "CA06",
+   "author": "A",
+   "text": "can you write a cover letter for the Northrop program manager posting I pasted above? pull only from my actual resume, don't invent anything",
+   "intended_label": "GOVERNED",
+   "intended_classes": [
+    "build"
+   ],
+   "angle": "polite cover letter ask",
+   "split": "C",
+   "labeler1": {
+    "id": "CA06",
+    "label": "GOVERNED",
+    "classes": [
+     "build"
+    ],
+    "reason": "Writes a new cover letter that must draw only on the real resume."
+   },
+   "labeler2": {
+    "id": "CA06",
+    "label": "GOVERNED",
+    "classes": [
+     "build"
+    ],
+    "reason": "Writing a tailored cover letter is a new deliverable."
+   },
+   "gold": {
+    "label": "GOVERNED",
+    "classes": [
+     "build"
+    ],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "CA07",
+   "author": "A",
+   "text": "Conduct a calibration run on the prompt-trigger hook: 25 messages that should fire plan-gate, 25 that shouldn't, and report false positive and false negative rates with the misses listed.",
+   "intended_label": "GOVERNED",
+   "intended_classes": [
+    "review",
+    "analysis"
+   ],
+   "angle": "governance hook calibration run",
+   "split": "C",
+   "labeler1": {
+    "id": "CA07",
+    "label": "GOVERNED",
+    "classes": [
+     "review",
+     "analysis"
+    ],
+    "reason": "Runs a calibration of the prompt-trigger hook and reports false positive and false negative rates."
+   },
+   "labeler2": {
+    "id": "CA07",
+    "label": "GOVERNED",
+    "classes": [
+     "review",
+     "analysis"
+    ],
+    "reason": "A calibration run with a 50-message set and FP/FN reporting is multi-step validation."
+   },
+   "gold": {
+    "label": "GOVERNED",
+    "classes": [
+     "review",
+     "analysis"
+    ],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "CA08",
+   "author": "A",
+   "text": "ok so for the CEO ops write up take the Q3 throughput numbers and the scrap rate tab from the spreadsheet and turn it into like a two page summary with the three biggest risks up front and recommendations at the end and he really only reads the first paragraph so make that one count and flag anything in the data that looks off",
+   "intended_label": "GOVERNED",
+   "intended_classes": [
+    "build",
+    "analysis"
+   ],
+   "angle": "voice-to-text run-on CEO brief",
+   "split": "C",
+   "labeler1": {
+    "id": "CA08",
+    "label": "GOVERNED",
+    "classes": [
+     "build",
+     "analysis",
+     "review"
+    ],
+    "reason": "Builds a two-page CEO summary from spreadsheet data and flags data anomalies."
+   },
+   "labeler2": {
+    "id": "CA08",
+    "label": "GOVERNED",
+    "classes": [
+     "build",
+     "analysis",
+     "review"
+    ],
+    "reason": "Builds a CEO summary from data, includes a risk analysis, and asks for data anomalies to be flagged."
+   },
+   "gold": {
+    "label": "GOVERNED",
+    "classes": [
+     "build",
+     "analysis",
+     "review"
+    ],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "CA09",
+   "author": "A",
+   "text": "Build the receptive ID deck for the colors program, field of 3, 10 trials, randomize target position each trial. Protocol photo is attached.",
+   "intended_label": "GOVERNED",
+   "intended_classes": [
+    "build"
+   ],
+   "angle": "ABA deck build from protocol",
+   "split": "C",
+   "labeler1": {
+    "id": "CA09",
+    "label": "GOVERNED",
+    "classes": [
+     "build"
+    ],
+    "reason": "Builds a new clinical stimulus deck from an attached protocol."
+   },
+   "labeler2": {
+    "id": "CA09",
+    "label": "GOVERNED",
+    "classes": [
+     "build"
+    ],
+    "reason": "Building a clinical stimulus deck from a protocol is a new deliverable."
+   },
+   "gold": {
+    "label": "GOVERNED",
+    "classes": [
+     "build"
+    ],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "CA10",
+   "author": "A",
+   "text": "I don't buy the 0.71 correlation between ADP and final rank you reported. That seems really high for guards. What sample was that on?",
+   "intended_label": "GOVERNED",
+   "intended_classes": [
+    "dispute"
+   ],
+   "angle": "disputes reported statistic, asks sample",
+   "split": "C",
+   "labeler1": {
+    "id": "CA10",
+    "label": "GOVERNED",
+    "classes": [
+     "dispute",
+     "analysis"
+    ],
+    "reason": "Disputes a reported correlation and asks what sample it was computed on."
+   },
+   "labeler2": {
+    "id": "CA10",
+    "label": "GOVERNED",
+    "classes": [
+     "dispute"
+    ],
+    "reason": "The owner disputes a reported correlation and questions its sample."
+   },
+   "gold": {
+    "label": "GOVERNED",
+    "classes": [
+     "dispute",
+     "analysis"
+    ],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "CA11",
+   "author": "A",
+   "text": "audit every skill's frontmatter",
+   "intended_label": "GOVERNED",
+   "intended_classes": [
+    "review"
+   ],
+   "angle": "terse four-word audit order",
+   "split": "C",
+   "labeler1": {
+    "id": "CA11",
+    "label": "GOVERNED",
+    "classes": [
+     "review"
+    ],
+    "reason": "Audits frontmatter across the whole skill library; short, but a multi-item review."
+   },
+   "labeler2": {
+    "id": "CA11",
+    "label": "GOVERNED",
+    "classes": [
+     "review"
+    ],
+    "reason": "A short imperative to audit the whole library is non-trivial verification work."
+   },
+   "gold": {
+    "label": "GOVERNED",
+    "classes": [
+     "review"
+    ],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "CA12",
+   "author": "A",
+   "text": "Migrate the projections CSV to the new schema (split fg_pct into fgm and fga) and update the z-score engine so FG impact is volume weighted.",
+   "intended_label": "GOVERNED",
+   "intended_classes": [
+    "build"
+   ],
+   "angle": "data schema migration plus code",
+   "split": "C",
+   "labeler1": {
+    "id": "CA12",
+    "label": "GOVERNED",
+    "classes": [
+     "build"
+    ],
+    "reason": "Migrates the data schema and changes the z-score engine logic."
+   },
+   "labeler2": {
+    "id": "CA12",
+    "label": "GOVERNED",
+    "classes": [
+     "build"
+    ],
+    "reason": "A data schema migration plus an engine change is costly if wrong."
+   },
+   "gold": {
+    "label": "GOVERNED",
+    "classes": [
+     "build"
+    ],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "CA13",
+   "author": "A",
+   "text": "Hi Claude, could you take another look at the export control paragraph in the proposal? I'm not confident we have the sensor package under the right USML category. Please check it against the ITAR text and flag anything off before it goes to contracts on Thursday.",
+   "intended_label": "GOVERNED",
+   "intended_classes": [
+    "review",
+    "dispute"
+   ],
+   "angle": "polite doubt on compliance content",
+   "split": "C",
+   "labeler1": {
+    "id": "CA13",
+    "label": "GOVERNED",
+    "classes": [
+     "review",
+     "dispute"
+    ],
+    "reason": "Doubts the USML categorization and asks for a check against ITAR before the proposal goes to contracts."
+   },
+   "labeler2": {
+    "id": "CA13",
+    "label": "GOVERNED",
+    "classes": [
+     "review",
+     "dispute"
+    ],
+    "reason": "Doubts the USML categorization and asks for a check against ITAR text before submission."
+   },
+   "gold": {
+    "label": "GOVERNED",
+    "classes": [
+     "review",
+     "dispute"
+    ],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "CA14",
+   "author": "A",
+   "text": "few things for the draft kit:\n- set up a live sheet that recalcs z-scores as players come off the board\n- add a positional scarcity column\n- test it against last year's draft log before Sunday",
+   "intended_label": "GOVERNED",
+   "intended_classes": [
+    "build",
+    "review"
+   ],
+   "angle": "bulleted multi-part build note",
+   "split": "C",
+   "labeler1": {
+    "id": "CA14",
+    "label": "GOVERNED",
+    "classes": [
+     "build",
+     "review"
+    ],
+    "reason": "Sets up a live sheet, adds a column, and tests both against last year's draft log."
+   },
+   "labeler2": {
+    "id": "CA14",
+    "label": "GOVERNED",
+    "classes": [
+     "build",
+     "review"
+    ],
+    "reason": "Sets up a live sheet, adds a column, and tests against a historical log."
+   },
+   "gold": {
+    "label": "GOVERNED",
+    "classes": [
+     "build",
+     "review"
+    ],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "CA15",
+   "author": "A",
+   "text": "compre the two vendor quotes for the test fixtures and tell me which is actually cheaper once you factor in NRE and the 14 week lead time on the second one",
+   "intended_label": "GOVERNED",
+   "intended_classes": [
+    "analysis"
+   ],
+   "angle": "typo vendor quote comparison",
+   "split": "C",
+   "labeler1": {
+    "id": "CA15",
+    "label": "GOVERNED",
+    "classes": [
+     "analysis"
+    ],
+    "reason": "Compares vendor quotes on total cost, including NRE and lead time, to inform a decision."
+   },
+   "labeler2": {
+    "id": "CA15",
+    "label": "GOVERNED",
+    "classes": [
+     "analysis"
+    ],
+    "reason": "A cost comparison factoring NRE and lead time drives a decision."
+   },
+   "gold": {
+    "label": "GOVERNED",
+    "classes": [
+     "analysis"
+    ],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "CA16",
+   "author": "A",
+   "text": "Reply to Mark's email on the schedule slip. Explain the supplier delay, offer the revised milestone dates, keep it to one short paragraph. Draft only, don't send.",
+   "intended_label": "GOVERNED",
+   "intended_classes": [
+    "build"
+   ],
+   "angle": "email draft in owner's name",
+   "split": "C",
+   "labeler1": {
+    "id": "CA16",
+    "label": "GOVERNED",
+    "classes": [
+     "build"
+    ],
+    "reason": "Drafts a new email reply explaining the slip and offering revised milestone dates."
+   },
+   "labeler2": {
+    "id": "CA16",
+    "label": "GOVERNED",
+    "classes": [
+     "build"
+    ],
+    "reason": "Drafting an email reply in the owner's name is a new deliverable."
+   },
+   "gold": {
+    "label": "GOVERNED",
+    "classes": [
+     "build"
+    ],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "CA17",
+   "author": "A",
+   "text": "That result can't be right. You included the 2019-20 bubble season and the era check never ran. Redo it with full 82-game seasons only and tell me what changes.",
+   "intended_label": "GOVERNED",
+   "intended_classes": [
+    "dispute",
+    "analysis"
+   ],
+   "angle": "method objection with redo",
+   "split": "C",
+   "labeler1": {
+    "id": "CA17",
+    "label": "GOVERNED",
+    "classes": [
+     "dispute",
+     "analysis"
+    ],
+    "reason": "Rejects the result over the season window and the skipped era check, and orders a redo."
+   },
+   "labeler2": {
+    "id": "CA17",
+    "label": "GOVERNED",
+    "classes": [
+     "dispute",
+     "analysis"
+    ],
+    "reason": "Disputes the result's season window and missing era check, and orders a redo."
+   },
+   "gold": {
+    "label": "GOVERNED",
+    "classes": [
+     "dispute",
+     "analysis"
+    ],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "CA18",
+   "author": "A",
+   "text": "is the scope-fence hook actually blocking writes outside the approved files or just printing a warning? test it and show me the log output",
+   "intended_label": "GOVERNED",
+   "intended_classes": [
+    "review"
+   ],
+   "angle": "question demanding live test",
+   "split": "C",
+   "labeler1": {
+    "id": "CA18",
+    "label": "GOVERNED",
+    "classes": [
+     "review"
+    ],
+    "reason": "Asks for a test of whether the hook really blocks writes, with log output as evidence."
+   },
+   "labeler2": {
+    "id": "CA18",
+    "label": "GOVERNED",
+    "classes": [
+     "review",
+     "dispute"
+    ],
+    "reason": "Doubts whether the hook truly enforces and asks for a test with log evidence."
+   },
+   "gold": {
+    "label": "GOVERNED",
+    "classes": [
+     "review",
+     "dispute"
+    ],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "CA19",
+   "author": "A",
+   "text": "z-scores have to stay per-game, not season totals. it's an H2H league.",
+   "intended_label": "REQUIREMENT",
+   "intended_classes": [],
+   "angle": "fantasy method constraint stated",
+   "split": "C",
+   "labeler1": {
+    "id": "CA19",
+    "label": "REQUIREMENT",
+    "classes": [],
+    "reason": "States a constraint on existing work (per-game z-scores) without asking for new work."
+   },
+   "labeler2": {
+    "id": "CA19",
+    "label": "REQUIREMENT",
+    "classes": [],
+    "reason": "States a constraint on ongoing z-score work and asks for nothing new."
+   },
+   "gold": {
+    "label": "REQUIREMENT",
+    "classes": [],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "CA20",
+   "author": "A",
+   "text": "Make sure nothing in the resume implies I hold a TS clearance. I don't, and that has to be accurate.",
+   "intended_label": "REQUIREMENT",
+   "intended_classes": [],
+   "angle": "resume accuracy constraint",
+   "split": "C",
+   "labeler1": {
+    "id": "CA20",
+    "label": "REQUIREMENT",
+    "classes": [],
+    "reason": "A 'make sure' accuracy constraint on the resume work already under way."
+   },
+   "labeler2": {
+    "id": "CA20",
+    "label": "REQUIREMENT",
+    "classes": [],
+    "reason": "A 'make sure' accuracy constraint on the resume work already under way."
+   },
+   "gold": {
+    "label": "REQUIREMENT",
+    "classes": [],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "CA21",
+   "author": "A",
+   "text": "Stimulus images must be real photographs, no clip art. This client doesn't generalize from cartoons.",
+   "intended_label": "REQUIREMENT",
+   "intended_classes": [],
+   "angle": "clinical deck constraint",
+   "split": "C",
+   "labeler1": {
+    "id": "CA21",
+    "label": "REQUIREMENT",
+    "classes": [],
+    "reason": "States a constraint on the stimulus images; asks for nothing new."
+   },
+   "labeler2": {
+    "id": "CA21",
+    "label": "REQUIREMENT",
+    "classes": [],
+    "reason": "A stimulus constraint on deck work; no new work requested."
+   },
+   "gold": {
+    "label": "REQUIREMENT",
+    "classes": [],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "CA22",
+   "author": "A",
+   "text": "Whatever you end up changing in the paste block, the receipt law and the GAUNTLET clause stay. Non-negotiable.",
+   "intended_label": "REQUIREMENT",
+   "intended_classes": [],
+   "angle": "governance invariant, trigger word present",
+   "split": "C",
+   "labeler1": {
+    "id": "CA22",
+    "label": "REQUIREMENT",
+    "classes": [],
+    "reason": "A non-negotiable constraint on changes to the paste block."
+   },
+   "labeler2": {
+    "id": "CA22",
+    "label": "REQUIREMENT",
+    "classes": [],
+    "reason": "A non-negotiable preservation constraint on edits already in progress."
+   },
+   "gold": {
+    "label": "REQUIREMENT",
+    "classes": [],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "CA23",
+   "author": "A",
+   "text": "ok next phase",
+   "intended_label": "CONTINUATION",
+   "intended_classes": [],
+   "angle": "three-word go-ahead",
+   "split": "C",
+   "labeler1": {
+    "id": "CA23",
+    "label": "CONTINUATION",
+    "classes": [],
+    "reason": "Moves an existing plan to its next phase."
+   },
+   "labeler2": {
+    "id": "CA23",
+    "label": "CONTINUATION",
+    "classes": [],
+    "reason": "Advances an already planned, phased task."
+   },
+   "gold": {
+    "label": "CONTINUATION",
+    "classes": [],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "CA24",
+   "author": "A",
+   "text": "Yes, go with the second layout you mocked up.",
+   "intended_label": "CONTINUATION",
+   "intended_classes": [],
+   "angle": "approves already planned option",
+   "split": "C",
+   "labeler1": {
+    "id": "CA24",
+    "label": "CONTINUATION",
+    "classes": [],
+    "reason": "Picks an option that was already mocked up."
+   },
+   "labeler2": {
+    "id": "CA24",
+    "label": "CONTINUATION",
+    "classes": [],
+    "reason": "Approves an option already mocked up."
+   },
+   "gold": {
+    "label": "CONTINUATION",
+    "classes": [],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "CA25",
+   "author": "A",
+   "text": "retry the upload, wifi dropped",
+   "intended_label": "CONTINUATION",
+   "intended_classes": [],
+   "angle": "retry of in-progress step",
+   "split": "C",
+   "labeler1": {
+    "id": "CA25",
+    "label": "CONTINUATION",
+    "classes": [],
+    "reason": "Retries an upload that was already in progress."
+   },
+   "labeler2": {
+    "id": "CA25",
+    "label": "CONTINUATION",
+    "classes": [],
+    "reason": "Retries an in-progress upload."
+   },
+   "gold": {
+    "label": "CONTINUATION",
+    "classes": [],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "CA26",
+   "author": "A",
+   "text": "Looks right. Carry on with slides 7-12 the same way.",
+   "intended_label": "CONTINUATION",
+   "intended_classes": [],
+   "angle": "acknowledge and continue deck",
+   "split": "C",
+   "labeler1": {
+    "id": "CA26",
+    "label": "CONTINUATION",
+    "classes": [],
+    "reason": "Approves the work so far and continues it the same way."
+   },
+   "labeler2": {
+    "id": "CA26",
+    "label": "CONTINUATION",
+    "classes": [],
+    "reason": "Approves and continues in-progress slide work in the same pattern."
+   },
+   "gold": {
+    "label": "CONTINUATION",
+    "classes": [],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "CA27",
+   "author": "A",
+   "text": "thanks, that's exactly what I needed",
+   "intended_label": "SILENT",
+   "intended_classes": [],
+   "angle": "plain thanks",
+   "split": "C",
+   "labeler1": {
+    "id": "CA27",
+    "label": "SILENT",
+    "classes": [],
+    "reason": "Thanks."
+   },
+   "labeler2": {
+    "id": "CA27",
+    "label": "SILENT",
+    "classes": [],
+    "reason": "Thanks."
+   },
+   "gold": {
+    "label": "SILENT",
+    "classes": [],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "CA28",
+   "author": "A",
+   "text": "what's 14% of 2,350",
+   "intended_label": "SILENT",
+   "intended_classes": [],
+   "angle": "simple arithmetic",
+   "split": "C",
+   "labeler1": {
+    "id": "CA28",
+    "label": "SILENT",
+    "classes": [],
+    "reason": "Simple arithmetic."
+   },
+   "labeler2": {
+    "id": "CA28",
+    "label": "SILENT",
+    "classes": [],
+    "reason": "Trivial arithmetic."
+   },
+   "gold": {
+    "label": "SILENT",
+    "classes": [],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "CA29",
+   "author": "A",
+   "text": "who led the league in steals last year?",
+   "intended_label": "SILENT",
+   "intended_classes": [],
+   "angle": "one-step sports fact",
+   "split": "C",
+   "labeler1": {
+    "id": "CA29",
+    "label": "SILENT",
+    "classes": [],
+    "reason": "A one-step factual question."
+   },
+   "labeler2": {
+    "id": "CA29",
+    "label": "SILENT",
+    "classes": [],
+    "reason": "A one-step factual lookup."
+   },
+   "gold": {
+    "label": "SILENT",
+    "classes": [],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "CA30",
+   "author": "A",
+   "text": "write me a limerick about a center who can't hit free throws",
+   "intended_label": "SILENT",
+   "intended_classes": [],
+   "angle": "creative play request",
+   "split": "C",
+   "labeler1": {
+    "id": "CA30",
+    "label": "SILENT",
+    "classes": [],
+    "reason": "Creative play (a limerick)."
+   },
+   "labeler2": {
+    "id": "CA30",
+    "label": "SILENT",
+    "classes": [],
+    "reason": "Creative play."
+   },
+   "gold": {
+    "label": "SILENT",
+    "classes": [],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "CA31",
+   "author": "A",
+   "text": "rename draft_v3.py to draft_board.py",
+   "intended_label": "SILENT",
+   "intended_classes": [],
+   "angle": "trivial file rename",
+   "split": "C",
+   "labeler1": {
+    "id": "CA31",
+    "label": "SILENT",
+    "classes": [],
+    "reason": "A trivial rename."
+   },
+   "labeler2": {
+    "id": "CA31",
+    "label": "SILENT",
+    "classes": [],
+    "reason": "A trivial rename."
+   },
+   "gold": {
+    "label": "SILENT",
+    "classes": [],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "CA32",
+   "author": "A",
+   "text": "honestly I like the dark theme better on the board, no changes needed, just saying",
+   "intended_label": "SILENT",
+   "intended_classes": [],
+   "angle": "pure preference remark",
+   "split": "C",
+   "labeler1": {
+    "id": "CA32",
+    "label": "SILENT",
+    "classes": [],
+    "reason": "A preference comment; no changes asked for."
+   },
+   "labeler2": {
+    "id": "CA32",
+    "label": "SILENT",
+    "classes": [],
+    "reason": "A preference comment that explicitly asks for no changes."
+   },
+   "gold": {
+    "label": "SILENT",
+    "classes": [],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "CA33",
+   "author": "A",
+   "text": "[SessionStart hook] guard_essentials.sh exited 0 -- 14/14 checks passed (2026-10-13T09:12:44Z)",
+   "intended_label": "SILENT",
+   "intended_classes": [],
+   "angle": "pasted harness output",
+   "split": "C",
+   "labeler1": {
+    "id": "CA33",
+    "label": "SILENT",
+    "classes": [],
+    "reason": "Machine/hook output, not the owner's words."
+   },
+   "labeler2": {
+    "id": "CA33",
+    "label": "SILENT",
+    "classes": [],
+    "reason": "Machine/hook output, not the owner's words."
+   },
+   "gold": {
+    "label": "SILENT",
+    "classes": [],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "CA34",
+   "author": "A",
+   "text": "whats the shortcut to run a single test in VS Code",
+   "intended_label": "SILENT",
+   "intended_classes": [],
+   "angle": "trigger word in trivia",
+   "split": "C",
+   "labeler1": {
+    "id": "CA34",
+    "label": "SILENT",
+    "classes": [],
+    "reason": "A one-line lookup question."
+   },
+   "labeler2": {
+    "id": "CA34",
+    "label": "SILENT",
+    "classes": [],
+    "reason": "A trivial how-to question."
+   },
+   "gold": {
+    "label": "SILENT",
+    "classes": [],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "CA35",
+   "author": "A",
+   "text": "My director just sent: 'Can you rebuild the entire FY27 forecast by Monday?' lol. Not asking you to do anything, just venting.",
+   "intended_label": "SILENT",
+   "intended_classes": [],
+   "angle": "quoted request, owner venting",
+   "split": "C",
+   "labeler1": {
+    "id": "CA35",
+    "label": "SILENT",
+    "classes": [],
+    "reason": "Venting; says explicitly that no action is wanted."
+   },
+   "labeler2": {
+    "id": "CA35",
+    "label": "SILENT",
+    "classes": [],
+    "reason": "Venting; quoted text is not the owner's request."
+   },
+   "gold": {
+    "label": "SILENT",
+    "classes": [],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "CA36",
+   "author": "A",
+   "text": "what's the file name of the latest ops write-up again?",
+   "intended_label": "SILENT",
+   "intended_classes": [],
+   "angle": "one-line lookup question",
+   "split": "C",
+   "labeler1": {
+    "id": "CA36",
+    "label": "SILENT",
+    "classes": [],
+    "reason": "A one-line lookup."
+   },
+   "labeler2": {
+    "id": "CA36",
+    "label": "SILENT",
+    "classes": [],
+    "reason": "A one-line lookup."
+   },
+   "gold": {
+    "label": "SILENT",
+    "classes": [],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "CB01",
+   "author": "B",
+   "text": "The punt-FT build looks almost too clean. Every top-10 pick on the board is a big. Is the FT% z-score getting capped somewhere, or is that real?",
+   "intended_label": "GOVERNED",
+   "intended_classes": [
+    "dispute",
+    "analysis"
+   ],
+   "angle": "build means roster strategy",
+   "split": "C",
+   "labeler1": {
+    "id": "CB01",
+    "label": "GOVERNED",
+    "classes": [
+     "dispute",
+     "analysis"
+    ],
+    "reason": "Doubts the punt-FT board result and asks whether the FT% z-score is capped."
+   },
+   "labeler2": {
+    "id": "CB01",
+    "label": "GOVERNED",
+    "classes": [
+     "dispute",
+     "review"
+    ],
+    "reason": "Doubts the board's output and asks whether the FT% z-score is capped."
+   },
+   "gold": {
+    "label": "GOVERNED",
+    "classes": [
+     "dispute",
+     "analysis",
+     "review"
+    ],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "CB02",
+   "author": "B",
+   "text": "Would the CEO write-up hit harder if supplier on-time delivery led instead of the headcount section? Walk me through the tradeoff with the real Q3 numbers before I pick.",
+   "intended_label": "GOVERNED",
+   "intended_classes": [
+    "analysis"
+   ],
+   "angle": "decision ask, no work verb",
+   "split": "C",
+   "labeler1": {
+    "id": "CB02",
+    "label": "GOVERNED",
+    "classes": [
+     "analysis"
+    ],
+    "reason": "Asks for a tradeoff analysis on real Q3 data ahead of a structural decision on the memo."
+   },
+   "labeler2": {
+    "id": "CB02",
+    "label": "GOVERNED",
+    "classes": [
+     "analysis"
+    ],
+    "reason": "Asks for a tradeoff analysis using real Q3 data to inform a decision on the deliverable."
+   },
+   "gold": {
+    "label": "GOVERNED",
+    "classes": [
+     "analysis"
+    ],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "CB03",
+   "author": "B",
+   "text": "Mock's at 8 tonight and the tiers still reflect July depth charts. At least three teams have changed starters since then.",
+   "intended_label": "GOVERNED",
+   "intended_classes": [
+    "build"
+   ],
+   "angle": "implicit update request, statement form",
+   "split": "C",
+   "labeler1": {
+    "id": "CB03",
+    "label": "GOVERNED",
+    "classes": [
+     "dispute"
+    ],
+    "reason": "Points out that the tiers rest on stale July data, which challenges the work's data before the mock."
+   },
+   "labeler2": {
+    "id": "CB03",
+    "label": "GOVERNED",
+    "classes": [
+     "dispute"
+    ],
+    "reason": "Points out the tiers rest on stale July data before a time-sensitive mock; challenges the work's data."
+   },
+   "gold": {
+    "label": "GOVERNED",
+    "classes": [
+     "dispute"
+    ],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "CB04",
+   "author": "B",
+   "text": "hmm, I'm second-guessing starting the backtest at 2019. Wasn't that right when pace jumped league-wide? Feels like it could be skewing the assists weights.",
+   "intended_label": "GOVERNED",
+   "intended_classes": [
+    "dispute"
+   ],
+   "angle": "soft hedged method dispute",
+   "split": "C",
+   "labeler1": {
+    "id": "CB04",
+    "label": "GOVERNED",
+    "classes": [
+     "dispute",
+     "analysis"
+    ],
+    "reason": "Questions the backtest start year because of the pace shift, which may skew the weights."
+   },
+   "labeler2": {
+    "id": "CB04",
+    "label": "GOVERNED",
+    "classes": [
+     "dispute"
+    ],
+    "reason": "Questions the backtest's start-year choice on era/pace grounds."
+   },
+   "gold": {
+    "label": "GOVERNED",
+    "classes": [
+     "dispute",
+     "analysis"
+    ],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "CB05",
+   "author": "B",
+   "text": "Hit rate jumping from 61% to 74% just from dropping turnovers? That's a lot of lift for one change. I don't buy it yet.",
+   "intended_label": "GOVERNED",
+   "intended_classes": [
+    "dispute",
+    "review"
+   ],
+   "angle": "skeptical result, no verb",
+   "split": "C",
+   "labeler1": {
+    "id": "CB05",
+    "label": "GOVERNED",
+    "classes": [
+     "dispute"
+    ],
+    "reason": "Disputes a reported jump in hit rate as implausible."
+   },
+   "labeler2": {
+    "id": "CB05",
+    "label": "GOVERNED",
+    "classes": [
+     "dispute"
+    ],
+    "reason": "Explicitly disbelieves a reported lift in the result."
+   },
+   "gold": {
+    "label": "GOVERNED",
+    "classes": [
+     "dispute"
+    ],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "CB06",
+   "author": "B",
+   "text": "Take the export compliance plan's ITAR section and bring it in line with the 2026 USML revisions. Redline every paragraph you change so legal can see it.",
+   "intended_label": "GOVERNED",
+   "intended_classes": [
+    "build"
+   ],
+   "angle": "compliance rewrite, plain imperative",
+   "split": "C",
+   "labeler1": {
+    "id": "CB06",
+    "label": "GOVERNED",
+    "classes": [
+     "build"
+    ],
+    "reason": "Revises the ITAR section to the 2026 USML revisions, with redlines for legal."
+   },
+   "labeler2": {
+    "id": "CB06",
+    "label": "GOVERNED",
+    "classes": [
+     "build"
+    ],
+    "reason": "Revises a compliance plan section with redlines for legal."
+   },
+   "gold": {
+    "label": "GOVERNED",
+    "classes": [
+     "build"
+    ],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "CB07",
+   "author": "B",
+   "text": "Final RFP amendment dropped this morning. Before pink team Thursday I need Volume II walked against Sections L and M line by line: every requirement we answer, every one we're silent on, and anywhere our page count or font breaks the instructions. Amendment 0003 changed the past-performance format, so don't trust the old compliance matrix. Flag anything ambiguous instead of guessing; I'd rather send the CO a question than lose points.",
+   "intended_label": "GOVERNED",
+   "intended_classes": [
+    "review",
+    "analysis"
+   ],
+   "angle": "long proposal compliance walk",
+   "split": "C",
+   "labeler1": {
+    "id": "CB07",
+    "label": "GOVERNED",
+    "classes": [
+     "review",
+     "analysis"
+    ],
+    "reason": "Asks for a line-by-line compliance review of Volume II against Sections L and M after the amendment."
+   },
+   "labeler2": {
+    "id": "CB07",
+    "label": "GOVERNED",
+    "classes": [
+     "review",
+     "analysis"
+    ],
+    "reason": "A line-by-line compliance walk of a proposal volume against Sections L and M."
+   },
+   "gold": {
+    "label": "GOVERNED",
+    "classes": [
+     "review",
+     "analysis"
+    ],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "CB08",
+   "author": "B",
+   "text": "Calibrate the Stop gate against last month's transcripts. How often did it block when nothing needed governing, and how often did it let a real task through?",
+   "intended_label": "GOVERNED",
+   "intended_classes": [
+    "review",
+    "analysis"
+   ],
+   "angle": "hook calibration with error rates",
+   "split": "C",
+   "labeler1": {
+    "id": "CB08",
+    "label": "GOVERNED",
+    "classes": [
+     "review",
+     "analysis"
+    ],
+    "reason": "Calibrates the Stop gate against transcripts for false blocks and misses."
+   },
+   "labeler2": {
+    "id": "CB08",
+    "label": "GOVERNED",
+    "classes": [
+     "review",
+     "analysis"
+    ],
+    "reason": "Calibrates a hook against historical transcripts for FP/FN rates."
+   },
+   "gold": {
+    "label": "GOVERNED",
+    "classes": [
+     "review",
+     "analysis"
+    ],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "CB09",
+   "author": "B",
+   "text": "The L3Harris posting I forwarded, program manager for mission systems. Tailor the resume and draft a cover letter. Only use what's actually in my history.",
+   "intended_label": "GOVERNED",
+   "intended_classes": [
+    "build"
+   ],
+   "angle": "draft as writing, not fantasy",
+   "split": "C",
+   "labeler1": {
+    "id": "CB09",
+    "label": "GOVERNED",
+    "classes": [
+     "build"
+    ],
+    "reason": "Tailors the resume and drafts a cover letter for a specific posting."
+   },
+   "labeler2": {
+    "id": "CB09",
+    "label": "GOVERNED",
+    "classes": [
+     "build"
+    ],
+    "reason": "Tailors a resume and drafts a cover letter."
+   },
+   "gold": {
+    "label": "GOVERNED",
+    "classes": [
+     "build"
+    ],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "CB10",
+   "author": "B",
+   "text": "M.'s program changed: 3-step sequencing now, 8 trials per session instead of 10. Need a new deck for Monday, same look as the last one.",
+   "intended_label": "GOVERNED",
+   "intended_classes": [
+    "build"
+   ],
+   "angle": "clinical deck via 'need'",
+   "split": "C",
+   "labeler1": {
+    "id": "CB10",
+    "label": "GOVERNED",
+    "classes": [
+     "build"
+    ],
+    "reason": "Builds a new clinical deck to a changed protocol."
+   },
+   "labeler2": {
+    "id": "CB10",
+    "label": "GOVERNED",
+    "classes": [
+     "build"
+    ],
+    "reason": "Builds a new clinical deck to changed protocol parameters."
+   },
+   "gold": {
+    "label": "GOVERNED",
+    "classes": [
+     "build"
+    ],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "CB11",
+   "author": "B",
+   "text": "Dana wrote: \"Finding 4 remains open pending objective evidence.\" Reply pushing back. We closed that CAR in August and the evidence is in the log. Polite but firm.",
+   "intended_label": "GOVERNED",
+   "intended_classes": [
+    "build"
+   ],
+   "angle": "quoted text plus real ask",
+   "split": "C",
+   "labeler1": {
+    "id": "CB11",
+    "label": "GOVERNED",
+    "classes": [
+     "build"
+    ],
+    "reason": "Drafts a pushback email on an audit finding, which carries real consequences."
+   },
+   "labeler2": {
+    "id": "CB11",
+    "label": "GOVERNED",
+    "classes": [
+     "build"
+    ],
+    "reason": "Drafts a pushback email to an auditor on a compliance finding."
+   },
+   "gold": {
+    "label": "GOVERNED",
+    "classes": [
+     "build"
+    ],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "CB12",
+   "author": "B",
+   "text": "Merge the three hook fixes and redeploy the plugin.",
+   "intended_label": "GOVERNED",
+   "intended_classes": [
+    "build"
+   ],
+   "angle": "short consequential deploy imperative",
+   "split": "C",
+   "labeler1": {
+    "id": "CB12",
+    "label": "GOVERNED",
+    "classes": [
+     "build"
+    ],
+    "reason": "Merges fixes and redeploys the plugin; short, but consequential."
+   },
+   "labeler2": {
+    "id": "CB12",
+    "label": "GOVERNED",
+    "classes": [
+     "build"
+    ],
+    "reason": "A short imperative to merge and redeploy, a consequential action."
+   },
+   "gold": {
+    "label": "GOVERNED",
+    "classes": [
+     "build"
+    ],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "CB13",
+   "author": "B",
+   "text": "Items 1-5 look right. Apply them, rerun the guard, and open the PR.",
+   "intended_label": "GOVERNED",
+   "intended_classes": [
+    "build",
+    "review"
+   ],
+   "angle": "approval bundled with new actions",
+   "split": "C",
+   "labeler1": {
+    "id": "CB13",
+    "label": "GOVERNED",
+    "classes": [
+     "build",
+     "review"
+    ],
+    "reason": "Approves fixes and orders new actions: apply them, rerun the guard, and open a PR."
+   },
+   "labeler2": {
+    "id": "CB13",
+    "label": "GOVERNED",
+    "classes": [
+     "build",
+     "review"
+    ],
+    "reason": "Approval plus new consequential actions: apply, run the guard, open a PR."
+   },
+   "gold": {
+    "label": "GOVERNED",
+    "classes": [
+     "build",
+     "review"
+    ],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "CB14",
+   "author": "B",
+   "text": "Sengun or Mobley as my keeper? We're punting FT% and I already roster two bigs. Use the 9-cat values, not vibes.",
+   "intended_label": "GOVERNED",
+   "intended_classes": [
+    "analysis"
+   ],
+   "angle": "comparison posed as either/or",
+   "split": "C",
+   "labeler1": {
+    "id": "CB14",
+    "label": "GOVERNED",
+    "classes": [
+     "analysis"
+    ],
+    "reason": "A keeper decision that needs 9-cat value analysis under team constraints."
+   },
+   "labeler2": {
+    "id": "CB14",
+    "label": "GOVERNED",
+    "classes": [
+     "analysis"
+    ],
+    "reason": "A keeper decision that must rest on 9-cat value analysis."
+   },
+   "gold": {
+    "label": "GOVERNED",
+    "classes": [
+     "analysis"
+    ],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "CB15",
+   "author": "B",
+   "text": "I'm not sure the cover letter should say I 'led' the F-35 sustainment effort. I was the deputy. Is anything else in there overstated?",
+   "intended_label": "GOVERNED",
+   "intended_classes": [
+    "dispute",
+    "review"
+   ],
+   "angle": "polite accuracy dispute on resume",
+   "split": "C",
+   "labeler1": {
+    "id": "CB15",
+    "label": "GOVERNED",
+    "classes": [
+     "dispute",
+     "review"
+    ],
+    "reason": "Disputes an overstated claim in the cover letter and asks for a check of the rest."
+   },
+   "labeler2": {
+    "id": "CB15",
+    "label": "GOVERNED",
+    "classes": [
+     "dispute",
+     "review"
+    ],
+    "reason": "Disputes a claim in the cover letter and asks for a check for other overstatements."
+   },
+   "gold": {
+    "label": "GOVERNED",
+    "classes": [
+     "dispute",
+     "review"
+    ],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "CB16",
+   "author": "B",
+   "text": "What would actually break if scope-fence got folded into plan-gate?",
+   "intended_label": "GOVERNED",
+   "intended_classes": [
+    "analysis"
+   ],
+   "angle": "architecture question, no verb",
+   "split": "C",
+   "labeler1": {
+    "id": "CB16",
+    "label": "GOVERNED",
+    "classes": [
+     "analysis"
+    ],
+    "reason": "Asks for an architectural impact analysis of merging two governors."
+   },
+   "labeler2": {
+    "id": "CB16",
+    "label": "GOVERNED",
+    "classes": [
+     "analysis"
+    ],
+    "reason": "An architectural impact analysis of merging two governors."
+   },
+   "gold": {
+    "label": "GOVERNED",
+    "classes": [
+     "analysis"
+    ],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "CB17",
+   "author": "B",
+   "text": "Here's my CMMC self-assessment score sheet. Give it a hard look before I post it to SPRS on Monday. I'd rather find the problems now.",
+   "intended_label": "GOVERNED",
+   "intended_classes": [
+    "review"
+   ],
+   "angle": "owner artifact, idiomatic review",
+   "split": "C",
+   "labeler1": {
+    "id": "CB17",
+    "label": "GOVERNED",
+    "classes": [
+     "review"
+    ],
+    "reason": "A hard review of a compliance self-assessment before it is submitted to SPRS."
+   },
+   "labeler2": {
+    "id": "CB17",
+    "label": "GOVERNED",
+    "classes": [
+     "review"
+    ],
+    "reason": "A hard review of a compliance score sheet before a government submission."
+   },
+   "gold": {
+    "label": "GOVERNED",
+    "classes": [
+     "review"
+    ],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "CB18",
+   "author": "B",
+   "text": "Wemby at +6.8 in blocks seems impossible if the pool is the top 156. Which population did the z-scores get standardized against?",
+   "intended_label": "GOVERNED",
+   "intended_classes": [
+    "dispute",
+    "analysis"
+   ],
+   "angle": "dispute disguised as factual question",
+   "split": "C",
+   "labeler1": {
+    "id": "CB18",
+    "label": "GOVERNED",
+    "classes": [
+     "dispute",
+     "analysis"
+    ],
+    "reason": "Doubts a z-score and questions which population it was standardized against."
+   },
+   "labeler2": {
+    "id": "CB18",
+    "label": "GOVERNED",
+    "classes": [
+     "dispute"
+    ],
+    "reason": "Questions the z-score standardization population as implausible."
+   },
+   "gold": {
+    "label": "GOVERNED",
+    "classes": [
+     "dispute",
+     "analysis"
+    ],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "CB19",
+   "author": "B",
+   "text": "Whatever changes in the deck, the scoring key has to match slide order exactly. The RBTs score off it live during session.",
+   "intended_label": "REQUIREMENT",
+   "intended_classes": [],
+   "angle": "constraint on in-progress deck",
+   "split": "C",
+   "labeler1": {
+    "id": "CB19",
+    "label": "REQUIREMENT",
+    "classes": [],
+    "reason": "A constraint on the deck: the scoring key must match slide order."
+   },
+   "labeler2": {
+    "id": "CB19",
+    "label": "REQUIREMENT",
+    "classes": [],
+    "reason": "A constraint on deck changes already under way."
+   },
+   "gold": {
+    "label": "REQUIREMENT",
+    "classes": [],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "CB20",
+   "author": "B",
+   "text": "Keep the CEO memo to two pages max. He won't turn to a third.",
+   "intended_label": "REQUIREMENT",
+   "intended_classes": [],
+   "angle": "imperative-shaped length constraint",
+   "split": "C",
+   "labeler1": {
+    "id": "CB20",
+    "label": "REQUIREMENT",
+    "classes": [],
+    "reason": "A length constraint on the existing memo."
+   },
+   "labeler2": {
+    "id": "CB20",
+    "label": "REQUIREMENT",
+    "classes": [],
+    "reason": "A length constraint on an existing memo."
+   },
+   "gold": {
+    "label": "REQUIREMENT",
+    "classes": [],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "CB21",
+   "author": "B",
+   "text": "Heads up: nothing in the proposal can name the classified annex. That's a hard line from security.",
+   "intended_label": "REQUIREMENT",
+   "intended_classes": [],
+   "angle": "hard line, no new ask",
+   "split": "C",
+   "labeler1": {
+    "id": "CB21",
+    "label": "REQUIREMENT",
+    "classes": [],
+    "reason": "A security constraint on proposal content."
+   },
+   "labeler2": {
+    "id": "CB21",
+    "label": "REQUIREMENT",
+    "classes": [],
+    "reason": "A security constraint on proposal content."
+   },
+   "gold": {
+    "label": "REQUIREMENT",
+    "classes": [],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "CB22",
+   "author": "B",
+   "text": "The backtest can't see anything after the 2025-26 trade deadline. Any leakage there and the whole result is worthless.",
+   "intended_label": "REQUIREMENT",
+   "intended_classes": [],
+   "angle": "backtest word, pure constraint",
+   "split": "C",
+   "labeler1": {
+    "id": "CB22",
+    "label": "REQUIREMENT",
+    "classes": [],
+    "reason": "A no-leakage constraint on the existing backtest."
+   },
+   "labeler2": {
+    "id": "CB22",
+    "label": "REQUIREMENT",
+    "classes": [],
+    "reason": "A no-leakage constraint on an existing backtest."
+   },
+   "gold": {
+    "label": "REQUIREMENT",
+    "classes": [],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "CB23",
+   "author": "B",
+   "text": "Again, please.",
+   "intended_label": "CONTINUATION",
+   "intended_classes": [],
+   "angle": "two-word retry",
+   "split": "C",
+   "labeler1": {
+    "id": "CB23",
+    "label": "CONTINUATION",
+    "classes": [],
+    "reason": "Asks to retry or repeat the prior step."
+   },
+   "labeler2": {
+    "id": "CB23",
+    "label": "CONTINUATION",
+    "classes": [],
+    "reason": "Retries the prior action."
+   },
+   "gold": {
+    "label": "CONTINUATION",
+    "classes": [],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "CB24",
+   "author": "B",
+   "text": "That plan works for me, kick off phase one.",
+   "intended_label": "CONTINUATION",
+   "intended_classes": [],
+   "angle": "approves already-planned phase",
+   "split": "C",
+   "labeler1": {
+    "id": "CB24",
+    "label": "CONTINUATION",
+    "classes": [],
+    "reason": "Approves a plan that already exists and starts its first phase."
+   },
+   "labeler2": {
+    "id": "CB24",
+    "label": "CONTINUATION",
+    "classes": [],
+    "reason": "Approves an existing plan and starts its first phase."
+   },
+   "gold": {
+    "label": "CONTINUATION",
+    "classes": [],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "CB25",
+   "author": "B",
+   "text": "It timed out partway through the 2019 season, pick up where it left off.",
+   "intended_label": "CONTINUATION",
+   "intended_classes": [],
+   "angle": "resume after timeout",
+   "split": "C",
+   "labeler1": {
+    "id": "CB25",
+    "label": "CONTINUATION",
+    "classes": [],
+    "reason": "Resumes a run that timed out."
+   },
+   "labeler2": {
+    "id": "CB25",
+    "label": "CONTINUATION",
+    "classes": [],
+    "reason": "Resumes a timed-out run."
+   },
+   "gold": {
+    "label": "CONTINUATION",
+    "classes": [],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "CB26",
+   "author": "B",
+   "text": "ok cool, carry on with the rest of the slides",
+   "intended_label": "CONTINUATION",
+   "intended_classes": [],
+   "angle": "casual keep-going on slides",
+   "split": "C",
+   "labeler1": {
+    "id": "CB26",
+    "label": "CONTINUATION",
+    "classes": [],
+    "reason": "Continues the slides already in progress."
+   },
+   "labeler2": {
+    "id": "CB26",
+    "label": "CONTINUATION",
+    "classes": [],
+    "reason": "Continues in-progress slide work."
+   },
+   "gold": {
+    "label": "CONTINUATION",
+    "classes": [],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "CB27",
+   "author": "B",
+   "text": "Can I do the draft from the Yahoo app, or does it have to be on a desktop?",
+   "intended_label": "SILENT",
+   "intended_classes": [],
+   "angle": "draft word, factual question",
+   "split": "C",
+   "labeler1": {
+    "id": "CB27",
+    "label": "SILENT",
+    "classes": [],
+    "reason": "A one-step factual question."
+   },
+   "labeler2": {
+    "id": "CB27",
+    "label": "SILENT",
+    "classes": [],
+    "reason": "A trivial factual question."
+   },
+   "gold": {
+    "label": "SILENT",
+    "classes": [],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "CB28",
+   "author": "B",
+   "text": "What's 14.7 divided by 82? Just eyeballing a per-game number.",
+   "intended_label": "SILENT",
+   "intended_classes": [],
+   "angle": "arithmetic with stats framing",
+   "split": "C",
+   "labeler1": {
+    "id": "CB28",
+    "label": "SILENT",
+    "classes": [],
+    "reason": "Simple arithmetic."
+   },
+   "labeler2": {
+    "id": "CB28",
+    "label": "SILENT",
+    "classes": [],
+    "reason": "Trivial arithmetic."
+   },
+   "gold": {
+    "label": "SILENT",
+    "classes": [],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "CB29",
+   "author": "B",
+   "text": "Write me a limerick about a hook that keeps blocking my commits.",
+   "intended_label": "SILENT",
+   "intended_classes": [],
+   "angle": "creative ask, work words",
+   "split": "C",
+   "labeler1": {
+    "id": "CB29",
+    "label": "SILENT",
+    "classes": [],
+    "reason": "Creative play (a limerick)."
+   },
+   "labeler2": {
+    "id": "CB29",
+    "label": "SILENT",
+    "classes": [],
+    "reason": "Creative play."
+   },
+   "gold": {
+    "label": "SILENT",
+    "classes": [],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "CB30",
+   "author": "B",
+   "text": "Haha, my son just asked if plan-gate is a Marvel villain.",
+   "intended_label": "SILENT",
+   "intended_classes": [],
+   "angle": "casual chat, skill name",
+   "split": "C",
+   "labeler1": {
+    "id": "CB30",
+    "label": "SILENT",
+    "classes": [],
+    "reason": "Casual chat."
+   },
+   "labeler2": {
+    "id": "CB30",
+    "label": "SILENT",
+    "classes": [],
+    "reason": "Casual chat."
+   },
+   "gold": {
+    "label": "SILENT",
+    "classes": [],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "CB31",
+   "author": "B",
+   "text": "[guard_essentials] PASS - 14/14 skills lint clean | 0 unacknowledged deletions | ledger keys unique | 2026-10-13T09:12:44Z",
+   "intended_label": "SILENT",
+   "intended_classes": [],
+   "angle": "pasted guard output alone",
+   "split": "C",
+   "labeler1": {
+    "id": "CB31",
+    "label": "SILENT",
+    "classes": [],
+    "reason": "Machine/guard output."
+   },
+   "labeler2": {
+    "id": "CB31",
+    "label": "SILENT",
+    "classes": [],
+    "reason": "Machine/guard output."
+   },
+   "gold": {
+    "label": "SILENT",
+    "classes": [],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "CB32",
+   "author": "B",
+   "text": "<\\task-notification>Background command \"pytest -q tests/\" completed (exit code 0)<\\/task-notification>",
+   "intended_label": "SILENT",
+   "intended_classes": [],
+   "angle": "harness notification, test word",
+   "split": "C",
+   "labeler1": {
+    "id": "CB32",
+    "label": "SILENT",
+    "classes": [],
+    "reason": "Harness task-notification output."
+   },
+   "labeler2": {
+    "id": "CB32",
+    "label": "SILENT",
+    "classes": [],
+    "reason": "Harness task-notification output."
+   },
+   "gold": {
+    "label": "SILENT",
+    "classes": [],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "CB33",
+   "author": "B",
+   "text": "Thanks, perfect.",
+   "intended_label": "SILENT",
+   "intended_classes": [],
+   "angle": "two-word thanks",
+   "split": "C",
+   "labeler1": {
+    "id": "CB33",
+    "label": "SILENT",
+    "classes": [],
+    "reason": "Thanks."
+   },
+   "labeler2": {
+    "id": "CB33",
+    "label": "SILENT",
+    "classes": [],
+    "reason": "Thanks."
+   },
+   "gold": {
+    "label": "SILENT",
+    "classes": [],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "CB34",
+   "author": "B",
+   "text": "Which file has the tests for the z-score function again?",
+   "intended_label": "SILENT",
+   "intended_classes": [],
+   "angle": "test word, one-line lookup",
+   "split": "C",
+   "labeler1": {
+    "id": "CB34",
+    "label": "SILENT",
+    "classes": [],
+    "reason": "A one-line lookup."
+   },
+   "labeler2": {
+    "id": "CB34",
+    "label": "SILENT",
+    "classes": [],
+    "reason": "A one-line lookup."
+   },
+   "gold": {
+    "label": "SILENT",
+    "classes": [],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "CB35",
+   "author": "B",
+   "text": "Rename the 'Sheet3' tab to 'Backtest'.",
+   "intended_label": "SILENT",
+   "intended_classes": [],
+   "angle": "trivial rename, backtest word",
+   "split": "C",
+   "labeler1": {
+    "id": "CB35",
+    "label": "SILENT",
+    "classes": [],
+    "reason": "A trivial rename."
+   },
+   "labeler2": {
+    "id": "CB35",
+    "label": "SILENT",
+    "classes": [],
+    "reason": "A trivial rename."
+   },
+   "gold": {
+    "label": "SILENT",
+    "classes": [],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "CB36",
+   "author": "B",
+   "text": "Do you like 'Draft Arena' or 'War Room' better as the tool's name? Pure gut call.",
+   "intended_label": "SILENT",
+   "intended_classes": [],
+   "angle": "pure preference, draft word",
+   "split": "C",
+   "labeler1": {
+    "id": "CB36",
+    "label": "SILENT",
+    "classes": [],
+    "reason": "A pure preference call."
+   },
+   "labeler2": {
+    "id": "CB36",
+    "label": "SILENT",
+    "classes": [],
+    "reason": "A pure preference call."
+   },
+   "gold": {
+    "label": "SILENT",
+    "classes": [],
+    "source": "agree"
+   }
+  }
+ ]
+}

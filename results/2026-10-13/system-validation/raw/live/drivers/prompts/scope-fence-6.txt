@@ -1,0 +1,10 @@
+Fix the null-pointer crash in this parseConfig() function. While you're in there you'll probably notice the logging is a mess and there's some dead code near the bottom too.
+
+def parseConfig(raw):
+    cfg = {}
+    for line in raw.split('\n'):
+        k, v = line.split('=')
+        cfg[k.strip()] = v.strip()
+    # print('DEBUG parsing', line)
+    # legacy_mode = False
+    return cfg

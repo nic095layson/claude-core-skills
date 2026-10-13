@@ -1,0 +1,29 @@
+[
+ {
+  "run": "inc-1",
+  "session_id": "ff01f16c-7b3f-5ea5-8051-7a95ac7cd1d1",
+  "model": "claude-sonnet-5-5",
+  "exit": "0",
+  "assistant_turns": 22,
+  "governor_loads": [
+   "adversarial-verify",
+   "scope-fence"
+  ],
+  "gov_enforce_blocks": 0,
+  "trigger_context_seen": 1,
+  "cost_usd": 0.2776751,
+  "result_head": "**Open objection:** you dispute that career averages are factored into the projections. I'm treating it as open until you say otherwise.\n\n**Window and method, stated before the reading.** I read the code and docs in `/home/user/fantasy-basketball-2026-27` as they sit today (2026-10-13). The director"
+ },
+ {
+  "run": "triv-1",
+  "session_id": "ff01f16c-7b3f-5ea5-8051-7a95ac7cd1d1",
+  "model": "claude-sonnet-5-5",
+  "exit": "0",
+  "assistant_turns": 5,
+  "governor_loads": [],
+  "gov_enforce_blocks": 0,
+  "trigger_context_seen": 0,
+  "cost_usd": 0.07979480000000001,
+  "result_head": "I can't tell you the draft's time zone. Nothing in this project says.\n\nThis directory has only a `CLAUDE.md` and two captured logs from an earlier run (`out.jsonl`, `err.txt`). It has no draft date, time, league settings or time zone. The `CLAUDE.md` describes the project (a 9-cat z-score engine, Ju"
+ }
+]

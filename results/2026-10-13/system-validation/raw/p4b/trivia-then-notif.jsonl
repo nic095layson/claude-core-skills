@@ -1,0 +1,4 @@
+{"type": "user", "message": {"role": "user", "content": "what's 15% of 80?"}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "text", "text": "12"}]}}
+{"type": "user", "message": {"role": "user", "content": "<task-notification>\n<status>completed</status>\n</task-notification>"}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "text", "text": "noted"}]}}

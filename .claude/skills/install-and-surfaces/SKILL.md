@@ -83,6 +83,84 @@ Silence = in sync. claude.ai: rebuild and re-upload the affected `.skill` —
 testing new wording against an old upload voids the run
 (research-methodology's protocol table).
 
+## Runbook 4 — the project enforcement pack (cloud-safe; added 2026-10-13)
+
+The personal install (Runbook 1) never reaches a Claude Code **cloud** session: the
+container has no `~/.claude/CLAUDE.md`, no `~/.claude/settings.json`, and only the
+account-synced skills (observed 2026-10-13, two sessions; `.claude/LESSONS.md`
+INC-2026-10-13-01). What a cloud session *does* read is the repository: its
+`CLAUDE.md`, and — in a session started inside one repository — its
+`.claude/settings.json`, hooks included (Claude Code settings documentation,
+"Settings in cloud sessions", read 2026-10-13). So the pack lives in the repo.
+
+1. **Copy the hooks.** From this library: `hooks/govclass.py`,
+   `hooks/governance-trigger.py`, `hooks/governance-enforce.py`,
+   `hooks/session-doctrine.sh`, `hooks/plan-gate-first-write-reminder.sh`,
+   `hooks/scope-fence-reminder.sh`, `hooks/receipt-law-stop-gate.sh`, and the
+   two self-tests, into the target repo's `hooks/`. Keep them together: the
+   trigger and the Stop gate import the same classifier so they cannot disagree.
+2. **Copy `.claude/settings.json`** from this library (it references the hooks
+   through `$CLAUDE_PROJECT_DIR`, so no path edits). If the target already has
+   one, merge the `hooks` key.
+3. **Paste the doctrine block** (`instructions/project-doctrine-block.md`,
+   between its markers) into the target's `CLAUDE.md`, below the project's own
+   domain rules. Project-root `CLAUDE.md` is re-read after every compaction
+   (memory documentation, read 2026-10-13), so the block survives compaction.
+4. **Self-test before committing:** `python3 hooks/selftest-governance-classify.py`
+   and `bash hooks/selftest-receipt-law.sh` must pass.
+5. **Verify live, then commit:** in a fresh session on the repo, the first file
+   write produces the plan-gate and scope-fence reminders in context, and a
+   governed-class prompt produces the "Governance auto-trigger" line. (In the
+   authoring session of 2026-10-13 both appeared within minutes of the settings
+   file being written — the harness read the project settings live.) Commit the
+   three pieces together; a pack half-copied is a promise with no mechanism.
+
+**Multi-repository cloud sessions — the pack does not run; the plugin does, by a
+different door.** In an Anthropic-hosted session with several repositories attached,
+the session starts above the clones and reads only `enabledPlugins` and
+`extraKnownMarketplaces` from each repo's settings, not hooks — and the same page
+adds that "the marketplaces and plugins those two keys declare still don't load in a
+cloud session" (settings documentation, read 2026-10-13; the plugin loading reference
+gives the reason: adding a repository-declared marketplace needs the workspace trust
+dialog, which a cloud session never shows). So repo settings carry nothing there. The
+first draft of this runbook (same day, earlier) proposed exactly that route from the
+first sentence alone and was wrong; this paragraph supersedes it. That was the
+incident's configuration (kit + deck in one session). What a cloud session does load
+is the **account**: skills and plugins enabled on claude.ai arrive as synced copies
+(observed 2026-10-13 in the authoring container — `claude plugin list` shows a
+claude.ai plugin `loaded`; the governors sit under `~/.claude/skills/synced/`). The
+pack is therefore also packaged as the plugin `plugin/core-governance/` (built
+2026-10-13; `claude plugin validate --strict` clean; `--plugin-dir` smoke in
+`results/2026-10-13/gauntlet-fortification/raw/plugin-smoke/`; its scripts are
+byte-identical copies of `hooks/`, guarded):
+
+6. **Upload the plugin to the account.** Package it per
+   `plugin/core-governance/README.md` ("Package for upload"), then on claude.ai:
+   Customize → Plugins → Add → Upload plugin. It syncs into terminal, Cowork and
+   cloud sessions signed in to that account. Its wrapper yields to a repo that
+   already wires the pack, so a single-repo session runs nothing twice.
+7. **Verify on the surface that failed:** a cloud session with the kit and the deck
+   both attached — `claude plugin list` must show `core-governance@synced` loaded,
+   and a disputed question must produce the "Governance auto-trigger" line.
+   **Observed 2026-10-13 (system validation):** in a running cloud session with
+   three repositories attached, the synced plugin's Stop gates ran within minutes
+   of the upload. **Not observed:** the plugin in a fresh session — one created
+   through the remote-session API had no plugins installed three minutes in.
+   Check a fresh session started from claude.ai/code with `claude plugin list`;
+   until it shows `core-governance@synced` loaded, treat the instructions block
+   and the account skills as the only carriers at the start of a new session.
+   **Observed 2026-10-13 16:41 UTC (owner check, session record read through
+   the remote-session API):** a fresh session started from claude.ai/code with
+   one repository attached listed `core-governance@synced` 0.1.1 loaded (N=1;
+   ledger INC-2026-10-13-01). Not observed directly: a fresh web-started session
+   with several repositories, and a governed prompt's trigger line in any fresh
+   session. The API-created session's absence stands as a separate observation.
+8. **Compare the account copies on every validation.** In a cloud container the
+   account's skills sit under `~/.claude/skills/synced/<id>/`; diff each against
+   the library after parsing the frontmatter (claude.ai re-serializes it). The
+   2026-10-13 validation found adversarial-verify two months stale there (ledger
+   INC-2026-10-13-03).
+
 ## The environment-boundary rules (what does NOT carry)
 
 Verified the hard way, 2026-07-11 (this repo's ledger, `.claude/LESSONS.md`

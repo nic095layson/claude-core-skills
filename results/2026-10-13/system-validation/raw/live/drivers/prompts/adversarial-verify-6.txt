@@ -1,0 +1,8 @@
+I've finished writing this data-export function and it looks right to me. Can you confirm it's correct and ready to ship?
+
+def export_users_to_csv(users, path):
+    with open(path, 'w') as f:
+        f.write('id,name,email\n')
+        for u in users:
+            f.write(f"{u['id']},{u['name']},{u['email']}\n")
+    return path

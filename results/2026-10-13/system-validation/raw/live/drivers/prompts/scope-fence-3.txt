@@ -1,0 +1,1 @@
+Our checkout endpoint throws a 500 on empty carts — patch that. I bet the same pattern is broken in three other endpoints.

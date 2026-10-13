@@ -1,0 +1,1 @@
+Set up a CI/CD pipeline for our monorepo that runs the test suite and deploys to staging on every merge to main.

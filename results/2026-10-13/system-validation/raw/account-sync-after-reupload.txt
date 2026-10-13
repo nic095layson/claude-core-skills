@@ -1,0 +1,66 @@
+# Account sync state in session_01AYc6fhZNmvyoAQ67RgbJuK after the owner's re-uploads; captured 2026-10-13T16:45:43Z
+## plugins manifest
+{
+  "lastUpdated": 1791909624811,
+  "plugins": [
+    {
+      "pluginId": "plugin_0155zZVATbJU3jHUmPP9NvMC",
+      "name": "cowork-plugin-management",
+      "description": "Create, customize, and manage plugins tailored to your organization's tools and workflows. Configure MCP servers, adjust plugin behavior, and adapt templates to match how your team works.",
+      "version": "0040",
+      "updatedAt": "2026-10-01T21:59:56.801289Z",
+      "marketplaceName": "knowledge-work-plugins",
+      "installationPreference": "available"
+    },
+    {
+      "pluginId": "plugin_0198gX96xJRqMHPB7wVCYZnR",
+      "name": "core-governance",
+      "description": "Governance enforcement hooks from nic095layson/claude-core-skills: a prompt classifier that asks for the right governor on governed turns, a Stop gate that blocks a governed turn from finishing without a governor load, first-write reminders, the receipt-law gate, and the post-compaction protocol.",
+      "version": "0002",
+      "updatedAt": "2026-10-13T16:40:15.217957Z",
+      "marketplaceName": "My Uploads",
+      "installationPreference": "available",
+      "generation": 2
+    }
+  ],
+  "staleDirs": [
+    "core-governance"
+  ]
+}
+## plugin folders (mtime, version)
+core-governance  2026-10-13 16:40:16.723494555 +0000  version="version": "0.1.0"
+core-governance~g2  2026-10-13 16:40:24.823495036 +0000  version="version": "0.1.1"
+## diff core-governance~g2 vs repo plugin/core-governance (excluding __pycache__)
+Only in /root/.claude/plugins/synced/9587cd04-935a-44c9-8ae7-1ecd0ed9397c_34d96f17-c2f3-4cf1-b91c-7d808be44f96/core-governance~g2: .in_use
+(exit 1)
+## sha256 of the 9 hook files, g2 vs repo
+hooks/hooks.json g2=db7842073989 repo=db7842073989 same
+scripts/__pycache__/govclass.cpython-313.pyc g2=4817bea8ac77 repo=097f05290840 DIFF
+scripts/govclass.py g2=c3f17ac81dd4 repo=c3f17ac81dd4 same
+scripts/governance-enforce.py g2=76e4a2150069 repo=76e4a2150069 same
+scripts/governance-trigger.py g2=603cc8fc3561 repo=603cc8fc3561 same
+scripts/plan-gate-first-write-reminder.sh g2=c948c9961075 repo=c948c9961075 same
+scripts/receipt-law-stop-gate.sh g2=97741f4336f6 repo=97741f4336f6 same
+scripts/run-unless-project-wired.sh g2=41bd26a2d335 repo=41bd26a2d335 same
+scripts/scope-fence-reminder.sh g2=e182a54e4e23 repo=e182a54e4e23 same
+scripts/selftest-governance-classify.py g2=1307da548fbf repo=1307da548fbf same
+scripts/selftest-receipt-law.sh g2=3b5060e8c952 repo=3b5060e8c952 same
+scripts/selftest-wrapper.sh g2=10433cd0a55c repo=10433cd0a55c same
+scripts/session-doctrine.sh g2=2606435e91a6 repo=2606435e91a6 same
+## skills
+adversarial-verify SKILL.md mtime 2026-10-13 16:40:30.163495354 +0000
+  body sha256 account=4e0519bc6c12 repo=4e0519bc6c12 same
+brand-standard SKILL.md mtime 2026-10-13 16:40:34.263495597 +0000
+  body sha256 account=3c2f6a82ad5a repo=3c2f6a82ad5a same
+## skills manifest entries
+{"name": "brand-standard", "skillId": "skill_01UvarkeKGCEaAeaPTimz1ct", "updatedAt": "2026-10-13T16:40:32.491028Z"}
+{"name": "adversarial-verify", "skillId": "skill_01X1RPixWaNftH1YJr6ofQPW", "updatedAt": "2026-10-13T16:40:28.502604Z"}
+
+## Note appended 2026-10-13 16:55 UTC (after three refuters reviewed this record)
+The section headed "sha256 of the 9 hook files" lists 13 rows, not 9: hooks/hooks.json, 11 scripts,
+and one compiled cache file (scripts/__pycache__/govclass.cpython-313.pyc). The cache file is not in
+the repository; its "repo" hash above came from the working tree's own cache, so its DIFF row means
+nothing about the upload. Every source file in the synced 0.1.1 folder (12 rows) is identical to the
+repository's plugin/core-governance/ at 14b3da3, which is also the plugin's state at 5ca7cd0. "Nine"
+was the count of hook scripts shared with hooks/ (the p1-integrity.txt set); the two plugin-only
+wrapper scripts and hooks.json were measured here too. The captured lines above are unchanged.

@@ -1,0 +1,6 @@
+# Post-change checks, 2026-10-13T07:04:00Z (fixture, receipt law, wrapper, guard)
+== 30 passed, 0 failed ==
+== 10 passed, 0 failed ==
+== 9 passed, 0 failed ==
+  ok    marketplace: claude plugin validate --strict passes
+== RESULT: PASS ==

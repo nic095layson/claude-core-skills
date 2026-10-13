@@ -1,0 +1,6 @@
+frozen_at=2026-10-13T06:07:01Z
+NEW_sha256=8f2caaf15f860d05782bf495031b40f8eae6ba884762831e0c9a99c5cfa114fc
+OLD_sha256=c3f17ac81dd42f5f0aebea59335431ce06e869198374c920ab052ed58ad96615
+r2_frozen_at=2026-10-13T06:11:03Z
+NEW_r2_sha256=047620327b83274659a93e54c11b41f490deb80266130ebf48307d51f46abeab
+set C not yet returned by its workflow at freeze time (task wbmf0qtwk running)

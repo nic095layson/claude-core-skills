@@ -1,0 +1,1 @@
+I need to refactor our authentication module to use JWTs instead of server-side sessions across the whole app. Where should we start?

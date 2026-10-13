@@ -1,0 +1,41 @@
+{
+ "manifest": "/root/.claude/skills/synced/9587cd04-935a-44c9-8ae7-1ecd0ed9397c_34d96f17-c2f3-4cf1-b91c-7d808be44f96/manifest.json",
+ "lastUpdated": 1791869828064,
+ "skills": [
+  {
+   "skillId": "skill_01UvarkeKGCEaAeaPTimz1ct",
+   "name": "brand-standard",
+   "source": "plugin",
+   "updatedAt": "2026-07-13T20:22:21.412735Z",
+   "backingPluginId": "plugin_0177HgF72o7XxmFjGnwZPBbv"
+  },
+  {
+   "skillId": "skill_01X1RPixWaNftH1YJr6ofQPW",
+   "name": "adversarial-verify",
+   "source": "plugin",
+   "updatedAt": "2026-08-12T00:26:41.905569Z",
+   "backingPluginId": "plugin_017DvpRMM9DxiNTezzT3RcQi"
+  },
+  {
+   "skillId": "skill_01UkUENaQedPYdYVjtNaWABe",
+   "name": "gauntlet",
+   "source": "plugin",
+   "updatedAt": "2026-10-13T05:37:06.800094Z",
+   "backingPluginId": "plugin_0152vE87PUCRdUqvJyqKY4Dk"
+  },
+  {
+   "skillId": "skill_01KnmBCMxWfHLicYw7mmjCBn",
+   "name": "scope-fence",
+   "source": "plugin",
+   "updatedAt": "2026-10-13T05:37:01.824859Z",
+   "backingPluginId": "plugin_01Y9tUdH8pLvWWB5j9gahQBa"
+  },
+  {
+   "skillId": "skill_01H4jfvQV7hVbem7ttH9pqHD",
+   "name": "plan-gate",
+   "source": "plugin",
+   "updatedAt": "2026-10-13T05:36:56.248681Z",
+   "backingPluginId": "plugin_01TfrUWmgkaQwSVfBpYoEV6G"
+  }
+ ]
+}

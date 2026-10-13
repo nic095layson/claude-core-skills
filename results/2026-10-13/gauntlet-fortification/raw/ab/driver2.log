@@ -1,0 +1,2 @@
+on-3   sid=ff01f16c exit=0 turns=15 loads=['adversarial-verify', 'scope-fence'] blocks=0 trig=1 cost=0.14718650000000003 | "I can't confirm or refute your objection from here, and I'd be guessing if I tri"
+on-4   sid=ff01f16c exit=0 turns=13 loads=['adversarial-verify', 'scope-fence'] blocks=0 trig=1 cost=0.1647804 | "I can't assess your objection from this workspace, because the engine isn't in i"

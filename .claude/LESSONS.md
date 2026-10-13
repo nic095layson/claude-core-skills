@@ -1106,3 +1106,140 @@ unmerged branch defeats it exactly.**
 - **Status:** OPEN as a standing constraint (no fix wanted; the doctrine behaved as
   written). Owner decisions D-A / D-C in
   `results/2026-08-26/fable-transition/RESULTS.md`.
+
+### INC-2026-10-13-01 — Three weeks, zero governor loads: the kit's "governors run on every session" had no mechanism on the cloud surface
+
+- **Date:** incident 2026-10-12 23:41–23:54 UTC (owner caught it live); reported by the
+  owner 2026-10-13 with the kit's `report/after-reports/after-report-2026-10-13-scope-fence.md`;
+  recorded here 2026-10-13. Keys on every remote branch checked first (Rule 4): no
+  `2026-10` key existed.
+- **Surface:** Claude Code on the web, one long-lived session (log from 2026-09-23) with
+  the kit and the deck both attached.
+- **Severity:** high as a governance failure (two scope breaches caught by the owner, not
+  the process); no data damage (both repos clean, nothing published).
+
+- **Symptom:** answering an owner question, the session ran a 20-season backtest whose
+  window was never stated as a choice (visible only in one tool label and two script
+  docstrings), then built an unrequested 326-line replacement candidate in scratch. A
+  mid-turn requirement ("usage on new team is critical") was followed 8 minutes later by a
+  build implementing it. A compaction summary carried the disputed result forward as a
+  finding.
+- **Root cause (confirmed, recounted this session from `out/timeline.json` and
+  `out/integrity_check.txt`):** nothing could load a governor. (1) `~/.claude/CLAUDE.md`,
+  which the kit's `CLAUDE.md` points to, does not exist in cloud containers (ABSENT in the
+  incident session and in this one). (2) The kit has no `.claude/` directory and this
+  library's hooks were wired in no `settings.json` anywhere — the validated enforcement
+  pair (3/3 vs 0/3, 2026-07-15) existed only as files. (3) The 2026-07-15 classifier would
+  have stayed silent on 3 of the 4 owner messages anyway, and fired on "what time zone is
+  the draft in?" (`draft (a|the|me)?` matched "draft in"). (4) plan-gate and
+  adversarial-verify were re-attached after each of 28 compactions carrying an earlier
+  task's arguments, which reads as "already handled". (5) Three house rules ("a question
+  gets an assessment, not a fix"; method parameters stated before the run; a stated
+  requirement is not a build order) lived only in that session's memory — in 12 of 28
+  compaction summaries and in no committed file.
+- **Evidence:** census — 4 Skill-tool loads since 2026-09-23 (after-report ×3, pdf-extract
+  ×1), 0 governors, 28 compactions, 28 re-attachments with D51R arguments
+  (`out/timeline.json`, recounted 2026-10-13); `out/integrity_check.txt` (doctrine file
+  ABSENT, three skills not synced); era check re-run byte-identical
+  (`out/league_per36.json`); classifier fixture run 2026-10-13 (3/4 silent, 1/3 trivia
+  fired); docs quotes dated 2026-10-13 in
+  `results/2026-10-13/gauntlet-fortification/REPORT.md`.
+- **Fix (this library, PR on `claude/trusting-curie-d2ft62`):** project-scope enforcement
+  pack — shared classifier `hooks/govclass.py` with `dispute` and `requirement` classes and
+  the `draft` pattern narrowed, both hooks rebuilt on it, `hooks/session-doctrine.sh`
+  (post-compaction protocol + reminder re-arm), `.claude/settings.json` wiring all seven
+  hooks, pinned by `hooks/selftest-governance-classify.py`; the doctrine block
+  (`instructions/project-doctrine-block.md`) pasted into `CLAUDE.md` with a guard drift
+  check; plan-gate §3/§5, scope-fence §2/§4, gauntlet §6 carry the three rules and
+  "re-attached is not loaded". Kit and deck: applied later the same day once push access was granted — branches
+  `claude/governance-pack-2026-10-13`, fantasy-basketball-2026-27 draft PR 105 and
+  yahoo-fantasy-basketball draft PR 106 (the pack, `CLAUDE.md` with the block, deck lesson 24);
+  the kit PR verified by an independent agent (PASS), the deck PR by the authoring session after
+  its verifier hit the account session limit. Plugin twin `plugin/core-governance/` built the same
+  day for sessions that do not read repo settings.
+- **Status:** FIXED here for single-repository sessions (live A/B in the report);
+  **OPEN** for multi-repository cloud sessions — the incident's own configuration — where
+  the settings documentation says repo hooks are not read **and** (correction, same day) the
+  plugin keys in repo settings do not load in cloud sessions either — the §4.4 route was proposed
+  from one sentence of the page and is withdrawn. The plugin is built and is to be enabled on the
+  claude.ai account (install-and-surfaces Runbook 4, steps 6–7). Closes when a cloud session with
+  several repositories is observed running the synced plugin's hooks.
+  **Update 2026-10-13 (system validation):** observed — the authoring session, with three repositories
+  attached, ran the synced plugin's Stop gates through its wrapper (05:45:12 UTC) after the project pack
+  had stopped running there (05:33–05:34). Not observed: the plugin in a FRESH cloud session — one
+  created through the remote-session API had no plugins installed three minutes in, and governed itself
+  through the instructions block and skill descriptions alone (it loaded three governors). Status stays
+  **OPEN** for fresh sessions until one started from claude.ai/code shows `core-governance@synced`
+  loaded (owner check D-SV-4).
+  **Update 2026-10-13 16:45 UTC (owner check D-SV-4 returned):** a fresh session the owner started
+  from claude.ai/code ran `claude plugin list` and listed `core-governance@synced`, version 0.1.1,
+  status loaded (owner screenshot,
+  `results/2026-10-13/system-validation/raw/p7-owner-fresh-session-plugin-list.png`; N=1). The
+  session's own record (`session_01JxN1v7cLEeRimQPJ8sQxFA`, read through the remote-session API at
+  16:52 UTC) shows origin `web_claude_ai`, created 16:41:41 UTC, **one repository attached**
+  (`claude-core-skills`), the command run at 16:41:57 UTC. A loading mechanism is now observed on
+  three of the four surfaces tested: a single-repository session (the pack), a running
+  several-repository session (the plugin, 05:45) and a fresh web-started single-repository session
+  (the plugin, 0.1.1). The fourth, a fresh API-created session, had no plugin (N=1, §3.7 of the
+  report). Status: **FIXED** by this entry's stated closing condition. The incident's exact
+  configuration, a fresh web-started session with several repositories, has not been observed
+  directly (N=0); that the account plugin loads there is INFERENCE from the two plugin
+  observations. Also unmeasured: the trigger line on a governed prompt in a fresh web-started
+  session (the owner's check message classifies as not governed).
+- **Lesson:** a `CLAUDE.md` that *says* governors run is a promise; check for the
+  mechanism that loads them on the surface in question (`test -f ~/.claude/CLAUDE.md`,
+  `cat .claude/settings.json`) before trusting it — and bind the classifier to the
+  owner's real phrasing (questions, disputes, requirements), not only to verbs.
+
+### INC-2026-10-13-02 — The Stop gate let governed, unloaded turns through whenever a background task finished mid-turn
+
+- **Date:** found and fixed 2026-10-13 by the full-system validation
+  (`results/2026-10-13/system-validation/`). Keys on every remote branch checked first (Rule 4):
+  only `INC-2026-10-13-01` existed for this date.
+- **Surface:** every surface the enforcement pack or the `core-governance` plugin runs on.
+- **Symptom (reproduced red-first, not seen in production):** a governed owner prompt, an answer with
+  no governor load, and a `<task-notification>` or `[SYSTEM NOTIFICATION` user entry in between →
+  the gate ALLOWED (2 of 2 synthetic transcripts); the same transcript without the notification BLOCKED.
+- **Root cause:** `governance-enforce.py` takes the last un-marked user text as "the owner's prompt".
+  Harness notifications arrive as ordinary user entries, `classify()` maps them to no class by design,
+  so the gate judged the notification, found nothing governed, and allowed. Long sessions run background
+  tasks constantly, so the hole was open most of the time in exactly the sessions INC-2026-10-13-01 was about.
+- **Evidence:** `raw/p4b/` (five transcripts, old and fixed verdicts); the extended fixture fails its
+  two new checks against the old gate and passes 30/30 against the fixed one.
+- **Fix:** the gate skips harness-marked user texts (`HARNESS_MARKERS`) when locating the prompt;
+  three fixture checks pin it. Library `hooks/`, plugin 0.1.1, kit PR 105, deck PR 106. The account
+  plugin carries the fix only after re-upload (owner decision D-SV-2).
+- **Status:** FIXED in the repositories; OPEN on the account until the 0.1.1 plugin is uploaded.
+  **Update 2026-10-13 16:45 UTC:** uploaded. The account's plugin manifest shows the upload at
+  16:40:15 UTC (generation 2); it synced into the authoring session as a second folder whose every
+  source file (`hooks.json` and 11 scripts) is sha256-identical to `plugin/core-governance/` at
+  `14b3da3`, with the 0.1.0 folder marked stale; a fresh web-started session lists 0.1.1 loaded
+  (INC-2026-10-13-01 update). Record:
+  `results/2026-10-13/system-validation/raw/account-sync-after-reupload.txt` (its "9 hook files"
+  heading is explained in the note appended to it). Status: **FIXED** on the account, the one surface
+  that runs the gate today. The repository copies (library, kit, deck) land when PR 24, PR 105 and
+  PR 106 merge; all three are open drafts.
+- **Lesson:** anything that reads "the latest user message" from a transcript must skip harness-written
+  user entries, not just the ones marked `isMeta` — the same class as the 2026-10-13 isMeta false block,
+  in the other direction.
+
+### INC-2026-10-13-03 — Account skills drifted from the library for two months (adversarial-verify, brand-standard)
+
+- **Date:** found 2026-10-13 (validation P1). Class: drift.
+- **Symptom:** the claude.ai account's `adversarial-verify` lacks rules 8 and 9 and their provenance
+  note (adopted on `main` 2026-08-12); its `brand-standard` description lacks the "clinical or
+  client-owned documents about a third party" clause. Every claude.ai and cloud session read the old copies.
+- **Root cause:** the account copies are uploads, not links; an edit merged to the library changes no
+  account copy (install-and-surfaces Runbook 3 states this; nothing checked it). The guard compares
+  repo copies only.
+- **Evidence:** `raw/p1-account-skill-drift.txt` (26 branch-only lines, 0 account-only; descriptions
+  parsed as YAML and compared after whitespace normalisation).
+- **Fix:** re-packaged `.skill` files delivered 2026-10-13 (owner decision D-SV-1).
+- **Status:** OPEN until re-uploaded.
+  **Update 2026-10-13 16:45 UTC:** re-uploaded. The account's skills manifest shows adversarial-verify
+  at 16:40:28 UTC and brand-standard at 16:40:32 UTC; both synced bodies are sha256-identical to the
+  library's after the frontmatter is stripped (record:
+  `results/2026-10-13/system-validation/raw/account-sync-after-reupload.txt`). Status: **FIXED**.
+  The cause (uploads are copies, nothing checks them) is unchanged; Runbook 4 step 8 is the control.
+- **Lesson:** a validation that diffs only the repository cannot see the surface the owner actually
+  uses; compare the account copies (`~/.claude/skills/synced/` in a cloud container) on every validation.

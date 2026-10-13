@@ -1,0 +1,53 @@
+# P1 integrity sweep — 2026-10-13T05:56:38Z
+## heads
+claude-core-skills: claude/trusting-curie-d2ft62 89fbfe2 dirty=1
+fantasy-basketball-2026-27: claude/governance-pack-2026-10-13 04ed20e dirty=0
+yahoo-fantasy-basketball: claude/governance-pack-2026-10-13 9586c7d dirty=0
+## guard
+== RESULT: PASS ==
+assertions ok: 40
+## self-tests per location
+/home/user/claude-core-skills/hooks | classify: == 27 passed, 0 failed == | receipt: == 10 passed, 0 failed == | wrapper: n/a
+/home/user/claude-core-skills/plugin/core-governance/scripts | classify: == 27 passed, 0 failed == | receipt: == 10 passed, 0 failed == | wrapper: == 9 passed, 0 failed ==
+/home/user/fantasy-basketball-2026-27/hooks | classify: == 27 passed, 0 failed == | receipt: == 10 passed, 0 failed == | wrapper: n/a
+/home/user/yahoo-fantasy-basketball/hooks | classify: == 27 passed, 0 failed == | receipt: == 10 passed, 0 failed == | wrapper: n/a
+/root/.claude/plugins/synced/9587cd04-935a-44c9-8ae7-1ecd0ed9397c_34d96f17-c2f3-4cf1-b91c-7d808be44f96/core-governance/scripts | classify: == 27 passed, 0 failed == | receipt: == 10 passed, 0 failed == | wrapper: == 9 passed, 0 failed ==
+## sha256 matrix (9 hook files x 5 locations)
+file                                   library   plugin    kit       deck      synced   
+govclass.py                            c3f17ac8  c3f17ac8  c3f17ac8  c3f17ac8  c3f17ac8 
+governance-trigger.py                  603cc8fc  603cc8fc  603cc8fc  603cc8fc  603cc8fc 
+governance-enforce.py                  7cd7f1ed  7cd7f1ed  7cd7f1ed  7cd7f1ed  7cd7f1ed 
+session-doctrine.sh                    2606435e  2606435e  2606435e  2606435e  2606435e 
+plan-gate-first-write-reminder.sh      c948c996  c948c996  c948c996  c948c996  c948c996 
+scope-fence-reminder.sh                e182a54e  e182a54e  e182a54e  e182a54e  e182a54e 
+receipt-law-stop-gate.sh               97741f43  97741f43  97741f43  97741f43  97741f43 
+selftest-governance-classify.py        62302bfb  62302bfb  62302bfb  62302bfb  62302bfb 
+selftest-receipt-law.sh                3b5060e8  3b5060e8  3b5060e8  3b5060e8  3b5060e8 
+wrapper: plugin 41bd26a2 synced 41bd26a2; hooks.json plugin db784207 synced db784207; plugin.json plugin 7f61ac18 synced 7f61ac18
+## settings.json identity
+claude-core-skills: 98fb13cd
+fantasy-basketball-2026-27: 98fb13cd
+yahoo-fantasy-basketball: 98fb13cd
+## doctrine block equality (normalised)
+claude-core-skills CLAUDE.md block == canonical: True
+fantasy-basketball-2026-27 CLAUDE.md block == canonical: True
+yahoo-fantasy-basketball CLAUDE.md block == canonical: True
+## plugin validate (repo + synced)
+√ Validation passed
+√ Validation passed
+√ Validation passed
+## account-synced skills vs branch (parsed frontmatter + normalised body)
+plan-gate            description equal=True body equal=True synced_body_chars=14431 branch_body_chars=14431
+scope-fence          description equal=True body equal=True synced_body_chars=8100 branch_body_chars=8100
+gauntlet             description equal=True body equal=True synced_body_chars=9269 branch_body_chars=9269
+adversarial-verify   description equal=True body equal=False synced_body_chars=12353 branch_body_chars=14093
+after-report         description equal=True body equal=True synced_body_chars=8783 branch_body_chars=8783
+brand-standard       description equal=False body equal=True synced_body_chars=7350 branch_body_chars=7350
+application-tailor   description equal=True body equal=True synced_body_chars=5961 branch_body_chars=5961
+aba-stimulus-deck    description equal=True body equal=True synced_body_chars=7455 branch_body_chars=7455
+## lint every library skill
+lint: 21/21 PASS
+## instructions block (file) measured
+chars=6688
+## this session's injected preferences = new block?
+(session-start snapshot; cannot reflect a re-paste made after 2026-10-09 22:34 — see P7 / owner check)

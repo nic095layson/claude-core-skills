@@ -1,0 +1,7 @@
+{
+ "notif-after-governed-noload": "ALLOW",
+ "sysnotif-after-governed-noload": "ALLOW",
+ "notif-after-governed-loaded-before": "ALLOW",
+ "trivia-then-notif": "ALLOW",
+ "governed-noload-plain": "BLOCK"
+}

@@ -1,0 +1,16 @@
+# Guard seeded-defect check (does the guard FAIL when the enforcement pack is broken?) — 2026-10-13T06:59:09Z
+-- seed: unwire-trigger
+  FAIL  enforcement pack: .claude/settings.json missing or unwired
+== RESULT: FAIL ==
+-- seed: drift-plugin-copy
+  FAIL  plugin parity: plugin/core-governance/scripts/govclass.py differs from hooks/govclass.py (or is missing)
+== RESULT: FAIL ==
+-- seed: break-fixture
+  FAIL  enforcement pack: classifier fixture FAILS (run hooks/selftest-governance-classify.py)
+  FAIL  plugin parity: plugin/core-governance/scripts/governance-enforce.py differs from hooks/governance-enforce.py (or is missing)
+== RESULT: FAIL ==
+
+# session-doctrine.sh pipe tests (resume and compact branches)
+source=resume -> {"hookSpecificOutput":{"hookEventName":"SessionStart","additionalContext":"Resumed session (from the project's operating rules): governors are loaded per task, 
+source=compact -> {"hookSpecificOutput":{"hookEventName":"SessionStart","additionalContext":"Post-compaction protocol (from the project's operating rules). (1) Governor text that
+source=startup -> 
