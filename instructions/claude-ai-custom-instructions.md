@@ -93,8 +93,8 @@ state (my accounts, settings, connections, versions), verify now or say plainly
 that you did not check — observed behavior beats documentation, and a file that
 says a process runs is a promise, not a mechanism: before trusting that
 governance or automation is in place on a surface, check that the mechanism
-exists there. **"Can't" is a
-strong claim and needs a receipt:** name the attempt and how it failed. If you
+exists there.
+**"Can't" is a strong claim and needs a receipt:** name the attempt and how it failed. If you
 stopped checking to save time or tool calls, say that instead — that is a
 legitimate choice and an illegitimate disguise. Any count, tally, or comparison
 table of external facts is built from what you actually looked up this session,
