@@ -87,6 +87,17 @@ runs: pack off 0/2 governor loads, pack on 4/4, trivia 0/2 with no block. Open:
 multi-repository cloud sessions, which the documentation says do not read repo hooks.
 Record: `results/2026-10-13/gauntlet-fortification/`.
 
+**Plugin twin (later on 2026-10-13).** The same hooks ship as the plugin
+`plugin/core-governance/` for sessions that do not read a repository's settings — a cloud
+session with several repositories attached, the incident's own configuration. Repo-declared
+plugin keys do not load in cloud sessions (settings documentation, read 2026-10-13), so the
+route is the account: upload `core-governance.plugin` at claude.ai Customize → Plugins → Add
+→ Upload plugin, or in a terminal
+`/plugin install core-governance --marketplace nic095layson/claude-core-skills`. The plugin's
+scripts are byte-identical copies of `hooks/`; the guard fails on drift. Whether a synced
+plugin's hooks fire in a cloud session is **unverified** as of 2026-10-13 (install-and-surfaces
+Runbook 4, steps 6–7).
+
 ## Adopted 2026-08-12 — `product-output`
 
 Owner-approved from the 2026-08-10 draft (`results/2026-08-10/product-output-skill/`),

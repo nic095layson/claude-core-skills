@@ -1,0 +1,13 @@
+{
+  "name": "core-skills",
+  "owner": { "name": "nic095layson", "url": "https://github.com/nic095layson" },
+  "description": "Plugins from nic095layson/claude-core-skills, the governance library.",
+  "plugins": [
+    {
+      "name": "core-governance",
+      "source": "./plugin/core-governance",
+      "description": "The governance enforcement pack as a plugin: classifier trigger, Stop gate, first-write reminders, receipt-law gate, post-compaction protocol.",
+      "category": "governance"
+    }
+  ]
+}

@@ -153,5 +153,29 @@ def blk(p):
 a=blk('instructions/project-doctrine-block.md'); b=blk('CLAUDE.md'); sys.exit(0 if a and a==b else 1)
 PY
 
+# --- 9. Plugin twin of the pack (INC-2026-10-13-01, later the same day) --------
+# plugin/core-governance/scripts/* are copies of hooks/*. Two packs that disagree is the
+# drift failure this ledger keeps recording; a copy that drifts fails here.
+pp=0
+for f in govclass.py governance-trigger.py governance-enforce.py session-doctrine.sh plan-gate-first-write-reminder.sh scope-fence-reminder.sh receipt-law-stop-gate.sh selftest-governance-classify.py selftest-receipt-law.sh; do
+  cmp -s "hooks/$f" "plugin/core-governance/scripts/$f" || { bad "plugin parity: plugin/core-governance/scripts/$f differs from hooks/$f (or is missing)"; pp=1; }
+done
+[ "$pp" -eq 0 ] && ok "plugin parity: 9 scripts byte-identical to hooks/"
+python3 - <<'PY2' 2>/dev/null && ok "plugin: hooks.json wrapped in \"hooks\", every command via \${CLAUDE_PLUGIN_ROOT} and the defer wrapper" || bad "plugin: hooks/hooks.json missing, unwrapped, or a command bypasses run-unless-project-wired.sh"
+import json
+h=json.load(open('plugin/core-governance/hooks/hooks.json'))['hooks']
+cmds=[x['command'] for e in ('SessionStart','UserPromptSubmit','PreToolUse','Stop') for g in h[e] for x in g['hooks']]
+assert len(cmds)==6 and all('${CLAUDE_PLUGIN_ROOT}' in c and 'run-unless-project-wired.sh' in c for c in cmds)
+for need in ('governance-trigger.py','governance-enforce.py','session-doctrine.sh','receipt-law-stop-gate.sh','plan-gate-first-write-reminder.sh','scope-fence-reminder.sh'):
+    assert any(need in c for c in cmds), need
+PY2
+[ -x plugin/core-governance/scripts/run-unless-project-wired.sh ] && ok "plugin: defer wrapper present and executable" || bad "plugin: scripts/run-unless-project-wired.sh missing or not executable"
+if command -v claude >/dev/null 2>&1; then
+  claude plugin validate --strict plugin/core-governance >/dev/null 2>&1 && ok "plugin: claude plugin validate --strict passes" || bad "plugin: claude plugin validate --strict FAILS"
+  claude plugin validate --strict . >/dev/null 2>&1 && ok "marketplace: claude plugin validate --strict passes" || bad "marketplace: .claude-plugin/marketplace.json validate --strict FAILS"
+else
+  ok "plugin/marketplace validate: SKIPPED — no claude CLI on this machine (parity and shape still checked above)"
+fi
+
 echo "== RESULT: $([ $FAIL -eq 0 ] && echo PASS || echo FAIL) =="
 exit $FAIL

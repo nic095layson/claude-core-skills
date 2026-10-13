@@ -13,7 +13,11 @@
 > `results/2026-10-13/gauntlet-fortification/`. The status lines below each hook are
 > the history that led here and are left as written; where they say "NOT installed",
 > read "installed at project scope 2026-10-13". Multi-repository cloud sessions do not
-> read repo hooks (see install-and-surfaces Runbook 4). Ledger: INC-2026-10-13-01.
+> read repo hooks; for them the same seven hooks ship as the plugin
+> `plugin/core-governance/` (built later on 2026-10-13, enabled on the claude.ai account
+> rather than from repo settings — the settings keys do not load in cloud sessions; see
+> install-and-surfaces Runbook 4, steps 6–7). The plugin's `scripts/` are byte-identical
+> copies of this directory; the guard fails on drift. Ledger: INC-2026-10-13-01.
 
 ## session-doctrine.sh (shipped 2026-10-13)
 

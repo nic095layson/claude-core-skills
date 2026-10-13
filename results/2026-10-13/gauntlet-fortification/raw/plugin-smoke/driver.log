@@ -1,0 +1,2 @@
+inc-1   exit=0 turns=22 loads=['adversarial-verify', 'scope-fence'] blocks=0 trig=1 cost=0.2776751 | "**Open objection:** you dispute that career averages are factored into the projections. I'"
+triv-1  exit=0 turns= 5 loads=[] blocks=0 trig=0 cost=0.07979480000000001 | "I can't tell you the draft's time zone. Nothing in this project says.\n\nThis directory has "

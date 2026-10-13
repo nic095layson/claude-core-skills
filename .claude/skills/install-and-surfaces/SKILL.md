@@ -115,20 +115,36 @@ INC-2026-10-13-01). What a cloud session *does* read is the repository: its
    file being written — the harness read the project settings live.) Commit the
    three pieces together; a pack half-copied is a promise with no mechanism.
 
-**Multi-repository cloud sessions — the pack does not run.** In an
-Anthropic-hosted session with several repositories attached, the session starts
-above the clones and reads only `enabledPlugins` and `extraKnownMarketplaces` from
-each repo's settings, not hooks (same documentation page). That is exactly the
-incident's configuration (kit + deck in one session). There the carriers are the
-`CLAUDE.md` block (still read) and, for enforcement, the **plugin route**: package
-the pack as a Claude Code plugin (`.claude-plugin/plugin.json` + `hooks/hooks.json`,
-hooks referenced through `${CLAUDE_PLUGIN_ROOT}`), publish it from a marketplace
-(a GitHub repository can be one), and enable it from each repo's
-`.claude/settings.json` via `enabledPlugins` + `extraKnownMarketplaces`. Plugin
-hooks merge with settings hooks (plugin manifest reference, read 2026-10-13).
-**Not built as of 2026-10-13** — proposed in
-`results/2026-10-13/gauntlet-fortification/REPORT.md`; verify on a live
-multi-repo session before trusting it.
+**Multi-repository cloud sessions — the pack does not run; the plugin does, by a
+different door.** In an Anthropic-hosted session with several repositories attached,
+the session starts above the clones and reads only `enabledPlugins` and
+`extraKnownMarketplaces` from each repo's settings, not hooks — and the same page
+adds that "the marketplaces and plugins those two keys declare still don't load in a
+cloud session" (settings documentation, read 2026-10-13; the plugin loading reference
+gives the reason: adding a repository-declared marketplace needs the workspace trust
+dialog, which a cloud session never shows). So repo settings carry nothing there. The
+first draft of this runbook (same day, earlier) proposed exactly that route from the
+first sentence alone and was wrong; this paragraph supersedes it. That was the
+incident's configuration (kit + deck in one session). What a cloud session does load
+is the **account**: skills and plugins enabled on claude.ai arrive as synced copies
+(observed 2026-10-13 in the authoring container — `claude plugin list` shows a
+claude.ai plugin `loaded`; the governors sit under `~/.claude/skills/synced/`). The
+pack is therefore also packaged as the plugin `plugin/core-governance/` (built
+2026-10-13; `claude plugin validate --strict` clean; `--plugin-dir` smoke in
+`results/2026-10-13/gauntlet-fortification/raw/plugin-smoke/`; its scripts are
+byte-identical copies of `hooks/`, guarded):
+
+6. **Upload the plugin to the account.** Package it per
+   `plugin/core-governance/README.md` ("Package for upload"), then on claude.ai:
+   Customize → Plugins → Add → Upload plugin. It syncs into terminal, Cowork and
+   cloud sessions signed in to that account. Its wrapper yields to a repo that
+   already wires the pack, so a single-repo session runs nothing twice.
+7. **Verify on the surface that failed:** a cloud session with the kit and the deck
+   both attached — `claude plugin list` must show `core-governance@synced` loaded,
+   and a disputed question must produce the "Governance auto-trigger" line.
+   **Unverified as of 2026-10-13:** a synced plugin's hooks firing in a cloud
+   session — documented for terminal sessions, observed nowhere yet. Until that
+   observation exists, ledger INC-2026-10-13-01 stays OPEN.
 
 ## The environment-boundary rules (what does NOT carry)
 

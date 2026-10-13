@@ -1,0 +1,54 @@
+# Hook-source attribution for the --plugin-dir smoke (2026-10-13)
+# One-turn headless run, trivia prompt, --debug-file. Lines matching hook|plugin|settings.json, verbatim.
+# Zero lines name claude-core-skills/.claude/settings.json: the library's project settings were not read from the scratch subdirectory.
+
+2026-10-13T01:33:47.362Z [DEBUG] Broken symlink or missing file encountered for settings.json at path: /root/.claude/settings.json
+2026-10-13T01:33:47.365Z [DEBUG] Broken symlink or missing file encountered for settings.json at path: /etc/claude-code/managed-settings.json
+2026-10-13T01:33:47.366Z [DEBUG] Broken symlink or missing file encountered for settings.json at path: /root/.claude/settings.json
+2026-10-13T01:33:47.367Z [DEBUG] Broken symlink or missing file encountered for settings.json at path: /tmp/claude-0/-home-user-claude-core-skills/ff01f16c-7b3f-5ea5-8051-7a95ac7cd1d1/scratchpad/attrib/.claude/settings.json
+2026-10-13T01:33:47.368Z [DEBUG] Broken symlink or missing file encountered for settings.json at path: /tmp/claude-0/-home-user-claude-core-skills/ff01f16c-7b3f-5ea5-8051-7a95ac7cd1d1/scratchpad/attrib/.claude/settings.local.json
+2026-10-13T01:33:47.520Z [DEBUG] clearPluginCache: invalidating loadAllPlugins cache (preAction: --plugin-dir inline plugins)
+2026-10-13T01:33:47.608Z [DEBUG] --plugin-dir /home/user/claude-core-skills/plugin/core-governance is one plugin: .claude-plugin at its top marks it
+2026-10-13T01:33:47.654Z [DEBUG] Broken symlink or missing file encountered for settings.json at path: /root/.claude/settings.json
+2026-10-13T01:33:47.654Z [DEBUG] Broken symlink or missing file encountered for settings.json at path: /tmp/claude-0/-home-user-claude-core-skills/ff01f16c-7b3f-5ea5-8051-7a95ac7cd1d1/scratchpad/attrib/.claude/settings.json
+2026-10-13T01:33:47.654Z [DEBUG] Broken symlink or missing file encountered for settings.json at path: /tmp/claude-0/-home-user-claude-core-skills/ff01f16c-7b3f-5ea5-8051-7a95ac7cd1d1/scratchpad/attrib/.claude/settings.local.json
+2026-10-13T01:33:47.654Z [DEBUG] Broken symlink or missing file encountered for settings.json at path: /etc/claude-code/managed-settings.json
+2026-10-13T01:33:47.686Z [DEBUG] Read hooks.json for plugin core-governance (enabled=true): /home/user/claude-core-skills/plugin/core-governance/hooks/hooks.json
+2026-10-13T01:33:47.686Z [DEBUG] Remote settings: Saved to /root/.claude/remote-settings.json
+2026-10-13T01:33:47.689Z [DEBUG] Broken symlink or missing file encountered for settings.json at path: /etc/claude-code/managed-settings.json
+2026-10-13T01:33:47.689Z [DEBUG] Broken symlink or missing file encountered for settings.json at path: /root/.claude/settings.json
+2026-10-13T01:33:47.690Z [DEBUG] Broken symlink or missing file encountered for settings.json at path: /tmp/claude-0/-home-user-claude-core-skills/ff01f16c-7b3f-5ea5-8051-7a95ac7cd1d1/scratchpad/attrib/.claude/settings.json
+2026-10-13T01:33:47.690Z [DEBUG] Broken symlink or missing file encountered for settings.json at path: /tmp/claude-0/-home-user-claude-core-skills/ff01f16c-7b3f-5ea5-8051-7a95ac7cd1d1/scratchpad/attrib/.claude/settings.local.json
+2026-10-13T01:33:47.691Z [DEBUG] Plugin hooks: skipping reload, plugin-affecting settings unchanged
+2026-10-13T01:33:47.708Z [DEBUG] Loading hooks from plugin: core-governance
+2026-10-13T01:33:47.721Z [DEBUG] cc-plugin-telemetry: hooks telemetry for: anthropic, collector
+2026-10-13T01:33:47.724Z [DEBUG] hooks module cc-plugin-agents-md@builtin loaded (native, environment 1, tier builtin); events: session.start,prompt.context,command.run,session.compact,prompt.submit,turn.start,turn.complete,agent.spawn,tool.call,prompt.mention
+2026-10-13T01:33:47.729Z [DEBUG] hooks module cc-plugin-telemetry@builtin engine.create settled in 1.7ms (native hop, next() included)
+2026-10-13T01:33:47.734Z [DEBUG] Registered 6 hooks from 5 plugins
+2026-10-13T01:33:47.887Z [DEBUG] Broken symlink or missing file encountered for settings.json at path: /etc/claude-code/managed-settings.json
+2026-10-13T01:33:47.888Z [DEBUG] Broken symlink or missing file encountered for settings.json at path: /root/.claude/settings.json
+2026-10-13T01:33:47.888Z [DEBUG] Broken symlink or missing file encountered for settings.json at path: /tmp/claude-0/-home-user-claude-core-skills/ff01f16c-7b3f-5ea5-8051-7a95ac7cd1d1/scratchpad/attrib/.claude/settings.json
+2026-10-13T01:33:47.888Z [DEBUG] Broken symlink or missing file encountered for settings.json at path: /tmp/claude-0/-home-user-claude-core-skills/ff01f16c-7b3f-5ea5-8051-7a95ac7cd1d1/scratchpad/attrib/.claude/settings.local.json
+2026-10-13T01:33:47.932Z [DEBUG] hooks module cc-plugin-telemetry@builtin session.start settled in 5.8ms (native link, next() included)
+2026-10-13T01:33:47.934Z [DEBUG] hooks module cc-plugin-agents-md@builtin session.start settled in 8.6ms (native link, next() included)
+2026-10-13T01:33:47.986Z [DEBUG] hooks module cc-plugin-agents-md@builtin prompt.context settled in 4.4ms (native link, next() included)
+2026-10-13T01:33:48.012Z [DEBUG] Watching for changes in setting files /root/.claude/settings.json...
+2026-10-13T01:33:48.429Z [DEBUG] --plugin-dir /home/user/claude-core-skills/plugin/core-governance is one plugin: .claude-plugin at its top marks it
+2026-10-13T01:33:48.430Z [DEBUG] --plugin-dir /home/user/claude-core-skills/plugin/core-governance is one plugin: .claude-plugin at its top marks it
+2026-10-13T01:33:48.438Z [DEBUG] Read hooks.json for plugin core-governance (enabled=true): /home/user/claude-core-skills/plugin/core-governance/hooks/hooks.json
+2026-10-13T01:33:48.438Z [DEBUG] Read hooks.json for plugin core-governance (enabled=true): /home/user/claude-core-skills/plugin/core-governance/hooks/hooks.json
+2026-10-13T01:33:48.449Z [DEBUG] Loading hooks from plugin: core-governance
+2026-10-13T01:33:48.451Z [DEBUG] cc-plugin-telemetry: hooks telemetry for: anthropic, collector
+2026-10-13T01:33:48.452Z [DEBUG] hooks modules unchanged, kept as loaded: cc-plugin-agents-md, cc-plugin-telemetry
+2026-10-13T01:33:48.452Z [DEBUG] Registered 6 hooks from 5 plugins
+2026-10-13T01:33:48.453Z [DEBUG] refreshActivePlugins: 5 enabled, 0 commands, 2 skills, 6 agents, 6 hooks, 0 MCP, 0 LSP
+2026-10-13T01:33:48.519Z [DEBUG] Hooks: Found 0 total hooks in registry
+2026-10-13T01:33:48.520Z [DEBUG] Hooks: checkForNewResponses returning 0 responses
+2026-10-13T01:33:48.612Z [DEBUG] Hooks: UserPromptSubmit [bash "/home/user/claude-core-skills/plugin/core-governance"/scripts/run-unless-project-wired.sh governance-trigger.py] (plugin core-governance@inline) finished with status 0 (74ms)
+2026-10-13T01:33:48.612Z [DEBUG] Hook output does not start with {, treating as plain text
+2026-10-13T01:33:48.648Z [DEBUG] hooks module cc-plugin-agents-md@builtin turn.start settled in 6.7ms (native link, next() included)
+2026-10-13T01:33:48.648Z [DEBUG] hooks module cc-plugin-agents-md@builtin prompt.submit settled in 114.1ms (native link, next() included)
+2026-10-13T01:33:52.806Z [DEBUG] Hooks: Found 0 total hooks in registry
+2026-10-13T01:33:52.808Z [DEBUG] Hooks: checkForNewResponses returning 0 responses
+2026-10-13T01:33:52.823Z [DEBUG] hooks module cc-plugin-agents-md@builtin turn.complete settled in 0.4ms (native link, next() included)
+2026-10-13T01:33:52.958Z [DEBUG] hooks module cc-plugin-telemetry@builtin session.end settled in 115.2ms (native link, next() included)
