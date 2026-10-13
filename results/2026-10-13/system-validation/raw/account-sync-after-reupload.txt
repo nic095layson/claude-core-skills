@@ -55,3 +55,12 @@ brand-standard SKILL.md mtime 2026-10-13 16:40:34.263495597 +0000
 ## skills manifest entries
 {"name": "brand-standard", "skillId": "skill_01UvarkeKGCEaAeaPTimz1ct", "updatedAt": "2026-10-13T16:40:32.491028Z"}
 {"name": "adversarial-verify", "skillId": "skill_01X1RPixWaNftH1YJr6ofQPW", "updatedAt": "2026-10-13T16:40:28.502604Z"}
+
+## Note appended 2026-10-13 16:55 UTC (after three refuters reviewed this record)
+The section headed "sha256 of the 9 hook files" lists 13 rows, not 9: hooks/hooks.json, 11 scripts,
+and one compiled cache file (scripts/__pycache__/govclass.cpython-313.pyc). The cache file is not in
+the repository; its "repo" hash above came from the working tree's own cache, so its DIFF row means
+nothing about the upload. Every source file in the synced 0.1.1 folder (12 rows) is identical to the
+repository's plugin/core-governance/ at 14b3da3, which is also the plugin's state at 5ca7cd0. "Nine"
+was the count of hook scripts shared with hooks/ (the p1-integrity.txt set); the two plugin-only
+wrapper scripts and hooks.json were measured here too. The captured lines above are unchanged.

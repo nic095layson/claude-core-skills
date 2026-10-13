@@ -57,7 +57,7 @@ independent refuters; their findings and what changed are in §8.
 | P4b gate false-allow | **fix ADOPTED** — red-first 2/2, controls unchanged, fixture 30/30 | `raw/p4b/`, `hooks/selftest-governance-classify.py` |
 | P5 behavior | **FAIL** on a strict count (pack 1/3); INCONCLUSIVE if a run with no analysis command counts | `raw/p5-behavioral-regrade-redacted.json` |
 | P6 triggering | **FAIL** by the letter (one cell, §3.6) | `raw/p6-trigger-regression.json`, `raw/live/trig/` |
-| P7 fresh surface | trigger test **INCONCLUSIVE** (as pre-registered for a harness-labelled prompt); plugin absent | `raw/p7-probe-session-events.json`, `raw/p7-probe-session-record.json` |
+| P7 fresh surface | trigger test **INCONCLUSIVE** (as pre-registered for a harness-labelled prompt); plugin absent in the API-created probe. *Update 16:45 UTC: present in a fresh web-started session with one repository (owner check, N=1); the trigger test there is unrun, so the verdict stands* | `raw/p7-probe-session-events.json`, `raw/p7-probe-session-record.json`, `raw/p7-owner-fresh-session-plugin-list.png` |
 
 ## 2. What changed
 
@@ -243,7 +243,8 @@ Archived after. Records: `raw/p7-probe-session-events.json`.
 | Cloud session, one repository carrying the pack | yes (re-paste reported by the probe) | yes | **yes** (observed 01:37) | INFERENCE: yes once synced, duplicate trigger line (D-GF-9); not observed |
 | Cloud session, several repositories | this session holds the 2026-10-09 snapshot | yes | **no** (observed 05:33) | **yes**, in this session after the upload (observed 05:45) |
 | Fresh cloud session, API-created | yes (probe-reported) | yes | n/a (kit `main`) | **no** (observed, N=1) |
-| Fresh cloud session, created from claude.ai/code | not checked in that session | not checked in that session | not checked | **yes**: 0.1.1 listed loaded (owner check D-SV-4, after the 16:40 UTC upload, N=1, `raw/p7-owner-fresh-session-plugin-list.png`); a hook firing there not observed |
+| Fresh cloud session from claude.ai/code, one repository | not checked there | not checked there | n/a (that repository's `main` has no pack) | **yes**: 0.1.1 listed loaded at 16:41:57 UTC (owner check D-SV-4, `session_01JxN1v7cLEeRimQPJ8sQxFA`, screenshot in `raw/`; N=1); a hook firing there not observed |
+| Fresh cloud session from claude.ai/code, several repositories (the incident's configuration) | — | — | no (observed 05:33 in the running case) | INFERENCE from the rows above; **not observed directly** |
 | claude.ai chat | not checked | yes, two stale | n/a | n/a (no hooks on that surface) |
 
 ## 5. Bounds
@@ -259,7 +260,9 @@ Archived after. Records: `raw/p7-probe-session-events.json`.
   opens the web interface; the API-created probe in §3.7 is a different origin). **Resolved 2026-10-13
   16:45 UTC by the owner check (§6):** the plugin is listed loaded there, N=1. What remains
   `NOT-ATTEMPTED` in such a session is the trigger line on a governed prompt; the check message was
-  not governed. Not load-bearing for any verdict above.
+  not governed. That gap is load-bearing for P7, which therefore stays INCONCLUSIVE, and for nothing
+  else. A fresh web-started session with several repositories attached: `NOT-ATTEMPTED` (the
+  owner's session had one).
 - A synced plugin's trigger line on a governed prompt in a several-repository session: `NOT-ATTEMPTED`
   as a live prompt (the owner's two prompts after the sync were not classified as governed); the hooks
   running there is observed.
@@ -280,7 +283,7 @@ Archived after. Records: `raw/p7-probe-session-events.json`.
 | D-SV-1 | **DONE 2026-10-13 16:40 UTC** — both skills re-uploaded; synced bodies sha256-identical to the library (`raw/account-sync-after-reupload.txt`) | — |
 | D-SV-2 | **DONE 2026-10-13 16:40 UTC** — plugin 0.1.1 uploaded (manifest generation 2); synced hook files sha256-identical to the repo; 0.1.0 folder marked stale | — |
 | D-SV-3 | Classifier: (a) keep the current one; (b) adopt the round-2 candidate despite the bar (recall 14→23/36, false enforcement 6→2/36; 3 lost positives, 1 new false enforcement); (c) design change: an advisory cue on every owner prompt that is not harness text or a one-line acknowledgement, with the classifier used only for blocking | (a) |
-| D-SV-4 | **DONE 2026-10-13, after the 16:40 UTC upload** — the owner's fresh claude.ai/code session listed `core-governance@synced` 0.1.1 loaded (`raw/p7-owner-fresh-session-plugin-list.png`, N=1); INC-2026-10-13-01 FIXED as to the mechanism | — |
+| D-SV-4 | **DONE 2026-10-13 16:41 UTC** — the owner's fresh claude.ai/code session, one repository attached, listed `core-governance@synced` 0.1.1 loaded (`raw/p7-owner-fresh-session-plugin-list.png`, `session_01JxN1v7cLEeRimQPJ8sQxFA`, N=1); INC-2026-10-13-01 FIXED by its stated condition. Optional follow-up: the same check in a fresh session with the kit and the deck both attached, then the 23:41 incident text there to look for the trigger line | — |
 | D-SV-5 | The trivial-request block: (a) make the gate accept a one-line triviality skip, which the trigger line already invites; (b) remove that clause from the trigger line; (c) exempt one-step requests in the classifier, under the adoption rule | not changed; the gate can block a trivial request the model correctly skipped |
 | D-SV-6 | Merge PR 24, PR 105, PR 106 (supersedes D-GF-11) | unmerged |
 | D-SV-7 | `ledger-recount-reminder.sh`: wire it, or retire it with its governor | left unwired; the READMEs now say so |
@@ -307,7 +310,8 @@ Produced in session `session_01AYc6fhZNmvyoAQ67RgbJuK` on `claude-opus-5-5`. Com
 plugin-off checks ($0.22, `raw/verification/plugin-off-check/`). Probe session
 `session_012cD9g1BptDy557rw4kjuRR`, $1.22 per its result events (`raw/p7-probe-session-events.json`),
 archived. Workflows: held-out set (4 agents), owner-record labels (2), grading and set C (6), report
-refutation (5), redacted re-grade (2); scripts in `raw/workflows/`. Documentation sources as quoted in
+refutation (5), redacted re-grade (2), fresh-session record refutation (3); scripts in
+`raw/workflows/`. Documentation sources as quoted in
 `results/2026-10-13/gauntlet-fortification/REPORT.md` and Runbook 4 (read 2026-10-13).
 Re-verify: `bash .claude/skills/diagnostics-and-tooling/scripts/guard_essentials.sh`;
 `python3 results/2026-10-13/system-validation/raw/score_classifier.py hooks results/2026-10-13/system-validation/raw/heldout-set-C.json C`.
@@ -358,6 +362,17 @@ ledger entries INC-2026-10-13-01/02/03 carry dated updates. The screenshot is an
 of a session this container did not observe (EVIDENCE as a record, N=1); the sync state is this
 container's own observation. That session also noted that no skills appear under a
 `core-governance:` prefix, which is correct: the plugin ships hooks only.
+
+**Third pass (16:55 UTC): three read-only refuters on the lines above
+(`raw/workflows/refute-fresh-session-record.js`), 10 findings, none refuted.** All three caught the
+same overclaim, "observed on every surface tested", which ignored the API-created probe where the
+plugin was absent; now "three of four". One refuter read the owner's session record and found it had
+a single repository attached, so the incident's configuration (fresh, several repositories) is still
+not observed directly; the ledger, §4 and §5 now say so. Wording: the sync record's "9 hook files"
+heading lists 13 rows (note appended to the record); "FIXED everywhere observed" implied the library
+copy had landed while all three PRs are open drafts; the P7 row lacked the update; the §5 gap was
+called not load-bearing when it is what P7 waits on. The refuters confirmed every hash, version and
+time in the changed lines against the live synced folders and the repo at `14b3da3`.
 
 ## In plain language
 

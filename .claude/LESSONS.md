@@ -1175,11 +1175,17 @@ unmerged branch defeats it exactly.**
   from claude.ai/code ran `claude plugin list` and listed `core-governance@synced`, version 0.1.1,
   status loaded (owner screenshot,
   `results/2026-10-13/system-validation/raw/p7-owner-fresh-session-plugin-list.png`; N=1). The
-  mechanism is now observed on every surface tested: a single-repository session (the pack), a running
-  several-repository session (the plugin, 05:45) and a fresh web-started session (the plugin, 0.1.1).
-  Status: **FIXED** as to the mechanism. Still unmeasured, not a blocker on this entry: the trigger
-  line on a governed prompt in a fresh web-started session (the owner's check message was not a
-  governed prompt), and the API-created-session absence (N=1) stands as its own observation.
+  session's own record (`session_01JxN1v7cLEeRimQPJ8sQxFA`, read through the remote-session API at
+  16:52 UTC) shows origin `web_claude_ai`, created 16:41:41 UTC, **one repository attached**
+  (`claude-core-skills`), the command run at 16:41:57 UTC. A loading mechanism is now observed on
+  three of the four surfaces tested: a single-repository session (the pack), a running
+  several-repository session (the plugin, 05:45) and a fresh web-started single-repository session
+  (the plugin, 0.1.1). The fourth, a fresh API-created session, had no plugin (N=1, §3.7 of the
+  report). Status: **FIXED** by this entry's stated closing condition. The incident's exact
+  configuration, a fresh web-started session with several repositories, has not been observed
+  directly (N=0); that the account plugin loads there is INFERENCE from the two plugin
+  observations. Also unmeasured: the trigger line on a governed prompt in a fresh web-started
+  session (the owner's check message classifies as not governed).
 - **Lesson:** a `CLAUDE.md` that *says* governors run is a promise; check for the
   mechanism that loads them on the surface in question (`test -f ~/.claude/CLAUDE.md`,
   `cat .claude/settings.json`) before trusting it — and bind the classifier to the
@@ -1205,11 +1211,14 @@ unmerged branch defeats it exactly.**
   plugin carries the fix only after re-upload (owner decision D-SV-2).
 - **Status:** FIXED in the repositories; OPEN on the account until the 0.1.1 plugin is uploaded.
   **Update 2026-10-13 16:45 UTC:** uploaded. The account's plugin manifest shows the upload at
-  16:40:15 UTC (generation 2); it synced into the authoring session as a second folder whose nine hook
-  files are sha256-identical to `plugin/core-governance/` at `14b3da3`, with the 0.1.0 folder marked
-  stale; a fresh web-started session lists 0.1.1 loaded (INC-2026-10-13-01 update). Record:
-  `results/2026-10-13/system-validation/raw/account-sync-after-reupload.txt`. Status: **FIXED**
-  everywhere observed. The kit and deck copies land when PR 105 and PR 106 merge.
+  16:40:15 UTC (generation 2); it synced into the authoring session as a second folder whose every
+  source file (`hooks.json` and 11 scripts) is sha256-identical to `plugin/core-governance/` at
+  `14b3da3`, with the 0.1.0 folder marked stale; a fresh web-started session lists 0.1.1 loaded
+  (INC-2026-10-13-01 update). Record:
+  `results/2026-10-13/system-validation/raw/account-sync-after-reupload.txt` (its "9 hook files"
+  heading is explained in the note appended to it). Status: **FIXED** on the account, the one surface
+  that runs the gate today. The repository copies (library, kit, deck) land when PR 24, PR 105 and
+  PR 106 merge; all three are open drafts.
 - **Lesson:** anything that reads "the latest user message" from a transcript must skip harness-written
   user entries, not just the ones marked `isMeta` — the same class as the 2026-10-13 isMeta false block,
   in the other direction.

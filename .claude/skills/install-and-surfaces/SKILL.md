@@ -149,11 +149,12 @@ byte-identical copies of `hooks/`, guarded):
    Check a fresh session started from claude.ai/code with `claude plugin list`;
    until it shows `core-governance@synced` loaded, treat the instructions block
    and the account skills as the only carriers at the start of a new session.
-   **Observed 2026-10-13 16:45 UTC (owner check):** a fresh session started from
-   claude.ai/code listed `core-governance@synced` 0.1.1 loaded (N=1; ledger
-   INC-2026-10-13-01). The API-created session's absence stands as a separate
-   observation; a governed prompt's trigger line in a fresh web-started session
-   is still unobserved.
+   **Observed 2026-10-13 16:41 UTC (owner check, session record read through
+   the remote-session API):** a fresh session started from claude.ai/code with
+   one repository attached listed `core-governance@synced` 0.1.1 loaded (N=1;
+   ledger INC-2026-10-13-01). Not observed directly: a fresh web-started session
+   with several repositories, and a governed prompt's trigger line in any fresh
+   session. The API-created session's absence stands as a separate observation.
 8. **Compare the account copies on every validation.** In a cloud container the
    account's skills sit under `~/.claude/skills/synced/<id>/`; diff each against
    the library after parsing the frontmatter (claude.ai re-serializes it). The
