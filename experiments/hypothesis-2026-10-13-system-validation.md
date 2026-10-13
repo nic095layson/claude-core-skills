@@ -92,3 +92,44 @@ and P7 is INCONCLUSIVE, not FAIL.
 - Rewording descriptions to raise P6 rates (needs its own pre-registered wording A/B).
 - Toggling the shared synced plugin directory without a lock (INC-4 class).
 - Introspection ("would you load…") as evidence.
+
+---
+
+## Round-1 outcome for P4 (recorded 2026-10-13 06:12 UTC, before any round-2 work)
+
+Held-out set: 72 prompts (two blind authors, two blind labelers, top-label agreement 72/72; both
+labelers are the same model under the same written policy, so agreement measures policy clarity,
+not human agreement). Split rule fixed before further reading: A01–A11 (visible in the workflow's
+completion notice) and remaining odd ids → dev (41); remaining even ids → test (31), sealed.
+Owner records: 13 verbatim messages, labeled by two blind labelers, agreement 13/13.
+
+| classifier | dev recall | dev false-enf. | owner recall | owner false-enf. | test recall | test false-enf. |
+|---|---|---|---|---|---|---|
+| OLD (`c3f17ac8`) | 8/23 | 4/18 | 4/8 | 0/5 | 5/13 | 3/18 |
+| NEW-r1 frozen (`8f2caaf1`) | 22/23 | 0/18 | 8/8 | 0/5 | 5/13 | 1/18 |
+
+OLD fails P4 (recall below the predicted 40–70% band; false enforcement 17–22% vs ≤5%). NEW-r1 is
+**NOT ADOPTED**: test false enforcement 1/18 = 5.6% > 5%, and one test positive regresses (B04,
+which OLD caught only because "build" there names a roster build). Its dev gain did not transfer:
+test recall unchanged, misses are request shapes without a work verb.
+
+## Round 2 (pre-registered 2026-10-13, before the round-2 set exists)
+
+- Fresh sealed set C: same two author angles as round 1, new samples, 72 prompts, all sealed
+  test; two blind labelers plus adjudication. Development data for round 2 = round-1 dev + round-1
+  test + owner records (all now seen).
+- Adoption rule (unchanged, R2 made explicit): all 27 fixture checks pass unchanged; no lost
+  positive and no new false enforcement versus OLD on any set; recall on C ≥ OLD; false
+  enforcement on C ≤ 5%.
+- Prediction: NEW-r2 recall on C 45–65%; false enforcement ≤ 5% uncertain.
+- Cap: two rounds. If NEW-r2 fails, OLD stays, the measured ceiling is reported, and the owner
+  decides between keeping OLD, adopting a candidate that fails the bar, or a design change (an
+  advisory cue on every substantive prompt, with the classifier kept only for blocking).
+
+## P4b outcome (red-first, recorded 06:12 UTC)
+
+Reproduced: the OLD gate ALLOWS a governed, unloaded turn when a `<task-notification>` or a
+`[SYSTEM NOTIFICATION` user entry follows the owner's prompt (2 of 2 synthetic cases), and BLOCKS
+the same transcript without the notification. The fix (skip harness-marked user texts when locating
+the owner's prompt) is adopted only if those two cases flip to BLOCK and every existing fixture
+check is unchanged.
