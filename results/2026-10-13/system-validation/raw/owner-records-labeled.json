@@ -1,0 +1,359 @@
+{
+ "source": "owner's verbatim messages, both session transcripts; labeled by two blind agents under the written policy",
+ "agreement": "13/13",
+ "items": [
+  {
+   "id": "O00",
+   "split": "owner",
+   "text": "Hi Claude, I have an opportunity to take my career to the next level. As you know with my Cutting Edge project in Cowork, I work in the aerospace and defense industry. My company has been building a compliance and proposal writing, coaching AI system (in OpenAI). They've been dealing with a lot of hallucinations, errors, etc. \n\nI've prided myself in learning with Claude, and building process operational excellence through the Gauntlet protocol, skills I've implemented to you, and with how much we've refined the Fantasy Basketball tool. \n\nI'd like you to write for me a standardized, \"rules of engagement\", such as the Gauntlet protocol order of operations, the agreements and handshakes that the Fantasy Basketball tool follows (again, standardized, not specifically for basketball).\n\nCan you write these for me to showcase my AI operational process to my CEO? This could fundamentally change the trajectory of my career - and with the hopes - implement these principles, skills to  our company AI system (and hopefully even convince to transition to Claude) as my job primary role.\n\nPlease ask clarifying questions so that we can create an impressive resume and showcase of operational AI excellence that I've built alongside you in our journey.",
+   "ts": "2026-10-09T22:39",
+   "labeler1": {
+    "id": "O00",
+    "label": "GOVERNED",
+    "classes": [
+     "build"
+    ],
+    "reason": "Starts new non-trivial work: write a standardized 'rules of engagement' document to showcase to the CEO, a deliverable the owner will rely on for his career."
+   },
+   "labeler2": {
+    "id": "O00",
+    "label": "GOVERNED",
+    "classes": [
+     "build"
+    ],
+    "reason": "Starts new non-trivial work: write a standardized rules-of-engagement document to show the CEO, which is high-stakes for the owner's career."
+   },
+   "gold": {
+    "label": "GOVERNED",
+    "classes": [
+     "build"
+    ],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "O01",
+   "split": "owner",
+   "text": "This is excellent. I took an AI excellence seminar at Rivian and I wrote down stream of consciousness thoughts that lead my workings with you. Can I provide to you, and can you please include in this document?:\n\n* AI Is a force multiplier. How can we use AI to solve faster, smarter, and to scale?",
+   "ts": "2026-10-09T23:01",
+   "labeler1": {
+    "id": "O01",
+    "label": "GOVERNED",
+    "classes": [
+     "build"
+    ],
+    "reason": "Asks to add new content (his seminar notes) to the CEO document, which changes a deliverable."
+   },
+   "labeler2": {
+    "id": "O01",
+    "label": "GOVERNED",
+    "classes": [
+     "build"
+    ],
+    "reason": "Asks to add the owner's seminar notes to the document, which changes the deliverable in a substantive way."
+   },
+   "gold": {
+    "label": "GOVERNED",
+    "classes": [
+     "build"
+    ],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "O02",
+   "split": "owner",
+   "text": "Modernizing workflow:\n\n* 4 main areas of context for agent:\n   * Persona (You are project manager...)\n   * Task (delivering a report to CEO)\n   * Context\n   * Format\n* Workplace Intelligence and Knowledge base\n   * What are all the documents I have on ___ topic?\n\n--\n\nQuick note for you, Claude. If these fragments are something that you comprehend and can build off, to showcase my logic in building AI excellence and good practices, please feel free to elaborate",
+   "ts": "2026-10-09T23:03",
+   "labeler1": {
+    "id": "O02",
+    "label": "GOVERNED",
+    "classes": [
+     "build"
+    ],
+    "reason": "Gives more note fragments and also asks Claude to expand them into showcase content. That is new writing in the deliverable, not just passing along notes."
+   },
+   "labeler2": {
+    "id": "O02",
+    "label": "GOVERNED",
+    "classes": [
+     "build"
+    ],
+    "reason": "Adds more note fragments and asks Claude to expand on them, which is new writing that goes into the CEO-facing document."
+   },
+   "gold": {
+    "label": "GOVERNED",
+    "classes": [
+     "build"
+    ],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "O03",
+   "split": "owner",
+   "text": "* Generate insights on data across multiple documents\n* Data cleaning and charts\n\n\nAgent building - SKILLS\n\n* Providing context into \"how does something work\n   * building off initial draft to always look to improve context\n   * investigate - have agent use draft to fill gaps\n   * Find what works / doesn't work, and continuously update\n   * (CURATE) - Have agent write \"what did you learn, what can you make easier for next agent\". Have agent write final tool call\n   * Lead with description\n   * Keep Main file lean\n   * Explain why, don't command",
+   "ts": "2026-10-09T23:06",
+   "labeler1": {
+    "id": "O03",
+    "label": "CONTINUATION",
+    "classes": [],
+    "reason": "Only more note fragments for the inclusion task already under way. No new ask."
+   },
+   "labeler2": {
+    "id": "O03",
+    "label": "CONTINUATION",
+    "classes": [],
+    "reason": "More note fragments for the inclusion already under way. No new ask."
+   },
+   "gold": {
+    "label": "CONTINUATION",
+    "classes": [],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "O04",
+   "split": "owner",
+   "text": "Last note to include, then we send:\n\n\"3 habits that compound\"\n\n* Prompting\n* SKill Building\n* Collaboration",
+   "ts": "2026-10-09T23:09",
+   "labeler1": {
+    "id": "O04",
+    "label": "CONTINUATION",
+    "classes": [],
+    "reason": "The last fragment for the same inclusion task, plus a signal to finish ('then we send'). No new consequential work."
+   },
+   "labeler2": {
+    "id": "O04",
+    "label": "CONTINUATION",
+    "classes": [],
+    "reason": "The last fragment of the notes being included, plus a signal to wrap up the work in progress."
+   },
+   "gold": {
+    "label": "CONTINUATION",
+    "classes": [],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "O05",
+   "split": "owner",
+   "text": "Good morning Claude! Okay: Thank you for all this literature. Are you able to build out, visually, your operational logic, gates and checks in a process tree?",
+   "ts": "2026-10-12T18:42",
+   "labeler1": {
+    "id": "O05",
+    "label": "GOVERNED",
+    "classes": [
+     "build"
+    ],
+    "reason": "Starts a new deliverable: a visual process tree of the operational logic, gates and checks."
+   },
+   "labeler2": {
+    "id": "O05",
+    "label": "GOVERNED",
+    "classes": [
+     "build"
+    ],
+    "reason": "Asks for a new visual deliverable, a process tree of the gates and checks. It is phrased as a question but is a build request."
+   },
+   "gold": {
+    "label": "GOVERNED",
+    "classes": [
+     "build"
+    ],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "O06",
+   "split": "owner",
+   "text": "As a standard - non-specifically for any project. To illustrate how there are checks and balances in your operational process",
+   "ts": "2026-10-12T18:43",
+   "labeler1": {
+    "id": "O06",
+    "label": "REQUIREMENT",
+    "classes": [],
+    "reason": "Only sets a constraint on the process-tree work already under way (generic, not tied to any project). No new work asked for."
+   },
+   "labeler2": {
+    "id": "O06",
+    "label": "REQUIREMENT",
+    "classes": [],
+    "reason": "States a constraint on the process tree already under way: keep it general, not tied to any one project. No new work."
+   },
+   "gold": {
+    "label": "REQUIREMENT",
+    "classes": [],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "O07",
+   "split": "owner",
+   "text": "@\"/root/.claude/uploads/ff01f16c-7b3f-5ea5-8051-7a95ac7cd1d1/4c96dd58-analysis-session-prompt.md\" @\"/root/.claude/uploads/ff01f16c-7b3f-5ea5-8051-7a95ac7cd1d1/7d40b7df-after-report-2026-10-13-scope-fence.md\" Hi Claude, attached for you is an incident report where another Code session operated out of scope. I fear regression in operational excellence and the Gauntlet procedure that we've created. Review incident report, learn from mistakes, and use skill builder to fortify the gates we have built to ensure this does not occur.",
+   "ts": "2026-10-13T00:23",
+   "labeler1": {
+    "id": "O07",
+    "label": "GOVERNED",
+    "classes": [
+     "review",
+     "analysis",
+     "build"
+    ],
+    "reason": "Asks Claude to review an incident report, learn from the failure, and change the governance skills to strengthen the gates. That is new, multi-step work that is costly if wrong."
+   },
+   "labeler2": {
+    "id": "O07",
+    "label": "GOVERNED",
+    "classes": [
+     "review",
+     "analysis",
+     "build"
+    ],
+    "reason": "Asks Claude to review an incident report, learn from what went wrong, and use the skill builder to strengthen the governance gates. That is new, multi-step work that changes the skills."
+   },
+   "gold": {
+    "label": "GOVERNED",
+    "classes": [
+     "review",
+     "analysis",
+     "build"
+    ],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "O08",
+   "split": "owner",
+   "text": "Try again",
+   "ts": "2026-10-13T00:26",
+   "labeler1": {
+    "id": "O08",
+    "label": "CONTINUATION",
+    "classes": [],
+    "reason": "'Try again' retries the task already in progress."
+   },
+   "labeler2": {
+    "id": "O08",
+    "label": "CONTINUATION",
+    "classes": [],
+    "reason": "Retries the task already in progress."
+   },
+   "gold": {
+    "label": "CONTINUATION",
+    "classes": [],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "O09",
+   "split": "owner",
+   "text": "Proceed with all fixes. Do you need for me to upload new Claude instructions and skill files? Save to memory",
+   "ts": "2026-10-13T01:14",
+   "labeler1": {
+    "id": "O09",
+    "label": "GOVERNED",
+    "classes": [
+     "build"
+    ],
+    "reason": "Approves all fixes and adds new consequential actions: apply them and save to memory, with uploading instruction and skill files raised. Under the edit rule, approval plus new consequential actions is GOVERNED."
+   },
+   "labeler2": {
+    "id": "O09",
+    "label": "GOVERNED",
+    "classes": [
+     "build"
+    ],
+    "reason": "Approves the fixes and also asks for a new action (save to memory), and asks whether uploads are needed. Under the edge rule, approval plus new actions counts as GOVERNED."
+   },
+   "gold": {
+    "label": "GOVERNED",
+    "classes": [
+     "build"
+    ],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "O10",
+   "split": "owner",
+   "text": "Continue",
+   "ts": "2026-10-13T05:20",
+   "labeler1": {
+    "id": "O10",
+    "label": "CONTINUATION",
+    "classes": [],
+    "reason": "'Continue' only resumes the task in progress."
+   },
+   "labeler2": {
+    "id": "O10",
+    "label": "CONTINUATION",
+    "classes": [],
+    "reason": "A bare 'continue' on work already in progress."
+   },
+   "gold": {
+    "label": "CONTINUATION",
+    "classes": [],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "O11",
+   "split": "owner",
+   "text": "Uploaded the skills and plugin. Please provide new, thorough and effective updated instructions",
+   "ts": "2026-10-13T05:37",
+   "labeler1": {
+    "id": "O11",
+    "label": "GOVERNED",
+    "classes": [
+     "build"
+    ],
+    "reason": "Asks for a new deliverable: thorough, updated instructions to go with the uploaded skills and plugin."
+   },
+   "labeler2": {
+    "id": "O11",
+    "label": "GOVERNED",
+    "classes": [
+     "build"
+    ],
+    "reason": "Asks for a new deliverable: thorough updated instructions after the upload."
+   },
+   "gold": {
+    "label": "GOVERNED",
+    "classes": [
+     "build"
+    ],
+    "source": "agree"
+   }
+  },
+  {
+   "id": "O12",
+   "split": "owner",
+   "text": "Conduct full system validation and calibration to ensure these skills, governance and operational excellence safeguards are working as intended.",
+   "ts": "2026-10-13T05:46",
+   "labeler1": {
+    "id": "O12",
+    "label": "GOVERNED",
+    "classes": [
+     "review"
+    ],
+    "reason": "Asks for a full validation and calibration of the skills and governance safeguards: a new, non-trivial verification task."
+   },
+   "labeler2": {
+    "id": "O12",
+    "label": "GOVERNED",
+    "classes": [
+     "review"
+    ],
+    "reason": "Asks for full system validation and calibration of the skills and safeguards: new, non-trivial verification work."
+   },
+   "gold": {
+    "label": "GOVERNED",
+    "classes": [
+     "review"
+    ],
+    "source": "agree"
+   }
+  }
+ ]
+}
