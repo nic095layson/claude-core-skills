@@ -1,48 +1,107 @@
 #!/usr/bin/env python3
-"""Stop hook: if the turn is governed-class AND no governor Skill loaded this turn,
-BLOCK and force the model to load it. Single-retry (stop_hook_active) => loop-safe."""
-import sys, json, os, re
-GOV_ALL={"plan-gate","adversarial-verify","scope-fence"}
-def classify(p):
-    p=p.lower()
-    analysis=re.search(r'\b(analy[sz]\w*|advis\w*|advice|recommend\w*|forecast\w*|predict\w*|assess\w*|evaluat\w*|outlook|is this a (good|sound|bad)\b|worth (buying|investing|it)\b|when will\b.{0,40}\b(hit|reach|cross|top|bottom)|should (i|we)\b.{0,60}\b(invest|buy|sell|adopt|switch|migrate|choose|pick|hire))',p)
-    review=re.search(r'\b(review|double.?check|check (this|my|the|it)|is this (correct|right|safe|ready)|ready to ship|before i (ship|run|deploy|merge)|sanity.?check|looks? (right|good|correct))\b',p)
-    build=re.search(r'\b(build|create|implement|migrat\w*|refactor\w*|rewrite|design a|draft (a|the|me)?|write (a|the|me)|set ?up|configure|scaffold|stand up|wire up)\b',p)
-    gov=[]
-    if analysis or review: gov.append("adversarial-verify")
-    if build: gov.append("plan-gate")
-    return gov
-try: data=json.load(sys.stdin)
-except Exception: sys.exit(0)
-if data.get("stop_hook_active"): sys.exit(0)  # already forced one retry -> allow (loop-safe)
-tp=data.get("transcript_path")
-if not tp or not os.path.exists(tp): sys.exit(0)
-lines=[]
-for l in open(tp):
-    l=l.strip()
-    if not l: continue
-    try: lines.append(json.loads(l))
-    except Exception: pass
-prompt=None; li=-1
-for i,d in enumerate(lines):
-    m=d.get("message",{})
-    if d.get("type")=="user" and isinstance(m,dict) and isinstance(m.get("content"),str):
-        c=m["content"]
-        if not c.startswith("GOV-ENFORCE"):
-            prompt=c; li=i
-if not prompt: sys.exit(0)
-gov=classify(prompt)
-if not gov: sys.exit(0)  # not governed -> allow
-loaded=set()
+"""Stop hook: if the turn answered governed-class work AND no governor Skill loaded for it, BLOCK once
+and force the load. Single retry (stop_hook_active) => loop-safe. Fails open on every error.
+
+This is the mechanism behind the kit's promise that "the core governors run on every session": a
+promise with no mechanism was INC-2026-10-13-01. Validated form (2026-07-15, phase 2b A/B): every
+governed case loaded the governor 3/3 under enforcement vs 0/3 without; both should-not cases silent.
+
+Rebuilt 2026-10-13 on hooks/govclass.py (shared with the trigger) and made robust to user messages
+whose content is a list of blocks, which is how cloud sessions record them.
+
+What counts as "loaded": a Skill tool call this turn whose input names the governor — including a
+synced copy such as "anthropic-skills:plan-gate". Governor text merely re-attached after a compaction
+does NOT count (it is bound to an earlier task); that distinction is the gauntlet skill's rule, and
+this hook enforces it by looking only at Skill calls after the latest owner message.
+"""
+import json
+import os
+import sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+try:
+    from govclass import classify, governors, ENFORCED
+except Exception:
+    sys.exit(0)
+
+
+def user_text(msg):
+    """Plain text of a user message, or None when it carries no owner text (tool results etc.)."""
+    c = msg.get("content")
+    if isinstance(c, str):
+        return c
+    if isinstance(c, list):
+        texts = [b.get("text", "") for b in c if isinstance(b, dict) and b.get("type") == "text"]
+        return "\n".join(t for t in texts if t) or None
+    return None
+
+
+try:
+    data = json.load(sys.stdin)
+except Exception:
+    sys.exit(0)
+if data.get("stop_hook_active"):
+    sys.exit(0)  # already forced one retry -> allow (loop-safe)
+tp = data.get("transcript_path")
+if not tp or not os.path.exists(tp):
+    sys.exit(0)
+
+lines = []
+try:
+    with open(tp, encoding="utf-8", errors="replace") as fh:
+        for raw in fh:
+            raw = raw.strip()
+            if not raw:
+                continue
+            try:
+                lines.append(json.loads(raw))
+            except Exception:
+                pass
+except Exception:
+    sys.exit(0)
+
+prompt, li = None, -1
+for i, d in enumerate(lines):
+    if d.get("type") != "user":
+        continue
+    # Harness-injected user entries (loaded skill text, hook feedback, compaction summaries) are
+    # marked isMeta / isCompactSummary. They are not the owner's request: in the 2026-10-13 live
+    # A/B the gate took a loaded skill's own text as "the prompt", put the Skill call before it,
+    # and blocked a compliant turn. Only un-marked user text counts.
+    if d.get("isMeta") or d.get("isCompactSummary"):
+        continue
+    m = d.get("message") or {}
+    if not isinstance(m, dict):
+        continue
+    t = user_text(m)
+    if t and not t.startswith("GOV-ENFORCE") and not t.startswith("Stop hook feedback"):
+        prompt, li = t, i
+if not prompt:
+    sys.exit(0)
+
+classes = [c for c in classify(prompt) if c in ENFORCED]
+if not classes:
+    sys.exit(0)  # not governed, or advisory-only -> allow
+needed = set(governors(classes))
+
+loaded = set()
 for d in lines[li:]:
-    m=d.get("message",{})
-    if d.get("type")=="assistant" and isinstance(m,dict):
-        for b in (m.get("content") or []):
-            if isinstance(b,dict) and b.get("type")=="tool_use" and b.get("name")=="Skill":
-                inp=json.dumps(b.get("input",{}))
-                for g in GOV_ALL:
-                    if g in inp: loaded.add(g)
-if loaded & set(gov): sys.exit(0)  # complied
-reason=("GOV-ENFORCE: this is governed work ("+", ".join(gov)+") and you finished WITHOUT loading it. "
-        "Load "+gov[0]+" with the Skill tool now, follow its procedure, and revise your answer before finishing.")
-print(json.dumps({"decision":"block","reason":reason}))
+    if d.get("type") != "assistant":
+        continue
+    m = d.get("message") or {}
+    for b in (m.get("content") or []) if isinstance(m, dict) else []:
+        if isinstance(b, dict) and b.get("type") == "tool_use" and b.get("name") == "Skill":
+            inp = json.dumps(b.get("input", {}))
+            for g in ("plan-gate", "adversarial-verify", "scope-fence"):
+                if g in inp:
+                    loaded.add(g)
+
+if loaded & needed:
+    sys.exit(0)  # complied
+
+first = governors(classes)[0]
+reason = ("GOV-ENFORCE: this is governed work (" + ", ".join(governors(classes)) + ") and you finished "
+          "WITHOUT loading it. Load " + first + " with the Skill tool now, follow its procedure, and revise "
+          "your answer before finishing. Governor text already in your context from before a compaction "
+          "does not count: it was loaded for an earlier task.")
+print(json.dumps({"decision": "block", "reason": reason}))

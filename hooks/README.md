@@ -1,5 +1,33 @@
 # Hooks — mechanical trigger aids
 
+> **Status 2026-10-13 — wired at project scope.** `.claude/settings.json` in this
+> repository now runs all seven hooks (`governance-trigger.py` on UserPromptSubmit;
+> `governance-enforce.py` and `receipt-law-stop-gate.sh` on Stop; the two first-write
+> reminders on PreToolUse; `session-doctrine.sh` on SessionStart `compact|resume`),
+> through `$CLAUDE_PROJECT_DIR`. Cloud sessions started inside this one repository
+> read that file; the reminders and the trigger were observed firing in the authoring
+> web session within minutes. The trigger and the Stop gate share one classifier,
+> `govclass.py`, pinned by `selftest-governance-classify.py` (27 cases, including the
+> four owner messages of the 2026-10-12 incident). Live A/B, 8 headless runs:
+> pack off 0/2 governor loads, pack on 4/4, trivia 0/2 with no block —
+> `results/2026-10-13/gauntlet-fortification/`. The status lines below each hook are
+> the history that led here and are left as written; where they say "NOT installed",
+> read "installed at project scope 2026-10-13". Multi-repository cloud sessions do not
+> read repo hooks (see install-and-surfaces Runbook 4). Ledger: INC-2026-10-13-01.
+
+## session-doctrine.sh (shipped 2026-10-13)
+
+SessionStart hook for the compaction and resume boundaries. On `compact` it deletes
+the two first-write reminder sentinels for the session (re-arming them: in a
+three-week session they had spent themselves on day one) and injects the
+post-compaction protocol — re-attached governor text does not count as loaded,
+disputed results stay disputed and are listed before continuing, in-flight method
+choices are restated. On `resume` it injects one line: governors are loaded per
+task, not per session. Silent on `startup` and `clear` (the project `CLAUDE.md`
+carries the doctrine there, and is re-read after compaction). Advisory, fail-open.
+Pipe-tested 2026-10-13 (compact → context + 0 sentinels; startup → empty; garbage
+input → exit 0). Not yet observed across a real compaction.
+
 ## scope-fence-reminder.sh (shipped 2026-07-12)
 
 The lever past the description-triggering ceiling (campaign finding: scope-fence
