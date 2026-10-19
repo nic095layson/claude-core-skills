@@ -1243,3 +1243,87 @@ unmerged branch defeats it exactly.**
   The cause (uploads are copies, nothing checks them) is unchanged; Runbook 4 step 8 is the control.
 - **Lesson:** a validation that diffs only the repository cannot see the surface the owner actually
   uses; compare the account copies (`~/.claude/skills/synced/` in a cloud container) on every validation.
+### INC-2026-10-19-01 — Three months of audits, one hand-set constant: the engine was tested against its specification, never against its assumptions
+
+- **Date:** found 2026-10-19 by the kit's draft post-mortem; recorded here
+  2026-10-19. Keys on every remote branch checked first (Rule 4): no `2026-10-19`
+  key existed anywhere.
+- **Surface:** `nic095layson/fantasy-basketball-2026-27` and its deck simulator;
+  the reports of 2026-10-14 to 2026-10-19.
+- **Severity:** high as a reporting failure (a decision figure quoted with about a
+  tenth of its real uncertainty); no data damage.
+- **Symptom:** every report quoted the owner's title share with its Monte-Carlo
+  error, ±0.4. The post-mortem's one-at-a-time sweep found one hand-set simulator
+  constant, the shared games-played shock (0.06, never fit to anything), moving
+  that share by +3.4 (no shock) / −2.3 (shock doubled). Second finding: the
+  draft-grade records were made on an 18-week fixed-bracket engine and the report
+  on a 17-week reseeded one, and nothing said so.
+- **Root cause:** every audit tested implementation against specification —
+  z-scores re-derived to the last digit, two implementations in exact parity,
+  every projection fact-checked against two outlets, gates on every report. A
+  judgment constant cannot fail a test of itself; two copies of one model agree
+  whatever the model is worth; "we checked" was true of the arithmetic and false
+  of the assumptions. No registry said which constants were chosen rather than
+  measured, no sweep moved them, and no record carried the engine version.
+- **Evidence:** kit `report/after-reports/after-report-2026-10-19-draft-postmortem.md`
+  (§5 sensitivity table: baseline 21.43 / 21.68 on two seeds; shock 0 → +3.4;
+  shock 0.12 → −2.3; "OVERPRECISE: ±0.4 stated, about ±3 structural"; finding 5,
+  the engine change, deck `82e1679` → `259c630`);
+  `after-report-2026-10-19-redteam-standing.md` (sweep 6,000 seasons × 2 seeds:
+  1 FRAGILE, 2 SENSITIVE, 3 ROBUST; 28-entry registry; 29 red-first tests);
+  `after-report-2026-10-19-retro-redteam.md` (the findings changed the odds, not
+  the names). All three read 2026-10-19 from that repository's branch
+  `claude/market-data-workorder-mnfi2b` at `a097a6d`, read-only.
+- **Fix:** in the kit, the standing red team (`scripts/redteam/` and
+  `gates.py --redteam`). In this library (PR 25): the `red-team` skill as a
+  candidate governor — a registry with five calibration statuses, a
+  separate-attacker re-implementation, a one-at-a-time sweep with structural
+  bands and tiers, decision robustness, fingerprint-or-STALE, an append-only
+  attack list, two error bars or the report fails its gate — with its trigger
+  measured 2026-10-19 (6/6 · 2/2 · 4/4 on `claude-fable-5-1` and `claude-opus-5-5`,
+  `results/2026-10-19/red-team-trigger-evals/`), a dependency-free toolkit under
+  the skill's `scripts/` (46 tests, 45 seen red before the code they pin; three
+  independent refuters then found three contract gaps, each fixed red-first),
+  `hooks/redteam-band-reminder.sh` (pipe-tested 9/9 red-first, live-fired once)
+  and pointer 8 in the claude.ai instructions.
+- **Status:** FIXED in the kit as standing gates. In this library the skill is a
+  **measured candidate**: trigger CONFIRMED, behavioral value UNMEASURED, not
+  always-on until Decision-5 review; the hook's A/B is owed
+  (`experiments/hypothesis-2026-10-19-redteam-band-hook.md`).
+- **Lesson:** an audit that proves the code matches the spec says nothing about
+  the spec's numbers. A judgment constant is attacked by moving it; every
+  headline carries the structural band beside the sampling error; every record
+  names the engine it ran on. Found while generalizing the toolkit: the kit's
+  attack runner accepts a fingerprinted record when no live fingerprint is
+  available (an empty string is a prefix of every string); the library's copy
+  fails that case, and the kit's is flagged in PR 25, not changed.
+
+### INC-2026-10-19-02 — The INC-11 shape, repeated: a paste block authored from main dropped unmerged-branch text from the live box
+
+- **Date:** caused and found 2026-10-19 (same session); recorded 2026-10-19. Keys on
+  every remote branch checked first (Rule 4): free.
+- **Surface:** the claude.ai instructions box, via a paste block built in this repo.
+- **Symptom:** after PR 25 merged, the session built the owner's re-paste block from
+  `main` (5,857 characters: pointer 8, no 2026-10-13 additions) while the live box
+  carried the 6,688-character 2026-10-13 block, which existed only on the unmerged
+  PR 24 branch. The owner pasted it, so the box lost the three 2026-10-13 rules, the
+  loaded-means-loaded paragraph and the promise-versus-mechanism clause until the
+  merged union block (7,250 characters) was pasted.
+- **Root cause:** the block was authored from a branch cut from `main` without
+  diffing against the deployed box or the other live branch — exactly INC-11's
+  mechanism, and exactly what this repo's `CLAUDE.md` ("a settings box is live
+  state") and the instructions file's own INC-11 note warn against. The refuters
+  compared the block only against the PR's own base, so they could not see it.
+- **Evidence:** block sizes measured 2026-10-19 by the guard's method — PR 24 branch
+  6,688; pre-merge `main` with pointer 8 5,857; merged union 7,250. The owner's
+  paste of the 5,857 block: owner-reported 2026-10-19 ("uploaded skill and
+  instructions"). Merge commit of PR 24 carries the union; the instructions file's
+  2026-10-19 second note records it.
+- **Fix:** the PR 24 merge resolved the instructions conflict as the union; the
+  corrected block was sent to the owner for re-paste the same day.
+- **Status:** FIXED in the repository; OPEN on the box until the owner re-pastes the
+  7,250-character block (their confirmation closes it).
+- **Lesson:** a paste block is built from the union of the deployed box and every
+  live branch that edits the carrier, never from one branch — diff against what is
+  deployed before sending text that overwrites it. INC-11 wrote this lesson for an
+  instructions rewrite; it holds for a one-pointer addition too.

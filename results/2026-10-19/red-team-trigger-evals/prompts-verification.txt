@@ -1,0 +1,2 @@
+prompt files equal evals/red-team.json prompts byte for byte: True
+# compared 2026-10-19T18:18:43Z; the files are the ones drivers/run_one.sh read (scratchpad copies, mtimes 17:46 UTC, before the 17:48 start)

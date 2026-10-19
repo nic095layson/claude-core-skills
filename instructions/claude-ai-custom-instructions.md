@@ -16,9 +16,9 @@ re-paste on any change — the settings box and this file must never disagree
 
 ---- BEGIN PASTE ----
 
-**Operating discipline.** I have seven governance skills these instructions steer —
+**Operating discipline.** I have eight governance skills these instructions steer —
 plan-gate, adversarial-verify, scope-fence, brand-standard, application-tailor,
-after-report, gauntlet. These instructions say *when* to use them; the skills
+after-report, gauntlet, red-team. These instructions say *when* to use them; the skills
 define *how*. If a skill fails to load, say the load failed in your reply, then
 follow the principle stated here.
 
@@ -74,6 +74,14 @@ follow the principle stated here.
    by naming which governors actually loaded. The word overrides your own read of
    how simple the task looks. On a genuinely trivial or casual message it still
    means skip — say so in one line.
+
+8. **When a figure you report comes from a model** (a simulation, projection,
+   forecast, odds, ranking, scoring engine — anything with hand-set constants) and
+   will reach a decision: use the **red-team** skill — inventory the judgment
+   constants with their calibration status, move each through its plausible range
+   instead of re-reading it, and quote every headline with two error bars, the
+   sampling error and the structural band, naming any FRAGILE constant. A figure
+   measured from data with no model behind it needs none of this.
 
 **Always-on (default).** Run that same process on EVERY non-trivial task
 automatically — actually load the applicable skills with the Skill tool before
@@ -215,7 +223,7 @@ text verbatim against this file at proposal — the live settings box was NOT
 checked this session (INC-11 caution: copy the box out and diff before
 overwriting it). Empirical status: **UNMEASURED** — owner preference, not a
 wording experiment; these lines steer no skill. **Owner action required —
-re-paste (drift law).** The block measures **5,295 characters**, up from
+re-paste (drift law).** The block measured **5,295 characters** then, up from
 4,844 (same awk/wc method, 2026-08-26).
 
 **Updated 2026-10-13 (INC-2026-10-13-01 — the three rules the incident found
@@ -243,6 +251,32 @@ this order: the surfaces sentence, then the open-objections line; the three rule
 stay. Empirical status: **UNMEASURED** — owner-directed repair after a diagnosed
 live failure, not a wording experiment; pointer 7 and the rest of the always-on
 paragraph (the measured GAUNTLET text) are byte-identical to the 2026-08-26 block.
+
+**Updated 2026-10-19 (red-team candidate measured — PR 25):** pointer 8 added for
+the `red-team` skill, the opening line moves to "eight" and its roster sentence
+gains ", red-team" (three hunks); base text otherwise verbatim (block-only diff
+against the previous commit shows those three hunks and nothing else). The pointer steers a candidate whose
+trigger is measured on Claude Code headless (6/6 · 2/2 · 4/4 on `claude-fable-5-1`
+and `claude-opus-5-5`, `results/2026-10-19/red-team-trigger-evals/`) and whose
+claude.ai triggering is unmeasured; steering value UNMEASURED (assumption A2
+class), same as the other pointers. One headless proxy run with this block as the
+appended system prompt on a casual prompt (a puppy's name) loaded no skill and
+added no band language (`results/2026-10-19/red-team-hook/carrier-proxy-negative.jsonl`)
+— a proxy for the surface, not the surface. **Owner action required — re-paste.**
+The block measures **5,857 characters** (guard method, 2026-10-19), up from 5,295;
+the box has ample headroom.
+
+**Updated 2026-10-19, second note (merge of PR 24 and the post-PR-25 main — and a
+recorded regression):** PR 25's pointer-8 block was authored from `main` while the
+2026-10-13 additions lived only on the unmerged PR 24 branch — the INC-11 failure
+shape, repeated despite the warning in this file. The owner pasted that 5,857-character
+block on 2026-10-19, which dropped the three 2026-10-13 rules, the loaded-means-loaded
+paragraph and the promise-versus-mechanism clause from the live box until this merged
+block is pasted. The merge is the union: the 2026-10-13 additions and pointer 8, opening
+line "eight". Ledger: INC-2026-10-19-02. **Owner action required — re-paste this block.**
+The block measures **7,250 characters** (guard method, 2026-10-19), up from 6,688 on the
+branch and 5,857 on pre-merge main; the box has headroom. The 2026-10-19 note above is
+kept as written; its closing count described pre-merge main.
 
 Re-verify: the settings box content equals the paste block (copy out, diff).
 Update when: a governor is added/retired (Decision 5/7), a steered skill is

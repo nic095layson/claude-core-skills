@@ -1,0 +1,1 @@
+Post-mortem on the forecast model: the Q3 number missed by 11%. I want to know which assumptions could have told us.
