@@ -1,0 +1,31 @@
+{
+ "verdict": "PASS",
+ "fingerprint": "b635ab2",
+ "registry_sha256": "465b96dd16eb",
+ "registered": 20,
+ "live": 20,
+ "by_status": {
+  "uncalibrated": 15,
+  "structural": 3,
+  "settings": 2
+ },
+ "uncalibrated": [
+  "CLASS_PATTERN_ANALYSIS",
+  "CLASS_PATTERN_REVIEW",
+  "CLASS_PATTERN_BUILD",
+  "CLASS_PATTERN_DISPUTE",
+  "CLASS_PATTERN_REQUIREMENT",
+  "ENFORCED_CLASSES",
+  "HARNESS_MARKERS",
+  "GOV_GATE_ANY_ONE_GOVERNOR_SUFFICES",
+  "GOV_GATE_LOADED_MATCH_IS_SUBSTRING_OF_INPUT",
+  "RECEIPT_INABILITY_PATTERN",
+  "RECEIPT_RECEIPT_PATTERN",
+  "REMINDER_FIRES_PER_SESSION",
+  "REMINDER_JQ_PATH",
+  "BAND_HOOK_SOURCE",
+  "TRIGGER_EVAL_GATE_TEXT"
+ ],
+ "declared_band": [],
+ "problems": []
+}

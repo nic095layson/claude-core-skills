@@ -1,0 +1,41 @@
+G1  gov-stop-gate        HOLDS   intended=BLOCK            observed=BLOCK            predicted=BLOCK            control: governed build prompt, no Skill load
+G2  gov-stop-gate        HOLDS   intended=ALLOW            observed=ALLOW            predicted=ALLOW            control: governed build prompt, plan-gate loaded
+G3  gov-stop-gate        DEFECT  intended=BLOCK            observed=ALLOW            predicted=ALLOW            an unrelated Skill whose ARGS mention plan-gate counts as loading plan-gate
+G4  gov-stop-gate        DEFECT  intended=BLOCK            observed=ALLOW            predicted=ALLOW            dispute needs adversarial-verify AND scope-fence; only scope-fence loaded
+G5  gov-stop-gate        DEFECT  intended=BLOCK            observed=ALLOW            predicted=ALLOW            governed prompt, then a /model command echo as the latest user string
+G6  gov-stop-gate        HOLDS   intended=BLOCK            observed=BLOCK            predicted=BLOCK            governed prompt sent with an image (list content, cloud shape)
+G7  gov-stop-gate        HOLDS   intended=BLOCK            observed=BLOCK            predicted=BLOCK            governor loaded in an EARLIER turn only (re-attached, not loaded)
+G8  gov-stop-gate        HOLDS   intended=BLOCK            observed=BLOCK            predicted=BLOCK            background task notification arrives after the governed prompt
+G9  gov-stop-gate        DEFECT  intended=ALLOW            observed=BLOCK            predicted=BLOCK            trivially-governed prompt the trigger tells the model to skip ('review 2+2=4')
+R1  receipt-gate         HOLDS   intended=BLOCK            observed=BLOCK            predicted=BLOCK            control: ASCII inability claim, no receipt
+R2  receipt-gate         DEFECT  intended=BLOCK            observed=ALLOW            predicted=ALLOW            curly apostrophe: couldn’t verify
+R3  receipt-gate         DEFECT  intended=BLOCK            observed=ALLOW            predicted=ALLOW            paraphrase: wasn't able to verify
+R4  receipt-gate         DEFECT  intended=BLOCK            observed=ALLOW            predicted=ALLOW            paraphrase: have no way to confirm
+R5  receipt-gate         DEFECT  intended=BLOCK            observed=ALLOW            predicted=ALLOW            receipt word unrelated to the claim ('the CI job ran fine')
+R6  receipt-gate         DEFECT  intended=BLOCK            observed=ALLOW            predicted=ALLOW            receipt substring inside another word ('veteran ')
+R7  receipt-gate         DEFECT  intended=BLOCK            observed=ALLOW            predicted=ALLOW            claim made before a mid-turn task notification, no receipt anywhere
+R8  receipt-gate         DEFECT  intended=BLOCK            observed=ALLOW            predicted=ALLOW            claim made before a mid-turn Skill load (skill text is a string user entry)
+R9  receipt-gate         DEFECT  intended=ALLOW            observed=BLOCK            predicted=BLOCK            owner prompt as list content (image+text): previous turn's claim re-judged
+M1  first-write-reminder HOLDS   intended=fire,silent,fire observed=fire,silent,fire predicted=fire,silent,fire control: fires once per session id, again for a new session
+M2  first-write-reminder DEFECT  intended=fire,fire        observed=fire,silent      predicted=fire,silent      jq not at /usr/bin (e.g. Homebrew): two DIFFERENT sessions
+W1  plugin-wrapper       DEFECT  intended=run              observed=yield            predicted=yield            local session; project names the hook only inside a disabled/renamed path
+W2  plugin-wrapper       HOLDS   intended=run              observed=run              predicted=run              cloud session: always runs (by design, duplicate accepted)
+T1  prompt-trigger       DEFECT  intended=fire             observed=silent           predicted=?                owner-shaped prompt: Please red-team system with this now implemented, to test if all gates
+T2  prompt-trigger       DEFECT  intended=fire             observed=silent           predicted=?                owner-shaped prompt: uploaded skill and instructions. please ensure adoption through my glo
+T3  prompt-trigger       DEFECT  intended=fire             observed=silent           predicted=?                owner-shaped prompt: Please provide new instructions for me to copy and paste, and also the
+T4  prompt-trigger       HOLDS   intended=silent           observed=silent           predicted=?                owner-shaped prompt: re-pasted instructions complete
+T5  prompt-trigger       DEFECT  intended=silent           observed=fire             predicted=?                owner-shaped prompt: thanks, that build fixed it
+T6  prompt-trigger       DEFECT  intended=fire             observed=silent           predicted=?                owner-shaped prompt: Stress-test the projection model and tell me how sure we are of the 21
+T7  prompt-trigger       HOLDS   intended=silent           observed=silent           predicted=?                owner-shaped prompt: GAUNTLET: what's 15% of 80?
+T8  prompt-trigger       DEFECT  intended=fire             observed=silent           predicted=?                owner-shaped prompt: are we sure the z-scores are per-game and not totals?
+M3  first-write-reminder DEFECT  intended=fire,fire        observed=fire,silent      predicted=fire,silent      scope-fence reminder, jq not at /usr/bin: two DIFFERENT sessions
+S1  session-doctrine     HOLDS   intended=emit+rearm       observed=emit+rearm       predicted=emit+rearm       control: compact emits the protocol and re-arms both reminders
+S2  session-doctrine     HOLDS   intended=silent           observed=silent           predicted=silent           control: startup is silent
+S3  session-doctrine     DEFECT  intended=emit+rearm       observed=silent+no-rearm  predicted=silent+no-rearm  compact on a machine with no jq on PATH
+B1  band-reminder        HOLDS   intended=fire             observed=fire             predicted=fire             control: sampling error alone
+B2  band-reminder        HOLDS   intended=silent           observed=silent           predicted=silent           control: band quoted
+B3  band-reminder        DEFECT  intended=fire             observed=silent           predicted=silent           error bar inside parentheses after the number
+B4  band-reminder        DEFECT  intended=silent           observed=fire             predicted=fire             band word in title case
+B5  band-reminder        DEFECT  intended=fire             observed=silent           predicted=silent           band word present with no band (says not swept)
+
+39 cases: 14 hold, 25 defects; predictions matched 31/31

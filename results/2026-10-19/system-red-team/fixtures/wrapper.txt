@@ -1,0 +1,10 @@
+  ok   local + project wires the hook -> yields silently
+  ok   local + hook named only in permissions.allow -> runs
+  ok   local + no settings -> runs
+  ok   cloud + project wires the hook -> still runs
+  ok   cloud + trivia -> trigger runs and is silent
+  ok   Stop path: stdin passes through, unloaded governed turn -> block
+  ok   no argument -> silent exit 0
+  ok   unknown hook file -> silent exit 0
+  ok   local + unparseable settings -> runs
+== 9 passed, 0 failed ==

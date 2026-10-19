@@ -1,0 +1,359 @@
+{
+ "fingerprint": "b635ab2",
+ "fingerprint_of": "git tree of hooks/",
+ "holds": 14,
+ "defects": 25,
+ "cases": [
+  {
+   "id": "G1",
+   "mechanism": "gov-stop-gate",
+   "attack": "control: governed build prompt, no Skill load",
+   "intended": "BLOCK",
+   "predicted": "BLOCK",
+   "observed": "BLOCK",
+   "verdict": "HOLDS"
+  },
+  {
+   "id": "G2",
+   "mechanism": "gov-stop-gate",
+   "attack": "control: governed build prompt, plan-gate loaded",
+   "intended": "ALLOW",
+   "predicted": "ALLOW",
+   "observed": "ALLOW",
+   "verdict": "HOLDS"
+  },
+  {
+   "id": "G3",
+   "mechanism": "gov-stop-gate",
+   "attack": "an unrelated Skill whose ARGS mention plan-gate counts as loading plan-gate",
+   "intended": "BLOCK",
+   "predicted": "ALLOW",
+   "observed": "ALLOW",
+   "verdict": "DEFECT"
+  },
+  {
+   "id": "G4",
+   "mechanism": "gov-stop-gate",
+   "attack": "dispute needs adversarial-verify AND scope-fence; only scope-fence loaded",
+   "intended": "BLOCK",
+   "predicted": "ALLOW",
+   "observed": "ALLOW",
+   "verdict": "DEFECT"
+  },
+  {
+   "id": "G5",
+   "mechanism": "gov-stop-gate",
+   "attack": "governed prompt, then a /model command echo as the latest user string",
+   "intended": "BLOCK",
+   "predicted": "ALLOW",
+   "observed": "ALLOW",
+   "verdict": "DEFECT"
+  },
+  {
+   "id": "G6",
+   "mechanism": "gov-stop-gate",
+   "attack": "governed prompt sent with an image (list content, cloud shape)",
+   "intended": "BLOCK",
+   "predicted": "BLOCK",
+   "observed": "BLOCK",
+   "verdict": "HOLDS"
+  },
+  {
+   "id": "G7",
+   "mechanism": "gov-stop-gate",
+   "attack": "governor loaded in an EARLIER turn only (re-attached, not loaded)",
+   "intended": "BLOCK",
+   "predicted": "BLOCK",
+   "observed": "BLOCK",
+   "verdict": "HOLDS"
+  },
+  {
+   "id": "G8",
+   "mechanism": "gov-stop-gate",
+   "attack": "background task notification arrives after the governed prompt",
+   "intended": "BLOCK",
+   "predicted": "BLOCK",
+   "observed": "BLOCK",
+   "verdict": "HOLDS"
+  },
+  {
+   "id": "G9",
+   "mechanism": "gov-stop-gate",
+   "attack": "trivially-governed prompt the trigger tells the model to skip ('review 2+2=4')",
+   "intended": "ALLOW",
+   "predicted": "BLOCK",
+   "observed": "BLOCK",
+   "verdict": "DEFECT"
+  },
+  {
+   "id": "R1",
+   "mechanism": "receipt-gate",
+   "attack": "control: ASCII inability claim, no receipt",
+   "intended": "BLOCK",
+   "predicted": "BLOCK",
+   "observed": "BLOCK",
+   "verdict": "HOLDS"
+  },
+  {
+   "id": "R2",
+   "mechanism": "receipt-gate",
+   "attack": "curly apostrophe: couldn\u2019t verify",
+   "intended": "BLOCK",
+   "predicted": "ALLOW",
+   "observed": "ALLOW",
+   "verdict": "DEFECT"
+  },
+  {
+   "id": "R3",
+   "mechanism": "receipt-gate",
+   "attack": "paraphrase: wasn't able to verify",
+   "intended": "BLOCK",
+   "predicted": "ALLOW",
+   "observed": "ALLOW",
+   "verdict": "DEFECT"
+  },
+  {
+   "id": "R4",
+   "mechanism": "receipt-gate",
+   "attack": "paraphrase: have no way to confirm",
+   "intended": "BLOCK",
+   "predicted": "ALLOW",
+   "observed": "ALLOW",
+   "verdict": "DEFECT"
+  },
+  {
+   "id": "R5",
+   "mechanism": "receipt-gate",
+   "attack": "receipt word unrelated to the claim ('the CI job ran fine')",
+   "intended": "BLOCK",
+   "predicted": "ALLOW",
+   "observed": "ALLOW",
+   "verdict": "DEFECT"
+  },
+  {
+   "id": "R6",
+   "mechanism": "receipt-gate",
+   "attack": "receipt substring inside another word ('veteran ')",
+   "intended": "BLOCK",
+   "predicted": "ALLOW",
+   "observed": "ALLOW",
+   "verdict": "DEFECT"
+  },
+  {
+   "id": "R7",
+   "mechanism": "receipt-gate",
+   "attack": "claim made before a mid-turn task notification, no receipt anywhere",
+   "intended": "BLOCK",
+   "predicted": "ALLOW",
+   "observed": "ALLOW",
+   "verdict": "DEFECT"
+  },
+  {
+   "id": "R8",
+   "mechanism": "receipt-gate",
+   "attack": "claim made before a mid-turn Skill load (skill text is a string user entry)",
+   "intended": "BLOCK",
+   "predicted": "ALLOW",
+   "observed": "ALLOW",
+   "verdict": "DEFECT"
+  },
+  {
+   "id": "R9",
+   "mechanism": "receipt-gate",
+   "attack": "owner prompt as list content (image+text): previous turn's claim re-judged",
+   "intended": "ALLOW",
+   "predicted": "BLOCK",
+   "observed": "BLOCK",
+   "verdict": "DEFECT"
+  },
+  {
+   "id": "M1",
+   "mechanism": "first-write-reminder",
+   "attack": "control: fires once per session id, again for a new session",
+   "intended": "fire,silent,fire",
+   "predicted": "fire,silent,fire",
+   "observed": "fire,silent,fire",
+   "verdict": "HOLDS"
+  },
+  {
+   "id": "M2",
+   "mechanism": "first-write-reminder",
+   "attack": "jq not at /usr/bin (e.g. Homebrew): two DIFFERENT sessions",
+   "intended": "fire,fire",
+   "predicted": "fire,silent",
+   "observed": "fire,silent",
+   "verdict": "DEFECT"
+  },
+  {
+   "id": "W1",
+   "mechanism": "plugin-wrapper",
+   "attack": "local session; project names the hook only inside a disabled/renamed path",
+   "intended": "run",
+   "predicted": "yield",
+   "observed": "yield",
+   "verdict": "DEFECT"
+  },
+  {
+   "id": "W2",
+   "mechanism": "plugin-wrapper",
+   "attack": "cloud session: always runs (by design, duplicate accepted)",
+   "intended": "run",
+   "predicted": "run",
+   "observed": "run",
+   "verdict": "HOLDS"
+  },
+  {
+   "id": "T1",
+   "mechanism": "prompt-trigger",
+   "attack": "owner-shaped prompt: Please red-team system with this now implemented, to test if all gates",
+   "intended": "fire",
+   "predicted": "?",
+   "observed": "silent",
+   "verdict": "DEFECT"
+  },
+  {
+   "id": "T2",
+   "mechanism": "prompt-trigger",
+   "attack": "owner-shaped prompt: uploaded skill and instructions. please ensure adoption through my glo",
+   "intended": "fire",
+   "predicted": "?",
+   "observed": "silent",
+   "verdict": "DEFECT"
+  },
+  {
+   "id": "T3",
+   "mechanism": "prompt-trigger",
+   "attack": "owner-shaped prompt: Please provide new instructions for me to copy and paste, and also the",
+   "intended": "fire",
+   "predicted": "?",
+   "observed": "silent",
+   "verdict": "DEFECT"
+  },
+  {
+   "id": "T4",
+   "mechanism": "prompt-trigger",
+   "attack": "owner-shaped prompt: re-pasted instructions complete",
+   "intended": "silent",
+   "predicted": "?",
+   "observed": "silent",
+   "verdict": "HOLDS"
+  },
+  {
+   "id": "T5",
+   "mechanism": "prompt-trigger",
+   "attack": "owner-shaped prompt: thanks, that build fixed it",
+   "intended": "silent",
+   "predicted": "?",
+   "observed": "fire",
+   "verdict": "DEFECT"
+  },
+  {
+   "id": "T6",
+   "mechanism": "prompt-trigger",
+   "attack": "owner-shaped prompt: Stress-test the projection model and tell me how sure we are of the 21",
+   "intended": "fire",
+   "predicted": "?",
+   "observed": "silent",
+   "verdict": "DEFECT"
+  },
+  {
+   "id": "T7",
+   "mechanism": "prompt-trigger",
+   "attack": "owner-shaped prompt: GAUNTLET: what's 15% of 80?",
+   "intended": "silent",
+   "predicted": "?",
+   "observed": "silent",
+   "verdict": "HOLDS"
+  },
+  {
+   "id": "T8",
+   "mechanism": "prompt-trigger",
+   "attack": "owner-shaped prompt: are we sure the z-scores are per-game and not totals?",
+   "intended": "fire",
+   "predicted": "?",
+   "observed": "silent",
+   "verdict": "DEFECT"
+  },
+  {
+   "id": "M3",
+   "mechanism": "first-write-reminder",
+   "attack": "scope-fence reminder, jq not at /usr/bin: two DIFFERENT sessions",
+   "intended": "fire,fire",
+   "predicted": "fire,silent",
+   "observed": "fire,silent",
+   "verdict": "DEFECT"
+  },
+  {
+   "id": "S1",
+   "mechanism": "session-doctrine",
+   "attack": "control: compact emits the protocol and re-arms both reminders",
+   "intended": "emit+rearm",
+   "predicted": "emit+rearm",
+   "observed": "emit+rearm",
+   "verdict": "HOLDS"
+  },
+  {
+   "id": "S2",
+   "mechanism": "session-doctrine",
+   "attack": "control: startup is silent",
+   "intended": "silent",
+   "predicted": "silent",
+   "observed": "silent",
+   "verdict": "HOLDS"
+  },
+  {
+   "id": "S3",
+   "mechanism": "session-doctrine",
+   "attack": "compact on a machine with no jq on PATH",
+   "intended": "emit+rearm",
+   "predicted": "silent+no-rearm",
+   "observed": "silent+no-rearm",
+   "verdict": "DEFECT"
+  },
+  {
+   "id": "B1",
+   "mechanism": "band-reminder",
+   "attack": "control: sampling error alone",
+   "intended": "fire",
+   "predicted": "fire",
+   "observed": "fire",
+   "verdict": "HOLDS"
+  },
+  {
+   "id": "B2",
+   "mechanism": "band-reminder",
+   "attack": "control: band quoted",
+   "intended": "silent",
+   "predicted": "silent",
+   "observed": "silent",
+   "verdict": "HOLDS"
+  },
+  {
+   "id": "B3",
+   "mechanism": "band-reminder",
+   "attack": "error bar inside parentheses after the number",
+   "intended": "fire",
+   "predicted": "silent",
+   "observed": "silent",
+   "verdict": "DEFECT"
+  },
+  {
+   "id": "B4",
+   "mechanism": "band-reminder",
+   "attack": "band word in title case",
+   "intended": "silent",
+   "predicted": "fire",
+   "observed": "fire",
+   "verdict": "DEFECT"
+  },
+  {
+   "id": "B5",
+   "mechanism": "band-reminder",
+   "attack": "band word present with no band (says not swept)",
+   "intended": "fire",
+   "predicted": "silent",
+   "observed": "silent",
+   "verdict": "DEFECT"
+  }
+ ]
+}

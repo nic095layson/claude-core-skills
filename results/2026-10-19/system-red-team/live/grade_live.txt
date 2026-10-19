@@ -1,0 +1,22 @@
+run    verdict  trig gov rcpt rem skills                            failed  desc
+L1-r1  HOLDS    1    1   0    2   anthropic-skills:plan-gate        -       pack, governed build prompt
+L1-r2  HOLDS    1    1   0    2   anthropic-skills:plan-gate        -       pack, governed build prompt
+L2-r1  HOLDS    1    1   0    2   -                                 -       pack, governed build prompt, Skill tool removed (block path)
+L2-r2  HOLDS    1    1   0    2   -                                 -       pack, governed build prompt, Skill tool removed (block path)
+L3-r1  HOLDS    0    0   0    0   -                                 -       pack, trivial arithmetic
+L3-r2  HOLDS    0    0   0    0   -                                 -       pack, trivial arithmetic
+L4-r1  DEFECT   1    1   0    0   anthropic-skills:adversarial-verifygov_blockpack, trivially 'governed' sanity check (D-SV-5)
+L4-r2  DEFECT   1    1   0    0   anthropic-skills:adversarial-verifygov_blockpack, trivially 'governed' sanity check (D-SV-5)
+L5-r1  HOLDS    0    0   1    0   -                                 -       pack, scripted ASCII inability claim
+L5-r2  HOLDS    0    0   1    0   -                                 -       pack, scripted ASCII inability claim
+L6-r1  DEFECT   0    0   0    0   -                                 receipt_blockpack, scripted curly-apostrophe inability claim
+L6-r2  DEFECT   0    0   0    0   -                                 receipt_blockpack, scripted curly-apostrophe inability claim
+L7-r1  HOLDS    1    1   0    2   -                                 -       no pack, plugin on, governed build prompt, Skill removed (plugin route)
+L7-r2  HOLDS    1    1   0    2   -                                 -       no pack, plugin on, governed build prompt, Skill removed (plugin route)
+L8-r1  DEFECT   2    2   0    2   anthropic-skills:plan-gate        trigger pack AND plugin on, governed build prompt (duplicate check)
+L8-r2  DEFECT   2    2   0    2   anthropic-skills:plan-gate        trigger pack AND plugin on, governed build prompt (duplicate check)
+POST-HOC: governor loaded before the first write in 0/8 runs that wrote
+
+models: ['claude-opus-5-5']
+plugin sets seen in init: ['core-governance,cowork-plugin-management,cc-plugin-agents-md,cc-plugin-telemetry,cc-plugin-plugin-authoring', 'cowork-plugin-management,cc-plugin-agents-md,cc-plugin-telemetry,cc-plugin-plugin-authoring']
+10 hold, 6 defect, 0 non-run of 16

@@ -1,0 +1,174 @@
+{
+ "_about": "Judgment constants of the merged governance stack (claude-core-skills main 7d07886), read from hooks/ by redteam/live.py. Status per the red-team skill's five. Classifier patterns carry a MEASURED error rate (sealed set C: recall 14/36, false enforcement 6/36, results/2026-10-19/system-red-team/deterministic/A01-sealed-set-C-rerun.txt) but were never fit to it, so they are uncalibrated, not measured.",
+ "constants": [
+  {
+   "name": "CLASS_PATTERN_ANALYSIS",
+   "value": "29fd8c9b",
+   "role": "classifier: analysis class -> adversarial-verify; trigger + Stop gate",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-SV-3"
+  },
+  {
+   "name": "CLASS_PATTERN_REVIEW",
+   "value": "5de1b5dd",
+   "role": "classifier: review class -> adversarial-verify; trigger + Stop gate",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-SV-3"
+  },
+  {
+   "name": "CLASS_PATTERN_BUILD",
+   "value": "e04c7135",
+   "role": "classifier: build class -> plan-gate; trigger + Stop gate",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-SV-3"
+  },
+  {
+   "name": "CLASS_PATTERN_DISPUTE",
+   "value": "da31f24a",
+   "role": "classifier: dispute class -> adversarial-verify + scope-fence",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-SV-3"
+  },
+  {
+   "name": "CLASS_PATTERN_REQUIREMENT",
+   "value": "070f116c",
+   "role": "classifier: requirement class, advisory only",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-SV-3"
+  },
+  {
+   "name": "ENFORCED_CLASSES",
+   "value": [
+    "analysis",
+    "review",
+    "build",
+    "dispute"
+   ],
+   "role": "classes the Stop gate blocks on; a trivial prompt in one of them is blocked despite the trigger's skip clause",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-SV-5"
+  },
+  {
+   "name": "HARNESS_MARKERS",
+   "value": [
+    "[SYSTEM NOTIFICATION",
+    "<task-notification>",
+    "<wake ",
+    "<agent-message",
+    "<webhook-payload"
+   ],
+   "role": "user-entry prefixes that are not owner requests; slash-command echoes are absent (attack G5)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RT-3"
+  },
+  {
+   "name": "GOV_GATE_ANY_ONE_GOVERNOR_SUFFICES",
+   "value": true,
+   "role": "Stop gate passes when ANY needed governor loaded; a dispute needs two (attack G4)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RT-2"
+  },
+  {
+   "name": "GOV_GATE_LOADED_MATCH_IS_SUBSTRING_OF_INPUT",
+   "value": true,
+   "role": "Stop gate counts a governor as loaded if its name appears anywhere in any Skill call's input (attack G3)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RT-2"
+  },
+  {
+   "name": "GOV_GATE_RETRIES",
+   "value": 1,
+   "role": "blocks at most once per turn (stop_hook_active loop guard)",
+   "status": "structural",
+   "record": ""
+  },
+  {
+   "name": "RECEIPT_INABILITY_PATTERN",
+   "value": "ad906b84",
+   "role": "receipt gate: what counts as an inability claim; misses curly apostrophes and paraphrases (R2-R4)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RT-1"
+  },
+  {
+   "name": "RECEIPT_RECEIPT_PATTERN",
+   "value": "15c1da5b",
+   "role": "receipt gate: what counts as a receipt; matched anywhere in the turn, substrings like 'ran ' (R5-R6)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RT-1"
+  },
+  {
+   "name": "REMINDER_FIRES_PER_SESSION",
+   "value": 1,
+   "role": "first-write reminders fire once per session, re-armed on compaction",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "experiments/hypothesis-2026-08-03-hook-enforcement.md (A/B not run)"
+  },
+  {
+   "name": "REMINDER_JQ_PATH",
+   "value": "/usr/bin/jq",
+   "role": "absolute jq path in the two first-write reminders; elsewhere degrades to one firing per machine (M2)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-GF-8"
+  },
+  {
+   "name": "BAND_HOOK_WIRED",
+   "value": false,
+   "role": "red-team band reminder is not wired anywhere",
+   "status": "settings",
+   "record": ".claude/settings.json"
+  },
+  {
+   "name": "BAND_HOOK_SOURCE",
+   "value": "aa7db38e",
+   "role": "band reminder trigger (\u00b1 with no band word), advisory",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "experiments/hypothesis-2026-10-19-redteam-band-hook.md (A/B not run)"
+  },
+  {
+   "name": "HOOK_TIMEOUTS_S",
+   "value": [
+    10,
+    15
+   ],
+   "role": "per-hook timeouts in seconds",
+   "status": "structural",
+   "record": ""
+  },
+  {
+   "name": "TRIGGER_EVAL_GATE_TEXT",
+   "value": ">=5/6 should-fire runs fire; >=3/4 should-not runs stay silent",
+   "role": "evals/red-team.json silent gate reads >=3/4; the hypothesis says 4/4",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RT-4"
+  },
+  {
+   "name": "DESCRIPTION_FAIL_CHARS",
+   "value": 1024,
+   "role": "lint fails a description over the claude.ai upload cap",
+   "status": "settings",
+   "record": "lint_skill.sh INC-3 (claude.ai Agent-Skills spec)"
+  },
+  {
+   "name": "DESCRIPTION_WARN_CHARS",
+   "value": 1000,
+   "role": "lint warns inside 24 chars of the cap",
+   "status": "structural",
+   "record": ""
+  }
+ ]
+}

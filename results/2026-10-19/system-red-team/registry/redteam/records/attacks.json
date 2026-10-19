@@ -1,0 +1,71 @@
+{
+ "checked_at_utc": "2026-10-19T22:43:45Z",
+ "fingerprint": "b635ab2",
+ "attacks": [
+  {
+   "id": "A-1",
+   "name": "judgment-constant registry vs live hooks",
+   "question": "Does every classifier pattern, gate rule and reminder constant still equal its registered value, with a calibration status and a decision id?",
+   "script": "registry/redteam/live.py",
+   "record": "registry/redteam/records/constants.json",
+   "added": "2026-10-19",
+   "status": "CURRENT",
+   "why": "",
+   "record_sha256": "8f2a6abfea82",
+   "fingerprint": "b635ab2"
+  },
+  {
+   "id": "A-2",
+   "name": "classifier on the sealed held-out set C",
+   "question": "Does the classifier enforce governed owner-style prompts and leave ungoverned ones alone (recall / false enforcement)?",
+   "script": "deterministic/sealed_set_rerun.py",
+   "record": "deterministic/A01-sealed-set-C-rerun.json",
+   "added": "2026-10-19",
+   "status": "CURRENT",
+   "why": "",
+   "record_sha256": "06152b4a2206",
+   "fingerprint": "b635ab2"
+  },
+  {
+   "id": "A-3",
+   "name": "crafted-event attacks on every hook",
+   "question": "Can a crafted transcript or event make a Stop gate, reminder, wrapper or trigger do the opposite of its stated intent?",
+   "script": "deterministic/attack_hooks.py",
+   "record": "deterministic/attack_hooks.json",
+   "added": "2026-10-19",
+   "status": "CURRENT",
+   "why": "",
+   "record_sha256": "1ae80328671a",
+   "fingerprint": "b635ab2"
+  },
+  {
+   "id": "A-4",
+   "name": "live headless sessions, pack and plugin routes",
+   "question": "In a fresh session, do the trigger, Stop gates, reminders and plugin route fire as designed, once, and does a load precede the work?",
+   "script": "live/grade_live.py",
+   "record": "live/grade_live.json",
+   "added": "2026-10-19",
+   "status": "CURRENT",
+   "why": "",
+   "record_sha256": "86c488b4def4",
+   "fingerprint": "b635ab2"
+  },
+  {
+   "id": "A-5",
+   "name": "shipped fixtures and guard",
+   "question": "Do the stack's own self-tests (guard 40, classifier 30, receipt 10, wrapper 9, band 9, toolkit 46) still pass on merged main, kit and deck?",
+   "script": "fixtures/guard-before.txt",
+   "record": "fixtures/classify.txt",
+   "added": "2026-10-19",
+   "status": "UNFINGERPRINTED",
+   "why": "",
+   "record_sha256": "4b88b3772ca3"
+  }
+ ],
+ "by_status": {
+  "CURRENT": 4,
+  "UNFINGERPRINTED": 1
+ },
+ "problems": [],
+ "verdict": "PASS"
+}

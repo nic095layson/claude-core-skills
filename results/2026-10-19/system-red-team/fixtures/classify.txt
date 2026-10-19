@@ -1,0 +1,31 @@
+  ok   classify: "I don't agree that career averages are being taken into ac"   -> ['adversarial-verify', 'scope-fence']
+  ok   classify: 'Usage on new team is critical and essential to data comput'   -> ['scope-fence']
+  ok   classify: 'I understand that you are still running your tests. I have'   -> ['adversarial-verify', 'scope-fence']
+  ok   classify: 'We have rules, such as scope-fence in your operating proce'   -> ['adversarial-verify', 'plan-gate', 'scope-fence']
+  ok   classify: 'Analyze whether we should migrate our auth to JWTs and rec'   -> ['adversarial-verify', 'plan-gate']
+  ok   classify: 'Build a script that processes the three sample files and o'   -> ['plan-gate']
+  ok   classify: 'Can you double-check this migration before I run it in pro'   -> ['adversarial-verify']
+  ok   classify: "Why does the board rank Sabonis above Jokic? I don't agree"   -> ['adversarial-verify', 'scope-fence']
+  ok   classify: "what's 15% of 80?"                                            -> []
+  ok   classify: "thanks, that's all for tonight"                               -> []
+  ok   classify: 'what time zone is the draft in?'                              -> []
+  ok   classify: 'why is the sky blue?'                                         -> []
+  ok   classify: 'ok sounds good, go ahead'                                     -> []
+  ok   classify: "what's the default PostgreSQL port?"                          -> []
+  ok   classify: 'who did the Lakers draft last year?'                          -> []
+  ok   classify: '[SYSTEM NOTIFICATION - NOT USER INPUT]\n<task-notification>'  -> []
+  ok   trigger: dispute message -> UserPromptSubmit additionalContext with the assessment rule
+  ok   trigger: 'draft in' trivia -> silent
+  ok   gate: governed (incident 23:41), no load, string content -> BLOCK
+  ok   gate: governed (incident 23:41), no load, list content -> BLOCK
+  ok   gate: governed, synced copy loaded -> ALLOW
+  ok   gate: governed, scope-fence loaded -> ALLOW
+  ok   gate: governed, loaded, then isMeta skill-text + hook-feedback entries (live A/B 2026-10-13) -> ALLOW
+  ok   gate: governed, NOT loaded, isMeta entries present -> BLOCK
+  ok   gate: requirement only (advisory) -> ALLOW
+  ok   gate: trivia -> ALLOW
+  ok   gate: governed, NOT loaded, task notification arrives mid-turn -> BLOCK (red-first 2026-10-13)
+  ok   gate: governed, NOT loaded, system-notification banner mid-turn -> BLOCK (red-first 2026-10-13)
+  ok   gate: governed, loaded before a mid-turn notification -> ALLOW
+  ok   gate: stop_hook_active -> ALLOW (loop-safe)
+== 30 passed, 0 failed ==

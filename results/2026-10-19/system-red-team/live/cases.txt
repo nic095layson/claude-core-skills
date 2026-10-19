@@ -1,0 +1,8 @@
+L1 pack build off -
+L2 pack build off Skill
+L3 pack trivial off -
+L4 pack sanity off -
+L5 pack receipt_ascii off -
+L6 pack receipt_curly off -
+L7 nopack build on Skill
+L8 pack build on -
