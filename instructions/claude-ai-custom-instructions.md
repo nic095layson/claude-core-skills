@@ -208,8 +208,9 @@ re-paste (drift law).** The block measured **5,295 characters** then, up from
 4,844 (same awk/wc method, 2026-08-26).
 
 **Updated 2026-10-19 (red-team candidate measured — PR 25):** pointer 8 added for
-the `red-team` skill and the opening line moves to "eight"; base text otherwise
-verbatim (diff: only the declared changes). The pointer steers a candidate whose
+the `red-team` skill, the opening line moves to "eight" and its roster sentence
+gains ", red-team" (three hunks); base text otherwise verbatim (block-only diff
+against the previous commit shows those three hunks and nothing else). The pointer steers a candidate whose
 trigger is measured on Claude Code headless (6/6 · 2/2 · 4/4 on `claude-fable-5-1`
 and `claude-opus-5-5`, `results/2026-10-19/red-team-trigger-evals/`) and whose
 claude.ai triggering is unmeasured; steering value UNMEASURED (assumption A2

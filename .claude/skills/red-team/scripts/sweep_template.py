@@ -17,14 +17,17 @@ The contract (each clause came from a recorded failure):
      which configuration its bands were made on and attacks_check.py can call it STALE.
 
 The project's model module must expose: module-level constants named in the registry, and
-    headline(seed: int, seasons: int) -> float        the figure the report will quote
+    headline(seed: int, samples: int) -> float        the figure the report will quote (samples: the draws
+                                                      per evaluation — seasons, paths, trials, whatever the model counts)
 Variants come from the registry: every `declared_band` entry's `band` list, each item {"label", "value"}.
 A project whose patches are not simple constants (a function swapped, a literal inside a function) extends
 apply_patch() in its own copy; the rest of the contract stands.
 
     python3 sweep_template.py --model model.py --registry redteam/constants_registry.json --out sweep.json \\
-        [--seeds 1 2] [--seasons 6000] [--reference '{"1": 21.4, "2": 21.7}'] [--se 0.54] \\
-        [--fingerprint abc1234] [--tiers 1.0 2.0]
+        [--seeds 1 2] [--samples 6000] --reference '{"1": 21.4, "2": 21.7}' --se 0.54 \\
+        --fingerprint abc1234 [--tiers 1.0 2.0] [--allow-no-reference]
+    The reference and the fingerprint are required: without them the runner refuses to tier (ContractError);
+    --allow-no-reference records "NOT ASSERTED" in place of the baseline check instead of pretending.
     python3 sweep_template.py --demo sweep.json          # the built-in toy model, end to end
 """
 import argparse
@@ -39,6 +42,10 @@ import uuid
 
 class BaselineError(RuntimeError):
     """The baseline did not reproduce the published reference within 3 SE; no tier may be read."""
+
+
+class ContractError(RuntimeError):
+    """A sweep was asked to run outside its contract: no reference to assert against, or no fingerprint."""
 
 
 def tier(shift, thresholds=(1.0, 2.0)):
@@ -83,10 +90,10 @@ def apply_patch(mod, patch):
         setattr(mod, name, value)
 
 
-def run_job(model_path, patch, seed, seasons):
+def run_job(model_path, patch, seed, samples):
     mod = load_model(model_path)
     apply_patch(mod, patch)
-    return float(mod.headline(seed, seasons))
+    return float(mod.headline(seed, samples))
 
 
 def variants_from_registry(registry):
@@ -124,26 +131,32 @@ def summarize(headlines, variants, seeds, thresholds):
             "sensitive": [k for k, c in consts.items() if c["tier"] == "SENSITIVE"]}
 
 
-def run_sweep(model_path, registry, out, seeds=(1, 2), seasons=1000, reference=None, se=None,
-              fingerprint="", thresholds=(1.0, 2.0)):
+def run_sweep(model_path, registry, out, seeds=(1, 2), samples=1000, reference=None, se=None,
+              fingerprint="", thresholds=(1.0, 2.0), allow_no_reference=False):
     if len(seeds) < 2:
         raise ValueError("two seeds minimum (contract clause 4)")
+    if not str(fingerprint or "").strip():
+        raise ContractError("no fingerprint: pass fingerprint= (git short HEAD or a version) — clause 6")
+    if reference is None and not allow_no_reference:
+        raise ContractError("no reference: pass reference= and se= so the baseline is asserted before any tier "
+                            "is read (clause 3), or allow_no_reference=True to record that it was not")
     variants = variants_from_registry(registry)
     labels = ["baseline"] + [v["label"] for v in variants]
     headlines = {lb: {} for lb in labels}
     for sd in seeds:
-        headlines["baseline"][str(sd)] = run_job(model_path, {}, sd, seasons)
-    within = None
+        headlines["baseline"][str(sd)] = run_job(model_path, {}, sd, samples)
     if reference is not None:
         if se is None:
-            raise ValueError("--se is required with --reference")
+            raise ContractError("se= is required with reference=")
         assert_baseline(headlines["baseline"], reference, se)          # clause 3: before any tier
         within = {str(sd): True for sd in seeds}
+    else:
+        within = "NOT ASSERTED (allow_no_reference)"
     for v in variants:
         for sd in seeds:
-            headlines[v["label"]][str(sd)] = run_job(model_path, v["patch"], sd, seasons)
-    unpatched_rerun = {str(sd): run_job(model_path, {}, sd, seasons) for sd in seeds}   # clause 1, checkable
-    rec = dict(seasons=seasons, seeds=list(seeds), fingerprint=fingerprint, model=os.path.basename(model_path),
+            headlines[v["label"]][str(sd)] = run_job(model_path, v["patch"], sd, samples)
+    unpatched_rerun = {str(sd): run_job(model_path, {}, sd, samples) for sd in seeds}   # clause 1, checkable
+    rec = dict(samples=samples, seeds=list(seeds), fingerprint=fingerprint, model=os.path.basename(model_path),
                registry_sha256=hashlib.sha256(json.dumps(registry, sort_keys=True).encode()).hexdigest()[:12],
                reference=reference, se=se, baseline_within_3se=within,
                tier_rule=(f"mean shift over seeds: ROBUST < {thresholds[0]}, SENSITIVE {thresholds[0]}-"
@@ -165,7 +178,7 @@ SHOCK = 0.06           # the hand-set constant under attack
 SENSITIVITY = -56.0    # headline points per unit of SHOCK (no shock -> +3.36, doubled -> -3.36)
 
 
-def headline(seed, seasons):
+def headline(seed, samples):
     rng = random.Random(seed)
     return BASE + SENSITIVITY * (SHOCK - 0.06) + rng.gauss(0.0, 0.05)
 '''
@@ -182,7 +195,7 @@ def demo(out, seeds=(1, 2), fingerprint="demo"):
     model = os.path.join(d, "toy_model.py")
     with open(model, "w", encoding="utf-8") as f:
         f.write(DEMO_MODEL)
-    return run_sweep(model, DEMO_REGISTRY, out, seeds=seeds, seasons=1000,
+    return run_sweep(model, DEMO_REGISTRY, out, seeds=seeds, samples=1000,
                      reference={str(s): 21.4 for s in seeds}, se=0.5, fingerprint=fingerprint)
 
 
@@ -192,7 +205,9 @@ def main(argv=None):
     ap.add_argument("--registry")
     ap.add_argument("--out")
     ap.add_argument("--seeds", type=int, nargs="+", default=[1, 2])
-    ap.add_argument("--seasons", type=int, default=1000)
+    ap.add_argument("--samples", type=int, default=1000, help="draws per headline evaluation (seasons, paths, trials)")
+    ap.add_argument("--allow-no-reference", action="store_true",
+                    help="run without the 3 SE baseline assertion; the record says NOT ASSERTED")
     ap.add_argument("--reference", help='JSON {seed: published headline}, e.g. \'{"1": 21.4, "2": 21.7}\'')
     ap.add_argument("--se", type=float, help="the published sampling error, for the 3 SE baseline assertion")
     ap.add_argument("--fingerprint", default="")
@@ -207,9 +222,9 @@ def main(argv=None):
         with open(a.registry, encoding="utf-8") as f:
             registry = json.load(f)
         reference = json.loads(a.reference) if a.reference else None
-        rec = run_sweep(a.model, registry, a.out, tuple(a.seeds), a.seasons, reference, a.se, a.fingerprint,
-                        tuple(a.tiers))
-    print(f"SWEEP: {rec['seasons']:,} seasons x seeds {rec['seeds']} on {rec['fingerprint'] or 'no fingerprint'}; "
+        rec = run_sweep(a.model, registry, a.out, tuple(a.seeds), a.samples, reference, a.se, a.fingerprint,
+                        tuple(a.tiers), a.allow_no_reference)
+    print(f"SWEEP: {rec['samples']:,} samples x seeds {rec['seeds']} on {rec['fingerprint']}; "
           f"baseline within 3 SE: {rec['baseline_within_3se']}")
     for name, c in rec["constants"].items():
         for v in c["variants"]:

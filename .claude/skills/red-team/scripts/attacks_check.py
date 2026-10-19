@@ -58,11 +58,14 @@ def _sha(path):
 
 
 def _same_engine(recorded, live):
-    """True when both are non-empty and one is a prefix of the other (short vs long hashes)."""
+    """True when both carry at least 7 characters (git's shortest abbreviation) and one is a prefix of the
+    other (short vs long hashes). A shorter value never matches: a two-character --fingerprint must not
+    read a STALE record as CURRENT."""
     r, l = str(recorded or "").strip(), str(live or "").strip()
-    if not r or not l:
+    if len(r) < 7 or len(l) < 7:
         return False
-    return r.startswith(l[:7]) or l.startswith(r[:7])
+    n = min(len(r), len(l))
+    return r[:n] == l[:n]
 
 
 def check(attacks, root, fingerprint):

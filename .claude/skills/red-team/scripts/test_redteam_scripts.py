@@ -334,5 +334,41 @@ class Sweep(unittest.TestCase):
         self.assertTrue(os.path.exists(out))
 
 
+class RoundTwoAfterRefuters(unittest.TestCase):
+    """Added 2026-10-19 after three refuters reviewed the toolkit; each failed before its fix."""
+
+    def test_short_live_fingerprint_cannot_match_a_record(self):
+        self.assertFalse(A._same_engine("abc1234", "ab"))
+        self.assertTrue(A._same_engine("abc1234", "abc1234def"))
+        self.assertTrue(A._same_engine("abc1234def", "abc1234"))
+        self.assertFalse(A._same_engine("abc1234", "abd1234"))
+
+    def test_sweep_refuses_to_tier_without_a_reference_unless_told_so(self):
+        d = tempfile.mkdtemp()
+        model = os.path.join(d, "m.py")
+        open(model, "w").write(S.DEMO_MODEL)
+        with self.assertRaises(S.ContractError):
+            S.run_sweep(model, S.DEMO_REGISTRY, os.path.join(d, "s.json"), seeds=(1, 2), samples=100,
+                        fingerprint="x")
+        rec = S.run_sweep(model, S.DEMO_REGISTRY, os.path.join(d, "s2.json"), seeds=(1, 2), samples=100,
+                          fingerprint="x", allow_no_reference=True)
+        self.assertEqual(rec["baseline_within_3se"], "NOT ASSERTED (allow_no_reference)")
+
+    def test_sweep_refuses_an_empty_fingerprint(self):
+        d = tempfile.mkdtemp()
+        model = os.path.join(d, "m.py")
+        open(model, "w").write(S.DEMO_MODEL)
+        with self.assertRaises(S.ContractError):
+            S.run_sweep(model, S.DEMO_REGISTRY, os.path.join(d, "s.json"), seeds=(1, 2), samples=100,
+                        reference={"1": 21.4, "2": 21.4}, se=0.5, fingerprint="")
+
+    def test_attacks_check_passes_right_after_init_with_no_other_step(self):
+        d = tempfile.mkdtemp()
+        I.scaffold(d)
+        r = subprocess.run([sys.executable, "-I", os.path.join(HERE, "attacks_check.py"), "--root", d],
+                           capture_output=True, text=True)
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

@@ -1,0 +1,1 @@
+Audit the assumptions behind our churn model and tell me what would break the 12% forecast.

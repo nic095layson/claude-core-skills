@@ -1,0 +1,12 @@
+  ok    t1 Write: figure ± sampling error, no band word -> reminder
+  ok    t2 same session again -> silent (once per session)
+  ok    t3 Write: ± figure WITH the band quoted (FRAGILE) -> silent
+  ok    t4 Write: a number with no ± (a measured count, a percentage) -> silent
+  ok    t5 Bash tool carrying a ± in its command -> silent (write-class tools only)
+  ok    t6 malformed input -> silent, exit 0 (fail-open)
+  ok    t7 Edit: new_string with an ASCII +/- figure, no band word -> reminder
+  FAIL  t8 Write: band quoted as 'Structural band:' (capitalised phrase) -> silent (expected silence, got: {"hookSpecificOutput":{"hookEventName":"PreToolUse","additionalContext":"Band check (red-team skill): this write quotes a figure with a sampling error and no structural band. If the figure comes from a model with hand-set constants (a simulator, projection, forecast, odds, scoring engine), quote the last sweep's band beside it by constant name — two error bars — or name the constant as uncalibrated with the decision that will calibrate it; if there is no sweep yet, say so rather than quoting the sampling error alone. A figure measured from data, not modelled: proceed. This reminder fires once per session."},"suppressOutput":true})
+  ok    t9 Write: lower-case 'robust' in prose is not a tier token -> reminder (documented)
+== 8 passed, 1 failed ==
+exit 1
+# round-2 red run at 2026-10-19T18:19:05Z (t8, t9 added after the refuters, before the fix)

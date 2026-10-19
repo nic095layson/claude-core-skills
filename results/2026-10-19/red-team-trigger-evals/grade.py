@@ -42,6 +42,11 @@ def read_run(path):
                 model = ev.get("model")
             if ev.get("type") == "result":
                 turns, subtype, cost = ev.get("num_turns"), ev.get("subtype"), ev.get("total_cost_usd")
+                # INC-2026-08-26-01: a session-limit refusal arrives as a success-shaped result whose text
+                # is the limit banner. It is a NON-RUN, never a graded SILENT. (Found live in replicate B,
+                # 2026-10-19: the first grader pass read 20 refusals as silences.)
+                if "hit your session limit" in str(ev.get("result") or ""):
+                    subtype = "session_limit_refusal"
             msg = ev.get("message")
             if not isinstance(msg, dict):
                 continue

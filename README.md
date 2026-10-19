@@ -87,8 +87,9 @@ record `results/2026-10-19/red-team-trigger-evals/`, 24 headless runs): on
 2/2 on id 6, 4/4 silent, zero over-fires, every fire the first tool call. The
 description is unchanged. Shipped with it: a dependency-free toolkit under the
 skill's `scripts/` (`redteam_init.py`, `registry_check.py`, `attacks_check.py`,
-`bands_check.py`, `sweep_template.py`; 42 red-first tests), a band-reminder hook
-(`hooks/redteam-band-reminder.sh`, pipe-tested 7/7 red-first, A/B owed), and
+`bands_check.py`, `sweep_template.py`; 46 tests, 45 of them seen failing before the
+code they pin), a band-reminder hook (`hooks/redteam-band-reminder.sh`, pipe-tested
+9/9, red-first, live-fired once, A/B owed), and
 pointer 8 in the claude.ai instructions (owner re-paste required). Behavioral
 value and claude.ai triggering remain unmeasured; nothing here earns always-on
 until Decision-5 review. Register row 20.

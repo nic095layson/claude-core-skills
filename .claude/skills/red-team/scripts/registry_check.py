@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Registry check: the project's judgment constants, registered with a calibration status, against the live
-system (red-team skill, step 1). Generalized 2026-10-19 from the fantasy-basketball kit's check_constants.py
-(ledger INC-2026-10-19-01): every project-specific name removed; the live values come from the project.
+system (red-team skill, step 1). Generalized 2026-10-19 from the reference implementation in the
+fantasy-basketball kit (check_constants.py; ledger INC-2026-10-19-01), named here as lineage only: nothing
+in this script depends on that project, and the live values come from yours.
 
 Why it exists: a hand-set constant cannot fail a test of itself. The incident's engine passed three months
 of audits while one unregistered shock constant moved the headline by three points. Nothing could fail,

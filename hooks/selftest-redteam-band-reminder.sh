@@ -38,6 +38,11 @@ run "t6 malformed input -> silent, exit 0 (fail-open)" empty "this is not json"
 run "t7 Edit: new_string with an ASCII +/- figure, no band word -> reminder" json \
     "$(edit s6 'Lift of 4.2% +/- 0.3 on the new tier.')"
 
+run "t8 Write: band quoted as 'Structural band:' (capitalised phrase) -> silent" empty \
+    "$(write s8 Write 'Share 21.4 ± 0.4. Structural band: +3.4 / -2.3 across the shock sweep.')"
+run "t9 Write: lower-case 'robust' in prose is not a tier token -> reminder (documented)" json \
+    "$(write s9 Write 'The estimate 21.4 ± 0.4 is robust to the shock constant.')"
+
 rm -rf "$TMPDIR"
 echo "== $pass passed, $fail failed =="
 [ "$fail" -eq 0 ]

@@ -18,3 +18,6 @@ mkdir -p "$d/work"
     --settings '{"enabledPlugins":{"core-governance@synced":false}}' > "$d/out.jsonl" 2> "$d/err.txt" < /dev/null
   echo $? > "$d/exit.txt"
 )
+# Correction 2026-10-19 (after refutation): "Tools are read-only" above was wrong. --allowedTools pre-approves; it does
+# not remove tools. Bash executed in 23 of 24 runs, three Write attempts were permission-denied, and the runs
+# inherited this container's session id. Replicate B (run_one_isolated.sh) disallows every tool but Skill and unsets it.

@@ -142,8 +142,9 @@ The band sentence, verbatim shape, in any report quoting the headline:
 
 ## Tooling (shipped beside this skill, `scripts/`)
 
-Dependency-free Python, generalized from the reference implementation with every
-project name removed; `<skill>` is this skill's directory (`.claude/skills/red-team`
+Dependency-free Python, generalized from the reference implementation (named in
+each script's docstring as lineage only; nothing in the procedure depends on that
+project); `<skill>` is this skill's directory (`.claude/skills/red-team`
 in a project that carries it, or `~/.claude/skills/red-team`):
 
 ```

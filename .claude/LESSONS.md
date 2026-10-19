@@ -1146,9 +1146,10 @@ unmerged branch defeats it exactly.**
   attack list, two error bars or the report fails its gate — with its trigger
   measured 2026-10-19 (6/6 · 2/2 · 4/4 on `claude-fable-5-1` and `claude-opus-5-5`,
   `results/2026-10-19/red-team-trigger-evals/`), a dependency-free toolkit under
-  the skill's `scripts/` (42 red-first tests), `hooks/redteam-band-reminder.sh`
-  (pipe-tested 7/7 red-first, live-fired once) and pointer 8 in the claude.ai
-  instructions.
+  the skill's `scripts/` (46 tests, 45 seen red before the code they pin; three
+  independent refuters then found three contract gaps, each fixed red-first),
+  `hooks/redteam-band-reminder.sh` (pipe-tested 9/9 red-first, live-fired once)
+  and pointer 8 in the claude.ai instructions.
 - **Status:** FIXED in the kit as standing gates. In this library the skill is a
   **measured candidate**: trigger CONFIRMED, behavioral value UNMEASURED, not
   always-on until Decision-5 review; the hook's A/B is owed

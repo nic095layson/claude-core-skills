@@ -9,10 +9,13 @@ Refuses to overwrite an existing file unless --force. Prints every path it creat
 statuses are documented in the README it writes, with one example registry entry per status.
 """
 import argparse
+import contextlib
+import io
 import json
 import os
 import sys
 
+HERE = os.path.dirname(os.path.abspath(__file__))
 STATUSES = ("settings", "structural", "measured", "declared_band", "uncalibrated")
 
 REGISTRY = {
@@ -92,7 +95,7 @@ SWEEP_EXAMPLE = {
 
 REPORT_EXAMPLE = """# Example report (passes bands_check.py against redteam/records/sweep.example.json)
 
-Headline: the title share is 21.4 ± 0.5 (Monte-Carlo, 6,000 seasons x 2 seeds).
+Headline: 21.4 ± 0.5 (sampling error, 6,000 samples x 2 seeds).
 
 EXAMPLE_SHOCK is FRAGILE: +3.4 (no shock) / -2.3 (shock doubled); the headline 21.4 ± 0.5 sits inside that
 band. Two error bars: the sampling error says how many times we ran it; the structural band says how much a
@@ -111,8 +114,9 @@ python3 <skill>/scripts/bands_check.py    --report <your report> --sweep <your s
 ```
 
 `<skill>` is the red-team skill directory (`.claude/skills/red-team` in a project that carries it, or
-`~/.claude/skills/red-team`). The scaffold passes all three as shipped: the registry matches `live.py`, the
-one example attack is UNFINGERPRINTED (allowed), and `report.example.md` quotes the example band.
+`~/.claude/skills/red-team`). The scaffold passes all three as shipped: `redteam_init.py` ran the registry
+check once and wrote `redteam/records/constants.json`, the one example attack is UNFINGERPRINTED
+(allowed), and `report.example.md` quotes the example band.
 
 ## The five calibration statuses (every registered constant carries one)
 
@@ -169,6 +173,14 @@ def scaffold(root, force=False, today=None):
         with open(path, "w", encoding="utf-8") as f:
             f.write(text)
         created.append(rel)
+    # Run the registry check once so the example attack's record exists and all three checks pass on the
+    # scaffold with no further step (a refuter found the attacks check failing MISSING until it was run).
+    sys.path.insert(0, HERE)
+    import registry_check  # noqa: E402
+    with contextlib.redirect_stdout(io.StringIO()):
+        code = registry_check.main(["--root", root, "--json", "redteam/records/constants.json"])
+    if code == 0:
+        created.append("redteam/records/constants.json")
     return created
 
 

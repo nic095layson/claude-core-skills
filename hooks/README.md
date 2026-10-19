@@ -70,11 +70,21 @@ Install (user scope):
    observe on a real session's first write of a ± figure.
 
 Red-first: the self-test was written and run before the hook existed (0/7, "hook
-missing"), then 7/7 after, twice consecutively
-(`results/2026-10-19/red-team-hook/`). Live, hook wired in a scratch project,
-N=1 each: a conversational write with no figure → no reminder; a report quoting
-a modelled ± figure → one reminder (same directory). The A/B is pre-registered
-and owed: `experiments/hypothesis-2026-10-19-redteam-band-hook.md`.
+missing"), then 7/7 after; two cases were added after an independent review (a
+capitalised "Structural band:" must be silent — it was not, fixed; a lower-case
+"robust" in prose is not a tier token and still gets the reminder — documented,
+not changed), 8/9 before that fix, 9/9 after, twice
+(`results/2026-10-19/red-team-hook/`). The band words are the upper-case tier
+tokens FRAGILE, SENSITIVE, ROBUST and the phrase "structural band" in any case.
+Live, hook wired in a scratch project, three runs, N=1 each: a conversational
+write with no figure → no reminder; a one-line status file quoting a ± figure
+verbatim → one reminder, after which the session explained the ask and offered
+the red-team skill; a report prompt describing a model with hand-set constants →
+no reminder, because the session loaded red-team on its own and wrote a FRAGILE
+sentence into the report (the hook saw a band word and stayed silent — it cannot
+tell a band read from a sweep record from one the session invented; that is the
+bands check's job, and the invented band would fail it). The A/B is
+pre-registered and owed: `experiments/hypothesis-2026-10-19-redteam-band-hook.md`.
 
 ## ledger-recount-reminder.sh (shipped 2026-08-03, UNMEASURED)
 

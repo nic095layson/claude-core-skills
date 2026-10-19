@@ -184,3 +184,5 @@ FAILED (failures=5)
 ATTACKS CHECK: PASS — 1 attacks on abc1234; CURRENT 1
 exit 1
 # green run at 2026-10-19T17:51:45Z
+# NOTE (2026-10-19, after refutation): the "green run" footer above is mislabeled. This is the first run after the
+# scripts landed: 41 tests, 5 fixture failures on a rounding-boundary value (-2.35), not a pass.

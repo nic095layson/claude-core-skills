@@ -22,7 +22,8 @@ if d.get("tool_name") not in ("Write", "Edit", "NotebookEdit"):
 ti = d.get("tool_input") or {}
 text = " ".join(str(ti.get(k) or "") for k in ("content", "new_string", "new_source"))
 has_error_bar = re.search(r"[0-9][0-9.,]*\s*%?\s*(±|\+/-|\+/−)\s*[0-9]", text) is not None
-has_band = re.search(r"\b(FRAGILE|SENSITIVE|ROBUST)\b|structural band", text) is not None
+has_band = (re.search(r"\b(FRAGILE|SENSITIVE|ROBUST)\b", text) is not None
+            or re.search(r"structural band", text, re.IGNORECASE) is not None)
 sid = re.sub(r"[^A-Za-z0-9_.-]", "_", str(d.get("session_id") or "nosession"))
 print("fire " + sid if has_error_bar and not has_band else "")
 ' 2>/dev/null || true)
