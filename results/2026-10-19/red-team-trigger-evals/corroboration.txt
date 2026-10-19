@@ -1,0 +1,25 @@
+run                              first_tool            skill_call_index  band/sweep/registry/fingerprint words in assistant text
+claude-fable-5-1-id1-r1.jsonl    Skill:red-team        0                 -
+claude-fable-5-1-id1-r2.jsonl    Skill:red-team        0                 band,sweep,registry,fingerprint
+claude-fable-5-1-id2-r1.jsonl    Skill:red-team        0                 -
+claude-fable-5-1-id2-r2.jsonl    Skill:red-team        0                 -
+claude-fable-5-1-id3-r1.jsonl    Skill:red-team        0                 -
+claude-fable-5-1-id3-r2.jsonl    Skill:red-team        0                 band,uncalibrated
+claude-fable-5-1-id4-r1.jsonl    Skill:adversarial-verifyNone              -
+claude-fable-5-1-id4-r2.jsonl    Skill:adversarial-verifyNone              -
+claude-fable-5-1-id5-r1.jsonl    Bash                  None              -
+claude-fable-5-1-id5-r2.jsonl    Bash                  None              -
+claude-fable-5-1-id6-r1.jsonl    Skill:red-team        0                 band,sweep
+claude-fable-5-1-id6-r2.jsonl    Skill:red-team        0                 band,sweep,uncalibrated
+claude-opus-5-5-id1-r1.jsonl     Skill:red-team        0                 -
+claude-opus-5-5-id1-r2.jsonl     Skill:red-team        0                 -
+claude-opus-5-5-id2-r1.jsonl     Skill:red-team        0                 sweep,registry
+claude-opus-5-5-id2-r2.jsonl     Skill:red-team        0                 band,sweep,registry
+claude-opus-5-5-id3-r1.jsonl     Skill:red-team        0                 band
+claude-opus-5-5-id3-r2.jsonl     Skill:red-team        0                 -
+claude-opus-5-5-id4-r1.jsonl     Bash                  None              -
+claude-opus-5-5-id4-r2.jsonl     Bash                  None              -
+claude-opus-5-5-id5-r1.jsonl     Bash                  None              -
+claude-opus-5-5-id5-r2.jsonl     Bash                  None              -
+claude-opus-5-5-id6-r1.jsonl     Skill:red-team        0                 -
+claude-opus-5-5-id6-r2.jsonl     Skill:red-team        0                 -

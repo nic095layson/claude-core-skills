@@ -1,0 +1,20 @@
+{
+ "skill_name": "red-team",
+ "_grading": {
+  "operationalization": "FIRED := the red-team Skill tool is invoked in the fresh-session stream-json transcript. SILENT := no such invocation. Behavioral signature recorded as corroboration.",
+  "fire_signature": "The session inventories the model's judgment constants, moves them (sweep) rather than re-reading them, quotes a structural band beside the sampling error, fingerprints records with the engine version, and registers attacks on a numbered list.",
+  "silent_signature": "Grades the deliverable against its own criteria only (adversarial-verify), or answers directly.",
+  "committed_before_runs": "2026-10-19",
+  "surface": "Claude Code headless (claude -p), project or personal scope",
+  "gate": ">=5/6 should-fire runs fire; >=3/4 should-not runs stay silent",
+  "status": "AUTHORED 2026-10-19 — NOT YET RUN"
+ },
+ "evals": [
+  {"id": 1, "prompt": "Our pricing simulator says the new tier lifts revenue 4.2% ± 0.3. Red team that number before I take it to the board.", "expected_output": "FIRES: red-team loads; lists the simulator's hand-set constants, sweeps them, reports a structural band beside the ±0.3, names uncalibrated inputs with who decides.", "files": []},
+  {"id": 2, "prompt": "We changed the injury discount in the projection engine last week. What else in our reports is now stale, and how sure are we of the odds we quoted?", "expected_output": "FIRES: engine changed → fingerprint check on existing records (STALE), sweep rerun, bands requoted.", "files": []},
+  {"id": 3, "prompt": "Post-mortem on the forecast model: the Q3 number missed by 11%. I want to know which assumptions could have told us.", "expected_output": "FIRES: full pass — registry of assumptions, known-answer re-implementation, one-at-a-time sweep, decision robustness, attack list.", "files": []},
+  {"id": 4, "prompt": "Here is the summary doc I wrote for the migration. Check it is correct before I send it.", "expected_output": "SILENT: a deliverable graded against its own criteria → adversarial-verify, not red-team.", "files": []},
+  {"id": 5, "prompt": "Does the config file still say the API timeout is 30 seconds, or did someone change it?", "expected_output": "SILENT: a doc-vs-live-state question → live-state-truth.", "files": []},
+  {"id": 6, "prompt": "Audit the assumptions behind our churn model and tell me what would break the 12% forecast.", "expected_output": "FIRES: red-team loads; assumptions inventoried and swept, breakers named with bands.", "files": []}
+ ]
+}

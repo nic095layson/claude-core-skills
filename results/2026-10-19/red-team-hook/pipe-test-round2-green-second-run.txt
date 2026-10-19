@@ -1,0 +1,11 @@
+  ok    t1 Write: figure ± sampling error, no band word -> reminder
+  ok    t2 same session again -> silent (once per session)
+  ok    t3 Write: ± figure WITH the band quoted (FRAGILE) -> silent
+  ok    t4 Write: a number with no ± (a measured count, a percentage) -> silent
+  ok    t5 Bash tool carrying a ± in its command -> silent (write-class tools only)
+  ok    t6 malformed input -> silent, exit 0 (fail-open)
+  ok    t7 Edit: new_string with an ASCII +/- figure, no band word -> reminder
+  ok    t8 Write: band quoted as 'Structural band:' (capitalised phrase) -> silent
+  ok    t9 Write: lower-case 'robust' in prose is not a tier token -> reminder (documented)
+== 9 passed, 0 failed ==
+exit 0

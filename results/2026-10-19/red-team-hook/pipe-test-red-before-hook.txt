@@ -1,0 +1,10 @@
+  FAIL  t1 Write: figure ± sampling error, no band word -> reminder (hook missing: /home/user/claude-core-skills/hooks/redteam-band-reminder.sh)
+  FAIL  t2 same session again -> silent (once per session) (hook missing: /home/user/claude-core-skills/hooks/redteam-band-reminder.sh)
+  FAIL  t3 Write: ± figure WITH the band quoted (FRAGILE) -> silent (hook missing: /home/user/claude-core-skills/hooks/redteam-band-reminder.sh)
+  FAIL  t4 Write: a number with no ± (a measured count, a percentage) -> silent (hook missing: /home/user/claude-core-skills/hooks/redteam-band-reminder.sh)
+  FAIL  t5 Bash tool carrying a ± in its command -> silent (write-class tools only) (hook missing: /home/user/claude-core-skills/hooks/redteam-band-reminder.sh)
+  FAIL  t6 malformed input -> silent, exit 0 (fail-open) (hook missing: /home/user/claude-core-skills/hooks/redteam-band-reminder.sh)
+  FAIL  t7 Edit: new_string with an ASCII +/- figure, no band word -> reminder (hook missing: /home/user/claude-core-skills/hooks/redteam-band-reminder.sh)
+== 0 passed, 7 failed ==
+exit 1
+# red run at 2026-10-19T17:54:55Z

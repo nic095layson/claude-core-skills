@@ -1,0 +1,85 @@
+{
+ "model_tag": "repB-claude-fable-5-1",
+ "models_observed": {},
+ "should_fire_ids_1_3": "0/0",
+ "should_fire_id_6": "0/0",
+ "should_not_ids_4_5_silent": "0/0",
+ "gate_hypothesis_5of6_and_4of4": "FAIL",
+ "gate_evalsfile_5of6_and_3of4": "FAIL",
+ "total_cost_usd": 0,
+ "nonruns": [
+  {
+   "id": 1,
+   "run": 1,
+   "subtype": "session_limit_refusal",
+   "file": "repB-claude-fable-5-1-id1-r1.jsonl"
+  },
+  {
+   "id": 1,
+   "run": 2,
+   "subtype": "session_limit_refusal",
+   "file": "repB-claude-fable-5-1-id1-r2.jsonl"
+  },
+  {
+   "id": 2,
+   "run": 1,
+   "subtype": "session_limit_refusal",
+   "file": "repB-claude-fable-5-1-id2-r1.jsonl"
+  },
+  {
+   "id": 2,
+   "run": 2,
+   "subtype": "session_limit_refusal",
+   "file": "repB-claude-fable-5-1-id2-r2.jsonl"
+  },
+  {
+   "id": 3,
+   "run": 1,
+   "subtype": "session_limit_refusal",
+   "file": "repB-claude-fable-5-1-id3-r1.jsonl"
+  },
+  {
+   "id": 3,
+   "run": 2,
+   "subtype": "session_limit_refusal",
+   "file": "repB-claude-fable-5-1-id3-r2.jsonl"
+  },
+  {
+   "id": 4,
+   "run": 1,
+   "subtype": "session_limit_refusal",
+   "file": "repB-claude-fable-5-1-id4-r1.jsonl"
+  },
+  {
+   "id": 4,
+   "run": 2,
+   "subtype": "session_limit_refusal",
+   "file": "repB-claude-fable-5-1-id4-r2.jsonl"
+  },
+  {
+   "id": 5,
+   "run": 1,
+   "subtype": "session_limit_refusal",
+   "file": "repB-claude-fable-5-1-id5-r1.jsonl"
+  },
+  {
+   "id": 5,
+   "run": 2,
+   "subtype": "session_limit_refusal",
+   "file": "repB-claude-fable-5-1-id5-r2.jsonl"
+  },
+  {
+   "id": 6,
+   "run": 1,
+   "subtype": "session_limit_refusal",
+   "file": "repB-claude-fable-5-1-id6-r1.jsonl"
+  },
+  {
+   "id": 6,
+   "run": 2,
+   "subtype": "session_limit_refusal",
+   "file": "repB-claude-fable-5-1-id6-r2.jsonl"
+  }
+ ],
+ "rows": []
+}

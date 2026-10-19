@@ -1,0 +1,1 @@
+We changed the injury discount in the projection engine last week. What else in our reports is now stale, and how sure are we of the odds we quoted?

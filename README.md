@@ -71,6 +71,33 @@ Companions shipped the same day: two mechanical trigger hooks
 audit runbook (`evals/fable-transition-audit.md`), and the model-capability
 register (`evals/model-capability-register.md`).
 
+## Candidate authored 2026-10-19 — `red-team` (trigger-measured 2026-10-19; behavioral value unmeasured; not in the install footprint)
+
+Authored by the Fable 5.1 session of the fantasy-basketball kit after that
+project's draft post-mortem found a hand-set simulator constant moving a quoted
+figure by ±3 points where the report said ±0.4 (every prior audit had tested
+implementation against specification; ledger `INC-2026-10-19-01`). The skill
+attacks the **model** a deliverable rests on: a registry of judgment constants
+with calibration status, a known-answer re-implementation by a separate attacker,
+a one-at-a-time assumption sweep with structural bands, decision robustness,
+engine fingerprints and an append-only attack list, all as gates. **Trigger evals
+ran 2026-10-19** as pre-registered (`experiments/hypothesis-2026-10-19-red-team.md`;
+record `results/2026-10-19/red-team-trigger-evals/`, 24 headless runs): on
+`claude-fable-5-1` and on `claude-opus-5-5` alike, 6/6 should-fire on ids 1–3,
+2/2 on id 6, 4/4 silent, zero over-fires, every fire the first tool call. The
+description is unchanged. Shipped with it: a dependency-free toolkit under the
+skill's `scripts/` (`redteam_init.py`, `registry_check.py`, `attacks_check.py`,
+`bands_check.py`, `sweep_template.py`; 46 tests, 45 of them seen failing before the
+code they pin), a band-reminder hook (`hooks/redteam-band-reminder.sh`, pipe-tested
+9/9, red-first, live-fired once, A/B owed), and
+pointer 8 in the claude.ai instructions (owner re-paste required). Behavioral
+value and claude.ai triggering remain unmeasured; nothing here earns always-on
+until Decision-5 review. Register row 20.
+
+| Skill | Governs | Evals |
+|---|---|---|
+| [`red-team`](.claude/skills/red-team/SKILL.md) | Attacking the model beneath a figure: constants registry, assumption sweep with structural bands, fingerprinted attack list | `evals/red-team.json` |
+
 ## Adopted 2026-08-12 — `product-output`
 
 Owner-approved from the 2026-08-10 draft (`results/2026-08-10/product-output-skill/`),

@@ -1,0 +1,175 @@
+{
+ "model_tag": "claude-opus-5-5",
+ "models_observed": {
+  "claude-opus-5-5": 12
+ },
+ "should_fire_ids_1_3": "6/6",
+ "should_fire_id_6": "2/2",
+ "should_not_ids_4_5_silent": "4/4",
+ "gate_hypothesis_5of6_and_4of4": "PASS",
+ "gate_evalsfile_5of6_and_3of4": "PASS",
+ "total_cost_usd": 2.24,
+ "nonruns": [],
+ "rows": [
+  {
+   "id": 1,
+   "run": 1,
+   "expect": "FIRE",
+   "fired": true,
+   "grade": "PASS",
+   "invoked": [
+    "red-team"
+   ],
+   "model": "claude-opus-5-5",
+   "turns": 7,
+   "subtype": "success",
+   "cost": 0.2599986
+  },
+  {
+   "id": 1,
+   "run": 2,
+   "expect": "FIRE",
+   "fired": true,
+   "grade": "PASS",
+   "invoked": [
+    "red-team"
+   ],
+   "model": "claude-opus-5-5",
+   "turns": 7,
+   "subtype": "success",
+   "cost": 0.23774
+  },
+  {
+   "id": 2,
+   "run": 1,
+   "expect": "FIRE",
+   "fired": true,
+   "grade": "PASS",
+   "invoked": [
+    "red-team"
+   ],
+   "model": "claude-opus-5-5",
+   "turns": 7,
+   "subtype": "success",
+   "cost": 0.2195462
+  },
+  {
+   "id": 2,
+   "run": 2,
+   "expect": "FIRE",
+   "fired": true,
+   "grade": "PASS",
+   "invoked": [
+    "red-team"
+   ],
+   "model": "claude-opus-5-5",
+   "turns": 7,
+   "subtype": "success",
+   "cost": 0.21811160000000002
+  },
+  {
+   "id": 3,
+   "run": 1,
+   "expect": "FIRE",
+   "fired": true,
+   "grade": "PASS",
+   "invoked": [
+    "red-team"
+   ],
+   "model": "claude-opus-5-5",
+   "turns": 4,
+   "subtype": "success",
+   "cost": 0.1673234
+  },
+  {
+   "id": 3,
+   "run": 2,
+   "expect": "FIRE",
+   "fired": true,
+   "grade": "PASS",
+   "invoked": [
+    "red-team"
+   ],
+   "model": "claude-opus-5-5",
+   "turns": 5,
+   "subtype": "success",
+   "cost": 0.1934668
+  },
+  {
+   "id": 4,
+   "run": 1,
+   "expect": "SILENT",
+   "fired": false,
+   "grade": "PASS",
+   "invoked": [],
+   "model": "claude-opus-5-5",
+   "turns": 3,
+   "subtype": "success",
+   "cost": 0.1457532
+  },
+  {
+   "id": 4,
+   "run": 2,
+   "expect": "SILENT",
+   "fired": false,
+   "grade": "PASS",
+   "invoked": [],
+   "model": "claude-opus-5-5",
+   "turns": 2,
+   "subtype": "success",
+   "cost": 0.1284692
+  },
+  {
+   "id": 5,
+   "run": 1,
+   "expect": "SILENT",
+   "fired": false,
+   "grade": "PASS",
+   "invoked": [],
+   "model": "claude-opus-5-5",
+   "turns": 2,
+   "subtype": "success",
+   "cost": 0.12543680000000001
+  },
+  {
+   "id": 5,
+   "run": 2,
+   "expect": "SILENT",
+   "fired": false,
+   "grade": "PASS",
+   "invoked": [],
+   "model": "claude-opus-5-5",
+   "turns": 3,
+   "subtype": "success",
+   "cost": 0.142384
+  },
+  {
+   "id": 6,
+   "run": 1,
+   "expect": "FIRE",
+   "fired": true,
+   "grade": "PASS",
+   "invoked": [
+    "red-team"
+   ],
+   "model": "claude-opus-5-5",
+   "turns": 7,
+   "subtype": "success",
+   "cost": 0.2023736
+  },
+  {
+   "id": 6,
+   "run": 2,
+   "expect": "FIRE",
+   "fired": true,
+   "grade": "PASS",
+   "invoked": [
+    "red-team"
+   ],
+   "model": "claude-opus-5-5",
+   "turns": 7,
+   "subtype": "success",
+   "cost": 0.1966094
+  }
+ ]
+}

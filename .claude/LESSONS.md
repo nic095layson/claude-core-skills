@@ -1106,3 +1106,58 @@ unmerged branch defeats it exactly.**
 - **Status:** OPEN as a standing constraint (no fix wanted; the doctrine behaved as
   written). Owner decisions D-A / D-C in
   `results/2026-08-26/fable-transition/RESULTS.md`.
+
+### INC-2026-10-19-01 — Three months of audits, one hand-set constant: the engine was tested against its specification, never against its assumptions
+
+- **Date:** found 2026-10-19 by the kit's draft post-mortem; recorded here
+  2026-10-19. Keys on every remote branch checked first (Rule 4): no `2026-10-19`
+  key existed anywhere.
+- **Surface:** `nic095layson/fantasy-basketball-2026-27` and its deck simulator;
+  the reports of 2026-10-14 to 2026-10-19.
+- **Severity:** high as a reporting failure (a decision figure quoted with about a
+  tenth of its real uncertainty); no data damage.
+- **Symptom:** every report quoted the owner's title share with its Monte-Carlo
+  error, ±0.4. The post-mortem's one-at-a-time sweep found one hand-set simulator
+  constant, the shared games-played shock (0.06, never fit to anything), moving
+  that share by +3.4 (no shock) / −2.3 (shock doubled). Second finding: the
+  draft-grade records were made on an 18-week fixed-bracket engine and the report
+  on a 17-week reseeded one, and nothing said so.
+- **Root cause:** every audit tested implementation against specification —
+  z-scores re-derived to the last digit, two implementations in exact parity,
+  every projection fact-checked against two outlets, gates on every report. A
+  judgment constant cannot fail a test of itself; two copies of one model agree
+  whatever the model is worth; "we checked" was true of the arithmetic and false
+  of the assumptions. No registry said which constants were chosen rather than
+  measured, no sweep moved them, and no record carried the engine version.
+- **Evidence:** kit `report/after-reports/after-report-2026-10-19-draft-postmortem.md`
+  (§5 sensitivity table: baseline 21.43 / 21.68 on two seeds; shock 0 → +3.4;
+  shock 0.12 → −2.3; "OVERPRECISE: ±0.4 stated, about ±3 structural"; finding 5,
+  the engine change, deck `82e1679` → `259c630`);
+  `after-report-2026-10-19-redteam-standing.md` (sweep 6,000 seasons × 2 seeds:
+  1 FRAGILE, 2 SENSITIVE, 3 ROBUST; 28-entry registry; 29 red-first tests);
+  `after-report-2026-10-19-retro-redteam.md` (the findings changed the odds, not
+  the names). All three read 2026-10-19 from that repository's branch
+  `claude/market-data-workorder-mnfi2b` at `a097a6d`, read-only.
+- **Fix:** in the kit, the standing red team (`scripts/redteam/` and
+  `gates.py --redteam`). In this library (PR 25): the `red-team` skill as a
+  candidate governor — a registry with five calibration statuses, a
+  separate-attacker re-implementation, a one-at-a-time sweep with structural
+  bands and tiers, decision robustness, fingerprint-or-STALE, an append-only
+  attack list, two error bars or the report fails its gate — with its trigger
+  measured 2026-10-19 (6/6 · 2/2 · 4/4 on `claude-fable-5-1` and `claude-opus-5-5`,
+  `results/2026-10-19/red-team-trigger-evals/`), a dependency-free toolkit under
+  the skill's `scripts/` (46 tests, 45 seen red before the code they pin; three
+  independent refuters then found three contract gaps, each fixed red-first),
+  `hooks/redteam-band-reminder.sh` (pipe-tested 9/9 red-first, live-fired once)
+  and pointer 8 in the claude.ai instructions.
+- **Status:** FIXED in the kit as standing gates. In this library the skill is a
+  **measured candidate**: trigger CONFIRMED, behavioral value UNMEASURED, not
+  always-on until Decision-5 review; the hook's A/B is owed
+  (`experiments/hypothesis-2026-10-19-redteam-band-hook.md`).
+- **Lesson:** an audit that proves the code matches the spec says nothing about
+  the spec's numbers. A judgment constant is attacked by moving it; every
+  headline carries the structural band beside the sampling error; every record
+  names the engine it ran on. Found while generalizing the toolkit: the kit's
+  attack runner accepts a fingerprinted record when no live fingerprint is
+  available (an empty string is a prefix of every string); the library's copy
+  fails that case, and the kit's is flagged in PR 25, not changed.

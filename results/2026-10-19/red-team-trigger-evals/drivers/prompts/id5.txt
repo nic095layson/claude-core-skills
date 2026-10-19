@@ -1,0 +1,1 @@
+Does the config file still say the API timeout is 30 seconds, or did someone change it?
