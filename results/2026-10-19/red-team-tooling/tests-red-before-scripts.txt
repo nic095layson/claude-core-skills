@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "/home/user/claude-core-skills/.claude/skills/red-team/scripts/test_redteam_scripts.py", line 23, in <module>
+    import attacks_check as A  # noqa: E402
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+ModuleNotFoundError: No module named 'attacks_check'
+exit 1
+# red run at 2026-10-19T17:47:38Z
