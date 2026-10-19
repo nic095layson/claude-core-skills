@@ -1,0 +1,12 @@
+== selftest: receipt-law-stop-gate ==
+  ok   t1-inc9-shape — BLOCK
+  ok   t2-receipt-present — ALLOW
+  ok   t3-tools-ran-no-receipt — BLOCK
+  ok   t3b-tools-ran-with-receipt — ALLOW
+  ok   t4-quoted-only — ALLOW
+  ok   t5-loop-guard — ALLOW
+  ok   t6-plain-answer — ALLOW
+  ok   t7-first-fire — BLOCK
+  ok   t7-first-fire — ALLOW
+  ok   t8-missing-transcript — ALLOW
+== 10 passed, 0 failed ==

@@ -1,0 +1,29 @@
+govclass c3f17ac8 on hooks tree b635ab2: recall 14/36, false enforcement 6/36
+  missed: why is Duren above Bam on the board?? his blk z looks way too high, did the script double count blocks somewhere
+  missed: approved all six. apply them, rerun the guard before and after, then push to the branch and open the PR
+  missed: Conduct a calibration run on the prompt-trigger hook: 25 messages that should fire plan-gate, 25 that shouldn't, and rep
+  missed: I don't buy the 0.71 correlation between ADP and final rank you reported. That seems really high for guards. What sample
+  missed: audit every skill's frontmatter
+  missed: compre the two vendor quotes for the test fixtures and tell me which is actually cheaper once you factor in NRE and the 
+  missed: Reply to Mark's email on the schedule slip. Explain the supplier delay, offer the revised milestone dates, keep it to on
+  missed: That result can't be right. You included the 2019-20 bubble season and the era check never ran. Redo it with full 82-gam
+  missed: is the scope-fence hook actually blocking writes outside the approved files or just printing a warning? test it and show
+  missed: Would the CEO write-up hit harder if supplier on-time delivery led instead of the headcount section? Walk me through the
+  missed: Mock's at 8 tonight and the tiers still reflect July depth charts. At least three teams have changed starters since then
+  missed: Hit rate jumping from 61% to 74% just from dropping turnovers? That's a lot of lift for one change. I don't buy it yet.
+  missed: Take the export compliance plan's ITAR section and bring it in line with the 2026 USML revisions. Redline every paragrap
+  missed: Final RFP amendment dropped this morning. Before pink team Thursday I need Volume II walked against Sections L and M lin
+  missed: Calibrate the Stop gate against last month's transcripts. How often did it block when nothing needed governing, and how 
+  missed: M.'s program changed: 3-step sequencing now, 8 trials per session instead of 10. Need a new deck for Monday, same look a
+  missed: Dana wrote: "Finding 4 remains open pending objective evidence." Reply pushing back. We closed that CAR in August and th
+  missed: Merge the three hook fixes and redeploy the plugin.
+  missed: Sengun or Mobley as my keeper? We're punting FT% and I already roster two bigs. Use the 9-cat values, not vibes.
+  missed: I'm not sure the cover letter should say I 'led' the F-35 sustainment effort. I was the deputy. Is anything else in ther
+  missed: What would actually break if scope-fence got folded into plan-gate?
+  missed: Wemby at +6.8 in blocks seems impossible if the pool is the top 156. Which population did the z-scores get standardized 
+  false enforcement: CONTINUATION ['review'] Looks right. Carry on with slides 7-12 the same way.
+  false enforcement: SILENT ['build'] write me a limerick about a center who can't hit free throws
+  false enforcement: SILENT ['analysis'] My director just sent: 'Can you rebuild the entire FY27 forecast by Monday?' lol. Not asking you to 
+  false enforcement: REQUIREMENT ['analysis'] The backtest can't see anything after the 2025-26 trade deadline. Any leakage there and the whole re
+  false enforcement: SILENT ['build'] Write me a limerick about a hook that keeps blocking my commits.
+  false enforcement: SILENT ['analysis'] Rename the 'Sheet3' tab to 'Backtest'.

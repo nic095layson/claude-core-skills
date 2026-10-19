@@ -1,0 +1,554 @@
+{
+ "fingerprint": "b635ab2",
+ "fingerprint_of": "git tree of hooks/",
+ "govclass_sha256_8": "c3f17ac8",
+ "recall": "14/36",
+ "false_enforcement": "6/36",
+ "rows": [
+  {
+   "id": "CA01",
+   "label": "GOVERNED",
+   "classes": [
+    "analysis",
+    "build"
+   ],
+   "enforced": true,
+   "text": "you said punt FT% beat the balanced build last year but I think that was one weird season. rerun the backtest over 2021-22 through 2025-26, 12 teams, H2H 9-cat, and show me week-by-week win rates for both"
+  },
+  {
+   "id": "CA02",
+   "label": "GOVERNED",
+   "classes": [
+    "build"
+   ],
+   "enforced": true,
+   "text": "Draft the Section 3 technical approach for the Army RFP response. Use the compliance matrix rows as the outline and cite the SOW paragraph for each one."
+  },
+  {
+   "id": "CA03",
+   "label": "GOVERNED",
+   "classes": [],
+   "enforced": false,
+   "text": "why is Duren above Bam on the board?? his blk z looks way too high, did the script double count blocks somewhere"
+  },
+  {
+   "id": "CA04",
+   "label": "GOVERNED",
+   "classes": [],
+   "enforced": false,
+   "text": "approved all six. apply them, rerun the guard before and after, then push to the branch and open the PR"
+  },
+  {
+   "id": "CA05",
+   "label": "GOVERNED",
+   "classes": [
+    "analysis"
+   ],
+   "enforced": true,
+   "text": "Provide a gap analysis of the AS9100 internal audit findings against the corrective action log. Which CARs are overdue, and which findings never got a CAR at all?"
+  },
+  {
+   "id": "CA06",
+   "label": "GOVERNED",
+   "classes": [
+    "build"
+   ],
+   "enforced": true,
+   "text": "can you write a cover letter for the Northrop program manager posting I pasted above? pull only from my actual resume, don't invent anything"
+  },
+  {
+   "id": "CA07",
+   "label": "GOVERNED",
+   "classes": [],
+   "enforced": false,
+   "text": "Conduct a calibration run on the prompt-trigger hook: 25 messages that should fire plan-gate, 25 that shouldn't, and report false positive and false negative rates with the misses listed."
+  },
+  {
+   "id": "CA08",
+   "label": "GOVERNED",
+   "classes": [
+    "analysis"
+   ],
+   "enforced": true,
+   "text": "ok so for the CEO ops write up take the Q3 throughput numbers and the scrap rate tab from the spreadsheet and turn it into like a two page summary with the three biggest risks up front and recommendations at the end and he really only reads the first paragraph so make that one count and flag anything in the data that looks off"
+  },
+  {
+   "id": "CA09",
+   "label": "GOVERNED",
+   "classes": [
+    "build"
+   ],
+   "enforced": true,
+   "text": "Build the receptive ID deck for the colors program, field of 3, 10 trials, randomize target position each trial. Protocol photo is attached."
+  },
+  {
+   "id": "CA10",
+   "label": "GOVERNED",
+   "classes": [],
+   "enforced": false,
+   "text": "I don't buy the 0.71 correlation between ADP and final rank you reported. That seems really high for guards. What sample was that on?"
+  },
+  {
+   "id": "CA11",
+   "label": "GOVERNED",
+   "classes": [],
+   "enforced": false,
+   "text": "audit every skill's frontmatter"
+  },
+  {
+   "id": "CA12",
+   "label": "GOVERNED",
+   "classes": [
+    "build"
+   ],
+   "enforced": true,
+   "text": "Migrate the projections CSV to the new schema (split fg_pct into fgm and fga) and update the z-score engine so FG impact is volume weighted."
+  },
+  {
+   "id": "CA13",
+   "label": "GOVERNED",
+   "classes": [
+    "review"
+   ],
+   "enforced": true,
+   "text": "Hi Claude, could you take another look at the export control paragraph in the proposal? I'm not confident we have the sensor package under the right USML category. Please check it against the ITAR text and flag anything off before it goes to contracts on Thursday."
+  },
+  {
+   "id": "CA14",
+   "label": "GOVERNED",
+   "classes": [
+    "build"
+   ],
+   "enforced": true,
+   "text": "few things for the draft kit:\n- set up a live sheet that recalcs z-scores as players come off the board\n- add a positional scarcity column\n- test it against last year's draft log before Sunday"
+  },
+  {
+   "id": "CA15",
+   "label": "GOVERNED",
+   "classes": [],
+   "enforced": false,
+   "text": "compre the two vendor quotes for the test fixtures and tell me which is actually cheaper once you factor in NRE and the 14 week lead time on the second one"
+  },
+  {
+   "id": "CA16",
+   "label": "GOVERNED",
+   "classes": [],
+   "enforced": false,
+   "text": "Reply to Mark's email on the schedule slip. Explain the supplier delay, offer the revised milestone dates, keep it to one short paragraph. Draft only, don't send."
+  },
+  {
+   "id": "CA17",
+   "label": "GOVERNED",
+   "classes": [],
+   "enforced": false,
+   "text": "That result can't be right. You included the 2019-20 bubble season and the era check never ran. Redo it with full 82-game seasons only and tell me what changes."
+  },
+  {
+   "id": "CA18",
+   "label": "GOVERNED",
+   "classes": [],
+   "enforced": false,
+   "text": "is the scope-fence hook actually blocking writes outside the approved files or just printing a warning? test it and show me the log output"
+  },
+  {
+   "id": "CA19",
+   "label": "REQUIREMENT",
+   "classes": [],
+   "enforced": false,
+   "text": "z-scores have to stay per-game, not season totals. it's an H2H league."
+  },
+  {
+   "id": "CA20",
+   "label": "REQUIREMENT",
+   "classes": [],
+   "enforced": false,
+   "text": "Make sure nothing in the resume implies I hold a TS clearance. I don't, and that has to be accurate."
+  },
+  {
+   "id": "CA21",
+   "label": "REQUIREMENT",
+   "classes": [],
+   "enforced": false,
+   "text": "Stimulus images must be real photographs, no clip art. This client doesn't generalize from cartoons."
+  },
+  {
+   "id": "CA22",
+   "label": "REQUIREMENT",
+   "classes": [],
+   "enforced": false,
+   "text": "Whatever you end up changing in the paste block, the receipt law and the GAUNTLET clause stay. Non-negotiable."
+  },
+  {
+   "id": "CA23",
+   "label": "CONTINUATION",
+   "classes": [],
+   "enforced": false,
+   "text": "ok next phase"
+  },
+  {
+   "id": "CA24",
+   "label": "CONTINUATION",
+   "classes": [],
+   "enforced": false,
+   "text": "Yes, go with the second layout you mocked up."
+  },
+  {
+   "id": "CA25",
+   "label": "CONTINUATION",
+   "classes": [],
+   "enforced": false,
+   "text": "retry the upload, wifi dropped"
+  },
+  {
+   "id": "CA26",
+   "label": "CONTINUATION",
+   "classes": [
+    "review"
+   ],
+   "enforced": true,
+   "text": "Looks right. Carry on with slides 7-12 the same way."
+  },
+  {
+   "id": "CA27",
+   "label": "SILENT",
+   "classes": [],
+   "enforced": false,
+   "text": "thanks, that's exactly what I needed"
+  },
+  {
+   "id": "CA28",
+   "label": "SILENT",
+   "classes": [],
+   "enforced": false,
+   "text": "what's 14% of 2,350"
+  },
+  {
+   "id": "CA29",
+   "label": "SILENT",
+   "classes": [],
+   "enforced": false,
+   "text": "who led the league in steals last year?"
+  },
+  {
+   "id": "CA30",
+   "label": "SILENT",
+   "classes": [
+    "build"
+   ],
+   "enforced": true,
+   "text": "write me a limerick about a center who can't hit free throws"
+  },
+  {
+   "id": "CA31",
+   "label": "SILENT",
+   "classes": [],
+   "enforced": false,
+   "text": "rename draft_v3.py to draft_board.py"
+  },
+  {
+   "id": "CA32",
+   "label": "SILENT",
+   "classes": [],
+   "enforced": false,
+   "text": "honestly I like the dark theme better on the board, no changes needed, just saying"
+  },
+  {
+   "id": "CA33",
+   "label": "SILENT",
+   "classes": [],
+   "enforced": false,
+   "text": "[SessionStart hook] guard_essentials.sh exited 0 -- 14/14 checks passed (2026-10-13T09:12:44Z)"
+  },
+  {
+   "id": "CA34",
+   "label": "SILENT",
+   "classes": [],
+   "enforced": false,
+   "text": "whats the shortcut to run a single test in VS Code"
+  },
+  {
+   "id": "CA35",
+   "label": "SILENT",
+   "classes": [
+    "analysis"
+   ],
+   "enforced": true,
+   "text": "My director just sent: 'Can you rebuild the entire FY27 forecast by Monday?' lol. Not asking you to do anything, just venting."
+  },
+  {
+   "id": "CA36",
+   "label": "SILENT",
+   "classes": [],
+   "enforced": false,
+   "text": "what's the file name of the latest ops write-up again?"
+  },
+  {
+   "id": "CB01",
+   "label": "GOVERNED",
+   "classes": [
+    "build"
+   ],
+   "enforced": true,
+   "text": "The punt-FT build looks almost too clean. Every top-10 pick on the board is a big. Is the FT% z-score getting capped somewhere, or is that real?"
+  },
+  {
+   "id": "CB02",
+   "label": "GOVERNED",
+   "classes": [],
+   "enforced": false,
+   "text": "Would the CEO write-up hit harder if supplier on-time delivery led instead of the headcount section? Walk me through the tradeoff with the real Q3 numbers before I pick."
+  },
+  {
+   "id": "CB03",
+   "label": "GOVERNED",
+   "classes": [],
+   "enforced": false,
+   "text": "Mock's at 8 tonight and the tiers still reflect July depth charts. At least three teams have changed starters since then."
+  },
+  {
+   "id": "CB04",
+   "label": "GOVERNED",
+   "classes": [
+    "analysis"
+   ],
+   "enforced": true,
+   "text": "hmm, I'm second-guessing starting the backtest at 2019. Wasn't that right when pace jumped league-wide? Feels like it could be skewing the assists weights."
+  },
+  {
+   "id": "CB05",
+   "label": "GOVERNED",
+   "classes": [],
+   "enforced": false,
+   "text": "Hit rate jumping from 61% to 74% just from dropping turnovers? That's a lot of lift for one change. I don't buy it yet."
+  },
+  {
+   "id": "CB06",
+   "label": "GOVERNED",
+   "classes": [],
+   "enforced": false,
+   "text": "Take the export compliance plan's ITAR section and bring it in line with the 2026 USML revisions. Redline every paragraph you change so legal can see it."
+  },
+  {
+   "id": "CB07",
+   "label": "GOVERNED",
+   "classes": [],
+   "enforced": false,
+   "text": "Final RFP amendment dropped this morning. Before pink team Thursday I need Volume II walked against Sections L and M line by line: every requirement we answer, every one we're silent on, and anywhere our page count or font breaks the instructions. Amendment 0003 changed the past-performance format, so don't trust the old compliance matrix. Flag anything ambiguous instead of guessing; I'd rather send the CO a question than lose points."
+  },
+  {
+   "id": "CB08",
+   "label": "GOVERNED",
+   "classes": [],
+   "enforced": false,
+   "text": "Calibrate the Stop gate against last month's transcripts. How often did it block when nothing needed governing, and how often did it let a real task through?"
+  },
+  {
+   "id": "CB09",
+   "label": "GOVERNED",
+   "classes": [
+    "build"
+   ],
+   "enforced": true,
+   "text": "The L3Harris posting I forwarded, program manager for mission systems. Tailor the resume and draft a cover letter. Only use what's actually in my history."
+  },
+  {
+   "id": "CB10",
+   "label": "GOVERNED",
+   "classes": [],
+   "enforced": false,
+   "text": "M.'s program changed: 3-step sequencing now, 8 trials per session instead of 10. Need a new deck for Monday, same look as the last one."
+  },
+  {
+   "id": "CB11",
+   "label": "GOVERNED",
+   "classes": [],
+   "enforced": false,
+   "text": "Dana wrote: \"Finding 4 remains open pending objective evidence.\" Reply pushing back. We closed that CAR in August and the evidence is in the log. Polite but firm."
+  },
+  {
+   "id": "CB12",
+   "label": "GOVERNED",
+   "classes": [],
+   "enforced": false,
+   "text": "Merge the three hook fixes and redeploy the plugin."
+  },
+  {
+   "id": "CB13",
+   "label": "GOVERNED",
+   "classes": [
+    "review"
+   ],
+   "enforced": true,
+   "text": "Items 1-5 look right. Apply them, rerun the guard, and open the PR."
+  },
+  {
+   "id": "CB14",
+   "label": "GOVERNED",
+   "classes": [],
+   "enforced": false,
+   "text": "Sengun or Mobley as my keeper? We're punting FT% and I already roster two bigs. Use the 9-cat values, not vibes."
+  },
+  {
+   "id": "CB15",
+   "label": "GOVERNED",
+   "classes": [],
+   "enforced": false,
+   "text": "I'm not sure the cover letter should say I 'led' the F-35 sustainment effort. I was the deputy. Is anything else in there overstated?"
+  },
+  {
+   "id": "CB16",
+   "label": "GOVERNED",
+   "classes": [],
+   "enforced": false,
+   "text": "What would actually break if scope-fence got folded into plan-gate?"
+  },
+  {
+   "id": "CB17",
+   "label": "GOVERNED",
+   "classes": [
+    "analysis"
+   ],
+   "enforced": true,
+   "text": "Here's my CMMC self-assessment score sheet. Give it a hard look before I post it to SPRS on Monday. I'd rather find the problems now."
+  },
+  {
+   "id": "CB18",
+   "label": "GOVERNED",
+   "classes": [],
+   "enforced": false,
+   "text": "Wemby at +6.8 in blocks seems impossible if the pool is the top 156. Which population did the z-scores get standardized against?"
+  },
+  {
+   "id": "CB19",
+   "label": "REQUIREMENT",
+   "classes": [],
+   "enforced": false,
+   "text": "Whatever changes in the deck, the scoring key has to match slide order exactly. The RBTs score off it live during session."
+  },
+  {
+   "id": "CB20",
+   "label": "REQUIREMENT",
+   "classes": [],
+   "enforced": false,
+   "text": "Keep the CEO memo to two pages max. He won't turn to a third."
+  },
+  {
+   "id": "CB21",
+   "label": "REQUIREMENT",
+   "classes": [],
+   "enforced": false,
+   "text": "Heads up: nothing in the proposal can name the classified annex. That's a hard line from security."
+  },
+  {
+   "id": "CB22",
+   "label": "REQUIREMENT",
+   "classes": [
+    "analysis"
+   ],
+   "enforced": true,
+   "text": "The backtest can't see anything after the 2025-26 trade deadline. Any leakage there and the whole result is worthless."
+  },
+  {
+   "id": "CB23",
+   "label": "CONTINUATION",
+   "classes": [],
+   "enforced": false,
+   "text": "Again, please."
+  },
+  {
+   "id": "CB24",
+   "label": "CONTINUATION",
+   "classes": [],
+   "enforced": false,
+   "text": "That plan works for me, kick off phase one."
+  },
+  {
+   "id": "CB25",
+   "label": "CONTINUATION",
+   "classes": [],
+   "enforced": false,
+   "text": "It timed out partway through the 2019 season, pick up where it left off."
+  },
+  {
+   "id": "CB26",
+   "label": "CONTINUATION",
+   "classes": [],
+   "enforced": false,
+   "text": "ok cool, carry on with the rest of the slides"
+  },
+  {
+   "id": "CB27",
+   "label": "SILENT",
+   "classes": [],
+   "enforced": false,
+   "text": "Can I do the draft from the Yahoo app, or does it have to be on a desktop?"
+  },
+  {
+   "id": "CB28",
+   "label": "SILENT",
+   "classes": [],
+   "enforced": false,
+   "text": "What's 14.7 divided by 82? Just eyeballing a per-game number."
+  },
+  {
+   "id": "CB29",
+   "label": "SILENT",
+   "classes": [
+    "build"
+   ],
+   "enforced": true,
+   "text": "Write me a limerick about a hook that keeps blocking my commits."
+  },
+  {
+   "id": "CB30",
+   "label": "SILENT",
+   "classes": [],
+   "enforced": false,
+   "text": "Haha, my son just asked if plan-gate is a Marvel villain."
+  },
+  {
+   "id": "CB31",
+   "label": "SILENT",
+   "classes": [],
+   "enforced": false,
+   "text": "[guard_essentials] PASS - 14/14 skills lint clean | 0 unacknowledged deletions | ledger keys unique | 2026-10-13T09:12:44Z"
+  },
+  {
+   "id": "CB32",
+   "label": "SILENT",
+   "classes": [],
+   "enforced": false,
+   "text": "<\\task-notification>Background command \"pytest -q tests/\" completed (exit code 0)<\\/task-notification>"
+  },
+  {
+   "id": "CB33",
+   "label": "SILENT",
+   "classes": [],
+   "enforced": false,
+   "text": "Thanks, perfect."
+  },
+  {
+   "id": "CB34",
+   "label": "SILENT",
+   "classes": [],
+   "enforced": false,
+   "text": "Which file has the tests for the z-score function again?"
+  },
+  {
+   "id": "CB35",
+   "label": "SILENT",
+   "classes": [
+    "analysis"
+   ],
+   "enforced": true,
+   "text": "Rename the 'Sheet3' tab to 'Backtest'."
+  },
+  {
+   "id": "CB36",
+   "label": "SILENT",
+   "classes": [],
+   "enforced": false,
+   "text": "Do you like 'Draft Arena' or 'War Room' better as the tool's name? Pure gut call."
+  }
+ ]
+}

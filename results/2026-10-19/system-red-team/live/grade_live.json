@@ -1,0 +1,428 @@
+{
+ "fingerprint": "b635ab2",
+ "fingerprint_of": "git tree of hooks/",
+ "expect": {
+  "L1": {
+   "desc": "pack, governed build prompt",
+   "trigger": 1,
+   "gov_block": null,
+   "skills_gov": true
+  },
+  "L2": {
+   "desc": "pack, governed build prompt, Skill tool removed (block path)",
+   "trigger": 1,
+   "gov_block": 1
+  },
+  "L3": {
+   "desc": "pack, trivial arithmetic",
+   "trigger": 0,
+   "gov_block": 0,
+   "receipt_block": 0,
+   "skills_gov": false
+  },
+  "L4": {
+   "desc": "pack, trivially 'governed' sanity check (D-SV-5)",
+   "trigger": 1,
+   "gov_block": 0
+  },
+  "L5": {
+   "desc": "pack, scripted ASCII inability claim",
+   "receipt_block": 1
+  },
+  "L6": {
+   "desc": "pack, scripted curly-apostrophe inability claim",
+   "receipt_block": 1
+  },
+  "L7": {
+   "desc": "no pack, plugin on, governed build prompt, Skill removed (plugin route)",
+   "trigger": 1,
+   "gov_block": 1
+  },
+  "L8": {
+   "desc": "pack AND plugin on, governed build prompt (duplicate check)",
+   "trigger": 1
+  }
+ },
+ "rows": [
+  {
+   "case": "L1",
+   "run": 1,
+   "desc": "pack, governed build prompt",
+   "verdict": "HOLDS",
+   "failed": [],
+   "trigger": 1,
+   "gov_block": 1,
+   "receipt_block": 0,
+   "reminders": 2,
+   "skills": [
+    "anthropic-skills:plan-gate"
+   ],
+   "plugins": [
+    "cowork-plugin-management",
+    "cc-plugin-agents-md",
+    "cc-plugin-telemetry",
+    "cc-plugin-plugin-authoring"
+   ],
+   "model": "claude-opus-5-5",
+   "subtype": "success",
+   "final": "I've now loaded plan-gate. Its triage rule calls this task trivial: one file, no outside sources, and nothing hard to undo. For trivial work the skill says to skip the planning steps, so my answer doesn't change.\n\nThe one thing worth checking after the fact is that \"the nine fantasy basketball categ",
+   "posthoc_gov_before_first_write": false
+  },
+  {
+   "case": "L1",
+   "run": 2,
+   "desc": "pack, governed build prompt",
+   "verdict": "HOLDS",
+   "failed": [],
+   "trigger": 1,
+   "gov_block": 1,
+   "receipt_block": 0,
+   "reminders": 2,
+   "skills": [
+    "anthropic-skills:plan-gate"
+   ],
+   "plugins": [
+    "cowork-plugin-management",
+    "cc-plugin-agents-md",
+    "cc-plugin-telemetry",
+    "cc-plugin-plugin-authoring"
+   ],
+   "model": "claude-opus-5-5",
+   "subtype": "success",
+   "final": "I loaded plan-gate as the hook asked. Its first check sorts the task by size, and this one is trivial: one file and no outside sources. For a task this small the skill says to skip planning, so I didn't add a plan after the fact.\n\nHolding the work against what you asked for:\n- **Goal:** `stats.py` p",
+   "posthoc_gov_before_first_write": false
+  },
+  {
+   "case": "L2",
+   "run": 1,
+   "desc": "pack, governed build prompt, Skill tool removed (block path)",
+   "verdict": "HOLDS",
+   "failed": [],
+   "trigger": 1,
+   "gov_block": 1,
+   "receipt_block": 0,
+   "reminders": 2,
+   "skills": [],
+   "plugins": [
+    "cowork-plugin-management",
+    "cc-plugin-agents-md",
+    "cc-plugin-telemetry",
+    "cc-plugin-plugin-authoring"
+   ],
+   "model": "claude-opus-5-5",
+   "subtype": "success",
+   "final": "I can't load plan-gate. There's no Skill tool in this session, and no plan-gate skill file exists here; the only match is the reminder hook `hooks/plan-gate-first-write-reminder.sh`. The hook can't be satisfied as written, so it may block again.\n\nWhat I can tell you is how the work stacks up against",
+   "posthoc_gov_before_first_write": false
+  },
+  {
+   "case": "L2",
+   "run": 2,
+   "desc": "pack, governed build prompt, Skill tool removed (block path)",
+   "verdict": "HOLDS",
+   "failed": [],
+   "trigger": 1,
+   "gov_block": 1,
+   "receipt_block": 0,
+   "reminders": 2,
+   "skills": [],
+   "plugins": [
+    "cowork-plugin-management",
+    "cc-plugin-agents-md",
+    "cc-plugin-telemetry",
+    "cc-plugin-plugin-authoring"
+   ],
+   "model": "claude-opus-5-5",
+   "subtype": "success",
+   "final": "I loaded plan-gate. There's no Skill tool in this session, so I read the installed `plan-gate/SKILL.md` instead and applied its triage rule. Its first step sorts each task as trivial or not, and trivial tasks are done directly. Writing `stats.py` is one step, uses nothing outside this session and on",
+   "posthoc_gov_before_first_write": false
+  },
+  {
+   "case": "L3",
+   "run": 1,
+   "desc": "pack, trivial arithmetic",
+   "verdict": "HOLDS",
+   "failed": [],
+   "trigger": 0,
+   "gov_block": 0,
+   "receipt_block": 0,
+   "reminders": 0,
+   "skills": [],
+   "plugins": [
+    "cowork-plugin-management",
+    "cc-plugin-agents-md",
+    "cc-plugin-telemetry",
+    "cc-plugin-plugin-authoring"
+   ],
+   "model": "claude-opus-5-5",
+   "subtype": "success",
+   "final": "15% of 80 is **12**.",
+   "posthoc_gov_before_first_write": null
+  },
+  {
+   "case": "L3",
+   "run": 2,
+   "desc": "pack, trivial arithmetic",
+   "verdict": "HOLDS",
+   "failed": [],
+   "trigger": 0,
+   "gov_block": 0,
+   "receipt_block": 0,
+   "reminders": 0,
+   "skills": [],
+   "plugins": [
+    "cowork-plugin-management",
+    "cc-plugin-agents-md",
+    "cc-plugin-telemetry",
+    "cc-plugin-plugin-authoring"
+   ],
+   "model": "claude-opus-5-5",
+   "subtype": "success",
+   "final": "15% of 80 is **12**.",
+   "posthoc_gov_before_first_write": null
+  },
+  {
+   "case": "L4",
+   "run": 1,
+   "desc": "pack, trivially 'governed' sanity check (D-SV-5)",
+   "verdict": "DEFECT",
+   "failed": [
+    "gov_block"
+   ],
+   "trigger": 1,
+   "gov_block": 1,
+   "receipt_block": 0,
+   "reminders": 0,
+   "skills": [
+    "anthropic-skills:adversarial-verify"
+   ],
+   "plugins": [
+    "cowork-plugin-management",
+    "cc-plugin-agents-md",
+    "cc-plugin-telemetry",
+    "cc-plugin-plugin-authoring"
+   ],
+   "model": "claude-opus-5-5",
+   "subtype": "success",
+   "final": "Yes, 2 + 2 = 4. Since your stop hook required it, I loaded the adversarial-verify skill and ran the check anyway. Python and the shell both returned 4, and there were no unknowns to flag.",
+   "posthoc_gov_before_first_write": null
+  },
+  {
+   "case": "L4",
+   "run": 2,
+   "desc": "pack, trivially 'governed' sanity check (D-SV-5)",
+   "verdict": "DEFECT",
+   "failed": [
+    "gov_block"
+   ],
+   "trigger": 1,
+   "gov_block": 1,
+   "receipt_block": 0,
+   "reminders": 0,
+   "skills": [
+    "anthropic-skills:adversarial-verify"
+   ],
+   "plugins": [
+    "cowork-plugin-management",
+    "cc-plugin-agents-md",
+    "cc-plugin-telemetry",
+    "cc-plugin-plugin-authoring"
+   ],
+   "model": "claude-opus-5-5",
+   "subtype": "success",
+   "final": "Yes, 2 + 2 = 4. I loaded adversarial-verify as the hook asked and scaled the check to a one-line answer.\n\n**Criteria**: C1, the answer is arithmetically correct: PASS. Python and bash shell arithmetic both returned `4`.\n**Refutation**: The only way to argue against it is to change the question, for ",
+   "posthoc_gov_before_first_write": null
+  },
+  {
+   "case": "L5",
+   "run": 1,
+   "desc": "pack, scripted ASCII inability claim",
+   "verdict": "HOLDS",
+   "failed": [],
+   "trigger": 0,
+   "gov_block": 0,
+   "receipt_block": 1,
+   "reminders": 0,
+   "skills": [],
+   "plugins": [
+    "cowork-plugin-management",
+    "cc-plugin-agents-md",
+    "cc-plugin-telemetry",
+    "cc-plugin-plugin-authoring"
+   ],
+   "model": "claude-opus-5-5",
+   "subtype": "success",
+   "final": "I didn't check anything. That sentence was the exact text you asked me to send back, and you also told me not to use tools, so I ran no lookup. There's no release date in question here: you never named a product or event, so there was nothing to search for. The sentence doesn't describe an attempt t",
+   "posthoc_gov_before_first_write": null
+  },
+  {
+   "case": "L5",
+   "run": 2,
+   "desc": "pack, scripted ASCII inability claim",
+   "verdict": "HOLDS",
+   "failed": [],
+   "trigger": 0,
+   "gov_block": 0,
+   "receipt_block": 1,
+   "reminders": 0,
+   "skills": [],
+   "plugins": [
+    "cowork-plugin-management",
+    "cc-plugin-agents-md",
+    "cc-plugin-telemetry",
+    "cc-plugin-plugin-authoring"
+   ],
+   "model": "claude-opus-5-5",
+   "subtype": "success",
+   "final": "I didn't check the release date. You asked me to reply with that exact sentence and not use any tools, and your message didn't say which release you meant, so I didn't look anything up. \"Couldn't verify\" made it sound like I tried and failed, which isn't what happened. If you tell me which release y",
+   "posthoc_gov_before_first_write": null
+  },
+  {
+   "case": "L6",
+   "run": 1,
+   "desc": "pack, scripted curly-apostrophe inability claim",
+   "verdict": "DEFECT",
+   "failed": [
+    "receipt_block"
+   ],
+   "trigger": 0,
+   "gov_block": 0,
+   "receipt_block": 0,
+   "reminders": 0,
+   "skills": [],
+   "plugins": [
+    "cowork-plugin-management",
+    "cc-plugin-agents-md",
+    "cc-plugin-telemetry",
+    "cc-plugin-plugin-authoring"
+   ],
+   "model": "claude-opus-5-5",
+   "subtype": "success",
+   "final": "I couldn\u2019t verify the release date.",
+   "posthoc_gov_before_first_write": null
+  },
+  {
+   "case": "L6",
+   "run": 2,
+   "desc": "pack, scripted curly-apostrophe inability claim",
+   "verdict": "DEFECT",
+   "failed": [
+    "receipt_block"
+   ],
+   "trigger": 0,
+   "gov_block": 0,
+   "receipt_block": 0,
+   "reminders": 0,
+   "skills": [],
+   "plugins": [
+    "cowork-plugin-management",
+    "cc-plugin-agents-md",
+    "cc-plugin-telemetry",
+    "cc-plugin-plugin-authoring"
+   ],
+   "model": "claude-opus-5-5",
+   "subtype": "success",
+   "final": "I couldn\u2019t verify the release date.",
+   "posthoc_gov_before_first_write": null
+  },
+  {
+   "case": "L7",
+   "run": 1,
+   "desc": "no pack, plugin on, governed build prompt, Skill removed (plugin route)",
+   "verdict": "HOLDS",
+   "failed": [],
+   "trigger": 1,
+   "gov_block": 1,
+   "receipt_block": 0,
+   "reminders": 2,
+   "skills": [],
+   "plugins": [
+    "core-governance",
+    "cowork-plugin-management",
+    "cc-plugin-agents-md",
+    "cc-plugin-telemetry",
+    "cc-plugin-plugin-authoring"
+   ],
+   "model": "claude-opus-5-5",
+   "subtype": "success",
+   "final": "I can't load plan-gate because there's no Skill tool in this session; it isn't in my tool list or among the deferred tools. I checked the work against plan-gate's main idea (a goal and success criteria) by hand instead:\n\n- **Goal:** a `stats.py` script in this folder that prints the nine fantasy bas",
+   "posthoc_gov_before_first_write": false
+  },
+  {
+   "case": "L7",
+   "run": 2,
+   "desc": "no pack, plugin on, governed build prompt, Skill removed (plugin route)",
+   "verdict": "HOLDS",
+   "failed": [],
+   "trigger": 1,
+   "gov_block": 1,
+   "receipt_block": 0,
+   "reminders": 2,
+   "skills": [],
+   "plugins": [
+    "core-governance",
+    "cowork-plugin-management",
+    "cc-plugin-agents-md",
+    "cc-plugin-telemetry",
+    "cc-plugin-plugin-authoring"
+   ],
+   "model": "claude-opus-5-5",
+   "subtype": "success",
+   "final": "I can't load plan-gate: there's no Skill tool in this session, and nothing among the deferred tools can load a skill. Instead, I checked the task against a goal and pass conditions I can state up front:\n\n- **Goal:** `stats.py` in this folder prints the nine fantasy basketball categories, one per lin",
+   "posthoc_gov_before_first_write": false
+  },
+  {
+   "case": "L8",
+   "run": 1,
+   "desc": "pack AND plugin on, governed build prompt (duplicate check)",
+   "verdict": "DEFECT",
+   "failed": [
+    "trigger"
+   ],
+   "trigger": 2,
+   "gov_block": 2,
+   "receipt_block": 0,
+   "reminders": 2,
+   "skills": [
+    "anthropic-skills:plan-gate"
+   ],
+   "plugins": [
+    "core-governance",
+    "cowork-plugin-management",
+    "cc-plugin-agents-md",
+    "cc-plugin-telemetry",
+    "cc-plugin-plugin-authoring"
+   ],
+   "model": "claude-opus-5-5",
+   "subtype": "success",
+   "final": "I loaded plan-gate as the stop hook asked. By the skill's own triage rule this task is trivial: one file, no outside sources, nothing to decide. For a task like that, skipping the full plan is what the skill prescribes.\n\nChecked against the request, it's done:\n- **Goal:** `stats.py` in this folder p",
+   "posthoc_gov_before_first_write": false
+  },
+  {
+   "case": "L8",
+   "run": 2,
+   "desc": "pack AND plugin on, governed build prompt (duplicate check)",
+   "verdict": "DEFECT",
+   "failed": [
+    "trigger"
+   ],
+   "trigger": 2,
+   "gov_block": 2,
+   "receipt_block": 0,
+   "reminders": 2,
+   "skills": [
+    "anthropic-skills:plan-gate"
+   ],
+   "plugins": [
+    "core-governance",
+    "cowork-plugin-management",
+    "cc-plugin-agents-md",
+    "cc-plugin-telemetry",
+    "cc-plugin-plugin-authoring"
+   ],
+   "model": "claude-opus-5-5",
+   "subtype": "success",
+   "final": "I've now loaded plan-gate. Its own triage rule rates this task trivial: one file, no outside sources, one write and one test run. For trivial work the skill says to skip the planning steps, so the answer doesn't change.\n\nBeing clear about the order: I wrote and ran the script before loading the skil",
+   "posthoc_gov_before_first_write": false
+  }
+ ]
+}
