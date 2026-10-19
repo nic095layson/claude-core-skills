@@ -1323,6 +1323,9 @@ unmerged branch defeats it exactly.**
   corrected block was sent to the owner for re-paste the same day.
 - **Status:** FIXED in the repository; OPEN on the box until the owner re-pastes the
   7,250-character block (their confirmation closes it).
+  **Update 2026-10-19 22:10 UTC:** the owner re-pasted the merged block and confirmed
+  ("re-pasted instructions complete"). Closed: file and box agree as of that
+  confirmation (owner-reported; the box is unreadable from a cloud container).
 - **Lesson:** a paste block is built from the union of the deployed box and every
   live branch that edits the carrier, never from one branch — diff against what is
   deployed before sending text that overwrites it. INC-11 wrote this lesson for an
