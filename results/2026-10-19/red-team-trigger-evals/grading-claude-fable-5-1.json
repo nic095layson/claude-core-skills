@@ -1,0 +1,179 @@
+{
+ "model_tag": "claude-fable-5-1",
+ "models_observed": {
+  "claude-fable-5-1": 12
+ },
+ "should_fire_ids_1_3": "6/6",
+ "should_fire_id_6": "2/2",
+ "should_not_ids_4_5_silent": "4/4",
+ "gate_hypothesis_5of6_and_4of4": "PASS",
+ "gate_evalsfile_5of6_and_3of4": "PASS",
+ "total_cost_usd": 11.49,
+ "nonruns": [],
+ "rows": [
+  {
+   "id": 1,
+   "run": 1,
+   "expect": "FIRE",
+   "fired": true,
+   "grade": "PASS",
+   "invoked": [
+    "red-team"
+   ],
+   "model": "claude-fable-5-1",
+   "turns": 7,
+   "subtype": "error_max_turns",
+   "cost": 1.5364792500000002
+  },
+  {
+   "id": 1,
+   "run": 2,
+   "expect": "FIRE",
+   "fired": true,
+   "grade": "PASS",
+   "invoked": [
+    "red-team"
+   ],
+   "model": "claude-fable-5-1",
+   "turns": 7,
+   "subtype": "success",
+   "cost": 1.35098225
+  },
+  {
+   "id": 2,
+   "run": 1,
+   "expect": "FIRE",
+   "fired": true,
+   "grade": "PASS",
+   "invoked": [
+    "red-team"
+   ],
+   "model": "claude-fable-5-1",
+   "turns": 7,
+   "subtype": "error_max_turns",
+   "cost": 1.58653075
+  },
+  {
+   "id": 2,
+   "run": 2,
+   "expect": "FIRE",
+   "fired": true,
+   "grade": "PASS",
+   "invoked": [
+    "red-team"
+   ],
+   "model": "claude-fable-5-1",
+   "turns": 7,
+   "subtype": "error_max_turns",
+   "cost": 1.6779545000000002
+  },
+  {
+   "id": 3,
+   "run": 1,
+   "expect": "FIRE",
+   "fired": true,
+   "grade": "PASS",
+   "invoked": [
+    "red-team"
+   ],
+   "model": "claude-fable-5-1",
+   "turns": 7,
+   "subtype": "error_max_turns",
+   "cost": 0.9389055000000001
+  },
+  {
+   "id": 3,
+   "run": 2,
+   "expect": "FIRE",
+   "fired": true,
+   "grade": "PASS",
+   "invoked": [
+    "red-team"
+   ],
+   "model": "claude-fable-5-1",
+   "turns": 9,
+   "subtype": "success",
+   "cost": 0.7225210000000001
+  },
+  {
+   "id": 4,
+   "run": 1,
+   "expect": "SILENT",
+   "fired": false,
+   "grade": "PASS",
+   "invoked": [
+    "anthropic-skills:adversarial-verify"
+   ],
+   "model": "claude-fable-5-1",
+   "turns": 7,
+   "subtype": "success",
+   "cost": 0.55666925
+  },
+  {
+   "id": 4,
+   "run": 2,
+   "expect": "SILENT",
+   "fired": false,
+   "grade": "PASS",
+   "invoked": [
+    "anthropic-skills:adversarial-verify"
+   ],
+   "model": "claude-fable-5-1",
+   "turns": 9,
+   "subtype": "success",
+   "cost": 0.56234575
+  },
+  {
+   "id": 5,
+   "run": 1,
+   "expect": "SILENT",
+   "fired": false,
+   "grade": "PASS",
+   "invoked": [],
+   "model": "claude-fable-5-1",
+   "turns": 4,
+   "subtype": "success",
+   "cost": 0.35092925
+  },
+  {
+   "id": 5,
+   "run": 2,
+   "expect": "SILENT",
+   "fired": false,
+   "grade": "PASS",
+   "invoked": [],
+   "model": "claude-fable-5-1",
+   "turns": 4,
+   "subtype": "success",
+   "cost": 0.3659644999999999
+  },
+  {
+   "id": 6,
+   "run": 1,
+   "expect": "FIRE",
+   "fired": true,
+   "grade": "PASS",
+   "invoked": [
+    "red-team"
+   ],
+   "model": "claude-fable-5-1",
+   "turns": 13,
+   "subtype": "success",
+   "cost": 0.878201
+  },
+  {
+   "id": 6,
+   "run": 2,
+   "expect": "FIRE",
+   "fired": true,
+   "grade": "PASS",
+   "invoked": [
+    "red-team"
+   ],
+   "model": "claude-fable-5-1",
+   "turns": 16,
+   "subtype": "success",
+   "cost": 0.9616787500000001
+  }
+ ]
+}

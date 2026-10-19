@@ -27,6 +27,34 @@ sections were appended after, from `grade.py` over the committed transcripts.
 - Transcripts: `transcripts/<model>-id<N>-r<R>.jsonl`, verbatim. Grading output: `grading-<model>.txt`,
   `grading-<model>.json`.
 
-## Results
+## Results (24 runs, 2026-10-19; wall-clock in `*.started.txt` / `*.finished.txt`)
 
-(appended after the runs)
+Graded by `grade.py` over the committed transcripts; raw output `grading-<model>.txt`, machine-readable
+`grading-<model>.json`. One grader bug was found and fixed before any grade was read: it crashed on a
+transcript event whose `message` field is a string (the fix guards the type; no verdict logic changed).
+
+| model | ids 1–3 fire | id 6 fire | ids 4–5 silent | gate (hypothesis: ≥5/6, 4/4) | gate (evals file: ≥5/6, ≥3/4) | cost |
+|---|---|---|---|---|---|---|
+| `claude-fable-5-1` (primary, gate-bearing) | **6/6** | 2/2 | **4/4** | **PASS** | PASS | $11.49 |
+| `claude-opus-5-5` (replicate) | 6/6 | 2/2 | 4/4 | PASS | PASS | $2.24 |
+
+- **Zero over-fires on both models.** On id 4 (a deliverable to check) Fable loaded adversarial-verify
+  in both runs, exactly the routing the NOT clause names; Opus answered without a skill. On id 5 (a
+  doc-versus-live-state question) both models attempted a Bash call (outside the allowlist, so it was not
+  executed) and never loaded a skill.
+- **Every fire was the first tool call** (`corroboration.txt`: skill-call index 0 in all 16 fired runs).
+- Corroboration, not grading: band or sweep vocabulary appears in the assistant text of 8 of the 16 fired
+  runs; the rest spent their turns reading for artifacts the prompts name and ended at the turn cap with
+  little text. Four Fable runs ended `error_max_turns` after the fire; the fire stands, the signature does not.
+- No run errored; no non-runs; no session-limit refusals (every result event is `success` or
+  `error_max_turns`).
+
+**Verdict against the pre-registration:** the hypothesis is **CONFIRMED** on Claude Code headless for both
+models tested, N=2 per prompt. The candidate's description is unchanged; no wording experiment was needed.
+Rates are rates: 6/6 on three prompts is not "always"; claude.ai triggering is not measured here.
+
+**What this does not show:** behavioral value (does loading the skill change what gets reported?) is
+unmeasured; the prompts are description-testing phrasings that name the model and its constants, not the
+uncued case where a session quotes a modelled figure without being asked to attack it. The hook in
+`hooks/redteam-band-reminder.sh` is the lever for that case and has its own pre-registration
+(`experiments/hypothesis-2026-10-19-redteam-band-hook.md`).

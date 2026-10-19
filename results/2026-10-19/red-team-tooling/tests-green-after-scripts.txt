@@ -1,0 +1,140 @@
+test_current_record_passes (__main__.Attacks.test_current_record_passes) ... /home/user/claude-core-skills/.claude/skills/red-team/scripts/test_redteam_scripts.py:126: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmp_9ospvi_/s/attack.py' mode='w' encoding='utf-8'>
+  open(os.path.join(self.d, "s", "attack.py"), "w").write("print('x')\n")
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/user/claude-core-skills/.claude/skills/red-team/scripts/test_redteam_scripts.py:127: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmp_9ospvi_/rec.json' mode='w' encoding='utf-8'>
+  json.dump({"fingerprint": "abc1234", "nested": {"fingerprint": "abc1234"}},
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_duplicate_ids_fail (__main__.Attacks.test_duplicate_ids_fail) ... /home/user/claude-core-skills/.claude/skills/red-team/scripts/test_redteam_scripts.py:126: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpr8_zrjr3/s/attack.py' mode='w' encoding='utf-8'>
+  open(os.path.join(self.d, "s", "attack.py"), "w").write("print('x')\n")
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/user/claude-core-skills/.claude/skills/red-team/scripts/test_redteam_scripts.py:127: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpr8_zrjr3/rec.json' mode='w' encoding='utf-8'>
+  json.dump({"fingerprint": "abc1234", "nested": {"fingerprint": "abc1234"}},
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_missing_record_fails (__main__.Attacks.test_missing_record_fails) ... /home/user/claude-core-skills/.claude/skills/red-team/scripts/test_redteam_scripts.py:126: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmp0tgpmm8v/s/attack.py' mode='w' encoding='utf-8'>
+  open(os.path.join(self.d, "s", "attack.py"), "w").write("print('x')\n")
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/user/claude-core-skills/.claude/skills/red-team/scripts/test_redteam_scripts.py:127: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmp0tgpmm8v/rec.json' mode='w' encoding='utf-8'>
+  json.dump({"fingerprint": "abc1234", "nested": {"fingerprint": "abc1234"}},
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_missing_script_fails (__main__.Attacks.test_missing_script_fails) ... /home/user/claude-core-skills/.claude/skills/red-team/scripts/test_redteam_scripts.py:126: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmp1bvh4_tz/s/attack.py' mode='w' encoding='utf-8'>
+  open(os.path.join(self.d, "s", "attack.py"), "w").write("print('x')\n")
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/user/claude-core-skills/.claude/skills/red-team/scripts/test_redteam_scripts.py:127: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmp1bvh4_tz/rec.json' mode='w' encoding='utf-8'>
+  json.dump({"fingerprint": "abc1234", "nested": {"fingerprint": "abc1234"}},
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_nested_commit_field_is_read (__main__.Attacks.test_nested_commit_field_is_read) ... /home/user/claude-core-skills/.claude/skills/red-team/scripts/test_redteam_scripts.py:126: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpi_mb26gg/s/attack.py' mode='w' encoding='utf-8'>
+  open(os.path.join(self.d, "s", "attack.py"), "w").write("print('x')\n")
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/user/claude-core-skills/.claude/skills/red-team/scripts/test_redteam_scripts.py:127: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpi_mb26gg/rec.json' mode='w' encoding='utf-8'>
+  json.dump({"fingerprint": "abc1234", "nested": {"fingerprint": "abc1234"}},
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_no_live_fingerprint_cannot_pass_a_fingerprinted_record (__main__.Attacks.test_no_live_fingerprint_cannot_pass_a_fingerprinted_record) ... /home/user/claude-core-skills/.claude/skills/red-team/scripts/test_redteam_scripts.py:126: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmp_7o9sncf/s/attack.py' mode='w' encoding='utf-8'>
+  open(os.path.join(self.d, "s", "attack.py"), "w").write("print('x')\n")
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/user/claude-core-skills/.claude/skills/red-team/scripts/test_redteam_scripts.py:127: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmp_7o9sncf/rec.json' mode='w' encoding='utf-8'>
+  json.dump({"fingerprint": "abc1234", "nested": {"fingerprint": "abc1234"}},
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_out_writes_the_numbered_artifact (__main__.Attacks.test_out_writes_the_numbered_artifact) ... /home/user/claude-core-skills/.claude/skills/red-team/scripts/test_redteam_scripts.py:126: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpjdtbgafk/s/attack.py' mode='w' encoding='utf-8'>
+  open(os.path.join(self.d, "s", "attack.py"), "w").write("print('x')\n")
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/user/claude-core-skills/.claude/skills/red-team/scripts/test_redteam_scripts.py:127: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpjdtbgafk/rec.json' mode='w' encoding='utf-8'>
+  json.dump({"fingerprint": "abc1234", "nested": {"fingerprint": "abc1234"}},
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/user/claude-core-skills/.claude/skills/red-team/scripts/test_redteam_scripts.py:195: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpjdtbgafk/attacks.json' mode='w' encoding='utf-8'>
+  json.dump(obj, open(p, "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/user/claude-core-skills/.claude/skills/red-team/scripts/test_redteam_scripts.py:190: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpjdtbgafk/attacks-out.json' mode='r' encoding='utf-8'>
+  art = json.load(open(out))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_record_on_another_engine_is_stale (__main__.Attacks.test_record_on_another_engine_is_stale) ... /home/user/claude-core-skills/.claude/skills/red-team/scripts/test_redteam_scripts.py:126: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpudxbdcb_/s/attack.py' mode='w' encoding='utf-8'>
+  open(os.path.join(self.d, "s", "attack.py"), "w").write("print('x')\n")
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/user/claude-core-skills/.claude/skills/red-team/scripts/test_redteam_scripts.py:127: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpudxbdcb_/rec.json' mode='w' encoding='utf-8'>
+  json.dump({"fingerprint": "abc1234", "nested": {"fingerprint": "abc1234"}},
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_retired_row_is_kept_and_skipped (__main__.Attacks.test_retired_row_is_kept_and_skipped) ... /home/user/claude-core-skills/.claude/skills/red-team/scripts/test_redteam_scripts.py:126: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmplh1ofw47/s/attack.py' mode='w' encoding='utf-8'>
+  open(os.path.join(self.d, "s", "attack.py"), "w").write("print('x')\n")
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/user/claude-core-skills/.claude/skills/red-team/scripts/test_redteam_scripts.py:127: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmplh1ofw47/rec.json' mode='w' encoding='utf-8'>
+  json.dump({"fingerprint": "abc1234", "nested": {"fingerprint": "abc1234"}},
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_unfingerprinted_is_allowed_and_counted (__main__.Attacks.test_unfingerprinted_is_allowed_and_counted) ... /home/user/claude-core-skills/.claude/skills/red-team/scripts/test_redteam_scripts.py:126: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpshp2jyed/s/attack.py' mode='w' encoding='utf-8'>
+  open(os.path.join(self.d, "s", "attack.py"), "w").write("print('x')\n")
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/user/claude-core-skills/.claude/skills/red-team/scripts/test_redteam_scripts.py:127: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpshp2jyed/rec.json' mode='w' encoding='utf-8'>
+  json.dump({"fingerprint": "abc1234", "nested": {"fingerprint": "abc1234"}},
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_check_reads_files (__main__.Bands.test_check_reads_files) ... /home/user/claude-core-skills/.claude/skills/red-team/scripts/test_redteam_scripts.py:245: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmp9yi73az8/r.md' mode='w' encoding='utf-8'>
+  open(rp, "w").write("SHOCK is FRAGILE: +3.4 / -2.3")
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/user/claude-core-skills/.claude/skills/red-team/scripts/test_redteam_scripts.py:246: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmp9yi73az8/s.json' mode='w' encoding='utf-8'>
+  json.dump(SWEEP, open(sp, "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_missing_variant_figure_fails (__main__.Bands.test_missing_variant_figure_fails) ... ok
+test_name_without_fragile_nearby_fails (__main__.Bands.test_name_without_fragile_nearby_fails) ... ok
+test_no_fragile_constants_passes_any_report (__main__.Bands.test_no_fragile_constants_passes_any_report) ... ok
+test_report_missing_the_name_fails (__main__.Bands.test_report_missing_the_name_fails) ... ok
+test_report_quoting_the_band_passes (__main__.Bands.test_report_quoting_the_band_passes) ... ok
+test_unicode_minus_is_accepted (__main__.Bands.test_unicode_minus_is_accepted) ... ok
+test_record_carries_the_quoted_string_so_a_boundary_value_cannot_split_writer_and_checker (__main__.BandsRoundingBoundary.test_record_carries_the_quoted_string_so_a_boundary_value_cannot_split_writer_and_checker) ... ok
+test_scaffold_creates_the_files_with_one_example_per_status (__main__.Init.test_scaffold_creates_the_files_with_one_example_per_status) ... /home/user/claude-core-skills/.claude/skills/red-team/scripts/test_redteam_scripts.py:258: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmphjtjcfso/redteam/constants_registry.json' mode='r' encoding='utf-8'>
+  regj = json.load(open(os.path.join(d, "redteam", "constants_registry.json")))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/user/claude-core-skills/.claude/skills/red-team/scripts/test_redteam_scripts.py:260: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmphjtjcfso/redteam/README.md' mode='r' encoding='utf-8'>
+  readme = open(os.path.join(d, "redteam", "README.md")).read()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_scaffold_drift_is_caught_by_the_registry_check (__main__.Init.test_scaffold_drift_is_caught_by_the_registry_check) ... /home/user/claude-core-skills/.claude/skills/red-team/scripts/test_redteam_scripts.py:296: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpruo25f9m/redteam/constants_registry.json' mode='r' encoding='utf-8'>
+  regj = json.load(open(p))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/user/claude-core-skills/.claude/skills/red-team/scripts/test_redteam_scripts.py:298: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpruo25f9m/redteam/constants_registry.json' mode='w' encoding='utf-8'>
+  json.dump(regj, open(p, "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_scaffold_passes_its_own_three_checks_end_to_end (__main__.Init.test_scaffold_passes_its_own_three_checks_end_to_end) ... ok
+test_scaffold_refuses_to_overwrite (__main__.Init.test_scaffold_refuses_to_overwrite) ... ok
+test_dict_values_compare_by_content_not_order (__main__.RegistryDrift.test_dict_values_compare_by_content_not_order) ... ok
+test_matching_registry_passes (__main__.RegistryDrift.test_matching_registry_passes) ... ok
+test_registered_but_gone_fails (__main__.RegistryDrift.test_registered_but_gone_fails) ... ok
+test_stale_value_fails (__main__.RegistryDrift.test_stale_value_fails) ... ok
+test_unregistered_live_constant_fails (__main__.RegistryDrift.test_unregistered_live_constant_fails) ... ok
+test_fingerprint_prefers_explicit_then_git_then_empty (__main__.RegistryLive.test_fingerprint_prefers_explicit_then_git_then_empty) ... ok
+test_live_from_json_file_and_from_module (__main__.RegistryLive.test_live_from_json_file_and_from_module) ... /home/user/claude-core-skills/.claude/skills/red-team/scripts/test_redteam_scripts.py:109: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmp3hdx3epk/live.json' mode='w' encoding='utf-8'>
+  json.dump({"SHOCK": 0.06}, open(jp, "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/user/claude-core-skills/.claude/skills/red-team/scripts/test_redteam_scripts.py:112: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmp3hdx3epk/live.py' mode='w' encoding='utf-8'>
+  open(mp, "w").write("def live_values():\n    return {'SHOCK': 0.06}\n")
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_declared_band_without_band_fails (__main__.RegistryStatus.test_declared_band_without_band_fails) ... ok
+test_declared_band_without_record_fails (__main__.RegistryStatus.test_declared_band_without_record_fails) ... ok
+test_measured_without_record_fails (__main__.RegistryStatus.test_measured_without_record_fails) ... ok
+test_missing_role_fails (__main__.RegistryStatus.test_missing_role_fails) ... ok
+test_settings_without_record_fails (__main__.RegistryStatus.test_settings_without_record_fails) ... ok
+test_status_outside_the_five_fails (__main__.RegistryStatus.test_status_outside_the_five_fails) ... ok
+test_structural_needs_no_record (__main__.RegistryStatus.test_structural_needs_no_record) ... ok
+test_uncalibrated_with_decision_passes (__main__.RegistryStatus.test_uncalibrated_with_decision_passes) ... ok
+test_uncalibrated_without_decision_fails (__main__.RegistryStatus.test_uncalibrated_without_decision_fails) ... ok
+test_baseline_outside_three_se_of_reference_raises_before_tiers (__main__.Sweep.test_baseline_outside_three_se_of_reference_raises_before_tiers) ... ok
+test_demo_sweep_runs_two_seeds_reloads_per_job_and_records_the_contract (__main__.Sweep.test_demo_sweep_runs_two_seeds_reloads_per_job_and_records_the_contract) ... ok
+test_tier_is_read_on_the_unrounded_mean (__main__.Sweep.test_tier_is_read_on_the_unrounded_mean) ... ok
+test_tiers_follow_the_thresholds (__main__.Sweep.test_tiers_follow_the_thresholds) ... ok
+
+----------------------------------------------------------------------
+Ran 42 tests in 0.200s
+
+OK
+ATTACKS CHECK: PASS — 1 attacks on abc1234; CURRENT 1
+exit 0
+# green run at 2026-10-19T17:52:42Z

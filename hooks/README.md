@@ -41,6 +41,41 @@ Pipe-tested both paths PASS 2026-08-03 (repo copy, this session). Live-fire on
 the primary machine and the A/B measurement are owed:
 `experiments/hypothesis-2026-08-03-hook-enforcement.md`.
 
+## redteam-band-reminder.sh (shipped 2026-10-19, UNMEASURED)
+
+The lever for the red-team skill's rule 3 (two error bars or none; ledger
+INC-2026-10-19-01: a report said ±0.4 where one hand-set constant moved the figure
+by +3.4 / −2.3). A PreToolUse hook on Write|Edit|NotebookEdit: when the content
+being written quotes a figure with a sampling error (`±` or `+/-` between two
+numbers) and no band word (FRAGILE, SENSITIVE, ROBUST, "structural band"), it
+injects one line asking for the structural band beside the figure by constant
+name, or an "uncalibrated, decision D-n" statement, or nothing if the figure is
+measured from data. Once per session (sentinel in $TMPDIR keyed by session_id).
+Advisory, never blocking: a hook cannot tell a modelled figure from a measured
+one, and a block on every number would violate the anti-ceremony invariant
+(architecture-contract, invariant 5). A write with no ± is silent; a write that
+already quotes a band is silent. Parses its input with python3, not `/usr/bin/jq`
+(the absolute-path defect recorded for the two older reminders, D-GF-8).
+
+Install (user scope):
+1. `cp hooks/redteam-band-reminder.sh ~/.claude/hooks/` and `chmod +x` it.
+2. Merge into `~/.claude/settings.json`:
+   `{"hooks":{"PreToolUse":[{"matcher":"Edit|Write|NotebookEdit","hooks":[{"type":"command","command":"bash ~/.claude/hooks/redteam-band-reminder.sh","timeout":10}]}]}}`
+   (coexists with the two first-write reminders on the same event; each fires at
+   most once per session and their messages are distinct). In a project that
+   carries the enforcement pack (`.claude/settings.json`, PR 24), add the same
+   entry beside the two reminders; the plugin twin needs a version bump — both
+   are owner decisions, not done here.
+3. Verify: `bash hooks/selftest-redteam-band-reminder.sh` (expects 7/7), then
+   observe on a real session's first write of a ± figure.
+
+Red-first: the self-test was written and run before the hook existed (0/7, "hook
+missing"), then 7/7 after, twice consecutively
+(`results/2026-10-19/red-team-hook/`). Live, hook wired in a scratch project,
+N=1 each: a conversational write with no figure → no reminder; a report quoting
+a modelled ± figure → one reminder (same directory). The A/B is pre-registered
+and owed: `experiments/hypothesis-2026-10-19-redteam-band-hook.md`.
+
 ## ledger-recount-reminder.sh (shipped 2026-08-03, UNMEASURED)
 
 The lever DEAD-2 named: append-on-diagnosis plateaued at ~80% under wording

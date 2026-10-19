@@ -197,7 +197,17 @@ class Attacks(unittest.TestCase):
 
 
 SWEEP = {"fragile": ["SHOCK"], "constants": {"SHOCK": {"tier": "FRAGILE", "variants": [
-    {"label": "no shock", "shift_mean": 3.37}, {"label": "shock doubled", "shift_mean": -2.35}]}}}
+    {"label": "no shock", "shift_mean": 3.37}, {"label": "shock doubled", "shift_mean": -2.33}]}}}
+
+
+class BandsRoundingBoundary(unittest.TestCase):
+    def test_record_carries_the_quoted_string_so_a_boundary_value_cannot_split_writer_and_checker(self):
+        # -2.35 formats as -2.4 in Python but a writer rounding by eye quotes -2.3; the record's
+        # shift_mean_1dp is the one string both sides read
+        sweep = {"fragile": ["SHOCK"], "constants": {"SHOCK": {"tier": "FRAGILE", "variants": [
+            {"label": "shock doubled", "shift_mean": -2.35, "shift_mean_1dp": "-2.3"}]}}}
+        self.assertTrue(B.check_text("SHOCK is FRAGILE: -2.3", sweep)[0])
+        self.assertFalse(B.check_text("SHOCK is FRAGILE: -2.4", sweep)[0])
 
 
 class Bands(unittest.TestCase):

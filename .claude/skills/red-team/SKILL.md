@@ -140,11 +140,33 @@ The band sentence, verbatim shape, in any report quoting the headline:
 - A system with no judgment constants (a pure lookup, a deterministic transform):
   this skill does not apply; adversarial-verify does.
 
+## Tooling (shipped beside this skill, `scripts/`)
+
+Dependency-free Python, generalized from the reference implementation with every
+project name removed; `<skill>` is this skill's directory (`.claude/skills/red-team`
+in a project that carries it, or `~/.claude/skills/red-team`):
+
+```
+python3 <skill>/scripts/redteam_init.py --root .      # scaffold redteam/: registry, attacks, live.py, README, examples
+python3 <skill>/scripts/registry_check.py --root . --json redteam/records/constants.json
+python3 <skill>/scripts/attacks_check.py  --root . --out  redteam/records/attacks.json
+python3 <skill>/scripts/bands_check.py    --report <report> --sweep <sweep record>
+```
+
+The scaffold passes all three checks as shipped. `sweep_template.py` is the sweep's
+contract (reload the model per job, one constant at a time, baseline within 3 SE of
+the reference before any tier is read, two seeds, tiers on the unrounded mean,
+fingerprint and tier rule in the record) and runs a toy model end to end with
+`--demo`; the real sweep is the project's. Tests: `scripts/test_redteam_scripts.py`.
+
 ## Volatile facts (dated)
 
-- Authored 2026-10-19 from one incident and one implementation; UNMEASURED as a
-  skill — candidate until trigger evals run (`evals/red-team.json`,
-  `experiments/hypothesis-2026-10-19-red-team.md`). *candidate*
+- Authored 2026-10-19 from one incident and one implementation. **Trigger evals run
+  2026-10-19** on Claude Code headless, N=2 per prompt: `claude-fable-5-1` fired
+  6/6 on ids 1–3 and 2/2 on id 6, silent 4/4 on ids 4–5; `claude-opus-5-5` the
+  same (`results/2026-10-19/red-team-trigger-evals/`). Behavioral value and
+  claude.ai triggering UNMEASURED; not in the install footprint until Decision-5
+  review. *measured (trigger), candidate (value)*
 - The reference implementation: `nic095layson/fantasy-basketball-2026-27`
   `scripts/redteam/` (registry, drift check, sweep, bands check, attack runner,
   29 red-first tests) and `scripts/gates.py --redteam`, after-reports
@@ -180,6 +202,8 @@ Re-verify: the reference implementation exists —
 `ls scripts/redteam/` in the kit (expect `constants_registry.json`,
 `check_constants.py`, `sweep.py`, `check_bands.py`, `attacks.json`,
 `run_attacks.py`); the gates flag —
-`python3 scripts/gates.py --help | grep redteam`. Update when: the kit's
+`python3 scripts/gates.py --help | grep redteam`; the toolkit here —
+`python3 .claude/skills/red-team/scripts/test_redteam_scripts.py` (expect every
+test ok). Update when: the kit's
 registry statuses change shape, a second project adopts the pattern (fold its
 instance differences in, dated), or trigger evals run (update the status line).

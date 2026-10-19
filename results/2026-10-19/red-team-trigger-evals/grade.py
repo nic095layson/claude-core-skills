@@ -42,8 +42,13 @@ def read_run(path):
                 model = ev.get("model")
             if ev.get("type") == "result":
                 turns, subtype, cost = ev.get("num_turns"), ev.get("subtype"), ev.get("total_cost_usd")
-            msg = ev.get("message") or {}
-            for block in (msg.get("content") or []):
+            msg = ev.get("message")
+            if not isinstance(msg, dict):
+                continue
+            content = msg.get("content")
+            if not isinstance(content, list):
+                continue
+            for block in content:
                 if isinstance(block, dict) and block.get("type") == "tool_use" and block.get("name") == "Skill":
                     invoked.append(str((block.get("input") or {}).get("skill") or "?"))
     return dict(invoked=invoked, model=model, turns=turns, subtype=subtype, cost=cost)
