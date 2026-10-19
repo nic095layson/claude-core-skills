@@ -163,9 +163,10 @@ fingerprint and tier rule in the record) and runs a toy model end to end with
 ## Volatile facts (dated)
 
 - Authored 2026-10-19 from one incident and one implementation. **Trigger evals run
-  2026-10-19** on Claude Code headless, N=2 per prompt: `claude-fable-5-1` fired
-  6/6 on ids 1–3 and 2/2 on id 6, silent 4/4 on ids 4–5; `claude-opus-5-5` the
-  same (`results/2026-10-19/red-team-trigger-evals/`). Behavioral value and
+  2026-10-19** on Claude Code headless, N=2 per prompt, two replicates (tool-rich,
+  then Skill-only isolated): `claude-fable-5-1` fired 6/6 on ids 1–3 and 2/2 on
+  id 6, silent 4/4 on ids 4–5, in both replicates; `claude-opus-5-5` the same
+  (`results/2026-10-19/red-team-trigger-evals/`). Behavioral value and
   claude.ai triggering UNMEASURED; not in the install footprint until Decision-5
   review. *measured (trigger), candidate (value)*
 - The reference implementation: `nic095layson/fantasy-basketball-2026-27`

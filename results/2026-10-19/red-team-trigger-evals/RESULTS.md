@@ -79,9 +79,23 @@ INC-2026-08-26-01; the first grader pass read 20 of them as silences before the 
 only usable tool** before the cut — the transcripts hold the Skill call and a limit banner where the
 answer would be; no other tool_use appears anywhere in the batch. The remaining 20 runs are non-runs
 (6-line transcripts, $0). Transcripts committed as `transcripts/repB-*`; grading in `grading-repB-*`
-counts 0 graded rows and 24 refusal-or-partial records by design. **The rerun is owed after the limit
-resets**; until it lands, replicate A is the only complete measurement, its fire cells unconfounded
-(first tool call) and its silent cells carrying the stated confound.
+counts 0 graded rows and 24 refusal-or-partial records by design.
+
+## Replicate B2 (isolated driver, rerun after the limit reset) — COMPLETE, 2026-10-19 21:35–21:48 UTC
+
+The same 24 runs, same driver, after the account limit reset. **Both models PASS the gate under full
+isolation**: ids 1–3 fire 6/6, id 6 fires 2/2, ids 4–5 silent 4/4, on `claude-fable-5-1` ($7.82) and
+`claude-opus-5-5` ($3.43) alike; zero limit banners; zero calls to any file or shell tool in all 24 runs
+(`transcripts/repB2-*`, `grading-repB2-*`). The silent runs tried ToolSearch (a harness built-in that
+searches tool schemas, reads no files, and is not on the disallow list) and found nothing useful; one
+Monitor attempt errored. **Honest limit:** the transcripts still carry this container's session id — the
+driver unsets the session variables, so the id is assigned by something they do not control (INC-14's
+`--session-id` flag is the known lever, not used here). Each run is its own process with its own fresh
+context, hooks are off, and no sentinel path is read, so nothing in this measurement keys on the id.
+
+**Final verdict:** the pre-registered hypothesis is CONFIRMED in both replicates: A (tool-rich, its
+silent cells confounded as stated above) and B2 (Skill-only, no file access possible). The confound did
+not change a single cell.
 
 **What this does not show:** behavioral value (does loading the skill change what gets reported?) is
 unmeasured; the prompts are description-testing phrasings that name the model and its constants, not the
