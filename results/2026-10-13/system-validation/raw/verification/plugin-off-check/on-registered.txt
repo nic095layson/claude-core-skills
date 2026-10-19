@@ -1,0 +1,1 @@
+Registered 6 hooks from 5 plugins

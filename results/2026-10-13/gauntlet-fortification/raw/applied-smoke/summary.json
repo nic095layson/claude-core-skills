@@ -1,0 +1,32 @@
+[
+ {
+  "clone": "kit",
+  "branch": "claude/governance-pack-2026-10-13",
+  "model": "claude-sonnet-5-5",
+  "exit": "1",
+  "result_subtype": "error_max_turns",
+  "hook_started_events": 3,
+  "trigger_context_seen": 1,
+  "governor_loads": [
+   "adversarial-verify",
+   "scope-fence"
+  ],
+  "gov_enforce_blocks": 0,
+  "cost_usd": 0.5179815000000001
+ },
+ {
+  "clone": "deck",
+  "branch": "claude/governance-pack-2026-10-13",
+  "model": "claude-sonnet-5-5",
+  "exit": "0",
+  "result_subtype": "success",
+  "hook_started_events": 3,
+  "trigger_context_seen": 1,
+  "governor_loads": [
+   "adversarial-verify",
+   "scope-fence"
+  ],
+  "gov_enforce_blocks": 0,
+  "cost_usd": 0.2506589
+ }
+]

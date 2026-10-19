@@ -1,0 +1,36 @@
+{
+ "recounted_on": "2026-10-13",
+ "skill_tool_loads": [
+  [
+   "2026-09-29T00:10:35.397Z",
+   "anthropic-skills:after-report"
+  ],
+  [
+   "2026-10-01T16:05:16.390Z",
+   "anthropic-skills:after-report"
+  ],
+  [
+   "2026-10-01T20:41:45.602Z",
+   "anthropic-skills:pdf-extract"
+  ],
+  [
+   "2026-10-09T19:00:07.805Z",
+   "anthropic-skills:after-report"
+  ]
+ ],
+ "governor_loads": 0,
+ "compactions": 28,
+ "reattached": {
+  "adversarial-verify": 28,
+  "plan-gate": 28,
+  "pdf-extract": 20
+ },
+ "plan_gate_reattached_with_D51R_args": 28,
+ "governor_file_reads_by_tools": [
+  {
+   "i": 44631,
+   "ts": "2026-10-12T23:54:57.157Z",
+   "file": "scope-fence/SKILL.md"
+  }
+ ]
+}

@@ -1,0 +1,6 @@
+off-1      exit=0 turns= 7 loads=[] blocks=0 trig=0 cost=0.0927563 | "I can't confirm either point from here, and I won't guess. This workspace has none of the "
+off-2      exit=0 turns= 6 loads=[] blocks=0 trig=0 cost=0.08321120000000001 | "I can't confirm either point from here, and I won't pretend to. Here is what I found.\n\n## "
+on-1       exit=1 turns=45 loads=['adversarial-verify', 'scope-fence', 'adversarial-verify', 'plan-gate', 'scope-fence'] blocks=1 trig=1 cost=0.36350780000000005 | ''
+on-2       exit=0 turns=19 loads=['adversarial-verify', 'scope-fence', 'adversarial-verify'] blocks=1 trig=2 cost=0.17035779999999998 | 'Re-checking my last answer turned up one thing to correct and one gap I have now closed.\n\n'
+on-triv-1  exit=0 turns= 1 loads=[] blocks=0 trig=0 cost=0.0554505 | '15% of 80 is **12**.'
+on-triv-2  exit=0 turns= 4 loads=[] blocks=0 trig=0 cost=0.0709014 | "I can't tell from this project. Nothing in the repo says which draft you mean or what time"

@@ -1,0 +1,1 @@
+My slide generator places every figure programmatically. To verify nothing is clipped I've been writing pixel-analysis scripts against the rendered PNGs, but my third detector still gives noisy results. Should I keep tuning the pixel thresholds?

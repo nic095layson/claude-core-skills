@@ -1,0 +1,1 @@
+Here's my SQL migration — the output looked correct when I ran it locally. Double-check it before I run it in production.

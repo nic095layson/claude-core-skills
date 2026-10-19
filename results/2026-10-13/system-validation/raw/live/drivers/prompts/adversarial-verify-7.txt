@@ -1,0 +1,5 @@
+Here's my SQL migration — the output looked correct when I ran it locally. Double-check it before I run it in production.
+
+ALTER TABLE orders ADD COLUMN status VARCHAR(20) NOT NULL DEFAULT 'pending';
+CREATE INDEX idx_orders_status ON orders(status);
+UPDATE orders SET status = 'fulfilled' WHERE shipped_at IS NOT NULL;

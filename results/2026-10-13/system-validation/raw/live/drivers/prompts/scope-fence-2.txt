@@ -1,0 +1,1 @@
+This function returns the wrong index off-by-one. Also the whole file doesn't follow our style guide. Just make it better.

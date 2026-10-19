@@ -1,0 +1,1 @@
+I generated 40 weekly report files earlier and wrote a validation script to check them — it says all 40 are malformed. I've already tightened its thresholds twice. Can you fix the reports so they pass?

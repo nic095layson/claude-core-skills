@@ -94,6 +94,15 @@ Every unknown you cannot cheaply resolve becomes a numbered register row:
 | Basis | Why this is the most defensible default (evidence, convention, cost of the alternative) |
 | Status | `unconfirmed` until the user or evidence settles it |
 
+**Method parameters are assumptions.** A data window, sample, cutoff, era, threshold,
+or baseline that the work will run on is a register row with its basis — and a parameter
+inherited from a file's extent, a script's default, or an earlier task's settings is the
+weakest basis there is, because nobody chose it. Say it to the person in one line *before*
+the run that uses it — in the plan or at the phase boundary — never only in a tool label or
+a script's docstring. A choice the owner can see is a choice the owner can object to in
+time; a choice buried in a tool call is discovered after the run, when objecting costs a
+rerun.
+
 Then **proceed on the register — do not stall.** Blocking on questions the user
 may never answer is worse than acting on labeled defaults. But every conclusion
 that depends on an assumption must say so ("assuming A2 …"), and when a row is
@@ -132,6 +141,11 @@ Number the phases. For each consequential phase write, BEFORE executing it:
   outcome, but pre-committed and visible instead of improvised.
 - **Fenced wrong paths** — approaches considered and rejected, with the reason,
   so nobody (including future-you) re-fights a settled battle.
+- **The phase-boundary line** — before a phase whose result the owner will rely
+  on, one line to the owner names the method choice it runs on (window, sample,
+  source, threshold). A long stretch of tool calls with nothing said to the owner
+  is how a parameter chooses itself: the only trace is a tool label, and the owner
+  learns of the choice from its consequences.
 
 Rank alternatives before committing: state the chosen approach and why it beats
 the runner-up, one line each. During execution, compare expected vs actual at
@@ -235,3 +249,21 @@ deliberately two-sided so that P1 cannot be read as "always emit the long form"
 cases in `evals/plan-gate-emission.json`; description untouched (byte-identical
 to `HEAD`), so trigger rates are unaffected by construction and only output shape
 is under test.
+
+**Appended 2026-10-13** — `.claude/LESSONS.md` INC-2026-10-13-01 (owner-reported
+2026-10-13; kit after-report `after-report-2026-10-13-scope-fence.md`). A session
+answered an owner's question with a 20-season backtest whose window was never
+stated as a choice: it was the first season of the data file that happened to be
+pinned, visible only in one tool label and two script docstrings, and the owner
+learned of it from the results. §3 gained the method-parameters-are-assumptions
+paragraph and §5 the phase-boundary line. Neither is a new law — §3 always said
+unknowns become numbered rows — but nothing named a *parameter inherited from a
+file* as an unknown, and nothing required the row to reach the owner before the
+run. The deeper cause was that this skill was never loaded for the question (its
+text sat in context re-attached from an earlier task, 28 times across 28
+compactions); that is addressed by the enforcement hooks and the gauntlet rule
+"re-attached is not loaded", not by wording here. Nothing deleted or renumbered.
+Status: **UNMEASURED** —
+`experiments/hypothesis-2026-10-13-project-enforcement-pack.md` (body edits
+listed as not measured); description byte-identical to `HEAD`, so trigger rates
+are unaffected by construction.

@@ -1,0 +1,1 @@
+Do an expert dive comparing these three logging libraries for our stack and provide a report — I'll make the final call.

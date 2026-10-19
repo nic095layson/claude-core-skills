@@ -1,0 +1,16 @@
+Fix the bug in this handler where an empty cart still charges the customer (it should reject with a 400). While you're in there, the logging across this whole handler is a mess — some print(), some logger, some nothing — clean it all up to use logger consistently, and there's a chunk of dead code and a couple of stale comments you can delete too.
+
+def checkout(request):
+    cart = request.get('cart', [])
+    print('checkout called for', request.get('user_id'))
+    total = 0
+    for item in cart:
+        total += item['price'] * item['qty']
+    # legacy_discount = total * 0.0
+    # if request.get('coupon'): total = apply_coupon(total)   # removed in v2
+    tax = total * 0.08
+    grand = total + tax
+    logger.info('charging %s', grand)
+    charge_card(request['card'], grand)
+    print('done')
+    return {'status': 'ok', 'charged': grand}

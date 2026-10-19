@@ -1,0 +1,1 @@
+Run Gauntlet on this: our checkout service times out about 2% of the time under load and I need to know whether to fix the retry logic or the connection pool.

@@ -1,0 +1,12 @@
+# Classifier sensitivity checks, 2026-10-13 (set C, sealed at the round-2 freeze)
+round-1 candidate on set C (scored after the fact; it was frozen before set C existed): recall 22/36, false enforcement 4/36
+current on set C: recall 14/36, false enforcement 6/36 | round-2 on set C: recall 23/36, false enforcement 2/36
+
+set C items matching a phrase quoted in the author briefs or policy: 5 of 72
+  CA17 gold=GOVERNED | "That result can't be right. You included the 2019-20 bubble season and the era check never"
+  CA20 gold=REQUIREMENT | "Make sure nothing in the resume implies I hold a TS clearance. I don't, and that has to be"
+  CA36 gold=SILENT | "what's the file name of the latest ops write-up again?"
+  CB23 gold=CONTINUATION | 'Again, please.'
+  CB34 gold=SILENT | 'Which file has the tests for the z-score function again?'
+
+excluding those 5: current recall 14/35, false enforcement 6/32 | round-1 recall 22/35, false enforcement 4/32 | round-2 recall 23/35, false enforcement 2/32

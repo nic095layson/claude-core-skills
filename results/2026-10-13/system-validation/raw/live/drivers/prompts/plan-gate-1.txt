@@ -1,0 +1,1 @@
+Help me build a migration script for our postgres schema — we need to move the users and orders tables to a new database.

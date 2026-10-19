@@ -1,0 +1,7 @@
+# git status --porcelain --untracked-files=all in each behavioral snapshot after its run, 2026-10-13T07:00:12Z; the run's own out/err/exit files excluded
+off-1: 0 changed paths
+off-2: 0 changed paths
+off-3: 0 changed paths
+on-1: 0 changed paths
+on-2: 0 changed paths
+on-3: 0 changed paths

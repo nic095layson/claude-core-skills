@@ -98,6 +98,35 @@ until Decision-5 review. Register row 20.
 |---|---|---|
 | [`red-team`](.claude/skills/red-team/SKILL.md) | Attacking the model beneath a figure: constants registry, assumption sweep with structural bands, fingerprinted attack list | `evals/red-team.json` |
 
+## Adopted 2026-10-13 — the project enforcement pack (owner-directed, after INC-2026-10-13-01)
+
+A three-week cloud session loaded no governor at all; the kit's `CLAUDE.md` promised
+they run but nothing on that surface could load them (no user doctrine file, no
+settings, hooks wired nowhere). This repository now carries its own mechanism:
+`.claude/settings.json` wires the seven governance hooks in `hooks/` at project scope
+(`ledger-recount-reminder.sh`, which steers a retired governor, stays unwired; cloud sessions
+started inside one repository read it), the hooks share one classifier that
+recognises owner questions, disputes and mid-turn requirements (fixture: 30 checks since
+the 2026-10-13 gate fix),
+`CLAUDE.md` carries the doctrine block that `instructions/project-doctrine-block.md`
+defines for any project, and the guard fails if the pack is unwired or the block
+drifts. plan-gate, scope-fence and gauntlet carry the three rules the incident found
+unwritten (bodies only; descriptions unchanged, UNMEASURED). Live A/B, 8 headless
+runs: pack off 0/2 governor loads, pack on 4/4, trivia 0/2 with no block. Open:
+multi-repository cloud sessions, which the documentation says do not read repo hooks.
+Record: `results/2026-10-13/gauntlet-fortification/`.
+
+**Plugin twin (later on 2026-10-13).** The same hooks ship as the plugin
+`plugin/core-governance/` for sessions that do not read a repository's settings — a cloud
+session with several repositories attached, the incident's own configuration. Repo-declared
+plugin keys do not load in cloud sessions (settings documentation, read 2026-10-13), so the
+route is the account: upload `core-governance.plugin` at claude.ai Customize → Plugins → Add
+→ Upload plugin, or in a terminal
+`/plugin install core-governance --marketplace nic095layson/claude-core-skills`. The plugin's
+scripts are byte-identical copies of `hooks/`; the guard fails on drift. Whether a synced
+plugin's hooks fire in a cloud session is **unverified** as of 2026-10-13 (install-and-surfaces
+Runbook 4, steps 6–7).
+
 ## Adopted 2026-08-12 — `product-output`
 
 Owner-approved from the 2026-08-10 draft (`results/2026-08-10/product-output-skill/`),
