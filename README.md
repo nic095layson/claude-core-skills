@@ -71,6 +71,23 @@ Companions shipped the same day: two mechanical trigger hooks
 audit runbook (`evals/fable-transition-audit.md`), and the model-capability
 register (`evals/model-capability-register.md`).
 
+## Candidate authored 2026-10-19 — `red-team` (unmeasured — not in the install footprint)
+
+Authored by the Fable 5.1 session of the fantasy-basketball kit after that
+project's draft post-mortem found a hand-set simulator constant moving a quoted
+figure by ±3 points where the report said ±0.4 (every prior audit had tested
+implementation against specification). The skill attacks the **model** a
+deliverable rests on: a registry of judgment constants with calibration status,
+a known-answer re-implementation by a separate attacker, a one-at-a-time
+assumption sweep with structural bands, decision robustness, engine fingerprints
+and an append-only attack list, all as gates. Reference implementation in that
+kit's `scripts/redteam/`. Trigger evals pre-registered
+(`experiments/hypothesis-2026-10-19-red-team.md`), NOT YET RUN.
+
+| Skill | Governs | Evals |
+|---|---|---|
+| [`red-team`](.claude/skills/red-team/SKILL.md) | Attacking the model beneath a figure: constants registry, assumption sweep with structural bands, fingerprinted attack list | `evals/red-team.json` |
+
 ## Adopted 2026-08-12 — `product-output`
 
 Owner-approved from the 2026-08-10 draft (`results/2026-08-10/product-output-skill/`),
