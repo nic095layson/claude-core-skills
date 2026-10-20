@@ -1,0 +1,10 @@
+run    verdict  trig cue gov rcpt before_write order
+f1-r1  PASS     1    0   0   0    True         skill:anthropic-skills:plan-gate,write,Bash
+f1-r2  PASS     1    0   0   0    True         skill:anthropic-skills:plan-gate,write,Bash
+f2-r1  PASS     1    0   0   0    None         
+f2-r2  PASS     1    0   0   0    None         
+f3-r1  PASS     0    1   0   1    None         
+f3-r2  PASS     0    1   0   1    None         
+f4-r1  PASS     0    0   0   0    None         
+f4-r2  PASS     0    0   0   0    None         
+models: ['claude-fable-5-1']
