@@ -1327,3 +1327,44 @@ unmerged branch defeats it exactly.**
   live branch that edits the carrier, never from one branch — diff against what is
   deployed before sending text that overwrites it. INC-11 wrote this lesson for an
   instructions rewrite; it holds for a one-pointer addition too.
+
+### INC-2026-10-19-03 — The Stop gate enforced loading, not ordering: governors loaded after the work in every live run
+
+- **Date:** found 2026-10-19 (owner-ordered red-team of the merged system); fixes landed
+  2026-10-20 on the owner's "proceed with recommendations and merge". Keys checked on every
+  remote branch first (Rule 4): -01 and -02 taken, -03 free.
+- **Surface:** the enforcement hooks, measured live headless (`claude -p`,
+  `--include-hook-events`, N=2 per case).
+- **Symptom:** in 0 of 8 live runs that wrote a file did a governor load before the first
+  write. The trigger's own "if on inspection it is genuinely trivial, say so in one line and
+  skip" clause was taken in 4/4 build runs ("Skipping plan-gate: this is a single small
+  file"), the work was done, the Stop gate blocked the finished turn, and the model loaded
+  plan-gate after the fact — compliance on paper, a post-hoc review in substance. Beside it,
+  the same red-team found the gate's loaded-check matched governor names as substrings of any
+  Skill call's input (an unrelated skill whose ARGUMENTS said "skip plan-gate" counted as
+  loading it), a dispute passed on scope-fence alone without the assessment governor, a
+  /model command echo hid the owner's prompt from the gate, the receipt gate missed curly
+  apostrophes and paraphrases and accepted any receipt word anywhere in the turn, and
+  "2+2=4, right?" was force-blocked into adversarial-verify 2/2.
+- **Root cause:** a Stop-event gate can only judge a finished turn, and the one escape valve
+  the trigger offered sat exactly where the model wants to go when hands-on (the DEAD-1
+  class). Enforcement validated "a load happened this turn", which is not the law the
+  governors state ("plan before the first consequential action").
+- **Evidence:** `results/2026-10-19/system-red-team/` (REPORT.md; live transcripts; 39
+  crafted-event attacks; sealed set recall 14/36, false enforcement 6/36 on hooks tree
+  b635ab2). Fixes red-first: 16 new fixture cases failing on the old hooks, then green
+  (45+15+8+9), live acceptance 8/8 pre-registered in
+  `experiments/hypothesis-2026-10-19-redteam-fixes.md` — with the skip clause off build
+  prompts, plan-gate loaded BEFORE the first write 2/2.
+- **Fix:** trigger skip clause off build prompts + advisory cue tier (D-SV-3 option c);
+  Stop gate exact-name match, per-class primary governors, slash-command echoes ignored,
+  review-only trivia allowance (D-SV-5); receipt gate curly quotes, paraphrases, word
+  boundaries, 400-char receipt window; jq out of the reminders and the compaction hook
+  (D-GF-8). Accepted, documented, not fixed: the duplicate Stop block where pack and plugin
+  both run (D-GF-9), the receipt gate's turn boundary (attacks R7–R9), the band hook's
+  B3–B5, and the blocking classifier's recall (D-SV-3 options a/b stand).
+- **Lesson:** enforce the law you wrote, not a proxy for it — "a governor loaded this turn"
+  let every load arrive after the work it was meant to precede. And an escape valve
+  placed in the enforcement's own message is an invitation at the exact moment of greatest
+  temptation; the valve belongs inside the governor (plan-gate's triage), not beside the
+  order to load it.

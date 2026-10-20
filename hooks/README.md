@@ -1,5 +1,37 @@
 # Hooks — mechanical trigger aids
 
+> **Status 2026-10-20 — red-team fixes landed.** The owner's red-team of the merged system
+> (`results/2026-10-19/system-red-team/REPORT.md`) found the hooks firing as built but failing
+> their purpose in places; on the owner's "proceed with recommendations", these changed, each
+> red-first (16 new fixture cases failing on the old hooks, then green:
+> `results/2026-10-19/redteam-fixes/`):
+> - `governance-trigger.py` drops the "skip if trivial" clause on build-class prompts (live, the
+>   clause was taken in 4/4 build runs and the governor loaded only after the Stop block; with it
+>   removed, plan-gate loaded BEFORE the first write 2/2) and adds an **advisory cue tier**
+>   (D-SV-3 option c): owner prompts the patterns miss get one advisory line — measured on the
+>   sealed set, the cue covers 21/22 pattern-missed governed prompts (the 22nd, "audit every
+>   skill's frontmatter", is 4 words and under the cue's word floor) and also cues on 25/36
+>   negatives, the accepted cost of an advisory line that licenses skipping; the blocking
+>   classifier is unchanged.
+> - `governance-enforce.py` matches the loaded Skill's NAME exactly (an unrelated skill whose
+>   arguments mentioned a governor used to count — attack G3), requires each enforced class's
+>   PRIMARY governor (a dispute passed on scope-fence alone — G4), ignores slash-command echoes
+>   (G5), and allows a review-only turn that ran no tool and answered under 400 characters
+>   (D-SV-5: "2+2=4, right?" was blocked 2/2).
+> - `receipt-law-stop-gate.sh` normalizes curly quotes ("couldn’t verify" passed 2/2 live — R2),
+>   adds paraphrases (R3-R4), uses word boundaries ("veteran" no longer contains the receipt
+>   "ran " — R6), and requires the receipt within 400 characters of the claim (R5).
+> - the two first-write reminders and `session-doctrine.sh` read JSON with python3, not jq
+>   (D-GF-8: the hard-coded `/usr/bin/jq` made a jq-elsewhere machine share one sentinel per
+>   machine; no jq on PATH silenced the compaction protocol entirely). Pinned by the new
+>   `selftest-reminders.sh` (8 cases).
+> The cue-tier word floor (5), the trivia allowance (400 chars) and the receipt window (400
+> chars) are hand-set, uncalibrated; live acceptance 8/8 pre-registered in
+> `experiments/hypothesis-2026-10-19-redteam-fixes.md`. Known residuals, deliberately not fixed
+> here: the receipt gate's turn boundary (attacks R7-R9) and an unrelated-but-near receipt word
+> (R5's cousin inside the window); the band hook's B3-B5; the classifier's sealed-set recall
+> (D-SV-3 options a/b stand).
+
 > **Status 2026-10-13 — wired at project scope.** `.claude/settings.json` in this
 > repository now runs all seven hooks (`governance-trigger.py` on UserPromptSubmit;
 > `governance-enforce.py` and `receipt-law-stop-gate.sh` on Stop; the two first-write

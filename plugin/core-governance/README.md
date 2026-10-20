@@ -89,6 +89,18 @@ component paths that leave the plugin root.
   rule (replaced by the rule above), and a hard-coded `/usr/bin/jq` in the two first-write
   reminders inherited from `hooks/` (not fixed here; owner decision in the after-report).
 
+## 0.1.2 (2026-10-20)
+
+The red-team fixes (`results/2026-10-19/system-red-team/REPORT.md`, owner-approved): the trigger
+drops the skip clause on build prompts and gains the advisory cue tier; the Stop gate matches Skill
+names exactly, requires each class's primary governor, ignores slash-command echoes, and allows
+review-only no-tool short answers; the receipt gate handles curly quotes, paraphrases and word
+boundaries and requires the receipt beside the claim; jq is gone from the reminders and the
+compaction hook (`selftest-reminders.sh` pins it). Scripts re-synced byte-identical to `hooks/`.
+Known cost, now measured rather than assumed (D-GF-9, red-team run L8): in a one-repository cloud
+session that also carries the pack, the Stop BLOCK doubles as well as the trigger line — accepted,
+the owner decided, as noisy but harmless; the reminders and receipt gate still dedupe by sentinel.
+
 ## 0.1.1 (2026-10-13)
 
 `governance-enforce.py` now skips harness-written user entries (task notifications, wake envelopes)

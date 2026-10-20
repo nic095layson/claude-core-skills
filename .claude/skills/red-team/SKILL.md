@@ -154,7 +154,11 @@ python3 <skill>/scripts/attacks_check.py  --root . --out  redteam/records/attack
 python3 <skill>/scripts/bands_check.py    --report <report> --sweep <sweep record>
 ```
 
-The scaffold passes all three checks as shipped. `sweep_template.py` is the sweep's
+The scaffold passes all three checks as shipped. When the records live in the engine's own
+repository, pass `--fingerprint` with a hash of the engine's files alone (for a git subtree,
+`git rev-parse --short HEAD:<dir>`), never bare `HEAD`: with `HEAD` as the fingerprint, committing
+the records moves it, so every record is born STALE (found 2026-10-19 red-teaming this library's
+own hooks). `sweep_template.py` is the sweep's
 contract (reload the model per job, one constant at a time, baseline within 3 SE of
 the reference before any tier is read, two seeds, tiers on the unrounded mean,
 fingerprint and tier rule in the record) and runs a toy model end to end with
