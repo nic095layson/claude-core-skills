@@ -1,0 +1,83 @@
+=== classify
+  ok   classify: "I don't agree that career averages are being taken into ac"   -> ['adversarial-verify', 'scope-fence']
+  ok   classify: 'Usage on new team is critical and essential to data comput'   -> ['scope-fence']
+  ok   classify: 'I understand that you are still running your tests. I have'   -> ['adversarial-verify', 'scope-fence']
+  ok   classify: 'We have rules, such as scope-fence in your operating proce'   -> ['adversarial-verify', 'plan-gate', 'scope-fence']
+  ok   classify: 'Analyze whether we should migrate our auth to JWTs and rec'   -> ['adversarial-verify', 'plan-gate']
+  ok   classify: 'Build a script that processes the three sample files and o'   -> ['plan-gate']
+  ok   classify: 'Can you double-check this migration before I run it in pro'   -> ['adversarial-verify']
+  ok   classify: "Why does the board rank Sabonis above Jokic? I don't agree"   -> ['adversarial-verify', 'scope-fence']
+  ok   classify: "what's 15% of 80?"                                            -> []
+  ok   classify: "thanks, that's all for tonight"                               -> []
+  ok   classify: 'what time zone is the draft in?'                              -> []
+  ok   classify: 'why is the sky blue?'                                         -> []
+  ok   classify: 'ok sounds good, go ahead'                                     -> []
+  ok   classify: "what's the default PostgreSQL port?"                          -> []
+  ok   classify: 'who did the Lakers draft last year?'                          -> []
+  ok   classify: '[SYSTEM NOTIFICATION - NOT USER INPUT]\n<task-notification>'  -> []
+  ok   classify: '<command-name>/model</command-name>\n<command-message>model'  -> []
+  FAIL classify: '<local-command-stdout>Set model to `claude-x`. Now build t'   -> ['plan-gate']  expected []
+  ok   trigger: dispute message -> UserPromptSubmit additionalContext with the assessment rule
+  ok   trigger: 'draft in' trivia -> silent
+  FAIL trigger: build prompt -> asks for plan-gate with no skip clause
+  FAIL trigger cue tier: 'Please provide new instructions for me to copy and'   -> silent  expected cue
+  FAIL trigger cue tier: 'Proceed with recommendations and merge.'              -> silent  expected cue
+  ok   trigger cue tier: 're-pasted instructions complete'                      -> silent
+  ok   trigger cue tier: 'ok sounds good, go ahead'                             -> silent
+  ok   trigger cue tier: "what's 15% of 80?"                                    -> silent
+  ok   trigger cue tier: "thanks, that's all for tonight"                       -> silent
+  ok   gate: governed (incident 23:41), no load, string content -> BLOCK
+  ok   gate: governed (incident 23:41), no load, list content -> BLOCK
+  ok   gate: governed, synced copy loaded -> ALLOW
+  FAIL gate: dispute, scope-fence only -> BLOCK (needs adversarial-verify too)  (got allow)
+  ok   gate: dispute, both loaded -> ALLOW
+  FAIL gate: governed, unrelated Skill whose ARGS name plan-gate -> BLOCK (red-team G3)  (got allow)
+  FAIL gate: governed build, /model echo as the latest user string -> BLOCK (red-team G5)  (got allow)
+  FAIL gate: review-class trivia, no tools, short answer -> ALLOW (D-SV-5, 2026-10-19)  (got block)
+  ok   gate: review-class, no tools, long answer -> BLOCK
+  ok   gate: review-class, short answer but a tool ran -> BLOCK
+  ok   gate: governed, loaded, then isMeta skill-text + hook-feedback entries (live A/B 2026-10-13) -> ALLOW
+  ok   gate: governed, NOT loaded, isMeta entries present -> BLOCK
+  ok   gate: requirement only (advisory) -> ALLOW
+  ok   gate: trivia -> ALLOW
+  ok   gate: governed, NOT loaded, task notification arrives mid-turn -> BLOCK (red-first 2026-10-13)
+  ok   gate: governed, NOT loaded, system-notification banner mid-turn -> BLOCK (red-first 2026-10-13)
+  ok   gate: governed, loaded before a mid-turn notification -> ALLOW
+  ok   gate: stop_hook_active -> ALLOW (loop-safe)
+== 37 passed, 8 failed ==
+exit 1
+=== receipt
+== selftest: receipt-law-stop-gate ==
+  ok   t1-inc9-shape — BLOCK
+  ok   t2-receipt-present — ALLOW
+  ok   t3-tools-ran-no-receipt — BLOCK
+  ok   t3b-tools-ran-with-receipt — ALLOW
+  ok   t4-quoted-only — ALLOW
+  ok   t5-loop-guard — ALLOW
+  ok   t6-plain-answer — ALLOW
+  ok   t7-first-fire — BLOCK
+  ok   t7-first-fire — ALLOW
+  ok   t8-missing-transcript — ALLOW
+  FAIL t9-curly-apostrophe — expected BLOCK, got ALLOW
+       output: 
+  FAIL t10-paraphrases — expected BLOCK, got ALLOW
+       output: 
+  FAIL t11-receipt-substring — expected BLOCK, got ALLOW
+       output: 
+  FAIL t12-receipt-far-from-claim — expected BLOCK, got ALLOW
+       output: 
+  ok   t13-receipt-beside-claim — ALLOW
+== 11 passed, 4 failed ==
+exit 1
+=== reminders
+== selftest: reminders + session-doctrine (no jq reachable) ==
+  ok   plan-gate-first-write-reminder.sh first write, session s1 — fire
+  ok   plan-gate-first-write-reminder.sh second write, same session — silent
+  FAIL plan-gate-first-write-reminder.sh first write, DIFFERENT session s2 — expected fire, got silent
+  ok   scope-fence-reminder.sh first write, session s1 — fire
+  ok   scope-fence-reminder.sh second write, same session — silent
+  FAIL scope-fence-reminder.sh first write, DIFFERENT session s2 — expected fire, got silent
+  FAIL session-doctrine compact emits the protocol — expected fire, got silent
+  FAIL session-doctrine compact left a sentinel in place
+== 4 passed, 4 failed ==
+exit 1

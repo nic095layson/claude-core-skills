@@ -1,0 +1,1 @@
+Build a small Python script stats.py in this folder that prints the nine fantasy basketball categories, one per line, and write it to disk.

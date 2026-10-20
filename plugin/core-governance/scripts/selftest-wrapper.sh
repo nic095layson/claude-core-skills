@@ -35,9 +35,16 @@ printf '%s' "$out" | grep -q "Governance auto-trigger" && ok "local + no setting
 # 4. cloud + wired -> runs (never yield where repo hooks may not be read)
 out=$(prompt s4 "$INC" | run_cloud "$T/wired" governance-trigger.py)
 printf '%s' "$out" | grep -q "Governance auto-trigger" && ok "cloud + project wires the hook -> still runs" || bad "cloud+wired should run" "$out"
-# 5. cloud + trivia -> runs the trigger, which stays silent on trivia
+# 5. cloud + trivia -> runs the trigger. Changed 2026-10-20 (D-SV-3 option c): this prompt now draws
+# the ADVISORY cue, never the auto-trigger; a sub-floor prompt stays fully silent. Was "silent" before.
 out=$(prompt s5 "what time zone is the draft in?" | run_cloud "$T/wired" governance-trigger.py); rc=$?
-[ $rc -eq 0 ] && [ -z "$out" ] && ok "cloud + trivia -> trigger runs and is silent" || bad "trivia should be silent" "rc=$rc out=$out"
+if [ $rc -eq 0 ] && printf '%s' "$out" | grep -q "Governance cue" && ! printf '%s' "$out" | grep -q "auto-trigger"; then
+  ok "cloud + trivia -> trigger runs; advisory cue only"
+else
+  bad "trivia should draw the advisory cue, not the auto-trigger" "rc=$rc out=$out"
+fi
+out=$(prompt s5b "ok go ahead" | run_cloud "$T/wired" governance-trigger.py); rc=$?
+[ $rc -eq 0 ] && [ -z "$out" ] && ok "cloud + short acknowledgement -> fully silent" || bad "ack should be silent" "rc=$rc out=$out"
 # 6. Stop path: stdin reaches the gate; unloaded governed turn -> block
 tr="$T/t.jsonl"; python3 - "$tr" "$INC" <<'PY'
 import json,sys

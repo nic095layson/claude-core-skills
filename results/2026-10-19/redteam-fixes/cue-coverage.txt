@@ -1,0 +1,3 @@
+hooks tree 99b705e (uncommitted README edits only): cue covers 21/22 pattern-missed governed prompts; cues on 25/36 negatives (advisory)
+still fully silent governed prompts:
+ - audit every skill's frontmatter
