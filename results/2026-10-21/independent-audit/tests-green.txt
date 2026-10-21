@@ -1,0 +1,38 @@
+/home/user/claude-core-skills/.claude/skills/independent-audit/scripts/test_independent_audit.py:70: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmp3qi7ywf0/r.md' mode='w' encoding='utf-8'>
+  open(p, "w").write("Intro.\n\n" + FALSE_CLAIMS[0] + "\n")
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+....../home/user/claude-core-skills/.claude/skills/independent-audit/scripts/test_independent_audit.py:123: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmp2gaakg1e/preflight.json' mode='w' encoding='utf-8'>
+  json.dump({"name": "test run", "checks": checks}, open(p, "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+./home/user/claude-core-skills/.claude/skills/independent-audit/scripts/test_independent_audit.py:154: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpyj56cgqw/x.json' mode='w' encoding='utf-8'>
+  p = os.path.join(d, "x.json"); open(p, "w").write("{not json")
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+./home/user/claude-core-skills/.claude/skills/independent-audit/scripts/test_independent_audit.py:123: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpcf47oc_o/preflight.json' mode='w' encoding='utf-8'>
+  json.dump({"name": "test run", "checks": checks}, open(p, "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+./home/user/claude-core-skills/.claude/skills/independent-audit/scripts/test_independent_audit.py:123: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpjlub0bnw/preflight.json' mode='w' encoding='utf-8'>
+  json.dump({"name": "test run", "checks": checks}, open(p, "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+./home/user/claude-core-skills/.claude/skills/independent-audit/scripts/test_independent_audit.py:112: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpcdhf1hbf/a.txt' mode='w' encoding='utf-8'>
+  open(os.path.join(d, n + ".txt"), "w").write("ok")
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/user/claude-core-skills/.claude/skills/independent-audit/scripts/test_independent_audit.py:112: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpcdhf1hbf/b.txt' mode='w' encoding='utf-8'>
+  open(os.path.join(d, n + ".txt"), "w").write("ok")
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+./home/user/claude-core-skills/.claude/skills/independent-audit/scripts/test_independent_audit.py:97: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpr92jzzpz/a.txt' mode='w' encoding='utf-8'>
+  open(os.path.join(d, "a.txt"), "w").write("x")
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+./home/user/claude-core-skills/.claude/skills/independent-audit/scripts/test_independent_audit.py:86: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpee_cyh6f/a.txt' mode='w' encoding='utf-8'>
+  open(os.path.join(d, name), "w").write(body)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/user/claude-core-skills/.claude/skills/independent-audit/scripts/test_independent_audit.py:86: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpee_cyh6f/b.txt' mode='w' encoding='utf-8'>
+  open(os.path.join(d, name), "w").write(body)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/user/claude-core-skills/.claude/skills/independent-audit/scripts/test_independent_audit.py:86: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpee_cyh6f/c.txt' mode='w' encoding='utf-8'>
+  open(os.path.join(d, name), "w").write(body)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+..
+----------------------------------------------------------------------
+Ran 14 tests in 0.540s
+
+OK

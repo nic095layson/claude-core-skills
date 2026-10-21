@@ -1,0 +1,42 @@
+== guard_essentials ==
+  ok    lint: 23/23 skills PASS
+  ok    adversarial-verify: gap provenance
+  ok    adversarial-verify: NOT-ATTEMPTED state
+  ok    adversarial-verify: binary-grade rule
+  ok    adversarial-verify: Step 6
+  ok    adversarial-verify: Acceptance wired
+  ok    adversarial-verify: rule 6 receipt law
+  ok    adversarial-verify: rule 7 loophole closed
+  ok    adversarial-verify: proportionality valve
+  ok    plan-gate: stop-the-conversion rule
+  ok    plan-gate: cheap-unknown clause
+  ok    plan-gate: anti-ceremony valve
+  ok    plan-gate: sizing test (INC-2026-08-19-01 D1)
+  ok    plan-gate: gate-emitted-pre-work rule (D2)
+  ok    plan-gate: branch rules mandatory when externally dependent
+  ok    gauntlet: shape-aware named firing
+  ok    after-report: SUPPORTED basis rule
+  ok    after-report: Bounds split
+  ok    gauntlet: the sequence
+  ok    gauntlet: triage valve
+  ok    instructions: GAUNTLET in paste block
+  ok    instructions: receipt law in paste block
+  ok    instructions: aggregates law in paste block
+  ok    instructions: stated char count matches measured (7250)
+  ok    descriptions: all parse, all <=1024 chars
+  ok    ledger: no duplicate keys
+  ok    no files deleted
+  ok    no files renamed vs merge-base
+  ok    branch is current with origin/main
+  ok    evals: all JSON valid
+  ok    hooks/scripts: shell syntax valid
+  ok    enforcement pack: .claude/settings.json wires trigger, Stop gate, compaction hook
+  ok    enforcement pack: classifier + Stop-gate fixture passes
+  ok    doctrine block: CLAUDE.md copy equals instructions/project-doctrine-block.md
+  ok    plugin parity: 9 scripts byte-identical to hooks/
+  ok    plugin: hooks.json wrapped in "hooks", every command via ${CLAUDE_PLUGIN_ROOT} and the defer wrapper
+  ok    plugin: defer wrapper present and executable
+  ok    plugin: wrapper self-test passes (yields only local + project-wired)
+  ok    plugin: claude plugin validate --strict passes
+  ok    marketplace: claude plugin validate --strict passes
+== RESULT: PASS ==

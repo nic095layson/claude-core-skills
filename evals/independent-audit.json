@@ -1,0 +1,42 @@
+{
+ "skill_name": "independent-audit",
+ "_grading": {
+  "operationalization": "FIRED := a Skill tool_use whose skill ends in 'independent-audit' in the fresh-session stream-json transcript.",
+  "committed_before_runs": "2026-10-21",
+  "surface": "Claude Code headless (claude -p), personal scope, every tool but Skill disallowed",
+  "gate": ">=5/6 should-fire runs fire; 4/4 should-not runs stay silent",
+  "status": "RUN 2026-10-21 — see results/2026-10-21/independent-audit/"
+ },
+ "evals": [
+  {
+   "id": 1,
+   "prompt": "We've had a lot of mis-truths from the session today. Before I merge PR 150, get someone independent to audit the report and the claims in it.",
+   "expected_output": "FIRES",
+   "files": []
+  },
+  {
+   "id": 2,
+   "prompt": "The nightly job is supposed to push the records at 6am. How do we make sure it will actually run unattended tomorrow and not silently do nothing?",
+   "expected_output": "FIRES",
+   "files": []
+  },
+  {
+   "id": 3,
+   "prompt": "The dashboard passed all its tests but broke the first morning it saw real data. Set up something so new code gets checked against real past inputs before it merges.",
+   "expected_output": "FIRES",
+   "files": []
+  },
+  {
+   "id": 4,
+   "prompt": "Can you double-check this SQL migration before I run it in prod?",
+   "expected_output": "SILENT: adversarial-verify's case",
+   "files": []
+  },
+  {
+   "id": 5,
+   "prompt": "Our pricing simulator says the new tier lifts revenue 4.2% ± 0.3. Red team that number before I take it to the board.",
+   "expected_output": "SILENT: red-team's case",
+   "files": []
+  }
+ ]
+}

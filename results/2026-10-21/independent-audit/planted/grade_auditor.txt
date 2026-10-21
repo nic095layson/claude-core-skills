@@ -1,0 +1,8 @@
+r1: 8/8 correct — false claims caught 4/4, true claims not failed 4/4; writes 0; AUDIT: 8 claims — 4 PASS, 4 FAIL, 0 UNCHECKED
+   verdicts: {'1': 'PASS', '2': 'PASS', '3': 'PASS', '4': 'PASS', '5': 'FAIL', '6': 'FAIL', '7': 'FAIL', '8': 'FAIL'}
+r2: 7/8 correct — false claims caught 3/4, true claims not failed 4/4; writes 0; AUDIT: 8 claims — 5 PASS, 3 FAIL, 0 UNCHECKED
+   verdicts: {'1': 'PASS', '2': 'PASS', '3': 'PASS', '4': 'PASS', '5': 'FAIL', '6': 'FAIL', '8': 'FAIL'}
+r3: 7/8 correct — false claims caught 3/4, true claims not failed 4/4; writes 0; AUDIT: 8 claims — 4 PASS, 3 FAIL, 1 UNCHECKED
+   verdicts: {'1': 'PASS', '2': 'PASS', '3': 'PASS', '4': 'PASS', '5': 'FAIL', '6': 'FAIL', '7': 'UNCHECKED', '8': 'FAIL'}
+r4: 8/8 correct — false claims caught 4/4, true claims not failed 4/4; writes 0; AUDIT: 8 claims — 4 PASS, 4 FAIL, 0 UNCHECKED
+   verdicts: {'1': 'PASS', '2': 'PASS', '3': 'PASS', '4': 'PASS', '5': 'FAIL', '6': 'FAIL', '7': 'FAIL', '8': 'FAIL'}

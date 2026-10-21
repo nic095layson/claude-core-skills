@@ -1,0 +1,6 @@
+  report/after-reports/after-report-2026-10-19-season-deck-audit.md:36: 'runs every' — The status feed still runs every morning: the letters still show on the Today tab's games table for your players, and tiers and availability still drive the lineup and the brief.
+  report/after-reports/after-report-2026-10-19-season-deck.md:11: 'changes nothing' — The deck proposes; it changes nothing on either plane.
+  report/after-reports/after-report-2026-10-19-season-deck.md:96: 'changes nothing' — The page changes nothing by itself, and tomorrow at 6:52 your time it updates itself for the first time.
+  report/after-reports/after-report-2026-10-21-board-test.md:19: 'will publish' — - **Every in-season morning will crash the same way until the Movers code is fixed.** Tomorrow's runner build will publish a page with the same fault.
+  report/after-reports/after-report-2026-10-21-redteam-audit.md:261: 'still yours' — **D-INT-1 — the provenance writer.** Unchanged from last night; still yours.
+CLAIM RECEIPTS: ADVISORY — 5 unreceipted claim(s) in 15 file(s); show a receipt or mark the status

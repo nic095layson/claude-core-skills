@@ -98,6 +98,29 @@ until Decision-5 review. Register row 20.
 |---|---|---|
 | [`red-team`](.claude/skills/red-team/SKILL.md) | Attacking the model beneath a figure: constants registry, assumption sweep with structural bands, fingerprinted attack list | `evals/red-team.json` |
 
+## Candidate authored 2026-10-21 — `independent-audit` (trigger-measured 2026-10-21; not in the install footprint)
+
+Authored at the owner's request after an audit of the fantasy kit's 10/19–10/21
+failures (21 recorded: 9 confident claims that something runs or changes nothing
+with nothing run behind them, 7 cases of new code meeting real data first in
+production, 4 analysis errors, 1 stale record) — "build all the recommended …
+this is not just for Fantasy Basketball, but Claude Global". The skill adds what
+self-review lacks: a **fresh-context, read-only auditor** briefed by contract
+(`auditor-brief.md`), and three dependency-free gates under its `scripts/`:
+`claim_receipts.py` (mechanism claims with no receipt beside them; **advisory** —
+pre-registered precision 0.43 on 15 real reports, below its 0.5 bar),
+`replay_gate.py` (a step re-run over recorded real inputs; it FAILed both
+pre-fix deck versions on the real 10/21 morning and passed the current code) and
+`preflight.py` (an unattended run's preconditions, one FAIL line at second zero).
+Trigger evals 6/6 should-fire, 4/4 silent on `claude-opus-5-5`; the planted-claim
+auditor test and the red team are in
+`results/2026-10-21/independent-audit/` (`REPORT.md`). The fantasy kit adopts it
+as the first project instance. Nothing here earns always-on until Decision-5 review.
+
+| Skill | Governs | Evals |
+|---|---|---|
+| [`independent-audit`](.claude/skills/independent-audit/SKILL.md) | An outside reader for finished work, claim-receipt lint, real-input replay, unattended-run preflight | `evals/independent-audit.json` |
+
 ## Adopted 2026-10-13 — the project enforcement pack (owner-directed, after INC-2026-10-13-01)
 
 A three-week cloud session loaded no governor at all; the kit's `CLAUDE.md` promised

@@ -1,0 +1,62 @@
+EFE.F/home/user/fantasy-basketball-2026-27/scripts/test_independent_audit_adoption.py:87: ResourceWarning: unclosed file <_io.BufferedReader name='/home/user/fantasy-basketball-2026-27/scripts/independent_audit/claim_receipts.py'>
+  a = hashlib.sha256(open(os.path.join(IA, f), "rb").read()).hexdigest()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/user/fantasy-basketball-2026-27/scripts/test_independent_audit_adoption.py:88: ResourceWarning: unclosed file <_io.BufferedReader name='/home/user/fantasy-basketball-2026-27/../claude-core-skills/.claude/skills/independent-audit/scripts/claim_receipts.py'>
+  b = hashlib.sha256(open(os.path.join(src, f), "rb").read()).hexdigest()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/user/fantasy-basketball-2026-27/scripts/test_independent_audit_adoption.py:87: ResourceWarning: unclosed file <_io.BufferedReader name='/home/user/fantasy-basketball-2026-27/scripts/independent_audit/replay_gate.py'>
+  a = hashlib.sha256(open(os.path.join(IA, f), "rb").read()).hexdigest()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/user/fantasy-basketball-2026-27/scripts/test_independent_audit_adoption.py:88: ResourceWarning: unclosed file <_io.BufferedReader name='/home/user/fantasy-basketball-2026-27/../claude-core-skills/.claude/skills/independent-audit/scripts/replay_gate.py'>
+  b = hashlib.sha256(open(os.path.join(src, f), "rb").read()).hexdigest()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/user/fantasy-basketball-2026-27/scripts/test_independent_audit_adoption.py:87: ResourceWarning: unclosed file <_io.BufferedReader name='/home/user/fantasy-basketball-2026-27/scripts/independent_audit/preflight.py'>
+  a = hashlib.sha256(open(os.path.join(IA, f), "rb").read()).hexdigest()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/user/fantasy-basketball-2026-27/scripts/test_independent_audit_adoption.py:88: ResourceWarning: unclosed file <_io.BufferedReader name='/home/user/fantasy-basketball-2026-27/../claude-core-skills/.claude/skills/independent-audit/scripts/preflight.py'>
+  b = hashlib.sha256(open(os.path.join(src, f), "rb").read()).hexdigest()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+.
+======================================================================
+ERROR: test_audit_gates_with_and_without_replay (__main__.AuditGates.test_audit_gates_with_and_without_replay)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/fantasy-basketball-2026-27/scripts/test_independent_audit_adoption.py", line 66, in test_audit_gates_with_and_without_replay
+    self.assertEqual([s["name"] for s in G.audit_gates("/x/r.md", replay=False)], ["claim receipts"])
+                                         ^^^^^^^^^^^^^
+AttributeError: module 'gates' has no attribute 'audit_gates'
+
+======================================================================
+ERROR: test_spec_declares_what_the_run_assumes (__main__.MorningPreflight.test_spec_declares_what_the_run_assumes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/fantasy-basketball-2026-27/scripts/test_independent_audit_adoption.py", line 43, in test_spec_declares_what_the_run_assumes
+    spec = json.load(open(SPEC))
+                     ~~~~^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/fantasy-basketball-2026-27/scripts/independent_audit/morning_preflight.json'
+
+======================================================================
+FAIL: test_preflight_is_the_first_step_and_fatal (__main__.MorningPreflight.test_preflight_is_the_first_step_and_fatal)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/fantasy-basketball-2026-27/scripts/test_independent_audit_adoption.py", line 37, in test_preflight_is_the_first_step_and_fatal
+    self.assertEqual(st[0]["name"], "preflight")
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'league live' != 'preflight'
+- league live
++ preflight
+
+
+======================================================================
+FAIL: test_spec_fails_when_the_deck_is_missing (__main__.MorningPreflight.test_spec_fails_when_the_deck_is_missing)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/fantasy-basketball-2026-27/scripts/test_independent_audit_adoption.py", line 61, in test_spec_fails_when_the_deck_is_missing
+    self.assertIn("deck repo beside the kit", r.stdout)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'deck repo beside the kit' not found in 'PREFLIGHT: FAIL — spec /home/user/fantasy-basketball-2026-27/scripts/independent_audit/morning_preflight.json unreadable or empty (FileNotFoundError); an unchecked run is not a pass\n'
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.088s
+
+FAILED (failures=2, errors=2)

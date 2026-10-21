@@ -1,0 +1,155 @@
+EEEEEE/home/user/claude-core-skills/.claude/skills/independent-audit/scripts/test_independent_audit.py:123: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpm5uxf0l2/preflight.json' mode='w' encoding='utf-8'>
+  json.dump({"name": "test run", "checks": checks}, open(p, "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+F/home/user/claude-core-skills/.claude/skills/independent-audit/scripts/test_independent_audit.py:154: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpj5g0ms3m/x.json' mode='w' encoding='utf-8'>
+  p = os.path.join(d, "x.json"); open(p, "w").write("{not json")
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+F/home/user/claude-core-skills/.claude/skills/independent-audit/scripts/test_independent_audit.py:123: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmps9x_bhzy/preflight.json' mode='w' encoding='utf-8'>
+  json.dump({"name": "test run", "checks": checks}, open(p, "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+F/home/user/claude-core-skills/.claude/skills/independent-audit/scripts/test_independent_audit.py:123: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpq8okmigq/preflight.json' mode='w' encoding='utf-8'>
+  json.dump({"name": "test run", "checks": checks}, open(p, "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+F/home/user/claude-core-skills/.claude/skills/independent-audit/scripts/test_independent_audit.py:112: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpgfbl2cxm/a.txt' mode='w' encoding='utf-8'>
+  open(os.path.join(d, n + ".txt"), "w").write("ok")
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/user/claude-core-skills/.claude/skills/independent-audit/scripts/test_independent_audit.py:112: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpgfbl2cxm/b.txt' mode='w' encoding='utf-8'>
+  open(os.path.join(d, n + ".txt"), "w").write("ok")
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+F/home/user/claude-core-skills/.claude/skills/independent-audit/scripts/test_independent_audit.py:97: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmp41nghg9x/a.txt' mode='w' encoding='utf-8'>
+  open(os.path.join(d, "a.txt"), "w").write("x")
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+F/home/user/claude-core-skills/.claude/skills/independent-audit/scripts/test_independent_audit.py:86: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpxbi9i7ya/a.txt' mode='w' encoding='utf-8'>
+  open(os.path.join(d, name), "w").write(body)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/user/claude-core-skills/.claude/skills/independent-audit/scripts/test_independent_audit.py:86: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpxbi9i7ya/b.txt' mode='w' encoding='utf-8'>
+  open(os.path.join(d, name), "w").write(body)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/user/claude-core-skills/.claude/skills/independent-audit/scripts/test_independent_audit.py:86: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpxbi9i7ya/c.txt' mode='w' encoding='utf-8'>
+  open(os.path.join(d, name), "w").write(body)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+FF
+======================================================================
+ERROR: test_cli_strict_exit_and_line (__main__.ClaimReceipts.test_cli_strict_exit_and_line)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/claude-core-skills/.claude/skills/independent-audit/scripts/test_independent_audit.py", line 41, in setUp
+    import claim_receipts
+ModuleNotFoundError: No module named 'claim_receipts'
+
+======================================================================
+ERROR: test_code_fences_and_quotes_ignored (__main__.ClaimReceipts.test_code_fences_and_quotes_ignored)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/claude-core-skills/.claude/skills/independent-audit/scripts/test_independent_audit.py", line 41, in setUp
+    import claim_receipts
+ModuleNotFoundError: No module named 'claim_receipts'
+
+======================================================================
+ERROR: test_false_claims_flagged (__main__.ClaimReceipts.test_false_claims_flagged)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/claude-core-skills/.claude/skills/independent-audit/scripts/test_independent_audit.py", line 41, in setUp
+    import claim_receipts
+ModuleNotFoundError: No module named 'claim_receipts'
+
+======================================================================
+ERROR: test_honest_rewrites_pass (__main__.ClaimReceipts.test_honest_rewrites_pass)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/claude-core-skills/.claude/skills/independent-audit/scripts/test_independent_audit.py", line 41, in setUp
+    import claim_receipts
+ModuleNotFoundError: No module named 'claim_receipts'
+
+======================================================================
+ERROR: test_plain_sentences_pass (__main__.ClaimReceipts.test_plain_sentences_pass)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/claude-core-skills/.claude/skills/independent-audit/scripts/test_independent_audit.py", line 41, in setUp
+    import claim_receipts
+ModuleNotFoundError: No module named 'claim_receipts'
+
+======================================================================
+ERROR: test_receipt_must_be_beside_the_claim (__main__.ClaimReceipts.test_receipt_must_be_beside_the_claim)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/claude-core-skills/.claude/skills/independent-audit/scripts/test_independent_audit.py", line 41, in setUp
+    import claim_receipts
+ModuleNotFoundError: No module named 'claim_receipts'
+
+======================================================================
+FAIL: test_all_checks_pass (__main__.Preflight.test_all_checks_pass)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/claude-core-skills/.claude/skills/independent-audit/scripts/test_independent_audit.py", line 141, in test_all_checks_pass
+    self.assertEqual(r.returncode, 0, r.stdout)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 2 != 0 : 
+
+======================================================================
+FAIL: test_bad_spec_fails_not_passes (__main__.Preflight.test_bad_spec_fails_not_passes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/claude-core-skills/.claude/skills/independent-audit/scripts/test_independent_audit.py", line 157, in test_bad_spec_fails_not_passes
+    self.assertEqual(r.returncode, 1)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+AssertionError: 2 != 1
+
+======================================================================
+FAIL: test_missing_env_and_unwritable (__main__.Preflight.test_missing_env_and_unwritable)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/claude-core-skills/.claude/skills/independent-audit/scripts/test_independent_audit.py", line 149, in test_missing_env_and_unwritable
+    self.assertEqual(r.returncode, 1)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+AssertionError: 2 != 1
+
+======================================================================
+FAIL: test_no_checkout_fails_loudly (__main__.Preflight.test_no_checkout_fails_loudly)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/claude-core-skills/.claude/skills/independent-audit/scripts/test_independent_audit.py", line 131, in test_no_checkout_fails_loudly
+    self.assertEqual(r.returncode, 1)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+AssertionError: 2 != 1
+
+======================================================================
+FAIL: test_all_pass (__main__.ReplayGate.test_all_pass)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/claude-core-skills/.claude/skills/independent-audit/scripts/test_independent_audit.py", line 116, in test_all_pass
+    self.assertEqual(r.returncode, 0, r.stdout)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 2 != 0 : 
+
+======================================================================
+FAIL: test_exit_zero_without_pass_line_is_a_fail (__main__.ReplayGate.test_exit_zero_without_pass_line_is_a_fail)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/claude-core-skills/.claude/skills/independent-audit/scripts/test_independent_audit.py", line 101, in test_exit_zero_without_pass_line_is_a_fail
+    self.assertEqual(r.returncode, 1)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+AssertionError: 2 != 1
+
+======================================================================
+FAIL: test_fails_on_any_broken_input_and_names_it (__main__.ReplayGate.test_fails_on_any_broken_input_and_names_it)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/claude-core-skills/.claude/skills/independent-audit/scripts/test_independent_audit.py", line 91, in test_fails_on_any_broken_input_and_names_it
+    self.assertEqual(r.returncode, 1, r.stdout)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 2 != 1 : 
+
+======================================================================
+FAIL: test_no_inputs_is_a_fail_not_a_pass (__main__.ReplayGate.test_no_inputs_is_a_fail_not_a_pass)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/claude-core-skills/.claude/skills/independent-audit/scripts/test_independent_audit.py", line 106, in test_no_inputs_is_a_fail_not_a_pass
+    self.assertEqual(r.returncode, 1)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+AssertionError: 2 != 1
+
+----------------------------------------------------------------------
+Ran 14 tests in 0.183s
+
+FAILED (failures=8, errors=6)
