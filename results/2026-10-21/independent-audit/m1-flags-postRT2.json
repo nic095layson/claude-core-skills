@@ -1,0 +1,32 @@
+[
+ {
+  "file": "report/after-reports/after-report-2026-10-19-season-deck-audit.md",
+  "line": 36,
+  "claim": "runs every",
+  "sentence": "The status feed still runs every morning: the letters still show on the Today tab's games table for your players, and tiers and availability still drive the lineup and the brief."
+ },
+ {
+  "file": "report/after-reports/after-report-2026-10-19-season-deck.md",
+  "line": 11,
+  "claim": "changes nothing",
+  "sentence": "The deck proposes; it changes nothing on either plane."
+ },
+ {
+  "file": "report/after-reports/after-report-2026-10-19-season-deck.md",
+  "line": 96,
+  "claim": "changes nothing",
+  "sentence": "The page changes nothing by itself, and tomorrow at 6:52 your time it updates itself for the first time."
+ },
+ {
+  "file": "report/after-reports/after-report-2026-10-21-board-test.md",
+  "line": 19,
+  "claim": "will publish",
+  "sentence": "- **Every in-season morning will crash the same way until the Movers code is fixed.** Tomorrow's runner build will publish a page with the same fault."
+ },
+ {
+  "file": "report/after-reports/after-report-2026-10-21-redteam-audit.md",
+  "line": 261,
+  "claim": "still yours",
+  "sentence": "**D-INT-1 \u2014 the provenance writer.** Unchanged from last night; still yours."
+ }
+]

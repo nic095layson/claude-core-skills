@@ -1,0 +1,44 @@
+[
+ {
+  "file": "report/after-reports/after-report-2026-10-19-season-deck-audit.md",
+  "line": 36,
+  "claim": "runs every",
+  "sentence": "The status feed still runs every morning: the letters still show on the Today tab's games table for your players, and tiers and availability still drive the lineup and the brief."
+ },
+ {
+  "file": "report/after-reports/after-report-2026-10-19-season-deck.md",
+  "line": 11,
+  "claim": "changes nothing",
+  "sentence": "The deck proposes; it changes nothing on either plane."
+ },
+ {
+  "file": "report/after-reports/after-report-2026-10-19-season-deck.md",
+  "line": 96,
+  "claim": "changes nothing",
+  "sentence": "The page changes nothing by itself, and tomorrow at 6:52 your time it updates itself for the first time."
+ },
+ {
+  "file": "report/after-reports/after-report-2026-10-21-board-test.md",
+  "line": 19,
+  "claim": "will publish",
+  "sentence": "- **Every in-season morning will crash the same way until the Movers code is fixed.** Tomorrow's runner build will publish a page with the same fault."
+ },
+ {
+  "file": "report/after-reports/after-report-2026-10-21-proceed.md",
+  "line": 95,
+  "claim": "changes nothing",
+  "sentence": "**What this corrects.** On 10/21 I wrote that the recovery choice \"changes nothing either way, because all four recovery players are on IL\"."
+ },
+ {
+  "file": "report/after-reports/after-report-2026-10-21-redteam-audit.md",
+  "line": 176,
+  "claim": "supersedes",
+  "sentence": "| 3 | D-INT-1 option (c) recommended **twice**: \"live ESPN verification supersedes the age flag\" | nothing verifies team labels in-season at all | closing the Council's unknown |\n| 4 | Self-audit A2: "
+ },
+ {
+  "file": "report/after-reports/after-report-2026-10-21-redteam-audit.md",
+  "line": 177,
+  "claim": "keeps it green",
+  "sentence": "| 4 | Self-audit A2: \"the weekly in-season pull keeps it green\" | **no script writes that file**, and none ever has | grep |\n| 5 | D-INT-1 (a): \"run the re-dating pass (mechanical)\" | no such pass was"
+ }
+]

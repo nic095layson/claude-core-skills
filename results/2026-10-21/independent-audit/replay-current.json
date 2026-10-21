@@ -1,0 +1,22 @@
+[
+ {
+  "input": "report/briefs/brief_2026-10-20.json",
+  "cmd": "bash /home/user/claude-core-skills/results/2026-10-21/independent-audit/replay_kit_deck.sh /tmp/claude-0/-home-user/ff01f16c-7b3f-5ea5-8051-7a95ac7cd1d1/scratchpad/replay/current 2026-10-20",
+  "exit": 0,
+  "verdict": "PASS",
+  "tail": [
+   "SEASON DECK: PASS \u2014 2026-10-20: report/season/deck_2026-10-20.html (6 panes, 313 board rows, 21 status rows; record deck_record_2026-10-20.json pins 8 inputs; render: 6 tabs, 0 page errors)",
+   "DECK RENDER: PASS \u2014 deck_2026-10-20.html: 6 tabs, 0 page errors, every pane drawn (141.0.7390.37 (/opt/pw-browsers/chromium_headless_shell-1194/chrome-linux/headless_shell))"
+  ]
+ },
+ {
+  "input": "report/briefs/brief_2026-10-21.json",
+  "cmd": "bash /home/user/claude-core-skills/results/2026-10-21/independent-audit/replay_kit_deck.sh /tmp/claude-0/-home-user/ff01f16c-7b3f-5ea5-8051-7a95ac7cd1d1/scratchpad/replay/current 2026-10-21",
+  "exit": 0,
+  "verdict": "PASS",
+  "tail": [
+   "SEASON DECK: PASS \u2014 2026-10-21: report/season/deck_2026-10-21.html (6 panes, 313 board rows, 16 status rows; record deck_record_2026-10-21.json pins 8 inputs; render: 6 tabs, 0 page errors)",
+   "DECK RENDER: PASS \u2014 deck_2026-10-21.html: 6 tabs, 0 page errors, every pane drawn (141.0.7390.37 (/opt/pw-browsers/chromium_headless_shell-1194/chrome-linux/headless_shell))"
+  ]
+ }
+]

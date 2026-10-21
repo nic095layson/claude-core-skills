@@ -1,0 +1,11 @@
+opus-id1-r1.jsonl claude-opus-5-5 error_max_turns fired PASS ['independent-audit', 'plan-gate', 'delegation-discipline']
+opus-id1-r2.jsonl claude-opus-5-5 success fired PASS ['independent-audit']
+opus-id2-r1.jsonl claude-opus-5-5 success fired PASS ['independent-audit']
+opus-id2-r2.jsonl claude-opus-5-5 success fired PASS ['independent-audit', 'plan-gate']
+opus-id3-r1.jsonl claude-opus-5-5 success fired PASS ['plan-gate', 'independent-audit']
+opus-id3-r2.jsonl claude-opus-5-5 success fired PASS ['plan-gate', 'independent-audit']
+opus-id4-r1.jsonl claude-opus-5-5 success silent PASS ['adversarial-verify']
+opus-id4-r2.jsonl claude-opus-5-5 success silent PASS ['adversarial-verify']
+opus-id5-r1.jsonl claude-opus-5-5 success silent PASS ['red-team', 'plan-gate']
+opus-id5-r2.jsonl claude-opus-5-5 success silent PASS ['red-team', 'plan-gate']
+should-fire 6/6; should-not silent 4/4; gate (>=5/6 and 4/4): PASS

@@ -1,0 +1,1 @@
+The nightly job is supposed to push the records at 6am. How do we make sure it will actually run unattended tomorrow and not silently do nothing?

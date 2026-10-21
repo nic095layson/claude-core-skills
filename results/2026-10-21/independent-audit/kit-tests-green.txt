@@ -1,0 +1,26 @@
+../home/user/fantasy-basketball-2026-27/scripts/test_independent_audit_adoption.py:43: ResourceWarning: unclosed file <_io.TextIOWrapper name='/home/user/fantasy-basketball-2026-27/scripts/independent_audit/morning_preflight.json' mode='r' encoding='utf-8'>
+  spec = json.load(open(SPEC))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+.../home/user/fantasy-basketball-2026-27/scripts/test_independent_audit_adoption.py:87: ResourceWarning: unclosed file <_io.BufferedReader name='/home/user/fantasy-basketball-2026-27/scripts/independent_audit/claim_receipts.py'>
+  a = hashlib.sha256(open(os.path.join(IA, f), "rb").read()).hexdigest()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/user/fantasy-basketball-2026-27/scripts/test_independent_audit_adoption.py:88: ResourceWarning: unclosed file <_io.BufferedReader name='/home/user/fantasy-basketball-2026-27/../claude-core-skills/.claude/skills/independent-audit/scripts/claim_receipts.py'>
+  b = hashlib.sha256(open(os.path.join(src, f), "rb").read()).hexdigest()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/user/fantasy-basketball-2026-27/scripts/test_independent_audit_adoption.py:87: ResourceWarning: unclosed file <_io.BufferedReader name='/home/user/fantasy-basketball-2026-27/scripts/independent_audit/replay_gate.py'>
+  a = hashlib.sha256(open(os.path.join(IA, f), "rb").read()).hexdigest()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/user/fantasy-basketball-2026-27/scripts/test_independent_audit_adoption.py:88: ResourceWarning: unclosed file <_io.BufferedReader name='/home/user/fantasy-basketball-2026-27/../claude-core-skills/.claude/skills/independent-audit/scripts/replay_gate.py'>
+  b = hashlib.sha256(open(os.path.join(src, f), "rb").read()).hexdigest()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/user/fantasy-basketball-2026-27/scripts/test_independent_audit_adoption.py:87: ResourceWarning: unclosed file <_io.BufferedReader name='/home/user/fantasy-basketball-2026-27/scripts/independent_audit/preflight.py'>
+  a = hashlib.sha256(open(os.path.join(IA, f), "rb").read()).hexdigest()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/user/fantasy-basketball-2026-27/scripts/test_independent_audit_adoption.py:88: ResourceWarning: unclosed file <_io.BufferedReader name='/home/user/fantasy-basketball-2026-27/../claude-core-skills/.claude/skills/independent-audit/scripts/preflight.py'>
+  b = hashlib.sha256(open(os.path.join(src, f), "rb").read()).hexdigest()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+.
+----------------------------------------------------------------------
+Ran 6 tests in 0.110s
+
+OK

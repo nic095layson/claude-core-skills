@@ -1,0 +1,1 @@
+0 6 * * * cd /srv/app && python3 scripts/build.py

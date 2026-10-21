@@ -1,0 +1,12 @@
+=== pre152
+  PASS report/briefs/brief_2026-10-20.json
+  FAIL report/briefs/brief_2026-10-21.json (exit 1) — FileNotFoundError: [Errno 2] No such file or directory: '/tmp/claude-0/-home-user/ff01f16c-7b3f-5ea5-8051-7a95ac7cd1d1/scratchpad/replay/pre152/data/news/matchup_live_2026-10-21.json'
+REPLAY: FAIL — 1 of 2 recorded inputs break the step: brief_2026-10-21.json
+=== pre154
+  PASS report/briefs/brief_2026-10-20.json
+  FAIL report/briefs/brief_2026-10-21.json (exit 1) — SEASON DECK: PASS — 2026-10-21: report/season/deck_2026-10-21.html (6 panes, 313 board rows, 16 status rows; record deck_record_2026-10-21.json pins 8 inputs) | DECK RENDER: FAIL — deck_2026-10-21.html: page error: x.toFixed is not a function; tabs [] (want ['Today', 'T
+REPLAY: FAIL — 1 of 2 recorded inputs break the step: brief_2026-10-21.json
+=== current
+  PASS report/briefs/brief_2026-10-20.json
+  PASS report/briefs/brief_2026-10-21.json
+REPLAY: PASS — 2 of 2 recorded inputs pass

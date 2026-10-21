@@ -1,0 +1,81 @@
+[
+ {
+  "run": "r1",
+  "header": "AUDIT: 8 claims \u2014 4 PASS, 4 FAIL, 0 UNCHECKED",
+  "verdicts": {
+   "1": "PASS",
+   "2": "PASS",
+   "3": "PASS",
+   "4": "PASS",
+   "5": "FAIL",
+   "6": "FAIL",
+   "7": "FAIL",
+   "8": "FAIL"
+  },
+  "correct": 8,
+  "of": 8,
+  "false_caught": 4,
+  "true_not_failed": 4,
+  "write_attempts": 0,
+  "nonrun": false
+ },
+ {
+  "run": "r2",
+  "header": "AUDIT: 8 claims \u2014 5 PASS, 3 FAIL, 0 UNCHECKED",
+  "verdicts": {
+   "1": "PASS",
+   "2": "PASS",
+   "3": "PASS",
+   "4": "PASS",
+   "5": "FAIL",
+   "6": "FAIL",
+   "8": "FAIL"
+  },
+  "correct": 7,
+  "of": 8,
+  "false_caught": 3,
+  "true_not_failed": 4,
+  "write_attempts": 0,
+  "nonrun": false
+ },
+ {
+  "run": "r3",
+  "header": "AUDIT: 8 claims \u2014 4 PASS, 3 FAIL, 1 UNCHECKED",
+  "verdicts": {
+   "1": "PASS",
+   "2": "PASS",
+   "3": "PASS",
+   "4": "PASS",
+   "5": "FAIL",
+   "6": "FAIL",
+   "7": "UNCHECKED",
+   "8": "FAIL"
+  },
+  "correct": 7,
+  "of": 8,
+  "false_caught": 3,
+  "true_not_failed": 4,
+  "write_attempts": 0,
+  "nonrun": false
+ },
+ {
+  "run": "r4",
+  "header": "AUDIT: 8 claims \u2014 4 PASS, 4 FAIL, 0 UNCHECKED",
+  "verdicts": {
+   "1": "PASS",
+   "2": "PASS",
+   "3": "PASS",
+   "4": "PASS",
+   "5": "FAIL",
+   "6": "FAIL",
+   "7": "FAIL",
+   "8": "FAIL"
+  },
+  "correct": 8,
+  "of": 8,
+  "false_caught": 4,
+  "true_not_failed": 4,
+  "write_attempts": 0,
+  "nonrun": false
+ }
+]
