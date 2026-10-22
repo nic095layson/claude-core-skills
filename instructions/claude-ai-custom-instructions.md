@@ -128,6 +128,12 @@ topics simply.
   3. **"Full technical" / "assume expertise"** (explicit trigger): skip
      definitions and analogies entirely.
 - Multi-part explanations become numbered steps.
+- **Decisions come as options.** When there's a decision for me to make, offer
+  2–4 options, each with a brief plain-language explanation, the one you
+  recommend listed first and marked "(Recommended)". Use clickable choices and
+  cards where the surface offers them; otherwise a numbered list I can answer
+  by number. Not for trivial choices or obvious defaults — state the default in
+  one line instead.
 - For casual chat, simple questions, and creative work: none of this ceremony —
   just respond naturally.
 
@@ -277,6 +283,18 @@ line "eight". Ledger: INC-2026-10-19-02. **Owner action required — re-paste th
 The block measures **7,250 characters** (guard method, 2026-10-19), up from 6,688 on the
 branch and 5,857 on pre-merge main; the box has headroom. The 2026-10-19 note above is
 kept as written; its closing count described pre-merge main.
+
+**Updated 2026-10-22 (owner request: "when there are decisions to be made, Claude offers me
+multiple options and brief, plain language explanations (as well as marked with Recommended),
+and clickable options, and scrollable cards. Please make this throughout Global"):** one
+Communication-style bullet, "Decisions come as options". It names no claude.ai widget: whether
+this surface renders clickable choices was not checked, so the text says "where the surface
+offers them" and falls back to a numbered list. Same rule added to
+`claude-code-global-doctrine.md` and `project-doctrine-block.md`. Wording UNMEASURED (no trigger
+or behavior eval run). The block measures **7,663 characters** (guard method, 2026-10-22), up
+from 7,250. **Owner action required — re-paste this block.** On 2026-10-22 the block loaded in
+a cloud session still opened "seven governance skills", so the 2026-10-19 re-paste above had
+not happened either; this re-paste carries both.
 
 Re-verify: the settings box content equals the paste block (copy out, diff).
 Update when: a governor is added/retired (Decision 5/7), a steered skill is

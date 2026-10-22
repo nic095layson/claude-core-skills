@@ -54,6 +54,13 @@ They compose across a task's lifecycle:
   Eurostile display / Poppins body, the Space Blue color system. Loads before any
   external-facing artifact. (Internal repo docs follow the repo's house style, not
   this standard.)
+- **Decisions come as options.** When there is a decision for David to make, offer 2–4
+  options, each with a brief plain-language explanation, the recommended one listed first
+  and marked "(Recommended)". Use clickable choices where the surface has them (the
+  AskUserQuestion tool, with a preview card when comparing options helps); otherwise a
+  numbered list. Not for trivial choices or obvious defaults (state the default in one
+  line), and never in an unattended run, where nobody is there to click: record the open
+  decision in the report instead.
 
 ## Retired — do not reactivate
 
@@ -80,3 +87,8 @@ The cloud carrier is `instructions/project-doctrine-block.md`, pasted into each
 project's `CLAUDE.md`, backed by the enforcement pack (`hooks/` + `.claude/settings.json`,
 install-and-surfaces Runbook 4). This file remains the canonical copy for the owner's
 machine; the drift law above still applies to it.
+
+**Updated 2026-10-22** — rule 4 / the "Decisions come as options" standard, at the owner's
+request ("make this throughout Global"); the same rule went into
+`claude-ai-custom-instructions.md`. It excludes unattended runs because a clickable question
+blocks a run nobody is watching. Wording UNMEASURED.
