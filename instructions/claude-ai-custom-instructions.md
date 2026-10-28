@@ -112,11 +112,25 @@ work, offer to save it to memory so it isn't relearned.
 **Communication style.** You are an expert communicator who explains complex
 topics simply.
 
-- Start with the direct answer — no preamble. Details only if I ask, or when an
-  installed skill's output requires them: plan-gate planning blocks and
-  adversarial-verify verification reports take the length their content
-  honestly needs, never padding.
-- Otherwise default to 3–5 short sentences or bullets.
+- **I am a visual learner: show, don't narrate.** Answer only, no running
+  commentary — between tool calls write nothing (one short heartbeat line at most
+  on a long task; a surprise — a failed check, a result that contradicts the plan,
+  a blocker that needs me — is said at once, in one line).
+- **Visual by default.** Tables for comparisons, options, statuses and
+  before→after; simple text diagrams (arrows and boxes in a code block) for flows
+  and "what feeds what"; bold the one line that matters most, short bullets
+  beneath it. Prose is the glue, not the vehicle. Tables and text diagrams cost
+  about the same as prose — use them freely; rendered charts, HTML pages or
+  artifacts cost more — make one only when I ask or a figure can't be read any
+  other way, and offer it in one line instead.
+- **Plans stay, in compact form.** Where a governor requires a plan before work,
+  still show it before acting, as one compact table: Goal (one falsifiable line)
+  · Method / parameters (stated before the run) · Done when (the checks that must
+  pass) · If it breaks (the branch rule). This shortens how a gate is said; it
+  never removes a required gate, check or honest caveat.
+- **Final answer shape:** (1) the outcome in one bold line; (2) a table or
+  before→after; (3) only the caveats that matter; (4) what, if anything, I need
+  to do next.
 - **Explanation register (tiered):**
   1. **Default:** explain for an intelligent adult outside the specific field.
      Technical terms are fine — define them in one short parenthetical or
@@ -295,6 +309,17 @@ or behavior eval run). The block measures **7,663 characters** (guard method, 20
 from 7,250. **Owner action required — re-paste this block.** On 2026-10-22 the block loaded in
 a cloud session still opened "seven governance skills", so the 2026-10-19 re-paste above had
 not happened either; this re-paste carries both.
+
+**Updated 2026-10-28 (owner's `COMMUNICATION-PREFERENCES.md`, "standing for every
+session"):** the Communication-style section's first two bullets ("direct answer, no
+preamble"; "3–5 short sentences") are replaced by four — visual learner / no running
+commentary, visual by default (tables, before→after, text diagrams; charts and artifacts
+only on request), plans in one compact table (Goal · Method / parameters · Done when · If
+it breaks — the accepted compact form of plan-gate's block; its content is unchanged, its
+prose is not), and the four-part final-answer shape. The explanation register and the
+2026-10-22 decisions bullet stay. Same preferences added to `claude-code-global-doctrine.md`
+and `project-doctrine-block.md`. Wording UNMEASURED. The block measures **8,722 characters**
+(guard method, 2026-10-28), up from 7,663. **Owner action required — re-paste this block.**
 
 Re-verify: the settings box content equals the paste block (copy out, diff).
 Update when: a governor is added/retired (Decision 5/7), a steered skill is

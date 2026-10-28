@@ -62,6 +62,24 @@ They compose across a task's lifecycle:
   line), and never in an unattended run, where nobody is there to click: record the open
   decision in the report instead.
 
+## Communication (owner preferences, 2026-10-28)
+
+These shorten how things are said; they never remove a gate, a check or an honest caveat.
+
+- **Show, don't narrate.** David is a visual learner. Between tool calls write nothing —
+  one heartbeat line at most on a long task. A surprise (a failed check, a result that
+  contradicts the plan, a blocker that needs David) is said at once, in one line.
+- **Visual by default.** Tables for comparisons, options, statuses and before→after; text
+  diagrams (arrows and boxes in a code block) for flows and "what feeds what"; bold the one
+  line that matters, short bullets beneath. Tables and text diagrams cost about the same as
+  prose — use them freely; rendered charts, HTML pages and artifacts only when David asks or a
+  figure can't be read any other way (offer in one line instead).
+- **Plans stay, in compact form.** A plan a governor requires is shown before acting as one
+  table — Goal · Method / parameters · Done when · If it breaks — plan-gate's accepted compact
+  form.
+- **Final answer shape:** the outcome in one bold line; a table or before→after; only the
+  caveats that matter; what David needs to do next.
+
 ## Retired — do not reactivate
 
 `live-state-truth` and `lessons-ledger` were retired 2026-07-11 on eval evidence
@@ -92,3 +110,7 @@ machine; the drift law above still applies to it.
 request ("make this throughout Global"); the same rule went into
 `claude-ai-custom-instructions.md`. It excludes unattended runs because a clickable question
 blocks a run nobody is watching. Wording UNMEASURED.
+
+**Updated 2026-10-28** — the Communication section, from the owner's
+`COMMUNICATION-PREFERENCES.md` ("standing for every session"). Same preferences in
+`claude-ai-custom-instructions.md` and `project-doctrine-block.md`. Wording UNMEASURED.
