@@ -1371,3 +1371,27 @@ unmerged branch defeats it exactly.**
   placed in the enforcement's own message is an invitation at the exact moment of greatest
   temptation; the valve belongs inside the governor (plan-gate's triage), not beside the
   order to load it.
+
+### INC-2026-10-29-01 — Governors skipped in short follow-up turns; a merge on "proceed"; plan tables missing from the transcript
+
+- **Date:** behaviour 2026-10-13 → 2026-10-28; found 2026-10-28 by the owner-requested compliance red
+  team of the session, confirmed by an independent read-only auditor; recorded 2026-10-29. Key free on
+  every remote branch (checked).
+- **Surface:** one long cloud session (library, kit and deck attached; governance via the plugin).
+- **Symptom:** plan-gate loaded before the first consequential action in 12 of 16 consequential owner
+  turns, adversarial-verify in 11 of 16; every miss was a short follow-up ("Continue", "proceed",
+  "re-pasted instructions complete", merge-and-report). PR #26 was merged on "I've uploaded, proceed".
+  Two turns loaded plan-gate and wrote with no plan in the transcript before the write. The owner said
+  "red team" twice; the red-team skill loaded neither time. 2,778 added lines on main named a model.
+- **Root cause:** the Stop gate classified the PROMPT; short follow-ups match no pattern, so the turns
+  that did the most (merges, pushes) were the ones it never examined.
+- **Fix:** turn gates on what the turn DID (F1 Stop; F2 merge word; F3 plan shown, advisory); doctrine
+  rules 5 (a named skill is used) and 6 (neutral model labels). Pre-registered
+  `experiments/hypothesis-2026-10-29-turn-gates.md`; records `results/2026-10-29/turn-gates/`.
+- **Second finding:** the session transcript the hooks read did not record 7 of 13 assistant texts of
+  the authoring turn (exact-string search), including both plan tables; headless sessions recorded
+  11/11. Any gate that reads assistant TEXT from a long cloud session's transcript can mistake an
+  unrecorded statement for an absent one. That is why F3 is advisory.
+- **Lesson:** gate the act, not the ask — the shortest owner message can carry the largest action.
+  And a record a hook reads is evidence of what happened only where it is complete.
+

@@ -1,0 +1,34 @@
+  FAIL F1 'Continue' then commit, no governor -> BLOCK (audit R1/R2)  (got allow)
+  FAIL F1 're-pasted instructions complete' then PR, no governor -> BLOCK (audit R3)  (got allow)
+  FAIL F1 plan-gate loaded only AFTER the push -> BLOCK  (got allow)
+  FAIL F1 merge with plan-gate but no adversarial-verify -> BLOCK (audit R4/R7)  (got allow)
+  ok   F1 plan-gate before, adversarial-verify after -> ALLOW
+  ok   F1 plan-gate, verify, THEN commit and push -> ALLOW (replay control C4)
+  ok   F1 synced-copy names count -> ALLOW
+  ok   F1 edit only, no outward action, no governor -> ALLOW (not F1's business)
+  ok   F1 trivia, no tools -> ALLOW
+  ok   F1 read-only git (status/log/fetch) -> ALLOW
+  ok   F1 an outward action BEFORE the owner's latest message does not count -> ALLOW
+  FAIL F1 task notification after the owner message is not the owner -> still BLOCK  (got allow)
+  FAIL F2 'I've uploaded, proceed' + merge #26, last note 'mergeable … awaiting your call' -> DENY (audit R5)  (got exit2)
+  FAIL F2 owner says merge -> ALLOW  (got exit2)
+  FAIL F2 clickable answer 'Merge all three' -> ALLOW  (got exit2)
+  FAIL F2 'Proceed with 1 and 2' after 'Say "merge #29 and #156"', merging #29 -> ALLOW (replay control C2)  (got exit2)
+  FAIL F2 same, but merging #31 (not named) -> DENY  (got exit2)
+  FAIL F2 'mergeable' is not the word 'merge' -> DENY  (got exit2)
+  FAIL F2 gh pr merge on 'ok' -> DENY  (got exit2)
+  FAIL F2 'Do not merge yet' contains the word but forbids it -> DENY (refutation 2026-10-29)  (got exit2)
+  FAIL F2 "don't merge #26, merge #27" merging #27 -> ALLOW (a later un-negated merge)  (got exit2)
+  FAIL F2 clickable answer 'Wait' with 'merge' only in the question -> DENY  (got exit2)
+  FAIL F2 git merge origin/main (branch sync, not a PR merge) -> ALLOW, no plan-gate loaded  (got exit2)
+  FAIL F3 plan-gate loaded, no Goal text, branch creation -> ADVISE (audit R8)  (got exit2)
+  FAIL F3 plan-gate loaded, Goal table shown -> ALLOW  (got exit2)
+  FAIL F3 plan shown BEFORE a later plan-gate re-load does not count -> ADVISE  (got exit2)
+  FAIL F3 no plan-gate this turn, Edit -> ALLOW (no ceremony on trivia)  (got exit2)
+  FAIL F3 plan-gate loaded, scratch write under /tmp -> ALLOW  (got exit2)
+  FAIL F3 plan-gate loaded, read-only Bash -> ALLOW  (got exit2)
+  FAIL F3 advises once per load (second write same session -> ALLOW)  (exit2,exit2)
+  ok   F1 stop_hook_active -> ALLOW (loop-safe)
+  FAIL pretool malformed stdin -> ALLOW, exit 0 (fail open)  ()
+  ok   stop malformed stdin -> ALLOW, exit 0 (fail open)
+== 9 passed, 24 failed ==

@@ -1,3 +1,14 @@
+> **Status 2026-10-29 — turn gates.** The 2026-10-28 compliance audit of a two-week session found
+> every governor miss in a short follow-up turn the prompt classifier does not match. New:
+> `turngate.py` (shared), `governance-enforce.py` **F1** (a turn that committed, pushed, or created,
+> updated or merged a PR must have loaded plan-gate before the first such action and
+> adversarial-verify in the turn), `turn-gates-pretool.py` **F2** (a PR merge is denied without the
+> owner's word) and **F3** (advisory: after a plan-gate load, the first write is preceded by a
+> reminder unless a "Goal" text appears — advisory because a long cloud session's transcript did not
+> record 7 of 13 of its texts). Pinned by `selftest-turn-gates.py` (33 cases, 9/33 on the old hooks).
+> Replay over the whole real session: F1 blocks exactly the 7 audited turns and no other. Records:
+> `results/2026-10-29/turn-gates/`; ledger INC-2026-10-29-01.
+
 # Hooks — mechanical trigger aids
 
 > **Status 2026-10-20 — red-team fixes landed.** The owner's red-team of the merged system

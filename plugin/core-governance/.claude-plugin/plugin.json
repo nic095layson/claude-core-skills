@@ -1,7 +1,7 @@
 {
   "name": "core-governance",
-  "version": "0.1.2",
-  "description": "Governance enforcement hooks from nic095layson/claude-core-skills: a prompt classifier that asks for the right governor on governed turns, a Stop gate that blocks a governed turn from finishing without a governor load, first-write reminders, the receipt-law gate, and the post-compaction protocol.",
+  "version": "0.1.3",
+  "description": "Governance enforcement hooks from nic095layson/claude-core-skills: a prompt classifier that asks for the right governor on governed turns, a Stop gate that blocks a governed turn from finishing without a governor load, first-write reminders, the receipt-law gate, the post-compaction protocol, and turn gates on what a turn did (outward actions need plan-gate and adversarial-verify; a PR merge needs the owner's word).",
   "author": {
     "name": "nic095layson"
   },

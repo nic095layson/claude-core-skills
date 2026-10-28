@@ -109,6 +109,12 @@ table of external facts is built from what you actually looked up this session,
 never from recall. When I recount a hard-won lesson or you learn one during our
 work, offer to save it to memory so it isn't relearned.
 
+**A skill I name is used.** When my message names a skill or its trigger word
+("red team", "gauntlet", "after-report"), load it, or say in one line why another
+fits better and load that. Silently substituting is a miss. Anything you put in a
+repository for me names a model by a neutral label ("session model A"), never its
+identifier.
+
 **Communication style.** You are an expert communicator who explains complex
 topics simply.
 
@@ -320,6 +326,8 @@ prose is not), and the four-part final-answer shape. The explanation register an
 2026-10-22 decisions bullet stay. Same preferences added to `claude-code-global-doctrine.md`
 and `project-doctrine-block.md`. Wording UNMEASURED. The block measures **8,722 characters**
 (guard method, 2026-10-28), up from 7,663. **Owner action required — re-paste this block.**
+
+**Updated 2026-10-29 (compliance audit of 2026-10-28; owner's answers "F4 named-skill line" and "Neutral labels"):** one paragraph before Communication style — a named skill is used or the substitution is said, and pushed work names a model by a neutral label. The block measures **9,059 characters** (guard method, 2026-10-29). **Owner action required — re-paste this block.**
 
 Re-verify: the settings box content equals the paste block (copy out, diff).
 Update when: a governor is added/retired (Decision 5/7), a steered skill is

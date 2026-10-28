@@ -142,9 +142,10 @@ python3 - <<'PY' 2>/dev/null && ok "enforcement pack: .claude/settings.json wire
 import json
 h=json.load(open('.claude/settings.json'))['hooks']
 def has(ev,frag): return any(frag in x['command'] for e in h.get(ev,[]) for x in e['hooks'])
-assert has('UserPromptSubmit','governance-trigger') and has('Stop','governance-enforce') and has('SessionStart','session-doctrine') and has('PreToolUse','scope-fence-reminder')
+assert has('UserPromptSubmit','governance-trigger') and has('Stop','governance-enforce') and has('SessionStart','session-doctrine') and has('PreToolUse','scope-fence-reminder') and has('PreToolUse','turn-gates-pretool')
 PY
 python3 hooks/selftest-governance-classify.py >/dev/null 2>&1 && ok "enforcement pack: classifier + Stop-gate fixture passes" || bad "enforcement pack: classifier fixture FAILS (run hooks/selftest-governance-classify.py)"
+python3 hooks/selftest-turn-gates.py >/dev/null 2>&1 && ok "enforcement pack: turn-gates fixture passes (F1 outward actions, F2 merge word, F3 plan shown)" || bad "enforcement pack: turn-gates fixture FAILS (run hooks/selftest-turn-gates.py)"
 python3 - <<'PY' 2>/dev/null && ok "doctrine block: CLAUDE.md copy equals instructions/project-doctrine-block.md" || bad "doctrine block: CLAUDE.md copy DRIFTED from instructions/project-doctrine-block.md"
 import re,sys
 def blk(p):
@@ -157,16 +158,16 @@ PY
 # plugin/core-governance/scripts/* are copies of hooks/*. Two packs that disagree is the
 # drift failure this ledger keeps recording; a copy that drifts fails here.
 pp=0
-for f in govclass.py governance-trigger.py governance-enforce.py session-doctrine.sh plan-gate-first-write-reminder.sh scope-fence-reminder.sh receipt-law-stop-gate.sh selftest-governance-classify.py selftest-receipt-law.sh; do
+for f in govclass.py governance-trigger.py governance-enforce.py session-doctrine.sh plan-gate-first-write-reminder.sh scope-fence-reminder.sh receipt-law-stop-gate.sh selftest-governance-classify.py selftest-receipt-law.sh turngate.py turn-gates-pretool.py selftest-turn-gates.py; do
   cmp -s "hooks/$f" "plugin/core-governance/scripts/$f" || { bad "plugin parity: plugin/core-governance/scripts/$f differs from hooks/$f (or is missing)"; pp=1; }
 done
-[ "$pp" -eq 0 ] && ok "plugin parity: 9 scripts byte-identical to hooks/"
+[ "$pp" -eq 0 ] && ok "plugin parity: 12 scripts byte-identical to hooks/"
 python3 - <<'PY2' 2>/dev/null && ok "plugin: hooks.json wrapped in \"hooks\", every command via \${CLAUDE_PLUGIN_ROOT} and the defer wrapper" || bad "plugin: hooks/hooks.json missing, unwrapped, or a command bypasses run-unless-project-wired.sh"
 import json
 h=json.load(open('plugin/core-governance/hooks/hooks.json'))['hooks']
 cmds=[x['command'] for e in ('SessionStart','UserPromptSubmit','PreToolUse','Stop') for g in h[e] for x in g['hooks']]
-assert len(cmds)==6 and all('${CLAUDE_PLUGIN_ROOT}' in c and 'run-unless-project-wired.sh' in c for c in cmds)
-for need in ('governance-trigger.py','governance-enforce.py','session-doctrine.sh','receipt-law-stop-gate.sh','plan-gate-first-write-reminder.sh','scope-fence-reminder.sh'):
+assert len(cmds)==7 and all('${CLAUDE_PLUGIN_ROOT}' in c and 'run-unless-project-wired.sh' in c for c in cmds)
+for need in ('governance-trigger.py','governance-enforce.py','session-doctrine.sh','receipt-law-stop-gate.sh','plan-gate-first-write-reminder.sh','scope-fence-reminder.sh','turn-gates-pretool.py'):
     assert any(need in c for c in cmds), need
 PY2
 [ -x plugin/core-governance/scripts/run-unless-project-wired.sh ] && ok "plugin: defer wrapper present and executable" || bad "plugin: scripts/run-unless-project-wired.sh missing or not executable"
