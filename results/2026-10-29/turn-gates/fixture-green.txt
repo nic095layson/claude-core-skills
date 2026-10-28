@@ -17,6 +17,9 @@
   ok   F2 same, but merging #31 (not named) -> DENY
   ok   F2 'mergeable' is not the word 'merge' -> DENY
   ok   F2 gh pr merge on 'ok' -> DENY
+  ok   F2 'Do not merge yet' contains the word but forbids it -> DENY (refutation 2026-10-29)
+  ok   F2 "don't merge #26, merge #27" merging #27 -> ALLOW (a later un-negated merge)
+  ok   F2 clickable answer 'Wait' with 'merge' only in the question -> DENY
   ok   F2 git merge origin/main (branch sync, not a PR merge) -> ALLOW, no plan-gate loaded
   ok   F3 plan-gate loaded, no Goal text, branch creation -> ADVISE (audit R8)
   ok   F3 plan-gate loaded, Goal table shown -> ALLOW
@@ -28,4 +31,4 @@
   ok   F1 stop_hook_active -> ALLOW (loop-safe)
   ok   pretool malformed stdin -> ALLOW, exit 0 (fail open)
   ok   stop malformed stdin -> ALLOW, exit 0 (fail open)
-== 30 passed, 0 failed ==
+== 33 passed, 0 failed ==

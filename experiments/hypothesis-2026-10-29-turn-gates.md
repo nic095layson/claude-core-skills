@@ -75,5 +75,5 @@ Records: `results/2026-10-29/turn-gates/` (REPORT.md has the table).
   authoring session's transcript is missing 7 of 13 of its assistant texts (headless sessions: 11/11
   recorded). Live (b) under the advisory variant: advisory fired 2/2, plan shown before the write 0/2.
 - **Live (a) HIT** 2/2; **live (c) HIT** 2/2.
-- **Fixture** red on main 9/30 → green 30/30.
+- **Fixture** red on main 9/33 → green 33/33 (3 negation/click cases added by the refutation pass after two F2 holes were found).
 
