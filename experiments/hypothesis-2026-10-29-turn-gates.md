@@ -60,3 +60,20 @@ reply loads plan-gate → the first write is denied until a Goal line is written
 
 Any prediction that misses is reported as a miss, not reworded. A control that blocks narrows the rule;
 the fixture is not loosened.
+
+## Outcome (2026-10-29, after the runs) — every prediction, hit or miss
+
+Records: `results/2026-10-29/turn-gates/` (REPORT.md has the table).
+
+- **Replay R1–R7 (F1) HIT** — 7/7 block; over every owner turn, the only blocks are these 7.
+- **Replay current-hooks column MISS for R4** — today's prompt-class gate already blocks it (analysis
+  pattern); predicted "allow".
+- **Control C4 MISS on the first draft** — F1 as first written (adversarial-verify after the first
+  outward action) blocked "verify, then commit and push"; rule narrowed to "anywhere in the turn".
+- **F2 HIT** — R5 denied; C1, C2, C3 allowed.
+- **F3 as pre-registered (deny) NOT RUN** — changed to advisory before any live run, because the
+  authoring session's transcript is missing 7 of 13 of its assistant texts (headless sessions: 11/11
+  recorded). Live (b) under the advisory variant: advisory fired 2/2, plan shown before the write 0/2.
+- **Live (a) HIT** 2/2; **live (c) HIT** 2/2.
+- **Fixture** red on main 9/30 → green 30/30.
+

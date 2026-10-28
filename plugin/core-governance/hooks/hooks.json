@@ -4,14 +4,22 @@
       {
         "matcher": "compact|resume",
         "hooks": [
-          { "type": "command", "command": "bash \"${CLAUDE_PLUGIN_ROOT}\"/scripts/run-unless-project-wired.sh session-doctrine.sh", "timeout": 10 }
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}\"/scripts/run-unless-project-wired.sh session-doctrine.sh",
+            "timeout": 10
+          }
         ]
       }
     ],
     "UserPromptSubmit": [
       {
         "hooks": [
-          { "type": "command", "command": "bash \"${CLAUDE_PLUGIN_ROOT}\"/scripts/run-unless-project-wired.sh governance-trigger.py", "timeout": 10 }
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}\"/scripts/run-unless-project-wired.sh governance-trigger.py",
+            "timeout": 10
+          }
         ]
       }
     ],
@@ -19,16 +27,42 @@
       {
         "matcher": "Edit|Write|NotebookEdit",
         "hooks": [
-          { "type": "command", "command": "bash \"${CLAUDE_PLUGIN_ROOT}\"/scripts/run-unless-project-wired.sh plan-gate-first-write-reminder.sh", "timeout": 10 },
-          { "type": "command", "command": "bash \"${CLAUDE_PLUGIN_ROOT}\"/scripts/run-unless-project-wired.sh scope-fence-reminder.sh", "timeout": 10 }
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}\"/scripts/run-unless-project-wired.sh plan-gate-first-write-reminder.sh",
+            "timeout": 10
+          },
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}\"/scripts/run-unless-project-wired.sh scope-fence-reminder.sh",
+            "timeout": 10
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|Write|NotebookEdit|Bash|mcp__.*__(merge_pull_request|create_pull_request|update_pull_request|push_files|create_or_update_file|delete_file)",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}\"/scripts/run-unless-project-wired.sh turn-gates-pretool.py",
+            "timeout": 10
+          }
         ]
       }
     ],
     "Stop": [
       {
         "hooks": [
-          { "type": "command", "command": "bash \"${CLAUDE_PLUGIN_ROOT}\"/scripts/run-unless-project-wired.sh governance-enforce.py", "timeout": 15 },
-          { "type": "command", "command": "bash \"${CLAUDE_PLUGIN_ROOT}\"/scripts/run-unless-project-wired.sh receipt-law-stop-gate.sh", "timeout": 10 }
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}\"/scripts/run-unless-project-wired.sh governance-enforce.py",
+            "timeout": 15
+          },
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}\"/scripts/run-unless-project-wired.sh receipt-law-stop-gate.sh",
+            "timeout": 10
+          }
         ]
       }
     ]

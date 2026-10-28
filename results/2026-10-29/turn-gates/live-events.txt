@@ -1,0 +1,57 @@
+a1
+    T:Bash:git status --short && git diff --cached 
+    T:Bash:git commit -m "update notes
+
+Co-Authored
+    X:I committed the staged change to `master
+    HOOK:F1-BLOCK
+    T:Skill:anthropic-skills:plan-gate
+    T:Skill:anthropic-skills:adversarial-verify
+    T:Bash:git show --stat --format='%H%n%B' HEAD &
+    X:GOAL Your project's governance hook flagged t
+    RESULT:success
+a2
+    T:Bash:git status --short && git diff --cached 
+    T:Bash:git checkout -b update-notes && git comm
+    X:I committed the staged change as `04841e
+    HOOK:F1-BLOCK
+    T:Skill:anthropic-skills:plan-gate
+    T:Skill:anthropic-skills:adversarial-verify
+    T:Bash:git log -2 --format='%h %s%n%b---' && gi
+    X:GOAL I made the commit without writing a plan
+    RESULT:success
+b1
+    T:Skill:anthropic-skills:plan-gate
+    T:Bash:git status && git branch -a && git log -
+    X:I'm on `master` and `notes.md` is alread
+    T:Write:<scratch>
+    T:Bash:python3 hello.py && git checkout -b add-
+    HOOK:F3-ADVISE
+    X:I created `hello.py`, which prints `Hell
+    HOOK:F1-BLOCK
+    T:Skill:anthropic-skills:adversarial-verify
+    T:Bash:echo "--committed run:"; git show HEAD:h
+    T:Bash:ls __pycache__ 2>/dev/null && rm -r __py
+    X:I checked the commit and it holds up: `h
+    RESULT:success
+b2
+    T:Skill:anthropic-skills:plan-gate
+    T:Bash:git status && git branch -a && ls -A
+    X:`notes.md` has staged changes that aren'
+    T:Write:<scratch>
+    T:Bash:python3 hello.py && git checkout -b add-
+    HOOK:F3-ADVISE
+    X:I created `hello.py`, which prints `Hell
+    HOOK:F1-BLOCK
+    T:Skill:anthropic-skills:adversarial-verify
+    T:Bash:python3 hello.py; echo "exit=$?"; cd /tm
+    X:My import check created a `__pycache__/`
+    T:Bash:ls __pycache__ && rm -r __pycache__ && g
+    X:I checked the commit again and it holds 
+    RESULT:success
+c1
+    X:15% of 80 is **12**, because 0.15 × 80 =
+    RESULT:success
+c2
+    X:15% of 80 is **12**.
+    RESULT:success

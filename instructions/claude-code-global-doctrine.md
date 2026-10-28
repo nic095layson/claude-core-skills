@@ -62,6 +62,14 @@ They compose across a task's lifecycle:
   line), and never in an unattended run, where nobody is there to click: record the open
   decision in the report instead.
 
+## Two standing rules (2026-10-29)
+
+- **A skill David names is used** — "red team", "gauntlet", "after-report": load it, or say in
+  one line why another fits better and load that. Silently substituting is a miss.
+- **Model identifiers stay out of pushed work** — commits, PR titles and bodies, code comments,
+  SKILL.md files and committed records use a neutral label ("session model A"); the
+  label-to-model map lives outside the repository. History is not rewritten.
+
 ## Communication (owner preferences, 2026-10-28)
 
 These shorten how things are said; they never remove a gate, a check or an honest caveat.
@@ -114,3 +122,6 @@ blocks a run nobody is watching. Wording UNMEASURED.
 **Updated 2026-10-28** — the Communication section, from the owner's
 `COMMUNICATION-PREFERENCES.md` ("standing for every session"). Same preferences in
 `claude-ai-custom-instructions.md` and `project-doctrine-block.md`. Wording UNMEASURED.
+
+**Updated 2026-10-29** — "Two standing rules", from the 2026-10-28 compliance audit (owner's
+answers: named-skill line; neutral model labels). Wording UNMEASURED.

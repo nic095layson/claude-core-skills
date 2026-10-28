@@ -1,0 +1,31 @@
+  ok   F1 'Continue' then commit, no governor -> BLOCK (audit R1/R2)
+  ok   F1 're-pasted instructions complete' then PR, no governor -> BLOCK (audit R3)
+  ok   F1 plan-gate loaded only AFTER the push -> BLOCK
+  ok   F1 merge with plan-gate but no adversarial-verify -> BLOCK (audit R4/R7)
+  ok   F1 plan-gate before, adversarial-verify after -> ALLOW
+  ok   F1 plan-gate, verify, THEN commit and push -> ALLOW (replay control C4)
+  ok   F1 synced-copy names count -> ALLOW
+  ok   F1 edit only, no outward action, no governor -> ALLOW (not F1's business)
+  ok   F1 trivia, no tools -> ALLOW
+  ok   F1 read-only git (status/log/fetch) -> ALLOW
+  ok   F1 an outward action BEFORE the owner's latest message does not count -> ALLOW
+  ok   F1 task notification after the owner message is not the owner -> still BLOCK
+  ok   F2 'I've uploaded, proceed' + merge #26, last note 'mergeable … awaiting your call' -> DENY (audit R5)
+  ok   F2 owner says merge -> ALLOW
+  ok   F2 clickable answer 'Merge all three' -> ALLOW
+  ok   F2 'Proceed with 1 and 2' after 'Say "merge #29 and #156"', merging #29 -> ALLOW (replay control C2)
+  ok   F2 same, but merging #31 (not named) -> DENY
+  ok   F2 'mergeable' is not the word 'merge' -> DENY
+  ok   F2 gh pr merge on 'ok' -> DENY
+  ok   F2 git merge origin/main (branch sync, not a PR merge) -> ALLOW, no plan-gate loaded
+  ok   F3 plan-gate loaded, no Goal text, branch creation -> ADVISE (audit R8)
+  ok   F3 plan-gate loaded, Goal table shown -> ALLOW
+  ok   F3 plan shown BEFORE a later plan-gate re-load does not count -> ADVISE
+  ok   F3 no plan-gate this turn, Edit -> ALLOW (no ceremony on trivia)
+  ok   F3 plan-gate loaded, scratch write under /tmp -> ALLOW
+  ok   F3 plan-gate loaded, read-only Bash -> ALLOW
+  ok   F3 advises once per load (second write same session -> ALLOW)
+  ok   F1 stop_hook_active -> ALLOW (loop-safe)
+  ok   pretool malformed stdin -> ALLOW, exit 0 (fail open)
+  ok   stop malformed stdin -> ALLOW, exit 0 (fail open)
+== 30 passed, 0 failed ==

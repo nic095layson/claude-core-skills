@@ -89,6 +89,14 @@ component paths that leave the plugin root.
   rule (replaced by the rule above), and a hard-coded `/usr/bin/jq` in the two first-write
   reminders inherited from `hooks/` (not fixed here; owner decision in the after-report).
 
+## 0.1.3 (2026-10-29)
+
+Turn gates (ledger INC-2026-10-29-01): the Stop gate also checks what the turn DID — an outward action
+(commit, push, PR create/update/merge) needs plan-gate before it and adversarial-verify in the turn,
+however short the owner's message; a new PreToolUse hook denies a PR merge without the owner's word
+and reminds (advisory) when plan-gate is loaded but no plan has been shown before the first write.
+Scripts re-synced byte-identical to `hooks/`; `hooks.json` gains one PreToolUse group.
+
 ## 0.1.2 (2026-10-20)
 
 The red-team fixes (`results/2026-10-19/system-red-team/REPORT.md`, owner-approved): the trigger

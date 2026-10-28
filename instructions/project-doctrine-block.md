@@ -26,7 +26,7 @@ before delivering — and they are **loaded with the Skill tool, never applied f
 memory**. Governor text already in context from an earlier task or from a compaction
 does not count as loaded. Source of truth: `nic095layson/claude-core-skills`.
 
-Four rules this project binds every session to, in addition to the governors:
+Six rules this project binds every session to, in addition to the governors:
 
 1. **A question gets an assessment, not a fix.** When the owner asks whether something
    is right, or disagrees with a result, the deliverable is the assessment. A fix,
@@ -44,6 +44,14 @@ Four rules this project binds every session to, in addition to the governors:
    otherwise a numbered list. Not for trivial choices or ones with an obvious default (state
    the default in one line), and never in an unattended run, where nobody is there to click:
    record the open decision in the report instead.
+5. **A skill the owner names is used.** When the owner's message names a skill or its
+   trigger word ("red team", "gauntlet", "after-report"), load that skill, or say in one line
+   why another one fits better and load that instead. Silently substituting is a miss.
+6. **Model identifiers stay out of pushed work.** Commits, PR titles and bodies, code
+   comments, SKILL.md files and committed records name a model by a neutral label ("session
+   model A"); the label-to-model map lives outside the repository. Existing history is not
+   rewritten. (Platform rule; where research-methodology asks which model ran an eval, the
+   label answers it.)
 
 Communication (owner preferences, 2026-10-28; they shorten how things are said and never
 remove a gate, a check or an honest caveat): the owner is a visual learner — show, don't
@@ -93,3 +101,10 @@ above is measured and demoted, or a surface starts loading the user-level file.
 compact plan table as plan-gate's accepted compact form in governed projects; plan-gate's
 SKILL.md is untouched. Same text in `claude-code-global-doctrine.md` and, as bullets, in
 `claude-ai-custom-instructions.md`. Wording UNMEASURED.
+
+**Updated 2026-10-29** — rules 5 and 6, from the owner's clickable answers after the
+2026-10-28 session-compliance audit ("F4 named-skill line"; model identifiers: "Neutral
+labels"). Rule 5: the owner said "red team" twice and the red-team skill was loaded neither
+time. Rule 6: the audit counted 2,778 added lines naming a model on library main since
+2026-10-13, plus two SKILL.md files, three PR bodies and two commit messages. Same rules in
+`claude-code-global-doctrine.md` and `claude-ai-custom-instructions.md`. Wording UNMEASURED.
