@@ -58,9 +58,10 @@ They compose across a task's lifecycle:
   options, each with a brief plain-language explanation, the recommended one listed first
   and marked "(Recommended)". Use clickable choices where the surface has them (the
   AskUserQuestion tool, with a preview card when comparing options helps); otherwise a
-  numbered list. Not for trivial choices or obvious defaults (state the default in one
-  line), and never in an unattended run, where nobody is there to click: record the open
-  decision in the report instead.
+  numbered list. A default is not an exemption: it goes first on the card as
+  "(Recommended)", and this outranks the tool's own "only when blocked" guidance. Only a
+  trivial yes/no follow-up skips the card; never in an unattended run, where nobody is there
+  to click: record the open decision in the report instead.
 
 ## Two standing rules (2026-10-29)
 
@@ -125,3 +126,8 @@ blocks a run nobody is watching. Wording UNMEASURED.
 
 **Updated 2026-10-29** — "Two standing rules", from the 2026-10-28 compliance audit (owner's
 answers: named-skill line; neutral model labels). Wording UNMEASURED.
+
+**Updated 2026-11-02** — rule 4: "a default is not an exemption" replaces "not for … obvious
+defaults". From the Solo-Leveling-System session's after-report (cards at 8 of 13 decisions; all 5
+misses had a stated default) and this library's check of it: the owner's own rule text licensed the
+misses. Owner's answer: "Reword + advisory hook". Wording UNMEASURED.

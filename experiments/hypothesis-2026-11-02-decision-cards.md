@@ -27,3 +27,10 @@ defaults", which licensed the misses alongside the tool description and the auto
 Live behaviour (whether the next turn then asks with a card) is NOT pre-registered as measured here:
 it needs a two-turn headless run, which `claude -p` does not give without a resumed session; marked
 UNMEASURED in the outcome. Wording: UNMEASURED.
+
+## Outcome (2026-11-02)
+
+- D1–D6 **HIT**: red on main (D1, D5, D6 fail), green after the change (39/39 in the shared fixture).
+- Replay over this session's 34 owner turns: 0 reminders (every "(Recommended)" list here came with a card).
+- Live two-turn behaviour: NOT RUN (UNMEASURED, as pre-registered).
+

@@ -89,6 +89,12 @@ component paths that leave the plugin root.
   rule (replaced by the rule above), and a hard-coded `/usr/bin/jq` in the two first-write
   reminders inherited from `hooks/` (not fixed here; owner decision in the after-report).
 
+## 0.1.4 (2026-11-02)
+
+Decision-cards reminder: the prompt trigger adds one advisory line when the previous reply posed a
+"(Recommended)" list without a clickable card (owner rule 4: a default is not an exemption). Never blocks.
+Scripts re-synced byte-identical to `hooks/`.
+
 ## 0.1.3 (2026-10-29)
 
 Turn gates (ledger INC-2026-10-29-01): the Stop gate also checks what the turn DID — an outward action
