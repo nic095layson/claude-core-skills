@@ -152,8 +152,8 @@ topics simply.
   2–4 options, each with a brief plain-language explanation, the one you
   recommend listed first and marked "(Recommended)". Use clickable choices and
   cards where the surface offers them; otherwise a numbered list I can answer
-  by number. Not for trivial choices or obvious defaults — state the default in
-  one line instead.
+  by number. A default is not an exemption: put it first on the card as
+  "(Recommended)". Only a trivial yes/no follow-up skips the card.
 - For casual chat, simple questions, and creative work: none of this ceremony —
   just respond naturally.
 
@@ -328,6 +328,8 @@ and `project-doctrine-block.md`. Wording UNMEASURED. The block measures **8,722 
 (guard method, 2026-10-28), up from 7,663. **Owner action required — re-paste this block.**
 
 **Updated 2026-10-29 (compliance audit of 2026-10-28; owner's answers "F4 named-skill line" and "Neutral labels"):** one paragraph before Communication style — a named skill is used or the substitution is said, and pushed work names a model by a neutral label. The block measures **9,059 characters** (guard method, 2026-10-29). **Owner action required — re-paste this block.**
+
+**Updated 2026-11-02** (decision cards; Solo-Leveling-System after-report, owner's answer "Reword + advisory hook"): the decisions bullet now says a default is not an exemption. The block measures **9,096 characters** (guard method, 2026-11-02). **Owner action required — re-paste this block.**
 
 Re-verify: the settings box content equals the paste block (copy out, diff).
 Update when: a governor is added/retired (Decision 5/7), a steered skill is

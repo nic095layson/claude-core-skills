@@ -1,3 +1,8 @@
+> **Status 2026-11-02 — decision-cards reminder.** `governance-trigger.py` adds one advisory line on the
+> owner's next message when the previous reply posed a decision as a "(Recommended)" list line without an
+> AskUserQuestion call (Solo-Leveling-System after-report: 5 of 13 decisions went out as text lists). Pinned
+> by `selftest-turn-gates.py` cases D1–D6 (red on the old trigger, green now). Never blocks.
+
 > **Status 2026-10-29 — turn gates.** The 2026-10-28 compliance audit of a two-week session found
 > every governor miss in a short follow-up turn the prompt classifier does not match. New:
 > `turngate.py` (shared), `governance-enforce.py` **F1** (a turn that committed, pushed, or created,

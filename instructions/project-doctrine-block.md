@@ -41,9 +41,10 @@ Six rules this project binds every session to, in addition to the governors:
    2–4 options, each with a brief plain-language explanation, the recommended one listed
    first and marked "(Recommended)". Where the surface has clickable choices (Claude Code:
    the AskUserQuestion tool, with a preview card when comparing options helps), use them;
-   otherwise a numbered list. Not for trivial choices or ones with an obvious default (state
-   the default in one line), and never in an unattended run, where nobody is there to click:
-   record the open decision in the report instead.
+   otherwise a numbered list. A default is not an exemption: it goes first on the card as
+   "(Recommended)", and this rule outranks the tool's own "only when blocked" guidance. Only a
+   trivial yes/no follow-up skips the card; and never in an unattended run, where nobody is
+   there to click: record the open decision in the report instead.
 5. **A skill the owner names is used.** When the owner's message names a skill or its
    trigger word ("red team", "gauntlet", "after-report"), load that skill, or say in one line
    why another one fits better and load that instead. Silently substituting is a miss.
@@ -108,3 +109,8 @@ labels"). Rule 5: the owner said "red team" twice and the red-team skill was loa
 time. Rule 6: the audit counted 2,778 added lines naming a model on library main since
 2026-10-13, plus two SKILL.md files, three PR bodies and two commit messages. Same rules in
 `claude-code-global-doctrine.md` and `claude-ai-custom-instructions.md`. Wording UNMEASURED.
+
+**Updated 2026-11-02** — rule 4: "a default is not an exemption" replaces "not for … obvious
+defaults". From the Solo-Leveling-System session's after-report (cards at 8 of 13 decisions; all 5
+misses had a stated default) and this library's check of it: the owner's own rule text licensed the
+misses. Owner's answer: "Reword + advisory hook". Wording UNMEASURED.
