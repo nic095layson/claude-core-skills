@@ -1395,3 +1395,23 @@ unmerged branch defeats it exactly.**
 - **Lesson:** gate the act, not the ask — the shortest owner message can carry the largest action.
   And a record a hook reads is evidence of what happened only where it is complete.
 
+### INC-2026-11-12-01 — The system measured process, never outcome; a downstream fix never came upstream; the stack's own red-team record went stale in a day
+
+- **Date:** found 2026-11-12 by the owner-requested system-wide QA audit; recorded the same day. Key free
+  on every remote branch (checked).
+- **Surface:** the library, its plugin, the kit, the deck, the owner's account skills.
+- **Symptom:** (1) every gate asked whether a governor loaded; nothing counted wrong statements to the
+  owner, while the kit's own corrections log recorded 7 in two days, at least 5 of them a lean or count
+  stated before the run. (2) The kit fixed a library hook on 2026-11-03 (a scheduled run is a turn of its
+  own) and the library, plugin and deck never received it. (3) The hooks' red-team registry of 2026-10-19
+  failed against the live hooks: 6 drifted values, 15 unregistered. (4) Council lived only on the account:
+  no repository copy, no eval. (5) independent-audit was absent from the account's synced skills.
+- **Root cause:** nothing ran on a schedule. Every check here fires when a session happens to do related
+  work; a one-off record has no owner the day after it is written.
+- **Fix:** the kit's fix upstreamed (plugin 0.1.5); `redteam/` as a standing registry in the guard;
+  `corrections_rate.py`, `stale_rules.py`, `weekly_review.sh` and a weekly scheduled review that proposes and
+  never merges; council brought in and trigger-measured (6/6, 4/4). Pre-registered
+  `experiments/hypothesis-2026-11-12-qa-loop.md`; records `results/2026-11-12/qa-loop/`.
+- **Lesson:** a check with no schedule is a snapshot. And measure what the owner experiences (was I told
+  something false?), not only what the system did (did a skill load?).
+

@@ -1,0 +1,39 @@
+{
+ "verdict": "PASS",
+ "fingerprint": "111fc60",
+ "registry_sha256": "345274a2373b",
+ "registered": 33,
+ "live": 33,
+ "by_status": {
+  "uncalibrated": 23,
+  "structural": 7,
+  "settings": 3
+ },
+ "uncalibrated": [
+  "CLASS_PATTERN_ANALYSIS",
+  "CLASS_PATTERN_REVIEW",
+  "CLASS_PATTERN_BUILD",
+  "CLASS_PATTERN_DISPUTE",
+  "CLASS_PATTERN_REQUIREMENT",
+  "ENFORCED_CLASSES",
+  "HARNESS_MARKERS",
+  "RECEIPT_INABILITY_PATTERN",
+  "RECEIPT_RECEIPT_PATTERN",
+  "REMINDER_FIRES_PER_SESSION",
+  "BAND_HOOK_SOURCE",
+  "TRIGGER_EVAL_GATE_TEXT",
+  "CUE_MIN_WORDS",
+  "CUE_ACK_PATTERN",
+  "TRIVIA_MAX_CHARS",
+  "RECEIPT_WINDOW_CHARS",
+  "TURN_OUTWARD_TOOL_SUFFIXES",
+  "TURN_OUTWARD_BASH_PATTERN",
+  "TURN_WRITE_BASH_PATTERN",
+  "TURN_PLAN_MARK_PATTERN",
+  "TURN_MERGE_WORD_PATTERN",
+  "TURN_MERGE_NEGATION_PATTERN",
+  "CARD_REMINDER_LIST_PATTERN"
+ ],
+ "declared_band": [],
+ "problems": []
+}

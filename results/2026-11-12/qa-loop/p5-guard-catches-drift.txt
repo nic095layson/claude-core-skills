@@ -1,0 +1,2 @@
+  FAIL  red team: hooks/ constants DRIFTED from redteam/constants_registry.json or are unregistered (run registry_check.py --root .; re-register with a status, do not just overwrite)
+== RESULT: FAIL ==

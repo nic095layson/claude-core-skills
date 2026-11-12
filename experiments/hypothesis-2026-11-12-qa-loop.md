@@ -15,3 +15,19 @@ Written before any change. Owner's clickable answer (2026-11-12) to the system-w
 
 Not measured here, said in advance: behavioural effect of any wording; council's value (only its triggering);
 P4's usefulness. A prediction that misses is reported as a miss.
+
+## Outcome (2026-11-12, after the runs)
+
+- **P1 HIT** — the kit's fixture: 41/44 on library main (S1, S2, S5 fail), 44/44 after; classifier 45/45.
+- **P2** — packages built from main after merge (see the PR).
+- **P5 HIT, and worse than predicted** — the old registry failed on live with 6 drifted values (predicted:
+  unregistered ones only) and 15 unregistered (predicted: at least 6). After: 33 = 33 PASS; a constant
+  changed by one makes the guard FAIL (`p5-guard-catches-drift.txt`).
+- **P3 HIT** — the kit's log: 7 rows, one week, owner-caught 2 as predicted; session-caught 5
+  as predicted. The fixture test's own regex was wrong (it expected "rows " where the output says "rows,");
+  the test was corrected, the script was not.
+- **P4** — `weekly_review.sh` exits 0, prints three sections, leaves the tree unchanged (test). The trigger
+  is created only on the owner's merge word. Usefulness UNMEASURED.
+- **P6 HIT** — should-fire 6/6, silent 4/4 (including "city council", which contains the keyword).
+- **P7 HIT** — on main: 20 markers older than 60 days, 11 newer, 12 undated.
+

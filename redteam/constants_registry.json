@@ -1,0 +1,291 @@
+{
+ "_about": "Judgment constants of the governance stack, read from hooks/ by redteam/live.py. Standing registry since 2026-11-12 (first made 2026-10-19 on main 7d07886 as a one-off under results/; that copy failed against the live hooks on 2026-11-12 with 6 drifted values and 15 unregistered ones). Status per the red-team skill's five. The guard runs registry_check.py on every commit.",
+ "constants": [
+  {
+   "name": "CLASS_PATTERN_ANALYSIS",
+   "value": "29fd8c9b",
+   "role": "classifier: analysis class -> adversarial-verify; trigger + Stop gate",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-SV-3"
+  },
+  {
+   "name": "CLASS_PATTERN_REVIEW",
+   "value": "5de1b5dd",
+   "role": "classifier: review class -> adversarial-verify; trigger + Stop gate",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-SV-3"
+  },
+  {
+   "name": "CLASS_PATTERN_BUILD",
+   "value": "e04c7135",
+   "role": "classifier: build class -> plan-gate; trigger + Stop gate",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-SV-3"
+  },
+  {
+   "name": "CLASS_PATTERN_DISPUTE",
+   "value": "da31f24a",
+   "role": "classifier: dispute class -> adversarial-verify + scope-fence",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-SV-3"
+  },
+  {
+   "name": "CLASS_PATTERN_REQUIREMENT",
+   "value": "070f116c",
+   "role": "classifier: requirement class, advisory only",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-SV-3"
+  },
+  {
+   "name": "ENFORCED_CLASSES",
+   "value": [
+    "analysis",
+    "review",
+    "build",
+    "dispute"
+   ],
+   "role": "classes the Stop gate blocks on; a trivial prompt in one of them is blocked despite the trigger's skip clause",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-SV-5"
+  },
+  {
+   "name": "HARNESS_MARKERS",
+   "value": [
+    "[SYSTEM NOTIFICATION",
+    "<task-notification>",
+    "<wake ",
+    "<agent-message",
+    "<webhook-payload",
+    "<command-name>",
+    "<local-command-stdout>",
+    "<local-command-caveat>"
+   ],
+   "role": "user-entry prefixes that are not owner requests; slash-command echoes are absent (attack G5)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RT-3"
+  },
+  {
+   "name": "GOV_GATE_ANY_ONE_GOVERNOR_SUFFICES",
+   "value": false,
+   "role": "Stop gate passes when ANY needed governor loaded; a dispute needs two (attack G4) — fixed 2026-10-20 (red-team attack G4): each enforced class's primary governor is required",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "GOV_GATE_LOADED_MATCH_IS_SUBSTRING_OF_INPUT",
+   "value": false,
+   "role": "Stop gate counts a governor as loaded if its name appears anywhere in any Skill call's input (attack G3) — fixed 2026-10-20 (attack G3): exact match on the Skill name",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "GOV_GATE_RETRIES",
+   "value": 1,
+   "role": "blocks at most once per turn (stop_hook_active loop guard)",
+   "status": "structural",
+   "record": ""
+  },
+  {
+   "name": "RECEIPT_INABILITY_PATTERN",
+   "value": "0608e46e",
+   "role": "receipt gate: what counts as an inability claim; misses curly apostrophes and paraphrases (R2-R4)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RT-1"
+  },
+  {
+   "name": "RECEIPT_RECEIPT_PATTERN",
+   "value": "674072cb",
+   "role": "receipt gate: what counts as a receipt; matched anywhere in the turn, substrings like 'ran ' (R5-R6)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RT-1"
+  },
+  {
+   "name": "REMINDER_FIRES_PER_SESSION",
+   "value": 1,
+   "role": "first-write reminders fire once per session, re-armed on compaction",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "experiments/hypothesis-2026-08-03-hook-enforcement.md (A/B not run)"
+  },
+  {
+   "name": "REMINDER_JQ_PATH",
+   "value": "/usr/bin/jq",
+   "role": "absolute jq path in the two first-write reminders; elsewhere degrades to one firing per machine (M2) — fixed 2026-10-20 (D-GF-8): python3 reads the JSON",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "BAND_HOOK_WIRED",
+   "value": false,
+   "role": "red-team band reminder is not wired anywhere",
+   "status": "settings",
+   "record": ".claude/settings.json"
+  },
+  {
+   "name": "BAND_HOOK_SOURCE",
+   "value": "aa7db38e",
+   "role": "band reminder trigger (± with no band word), advisory",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "experiments/hypothesis-2026-10-19-redteam-band-hook.md (A/B not run)"
+  },
+  {
+   "name": "HOOK_TIMEOUTS_S",
+   "value": [
+    10,
+    15
+   ],
+   "role": "per-hook timeouts in seconds",
+   "status": "structural",
+   "record": ""
+  },
+  {
+   "name": "TRIGGER_EVAL_GATE_TEXT",
+   "value": ">=5/6 should-fire runs fire; 4/4 should-not runs stay silent",
+   "role": "evals/red-team.json silent gate reads >=3/4; the hypothesis says 4/4",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RT-4"
+  },
+  {
+   "name": "DESCRIPTION_FAIL_CHARS",
+   "value": 1024,
+   "role": "lint fails a description over the claude.ai upload cap",
+   "status": "settings",
+   "record": "lint_skill.sh INC-3 (claude.ai Agent-Skills spec)"
+  },
+  {
+   "name": "DESCRIPTION_WARN_CHARS",
+   "value": 1000,
+   "role": "lint warns inside 24 chars of the cap",
+   "status": "structural",
+   "record": ""
+  },
+  {
+   "name": "CUE_MIN_WORDS",
+   "value": 5,
+   "role": "advisory cue tier: shortest owner prompt that gets a governance cue",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-QA-1"
+  },
+  {
+   "name": "CUE_ACK_PATTERN",
+   "value": "2c554e9a",
+   "role": "advisory cue tier: acknowledgements that get no cue",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-QA-1"
+  },
+  {
+   "name": "TRIVIA_MAX_CHARS",
+   "value": 400,
+   "role": "Stop gate: review-only, no-tool answers under this length are not blocked",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-QA-1"
+  },
+  {
+   "name": "RECEIPT_WINDOW_CHARS",
+   "value": 400,
+   "role": "receipt law: how near a receipt must sit to an inability claim",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-QA-1"
+  },
+  {
+   "name": "TURN_OUTWARD_TOOL_SUFFIXES",
+   "value": [
+    "merge_pull_request",
+    "create_pull_request",
+    "update_pull_request",
+    "push_files",
+    "create_or_update_file",
+    "delete_file",
+    "create_trigger",
+    "update_trigger",
+    "delete_trigger"
+   ],
+   "role": "turn gate F1: tool names that count as an outward action",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-QA-1"
+  },
+  {
+   "name": "TURN_OUTWARD_BASH_PATTERN",
+   "value": "acdd9d7b",
+   "role": "turn gate F1: shell commands that count as an outward action",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-QA-1"
+  },
+  {
+   "name": "TURN_WRITE_BASH_PATTERN",
+   "value": "3ad09475",
+   "role": "turn gate F3: shell commands that count as a first write",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-QA-1"
+  },
+  {
+   "name": "TURN_PLAN_MARK_PATTERN",
+   "value": "eeec204c",
+   "role": "turn gate F3: what counts as a plan having been shown (the word Goal)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-QA-1"
+  },
+  {
+   "name": "TURN_MERGE_WORD_PATTERN",
+   "value": "362bd66e",
+   "role": "turn gate F2: what counts as the owner's merge word",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-QA-1"
+  },
+  {
+   "name": "TURN_MERGE_NEGATION_PATTERN",
+   "value": "47d49586",
+   "role": "turn gate F2: negations that cancel a merge word, and how many words back they reach",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-QA-1"
+  },
+  {
+   "name": "TURN_SCHEDULED_HEADER_PATTERN",
+   "value": "71cf8145",
+   "role": "turn gates: what marks a scheduled run as a turn of its own",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "TURN_PLAN_GATE_MODE",
+   "value": "advisory",
+   "role": "turn gate F3 mode",
+   "status": "settings",
+   "record": "owner's answer 2026-10-29: 'Keep advisory (Recommended)'",
+   "decision": ""
+  },
+  {
+   "name": "CARD_REMINDER_LIST_PATTERN",
+   "value": "4433792b",
+   "role": "decision-cards reminder: what counts as a '(Recommended)' list line",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-QA-1"
+  }
+ ]
+}
