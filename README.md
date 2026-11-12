@@ -106,7 +106,7 @@ From the system-wide QA audit of 2026-11-12 (`results/2026-11-12/qa-loop/`):
 |---|---|---|
 | [`council`](.claude/skills/council/SKILL.md) | The owner's five-role deliberation, brought in from the account verbatim, plus an outside read for verdicts the owner will act on. Support skill, keyword-triggered | `evals/council.json`: fired 6/6, silent 4/4 |
 | `redteam/` | Standing registry of every hand-set value in `hooks/`; the guard fails on drift | `redteam/README.md` |
-| `corrections_rate.py`, `stale_rules.py`, `weekly_review.sh` (independent-audit/scripts) | The outcome metric (wrong statements per week, who caught them), the pruning list, and the weekly evidence pack | `test_qa_loop.py`, 8 tests |
+| `corrections_rate.py`, `stale_rules.py`, `weekly_review.sh` (independent-audit/scripts) | The outcome metric (wrong statements per week, who caught them), the pruning list, and the weekly evidence pack | `test_qa_loop.py`, 10 tests |
 
 ## Candidate authored 2026-10-21 — `independent-audit` (trigger-measured 2026-10-21; not in the install footprint)
 

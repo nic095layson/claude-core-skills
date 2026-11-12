@@ -37,7 +37,9 @@ def parse(path):
         except ValueError:
             unparsed += 1
             continue
-        rows.append((d, bool(OWNER.search(cells[3] if len(cells) > 3 else ""))))
+        # "How it was caught" is the second-to-last cell: counting from the end survives a pipe typed inside
+        # an earlier cell (found by the refutation pass, 2026-11-12: `a | b` shifted the owner out of column 4).
+        rows.append((d, bool(OWNER.search(cells[-2] if len(cells) >= 5 else (cells[3] if len(cells) > 3 else "")))))
     return rows, unparsed, True
 
 

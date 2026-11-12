@@ -8,6 +8,7 @@ LIB="${1:?library dir}"; shift || true
 S="$LIB/.claude/skills/independent-audit/scripts"
 echo "== 1. Corrections (wrong statements to the owner, per ISO week)"
 for P in "$LIB" "$@"; do
+  [ -d "$P" ] || { echo "$P: project directory not found"; continue; }
   for L in "$P/report/corrections-log.md" "$P/corrections-log.md"; do
     [ -f "$L" ] && { printf "%s: " "$(basename "$(cd "$P" && pwd)")"; python3 "$S/corrections_rate.py" "$L"; continue 2; }
   done

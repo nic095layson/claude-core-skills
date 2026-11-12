@@ -54,6 +54,12 @@ class CorrectionsRate(unittest.TestCase):
         r = run("python3", self.S, self.log(LOG))
         self.assertRegex(r.stdout, r"CORRECTIONS: 6 rows, 1 unparsed .*2026-W46: 5 \(owner caught 2\)")
 
+    def test_a_pipe_inside_a_cell_does_not_shift_who_caught_it(self):
+        # refutation pass 2026-11-12: `a | b` in the second cell moved "The owner saw it" out of column 4
+        p = self.log("| Date | a | b | c | d |\n|---|---|---|---|---|\n| 2026-11-12 | used `a | b` here | x | The owner saw it | y |\n")
+        j = json.loads(run("python3", self.S, p, "--json").stdout)
+        self.assertEqual(j["weeks"]["2026-W46"]["owner_caught"], 1)
+
     def test_template_parses_as_empty(self):
         r = run("python3", self.S, os.path.join(HERE, "..", "corrections-log.template.md"), "--json")
         self.assertEqual(json.loads(r.stdout)["rows"], 0)
@@ -88,6 +94,12 @@ class StaleRules(unittest.TestCase):
 
 
 class WeeklyReview(unittest.TestCase):
+    def test_a_missing_project_directory_is_named_not_blank(self):
+        r = run("bash", os.path.join(HERE, "weekly_review.sh"), REPO, "/nonexistent/project", cwd=REPO)
+        self.assertEqual(r.returncode, 0)
+        self.assertIn("/nonexistent/project: project directory not found", r.stdout)
+        self.assertNotIn("No such file", r.stdout + r.stderr)
+
     def test_prints_three_sections_and_changes_nothing(self):
         before = run("git", "status", "--porcelain", cwd=REPO).stdout
         r = run("bash", os.path.join(HERE, "weekly_review.sh"), REPO, cwd=REPO)
