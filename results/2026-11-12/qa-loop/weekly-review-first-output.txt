@@ -1,0 +1,28 @@
+== 1. Corrections (wrong statements to the owner, per ISO week)
+claude-core-skills: no corrections log
+fantasy-basketball-2026-27: CORRECTIONS: 7 rows, 0 unparsed — 2026-W46: 7 (owner caught 2)
+yahoo-fantasy-basketball: no corrections log
+== 2. Hook registry (hand-set values registered and unchanged)
+CONSTANTS CHECK: PASS — 33 registered = 33 live on 111fc60; settings 3, structural 7, uncalibrated 23
+== 3. Stale rules (unmeasured for more than 60 days)
+STALE RULES: 20 older than 60 days, 11 newer, 12 undated (as of 2026-11-12)
+   124d  .claude/skills/architecture-contract/SKILL.md:156  **candidate** hardening path, unexplored as of 2026-07-11.
+   101d  .claude/skills/after-report/SKILL.md:137  - Authored 2026-08-03; UNMEASURED — candidate until first invoked uses are
+   101d  .claude/skills/after-report/SKILL.md:139  *candidate*
+   101d  .claude/skills/application-tailor/SKILL.md:48  or frequently reposted listings, mismatched title-vs-duties. *candidate*
+   101d  .claude/skills/application-tailor/SKILL.md:112  - Authored 2026-08-03; UNMEASURED — candidate until trigger evals and a first
+   101d  .claude/skills/application-tailor/SKILL.md:114  *candidate*
+   101d  .claude/skills/correspondence/SKILL.md:65  - Authored 2026-08-03; UNMEASURED and need-unconfirmed — candidate on both
+   101d  .claude/skills/correspondence/SKILL.md:66  axes (`evals/correspondence.json`, register row 11). *candidate*
+   101d  .claude/skills/delegation-discipline/SKILL.md:131  - Authored 2026-08-03; trigger reliability and behavioral effect UNMEASURED —
+   101d  .claude/skills/delegation-discipline/SKILL.md:133  register row 8). *candidate*
+   101d  instructions/claude-ai-custom-instructions.md:195  UNMEASURED candidate skills (`evals/model-capability-register.md` rows 9–10);
+   101d  instructions/claude-ai-custom-instructions.md:215  Empirical status: **UNMEASURED**, owner-directed repair to a diagnosed live
+    94d  .claude/skills/product-output/SKILL.md:111  - Authored 2026-08-10 as a proposal candidate; UNMEASURED — no trigger or
+    94d  .claude/skills/product-output/SKILL.md:113  moves to `evals/product-output.json` on adoption). *candidate*
+    93d  .claude/skills/adversarial-verify/SKILL.md:241  **uncued value UNMEASURED** — `results/2026-08-11/gap-provenance-guards/`,
+    92d  .claude/skills/gauntlet/SKILL.md:137  - Authored 2026-08-12; **UNMEASURED as a skill** — the trigger evals in
+    92d  .claude/skills/gauntlet/SKILL.md:138  `evals/gauntlet.json` are authored, not run. *candidate*
+    84d  .claude/skills/gauntlet/SKILL.md:143  - §2's shape reporting was added 2026-08-20 and is **UNMEASURED** — no run has yet
+    84d  .claude/skills/gauntlet/SKILL.md:144  been graded on whether the two states get distinguished honestly. *candidate*
+    84d  .claude/skills/plan-gate/SKILL.md:248  **UNMEASURED** — `experiments/hypothesis-2026-08-20-plan-gate-emission.md`,

@@ -1,3 +1,8 @@
+> **Status 2026-11-12 — scheduled runs, standing registry.** `turngate.py` gains `turn_start()`: a scheduled
+> run is a turn of its own, and never merges (built in the kit 2026-11-04, upstreamed here unchanged; fixture
+> cases S1, S2, S5 fail on the 2026-11-02 hooks). Every hand-set value in this directory is now registered
+> in `redteam/constants_registry.json` and the guard fails on drift (ledger INC-2026-11-12-01).
+
 > **Status 2026-11-02 — decision-cards reminder.** `governance-trigger.py` adds one advisory line on the
 > owner's next message when the previous reply posed a decision as a "(Recommended)" list line without an
 > AskUserQuestion call (Solo-Leveling-System after-report: 5 of 13 decisions went out as text lists). Pinned

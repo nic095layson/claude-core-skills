@@ -89,6 +89,12 @@ component paths that leave the plugin root.
   rule (replaced by the rule above), and a hard-coded `/usr/bin/jq` in the two first-write
   reminders inherited from `hooks/` (not fixed here; owner decision in the after-report).
 
+## 0.1.5 (2026-11-12)
+
+A scheduled run is a turn of its own (upstreamed from the kit, where it was built on 2026-11-04): the
+turn gates start at the latest scheduled-trigger notification when it is later than the owner's last
+message, and a scheduled run never merges. Scripts re-synced byte-identical to `hooks/`.
+
 ## 0.1.4 (2026-11-02)
 
 Decision-cards reminder: the prompt trigger adds one advisory line when the previous reply posed a

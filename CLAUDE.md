@@ -31,6 +31,13 @@ after-run mean anything.
   **Never renumber an existing entry** — other files cite them.
 - **Volatile facts carry dates.** An undated "the copies agree" is a defect.
 - **Deletions** are declared in `.guard-acknowledged-deletions` or the guard fails.
+- **Corrections** → `report/corrections-log.md` in each project (template:
+  `.claude/skills/independent-audit/corrections-log.template.md`). A statement to the owner
+  that the records later showed wrong gets a row; `corrections_rate.py` turns the log into a
+  weekly rate. This is the library's one outcome metric: the gates check process, this counts
+  results.
+- **Hand-set values in `hooks/`** are registered in `redteam/constants_registry.json`; the
+  guard fails on an unregistered or changed one.
 
 ## Two things worth knowing before you trust a check
 

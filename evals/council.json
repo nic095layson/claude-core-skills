@@ -1,0 +1,17 @@
+{
+ "skill_name": "council",
+ "_grading": {
+  "operationalization": "FIRED := the Skill tool is invoked with a skill whose name ends in 'council' in the fresh-session stream-json transcript. SILENT := no such invocation.",
+  "committed_before_runs": "2026-11-12 (experiments/hypothesis-2026-11-12-qa-loop.md)",
+  "surface": "Claude Code headless (claude -p), Skill tool only, empty working directory; the account-synced copy is the one that loads there, and its description is byte-identical to the library copy",
+  "gate": ">=5/6 should-fire runs fire; 4/4 should-not runs stay silent",
+  "status": "see results/2026-11-12/qa-loop/council-trigger/"
+ },
+ "evals": [
+  {"id": 1, "prompt": "Council: should I refinance my mortgage now at 5.9% or wait six months?", "expected_output": "FIRES: council loads; condensed verdict with a vote tally.", "files": []},
+  {"id": 2, "prompt": "Convene the council on whether we should rewrite the billing service in Go or keep patching the Python one.", "expected_output": "FIRES.", "files": []},
+  {"id": 3, "prompt": "I've got two job offers, one pays more and one has better people. Get the council's take.", "expected_output": "FIRES.", "files": []},
+  {"id": 4, "prompt": "What's the city council's role in approving a zoning variance?", "expected_output": "SILENT: a factual question that happens to contain the word; no deliberation is asked for.", "files": []},
+  {"id": 5, "prompt": "Can you double-check this SQL migration before I run it in prod?", "expected_output": "SILENT: review of an artifact -> adversarial-verify; the word council does not appear.", "files": []}
+ ]
+}

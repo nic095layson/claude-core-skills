@@ -1,0 +1,7 @@
+CONSTANTS CHECK: FAIL
+  HARNESS_MARKERS: registry ['[SYSTEM NOTIFICATION', '<task-notification>', '<wake ', '<agent-message', '<webhook-payload'] != live ['[SYSTEM NOTIFICATION', '<task-notification>', '<wake ', '<agent-message', '<webhook-payload', '<command-name>', '<local-command-stdout>', '<local-command-caveat>']
+  GOV_GATE_ANY_ONE_GOVERNOR_SUFFICES: registry True != live False
+  GOV_GATE_LOADED_MATCH_IS_SUBSTRING_OF_INPUT: registry True != live False
+  RECEIPT_INABILITY_PATTERN: registry 'ad906b84' != live '0608e46e'
+  RECEIPT_RECEIPT_PATTERN: registry '15c1da5b' != live '674072cb'
+  TRIGGER_EVAL_GATE_TEXT: registry '>=5/6 should-fire runs fire; >=3/4 should-not runs stay silent' != live '>=5/6 should-fire runs fire; 4/4 should-not runs stay silent'

@@ -146,6 +146,7 @@ assert has('UserPromptSubmit','governance-trigger') and has('Stop','governance-e
 PY
 python3 hooks/selftest-governance-classify.py >/dev/null 2>&1 && ok "enforcement pack: classifier + Stop-gate fixture passes" || bad "enforcement pack: classifier fixture FAILS (run hooks/selftest-governance-classify.py)"
 python3 hooks/selftest-turn-gates.py >/dev/null 2>&1 && ok "enforcement pack: turn-gates fixture passes (F1 outward actions, F2 merge word, F3 plan shown)" || bad "enforcement pack: turn-gates fixture FAILS (run hooks/selftest-turn-gates.py)"
+python3 .claude/skills/red-team/scripts/registry_check.py --root . >/dev/null 2>&1 && ok "red team: every hand-set value in hooks/ is registered and unchanged (redteam/constants_registry.json)" || bad "red team: hooks/ constants DRIFTED from redteam/constants_registry.json or are unregistered (run registry_check.py --root .; re-register with a status, do not just overwrite)"
 python3 - <<'PY' 2>/dev/null && ok "doctrine block: CLAUDE.md copy equals instructions/project-doctrine-block.md" || bad "doctrine block: CLAUDE.md copy DRIFTED from instructions/project-doctrine-block.md"
 import re,sys
 def blk(p):
