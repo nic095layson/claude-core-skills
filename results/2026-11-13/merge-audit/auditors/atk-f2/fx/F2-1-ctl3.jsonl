@@ -1,0 +1,2 @@
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "text", "text": "Say \"merge #29 and #156\" and I'll do steps 1-2."}]}}
+{"type": "user", "message": {"role": "user", "content": "Proceed with 1 and 2"}}

@@ -1,0 +1,3 @@
+{"type": "user", "message": {"role": "user", "content": "Merge #34."}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "text", "text": "On it."}]}}
+{"type": "user", "message": {"role": "user", "content": "And fix the typo in the README while you're there."}}

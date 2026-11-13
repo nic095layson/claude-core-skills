@@ -1,0 +1,13 @@
+RI-4  F2 clause 3: 'a PR merge is denied without the owner's word' (hooks/README.md:15) vs 'or in the assistant's last text before that message together with the PR's number' (hypothesis:22)
+  ri4-control-yes-other-pr                     | rule: deny:merge-word  | original: deny:merge-word    | mine: deny:merge-word  
+  ri4-control-fixture-R5-wording               | rule: deny:merge-word  | original: deny:merge-word    | mine: deny:merge-word  
+  ri4-incident-shape-with-the-word             | rule: deny:merge-word  | original: allow              | mine: allow            <<<
+  ri4-owner-says-no                            | rule: deny:merge-word  | original: allow              | mine: allow            <<<
+  ri4-owner-says-no-wait                       | rule: deny:merge-word  | original: allow              | mine: allow            <<<
+  ri4-owner-says-stop                          | rule: deny:merge-word  | original: allow              | mine: allow            <<<
+  ri4-stale-text-two-turns-later               | rule: deny:merge-word  | original: allow              | mine: allow            <<<
+  ri4-control-fixture-merge-27                 | rule: allow            | original: allow              | mine: deny:merge-word  
+  ri4-same-sentence-merging-26                 | rule: deny:merge-word  | original: allow              | mine: deny:merge-word  <<<
+  ri4-merge-34-not-141                         | rule: deny:merge-word  | original: allow              | mine: allow            <<<
+  ri4-click-library-only-merging-141           | rule: deny:merge-word  | original: allow              | mine: allow            <<<
+

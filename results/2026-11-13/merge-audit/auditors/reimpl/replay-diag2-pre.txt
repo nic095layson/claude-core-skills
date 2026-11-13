@@ -1,0 +1,8 @@
+== PRE: every real write-class or merge tool call (verdict now), grouped by owner turn
+  turn from 2026-10-21T23:25: outward:allow x2, merge:allow x2
+  turn from 2026-10-22T16:01: write:allow x2, outward:allow x8, merge:allow x4
+  turn from 2026-10-28T22:56: write:allow x1, outward:allow x7, merge:allow x3
+  turn from 2026-10-28T23:16: write:allow x18, outward:allow x16, merge:allow x4
+  turn from 2026-11-02T21:59: outward:allow x8, write:allow x1, merge:allow x3
+  turn from 2026-11-12T21:23: outward:allow x8, write:allow x4, merge:allow x2
+  totals: {'outward:allow': 49, 'merge:allow': 18, 'write:allow': 26}

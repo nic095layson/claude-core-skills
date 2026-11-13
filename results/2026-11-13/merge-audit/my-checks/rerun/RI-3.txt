@@ -1,0 +1,9 @@
+RI-3  F2 click: 'in a clickable answer after it' / 'The chosen options of an AskUserQuestion answer' (turngate.py:198)
+  ri3-control-real-click                       | rule: allow            | original: allow              | mine: allow            
+  ri3-control-real-click-wait                  | rule: deny:merge-word  | original: deny:merge-word    | mine: deny:merge-word  
+  ri3-github-notification-body                 | rule: deny:merge-word  | original: allow              | mine: deny:merge-word  <<<
+  ri3-read-of-own-selftest                     | rule: deny:merge-word  | original: allow              | mine: deny:merge-word  <<<
+  ri3-webfetch-page                            | rule: deny:merge-word  | original: allow              | mine: deny:merge-word  <<<
+  ri3-bash-cat-of-catalog                      | rule: deny:merge-word  | original: allow              | mine: deny:merge-word  <<<
+  ri3-json-escaped-comment (not triggered)     | rule: deny:merge-word  | original: deny:merge-word    | mine: deny:merge-word  
+

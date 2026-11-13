@@ -1,0 +1,4 @@
+{"type": "user", "message": {"role": "user", "content": "Continue"}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "tool_use", "id": "toolu_131346715abf", "name": "mcp__github__issue_write", "input": {"owner": "o", "repo": "r", "method": "create", "title": "t"}}]}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "tool_use", "id": "toolu_e00623945f01", "name": "mcp__github__add_issue_comment", "input": {"owner": "o", "repo": "r", "issue_number": 1, "body": "b"}}]}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "text", "text": "done"}]}}

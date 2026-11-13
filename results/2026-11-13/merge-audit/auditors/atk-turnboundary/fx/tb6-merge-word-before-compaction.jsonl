@@ -1,0 +1,3 @@
+{"type": "user", "message": {"role": "user", "content": "merge PR 26 when CI is green"}}
+{"type": "system", "subtype": "compact_boundary", "content": "Conversation compacted"}
+{"type": "user", "isCompactSummary": true, "message": {"role": "user", "content": "Summary."}}

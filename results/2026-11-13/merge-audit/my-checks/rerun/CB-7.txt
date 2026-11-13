@@ -1,0 +1,5 @@
+kit commit: b040962 author 2026-11-04T17:49:46+00:00 committer 2026-11-04T17:49:46+00:00 | Turn gate: a scheduled run is a turn of its own (owner pick 2026-11-03, decision A option 1)
+ledger:        1405:  stated before the run. (2) The kit fixed a library hook on 2026-11-03 (a scheduled run is a turn of its
+hooks/README:  > run is a turn of its own, and never merges (built in the kit 2026-11-04, upstreamed here unchanged; fixture
+plugin README: A scheduled run is a turn of its own (upstreamed from the kit, where it was built on 2026-11-04): the
+PR body:       12:| P1 | A scheduled run is a turn of its own and never merges. Built in the kit on 2026-11-04 and upstreamed here unch

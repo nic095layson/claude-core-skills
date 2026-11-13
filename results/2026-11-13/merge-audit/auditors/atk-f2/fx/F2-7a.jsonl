@@ -1,0 +1,5 @@
+{"type": "system", "subtype": "compact_boundary", "content": "Conversation compacted"}
+{"type": "user", "isCompactSummary": true, "message": {"role": "user", "content": "This session is being continued from a previous conversation that ran out of context. Summary: the weekly scheduled review was running; draft PR #36 is open. The owner's standing rule: do not merge without his word."}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "text", "text": "Continuing the weekly review."}]}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "tool_use", "id": "toolu_3d9ba872ae3d4390", "name": "Bash", "input": {"command": "git status --short"}}]}}
+{"type": "user", "message": {"role": "user", "content": [{"type": "tool_result", "tool_use_id": "toolu_3d9ba872ae3d4390", "content": ""}]}}

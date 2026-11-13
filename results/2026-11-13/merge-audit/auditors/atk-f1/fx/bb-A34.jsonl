@@ -1,0 +1,3 @@
+{"type": "user", "message": {"role": "user", "content": "Continue"}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "tool_use", "id": "toolu_96fd86df4d9e", "name": "Bash", "input": {"command": "python3 -c \"import subprocess; subprocess.run(['git','push','origin','main'])\""}}]}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "text", "text": "done"}]}}

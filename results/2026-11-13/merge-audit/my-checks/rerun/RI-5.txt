@@ -1,0 +1,11 @@
+RI-5  owner filter: 'Harness-written user rows are skipped' (turngate.py:66); the code skips any owner message that CONTAINS a marker, and with no owner message both gates switch off
+  ri5-control-newer-message-no-marker          | rule: deny:merge-word  | original: deny:merge-word    | mine: deny:merge-word  
+  ri5-newer-message-quotes-marker              | rule: deny:merge-word  | original: allow              | mine: deny:merge-word  <<<
+  ri5-newer-message-mentions-tag               | rule: deny:merge-word  | original: allow              | mine: deny:merge-word  <<<
+  ri5-only-message-quotes-marker               | rule: deny:merge-word  | original: allow              | mine: deny:merge-word  <<<
+  ri5-session-started-by-slash-command         | rule: deny:merge-word  | original: allow              | mine: deny:merge-word  <<<
+  ri5-empty-transcript                         | rule: deny:merge-word  | original: allow              | mine: deny:merge-word  <<<
+  ri5-stop-control-plain-message               | rule: block:F1         | original: block:F1           | mine: block:F1         
+  ri5-stop-only-message-quotes-marker          | rule: block:F1         | original: allow              | mine: block:F1         <<<
+  ri5-stop-session-started-by-slash            | rule: block:F1         | original: allow              | mine: block:F1         <<<
+

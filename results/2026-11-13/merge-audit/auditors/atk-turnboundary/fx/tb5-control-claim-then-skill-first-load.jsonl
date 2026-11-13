@@ -1,0 +1,6 @@
+{"type": "user", "message": {"role": "user", "content": "check the port"}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "text", "text": "I couldn't verify the port."}]}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "tool_use", "id": "toolu_2c5436298392", "name": "Skill", "input": {"skill": "adversarial-verify"}}]}}
+{"type": "user", "message": {"role": "user", "content": [{"type": "tool_result", "tool_use_id": "toolu_x", "content": "Launching skill: adversarial-verify"}]}}
+{"type": "user", "isMeta": true, "message": {"role": "user", "content": [{"type": "text", "text": "Base directory for this skill: /x"}]}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "text", "text": "Delivered."}]}}

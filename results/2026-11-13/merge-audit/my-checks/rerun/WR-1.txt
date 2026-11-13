@@ -1,0 +1,13 @@
+id   gate  expected from the stated rule                  | lib/hooks              | plugin0.1.5            | account0.1.4          
+B09  pre   deny:scheduled                                 | deny:scheduled         | deny:scheduled         | allow                 
+     rule: hooks/README.md:1-2 'a scheduled run is a turn of its own, and never merges'
+     told: claim 9: never merges (the new hook enforces that)
+B16  pre   deny (told: never merges)                      | deny:scheduled         | deny:scheduled         | allow                 
+     rule: claim 9 on the hooks INSTALLED TODAY: the owner's last input before the run is the real click 'Audit today's merge (Recommended)'
+     told: claim 10 says 0.1.4 joins the run to the previous turn
+B17  pre   deny (told: never merges)                      | deny:scheduled         | deny:scheduled         | allow                 
+     rule: same with the other real click of that day ('Merge both (Recommended)')
+B18  stop  block:F1                                       | block:F1               | block:F1               | allow                 
+     rule: prompt sentence 'The turn gates will block the run otherwise': owner's previous turn was governed (plan-gate, push, adversarial-verify); the run then pushes and opens a PR with NO governor
+B19  stop  allow                                          | allow                  | allow                  | block:F1              
+     rule: owner's previous turn pushed with no governor (it was blocked once then); the run does everything the prompt orders

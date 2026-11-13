@@ -1,0 +1,1 @@
+{"type": "user", "message": {"role": "user", "content": "The hook printed \"<task-notification>\" and died. Merge PR 26 anyway."}}

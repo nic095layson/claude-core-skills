@@ -1,0 +1,4 @@
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "text", "text": "Next: I can merge #34 and #141 on your word."}]}}
+{"type": "user", "message": {"role": "user", "content": "what's left to do?"}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "tool_use", "id": "toolu_3c5039263bf64baa", "name": "AskUserQuestion", "input": {"questions": [{"question": "Merge the QA-loop PRs (#34 library, #141 deck)?", "header": "Decision", "multiSelect": false, "options": [{"label": "Wait", "description": ""}, {"label": "Merge both (Recommended)", "description": ""}]}]}}]}}
+{"type": "user", "message": {"role": "user", "content": [{"type": "tool_result", "tool_use_id": "toolu_3c5039263bf64baa", "content": "Your questions have been answered: \"Merge the QA-loop PRs (#34 library, #141 deck)?\"=\"Wait\". You can now continue with these answers in mind."}]}}

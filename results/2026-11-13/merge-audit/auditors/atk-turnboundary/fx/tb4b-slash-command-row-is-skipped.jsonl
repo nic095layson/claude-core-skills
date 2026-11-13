@@ -1,0 +1,3 @@
+{"type": "user", "message": {"role": "user", "content": "merge PR 26"}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "text", "text": "merged #26"}]}}
+{"type": "user", "message": {"role": "user", "content": "<command-message>gauntlet</command-message>\n<command-name>/gauntlet</command-name>\n<command-args>review PR 27 and report; do not merge it</command-args>"}}

@@ -1,0 +1,12 @@
+
+== TB4  things the owner typed that are not taken as the owner's message
+ok tb4-control-latest-says-no | merge | rule requires=deny:merge-word | hooks say=deny:merge-word | (control)
+DIFF tb4a-owner-quotes-a-harness-marker | merge | rule requires=deny:merge-word | hooks say=allow | <- real row shape; owner_index=0 scheduled_index=-1 turn_start=0 of 3 rows
+DIFF tb4a-only-owner-message-quotes-marker | merge | rule requires=deny:merge-word | hooks say=allow | <- owner_index=-1 scheduled_index=-1 turn_start=-1 of 1 rows
+DIFF tb4a-marker-quote-turn-inherits-loads | stop | rule requires=block:F1 | hooks say=allow | <- previous turn's governors count
+trigger: governed build prompt -> context | the same prompt with a pasted '<task-notification>' -> silent
+DIFF tb4b-slash-command-row-is-skipped | merge | rule requires=deny:merge-word | hooks say=allow | <- plausible, not observed (the marker is observed on /model echoes)
+DIFF tb4b-slash-command-carries-the-word | merge | rule requires=allow | hooks say=deny:merge-word | <- same shape, opposite direction
+DIFF tb4b-slash-command-turn-inherits-loads | stop | rule requires=block:F1 | hooks say=allow
+DIFF tb4c-image-only-owner-message | stop | rule requires=block:F1 | hooks say=allow | <- plausible, not observed
+DIFF tb4d-queued-human-message-attachment | merge | rule requires=deny:merge-word | hooks say=allow | <- plausible, not observed (catalog: queued_command observed with origin task-notification)

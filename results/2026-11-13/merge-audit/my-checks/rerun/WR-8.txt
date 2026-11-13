@@ -1,0 +1,8 @@
+### week — what 'this week' is at Monday 06:43 Pacific
+run on 2026-11-16 (Monday): its ISO week is 2026-W47, which began 2026-11-16 00:00, 6h43m before the run (Pacific)
+   kit rows in the run's own ISO week (2026-W47): 0   | in the ISO week before (2026-W46): 7   | in the 7 days before the run: 7
+run on 2026-11-23 (Monday): its ISO week is 2026-W48, which began 2026-11-23 00:00, 6h43m before the run (Pacific)
+   kit rows in the run's own ISO week (2026-W48): 0   | in the ISO week before (2026-W47): 0   | in the 7 days before the run: 0
+the evidence pack's own unit:  9:echo "== 1. Corrections (wrong statements to the owner, per ISO week)"
+the stored prompt's words:     this week's new rows in each project's corrections log|dated in the last 7 days|the week's corrections rate per project|If the week has no new corrections and nothing drifted, say so in five lines and propose nothing|rate this week vs last|
+

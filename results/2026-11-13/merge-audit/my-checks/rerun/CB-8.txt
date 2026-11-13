@@ -1,0 +1,6 @@
+rule (CLAUDE.md:99-101): 6. **Model identifiers stay out of pushed work.** Commits, PR titles and bodies, code    comments, SKILL.md files and committed records name a model by a neutral label ("session    model A"); the label-to-model map lives outside the repository. Existing history is not 
+18289f3 2026-11-12T21:35:02+00:00 | [model name removed] <noreply@anthropic.com>
+1aafaed 2026-11-12T21:33:57+00:00 | [model name removed] <noreply@anthropic.com>
+111fc60 2026-11-12T21:29:58+00:00 | [model name removed] <noreply@anthropic.com>
+model names in the ADDED LINES of the diff (expect 0): 0
+GRADE.md:16 gives the same rule as its reason for withholding the transcripts: Raw transcripts stay in the session's scratch (they carry a model identifier; doctrine rule 6).

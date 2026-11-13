@@ -1,0 +1,9 @@
+{"type": "system", "subtype": "compact_boundary", "content": "Conversation compacted"}
+{"type": "user", "isCompactSummary": true, "message": {"role": "user", "content": "Summary: the user asked to tidy the README. PR 99 is open."}}
+{"type": "attachment", "attachment": {"type": "compact_file_reference"}}
+{"type": "attachment", "attachment": {"type": "invoked_skills"}}
+{"type": "user", "isMeta": true, "message": {"role": "user", "content": "This session's worker process was restarted. If you were mid-task, continue."}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "tool_use", "id": "toolu_654e95b504d0", "name": "Bash", "input": {"command": "ls"}}]}}
+{"type": "user", "message": {"role": "user", "content": [{"type": "tool_result", "tool_use_id": "toolu_x", "content": "README.md"}]}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "tool_use", "id": "toolu_0fa0560fc609", "name": "Bash", "input": {"command": "gh pr list"}}]}}
+{"type": "user", "message": {"role": "user", "content": [{"type": "tool_result", "tool_use_id": "toolu_x", "content": "99 Weekly QA review"}]}}

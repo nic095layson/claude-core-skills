@@ -1,0 +1,31 @@
+ok   bb01-continue-commit                      stop    expected=block:F1               observed=block:F1
+ok   bb02-blocks-continue-commit               stop    expected=block:F1               observed=block:F1
+ok   bb03-loads-do-not-carry                   stop    expected=block:F1               observed=block:F1
+ok   bb04-task-notification-no-boundary        stop    expected=allow                  observed=allow
+ok   bb05-meta-merge-not-owner                 merge   expected=deny:merge-word        observed=deny:merge-word
+ok   bb06-owner-merge-then-task-notification   merge   expected=allow                  observed=allow
+ok   bb07-owner-merge-then-compact-summary     merge   expected=allow                  observed=allow
+DIFF bb08-no-owner-row-merge                   merge   expected=deny:merge-word        observed=allow
+DIFF bb09-no-owner-row-commit                  stop    expected=block:F1               observed=allow
+ok   bb10-sched-after-owner-merge              merge   expected=deny:scheduled         observed=deny:scheduled
+ok   bb11-sched-commit-no-governor             stop    expected=block:F1               observed=block:F1
+ok   bb12-github-notif-no-boundary             stop    expected=allow                  observed=allow
+ok   bb13-sched-then-owner-merge               merge   expected=allow                  observed=allow
+ok   bb14-two-notifs-second-sched              merge   expected=deny:scheduled         observed=deny:scheduled
+ok   bb15-two-notifs-first-sched               merge   expected=deny:scheduled         observed=deny:scheduled
+DIFF bb16-github-body-quotes-sched-header      merge   expected=allow                  observed=deny:scheduled
+DIFF bb17-bash-output-has-sched-header         merge   expected=allow                  observed=deny:scheduled
+?    bb18-sched-then-owner-click-merge         merge   expected=AMBIGUOUS(F2 rule: allow; 0.1.5 rule: deny) observed=deny:scheduled
+ok   bb19-owner-text-mentions-marker           merge   expected=allow                  observed=allow
+DIFF bb20a-slash-command-args-merge            merge   expected=allow                  observed=deny:merge-word
+DIFF bb20b-slash-command-starts-turn           stop    expected=block:F1               observed=allow
+DIFF bb21-queued-human-says-do-not-merge       merge   expected=deny:merge-word        observed=allow
+DIFF bb22-image-only-owner-message-starts-turn stop    expected=block:F1               observed=allow
+DIFF bb23-compaction-midturn-no-reload         stop    expected=block:F1 (doctrine: reload after a compaction) observed=allow
+DIFF bb24a-file-restarts-at-compaction-commit  stop    expected=block:F1               observed=allow
+DIFF bb24b-file-restarts-at-compaction-merge   merge   expected=deny:merge-word        observed=allow
+DIFF bb25-ungoverned-commit-then-sched-read    stop    expected=block:F1               observed=allow
+ok   bb26-wake-after-sched-run                 stop    expected=allow (same turn by definition) observed=allow
+ok   bb28a-receipt-earlier-turn                receipt expected=allow                  observed=allow
+ok   bb28b-receipt-known-block                 receipt expected=block                  observed=block
+== 30 cases, 12 differ from the stated rule ==

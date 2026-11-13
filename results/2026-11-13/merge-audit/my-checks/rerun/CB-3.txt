@@ -1,0 +1,9 @@
+old registry entries: 20   standing registry entries: 33   in standing but not in old: 13   in old but not in standing: 0
+cb3-old-live: CONSTANTS CHECK: FAIL  drifted=6  unregistered=0  registered-but-gone=0
+cb3-new-live: CONSTANTS CHECK: FAIL  drifted=6  unregistered=13  registered-but-gone=0
+committed record results/2026-11-12/qa-loop/p5-old-registry-on-live.txt: lines=7  drifted=6  unregistered=0
+places that say 15:
+.claude/LESSONS.md:1407:  failed against the live hooks: 6 drifted values, 15 unregistered. (4) Council lived 
+redteam/constants_registry.json:2: "_about": "Judgment constants of the governance stack, read from hooks/ by 
+redteam/README.md:16:2026-11-12 (6 drifted, 15 unregistered) and moved here as a standing gate. `attacks.json`
+experiments/hypothesis-2026-11-12-qa-loop.md:24:  unregistered ones only) and 15 unregistered (predicted: at l

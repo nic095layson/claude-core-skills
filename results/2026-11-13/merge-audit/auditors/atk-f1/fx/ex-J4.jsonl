@@ -1,0 +1,7 @@
+{"type": "system", "subtype": "compact_boundary"}
+{"type": "user", "isCompactSummary": true, "message": {"role": "user", "content": "This session is being continued from a previous conversation ..."}}
+{"type": "user", "isMeta": true, "message": {"role": "user", "content": "<system-reminder>context restored</system-reminder>"}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "tool_use", "id": "toolu_e0822495aa46", "name": "Bash", "input": {"command": "git add -A && git commit -qm x"}}]}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "tool_use", "id": "toolu_d42084a236cf", "name": "Bash", "input": {"command": "git push -u origin feat"}}]}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "tool_use", "id": "toolu_7e8b7175d92b", "name": "mcp__github__merge_pull_request", "input": {"owner": "o", "repo": "r", "pullNumber": 34}}]}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "text", "text": "done"}]}}

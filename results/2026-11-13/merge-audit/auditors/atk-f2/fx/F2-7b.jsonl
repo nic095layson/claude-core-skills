@@ -1,0 +1,2 @@
+{"type": "user", "message": {"role": "user", "content": "<command-name>/council</command-name>\n<command-message>council</command-message>\n<command-args>should we ship the QA loop?</command-args>"}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "text", "text": "Council verdict: ship."}]}}

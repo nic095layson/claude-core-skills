@@ -1,0 +1,1 @@
+{"tool_name": "mcp__github__merge_pull_request", "tool_input": {"owner": "nic095layson", "repo": "claude-core-skills", "pullNumber": 36}, "want": "deny", "label": "lib/plugin/core-governance/scripts (0.1.5)", "show": false, "hooks": "lib/plugin/core-governance/scripts", "seq": 2}

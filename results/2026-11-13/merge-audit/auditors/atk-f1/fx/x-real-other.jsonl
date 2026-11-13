@@ -1,0 +1,20 @@
+{"type": "user", "message": {"role": "user", "content": "What does this repo do?"}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "text", "text": "It is a governance library."}]}}
+{"type": "attachment", "attachment": {"type": "total_tokens_reminder"}}
+{"type": "system", "subtype": "stop_hook_summary", "hookErrors": []}
+{"type": "queue-operation", "operation": "enqueue", "content": "x", "sessionId": "s", "timestamp": "t"}
+{"type": "last-prompt", "lastPrompt": "Continue", "leafUuid": "u", "sessionId": "s"}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "thinking", "thinking": "", "signature": "x"}]}}
+{"type": "user", "message": {"role": "user", "content": "Continue"}}
+{"type": "attachment", "attachment": {"type": "total_tokens_reminder"}}
+{"type": "system", "subtype": "stop_hook_summary", "hookErrors": []}
+{"type": "queue-operation", "operation": "enqueue", "content": "x", "sessionId": "s", "timestamp": "t"}
+{"type": "last-prompt", "lastPrompt": "Continue", "leafUuid": "u", "sessionId": "s"}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "thinking", "thinking": "", "signature": "x"}]}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "tool_use", "id": "toolu_a81a4cf73376", "name": "Bash", "input": {"command": "git add -A && git commit -qm x"}}]}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "text", "text": "done"}]}}
+{"type": "attachment", "attachment": {"type": "total_tokens_reminder"}}
+{"type": "system", "subtype": "stop_hook_summary", "hookErrors": []}
+{"type": "queue-operation", "operation": "enqueue", "content": "x", "sessionId": "s", "timestamp": "t"}
+{"type": "last-prompt", "lastPrompt": "Continue", "leafUuid": "u", "sessionId": "s"}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "thinking", "thinking": "", "signature": "x"}]}}

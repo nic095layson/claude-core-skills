@@ -1,0 +1,7 @@
+{"type": "user", "message": {"role": "user", "content": "Continue"}}
+{"type": "user", "isMeta": true, "message": {"role": "user", "content": "<command-message>plan-gate</command-message>\n<command-name>/plan-gate</command-name>"}}
+{"type": "user", "isMeta": true, "message": {"role": "user", "content": "Base directory for this skill: /home/user/claude-core-skills/.claude/skills/plan-gate\n\n# plan-gate"}}
+{"type": "user", "isMeta": true, "message": {"role": "user", "content": "<command-message>adversarial-verify</command-message>\n<command-name>/adversarial-verify</command-name>"}}
+{"type": "user", "isMeta": true, "message": {"role": "user", "content": "Base directory for this skill: /home/user/claude-core-skills/.claude/skills/adversarial-verify\n\n# adversarial-verify"}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "tool_use", "id": "toolu_d1eb8c50ddbb", "name": "Bash", "input": {"command": "git add -A && git commit -qm x"}}]}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "text", "text": "done"}]}}

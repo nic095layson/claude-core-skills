@@ -1,0 +1,3 @@
+{"type": "user", "message": {"role": "user", "content": "merge PR 26"}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "tool_use", "id": "toolu_27dbe338648d", "name": "Bash", "input": {"command": "python3 show_row.py 812"}}]}}
+{"type": "user", "message": {"role": "user", "content": [{"type": "tool_result", "tool_use_id": "toolu_x", "content": "--- Notification 1 of 1 \u00b7 id: dfc64dcd-0000 \u00b7 origin: scheduled trigger (the stored prompt of a routine or task on this account) \u00b7 queued at: 2026-11-04T13:04:18Z \u00b7 reached this session 3s before this read ---\nold prompt"}]}}

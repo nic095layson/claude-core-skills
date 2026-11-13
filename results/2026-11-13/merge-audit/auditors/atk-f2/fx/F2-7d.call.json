@@ -1,0 +1,1 @@
+{"tool_name": "mcp__github__merge_pull_request", "tool_input": {"owner": "nic095layson", "repo": "claude-core-skills", "pullNumber": 34}, "want": "deny", "label": "owner 'ok' + one line that is a JSON string, not an object (without that line: DENY, see ctl1)", "show": false, "hooks": "lib/hooks", "seq": 6}

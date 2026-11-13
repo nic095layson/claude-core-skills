@@ -1,0 +1,8 @@
+rule: - **Evidence** → `results/<YYYY-MM-DD>/<topic>/`. Raw artifacts commit beside the   report, never summarized away. 
+files committed under results/2026-11-12/qa-loop/council-trigger/: results/2026-11-12/qa-loop/council-trigger/GRADE.md 
+GRADE.md:16: Raw transcripts stay in the session's scratch (they carry a model identifier; doctrine rule 6).
+stream-json transcripts, exit files or run directories for the 10 runs anywhere in the commit: 0
+for comparison, the 2026-10-19 eval that used the same driver committed: 72 raw transcripts (committed 2026-10-19, nine days before rule 6 was written)
+records for other PR claims: guard-before=0  classifier-45=0  existing-17=0
+green test record at 1ce99d5 (p3-p4-p7-tests-green.txt): Ran 8 tests in 0.311s||OK|OK|   <- the head runs 10 tests; commit 18289f3 changed this file by: +OK 
+old-registry record (p5-old-registry-on-live.txt): unregistered lines = 0 (the documents say 15)

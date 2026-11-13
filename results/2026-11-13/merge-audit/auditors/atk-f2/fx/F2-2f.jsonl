@@ -1,0 +1,3 @@
+{"type": "user", "message": {"role": "user", "content": "Run the audit, then build what I approve."}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "tool_use", "id": "toolu_5a28a299592f4eef", "name": "AskUserQuestion", "input": {"questions": [{"question": "Which workflow should I run?", "header": "Decision", "multiSelect": false, "options": [{"label": "Audit today's merge (Recommended)", "description": ""}]}]}}]}}
+{"type": "user", "message": {"role": "user", "content": [{"type": "tool_result", "tool_use_id": "toolu_5a28a299592f4eef", "content": "Your questions have been answered: \"Which workflow should I run?\"=\"Audit today's merge (Recommended)\". You can now continue with these answers in mind."}]}}
