@@ -1,0 +1,11 @@
+RI-2  F2 word: '"merge" (word)' (hypothesis-2026-10-29-turn-gates.md:22); the code also takes 'merged' and 'merging'
+  ri2-control-ok                               | rule: deny:merge-word  | original: deny:merge-word    | mine: deny:merge-word  
+  ri2-control-mergeable                        | rule: deny:merge-word  | original: deny:merge-word    | mine: deny:merge-word  
+  ri2-merged-question                          | rule: deny:merge-word  | original: allow              | mine: deny:merge-word  <<<
+  ri2-is-34-merged-yet                         | rule: deny:merge-word  | original: allow              | mine: deny:merge-word  <<<
+  ri2-you-merged-without-asking                | rule: deny:merge-word  | original: allow              | mine: deny:merge-word  <<<
+  ri2-nothing-gets-merged                      | rule: deny:merge-word  | original: allow              | mine: deny:merge-word  <<<
+  ri2-finished-merging                         | rule: deny:merge-word  | original: allow              | mine: deny:merge-word  <<<
+  ri2-click-merged-already                     | rule: deny:merge-word  | original: allow              | mine: deny:merge-word  <<<
+  ri2-assistant-text-was-merged                | rule: deny:merge-word  | original: allow              | mine: deny:merge-word  <<<
+

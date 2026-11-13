@@ -1,0 +1,54 @@
+== STOP: every real stop point (ts | then: what the installed hooks reported | now: enforce / receipt)
+  2026-10-21T23:24 | then: GOV-ENFORCE: this is governed work (adversar   | now: allow              / allow
+  2026-10-21T23:25 | then: -                                              | now: allow              / allow
+  2026-10-21T23:26 | then: -                                              | now: BLOCK:F1           / allow
+  2026-10-21T23:26 | then: -                                              | now: BLOCK:F1           / allow
+  2026-10-22T16:08 | then: -                                              | now: allow              / allow
+  2026-10-22T16:08 | then: -                                              | now: allow              / allow
+  2026-10-22T16:10 | then: -                                              | now: allow              / allow
+  2026-10-22T20:17 | then: -                                              | now: allow              / allow
+  2026-10-28T23:00 | then: -                                              | now: allow              / allow
+  2026-10-28T23:01 | then: -                                              | now: allow              / allow
+  2026-10-28T23:02 | then: -                                              | now: allow              / allow
+  2026-10-28T23:04 | then: -                                              | now: allow              / allow
+  2026-10-28T23:23 | then: -                                              | now: allow              / allow
+  2026-10-28T23:47 | then: -                                              | now: allow              / allow
+  2026-10-28T23:47 | then: -                                              | now: allow              / allow
+  2026-10-28T23:53 | then: -                                              | now: allow              / allow
+  2026-10-28T23:55 | then: -                                              | now: allow              / allow
+  2026-10-28T23:56 | then: -                                              | now: allow              / allow
+  2026-10-29T01:50 | then: -                                              | now: allow              / allow
+  2026-10-29T01:55 | then: -                                              | now: allow              / allow
+  2026-11-02T22:13 | then: -                                              | now: allow              / allow
+  2026-11-02T22:13 | then: -                                              | now: allow              / allow
+  2026-11-02T22:41 | then: -                                              | now: allow              / allow
+  2026-11-02T22:43 | then: GOV-ENFORCE: this is governed work (adversar   | now: BLOCK:prompt-class / allow
+  2026-11-02T22:43 | then: -                                              | now: allow              / allow
+  2026-11-12T21:36 | then: -                                              | now: allow              / allow
+  totals: {'allow': 23, 'receipt:allow': 26, 'BLOCK:F1': 2, 'BLOCK:prompt-class': 1}
+== PRE: every real write-class or merge tool call (verdict now), grouped by owner turn
+  turn from 2026-10-21T23:25: outward:ADVISE:plan-shown x2, merge:ADVISE:plan-shown x2
+  turn from 2026-10-22T16:01: write:allow x2, outward:allow x8, merge:allow x4
+  turn from 2026-10-28T22:56: write:ADVISE:plan-shown x1, outward:ADVISE:plan-shown x7, merge:ADVISE:plan-shown x3
+  turn from 2026-10-28T23:16: write:ADVISE:plan-shown x18, outward:ADVISE:plan-shown x16, merge:DENY:merge-word x1, merge:ADVISE:plan-shown x3
+  turn from 2026-11-02T21:59: outward:ADVISE:plan-shown x8, write:ADVISE:plan-shown x1, merge:ADVISE:plan-shown x3
+  turn from 2026-11-12T21:23: outward:ADVISE:plan-shown x8, write:ADVISE:plan-shown x4, merge:ADVISE:plan-shown x2
+  totals: {'outward:ADVISE:plan-shown': 41, 'merge:ADVISE:plan-shown': 13, 'write:allow': 2, 'outward:allow': 8, 'merge:allow': 4, 'write:ADVISE:plan-shown': 24, 'merge:DENY:merge-word': 1}
+== PROMPT: every real owner message (ts | chars | classes | cue? | what the trigger injects now)
+  2026-10-21T23:25 |    67 | -                            | True  | cue
+  2026-10-22T16:01 |   291 | analysis                     | True  | auto-trigger
+  2026-10-22T16:10 |    31 | -                            | False | silent
+  2026-10-22T20:16 |    83 | -                            | True  | cue
+  2026-10-28T22:56 |   100 | -                            | False | silent
+  2026-10-28T23:02 |    85 | -                            | True  | cue
+  2026-10-28T23:03 |   388 | -                            | True  | cue
+  2026-10-28T23:16 |   140 | -                            | True  | cue
+  2026-10-28T23:52 |    55 | -                            | True  | cue
+  2026-10-28T23:55 |   512 | -                            | True  | cue
+  2026-10-28T23:56 |   119 | -                            | True  | cue
+  2026-10-29T01:50 |    37 | -                            | True  | cue
+  2026-10-29T01:55 |    39 | -                            | True  | cue
+  2026-11-02T21:59 |    81 | -                            | False | silent
+  2026-11-02T22:41 |    22 | -                            | False | silent
+  2026-11-02T22:43 |   395 | analysis                     | True  | auto-trigger
+  2026-11-12T21:23 |   383 | analysis,build               | True  | auto-trigger

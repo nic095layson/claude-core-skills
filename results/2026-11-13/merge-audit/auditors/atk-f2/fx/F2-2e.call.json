@@ -1,0 +1,1 @@
+{"tool_name": "mcp__GH__merge_pull_request", "tool_input": {"owner": "nic095layson", "repo": "fantasy-basketball-2026-27", "pullNumber": 212}, "want": "deny", "label": "same transcript: PR #212 in the kit, through the second GitHub server", "show": false, "hooks": "lib/hooks", "seq": 6}

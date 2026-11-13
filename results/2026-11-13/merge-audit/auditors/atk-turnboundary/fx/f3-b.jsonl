@@ -1,0 +1,2 @@
+{"type": "user", "message": {"role": "user", "content": "now rewrite the installer"}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "tool_use", "id": "toolu_6bce7587e507", "name": "Skill", "input": {"skill": "plan-gate"}}]}}

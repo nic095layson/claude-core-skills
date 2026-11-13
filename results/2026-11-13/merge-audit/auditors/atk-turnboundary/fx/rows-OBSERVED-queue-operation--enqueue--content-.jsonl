@@ -1,0 +1,3 @@
+{"type": "user", "message": {"role": "user", "content": "ok"}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "text", "text": "PR 26 is ready"}]}}
+{"type": "queue-operation", "operation": "enqueue", "content": "please merge PR 26", "sessionId": "s", "timestamp": "t"}

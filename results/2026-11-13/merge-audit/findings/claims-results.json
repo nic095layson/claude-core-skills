@@ -1,0 +1,185 @@
+{
+ "findings": [
+  {
+   "id": "CB-1",
+   "title": "The hook does not stop the weekly task from merging: its session ran plugin 0.1.4 on 2026-11-12, and plugin 0.1.5 still lets three merge routes through.",
+   "component": "hooks/turngate.py and hooks/turn-gates-pretool.py (account plugin 0.1.4, plugin 0.1.5); chat statement 9; PR row P1",
+   "kind": "overclaim",
+   "rule_quoted": "It never merges (the new hook enforces that), and it switches itself off after 3 runs in a row with nothing you merge.",
+   "rule_source": "pack/pr34-and-claims.md:47 (chat statement 9). The same rule is at pack/pr34-and-claims.md:12, lib/hooks/README.md:2 (\"a scheduled run is a turn of its own, and never merges\") and lib/plugin/core-governance/README.md:96.",
+   "repro_command": "python3 /tmp/claude-0/-home-user/ff01f16c-7b3f-5ea5-8051-7a95ac7cd1d1/scratchpad/merge-audit/work/aud-claims-b/c9/sched_merge_cases.py",
+   "repro_files": [
+    "/tmp/claude-0/-home-user/ff01f16c-7b3f-5ea5-8051-7a95ac7cd1d1/scratchpad/merge-audit/work/aud-claims-b/c9/sched_merge_cases.py",
+    "/tmp/claude-0/-home-user/ff01f16c-7b3f-5ea5-8051-7a95ac7cd1d1/scratchpad/merge-audit/work/aud-claims-b/c9/sched_merge_cases.out",
+    "/tmp/claude-0/-home-user/ff01f16c-7b3f-5ea5-8051-7a95ac7cd1d1/scratchpad/merge-audit/work/aud-claims-b/c9/fixtures/case-C4.jsonl",
+    "/tmp/claude-0/-home-user/ff01f16c-7b3f-5ea5-8051-7a95ac7cd1d1/scratchpad/merge-audit/work/aud-claims-b/c9/fixtures/case-C6.jsonl",
+    "/tmp/claude-0/-home-user/ff01f16c-7b3f-5ea5-8051-7a95ac7cd1d1/scratchpad/merge-audit/work/aud-claims-b/c9/fixtures/case-C6b.jsonl",
+    "/tmp/claude-0/-home-user/ff01f16c-7b3f-5ea5-8051-7a95ac7cd1d1/scratchpad/merge-audit/work/aud-claims-b/c9/fixtures/case-C7.jsonl",
+    "/tmp/claude-0/-home-user/ff01f16c-7b3f-5ea5-8051-7a95ac7cd1d1/scratchpad/merge-audit/work/aud-claims-b/c9/fixtures/case-C8.jsonl",
+    "/tmp/claude-0/-home-user/ff01f16c-7b3f-5ea5-8051-7a95ac7cd1d1/scratchpad/merge-audit/work/aud-claims-b/c9/fixtures/case-C9.jsonl"
+   ],
+   "observed": "case  rule  0.1.4  0.1.5  lib\nK2 control: owner types 'proceed' -> merge tool  deny  deny:merge-word  deny:merge-word  deny:merge-word\nC4 scheduled run with no owner message in the transcript  deny  allow  deny:scheduled  deny:scheduled\nC6 MONDAY: last owner turn ended on a 'Merge both' click; weekly run merges its own PR  deny  allow  deny:scheduled  deny:scheduled\nC6b last click was the real text 'Audit today's merge (Recommended)'; weekly run merge  deny  allow  deny:scheduled  deny:scheduled\nC7 MONDAY: auto-merge tool on PR #40 (tool is in pack/session-tools.txt)  deny  allow  allow  allow\nC8 MONDAY: the merge through the REST endpoint in Bash  deny  allow  allow  allow\nC9 MONDAY: the CLI merge with the repo flag between the subcommand words  deny  allow  allow  allow\n0.1.4: 4/14 as the rule requires; not as required: C1, C2, C4, C5, C6, C6b, C7, C8, C9, C10\n0.1.5: 11/14 as the rule requires; not as required: C7, C8, C9\nlib: 11/14 as the rule requires; not as required: C7, C8, C9\n(column padding trimmed)",
+   "expected": "\"deny\" for every merge attempt made inside a scheduled run (cases C1 to C10), on the hook set that the weekly task's session runs.",
+   "how_it_arises": "The weekly task fires into the long-running operations session. That session has three repositories attached, so its hooks come from the account plugin (pack/trigger-prompt.md:5-7), and on 2026-11-12 the account served 0.1.4 (account/plugin/core-governance/.claude-plugin/plugin.json:3). In 0.1.4 a scheduled run counts as part of the owner's previous turn: a merge in the run is allowed whenever that turn's last message, or a click after it, holds the word (C1, C2, C5, C6, C6b), and also when the transcript holds no owner message (C4). Two of the owner's real clicks of 2026-11-12 hold the word (\"Merge both (Recommended)\" and \"Audit today's merge (Recommended)\", pack/real-row-shapes.md). Chat statement 10 told the owner about the 0.1.4 gap, but statement 9 says the hook enforces the rule and gives no condition. After the upload, 0.1.5 denies the merge tool and the plain CLI merge. It does not see the enable_pr_auto_merge tool (listed in pack/session-tools.txt, absent from the PreToolUse matcher in hooks.json), a merge sent to the REST endpoint, or the CLI merge with the repo flag between the two subcommand words. Every case needs the run to act against its stored prompt, which is the case the gate exists for. Realism: owner string rows, assistant tool calls, the click-answer text and ReadNotifications results all occur in pack/real-row-shapes.md. A scheduled-trigger header does not occur in the real library transcript (\"rows matched by turngate.SCHEDULED_HEADER: []\"), so that row is mk.py's rendering of the format. Whether the repository allows auto-merge was not checked.",
+   "severity_guess": "high"
+  },
+  {
+   "id": "CB-2",
+   "title": "The registry does not hold every hand-set value in hooks/, and the guard passes when an unregistered value changes or a new one is added.",
+   "component": "redteam/live.py, redteam/constants_registry.json, guard_essentials.sh:149",
+   "kind": "overclaim",
+   "rule_quoted": "Every hand-set value in `hooks/` (patterns, thresholds, tool lists, modes) is listed in `constants_registry.json` with what it is for and what vouches for it. [...] It fails when a live value differs from the registry or a new one is unregistered.",
+   "rule_source": "lib/redteam/README.md:3-4 and :11. The same claim is at lib/CLAUDE.md:39-40 (\"the guard fails on an unregistered or changed one\"), lib/hooks/README.md:3-4, lib/README.md:108 and pack/pr34-and-claims.md:13.",
+   "repro_command": "python3 /tmp/claude-0/-home-user/ff01f16c-7b3f-5ea5-8051-7a95ac7cd1d1/scratchpad/merge-audit/work/aud-claims-b/p5/mutate_registry.py /tmp/claude-0/-home-user/ff01f16c-7b3f-5ea5-8051-7a95ac7cd1d1/scratchpad/merge-audit/work/aud-claims-b/wt",
+   "repro_files": [
+    "/tmp/claude-0/-home-user/ff01f16c-7b3f-5ea5-8051-7a95ac7cd1d1/scratchpad/merge-audit/work/aud-claims-b/p5/mutate_registry.py",
+    "/tmp/claude-0/-home-user/ff01f16c-7b3f-5ea5-8051-7a95ac7cd1d1/scratchpad/merge-audit/work/aud-claims-b/p5/mutate_registry.out"
+   ],
+   "observed": "UNMUTATED registry_check: CONSTANTS CHECK: PASS \u2014 33 registered = 33 live on 1ce99d5; settings 3, structural 7, uncalibrated 23\nM0 control: REGISTERED value changed by one (TRIVIA_MAX_CHARS 400 -> 401)\n   registry_check: CONSTANTS CHECK: FAIL | TRIVIA_MAX_CHARS: registry 400 != live 401\n   guard: == RESULT: FAIL ==\nM1 unregistered path list SCRATCH: ('/tmp/',) -> ('/tmp/', '/home/')\n   registry_check: CONSTANTS CHECK: PASS \u2014 33 registered = 33 live on 1ce99d5; \n   guard: == RESULT: PASS ==\nM2 unregistered tool list WRITE_TOOLS: NotebookEdit dropped\n   registry_check: CONSTANTS CHECK: PASS \u2014 33 registered = 33 live on 1ce99d5; \n   guard: == RESULT: PASS ==\nM3 unregistered merge pattern MERGE_BASH: now needs '--admin' after the three words\n   registry_check: CONSTANTS CHECK: PASS \u2014 33 registered = 33 live on 1ce99d5; \n   guard: == RESULT: FAIL ==\n      FAIL  enforcement pack: turn-gates fixture FAILS (run hooks/selftest-turn-gates.py)\nM4 unregistered tool list VERIFY_TOOLS (receipt gate): 'Skill' added as a verifying tool\n   registry_check: CONSTANTS CHECK: PASS \u2014 33 registered = 33 live on 1ce99d5; \n   guard: == RESULT: PASS ==\nM5 NEW hand-set value added to a hook (never registered)\n   registry_check: CONSTANTS CHECK: PASS \u2014 33 registered = 33 live on 1ce99d5; \n   guard: == RESULT: PASS ==\nM6 unregistered governor list GOVERNORS: scope-fence dropped\n   registry_check: CONSTANTS CHECK: PASS \u2014 33 registered = 33 live on 1ce99d5; \n   guard: == RESULT: PASS ==",
+   "expected": "\"CONSTANTS CHECK: FAIL\" and a failing guard for M1 to M6, as for the control M0.",
+   "how_it_arises": "redteam/live.py is a hand-written list of 33 names, and the check compares the registry with that list. A value the list does not read is invisible. turngate.MERGE_BASH (the pattern that decides what counts as a merge command), WRITE_TOOLS, SCRATCH, GOVERNORS, govclass.GOVERNORS_FOR and the receipt gate's VERIFY_TOOLS are all hand-set and none is read. The next session that adds a threshold to a hook, which is how the 13 values of this merge arrived, gets a passing guard unless it also adds a line to live.py. Five of the six changes to unregistered values pass the whole guard; the change to MERGE_BASH is caught only by the turn-gates fixture. The claim that holds is the narrower one in the PR's evidence cell: a registered value changed by one fails the guard (M0). The script changes each hook together with its plugin copy, so the parity line stays quiet, and it restores the checkout at the end. It runs in about 45 seconds.",
+   "severity_guess": "medium"
+  },
+  {
+   "id": "CB-4",
+   "title": "\"20 rules, oldest 124 days\" counts marker lines, not rules: the 20 lines are 13 items, and the 124-day one is not an unmeasured rule.",
+   "component": ".claude/skills/independent-audit/scripts/stale_rules.py; PR row P7; chat statement 5",
+   "kind": "wrong_result",
+   "rule_quoted": "20 rules still untested after 60 days, oldest 124 days.",
+   "rule_source": "pack/pr34-and-claims.md:43 (chat statement 5). PR row P7 at pack/pr34-and-claims.md:16: \"`stale_rules.py` lists rules still marked unmeasured after 60 days. | 20 today\".",
+   "repro_command": "python3 /tmp/claude-0/-home-user/ff01f16c-7b3f-5ea5-8051-7a95ac7cd1d1/scratchpad/merge-audit/work/aud-claims-b/p7/stale_groups.py /tmp/claude-0/-home-user/ff01f16c-7b3f-5ea5-8051-7a95ac7cd1d1/scratchpad/merge-audit/work/aud-claims-b/wt",
+   "repro_files": [
+    "/tmp/claude-0/-home-user/ff01f16c-7b3f-5ea5-8051-7a95ac7cd1d1/scratchpad/merge-audit/work/aud-claims-b/p7/stale_groups.py",
+    "/tmp/claude-0/-home-user/ff01f16c-7b3f-5ea5-8051-7a95ac7cd1d1/scratchpad/merge-audit/work/aud-claims-b/p7/stale_groups.out"
+   ],
+   "observed": "script says: 20 older than 60 days, 12 newer, 12 undated (as of 2026-11-12)\nmarker LINES listed: 20; distinct items after merging marker lines <=2 lines apart in one file: 13\n   101d .claude/skills/after-report/SKILL.md:137,139  [2 line(s)]  - Authored 2026-08-03; UNMEASURED \u2014 candidate until first invoked uses\n   124d .claude/skills/architecture-contract/SKILL.md:156  [1 line(s)]  **candidate** hardening path, unexplored as of 2026-07-11.\nlines whose own text contains UNMEASURED: 11 | lines matched only by the word candidate between asterisks: 9\nthe oldest listed line and the two lines after it (.claude/skills/architecture-contract/SKILL.md:156-158):\n  156:    **candidate** hardening path, unexplored as of 2026-07-11.\n  157: \n  158:    **Status update, dated:** (2026-07-12) the hook path is no longer unexplored \u2014\nthe repository's own outcome line (experiments/hypothesis-2026-11-12-qa-loop.md:32):\n  - **P7 HIT** \u2014 on main: 20 markers older than 60 days, 11 newer, 12 undated.",
+   "expected": "A count of rules: about 12, the oldest 101 days old (the entries dated 2026-08-03).",
+   "how_it_arises": "The script counts every line that holds UNMEASURED or the word candidate between asterisks. A provenance bullet that says UNMEASURED on one line and closes with *candidate* on the next is counted twice; seven items are counted twice. The oldest line is a design note about a \"candidate hardening path\" whose next paragraph, dated 2026-07-12, says the path is no longer unexplored. The hypothesis outcome in the repository calls the 20 \"markers\"; the PR and the chat report call them rules. The stored prompt of the weekly task asks for \"the oldest three stale rules with a recommendation (measure or cut)\" (pack/trigger-prompt.md, step 5), so the first item each Monday report hands the owner is this false match, and the count it reports is about half as large again as the number of rules. The 12 undated markers are counted and never listed.",
+   "severity_guess": "medium"
+  },
+  {
+   "id": "CB-3",
+   "title": "\"15 unregistered\" cannot be reproduced: the re-run gives 13, and the committed record shows none.",
+   "component": "PR row P5; chat statement 2; ledger entry INC-2026-11-12-01; redteam/README.md; hypothesis outcome; registry header",
+   "kind": "wrong_result",
+   "rule_quoted": "The 2026-10-19 one-off failed against the live hooks: 6 drifted, 15 unregistered.",
+   "rule_source": "pack/pr34-and-claims.md:13 and :40; lib/.claude/LESSONS.md:1406-1407; lib/redteam/README.md:15-16; lib/experiments/hypothesis-2026-11-12-qa-loop.md:23-24; lib/redteam/constants_registry.json:2",
+   "repro_command": "bash /tmp/claude-0/-home-user/ff01f16c-7b3f-5ea5-8051-7a95ac7cd1d1/scratchpad/merge-audit/work/aud-claims-b/checks/cb3_old_registry.sh",
+   "repro_files": [
+    "/tmp/claude-0/-home-user/ff01f16c-7b3f-5ea5-8051-7a95ac7cd1d1/scratchpad/merge-audit/work/aud-claims-b/checks/cb3_old_registry.sh",
+    "/tmp/claude-0/-home-user/ff01f16c-7b3f-5ea5-8051-7a95ac7cd1d1/scratchpad/merge-audit/work/aud-claims-b/checks/cb3_old_registry.out",
+    "/tmp/claude-0/-home-user/ff01f16c-7b3f-5ea5-8051-7a95ac7cd1d1/scratchpad/merge-audit/work/aud-claims-b/checks/cb3-new-live.txt",
+    "/tmp/claude-0/-home-user/ff01f16c-7b3f-5ea5-8051-7a95ac7cd1d1/scratchpad/merge-audit/work/aud-claims-b/checks/cb3-old-live.txt"
+   ],
+   "observed": "old registry entries: 20   standing registry entries: 33   in standing but not in old: 13   in old but not in standing: 0\ncb3-old-live: CONSTANTS CHECK: FAIL  drifted=6  unregistered=0  registered-but-gone=0\ncb3-new-live: CONSTANTS CHECK: FAIL  drifted=6  unregistered=13  registered-but-gone=0\ncommitted record results/2026-11-12/qa-loop/p5-old-registry-on-live.txt: lines=7  drifted=6  unregistered=0",
+   "expected": "A command whose output shows 15 unregistered values, or the number 13 in the six places that say 15.",
+   "how_it_arises": "The old registry has 20 entries and the standing one has 33, with none dropped, so at most 13 values can have been unregistered. The record committed as evidence was made with the old reader, which reports no unregistered value at all. The figure 15 went into the PR, the chat report, the ledger, the registry README, the hypothesis outcome and the registry header with no record behind it. The \"6 drifted\" half is correct.",
+   "severity_guess": "medium"
+  },
+  {
+   "id": "CB-6",
+   "title": "Two records are not raw evidence: the council eval has only a summary table, and the green test record is the 8-test output with a bare \"OK\" appended.",
+   "component": "results/2026-11-12/qa-loop/council-trigger/GRADE.md; results/2026-11-12/qa-loop/p3-p4-p7-tests-green.txt",
+   "kind": "overclaim",
+   "rule_quoted": "**Evidence** \u2192 `results/<YYYY-MM-DD>/<topic>/`. Raw artifacts commit beside the report, never summarized away.",
+   "rule_source": "lib/CLAUDE.md:25-26; the omission is stated at lib/results/2026-11-12/qa-loop/council-trigger/GRADE.md:16",
+   "repro_command": "bash /tmp/claude-0/-home-user/ff01f16c-7b3f-5ea5-8051-7a95ac7cd1d1/scratchpad/merge-audit/work/aud-claims-b/checks/cb6_evidence.sh",
+   "repro_files": [
+    "/tmp/claude-0/-home-user/ff01f16c-7b3f-5ea5-8051-7a95ac7cd1d1/scratchpad/merge-audit/work/aud-claims-b/checks/cb6_evidence.sh",
+    "/tmp/claude-0/-home-user/ff01f16c-7b3f-5ea5-8051-7a95ac7cd1d1/scratchpad/merge-audit/work/aud-claims-b/checks/cb6_evidence.out"
+   ],
+   "observed": "files committed under results/2026-11-12/qa-loop/council-trigger/: results/2026-11-12/qa-loop/council-trigger/GRADE.md \nGRADE.md:16: Raw transcripts stay in the session's scratch (they carry a model identifier; doctrine rule 6).\nstream-json transcripts, exit files or run directories for the 10 runs anywhere in the commit: 0\nfor comparison, the 2026-10-19 eval that used the same driver committed: 72 raw transcripts (committed 2026-10-19, nine days before rule 6 was written)\nrecords for other PR claims: guard-before=0  classifier-45=0  existing-17=0\ngreen test record at 1ce99d5 (p3-p4-p7-tests-green.txt): Ran 8 tests in 0.311s||OK|OK|   <- the head runs 10 tests; commit 18289f3 changed this file by: +OK \nold-registry record (p5-old-registry-on-live.txt): unregistered lines = 0 (the documents say 15)",
+   "expected": "The transcripts of the 10 eval sessions, with the model identifier replaced by the neutral label if rule 6 requires that, and the real output of the 10-test run, both committed beside the reports.",
+   "how_it_arises": "GRADE.md says the transcripts stay in the session's scratch because they carry a model identifier. That scratch ends with the session, so \"fired 6/6, silent 4/4\" (PR row P6, README.md:107, the ledger, the chat report) can no longer be checked by anyone. The two house rules pull against each other here: raw artifacts are committed, and committed records name a model by a neutral label only. The documents do not say which wins; a transcript with the identifier replaced by the label would satisfy both. Separately, commit 18289f3 added two tests and changed the green record by appending one line, \"OK\", so the file reads \"Ran 8 tests \u2026 OK OK\" while the head runs 10. No record was committed for the guard run before the change, the 45/45 classifier run or the 17 existing tests; all three re-ran clean for this audit.",
+   "severity_guess": "medium"
+  },
+  {
+   "id": "CB-8",
+   "title": "All three commits of the merge name the model in their trailer, against doctrine rule 6.",
+   "component": "commit messages of 111fc60, 1aafaed and 18289f3",
+   "kind": "other",
+   "rule_quoted": "Model identifiers stay out of pushed work. Commits, PR titles and bodies, code comments, SKILL.md files and committed records name a model by a neutral label (\"session model A\"); the label-to-model map lives outside the repository.",
+   "rule_source": "lib/CLAUDE.md:99-101",
+   "repro_command": "bash /tmp/claude-0/-home-user/ff01f16c-7b3f-5ea5-8051-7a95ac7cd1d1/scratchpad/merge-audit/work/aud-claims-b/checks/cb8_trailers.sh",
+   "repro_files": [
+    "/tmp/claude-0/-home-user/ff01f16c-7b3f-5ea5-8051-7a95ac7cd1d1/scratchpad/merge-audit/work/aud-claims-b/checks/cb8_trailers.sh",
+    "/tmp/claude-0/-home-user/ff01f16c-7b3f-5ea5-8051-7a95ac7cd1d1/scratchpad/merge-audit/work/aud-claims-b/checks/cb8_trailers.out"
+   ],
+   "observed": "18289f3 2026-11-12T21:35:02+00:00 | [model name removed] <noreply@anthropic.com>\n1aafaed 2026-11-12T21:33:57+00:00 | [model name removed] <noreply@anthropic.com>\n111fc60 2026-11-12T21:29:58+00:00 | [model name removed] <noreply@anthropic.com>\nmodel names in the ADDED LINES of the diff (expect 0): 0\nGRADE.md:16 gives the same rule as its reason for withholding the transcripts: Raw transcripts stay in the session's scratch (they carry a model identifier; doctrine rule 6).",
+   "expected": "Commit messages that name the model by its neutral label, or name no model.",
+   "how_it_arises": "The harness adds a Co-Authored-By trailer that names the model to every commit, and rule 6 lists commits first among the places where a model must not be named. The same merge cites rule 6 as its reason for withholding the eval transcripts (GRADE.md:16), so the rule was applied to the evidence and not to the commits that carried it. The content of the diff is clean. Earlier commits made after the rule arrived (4f976a7, 2026-10-28) carry the same kind of trailer, so the merge continued a standing breach and did not start it.",
+   "severity_guess": "low"
+  },
+  {
+   "id": "CB-5",
+   "title": "The PR body says 8 new tests; the merged file has 10.",
+   "component": "PR #34 body, Checks; .claude/skills/independent-audit/scripts/test_qa_loop.py",
+   "kind": "wrong_result",
+   "rule_quoted": "8 new tests in `test_qa_loop.py`; the existing 17 still pass.",
+   "rule_source": "pack/pr34-and-claims.md:23",
+   "repro_command": "bash /tmp/claude-0/-home-user/ff01f16c-7b3f-5ea5-8051-7a95ac7cd1d1/scratchpad/merge-audit/work/aud-claims-b/checks/cb5_tests.sh",
+   "repro_files": [
+    "/tmp/claude-0/-home-user/ff01f16c-7b3f-5ea5-8051-7a95ac7cd1d1/scratchpad/merge-audit/work/aud-claims-b/checks/cb5_tests.sh",
+    "/tmp/claude-0/-home-user/ff01f16c-7b3f-5ea5-8051-7a95ac7cd1d1/scratchpad/merge-audit/work/aud-claims-b/checks/cb5_tests.out"
+   ],
+   "observed": "PR body: 23:- 8 new tests in `test_qa_loop.py`; the existing 17 still pass.\ntest functions at merged head 1ce99d5: 10   at 1aafaed: 8\nrun now: Ran 10 tests in 0.430s OK ",
+   "expected": "\"10 new tests\", as lib/README.md:109 and chat statement 7 say.",
+   "how_it_arises": "The third commit (18289f3) added two tests after the PR body was written, and the body was not updated before the merge. The number is harmless by itself. It shows that the PR text was not read again against the final head.",
+   "severity_guess": "low"
+  },
+  {
+   "id": "CB-7",
+   "title": "The ledger dates the kit's fix 2026-11-03; the kit's commit and three documents of the same merge say 2026-11-04.",
+   "component": ".claude/LESSONS.md, entry INC-2026-11-12-01",
+   "kind": "wrong_result",
+   "rule_quoted": "(2) The kit fixed a library hook on 2026-11-03 (a scheduled run is a turn of its own) and the library, plugin and deck never received it.",
+   "rule_source": "lib/.claude/LESSONS.md:1405-1406; convention at lib/CLAUDE.md:32 (\"Volatile facts carry dates.\")",
+   "repro_command": "bash /tmp/claude-0/-home-user/ff01f16c-7b3f-5ea5-8051-7a95ac7cd1d1/scratchpad/merge-audit/work/aud-claims-b/checks/cb7_date.sh",
+   "repro_files": [
+    "/tmp/claude-0/-home-user/ff01f16c-7b3f-5ea5-8051-7a95ac7cd1d1/scratchpad/merge-audit/work/aud-claims-b/checks/cb7_date.sh",
+    "/tmp/claude-0/-home-user/ff01f16c-7b3f-5ea5-8051-7a95ac7cd1d1/scratchpad/merge-audit/work/aud-claims-b/checks/cb7_date.out"
+   ],
+   "observed": "kit commit: b040962 author 2026-11-04T17:49:46+00:00 committer 2026-11-04T17:49:46+00:00 | Turn gate: a scheduled run is a turn of its own (owner pick 2026-11-03, decision A option 1)\nledger:        1405:  stated before the run. (2) The kit fixed a library hook on 2026-11-03 (a scheduled run is a turn of its\nhooks/README:  > run is a turn of its own, and never merges (built in the kit 2026-11-04, upstreamed here unchanged; fixture\nplugin README: A scheduled run is a turn of its own (upstreamed from the kit, where it was built on 2026-11-04): the\nPR body:       12:| P1 | A scheduled run is a turn of its own and never merges. Built in the kit on 2026-11-04 and upstreamed here unch",
+   "expected": "2026-11-04, the date of the commit. 2026-11-03 is the day of the owner's pick and of the incident the fix answers.",
+   "how_it_arises": "The audit report of the same day wrote \"Kit commit `b040962` (11-03)\" (lib/results/2026-11-12/qa-loop/AUDIT.md:29) and the ledger entry repeated it. The commit message names 2026-11-03 as the day of the owner's pick; the commit is dated 2026-11-04 in both UTC and Pacific time. The ledger is append-only and other files cite it, so the wrong date will be copied forward.",
+   "severity_guess": "low"
+  }
+ ],
+ "covered": [
+  "PR #34 state line, body table, Checks, Not measured and Follow-ups: 31 claim rows, each with a command or a file read (AUDIT-TABLE.md rows 1-31)",
+  "The eleven chat statements: 15 rows (32-46)",
+  "The changed documents (README.md, CLAUDE.md, ledger entry INC-2026-11-12-01, hooks/README.md lines 1-4, plugin README 0.1.5, redteam/README.md, GRADE.md): 30 rows (47-76)",
+  "House conventions and doctrine rule 6: 5 rows (77-81)",
+  "The kit's fixture selftest-turn-gates.py on three hook sets (lib-base bfedb3e, lib 1ce99d5, kit f6d49f5): 44 cases each",
+  "Scheduled-run merge cases on three hook sets (account plugin 0.1.4, plugin 0.1.5, lib/hooks): 14 cases each, 2 of them controls, plus the stop-rule path; mk.py self-check 8/8",
+  "Registry: 7 mutations (1 control), each with registry_check.py and the whole guard; the 2026-10-19 registry re-run with its own reader (at bfedb3e and at 1ce99d5) and with the standing reader",
+  "Guard: 3 clean runs (merged worktree, fresh clone at 1ce99d5, the same clone at bfedb3e) and 7 mutation runs",
+  "Test suites: test_qa_loop.py (10 tests), test_independent_audit.py (17, at both commits), classifier fixture (45 cases), turn-gates fixture (44 cases), red-team scripts (46 tests)",
+  "weekly_review.sh: 1 run in a fresh clone with a file listing before and after, 1 run with four drifted values, 4 mutations of its test (1 control)",
+  "stale_rules.py as of 2026-11-12: the 20 listed lines grouped into 13 items; the oldest line read in context",
+  "The four packages in sent/: unpacked in scratch and compared with lib by diff -r (4 comparisons)",
+  "Council: account copy against library copy line by line (55 body lines), lint, and the SKILL.md's own re-verify command",
+  "Side checks outside the claim list: click text in an owner turn (3 cases on 2 hook sets, 2 of them controls); a pipe typed in the last cell of a corrections log (4 one-row logs, 2 of them controls)"
+ ],
+ "not_covered": [
+  "Live systems after 2026-11-12: whether plugin 0.1.5 and the three skill packages were uploaded, and the scheduler's present record of the weekly task. GitHub and scheduling tools were out of bounds; account/ and pack/trigger-prompt.md, both read on 2026-11-12, were used instead.",
+  "The 10 live trigger-eval sessions: not re-run.",
+  "The other branches of the GitHub remote (needed for the ledger's \"Key free on every remote branch\").",
+  "lib/results/2026-11-12/qa-loop/AUDIT.md's own tables, apart from the lines the PR and the ledger repeat: read, not tested (it is not in the artifact list).",
+  "The text of deck pull request #141 and pack/deck-pr141.patch, beyond the hook comparison: read, not tested.",
+  "pack/tools/replay_real.py was not run; pack/replay-baseline.txt was read.",
+  "The claim-receipt lint: pack/claim-lint.txt was read, the lint was not re-run.",
+  "The doctrine-block copies in the kit and the deck were not compared with the library's.",
+  "File modes inside the four packages were listed, not compared with the repository."
+ ],
+ "not_verified": [
+  "Rows 19, 38, 48, 73, 75: the council trigger eval (fired 6/6, silent 4/4; 10 fresh sessions; every run exited 0; the account copy is the one that loaded). It would need the 10 stream-json transcripts and exit files, which GRADE.md:16 says stayed in the session's scratch, or a new run of the driver. The driver file does match the method GRADE.md describes.",
+  "Row 30: \"After merge, the owner uploads plugin 0.1.5 and three skill packages.\" It would need a new read of the account; account/ (read 2026-11-12) still shows 0.1.4 and no independent-audit.",
+  "Row 31: \"The weekly task is created only on the owner's word.\" The click is in the record (pack/real-row-shapes.md). The order of the click and the create call would need the session record, which auditors may not open; the replay tool prints grouped verdicts only.",
+  "Row 44: \"it switches itself off after 3 runs in a row with nothing you merge.\" This is an instruction in the stored prompt (step 2), with no mechanism behind it. It would need three unmerged weekly pull requests and a fourth firing, or a dry run of the stored prompt. On that path the hooks allow the update_trigger call and block the first stop once (F1), because the prompt loads adversarial-verify only before step 6.",
+  "Row 53: \"Key free on every remote branch (checked).\" It would need the branch list of the GitHub remote; the pack's clone has origin/main only.",
+  "Row 72: \"owner decision D-QA-2\", and D-QA-1, which 11 registry entries cite. No file in the repository or the pack defines either id. It would need the owner's decision list from the chat report.",
+  "Suspicion, not reproduced: that some of the work predates the pre-registration. The 10 eval sessions and the 38-file build fit in the 3 minutes 59 seconds between the pre-registration commit (21:29:58Z) and the build commit (21:33:57Z). The two fingerprinted records in the repository carry 111fc60, which supports the stated order; nothing shows when the eval sessions ran."
+ ],
+ "notes": "AUDIT: 81 claims - 50 PASS, 21 FAIL, 10 UNCHECKED\nThe full table is /tmp/claude-0/-home-user/ff01f16c-7b3f-5ea5-8051-7a95ac7cd1d1/scratchpad/merge-audit/work/aud-claims-b/AUDIT-TABLE.md. The 21 FAIL rows come from 8 defects: CB-1 rows 4, 43, 62, 65; CB-2 rows 8, 49, 52, 63, 67, 69; CB-3 rows 10, 33, 56, 70; CB-4 rows 16, 36; CB-5 row 23; CB-6 rows 76, 77; CB-7 row 55; CB-8 row 81. Findings are listed most serious first; the ids are labels, not a ranking.\nWhat held up: the kit fixture result (41/44, then 44/44), the guard before, after and in a fresh clone, the 10 new and 17 existing tests, the classifier fixture (45/45), the kit log count (7 rows, 2 owner-caught), the council copy (55 of 55 body lines, description identical), the four packages (each identical to main), hook parity across library, plugin, kit and deck, and the commit order of the pre-registration.\nClaims about the account and the scheduled task were checked against account/ and pack/trigger-prompt.md as read on 2026-11-12, not against the live systems.\nRow 54 (the ledger's \"at least 5 of them a lean or count stated before the run\") is graded PASS on the generous reading: 6 of the 7 rows are statements made before their check. On the literal reading (a lean or a count) the log supports 4.\nNothing in the repository or the pack tried to instruct the auditor, and no hook denied a tool call.\nMORE: (false_allow, outside the claim list) In an owner turn, the real click text \"Audit today's merge (Recommended)\" makes the merged hooks and plugin 0.1.4 allow a merge of any pull request for the rest of that turn. Repro: python3 /tmp/claude-0/-home-user/ff01f16c-7b3f-5ea5-8051-7a95ac7cd1d1/scratchpad/merge-audit/work/aud-claims-b/more/click_text.py\nMORE: (wrong_result) corrections_rate.py misreads who caught a row when a pipe is typed in the last cell, in both directions, although commit 18289f3 says \"a pipe inside a cell no longer shifts who caught it\". Repro: python3 /tmp/claude-0/-home-user/ff01f16c-7b3f-5ea5-8051-7a95ac7cd1d1/scratchpad/merge-audit/work/aud-claims-b/more/pipe_last_cell.py\nMORE: (operability) weekly_review.sh keeps only the last three lines of the registry check. With four drifted values its output holds no line with the word FAIL, the first problem is cut, and the script exits 0. Repro: bash /tmp/claude-0/-home-user/ff01f16c-7b3f-5ea5-8051-7a95ac7cd1d1/scratchpad/merge-audit/work/aud-claims-b/p4/weekly_side_checks.sh\nMORE: (overclaim, low) weekly_review.sh writes three git-ignored bytecode files into the library checkout (hooks/__pycache__ twice, redteam/__pycache__ once). \"Changes nothing\" holds for git status only, which is all its test compares. Repro: bash /tmp/claude-0/-home-user/ff01f16c-7b3f-5ea5-8051-7a95ac7cd1d1/scratchpad/merge-audit/work/aud-claims-b/p4/fresh_clone_checks.sh /tmp/claude-0/-home-user/ff01f16c-7b3f-5ea5-8051-7a95ac7cd1d1/scratchpad/merge-audit /tmp/claude-0/-home-user/ff01f16c-7b3f-5ea5-8051-7a95ac7cd1d1/scratchpad/merge-audit/work/aud-claims-b\nMORE: (test_gap) The 44-case fixture and the whole guard still pass with NotebookEdit dropped from WRITE_TOOLS, with scope-fence dropped from GOVERNORS, and with \"/home/\" added to SCRATCH (p5/mutate_registry.out, M2, M6, M1).\nMORE: (overclaim, low) 11 of the 23 uncalibrated registry entries cite decision \"D-QA-1\", and all 23 have an empty record field. redteam/README.md:3-4 says each value is listed with \"what vouches for it\"; for these, nothing in the repository does.\nMORE: (ambiguity) The council description says to load \"whenever the user's message contains the keyword\"; evals/council.json id 4 expects SILENT on a message that contains it (\"city council\"). The 4/4 silent result means the skill did not follow its description on that prompt.\nMORE: (overclaim, low) evals/council.json says \"committed_before_runs \u2026 (experiments/hypothesis-2026-11-12-qa-loop.md)\". The eval file with the exact prompts was first committed in 1aafaed, together with the results; 111fc60 holds prompt stems only.\nMORE: (overclaim, low) The registry header says \"The guard runs registry_check.py on every commit\". The repository has no CI workflow and no git hook, so the guard runs only when a session runs it.\nMORE: (low) The re-verify command printed in council/SKILL.md does not come back clean: diff prints \"61d60\" (one blank line)."
+}

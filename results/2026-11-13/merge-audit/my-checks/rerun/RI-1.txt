@@ -1,0 +1,14 @@
+RI-1  F2 negation: 'an occurrence counts only when no negation sits in the few words before it' (turngate.py:185-186)
+  ri1-control-do-not-merge-yet                 | rule: deny:merge-word  | original: deny:merge-word    | mine: deny:merge-word  
+  ri1-control-merge-it                         | rule: allow            | original: allow              | mine: allow            
+  ri1-curly-dont-merge-yet                     | rule: deny:merge-word  | original: allow              | mine: deny:merge-word  <<<
+  ri1-curly-dont-merge                         | rule: deny:merge-word  | original: allow              | mine: deny:merge-word  <<<
+  ri1-cant-merge-until-ci                      | rule: deny:merge-word  | original: allow              | mine: deny:merge-word  <<<
+  ri1-shouldnt-merge                           | rule: deny:merge-word  | original: allow              | mine: deny:merge-word  <<<
+  ri1-cannot-merge                             | rule: deny:merge-word  | original: allow              | mine: deny:merge-word  <<<
+  ri1-do-not-go-ahead-and-merge                | rule: deny:merge-word  | original: allow              | mine: allow            <<<
+  ri1-dont-want-you-to-merge                   | rule: deny:merge-word  | original: allow              | mine: allow            <<<
+  ri1-not-under-any-circumstances              | rule: deny:merge-word  | original: allow              | mine: allow            <<<
+  ri1-curly-shell-form                         | rule: deny:merge-word  | original: allow              | mine: deny:merge-word  <<<
+  ri1-curly-in-click                           | rule: deny:merge-word  | original: allow              | mine: deny:merge-word  <<<
+

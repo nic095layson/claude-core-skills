@@ -1,0 +1,3 @@
+{"type": "user", "message": {"role": "user", "content": "x"}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "text", "text": "PR 26 is ready"}]}}
+{"type": "user", "message": {"role": "user", "content": "<command-message>gauntlet</command-message>\n<command-name>/gauntlet</command-name>\n<command-args>merge PR 26</command-args>"}}

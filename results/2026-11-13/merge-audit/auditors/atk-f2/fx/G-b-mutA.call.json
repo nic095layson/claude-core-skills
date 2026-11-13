@@ -1,0 +1,1 @@
+{"tool_name": "mcp__github__merge_pull_request", "tool_input": {"owner": "nic095layson", "repo": "claude-core-skills", "pullNumber": 36}, "want": "deny", "label": "mutant A (selftest 44/44); a card answered inside the run", "show": false, "hooks": "work/atk-f2/mut/A-no-scheduled-deny", "seq": 4}

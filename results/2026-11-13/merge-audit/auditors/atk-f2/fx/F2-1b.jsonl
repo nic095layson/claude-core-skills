@@ -1,0 +1,2 @@
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "text", "text": "PR #26 is ready. Shall I merge #26?"}]}}
+{"type": "user", "message": {"role": "user", "content": "Looks good. Do not merge yet, I want to read it first."}}

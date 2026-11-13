@@ -1,0 +1,16 @@
+RI-8  words, not commands: 'A PR merge (`*merge_pull_request`, `gh pr merge`) is denied unless ...' (hypothesis:22); 'If the turn took an OUTWARD action' (hypothesis:21)
+  ri8-control-git-status                       | rule: allow            | original: allow              | mine: allow            
+  ri8-control-real-shell-merge                 | rule: deny:merge-word  | original: deny:merge-word    | mine: deny:merge-word  
+  ri8-grep-for-the-words                       | rule: allow            | original: deny:merge-word    | mine: allow            <<<
+  ri8-commit-message-mentions                  | rule: allow            | original: deny:merge-word    | mine: allow            <<<
+  ri8-heredoc-to-python                        | rule: allow            | original: deny:merge-word    | mine: allow            <<<
+  ri8-echo-into-notes                          | rule: allow            | original: deny:merge-word    | mine: allow            <<<
+  ri8-stop-control-status                      | rule: allow            | original: allow              | mine: allow            
+  ri8-stop-grep-git-commit                     | rule: allow            | original: block:F1           | mine: allow            <<<
+  ri8-stop-echo-git-push                       | rule: allow            | original: block:F1           | mine: allow            <<<
+  ri8-stop-push-dry-run                        | rule: allow            | original: block:F1           | mine: allow            <<<
+  ri8-stop-commit-graph                        | rule: allow            | original: block:F1           | mine: allow            <<<
+  ri8-stop-merge-denied-by-F2                  | rule: allow            | original: block:F1           | mine: allow            <<<
+  real record (diag2.log, categories only): the single call the original denies in pack/replay-baseline.txt:
+    {"command_chars": 986, "command_lines": 14, "mine_outward": null, "orig_outward": true, "orig_verdict": "deny:merge-word", "programs_my_parser_runs": ["cd", "grep", "python3"], "tool": "Bash", "word_hits": ["heredoc-body", "heredoc-body"]}
+

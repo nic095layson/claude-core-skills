@@ -1,0 +1,58 @@
+SURVIVES C0-no-mutation
+- selftest-turn-gates.py exit 0 == 44 passed, 0 failed ==
+- selftest-governance-classify.py exit 0 == 45 passed, 0 failed ==
+- selftest-receipt-law.sh exit 0 == 15 passed, 0 failed ==
+CAUGHT C1-control-F1-ignores-scheduled-boundary
+- selftest-turn-gates.py exit 1 == 42 passed, 2 failed ==
+-- FAIL S1 replay 2026-11-03 23:06Z: owner push before plan-gate, then a scheduled run that l
+-- FAIL S2 crafted skip: owner turn governed, then a scheduled run commits with no governor -
+- selftest-governance-classify.py exit 0 == 45 passed, 0 failed ==
+- selftest-receipt-law.sh exit 0 == 15 passed, 0 failed ==
+CAUGHT C2-control-task-notification-is-owner
+- selftest-turn-gates.py exit 1 == 43 passed, 1 failed ==
+-- FAIL F1 task notification after the owner message is not the owner -> still BLOCK (got al
+- selftest-governance-classify.py exit 0 == 45 passed, 0 failed ==
+- selftest-receipt-law.sh exit 0 == 15 passed, 0 failed ==
+SURVIVES M1-no-owner-message-merge-DENIED-instead-of-allowed
+- selftest-turn-gates.py exit 0 == 44 passed, 0 failed ==
+- selftest-governance-classify.py exit 0 == 45 passed, 0 failed ==
+- selftest-receipt-law.sh exit 0 == 15 passed, 0 failed ==
+SURVIVES M2-isMeta-and-compact-summary-rows-count-as-owner
+- selftest-turn-gates.py exit 0 == 44 passed, 0 failed ==
+- selftest-governance-classify.py exit 0 == 45 passed, 0 failed ==
+- selftest-receipt-law.sh exit 0 == 15 passed, 0 failed ==
+SURVIVES M3-scheduled-index-takes-FIRST-run-not-latest
+- selftest-turn-gates.py exit 0 == 44 passed, 0 failed ==
+- selftest-governance-classify.py exit 0 == 45 passed, 0 failed ==
+- selftest-receipt-law.sh exit 0 == 15 passed, 0 failed ==
+SURVIVES M4-header-form-dropped-plain-substring
+- selftest-turn-gates.py exit 0 == 44 passed, 0 failed ==
+- selftest-governance-classify.py exit 0 == 45 passed, 0 failed ==
+- selftest-receipt-law.sh exit 0 == 15 passed, 0 failed ==
+SURVIVES M5-any-past-scheduled-run-outranks-a-later-owner-message
+- selftest-turn-gates.py exit 0 == 44 passed, 0 failed ==
+- selftest-governance-classify.py exit 0 == 45 passed, 0 failed ==
+- selftest-receipt-law.sh exit 0 == 15 passed, 0 failed ==
+SURVIVES M6-every-tool-result-is-an-owner-click
+- selftest-turn-gates.py exit 0 == 44 passed, 0 failed ==
+- selftest-governance-classify.py exit 0 == 45 passed, 0 failed ==
+- selftest-receipt-law.sh exit 0 == 15 passed, 0 failed ==
+CAUGHT M7-only-ReadNotifications-results-can-start-a-scheduled-turn (stricter, the stated rule)
+- selftest-turn-gates.py exit 1 == 41 passed, 3 failed ==
+-- FAIL S1 replay 2026-11-03 23:06Z: owner push before plan-gate, then a scheduled run that l
+-- FAIL S2 crafted skip: owner turn governed, then a scheduled run commits with no governor -
+-- FAIL S5 a scheduled run never merges: the owner's earlier 'merge' does not carry into it -
+- selftest-governance-classify.py exit 0 == 45 passed, 0 failed ==
+- selftest-receipt-law.sh exit 0 == 15 passed, 0 failed ==
+SURVIVES M8-receipt-gate-turn-starts-only-at-NON-meta-string-rows
+- selftest-turn-gates.py exit 0 == 44 passed, 0 failed ==
+- selftest-governance-classify.py exit 0 == 45 passed, 0 failed ==
+- selftest-receipt-law.sh exit 0 == 15 passed, 0 failed ==
+SURVIVES M9-receipt-gate-turn-starts-at-ANY-user-row-even-tool-results
+- selftest-turn-gates.py exit 0 == 44 passed, 0 failed ==
+- selftest-governance-classify.py exit 0 == 45 passed, 0 failed ==
+- selftest-receipt-law.sh exit 0 == 15 passed, 0 failed ==
+SURVIVES M10-prompt-class-half-forgets-the-prompt-after-a-scheduled-run
+- selftest-turn-gates.py exit 0 == 44 passed, 0 failed ==
+- selftest-governance-classify.py exit 0 == 45 passed, 0 failed ==
+- selftest-receipt-law.sh exit 0 == 15 passed, 0 failed ==

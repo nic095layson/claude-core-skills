@@ -1,0 +1,22 @@
+registry entries: 33
+numeric constants bumped by one in hooks/: 3
+--- registry_check.py, FULL output (exit 1): 4 lines
+    CONSTANTS CHECK: FAIL
+      CUE_MIN_WORDS: registry 5 != live 6
+      TRIVIA_MAX_CHARS: registry 400 != live 402
+      RECEIPT_WINDOW_CHARS: registry 400 != live 401
+--- the evidence pack, section 2 as the weekly run receives it:
+    == 2. Hook registry (hand-set values registered and unchanged)
+      CUE_MIN_WORDS: registry 5 != live 6
+      TRIVIA_MAX_CHARS: registry 400 != live 402
+      RECEIPT_WINDOW_CHARS: registry 400 != live 401
+    == 3. Stale rules (unmeasured for more than 60 days)
+--- pack exit code: 0
+### history — the library's own recorded registry failure of 2026-11-12, as section 2 of the pack would have shown it (tail -3)
+full record: 7 lines; first line: CONSTANTS CHECK: FAIL
+    |   RECEIPT_INABILITY_PATTERN: registry 'ad906b84' != live '0608e46e'
+    |   RECEIPT_RECEIPT_PATTERN: registry '15c1da5b' != live '674072cb'
+    |   TRIGGER_EVAL_GATE_TEXT: registry '>=5/6 should-fire runs fire; >=3/4 should-not runs stay silent' != live '>=5/6 should-fire runs fire; 4/4 sh
+18:( cd "$LIB" && python3 .claude/skills/red-team/scripts/registry_check.py --root . 2>&1 | tail -3 )
+20:python3 "$S/stale_rules.py" --root "$LIB" | head -40
+21:exit 0

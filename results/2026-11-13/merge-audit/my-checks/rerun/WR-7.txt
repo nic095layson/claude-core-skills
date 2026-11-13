@@ -1,0 +1,66 @@
+### 0. known answer: unmodified copy, the whole test file
+Ran 10 tests in 0.397s  OK 
+
+### M1. mutation: every python call in weekly_review.sh is broken (python3 -> python3-absent). The pack has no content.
+WeeklyReview tests on the mutant: ---------------------------------------------------------------------- Ran 2 tests in 0.041s  OK 
+exit code: 0
+    | == 1. Corrections (wrong statements to the owner, per ISO week)
+    | mut: no corrections log
+    | kit-full: deck-full: no corrections log
+    | == 2. Hook registry (hand-set values registered and unchanged)
+    | /tmp/claude-0/-home-user/ff01f16c-7b3f-5ea5-8051-7a95ac7cd1d1/scratchpad/merge-audit/work/rev-weekly-run/mut/.claude/skills/independent-audit/sc
+    | == 3. Stale rules (unmeasured for more than 60 days)
+    stderr:
+    ! /tmp/claude-0/-home-user/ff01f16c-7b3f-5ea5-8051-7a95ac7cd1d1/scratchpad/merge-audit/work/rev-weekly-run/mut/.claude/skills/independent-audit/sc
+    ! /tmp/claude-0/-home-user/ff01f16c-7b3f-5ea5-8051-7a95ac7cd1d1/scratchpad/merge-audit/work/rev-weekly-run/mut/.claude/skills/independent-audit/sc
+
+### M2. mutation: weekly_review.sh WRITES: appends a row to every project's corrections log it is given and drops a file in an ignored path of the library
+WeeklyReview tests on the mutant: ---------------------------------------------------------------------- Ran 2 tests in 0.223s  OK 
+project log changed by the mutant run: YES; library file written: mutant.pyc 
+
+### P1. a part FAILS: one registered hook constant changed by one (TRIVIA_MAX_CHARS 400 -> 401)
+registry_check.py alone exits: 1
+exit code: 0
+    | == 1. Corrections (wrong statements to the owner, per ISO week)
+    | mut: no corrections log
+    | kit-full: CORRECTIONS: 7 rows, 0 unparsed — 2026-W46: 7 (owner caught 2)
+    | deck-full: no corrections log
+    | == 2. Hook registry (hand-set values registered and unchanged)
+    | CONSTANTS CHECK: FAIL
+    |   TRIVIA_MAX_CHARS: registry 400 != live 401
+
+### P2. a part CRASHES: registry_check.py and stale_rules.py are missing, corrections_rate.py exits 3
+exit code: 0
+    | == 1. Corrections (wrong statements to the owner, per ISO week)
+    | mut: no corrections log
+    | kit-full: deck-full: no corrections log
+    | == 2. Hook registry (hand-set values registered and unchanged)
+    | python3: can't open file '/tmp/claude-0/-home-user/ff01f16c-7b3f-5ea5-8051-7a95ac7cd1d1/scratchpad/merge-audit/work/rev-weekly-run/mut/.claude/s
+    | == 3. Stale rules (unmeasured for more than 60 days)
+    stderr:
+    ! python3: can't open file '/tmp/claude-0/-home-user/ff01f16c-7b3f-5ea5-8051-7a95ac7cd1d1/scratchpad/merge-audit/work/rev-weekly-run/mut/.claude/s
+
+### P3. the LIBRARY directory does not exist
+exit code: 0
+    | == 1. Corrections (wrong statements to the owner, per ISO week)
+    | /nonexistent/claude-core-skills: project directory not found
+    | kit-full: == 2. Hook registry (hand-set values registered and unchanged)
+    | == 3. Stale rules (unmeasured for more than 60 days)
+    stderr:
+    ! python3: can't open file '/nonexistent/claude-core-skills/.claude/skills/independent-audit/scripts/corrections_rate.py': [Errno 2] No such file 
+    ! /tmp/claude-0/-home-user/ff01f16c-7b3f-5ea5-8051-7a95ac7cd1d1/scratchpad/merge-audit/work/rev-weekly-run/mut/.claude/skills/independent-audit/sc
+    ! python3: can't open file '/nonexistent/claude-core-skills/.claude/skills/independent-audit/scripts/stale_rules.py': [Errno 2] No such file or di
+
+### P4. a project directory does not exist (unmodified script)
+exit code: 0
+    | == 1. Corrections (wrong statements to the owner, per ISO week)
+    | mut: no corrections log
+    | /nonexistent/yahoo-fantasy-basketball: project directory not found
+    | == 2. Hook registry (hand-set values registered and unchanged)
+
+### L. the UNMODIFIED script on a fresh copy: what one run leaves behind (run as a real session would, bytecode writing not switched off)
+git status --porcelain, the only thing the test compares: ''
+files the run created in the library tree:
+    ./hooks/__pycache__/govclass.cpython-313.pyc
+    ./hooks/__pycache__/turngate.cpython-313.pyc
+    ./redteam/__pycache__/live.cpython-313.pyc

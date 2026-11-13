@@ -1,0 +1,2 @@
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "text", "text": "Ready to merge: https://github.com/nic095layson/claude-core-skills/pull/34"}]}}
+{"type": "user", "message": {"role": "user", "content": "yes"}}

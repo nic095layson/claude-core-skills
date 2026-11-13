@@ -1,0 +1,13 @@
+
+== TB3  the scheduled-run boundary is any tool_result with a line of the header form
+ok tb3-control-ungoverned-commit | stop | rule requires=block:F1 | hooks say=block:F1 | (control)
+DIFF tb3-bash-output-header-after-commit | stop | rule requires=block:F1 | hooks say=allow | <- Bash printed an old notification; the commit before it is no longer in 'the turn'
+DIFF tb3-genuine-sched-read-after-commit | stop | rule requires=block:F1 | hooks say=allow | <- a real scheduled read mid-turn: the owner turn's ungoverned commit is never judged
+DIFF tb3-github-body-quotes-header-after-commit | stop | rule requires=block:F1 | hooks say=allow | <- external PR comment text moves the boundary
+ok tb3-control-governed-turn | stop | rule requires=allow | hooks say=allow | (control)
+DIFF tb3-governed-turn-cut-by-sched-read | stop | rule requires=allow | hooks say=block:F1 | <- plan-gate loaded before the read no longer counts
+ok tb3-control-owner-merge | merge | rule requires=allow | hooks say=allow | (control)
+DIFF tb3-owner-merge-then-bash-header | merge | rule requires=allow | hooks say=deny:scheduled | <- not a ReadNotifications result
+DIFF tb3-owner-merge-then-github-quote | merge | rule requires=allow | hooks say=deny:scheduled | <- a GitHub notification, no scheduled one delivered
+DIFF tb3-sched-read-then-owner-click | merge | rule requires=allow (F2 rule) / deny (0.1.5 rule) | hooks say=deny:scheduled | <- the owner's click after a scheduled read
+DIFF tb3-sched-header-starts-2nd-text-block | merge | rule requires=deny:scheduled | hooks say=allow | <- plausible, not observed: result content as two text blocks

@@ -1,0 +1,14 @@
+### preflight — the library's rule for unattended runs, and the weekly task
+55:4. **Preflight every unattended run** as its first step, from a spec in the project:
+86:5. **An unchecked run is a failed run** — no inputs replayed, a spec that cannot be read, a browser
+the word 'preflight' in the stored prompt:            0 occurrence(s)
+preflight specs (*.json naming preflight) in the library: 0
+                                           in the kit:    kit-full/scripts/independent_audit/morning_preflight.json 
+library files that call preflight.py or name a spec:  0
+
+### records — 'each project's corrections log' and 'ledger entries (.claude/LESSONS.md)'
+lib        corrections log: none                               ledger at .claude/LESSONS.md: yes  ledger elsewhere: -
+kit-full   corrections log: kit-full/report/corrections-log.md none  ledger at .claude/LESSONS.md: no   ledger elsewhere: -
+deck-full  corrections log: none                               ledger at .claude/LESSONS.md: no   ledger elsewhere: deck-full/LESSONS.md
+34:- **Corrections** → `report/corrections-log.md` in each project (template:
+
