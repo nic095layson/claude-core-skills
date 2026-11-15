@@ -1,0 +1,319 @@
+# python3 hooks/selftest-mutations.py     on the rebuilt hooks (this commit), run 2026-11-15, exit status 0, 42 seconds on 4 CPUs
+# Run twice; the two outputs are the same line for line. One line per break: id | file | the first named case that fails | the rule the break removes.
+RW01  | turngate.py           | caught by T25-compact-summary-is-not-owner | a compaction summary is not the owner's message
+RW02  | turngate.py           | caught by T26-meta-row-is-not-owner | a row the program marks isMeta is not the owner's message
+RW03  | turngate.py           | caught by G03-sidechain-prompt-is-not-owner | a helper agent's row is never the owner's
+RW04  | turngate.py           | caught by M20-card-click-inside-scheduled-run | a row whose origin is not the owner's is a wake, not the owner
+RW05  | turngate.py           | caught by T37-row-without-origin-in-a-file-that-has-origin | a row without origin grants nothing in a record whose rows carry origin
+RW06  | turngate.py           | caught by F21-owner-quotes-marker-previous-turn-loaded | a harness lead counts only at the START of a row's text (rows)
+RW07  | turngate.py           | caught by P02a-build-prompt-quotes-notification-banner | a harness lead counts only at the START of a prompt (classifier)
+RW08  | turngate.py           | caught by M27-blocked-stop-is-not-a-stop | a blocked stop (a stop row with hook errors) is not a completed stop
+RW09  | turngate.py           | caught by T19-queued-owner-message-orders | a message the owner sends while the assistant works is read
+RW10  | turngate.py           | caught by J03a-meta-slash-command-starts-turn-write | a slash command recorded as a harness row starts a turn when the session was idle
+RW11  | turngate.py           | caught by p_ctl_assistant_skill_args_are_not_a_prompt | the arguments of a skill the assistant launched mid-turn are not the owner's prompt
+RW12  | turngate.py           | caught by F34-miss-let-go-at-its-own-stop-is-not-raised-later | a stop judges only the rows since the latest completed stop
+RW13  | turngate.py           | caught by J02-midturn-delivery-with-idle-nudge | the stretch starts at the owner's message or the last stop, not at the governance turn
+RW14  | turngate.py           | caught by M16-click-then-stop-then-wake | the owner's word ends at a completed stop and at a wake
+RW15  | turngate.py           | caught by G02-helper-merge-after-main-stopped | the owner's word ends when the assistant stops
+RW16  | turngate.py           | caught by T30b-order-then-wake-with-no-stop-row | a wake row ends the owner's word
+RW17  | turngate.py           | caught by T33-interrupt-after-order | an interrupt ends the owner's word
+RW18  | turngate.py           | caught by F16a-scheduled-run-ungoverned-commit | a scheduled run is a governance turn of its own
+RW19  | turngate.py           | caught by P17-owner-prompt-after-a-scheduled-run | the owner's message after a scheduled run starts the owner's turn
+RW20  | turngate.py           | caught by S11-owner-types-after-scheduled-run | a past scheduled run does not mark the owner's later turn as scheduled
+RW21  | turngate.py           | caught by F19b-midturn-read-does-not-cut-governed-turn | a delivery read in the middle of an owner turn starts no scheduled run
+RW22  | turngate.py           | caught by F28-two-scheduled-runs-latest-governs | a scheduled run is judged on its own loads: the LATEST run governs, not an earlier turn
+RW23  | turngate.py           | caught by F22-loads-of-previous-turn-do-not-count | governor loads made before the governance turn do not count (outward rule)
+SC01  | turngate.py           | caught by S09-github-body-quotes-scheduled-header | a scheduled delivery is known by its header line, not by the words anywhere
+SC02  | turngate.py           | caught by S09-github-body-quotes-scheduled-header | a header line quoted inside a notification body is body text
+SC03  | turngate.py           | caught by S08-bash-prints-old-scheduled-header | only the result of a notification read can deliver a scheduled run
+SC04  | turngate.py           | caught by M20-card-click-inside-scheduled-run | in a scheduled run a merge is always denied, with the scheduled-run reason
+SC05  | turngate.py           | caught by S17-card-inside-run-then-owner-message | a card answered inside a scheduled run grants nothing, also after the owner writes
+WD01  | turngate.py           | caught by T20-queued-owner-message-refuses | a refusal takes its pull requests out of the grant
+WD02  | turngate.py           | caught by T15-merge-everything-except-141 | a refusal inside an order ("merge everything except #141") is read
+WD03  | turngate.py           | caught by M24-click-wait-revokes-typed-order | a later refusal of a named pull request takes its grant back
+WD04  | turngate.py           | caught by m_queued_stop_revokes_all | a bare refusal empties the grant
+WD05  | turngate.py           | caught by m_queued_stop_revokes_all | a short refusal with no verb ("No wait.", "stop") empties the grant
+WD06  | turngate.py           | caught by M26-click-merged-already | "merged" and "merging" are not the order to merge
+WD07  | turngate.py           | caught by T20c-queued-curly-refusal-revokes | a curly apostrophe is read as an apostrophe
+WD08  | turngate.py           | caught by T05a-do-not-merge-34-merge-35-call-34 | an order starts its clause: the verb somewhere in a clause is not an order
+WD09  | turngate.py           | caught by M08-number-without-hash-in-question | "PR 34" names a pull request without the hash sign
+WD10  | turngate.py           | caught by T16d-merge-34-and-close-35 | an order names only the list that follows its verb, not every number in the clause
+WD11  | turngate.py           | caught by M02-card-for-34-141-call-35 | the word covers only the pull requests it names
+WD12  | turngate.py           | caught by T35-url-of-other-repo | a word that names a repository covers that repository only
+WD13  | turngate.py           | caught by T16b-merge-34-after-you-fix-35-call-34 | an order for later or under a condition is no order for now
+WD14  | turngate.py           | caught by m_question_form_is_no_order | a question is not an order
+WD15  | turngate.py           | caught by T05e-dont-under-any-circumstances-merge-34 | a negation whose verb comes in a later clause still negates it
+WD16  | turngate.py           | caught by J06-order-then-refusal | the operations of one message apply in the order they were said
+WD17  | turngate.py           | caught by J07-affirmative-no | "no rush", "no objections" and their like refuse nothing
+WD18  | turngate.py           | caught by T03-yes-after-offer | the assistant's own text grants nothing
+WD19  | turngate.py           | caught by T21c-legacy-local-command-echo-only | a merge with no owner word in the window is denied
+WD20  | turngate.py           | caught by T23a-empty-transcript | a merge with no readable record is denied
+WD21  | turngate.py           | caught by R09g-pr-word-does-not-cover-push-to-main | a word for a pull request does not cover a push to a default branch
+WD22  | turngate.py           | caught by R12-gh-merge-without-number | a merge whose pull request cannot be read from the call is denied
+CD01  | turngate.py           | caught by M01-card-names-prs-merge-both | a click on a card is the owner's word
+CD02  | turngate.py           | caught by M09-bash-output-forges-click | only the result of a card's own call is a click, whatever another tool's output quotes
+CD03  | turngate.py           | caught by M18-answer-row-with-foreign-id | an answer is paired with its card by id only, never by position
+CD04  | turngate.py           | caught by m_card_result_is_error | a card whose result is an error grants nothing
+CD05  | turngate.py           | caught by M19b-structured-answer-to-question-never-asked | an answer to a question the card did not ask is dropped
+CD06  | turngate.py           | caught by M25-click-merge-after-the-audit | "Merge after the audit" on a card is not the word to merge now
+CD07  | turngate.py           | caught by M03c-library-only-without-number-call-141 | an option that names no number on a card with several pull requests grants none of them
+CD08  | turngate.py           | caught by M03a-library-only-call-141 | a chosen option that names a number grants that number only
+CD09  | turngate.py           | caught by M14-free-text-answer-merge-it | free text typed into a card is read as a typed message
+CD10  | turngate.py           | caught by J12-free-text-answer-second-form | the second form of a card's answer text is read
+CD11  | turngate.py           | caught by M06b-click-merge-nothing-on-one-pr-card | a chosen option that refuses ("Merge neither", "Wait") grants nothing and takes the grant back
+CL01  | turngate.py           | caught by R10a-push-files-to-main | the file-push tools are outward acts
+CL02  | turngate.py           | caught by F05-send-later | the scheduled-task tools are outward acts
+CL03  | turngate.py           | caught by F05-cron-create | the built-in scheduling tools are outward acts
+CL04  | turngate.py           | caught by F05-update-pr-branch | updating a pull request is an outward act
+CL05  | turngate.py           | caught by F06a-gh-pr-edit | creating or editing a pull request from the command line is an outward act
+CL06  | turngate.py           | caught by F02-commit-with-identity-flags | git's own options before the verb do not hide the verb
+CL07  | turngate.py           | caught by F01-ungoverned-commit | a commit is an outward act
+CL08  | turngate.py           | caught by F04-revert-makes-a-commit | revert and cherry-pick make commits
+CL09  | turngate.py           | caught by R01a-auto-merge-tool-no-word | switching auto-merge on needs the same word as a merge
+CL10  | turngate.py           | caught by R04b-gh-number-last-with-word | a shell command is parsed: a word in command position is an act, anything else is data
+CL11  | turngate.py           | caught by N01-grep-for-the-words | a command that only mentions the merge words is no merge
+CL12  | turngate.py           | caught by F07a-grep-git-commit | a command that only mentions commit or push is no outward act
+CL13  | turngate.py           | caught by N09-api-get-merged-state | reading the merge state through the API is no merge
+CL14  | turngate.py           | caught by R08-script-file | a script file a command runs is read for its acts
+CL15  | turngate.py           | caught by R03-gh-flag-before-pr | an option with a value between the command-line words does not hide the merge
+CL16  | turngate.py           | caught by R05-gh-api-put-merge | the merge route of the REST API is a merge
+CL17  | turngate.py           | caught by F07d-commit-dry-run | a dry run is no commit
+CL18  | turngate.py           | caught by F07e-commit-help | a help page is no act
+CL19  | turngate.py           | caught by A04-tmp-dotdot-path-is-a-repo-file | a path is normalised before it is called scratch (/tmp/../repo is not scratch)
+CL20  | turngate.py           | caught by R09a-git-push-origin-main | main is a default branch
+CL21  | turngate.py           | caught by m_cli_merge_through_monitor_tool | every tool that runs a shell command is read as one
+CL22  | turngate.py           | caught by N05-script-written-not-run | a here-document is data unless a shell reads it
+CL23  | turngate.py           | caught by F08b-commit-failed-nothing-to-commit | the last step of an and-chain that failed was not taken
+CL24  | turngate.py           | caught by F08a-merge-call-denied-by-gate | a call that was denied or rejected was not taken
+CL25  | turngate.py           | caught by F14-skill-call-errored | a Skill call that failed loaded nothing
+CL26  | turngate.py           | caught by F25-skill-args-mention-governor | a governor is loaded by a Skill call of that name, not by one that mentions it
+CL27  | turngate.py           | caught by O03-synced-copy-skill-names-count | a scope prefix before a skill's name is dropped
+ST01  | turngate.py           | caught by F12-retry-after-other-hooks-block | the rule holds for any number of outward acts
+ST02  | turngate.py           | caught by F31-plan-gate-after-first-act | plan-gate is loaded BEFORE the outward act
+ST03  | turngate.py           | caught by F30-verify-then-commit-and-push | adversarial-verify counts anywhere in the turn, before or after the act
+ST04  | turngate.py           | caught by O01-plan-gate-without-adversarial-verify | adversarial-verify is required
+ST05  | turngate.py           | caught by F12-retry-after-other-hooks-block | the retry flag alone does not switch the outward rule off
+ST06  | turngate.py           | caught by F13b-third-stop-is-let-go | the outward rule blocks a bounded number of times in one stretch
+ST07  | governance-enforce.py | caught by X05c-internal-error-stop-is-allowed | an error in the Stop hook ends it quietly with status 0
+ST08  | governance-enforce.py | caught by F26-block-reason-carries-the-remedy | the block reason names the remedy
+ST09  | governance-enforce.py | caught by F09-delegate-pushes-main-turn-loads-nothing | a helper agent's noted outward calls are counted
+ST10  | turngate.py           | caught by F19c-legacy-owner-push-then-scheduled-run-loads-both | the part of a stretch before a scheduled run began is judged too
+ST11  | turngate.py           | caught by J16b-stale-ledger-note-is-not-counted | a helper's note is placed by its time stamp, not by a row count that restarts when the record is rewritten
+ST12  | turngate.py           | caught by J16-ledger-after-rewrite | a helper's note still counts after the record was rewritten and holds fewer rows
+ST13  | turngate.py           | caught by F11b-chain-stop2-remedied | after this rule's own block, a plan-gate load made since answers it
+PC01  | governance-enforce.py | caught by P10a-allowance-is-review-only | the short-answer allowance is for review-only prompts
+PC02  | governance-enforce.py | caught by P11-loads-before-the-prompt-do-not-count | governor loads made before the prompt do not count (prompt class)
+PC03  | governance-enforce.py | caught by P09-every-class-needs-its-governor | every matched class needs its governor
+PC04  | governance-enforce.py | caught by p_ctl_review_with_tool_is_not_trivia | the short-answer allowance needs a turn with no tool call
+PC05  | governance-enforce.py | caught by P05-github-wake-after-review-remark | the owner's prompt is judged at its own stop only, not again after a completed stop or a wake
+PC06  | turngate.py           | caught by p_queued_message_is_classified | a prompt the owner sends while the assistant works is classified
+PC07  | governance-enforce.py | caught by P07-retry-after-receipt-block-rearms | the retry flag alone does not switch the prompt-class rule off
+PC08  | governance-enforce.py | caught by P14-long-answer-not-in-record | the final answer the program hands the hook is read when the record lacks it
+AD01  | turn-gates-pretool.py | caught by A02a-readonly-grep-mention | a shell command that writes nothing does not spend the advisory
+AD02  | turn-gates-pretool.py | caught by a_adv1_advisory_states_its_limit | the advisory states its limit: the record does not keep every message
+AD03  | turn-gates-pretool.py | caught by J14-helper-advisory-silent | a helper agent's call gets no advisory
+AD04  | turn-gates-pretool.py | caught by O13-advisory-once-per-load | the advisory is given once per plan-gate load
+AD05  | turn-gates-pretool.py | caught by A07-plan-shown | no advisory when the plan text is on record after the load
+AD06  | turn-gates-pretool.py | caught by F09-delegate-pushes-main-turn-loads-nothing | a helper agent's outward call is noted for the Stop gate
+FP01  | turn-gates-pretool.py | caught by X05a-internal-error-merge-is-denied | an error while judging a merge denies it
+FP02  | turn-gates-pretool.py | caught by X04a-shared-module-missing-merge | a merge is denied when the shared module cannot be loaded
+FP03  | turn-gates-pretool.py | caught by X01a-payload-not-json-names-merge-tool | an input that is not JSON and names a merge route is denied
+FP04  | turn-gates-pretool.py | caught by J04a-deadline-merge-tool | the pre-tool hook answers before the program cuts it off
+FP05  | governance-enforce.py | caught by J04c-deadline-stop | the Stop hook ends itself before the program cuts it off
+FP06  | turn-gates-pretool.py | caught by J04a-deadline-merge-tool | at its deadline the pre-tool hook denies a merge
+FP07  | turn-gates-pretool.py | caught by J04b-deadline-edit | at its deadline the pre-tool hook lets every other call through
+FP08  | turn-gates-pretool.py | caught by X05b-internal-error-edit-is-allowed | an error while judging any other call lets it through
+FP09  | turn-gates-pretool.py | caught by X04c-shared-module-missing-push-main | the failure paths know a push to a default branch as they know a merge
+FP10  | turn-gates-pretool.py | caught by X04d-shared-module-missing-push-branch | the failure paths let a push to another branch through
+FP11  | turn-gates-pretool.py | caught by X04e-shared-module-missing-push-all | the failure paths know a push of every branch
+FP12  | turn-gates-pretool.py | caught by X04f-shared-module-missing-push-mirror | the failure paths know a mirror push
+FP13  | turn-gates-pretool.py | caught by X01a-payload-not-json-names-merge-tool | the failure paths know the merge tool by its name
+FP14  | turn-gates-pretool.py | caught by J04a-deadline-merge-tool | the pre-tool hook's own deadline is shorter than the wired timeout
+PS01  | turngate.py           | caught by S10a-midturn-scheduled-read-ends-earlier-word | a scheduled notification read mid-turn ends the word given before it
+PS02  | turngate.py           | caught by T32-worker-restart-after-order | the restart notice of the worker process ends the word
+PS03  | turngate.py           | caught by J09-unresolved-push-unattended | a push whose branch cannot be read is denied where the owner is absent
+PS04  | turngate.py           | caught by R09h-bare-push-branch-unreadable | a push whose branch cannot be read is let through where the owner is present
+PS05  | turngate.py           | caught by G01a-helper-merge-with-live-word | a helper agent may merge what the owner's standing word names
+PS06  | turngate.py           | caught by F13a-second-block-when-nothing-loaded | an unanswered block of the outward rule is repeated once
+PS07  | turngate.py           | caught by F13b-third-stop-is-let-go | the outward rule blocks twice at most in one stretch
+PS08  | turngate.py           | caught by P01-build-no-governor | the prompt-class rule blocks
+PS09  | turngate.py           | caught by P06-single-retry-understood | the prompt-class rule blocks once in one stretch
+PS10  | turngate.py           | caught by F33-wake-turn-inherits-owner-turn-loads | work woken after a completed stop keeps the turn's governor loads
+PS11  | turngate.py           | caught by F15-loads-before-compaction-do-not-count | an outward act after a compaction needs the governors loaded again
+PS12  | turngate.py           | caught by P13-build-ordered-by-click | a clicked card label is not a prompt for the prompt-class rule
+PS13  | turngate.py           | caught by R09a-git-push-origin-main | a push to a default branch needs the same word as a merge
+PS14  | turngate.py           | caught by M02-card-for-34-141-call-35 | a merge needs the owner's word
+PS15  | turngate.py           | caught by F05-send-later | the Stop gate counts a change to a scheduled task
+PS16  | turngate.py           | caught by F01-ungoverned-commit | the Stop gate counts a commit
+PS17  | turngate.py           | caught by F03b-push-quoted-dir | the Stop gate counts a push
+PS18  | turngate.py           | caught by F24b-gh-pr-create | the Stop gate counts a pull-request change
+PS19  | turngate.py           | caught by F05-auto-merge | the Stop gate counts a merge
+PS20  | turngate.py           | caught by F24c-push-files | the Stop gate counts a file pushed through a tool
+PS21  | governance-enforce.py | caught by P10b-review-only-short-answer | a short review answer with no tool call passes without a governor
+PS22  | governance-enforce.py | caught by P14-long-answer-not-in-record | a long answer is not a short answer
+WI01  | wiring                | caught by W01-matcher | the matcher is anchored at its end: a name that only starts like a gated one is not sent
+WI02  | wiring                | caught by W01-matcher | every name the code classifies is sent to the pre-tool hook (a name dropped from the matcher)
+WI03  | turngate.py           | caught by W01-matcher | every name the code classifies is sent to the pre-tool hook (a name added to the code only)
+WI04  | wiring                | caught by W01-matcher | the matcher is anchored at its start: a name that only ends like a gated one is not sent
+== 155 breaks: 155 caught, 0 survived, 0 stale; control: 0 failing of 347 cases ==
+
+# python3 hooks/selftest-mutations.py --every-case PS11     the break of the addendum (COMPACTION_VOIDS_LOADS set to False), against the whole table
+PS11  | turngate.py           | caught by 3 cases: F15-loads-before-compaction-do-not-count, J21-verify-before-compaction-only, J22-act-before-and-after-compaction | an outward act after a compaction needs the governors loaded again
+== 1 breaks: 1 caught, 0 survived, 0 stale; control: 0 failing of 347 cases ==
+
+# python3 hooks/selftest-mutations.py --list     what each break replaces is in hooks/selftest-mutations.py; the cases named for each break and its origin:
+RW01  | turngate.py           | a compaction summary is not the owner's message | T25-compact-summary-is-not-owner, P08-compact-summary-is-not-the-prompt | B:N02a A:B35; TB-8 M2, PC-7 M4
+RW02  | turngate.py           | a row the program marks isMeta is not the owner's message | T26-meta-row-is-not-owner | B:N02b A:B02; TB-8 M2
+RW03  | turngate.py           | a helper agent's row is never the owner's | G03-sidechain-prompt-is-not-owner | B:N48 A:B02b
+RW04  | turngate.py           | a row whose origin is not the owner's is a wake, not the owner | M20-card-click-inside-scheduled-run, T28-peer-session-message-is-not-owner | B:N51; TB-8 C2
+RW05  | turngate.py           | a row without origin grants nothing in a record whose rows carry origin | T37-row-without-origin-in-a-file-that-has-origin | B:N50
+RW06  | turngate.py           | a harness lead counts only at the START of a row's text (rows) | F21-owner-quotes-marker-previous-turn-loaded | B:N25; reimpl M9
+RW07  | turngate.py           | a harness lead counts only at the START of a prompt (classifier) | P02a-build-prompt-quotes-notification-banner, P02b-legacy-build-prompt-contains-marker | A:B07; reimpl M9
+RW08  | turngate.py           | a blocked stop (a stop row with hook errors) is not a completed stop | J01a-blocked-stop-real-order-merge, J01b-blocked-stop-real-order-stop, M27-blocked-stop-is-not-a-stop | B:N52 A:B58; new rule J01
+RW09  | turngate.py           | a message the owner sends while the assistant works is read | T19-queued-owner-message-orders, T20-queued-owner-message-refuses | B:N40 A:B42
+RW10  | turngate.py           | a slash command recorded as a harness row starts a turn when the session was idle | J03a-meta-slash-command-starts-turn-write, J03b-meta-slash-command-starts-turn-commit | new rule J03
+RW11  | turngate.py           | the arguments of a skill the assistant launched mid-turn are not the owner's prompt | p_ctl_assistant_skill_args_are_not_a_prompt | A:B66
+RW12  | turngate.py           | a stop judges only the rows since the latest completed stop | F34-miss-let-go-at-its-own-stop-is-not-raised-later | B:N37 A:B48
+RW13  | turngate.py           | the stretch starts at the owner's message or the last stop, not at the governance turn | J02-midturn-delivery-with-idle-nudge | new rule J02
+RW14  | turngate.py           | the owner's word ends at a completed stop and at a wake | M16-click-then-stop-then-wake, T30-order-then-stop-then-wake | B:N30
+RW15  | turngate.py           | the owner's word ends when the assistant stops | G02-helper-merge-after-main-stopped | A:B13
+RW16  | turngate.py           | a wake row ends the owner's word | T30b-order-then-wake-with-no-stop-row | A:B63
+RW17  | turngate.py           | an interrupt ends the owner's word | T33-interrupt-after-order | A:B59
+RW18  | turngate.py           | a scheduled run is a governance turn of its own | F16a-scheduled-run-ungoverned-commit, P04b-legacy-scheduled-run-after-review-remark | A:B03 B:N07; TB-8 M10
+RW19  | turngate.py           | the owner's message after a scheduled run starts the owner's turn | P17-owner-prompt-after-a-scheduled-run, F29-owner-message-after-scheduled-run | B:N05 A:B05; TB-8 M5
+RW20  | turngate.py           | a past scheduled run does not mark the owner's later turn as scheduled | S11-owner-types-after-scheduled-run | A:B05b; TB-8 M5
+RW21  | turngate.py           | a delivery read in the middle of an owner turn starts no scheduled run | F19b-midturn-read-does-not-cut-governed-turn, S10b-midturn-scheduled-read-then-click | TB-3
+RW22  | turngate.py           | a scheduled run is judged on its own loads: the LATEST run governs, not an earlier turn | F28-two-scheduled-runs-latest-governs | B:N03 A:B03b; TB-8 M3
+RW23  | turngate.py           | governor loads made before the governance turn do not count (outward rule) | F22-loads-of-previous-turn-do-not-count | B:N19b; PC-7 M3
+SC01  | turngate.py           | a scheduled delivery is known by its header line, not by the words anywhere | S14-origin-words-in-body-not-header, S09-github-body-quotes-scheduled-header | B:N04 A:B04; TB-8 M4, reimpl M8
+SC02  | turngate.py           | a header line quoted inside a notification body is body text | S09-github-body-quotes-scheduled-header | A:B65
+SC03  | turngate.py           | only the result of a notification read can deliver a scheduled run | S08-bash-prints-old-scheduled-header | A:B64
+SC04  | turngate.py           | in a scheduled run a merge is always denied, with the scheduled-run reason | M20-card-click-inside-scheduled-run, S01-scheduled-merge-tool | B:N31
+SC05  | turngate.py           | a card answered inside a scheduled run grants nothing, also after the owner writes | S17-card-inside-run-then-owner-message | A:B14
+WD01  | turngate.py           | a refusal takes its pull requests out of the grant | T20-queued-owner-message-refuses, T05d-dont-merge-26-comma-merge-27-call-26 | B:N21; reimpl M1
+WD02  | turngate.py           | a refusal inside an order ("merge everything except #141") is read | T15-merge-everything-except-141 | reimpl M1
+WD03  | turngate.py           | a later refusal of a named pull request takes its grant back | M24-click-wait-revokes-typed-order, T20c-queued-curly-refusal-revokes | A:B43
+WD04  | turngate.py           | a bare refusal empties the grant | J06-order-then-refusal, m_queued_stop_revokes_all | A:B43
+WD05  | turngate.py           | a short refusal with no verb ("No wait.", "stop") empties the grant | m_queued_stop_revokes_all, J06-order-then-refusal | A:B72
+WD06  | turngate.py           | "merged" and "merging" are not the order to merge | M26-click-merged-already | B:N23 A:B10; reimpl M3
+WD07  | turngate.py           | a curly apostrophe is read as an apostrophe | T06-curly-dont-merge, T20c-queued-curly-refusal-revokes | B:N24 A:B09; reimpl M6
+WD08  | turngate.py           | an order starts its clause: the verb somewhere in a clause is not an order | T06-curly-dont-merge, T05a-do-not-merge-34-merge-35-call-34 | A:B08; reimpl M4, M5
+WD09  | turngate.py           | "PR 34" names a pull request without the hash sign | M08-number-without-hash-in-question, T13-please-merge-pr-34-and-pr-141 | B:N26; reimpl M11
+WD10  | turngate.py           | an order names only the list that follows its verb, not every number in the clause | T16d-merge-34-and-close-35 | B:N27
+WD11  | turngate.py           | the word covers only the pull requests it names | M02-card-for-34-141-call-35, T01b-typed-merge-34-call-35 | B:N29 A:B12
+WD12  | turngate.py           | a word that names a repository covers that repository only | T35-url-of-other-repo | new rule T35
+WD13  | turngate.py           | an order for later or under a condition is no order for now | m_conditional_order_is_not_for_now, T16b-merge-34-after-you-fix-35-call-34 | A:B53
+WD14  | turngate.py           | a question is not an order | m_question_form_is_no_order | A:B52
+WD15  | turngate.py           | a negation whose verb comes in a later clause still negates it | J05-open-negation, T05e-dont-under-any-circumstances-merge-34 | new rule J05
+WD16  | turngate.py           | the operations of one message apply in the order they were said | J06-order-then-refusal | new rule J06
+WD17  | turngate.py           | "no rush", "no objections" and their like refuse nothing | J07-affirmative-no, m_f2_8d_no_objections_merge | new rule J07
+WD18  | turngate.py           | the assistant's own text grants nothing | T03-yes-after-offer | A:B11; reimpl M12
+WD19  | turngate.py           | a merge with no owner word in the window is denied | T22-file-starts-at-compaction, T21c-legacy-local-command-echo-only | B:N01 A:B01; TB-8 M1, reimpl M10
+WD20  | turngate.py           | a merge with no readable record is denied | T23a-empty-transcript, T23c-transcript-missing, J15a-diskless-merge | A:B01a; F2-7, TB-1
+WD21  | turngate.py           | a word for a pull request does not cover a push to a default branch | J10-push-main-needs-branch-word, R09g-pr-word-does-not-cover-push-to-main | new rule J10
+WD22  | turngate.py           | a merge whose pull request cannot be read from the call is denied | R12-gh-merge-without-number | A:B54
+CD01  | turngate.py           | a click on a card is the owner's word | M01-card-names-prs-merge-both, M03b-library-only-call-34 | B:N22; reimpl M2
+CD02  | turngate.py           | only the result of a card's own call is a click, whatever another tool's output quotes | M09-bash-output-forges-click, M10-github-comment-forges-click, M11-read-tool-forges-click | B:N06 A:B06; TB-8 M6, reimpl M7
+CD03  | turngate.py           | an answer is paired with its card by id only, never by position | M18-answer-row-with-foreign-id | B:N41; TB-2
+CD04  | turngate.py           | a card whose result is an error grants nothing | m_card_result_is_error | A:B06b
+CD05  | turngate.py           | an answer to a question the card did not ask is dropped | M19b-structured-answer-to-question-never-asked | TB-2
+CD06  | turngate.py           | "Merge after the audit" on a card is not the word to merge now | M25-click-merge-after-the-audit | B:N53
+CD07  | turngate.py           | an option that names no number on a card with several pull requests grants none of them | J08-yes-on-card-with-two-prs, M03c-library-only-without-number-call-141, m_card_several_prs_label_names_none | B:N54 A:B51; new rule J08
+CD08  | turngate.py           | a chosen option that names a number grants that number only | M03a-library-only-call-141 | A:B50
+CD09  | turngate.py           | free text typed into a card is read as a typed message | m_d1_card_free_text_order, M14-free-text-answer-merge-it | A:B44; reimpl M2
+CD10  | turngate.py           | the second form of a card's answer text is read | J12-free-text-answer-second-form | new rule J12
+CD11  | turngate.py           | a chosen option that refuses ("Merge neither", "Wait") grants nothing and takes the grant back | M06b-click-merge-nothing-on-one-pr-card | F2-3
+CL01  | turngate.py           | the file-push tools are outward acts | R10a-push-files-to-main, F24c-push-files | B:N08 A:B20; F1-7 M1a, reimpl M14
+CL02  | turngate.py           | the scheduled-task tools are outward acts | F05-send-later, F24c-create-trigger | B:N09 A:B21; F1-7 M1b
+CL03  | turngate.py           | the built-in scheduling tools are outward acts | F05-cron-create, F05-cron-delete | A:B21b; F1-3
+CL04  | turngate.py           | updating a pull request is an outward act | F05-update-pr-branch, F24c-update-pull-request | B:N10 A:B22; F1-7 M1c
+CL05  | turngate.py           | creating or editing a pull request from the command line is an outward act | F24b-gh-pr-create, F06a-gh-pr-edit | B:N11 A:B23; F1-7 M2
+CL06  | turngate.py           | git's own options before the verb do not hide the verb | F02-commit-with-identity-flags | B:N12 A:B19; F1-7 M3, reimpl M13
+CL07  | turngate.py           | a commit is an outward act | F01-ungoverned-commit | B:N28 A:B24; F1-7 C2, reimpl M14
+CL08  | turngate.py           | revert and cherry-pick make commits | F04-revert-makes-a-commit, s_f1_4_cherry_pick | F1-4
+CL09  | turngate.py           | switching auto-merge on needs the same word as a merge | R01a-auto-merge-tool-no-word, S02-scheduled-auto-merge-tool | B:N33 A:B15
+CL10  | turngate.py           | a shell command is parsed: a word in command position is an act, anything else is data | N03-commit-message-mentions, R04b-gh-number-last-with-word | B:N34; RI-8
+CL11  | turngate.py           | a command that only mentions the merge words is no merge | N01-grep-for-the-words | A:B38
+CL12  | turngate.py           | a command that only mentions commit or push is no outward act | F07a-grep-git-commit, F07b-echo-git-push | A:B38b
+CL13  | turngate.py           | reading the merge state through the API is no merge | N09-api-get-merged-state | B:N42; RI-8
+CL14  | turngate.py           | a script file a command runs is read for its acts | R08-script-file, s_f1_4_release_script | B:N44 A:B55
+CL15  | turngate.py           | an option with a value between the command-line words does not hide the merge | R03-gh-flag-before-pr, m_d3_cli_global_repo_flag | A:B17
+CL16  | turngate.py           | the merge route of the REST API is a merge | R05-gh-api-put-merge, R06-curl-put-merge | A:B18
+CL17  | turngate.py           | a dry run is no commit | F07d-commit-dry-run | A:B39
+CL18  | turngate.py           | a help page is no act | F07e-commit-help | A:B39b
+CL19  | turngate.py           | a path is normalised before it is called scratch (/tmp/../repo is not scratch) | A04-tmp-dotdot-path-is-a-repo-file | A:B46; ADV-4
+CL20  | turngate.py           | main is a default branch | R09a-git-push-origin-main, R09b-git-push-head-to-main | A:B49
+CL21  | turngate.py           | every tool that runs a shell command is read as one | m_cli_merge_through_monitor_tool, s_f1_4_monitor_tool_push | A:B56; F1-4
+CL22  | turngate.py           | a here-document is data unless a shell reads it | N05-script-written-not-run, F07c-script-written-not-run | A:B57
+CL23  | turngate.py           | the last step of an and-chain that failed was not taken | F08b-commit-failed-nothing-to-commit, s_f1_6_single_push_failed | B:N35b A:B68; F1-6
+CL24  | turngate.py           | a call that was denied or rejected was not taken | F08a-merge-call-denied-by-gate, s_f1_6_commit_rejected_at_prompt | B:N35a A:B40; F1-6
+CL25  | turngate.py           | a Skill call that failed loaded nothing | F14-skill-call-errored | B:N39 A:B45; F1-8
+CL26  | turngate.py           | a governor is loaded by a Skill call of that name, not by one that mentions it | F25-skill-args-mention-governor | B:N13 A:B25; F1-7 M4, PC-7 M11
+CL27  | turngate.py           | a scope prefix before a skill's name is dropped | O03-synced-copy-skill-names-count | A:B70; F1-7 C4
+ST01  | turngate.py           | the rule holds for any number of outward acts | F23-commit-and-push, F12-retry-after-other-hooks-block | B:N17 A:B28; F1-7 M7
+ST02  | turngate.py           | plan-gate is loaded BEFORE the outward act | F31-plan-gate-after-first-act | A:B29; F1-7 C1
+ST03  | turngate.py           | adversarial-verify counts anywhere in the turn, before or after the act | F30-verify-then-commit-and-push | A:B30; F1-7 C3
+ST04  | turngate.py           | adversarial-verify is required | O01-plan-gate-without-adversarial-verify | A:B30b
+ST05  | turngate.py           | the retry flag alone does not switch the outward rule off | F12-retry-after-other-hooks-block, J01b-blocked-stop-real-order-stop | B:N38 A:B31; F1-2, PC-4
+ST06  | turngate.py           | the outward rule blocks a bounded number of times in one stretch | F13b-third-stop-is-let-go | A:B32
+ST07  | governance-enforce.py | an error in the Stop hook ends it quietly with status 0 | X05c-internal-error-stop-is-allowed | B:N14 A:B26; F1-7 M5
+ST08  | governance-enforce.py | the block reason names the remedy | F26-block-reason-carries-the-remedy | B:N16 A:B27; F1-7 M6
+ST09  | governance-enforce.py | a helper agent's noted outward calls are counted | F09-delegate-pushes-main-turn-loads-nothing | B:N36 A:B60; F1-1
+ST10  | turngate.py           | the part of a stretch before a scheduled run began is judged too | J11b-run-after-owner-miss-no-stop-row, F19c-legacy-owner-push-then-scheduled-run-loads-both | A:B67; TB-3
+ST11  | turngate.py           | a helper's note is placed by its time stamp, not by a row count that restarts when the record is rewritten | J16b-stale-ledger-note-is-not-counted | new rule J16
+ST12  | turngate.py           | a helper's note still counts after the record was rewritten and holds fewer rows | J16-ledger-after-rewrite | new rule J16
+ST13  | turngate.py           | after this rule's own block, a plan-gate load made since answers it | F11b-chain-stop2-remedied | F1-2
+PC01  | governance-enforce.py | the short-answer allowance is for review-only prompts | P10a-allowance-is-review-only | B:N18 A:B33; PC-7 M1
+PC02  | governance-enforce.py | governor loads made before the prompt do not count (prompt class) | P11-loads-before-the-prompt-do-not-count | B:N19a A:B34; PC-7 M3
+PC03  | governance-enforce.py | every matched class needs its governor | P09-every-class-needs-its-governor | B:N20 A:B36; PC-7 M5
+PC04  | governance-enforce.py | the short-answer allowance needs a turn with no tool call | p_ctl_review_with_tool_is_not_trivia | A:B69; PC-7 K1
+PC05  | governance-enforce.py | the owner's prompt is judged at its own stop only, not again after a completed stop or a wake | P05-github-wake-after-review-remark | A:B37 A:B71; PC-5, TB-7
+PC06  | turngate.py           | a prompt the owner sends while the assistant works is classified | J13-queued-prompt-is-classified, p_queued_message_is_classified | new rule J13
+PC07  | governance-enforce.py | the retry flag alone does not switch the prompt-class rule off | P07-retry-after-receipt-block-rearms | PC-4
+PC08  | governance-enforce.py | the final answer the program hands the hook is read when the record lacks it | P14-long-answer-not-in-record | PC-2
+AD01  | turn-gates-pretool.py | a shell command that writes nothing does not spend the advisory | A02a-readonly-grep-mention, A02b-echo-mention | A:B47; ADV-4
+AD02  | turn-gates-pretool.py | the advisory states its limit: the record does not keep every message | a_adv1_advisory_states_its_limit | A:B73; ADV-1
+AD03  | turn-gates-pretool.py | a helper agent's call gets no advisory | J14-helper-advisory-silent | new rule J14
+AD04  | turn-gates-pretool.py | the advisory is given once per plan-gate load | O13-advisory-once-per-load | ADV-2
+AD05  | turn-gates-pretool.py | no advisory when the plan text is on record after the load | A07-plan-shown | ADV-1
+AD06  | turn-gates-pretool.py | a helper agent's outward call is noted for the Stop gate | F09-delegate-pushes-main-turn-loads-nothing | F1-1
+FP01  | turn-gates-pretool.py | an error while judging a merge denies it | X05a-internal-error-merge-is-denied | B:N15 A:B41
+FP02  | turn-gates-pretool.py | a merge is denied when the shared module cannot be loaded | X04a-shared-module-missing-merge | A:B41b
+FP03  | turn-gates-pretool.py | an input that is not JSON and names a merge route is denied | X01a-payload-not-json-names-merge-tool | fail-safe
+FP04  | turn-gates-pretool.py | the pre-tool hook answers before the program cuts it off | J04a-deadline-merge-tool | new rule J04
+FP05  | governance-enforce.py | the Stop hook ends itself before the program cuts it off | J04c-deadline-stop | new rule J04
+FP06  | turn-gates-pretool.py | at its deadline the pre-tool hook denies a merge | J04a-deadline-merge-tool | new rule J04
+FP07  | turn-gates-pretool.py | at its deadline the pre-tool hook lets every other call through | J04b-deadline-edit | new rule J04
+FP08  | turn-gates-pretool.py | an error while judging any other call lets it through | X05b-internal-error-edit-is-allowed, X05d-internal-error-commit-is-allowed | fail-safe
+FP09  | turn-gates-pretool.py | the failure paths know a push to a default branch as they know a merge | X04c-shared-module-missing-push-main, X05e-error-while-classifying-push-main | D3
+FP10  | turn-gates-pretool.py | the failure paths let a push to another branch through | X04d-shared-module-missing-push-branch, X05f-error-while-classifying-push-branch | D3
+FP11  | turn-gates-pretool.py | the failure paths know a push of every branch | X04e-shared-module-missing-push-all | D3
+FP12  | turn-gates-pretool.py | the failure paths know a mirror push | X04f-shared-module-missing-push-mirror | D3
+FP13  | turn-gates-pretool.py | the failure paths know the merge tool by its name | X04a-shared-module-missing-merge, X01a-payload-not-json-names-merge-tool | fail-safe
+FP14  | turn-gates-pretool.py | the pre-tool hook's own deadline is shorter than the wired timeout | J04a-deadline-merge-tool | new rule J04
+PS01  | turngate.py           | a scheduled notification read mid-turn ends the word given before it | S10a-midturn-scheduled-read-ends-earlier-word | B:N46 A:B74; owner's answer 1
+PS02  | turngate.py           | the restart notice of the worker process ends the word | T32-worker-restart-after-order | policy switch
+PS03  | turngate.py           | a push whose branch cannot be read is denied where the owner is absent | J09-unresolved-push-unattended | B:N49; new rule J09; owner's answer 2
+PS04  | turngate.py           | a push whose branch cannot be read is let through where the owner is present | R09h-bare-push-branch-unreadable | owner's answer 2
+PS05  | turngate.py           | a helper agent may merge what the owner's standing word names | G01a-helper-merge-with-live-word | policy switch
+PS06  | turngate.py           | an unanswered block of the outward rule is repeated once | F13a-second-block-when-nothing-loaded | owner's answer 3
+PS07  | turngate.py           | the outward rule blocks twice at most in one stretch | F13b-third-stop-is-let-go | owner's answer 3
+PS08  | turngate.py           | the prompt-class rule blocks | P01-build-no-governor | owner's answer 3
+PS09  | turngate.py           | the prompt-class rule blocks once in one stretch | P06-single-retry-understood | owner's answer 3
+PS10  | turngate.py           | work woken after a completed stop keeps the turn's governor loads | F33-wake-turn-inherits-owner-turn-loads | A:B61; owner's answer 4
+PS11  | turngate.py           | an outward act after a compaction needs the governors loaded again | F15-loads-before-compaction-do-not-count, J21-verify-before-compaction-only, J22-act-before-and-after-compaction | B:N45 A:B62; addendum, owner's answer 4
+PS12  | turngate.py           | a clicked card label is not a prompt for the prompt-class rule | P13-build-ordered-by-click | owner's answer 5
+PS13  | turngate.py           | a push to a default branch needs the same word as a merge | R09a-git-push-origin-main, S05-scheduled-push-main | B:N32 A:B16; D3
+PS14  | turngate.py           | a merge needs the owner's word | M02-card-for-34-141-call-35 | D1
+PS15  | turngate.py           | the Stop gate counts a change to a scheduled task | F05-send-later, F05-cron-create | owner's answer 6
+PS16  | turngate.py           | the Stop gate counts a commit | F01-ungoverned-commit | owner's answer 6
+PS17  | turngate.py           | the Stop gate counts a push | F03b-push-quoted-dir | owner's answer 6
+PS18  | turngate.py           | the Stop gate counts a pull-request change | F24b-gh-pr-create, F24c-create-pull-request | owner's answer 6
+PS19  | turngate.py           | the Stop gate counts a merge | F24c-merge-pull-request, F05-auto-merge | owner's answer 6
+PS20  | turngate.py           | the Stop gate counts a file pushed through a tool | F24c-push-files, F24c-delete-file | owner's answer 6
+PS21  | governance-enforce.py | a short review answer with no tool call passes without a governor | P10b-review-only-short-answer | PC-7
+PS22  | governance-enforce.py | a long answer is not a short answer | P14-long-answer-not-in-record | PC-2
+WI01  | wiring                | the matcher is anchored at its end: a name that only starts like a gated one is not sent | W01-matcher | new rule W01
+WI02  | wiring                | every name the code classifies is sent to the pre-tool hook (a name dropped from the matcher) | W01-matcher | new rule W01
+WI03  | turngate.py           | every name the code classifies is sent to the pre-tool hook (a name added to the code only) | W01-matcher | new rule W01
+WI04  | wiring                | the matcher is anchored at its start: a name that only ends like a gated one is not sent | W01-matcher | new rule W01
