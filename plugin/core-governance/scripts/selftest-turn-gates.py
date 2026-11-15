@@ -1155,6 +1155,34 @@ P("M19b-structured-answer-to-question-never-asked", "TB-2", "deny [merge-word]",
   flat(ok(), card([("Run the audit?", ["Yes", "No"], False)], {"Merge #99?": "Merge #99"}, form="clicked")), inp=mi(99))
 P("T30b-order-then-wake-with-no-stop-row", "D2", "deny [no-owner-word]", [owner("Merge #34."), say("working"), wake()])
 
+# The merge gate keeps its own list. The Stop gate's list of counted acts is one of the owner's switches; a
+# copy of the hooks in which that list holds commits only must still deny a merge and a push to a default branch.
+STOP_LIST_LINE = re.compile(r"(?m)^F1_COUNTED_KINDS = \(.*\)$")
+STOP_LIST_SHORT = 'F1_COUNTED_KINDS = ("commit",)'
+
+
+def other_stop_list(rows, tool_name, tool_input, wanted):
+    def fn(ctx):
+        copy = hooks_copy(ctx, "")
+        if copy is None:
+            return "no " + MODULE_FILE, False
+        module = os.path.join(copy, MODULE_FILE)
+        with open(module, encoding="utf-8") as fh:
+            text = fh.read()
+        changed, found = STOP_LIST_LINE.subn(STOP_LIST_SHORT, text)
+        if found != 1:
+            return "the Stop gate's list was found %d times" % found, False
+        with open(module, "w", encoding="utf-8") as fh:
+            fh.write(changed)
+        return judge(wanted, *pre_verdict(ctx.pre(rows, tool_name, tool_input, hooks=copy)))
+    return fn
+
+
+case("X06a-merge-gate-keeps-its-own-list-merge", "fail-safe D1", "deny [merge-word]",
+     other_stop_list([ok()], MERGE, mi(34), "deny [merge-word]"))
+case("X06b-merge-gate-keeps-its-own-list-push-main", "fail-safe D3", "deny [default-branch]",
+     other_stop_list(g34(), "Bash", {"command": PUSH_MAIN_CMD}, "deny [default-branch]"))
+
 # ==================================================================== cases of the earlier fixture nothing else carries
 TABLE[0] = "O"
 S("O01-plan-gate-without-adversarial-verify", "F1 2026-10-29", "block:F1",

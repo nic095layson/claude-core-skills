@@ -156,7 +156,9 @@ COMPACTION_VOIDS_LOADS = True                  # an outward action after a compa
 CLASSIFY_CARD_ANSWERS = False                  # a clicked label is not a prompt for the prompt-class rule
 MERGE_GATED_KINDS = ("merge", "push_default")
 F1_COUNTED_KINDS = ("merge", "push_default", "push", "commit", "pr_write", "file_push", "schedule")
-WRITE_KINDS = F1_COUNTED_KINDS + ("write",)    # what the plan-shown advisory treats as a write
+# What the plan-shown advisory treats as a write. A list of its own: the Stop gate's list above is one of the
+# owner's switches, and changing it must change neither the advisory nor what the merge gate looks at.
+WRITE_KINDS = ("merge", "push_default", "push", "commit", "pr_write", "file_push", "schedule", "write")
 
 # -- what a call does: tools by name. For an `mcp__` name the leaf after the last `__` is matched exactly.
 MCP_PREFIX = "mcp__"

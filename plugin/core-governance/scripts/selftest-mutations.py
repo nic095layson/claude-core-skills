@@ -428,8 +428,8 @@ BREAKS = [
      "the final answer the program hands the hook is read when the record lacks it", ("P14-long-answer-not-in-record",),
      "PC-2"),
     # ---- the plan-shown advisory and the helper ledger
-    ("AD01", PRE, "    if not any(a.kind in turngate.WRITE_KINDS for a in acts):",
-     "    if not any(a.kind in turngate.WRITE_KINDS for a in acts) and name not in turngate.SHELL_TOOLS:",
+    ("AD01", PRE, "    if not any(a.kind in looked_at or a.note == turngate.NOTE_BRANCH_UNKNOWN for a in acts):",
+     "    if not any(a.kind in looked_at or a.note == turngate.NOTE_BRANCH_UNKNOWN for a in acts) and name not in turngate.SHELL_TOOLS:",
      "a shell command that writes nothing does not spend the advisory", ("A02a-readonly-grep-mention", "A02b-echo-mention"),
      "A:B47; ADV-4"),
     ("AD02", PRE, '"The record does not keep every message, so this may be a false alarm: if you have shown the owner the "',
@@ -483,6 +483,10 @@ BREAKS = [
      ("X04a-shared-module-missing-merge", "X01a-payload-not-json-names-merge-tool"), "fail-safe"),
     ("FP14", PRE, "HOOK_DEADLINE_SECONDS = 8 ", "HOOK_DEADLINE_SECONDS = 12",
      "the pre-tool hook's own deadline is shorter than the wired timeout", ("J04a-deadline-merge-tool",), "new rule J04"),
+    ("FP15", PRE, "    looked_at = turngate.WRITE_KINDS + turngate.MERGE_GATED_KINDS",
+     '    looked_at = turngate.F1_COUNTED_KINDS + ("write",)',
+     "the merge gate looks at its own list of gated acts, not at the Stop gate's list of counted ones",
+     ("X06a-merge-gate-keeps-its-own-list-merge", "X06b-merge-gate-keeps-its-own-list-push-main"), "review 2026-11-15"),
     # ---- the policy switches (the owner's answers): each flipped or changed
     ("PS01", TG, "SCHEDULED_READ_ENDS_WORD = True ", "SCHEDULED_READ_ENDS_WORD = False",
      "a scheduled notification read mid-turn ends the word given before it",

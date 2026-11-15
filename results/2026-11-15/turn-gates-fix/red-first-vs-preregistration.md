@@ -56,10 +56,10 @@ word for word; the one that differs is `M14` above.
 
 ## Cases added after the pre-registration
 
-Added on 2026-11-15, after the run above. The table now holds 347 cases: the 314 pre-registered ones, unchanged in name and
-wanted verdict, and the 33 below. `red-on-merged.txt` was made again at the end, with the same command, on the grown table:
-**347 cases, 145 pass, 202 fail** on the merged hooks. The verdict of every one of the 335 cases of the run before it is the same,
-word for word (compared by script). The rows are in the order of the table: `J16b`, the 12 cases added last, then the `O..` cases.
+Added on 2026-11-15, after the run above. The table now holds 349 cases: the 314 pre-registered ones, unchanged in name and
+wanted verdict, and the 35 below. `red-on-merged.txt` was made again at the end, with the same command, on the grown table:
+**349 cases, 145 pass, 204 fail** on the merged hooks. The verdict of every one of the 347 cases of the run before it is the same,
+word for word (compared by script). The rows are in the order of the table: `J16b`, the 14 cases added last, then the `O..` cases.
 
 | case | wanted verdict | verdict of the merged hooks | why it is in the table |
 |---|---|---|---|
@@ -76,6 +76,8 @@ word for word (compared by script). The rows are in the order of the table: `J16
 | `M06b-click-merge-nothing-on-one-pr-card` | deny [merge-word] | allow (RED) | a case the break list showed to be missing (break `CD11`: a chosen option that refuses is read as an order). Rule G9: a refusing option grants nothing, here on a card that names exactly one pull request, where the option would otherwise take the question's number |
 | `M19b-structured-answer-to-question-never-asked` | deny [merge-word] | allow (RED) | a case the break list showed to be missing (break `CD05`): `M19` gives the answer as text; this one gives it in the structured field of the result row, where an answer to a question the card did not ask must be dropped as well |
 | `T30b-order-then-wake-with-no-stop-row` | deny [no-owner-word] | allow (RED) | a case the break list showed to be weak (break `RW16`: a wake row does not end the word): the only case that caught it was the restart notice (`T32`). Decision D2: work started by a wake-up starts with no word, also in a record that holds no stop row before the wake |
+| `X06a-merge-gate-keeps-its-own-list-merge` | deny [merge-word] | the Stop gate's list was found 0 times (RED) | the merge gate looked only at calls whose act was on the Stop gate's list of counted acts, so narrowing that list (one of the owner's switches) would have switched the gate off for those calls (found by the builder of the break list, 2026-11-15). These cases run a copy of the hooks whose Stop list holds commits only. On the rebuilt hooks before the change: `allow` |
+| `X06b-merge-gate-keeps-its-own-list-push-main` | deny [default-branch] | the Stop gate's list was found 0 times (RED) | the merge gate looked only at calls whose act was on the Stop gate's list of counted acts, so narrowing that list (one of the owner's switches) would have switched the gate off for those calls (found by the builder of the break list, 2026-11-15). These cases run a copy of the hooks whose Stop list holds commits only. On the rebuilt hooks before the change: `allow` |
 | `O01-plan-gate-without-adversarial-verify` | block:F1 | block:F1 (pin) | carries a case of the earlier fixture (44 cases, 2026-10-29) that no pre-registered case carries, with its old verdict (`old-selftest-mapping.md`) |
 | `O02-plan-gate-before-verify-after` | allow | allow (pin) | carries a case of the earlier fixture (44 cases, 2026-10-29) that no pre-registered case carries, with its old verdict (`old-selftest-mapping.md`) |
 | `O03-synced-copy-skill-names-count` | allow | allow (pin) | carries a case of the earlier fixture (44 cases, 2026-10-29) that no pre-registered case carries, with its old verdict (`old-selftest-mapping.md`) |

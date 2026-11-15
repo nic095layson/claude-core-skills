@@ -130,7 +130,8 @@ def judge(turngate, data, name, inp):
     cwd = data.get("cwd") if isinstance(data.get("cwd"), str) else None
     acts, _parsed = turngate.classify_call(name, inp, cwd)
     _state["gated"] = any(a.kind in turngate.MERGE_GATED_KINDS for a in acts)
-    if not any(a.kind in turngate.WRITE_KINDS for a in acts):
+    looked_at = turngate.WRITE_KINDS + turngate.MERGE_GATED_KINDS
+    if not any(a.kind in looked_at or a.note == turngate.NOTE_BRANCH_UNKNOWN for a in acts):
         return None                         # nothing these gates look at: the record is not read
     path = data.get("transcript_path")
     rows = turngate.load(path) if isinstance(path, str) and path else []

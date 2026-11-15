@@ -326,6 +326,8 @@ S17-card-inside-run-then-owner-message                   | D3 G14               
 M06b-click-merge-nothing-on-one-pr-card                  | F2-3 G9                | deny [merge-word]  | allow              | FAIL
 M19b-structured-answer-to-question-never-asked           | TB-2                   | deny [merge-word]  | allow              | FAIL
 T30b-order-then-wake-with-no-stop-row                    | D2                     | deny [no-owner-word] | allow              | FAIL
+X06a-merge-gate-keeps-its-own-list-merge                 | fail-safe D1           | deny [merge-word]  | the Stop gate's list was found 0 times | FAIL
+X06b-merge-gate-keeps-its-own-list-push-main             | fail-safe D3           | deny [default-branch] | the Stop gate's list was found 0 times | FAIL
 O01-plan-gate-without-adversarial-verify                 | F1 2026-10-29          | block:F1           | block:F1           | pass
 O02-plan-gate-before-verify-after                        | F1 2026-10-29          | allow              | allow              | pass
 O03-synced-copy-skill-names-count                        | F1 2026-10-29          | allow              | allow              | pass
@@ -346,4 +348,4 @@ O17-recommended-only-in-prose                            | rule 4 2026-11-02    
 O18-list-without-recommended                             | rule 4 2026-11-02      | silent             | silent             | pass
 O19-recommended-bullet-without-a-card                    | rule 4 2026-11-02      | reminder           | reminder           | pass
 O20-reminder-beside-the-governance-cue                   | rule 4 2026-11-02      | reminder with the governance cue | reminder with the governance cue | pass
-== 347 cases: 145 pass, 202 fail ==
+== 349 cases: 145 pass, 204 fail ==

@@ -3,9 +3,9 @@
 > `turn-gates-pretool.py`, `governance-enforce.py`) are rewritten from one specification
 > (`results/2026-11-15/turn-gates-fix/CORE-SPEC.md` and its addendum), on the owner's decisions of 2026-11-13
 > and 2026-11-15. The rules as they stand are in "The turn gates" below; the older status blocks are history
-> and say so where a rule changed. `selftest-turn-gates.py` is now a table of 347 cases (202 of them fail on the
+> and say so where a rule changed. `selftest-turn-gates.py` is now a table of 349 cases (204 of them fail on the
 > hooks before the rebuild: `results/2026-11-15/turn-gates-fix/red-on-merged.txt`), and
-> `selftest-mutations.py` is a standing list of 155 deliberate breaks that the guard runs, so a rule that no
+> `selftest-mutations.py` is a standing list of 156 deliberate breaks that the guard runs, so a rule that no
 > case tests fails the guard. Every upper-case constant of the three files is in the registry. Not measured:
 > a live session.
 
@@ -261,16 +261,17 @@ not registered.
 | which calls need the merge word | D1 to D3 (2026-11-13) | `MERGE_GATED_KINDS`, `MERGE_TOOL_LEAVES` |
 
 Two defaults were taken without a question and are open for the owner (registry decision D-TG-2):
-`RESTART_ENDS_WORD = True` and `DELEGATE_MAY_MERGE = True`. One coupling to know before changing
-`F1_COUNTED_KINDS`: the pre-tool hook looks only at calls that hold an act of that list or a file write, so
-taking `merge`, `push_default` or `push` out of the list would also take them out of the merge gate.
+`RESTART_ENDS_WORD = True` and `DELEGATE_MAY_MERGE = True`. `F1_COUNTED_KINDS` (what the Stop gate counts) can
+be changed without touching the merge gate: what needs the owner's word is `MERGE_GATED_KINDS`, and the pre-tool
+hook looks at every call that holds a gated act, a write, or a push whose branch it cannot read (cases `X06a`
+and `X06b` run the hooks with a shorter Stop list and still expect the denials).
 
 ### Tests
 
-    python3 hooks/selftest-turn-gates.py              # the table: 347 cases, one line each; exit 0 only when all pass
+    python3 hooks/selftest-turn-gates.py              # the table: 349 cases, one line each; exit 0 only when all pass
     python3 hooks/selftest-turn-gates.py --only-failing J04 X05     # by the start of a name
     python3 hooks/selftest-turn-gates.py --hooks DIR  # another copy of the hooks
-    python3 hooks/selftest-mutations.py               # the break list: 155 deliberate breaks, each must be caught
+    python3 hooks/selftest-mutations.py               # the break list: 156 deliberate breaks, each must be caught
     python3 hooks/selftest-mutations.py --list        # what each break removes, and the cases named for it
 
 `selftest-turn-gates.py` builds a session record in the real row shapes for every case (`selftest_rows.py` is

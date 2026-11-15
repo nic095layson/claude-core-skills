@@ -1072,7 +1072,7 @@
     "file_push",
     "schedule"
    ],
-   "role": "the acts the Stop gate counts as outward (WRITE_KINDS is built from this list: see there before taking a kind out)",
+   "role": "the acts the Stop gate counts as outward (the merge gate and the advisory keep lists of their own: MERGE_GATED_KINDS, WRITE_KINDS)",
    "status": "settings",
    "record": "owner's answer of 2026-11-15, question 6: \"Commits, pushes, PRs, scheduling\" (results/2026-11-15/turn-gates-fix/CORE-SPEC.md section 9; experiments/hypothesis-2026-11-15-turn-gates-cases.md)",
    "decision": ""
@@ -1089,7 +1089,7 @@
     "schedule",
     "write"
    ],
-   "role": "the acts the plan-shown advisory treats as a write; the pre-tool hook looks only at calls that hold one of them, the merge gate included",
+   "role": "the acts the plan-shown advisory treats as a write; a list of its own, so that the Stop gate's list can change without it (the pre-tool hook looks at these, at MERGE_GATED_KINDS and at a push whose branch it cannot read)",
    "status": "uncalibrated",
    "record": "",
    "decision": "D-TG-1"

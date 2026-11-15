@@ -1,5 +1,5 @@
 # python3 hooks/selftest-mutations.py     on the rebuilt hooks (this commit), run 2026-11-15, exit status 0, 42 seconds on 4 CPUs
-# Run twice; the two outputs are the same line for line. One line per break: id | file | the first named case that fails | the rule the break removes.
+# Run again after the last change (2026-11-15); the list had been run twice before it with the same result for the 155 breaks it then held. One line per break: id | file | the first named case that fails | the rule the break removes.
 RW01  | turngate.py           | caught by T25-compact-summary-is-not-owner | a compaction summary is not the owner's message
 RW02  | turngate.py           | caught by T26-meta-row-is-not-owner | a row the program marks isMeta is not the owner's message
 RW03  | turngate.py           | caught by G03-sidechain-prompt-is-not-owner | a helper agent's row is never the owner's
@@ -129,6 +129,7 @@ FP11  | turn-gates-pretool.py | caught by X04e-shared-module-missing-push-all | 
 FP12  | turn-gates-pretool.py | caught by X04f-shared-module-missing-push-mirror | the failure paths know a mirror push
 FP13  | turn-gates-pretool.py | caught by X01a-payload-not-json-names-merge-tool | the failure paths know the merge tool by its name
 FP14  | turn-gates-pretool.py | caught by J04a-deadline-merge-tool | the pre-tool hook's own deadline is shorter than the wired timeout
+FP15  | turn-gates-pretool.py | caught by X06a-merge-gate-keeps-its-own-list-merge | the merge gate looks at its own list of gated acts, not at the Stop gate's list of counted ones
 PS01  | turngate.py           | caught by S10a-midturn-scheduled-read-ends-earlier-word | a scheduled notification read mid-turn ends the word given before it
 PS02  | turngate.py           | caught by T32-worker-restart-after-order | the restart notice of the worker process ends the word
 PS03  | turngate.py           | caught by J09-unresolved-push-unattended | a push whose branch cannot be read is denied where the owner is absent
@@ -155,11 +156,11 @@ WI01  | wiring                | caught by W01-matcher | the matcher is anchored 
 WI02  | wiring                | caught by W01-matcher | every name the code classifies is sent to the pre-tool hook (a name dropped from the matcher)
 WI03  | turngate.py           | caught by W01-matcher | every name the code classifies is sent to the pre-tool hook (a name added to the code only)
 WI04  | wiring                | caught by W01-matcher | the matcher is anchored at its start: a name that only ends like a gated one is not sent
-== 155 breaks: 155 caught, 0 survived, 0 stale; control: 0 failing of 347 cases ==
+== 156 breaks: 156 caught, 0 survived, 0 stale; control: 0 failing of 349 cases ==
 
 # python3 hooks/selftest-mutations.py --every-case PS11     the break of the addendum (COMPACTION_VOIDS_LOADS set to False), against the whole table
 PS11  | turngate.py           | caught by 3 cases: F15-loads-before-compaction-do-not-count, J21-verify-before-compaction-only, J22-act-before-and-after-compaction | an outward act after a compaction needs the governors loaded again
-== 1 breaks: 1 caught, 0 survived, 0 stale; control: 0 failing of 347 cases ==
+== 1 breaks: 1 caught, 0 survived, 0 stale; control: 0 failing of 349 cases ==
 
 # python3 hooks/selftest-mutations.py --list     what each break replaces is in hooks/selftest-mutations.py; the cases named for each break and its origin:
 RW01  | turngate.py           | a compaction summary is not the owner's message | T25-compact-summary-is-not-owner, P08-compact-summary-is-not-the-prompt | B:N02a A:B35; TB-8 M2, PC-7 M4
@@ -291,6 +292,7 @@ FP11  | turn-gates-pretool.py | the failure paths know a push of every branch | 
 FP12  | turn-gates-pretool.py | the failure paths know a mirror push | X04f-shared-module-missing-push-mirror | D3
 FP13  | turn-gates-pretool.py | the failure paths know the merge tool by its name | X04a-shared-module-missing-merge, X01a-payload-not-json-names-merge-tool | fail-safe
 FP14  | turn-gates-pretool.py | the pre-tool hook's own deadline is shorter than the wired timeout | J04a-deadline-merge-tool | new rule J04
+FP15  | turn-gates-pretool.py | the merge gate looks at its own list of gated acts, not at the Stop gate's list of counted ones | X06a-merge-gate-keeps-its-own-list-merge, X06b-merge-gate-keeps-its-own-list-push-main | review 2026-11-15
 PS01  | turngate.py           | a scheduled notification read mid-turn ends the word given before it | S10a-midturn-scheduled-read-ends-earlier-word | B:N46 A:B74; owner's answer 1
 PS02  | turngate.py           | the restart notice of the worker process ends the word | T32-worker-restart-after-order | policy switch
 PS03  | turngate.py           | a push whose branch cannot be read is denied where the owner is absent | J09-unresolved-push-unattended | B:N49; new rule J09; owner's answer 2

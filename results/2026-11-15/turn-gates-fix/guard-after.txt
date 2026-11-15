@@ -1,4 +1,4 @@
-# bash .claude/skills/diagnostics-and-tooling/scripts/guard_essentials.sh     on the working tree of the rebuild, run 2026-11-15, exit status 0, wall time 1m8.220s on 4 CPUs
+# bash .claude/skills/diagnostics-and-tooling/scripts/guard_essentials.sh     on the working tree of the rebuild, run 2026-11-15 after the last change, exit status 0, wall time 1m5.929s on 4 CPUs
 == guard_essentials ==
   ok    lint: 24/24 skills PASS
   ok    adversarial-verify: gap provenance
