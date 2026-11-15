@@ -145,7 +145,8 @@ def has(ev,frag): return any(frag in x['command'] for e in h.get(ev,[]) for x in
 assert has('UserPromptSubmit','governance-trigger') and has('Stop','governance-enforce') and has('SessionStart','session-doctrine') and has('PreToolUse','scope-fence-reminder') and has('PreToolUse','turn-gates-pretool')
 PY
 python3 hooks/selftest-governance-classify.py >/dev/null 2>&1 && ok "enforcement pack: classifier + Stop-gate fixture passes" || bad "enforcement pack: classifier fixture FAILS (run hooks/selftest-governance-classify.py)"
-python3 hooks/selftest-turn-gates.py >/dev/null 2>&1 && ok "enforcement pack: turn-gates fixture passes (F1 outward actions, F2 merge word, F3 plan shown)" || bad "enforcement pack: turn-gates fixture FAILS (run hooks/selftest-turn-gates.py)"
+python3 hooks/selftest-turn-gates.py >/dev/null 2>&1 && ok "enforcement pack: turn-gates table passes (merge gate, Stop gate, plan-shown advisory)" || bad "enforcement pack: turn-gates table FAILS (run hooks/selftest-turn-gates.py --only-failing)"
+python3 hooks/selftest-mutations.py >/dev/null 2>&1 && ok "enforcement pack: every deliberate break of the turn gates is caught by the table (hooks/selftest-mutations.py)" || bad "enforcement pack: a deliberate break of the turn gates SURVIVES or is STALE, or the unchanged hooks fail the table (run hooks/selftest-mutations.py)"
 python3 .claude/skills/red-team/scripts/registry_check.py --root . >/dev/null 2>&1 && ok "red team: every hand-set value in hooks/ is registered and unchanged (redteam/constants_registry.json)" || bad "red team: hooks/ constants DRIFTED from redteam/constants_registry.json or are unregistered (run registry_check.py --root .; re-register with a status, do not just overwrite)"
 python3 - <<'PY' 2>/dev/null && ok "doctrine block: CLAUDE.md copy equals instructions/project-doctrine-block.md" || bad "doctrine block: CLAUDE.md copy DRIFTED from instructions/project-doctrine-block.md"
 import re,sys
@@ -159,10 +160,10 @@ PY
 # plugin/core-governance/scripts/* are copies of hooks/*. Two packs that disagree is the
 # drift failure this ledger keeps recording; a copy that drifts fails here.
 pp=0
-for f in govclass.py governance-trigger.py governance-enforce.py session-doctrine.sh plan-gate-first-write-reminder.sh scope-fence-reminder.sh receipt-law-stop-gate.sh selftest-governance-classify.py selftest-receipt-law.sh turngate.py turn-gates-pretool.py selftest-turn-gates.py; do
+for f in govclass.py governance-trigger.py governance-enforce.py session-doctrine.sh plan-gate-first-write-reminder.sh scope-fence-reminder.sh receipt-law-stop-gate.sh selftest-governance-classify.py selftest-receipt-law.sh turngate.py turn-gates-pretool.py selftest-turn-gates.py selftest_rows.py selftest-mutations.py; do
   cmp -s "hooks/$f" "plugin/core-governance/scripts/$f" || { bad "plugin parity: plugin/core-governance/scripts/$f differs from hooks/$f (or is missing)"; pp=1; }
 done
-[ "$pp" -eq 0 ] && ok "plugin parity: 12 scripts byte-identical to hooks/"
+[ "$pp" -eq 0 ] && ok "plugin parity: 14 scripts byte-identical to hooks/"
 python3 - <<'PY2' 2>/dev/null && ok "plugin: hooks.json wrapped in \"hooks\", every command via \${CLAUDE_PLUGIN_ROOT} and the defer wrapper" || bad "plugin: hooks/hooks.json missing, unwrapped, or a command bypasses run-unless-project-wired.sh"
 import json
 h=json.load(open('plugin/core-governance/hooks/hooks.json'))['hooks']

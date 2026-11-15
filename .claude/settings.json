@@ -41,7 +41,7 @@
         ]
       },
       {
-        "matcher": "Edit|Write|NotebookEdit|Bash|mcp__.*__(merge_pull_request|create_pull_request|update_pull_request|push_files|create_or_update_file|delete_file)",
+        "matcher": "^(Edit|Write|NotebookEdit|Bash|Monitor|CronCreate|CronDelete|ScheduleWakeup|mcp__.*__(merge_pull_request|enable_pr_auto_merge|disable_pr_auto_merge|create_pull_request|update_pull_request|update_pull_request_branch|push_files|create_or_update_file|delete_file|actions_run_trigger|create_trigger|update_trigger|delete_trigger|fire_trigger|send_later))$",
         "hooks": [
           {
             "type": "command",

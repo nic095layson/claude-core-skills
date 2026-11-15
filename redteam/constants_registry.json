@@ -1,5 +1,5 @@
 {
- "_about": "Judgment constants of the governance stack, read from hooks/ by redteam/live.py. Standing registry since 2026-11-12 (first made 2026-10-19 on main 7d07886 as a one-off under results/; that copy failed against the live hooks on 2026-11-12 with 6 drifted values and 15 unregistered ones). Status per the red-team skill's five. The guard runs registry_check.py on every commit.",
+ "_about": "Judgment constants of the governance stack, read from hooks/ by redteam/live.py. Standing registry since 2026-11-12 (first made 2026-10-19 on main 7d07886 as a one-off under results/; that copy failed against the live hooks on 2026-11-12 with 6 drifted values and 15 unregistered ones). Status per the red-team skill's five. The guard runs registry_check.py on every commit. Since 2026-11-15: every upper-case module-level name of hooks/turngate.py, hooks/turn-gates-pretool.py and hooks/governance-enforce.py is registered as `<file>:<NAME>` (live.py parses the files; a compiled pattern is the hash of its source and flags), in place of the twelve values that used to be picked from those files by name or by searching for a string. Open decisions these entries point to: D-TG-1: calibrate the word lists, patterns and limits of the turn gates against real owner messages and commands. D-TG-2: the two policy defaults the owner was not asked about (RESTART_ENDS_WORD, DELEGATE_MAY_MERGE): confirm or overrule.",
  "constants": [
   {
    "name": "CLASS_PATTERN_ANALYSIS",
@@ -57,42 +57,27 @@
   {
    "name": "HARNESS_MARKERS",
    "value": [
-    "[SYSTEM NOTIFICATION",
     "<task-notification>",
+    "[SYSTEM NOTIFICATION",
     "<wake ",
     "<agent-message",
     "<webhook-payload",
-    "<command-name>",
+    "<system-notification",
+    "<child-session-event",
     "<local-command-stdout>",
-    "<local-command-caveat>"
+    "<local-command-stderr>",
+    "<local-command-caveat>",
+    "<bash-input>",
+    "<bash-stdout>",
+    "<bash-stderr>",
+    "<system-reminder>",
+    "<command-name>",
+    "<command-message>"
    ],
-   "role": "user-entry prefixes that are not owner requests; slash-command echoes are absent (attack G5)",
+   "role": "what a harness text STARTS with, as govclass.py hands it to the classifier and the trigger: since 2026-11-15 the one list kept in turngate.py (wake, echo and command leads), tested at the start of a prompt only",
    "status": "uncalibrated",
    "record": "",
    "decision": "D-RT-3"
-  },
-  {
-   "name": "GOV_GATE_ANY_ONE_GOVERNOR_SUFFICES",
-   "value": false,
-   "role": "Stop gate passes when ANY needed governor loaded; a dispute needs two (attack G4) — fixed 2026-10-20 (red-team attack G4): each enforced class's primary governor is required",
-   "status": "structural",
-   "record": "",
-   "decision": ""
-  },
-  {
-   "name": "GOV_GATE_LOADED_MATCH_IS_SUBSTRING_OF_INPUT",
-   "value": false,
-   "role": "Stop gate counts a governor as loaded if its name appears anywhere in any Skill call's input (attack G3) — fixed 2026-10-20 (attack G3): exact match on the Skill name",
-   "status": "structural",
-   "record": "",
-   "decision": ""
-  },
-  {
-   "name": "GOV_GATE_RETRIES",
-   "value": 1,
-   "role": "blocks at most once per turn (stop_hook_active loop guard)",
-   "status": "structural",
-   "record": ""
   },
   {
    "name": "RECEIPT_INABILITY_PATTERN",
@@ -121,7 +106,7 @@
   {
    "name": "REMINDER_JQ_PATH",
    "value": "/usr/bin/jq",
-   "role": "absolute jq path in the two first-write reminders; elsewhere degrades to one firing per machine (M2) — fixed 2026-10-20 (D-GF-8): python3 reads the JSON",
+   "role": "absolute jq path in the two first-write reminders; elsewhere degrades to one firing per machine (M2) \u2014 fixed 2026-10-20 (D-GF-8): python3 reads the JSON",
    "status": "structural",
    "record": "",
    "decision": ""
@@ -136,7 +121,7 @@
   {
    "name": "BAND_HOOK_SOURCE",
    "value": "aa7db38e",
-   "role": "band reminder trigger (± with no band word), advisory",
+   "role": "band reminder trigger (\u00b1 with no band word), advisory",
    "status": "uncalibrated",
    "record": "",
    "decision": "experiments/hypothesis-2026-10-19-redteam-band-hook.md (A/B not run)"
@@ -190,14 +175,6 @@
    "decision": "D-QA-1"
   },
   {
-   "name": "TRIVIA_MAX_CHARS",
-   "value": 400,
-   "role": "Stop gate: review-only, no-tool answers under this length are not blocked",
-   "status": "uncalibrated",
-   "record": "",
-   "decision": "D-QA-1"
-  },
-  {
    "name": "RECEIPT_WINDOW_CHARS",
    "value": 400,
    "role": "receipt law: how near a receipt must sit to an inability claim",
@@ -206,86 +183,3149 @@
    "decision": "D-QA-1"
   },
   {
-   "name": "TURN_OUTWARD_TOOL_SUFFIXES",
-   "value": [
-    "merge_pull_request",
-    "create_pull_request",
-    "update_pull_request",
-    "push_files",
-    "create_or_update_file",
-    "delete_file",
-    "create_trigger",
-    "update_trigger",
-    "delete_trigger"
-   ],
-   "role": "turn gate F1: tool names that count as an outward action",
-   "status": "uncalibrated",
-   "record": "",
-   "decision": "D-QA-1"
-  },
-  {
-   "name": "TURN_OUTWARD_BASH_PATTERN",
-   "value": "acdd9d7b",
-   "role": "turn gate F1: shell commands that count as an outward action",
-   "status": "uncalibrated",
-   "record": "",
-   "decision": "D-QA-1"
-  },
-  {
-   "name": "TURN_WRITE_BASH_PATTERN",
-   "value": "3ad09475",
-   "role": "turn gate F3: shell commands that count as a first write",
-   "status": "uncalibrated",
-   "record": "",
-   "decision": "D-QA-1"
-  },
-  {
-   "name": "TURN_PLAN_MARK_PATTERN",
-   "value": "eeec204c",
-   "role": "turn gate F3: what counts as a plan having been shown (the word Goal)",
-   "status": "uncalibrated",
-   "record": "",
-   "decision": "D-QA-1"
-  },
-  {
-   "name": "TURN_MERGE_WORD_PATTERN",
-   "value": "362bd66e",
-   "role": "turn gate F2: what counts as the owner's merge word",
-   "status": "uncalibrated",
-   "record": "",
-   "decision": "D-QA-1"
-  },
-  {
-   "name": "TURN_MERGE_NEGATION_PATTERN",
-   "value": "47d49586",
-   "role": "turn gate F2: negations that cancel a merge word, and how many words back they reach",
-   "status": "uncalibrated",
-   "record": "",
-   "decision": "D-QA-1"
-  },
-  {
-   "name": "TURN_SCHEDULED_HEADER_PATTERN",
-   "value": "71cf8145",
-   "role": "turn gates: what marks a scheduled run as a turn of its own",
-   "status": "structural",
-   "record": "",
-   "decision": ""
-  },
-  {
-   "name": "TURN_PLAN_GATE_MODE",
-   "value": "advisory",
-   "role": "turn gate F3 mode",
-   "status": "settings",
-   "record": "owner's answer 2026-10-29: 'Keep advisory (Recommended)'",
-   "decision": ""
-  },
-  {
    "name": "CARD_REMINDER_LIST_PATTERN",
    "value": "4433792b",
    "role": "decision-cards reminder: what counts as a '(Recommended)' list line",
    "status": "uncalibrated",
    "record": "",
    "decision": "D-QA-1"
+  },
+  {
+   "name": "WIRING_TURN_GATES_MATCHER",
+   "value": [
+    "^(Edit|Write|NotebookEdit|Bash|Monitor|CronCreate|CronDelete|ScheduleWakeup|mcp__.*__(merge_pull_request|enable_pr_auto_merge|disable_pr_auto_merge|create_pull_request|update_pull_request|update_pull_request_branch|push_files|create_or_update_file|delete_file|actions_run_trigger|create_trigger|update_trigger|delete_trigger|fire_trigger|send_later))$"
+   ],
+   "role": "project wiring (.claude/settings.json): the names the program sends to the pre-tool hook of the turn gates; case W01 of hooks/selftest-turn-gates.py checks it against the names turngate.py classifies",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "PLUGIN_TURN_GATES_MATCHER",
+   "value": [
+    "^(Edit|Write|NotebookEdit|Bash|Monitor|CronCreate|CronDelete|ScheduleWakeup|mcp__.*__(merge_pull_request|enable_pr_auto_merge|disable_pr_auto_merge|create_pull_request|update_pull_request|update_pull_request_branch|push_files|create_or_update_file|delete_file|actions_run_trigger|create_trigger|update_trigger|delete_trigger|fire_trigger|send_later))$"
+   ],
+   "role": "plugin wiring (plugin/core-governance/hooks/hooks.json): the names the program sends to the pre-tool hook of the turn gates; case W01 of hooks/selftest-turn-gates.py checks it against the names turngate.py classifies",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:GOVERNORS",
+   "value": [
+    "plan-gate",
+    "adversarial-verify",
+    "scope-fence"
+   ],
+   "role": "the skills whose loads the gates count as governor loads",
+   "status": "settings",
+   "record": "the doctrine block (instructions/project-doctrine-block.md): plan-gate before the first consequential action, adversarial-verify before delivering",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:PLAN_GOVERNOR",
+   "value": "plan-gate",
+   "role": "the governor that must be loaded before an outward action",
+   "status": "settings",
+   "record": "the doctrine block (instructions/project-doctrine-block.md): plan-gate before the first consequential action, adversarial-verify before delivering",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:VERIFY_GOVERNOR",
+   "value": "adversarial-verify",
+   "role": "the governor that must be loaded somewhere in the turn of an outward action",
+   "status": "settings",
+   "record": "the doctrine block (instructions/project-doctrine-block.md): plan-gate before the first consequential action, adversarial-verify before delivering",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:SKILL_TOOL",
+   "value": "Skill",
+   "role": "the name of the tool that loads a skill",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:OWNER_ORIGIN_KINDS",
+   "value": [
+    "human"
+   ],
+   "role": "the origin kind the program gives a message the owner typed",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:SCHEDULED_ORIGIN_KINDS",
+   "value": [
+    "scheduled-trigger"
+   ],
+   "role": "the origin kind or subkind the program gives a scheduled delivery",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:OWNER_MEDIA_BLOCKS",
+   "value": [
+    "image",
+    "document"
+   ],
+   "role": "content blocks that make a message without text still the owner's (an image, a document)",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:WAKE_LEADS",
+   "value": [
+    "<task-notification>",
+    "[SYSTEM NOTIFICATION",
+    "<wake ",
+    "<agent-message",
+    "<webhook-payload",
+    "<system-notification",
+    "<child-session-event"
+   ],
+   "role": "what the text of a row that wakes the session starts with (notifications, wakes, peer messages)",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:ECHO_LEADS",
+   "value": [
+    "<local-command-stdout>",
+    "<local-command-stderr>",
+    "<local-command-caveat>",
+    "<bash-input>",
+    "<bash-stdout>",
+    "<bash-stderr>",
+    "<system-reminder>"
+   ],
+   "role": "what the text of an echo row starts with (local command output, shell input and output, reminders)",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:LOCAL_ECHO_LEADS",
+   "value": [
+    "<local-command-stdout>",
+    "<local-command-stderr>",
+    "<local-command-caveat>"
+   ],
+   "role": "the echo leads that mark a slash command as one the program ran locally",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:COMMAND_LEADS",
+   "value": [
+    "<command-name>",
+    "<command-message>"
+   ],
+   "role": "what the text of a slash-command row starts with",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:COMMAND_NAME",
+   "value": "d06efd35",
+   "role": "where a slash-command row holds the command's name",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:COMMAND_ARGS",
+   "value": "6acc8ed5",
+   "role": "where a slash-command row holds the owner's arguments",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:LOCAL_COMMANDS",
+   "value": [
+    "/model",
+    "/clear",
+    "/compact",
+    "/config",
+    "/cost",
+    "/help",
+    "/status",
+    "/usage",
+    "/mcp",
+    "/login",
+    "/logout",
+    "/exit",
+    "/resume",
+    "/rename",
+    "/context",
+    "/permissions",
+    "/hooks",
+    "/plugin"
+   ],
+   "role": "slash commands the program runs itself: their rows are echoes, never the owner's prompt or word",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:LOCAL_COMMAND_REACH",
+   "value": 2,
+   "role": "how many rows on either side a local-command echo may sit to mark a command row as local",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:INTERRUPT_LEAD",
+   "value": "[Request interrupted by user",
+   "role": "what the row of an interrupt by the owner starts with",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:HOOK_FEEDBACK_LEAD",
+   "value": "Stop hook feedback",
+   "role": "what the row that feeds a Stop hook's block back starts with",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:RESTART_LEAD",
+   "value": "This session's worker process was restarted",
+   "role": "what the restart notice of the worker process starts with",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:OUR_BLOCK_MARK",
+   "value": "GOV-ENFORCE",
+   "role": "the words that mark a block reason as governance-enforce.py's own",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:F1_BLOCK_MARK",
+   "value": "outward action",
+   "role": "the words that mark a block reason as the outward-action rule's",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:RECEIPT_BLOCK_MARK",
+   "value": "Receipt law",
+   "role": "the words that mark a block reason as the receipt gate's (counted for it by the span command)",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:HARNESS_MARKERS",
+   "value": [
+    "<task-notification>",
+    "[SYSTEM NOTIFICATION",
+    "<wake ",
+    "<agent-message",
+    "<webhook-payload",
+    "<system-notification",
+    "<child-session-event",
+    "<local-command-stdout>",
+    "<local-command-stderr>",
+    "<local-command-caveat>",
+    "<bash-input>",
+    "<bash-stdout>",
+    "<bash-stderr>",
+    "<system-reminder>",
+    "<command-name>",
+    "<command-message>"
+   ],
+   "role": "the one list of what a harness text starts with: wake, echo and command leads together",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:CARD_TOOL",
+   "value": "AskUserQuestion",
+   "role": "the name of the tool that shows the owner a card",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:ANSWER_LEADS",
+   "value": [
+    "Your questions have been answered:",
+    "The user answered:"
+   ],
+   "role": "the two forms a card's result text starts with (clicked options; free text)",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:ANSWER_MARK",
+   "value": "\"%s\"=\"",
+   "role": "how a card's result text introduces the answer to one question",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:ANSWER_END",
+   "value": "\"",
+   "role": "what closes an answer in a card's result text",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:ANSWER_JOIN",
+   "value": ",",
+   "role": "how the labels of a multi-select answer are joined",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:ANSWER_CHOICE",
+   "value": "160ac854",
+   "role": "the chosen options in a card's answer text, for older callers",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:NOTIF_READ_TOOLS",
+   "value": [
+    "ReadNotifications"
+   ],
+   "role": "the tool whose result delivers queued notifications",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:NOTIF_RESULT_LEAD",
+   "value": "[SYSTEM NOTIFICATION - NOT USER INPUT]",
+   "role": "what a notification read's result starts with (accepted when its call row is gone)",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:NOTIF_HEADER",
+   "value": "d7123820",
+   "role": "the header line of one notification in a read: number, total and origin",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:SCHEDULED_ORIGIN_PREFIX",
+   "value": "scheduled trigger",
+   "role": "what the origin of a scheduled delivery starts with in a notification header",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:YES_LABEL",
+   "value": "9fd2af70",
+   "role": "which card options count as a yes",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:CARD_ALL_WORD",
+   "value": "c6cfd6df",
+   "role": "the words by which an option without a number takes every pull request the question names",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:RECOMMENDED",
+   "value": "821dbcdd",
+   "role": "the \"(Recommended)\" tag that is dropped from an option before it is read",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:DEFAULT_BRANCHES",
+   "value": [
+    "main",
+    "master"
+   ],
+   "role": "branch names always treated as a default branch (the checkout's recorded default is added at run time)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:MERGE_VERB_TEXT",
+   "value": "(?:(?:auto|squash|rebase)[- ]?)?merge",
+   "role": "the verb of an order to merge, with auto / squash / rebase before it",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:PUSH_VERB_TEXT",
+   "value": "(?:push|merge|commit|land)",
+   "role": "the verbs of an order to put work on a default branch",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:MERGE_VERB",
+   "value": "014bb991",
+   "role": "the merge verb as a whole word, for card questions",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:MERGE_ANY",
+   "value": "ec377d21",
+   "role": "any form of the merge verb (merged, merging): what a refusal or an open negation refers to",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:MERGE_NOUN_BEFORE",
+   "value": "66eb06dc",
+   "role": "words before \"merge\" that make it a noun (\"the merge\"), not an order",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:MERGE_NOUN_AFTER",
+   "value": "42dc403d",
+   "role": "words after \"merge\" that make it a noun (\"merge conflict\"), not an order",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:ORDER_LEADIN",
+   "value": "(?:[\\s,:;.!-]*(?:yes|yep|yeah|ok|okay|sure|great|good|fine|perfect|approved?|lgtm|thanks|thank you|please|now|then|and|so|also|just|do|go ahead(?: and)?|you (?:can|may)(?: now)?|feel free to|let's|lets|looks good|sounds good|(?:can|could|would|will) you(?: please)?)\\b)*[\\s,:;.!-]*",
+   "role": "the words an order may start with before its verb (\"ok, please\", \"go ahead and\", \"can you\")",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:TYPED_ORDER",
+   "value": "9d4ace67",
+   "role": "a typed order to merge: the verb at the start of its clause, after the lead-in words only",
+   "status": "settings",
+   "record": "D1, 2026-11-13: a merge is authorized only by a click on a card that names the pull request, or by a typed order with its number (experiments/hypothesis-2026-11-15-turn-gates-cases.md)",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:PUSH_ORDER",
+   "value": "5a9ec800",
+   "role": "a typed order to push to a default branch: its verb at the start of its clause",
+   "status": "settings",
+   "record": "owner's answer of 2026-11-15, question 2: \"An order naming the branch\" (results/2026-11-15/turn-gates-fix/CORE-SPEC.md section 9; experiments/hypothesis-2026-11-15-turn-gates-cases.md)",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:PUSH_VERB",
+   "value": "b75c3606",
+   "role": "the push verbs as whole words, for card questions",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:CARD_ORDER",
+   "value": "6b80c231",
+   "role": "a card option that is an order to merge: it starts with the verb",
+   "status": "settings",
+   "record": "D1, 2026-11-13: a merge is authorized only by a click on a card that names the pull request, or by a typed order with its number (experiments/hypothesis-2026-11-15-turn-gates-cases.md)",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:CARD_PUSH_ORDER",
+   "value": "2da8f2ec",
+   "role": "a card option that is an order to push to a default branch",
+   "status": "settings",
+   "record": "owner's answer of 2026-11-15, question 2: \"An order naming the branch\" (results/2026-11-15/turn-gates-fix/CORE-SPEC.md section 9; experiments/hypothesis-2026-11-15-turn-gates-cases.md)",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:DEFAULT_BRANCH_WORD",
+   "value": "92eb4268",
+   "role": "how an order names a default branch as its destination (\"to main\", \"onto the default branch\")",
+   "status": "settings",
+   "record": "owner's answer of 2026-11-15, question 2: \"An order naming the branch\" (results/2026-11-15/turn-gates-fix/CORE-SPEC.md section 9; experiments/hypothesis-2026-11-15-turn-gates-cases.md)",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:REFUSAL_CUE",
+   "value": "6aca83ec",
+   "role": "the words that make a clause a refusal (no, not, wait, except, until ...)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:REFUSAL_START",
+   "value": "6eedf5e6",
+   "role": "the words a short refusal without a verb starts with (\"No wait.\", \"stop\")",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:OPEN_NEGATOR",
+   "value": "30b7d36d",
+   "role": "negations whose verb may come in a later clause of the same sentence",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:AFFIRMATIVE_PHRASES",
+   "value": [
+    "no objections",
+    "no objection",
+    "no problems",
+    "no problem",
+    "no worries",
+    "no issues",
+    "no issue",
+    "no concerns",
+    "no complaints",
+    "no blockers",
+    "not a problem",
+    "nothing against",
+    "why not",
+    "no need to wait",
+    "no rush",
+    "no hurry",
+    "no pressure",
+    "nothing else",
+    "can't wait",
+    "cannot wait"
+   ],
+   "role": "phrases with \"no\" or \"not\" in them that refuse nothing (\"no rush\", \"no objections\")",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:DEFER_CUE",
+   "value": "5b9058f3",
+   "role": "the words that make an order one for later or under a condition, which grants nothing",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:SENTENCE_SPLIT",
+   "value": "c0887cac",
+   "role": "where a typed message is cut into sentences",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:CLAUSE_SPLIT",
+   "value": "dbb9a3b2",
+   "role": "where a sentence is cut into clauses",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:QUESTION_END",
+   "value": "?",
+   "role": "the sign that ends a question",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:POLITE_REQUEST",
+   "value": "489361eb",
+   "role": "the questions that are still orders (\"can you merge #34?\")",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:PURE_LIST",
+   "value": "726eaca0",
+   "role": "a clause made only of numbers and list words, which continues the order before it",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:CODE_FENCE",
+   "value": "37323c53",
+   "role": "a fenced code block, whose text is not read as the owner's word",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:QUOTE_LEAD",
+   "value": ">",
+   "role": "what a quoted line starts with; quoted lines are not read as the owner's word",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:STANDALONE_REFUSAL_MAX_WORDS",
+   "value": 6,
+   "role": "the longest clause that counts as a bare refusal emptying the grant",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:OBJECT_FILLER_MAX",
+   "value": 3,
+   "role": "how many words may stand between the merge verb and its first number",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:OBJECT_STOP_WORDS",
+   "value": [
+    "after",
+    "before",
+    "when",
+    "once",
+    "if",
+    "then",
+    "that",
+    "which",
+    "so",
+    "because",
+    "while",
+    "to",
+    "into",
+    "onto",
+    "for",
+    "with",
+    "from",
+    "on",
+    "in",
+    "at",
+    "as"
+   ],
+   "role": "words that end the list of pull requests an order names",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:OBJECT_TAIL_WORDS",
+   "value": [
+    "now",
+    "please",
+    "pls",
+    "asap",
+    "today",
+    "too",
+    "thanks",
+    "first",
+    "then",
+    "with",
+    "using",
+    "via",
+    "squash",
+    "squashed"
+   ],
+   "role": "words that may follow a bare number in an order (\"merge 34 now\")",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:OBJECT_GAP",
+   "value": "69341659",
+   "role": "the blanks and comma between the items of an order's list",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:OBJECT_PAREN",
+   "value": "620ee1f3",
+   "role": "a remark in brackets inside an order's list (\"#34 (library)\")",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:OBJECT_LIST_WORD",
+   "value": "c4c243b3",
+   "role": "the words that join the items of an order's list",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:OBJECT_LIST_MORE",
+   "value": "b01c56ea",
+   "role": "a joining word that is followed by another pull request",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:OBJECT_NUMBER_END",
+   "value": ",.;!?)(",
+   "role": "the signs that may end a bare number in an order",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:OBJECT_WORD",
+   "value": "a1ba431b",
+   "role": "one filler word of an order",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:OBJECT_TAIL",
+   "value": "b97f67bc",
+   "role": "the word after a bare number in an order",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:PR_REF",
+   "value": "9c87713a",
+   "role": "the ways a text names a pull request: URL, owner/repo#n, \"PR n\", #n",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:PR_LIST_MORE",
+   "value": "dcdf6af0",
+   "role": "how a list of pull requests goes on after the first",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:BARE_NUMBER",
+   "value": "8c74a110",
+   "role": "a number without \"PR\" or \"#\" directly after the merge verb",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:BARE_NUMBERS",
+   "value": "c7c81f29",
+   "role": "bare numbers a refusal names",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:SCHEDULED_READ_ENDS_WORD",
+   "value": true,
+   "role": "a scheduled notification read mid-turn ends the merge word given before it",
+   "status": "settings",
+   "record": "owner's answer of 2026-11-15, question 1: \"No, ask me again\" (results/2026-11-15/turn-gates-fix/CORE-SPEC.md section 9; experiments/hypothesis-2026-11-15-turn-gates-cases.md)",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:RESTART_ENDS_WORD",
+   "value": true,
+   "role": "the restart notice of the worker process ends the merge word",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-2"
+  },
+  {
+   "name": "turngate.py:POLICY_DENY_UNATTENDED",
+   "value": "deny-unattended",
+   "role": "the name of one value of PUSH_UNKNOWN_BRANCH_POLICY",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:POLICY_DENY",
+   "value": "deny",
+   "role": "the name of one value of PUSH_UNKNOWN_BRANCH_POLICY",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:POLICY_ALLOW",
+   "value": "allow",
+   "role": "the name of one value of PUSH_UNKNOWN_BRANCH_POLICY",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:PUSH_UNKNOWN_BRANCH_POLICY",
+   "value": "deny-unattended",
+   "role": "a push whose branch the gate cannot read: denied only where the owner is not present",
+   "status": "settings",
+   "record": "owner's answer of 2026-11-15, question 2: \"An order naming the branch\" (results/2026-11-15/turn-gates-fix/CORE-SPEC.md section 9; experiments/hypothesis-2026-11-15-turn-gates-cases.md)",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:DELEGATE_MAY_MERGE",
+   "value": true,
+   "role": "a helper agent may merge what the owner's standing word names",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-2"
+  },
+  {
+   "name": "turngate.py:F1_MAX_BLOCKS",
+   "value": 2,
+   "role": "how many times the outward-action rule blocks in one stretch",
+   "status": "settings",
+   "record": "owner's answer of 2026-11-15, question 3: \"Yes, twice at most\" (results/2026-11-15/turn-gates-fix/CORE-SPEC.md section 9; experiments/hypothesis-2026-11-15-turn-gates-cases.md)",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:PROMPT_CLASS_MAX_BLOCKS",
+   "value": 1,
+   "role": "how many times the prompt-class rule blocks in one stretch",
+   "status": "settings",
+   "record": "owner's answer of 2026-11-15, question 3: \"Yes, twice at most\" (results/2026-11-15/turn-gates-fix/CORE-SPEC.md section 9; experiments/hypothesis-2026-11-15-turn-gates-cases.md)",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:WAKE_TURN_INHERITS_LOADS",
+   "value": true,
+   "role": "work woken after a completed stop keeps the governor loads of the owner's turn",
+   "status": "settings",
+   "record": "owner's answer of 2026-11-15, question 4: \"Yes after compaction\" (results/2026-11-15/turn-gates-fix/CORE-SPEC.md section 9; experiments/hypothesis-2026-11-15-turn-gates-cases.md)",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:COMPACTION_VOIDS_LOADS",
+   "value": true,
+   "role": "an outward action after a compaction needs the governors loaded again",
+   "status": "settings",
+   "record": "owner's answer of 2026-11-15, question 4: \"Yes after compaction\" (results/2026-11-15/turn-gates-fix/CORE-SPEC.md section 9; experiments/hypothesis-2026-11-15-turn-gates-cases.md)",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:CLASSIFY_CARD_ANSWERS",
+   "value": false,
+   "role": "a clicked card label is not a prompt for the prompt-class rule",
+   "status": "settings",
+   "record": "owner's answer of 2026-11-15, question 5: \"No, only what you type\" (results/2026-11-15/turn-gates-fix/CORE-SPEC.md section 9; experiments/hypothesis-2026-11-15-turn-gates-cases.md)",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:MERGE_GATED_KINDS",
+   "value": [
+    "merge",
+    "push_default"
+   ],
+   "role": "the acts that need the owner's merge word: a merge, and a push to a default branch",
+   "status": "settings",
+   "record": "D3, 2026-11-13: auto-merge and a direct push to a default branch need the same word as a merge; in a scheduled run they are always denied (experiments/hypothesis-2026-11-15-turn-gates-cases.md)",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:F1_COUNTED_KINDS",
+   "value": [
+    "merge",
+    "push_default",
+    "push",
+    "commit",
+    "pr_write",
+    "file_push",
+    "schedule"
+   ],
+   "role": "the acts the Stop gate counts as outward (WRITE_KINDS is built from this list: see there before taking a kind out)",
+   "status": "settings",
+   "record": "owner's answer of 2026-11-15, question 6: \"Commits, pushes, PRs, scheduling\" (results/2026-11-15/turn-gates-fix/CORE-SPEC.md section 9; experiments/hypothesis-2026-11-15-turn-gates-cases.md)",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:WRITE_KINDS",
+   "value": [
+    "merge",
+    "push_default",
+    "push",
+    "commit",
+    "pr_write",
+    "file_push",
+    "schedule",
+    "write"
+   ],
+   "role": "the acts the plan-shown advisory treats as a write; the pre-tool hook looks only at calls that hold one of them, the merge gate included",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:MCP_PREFIX",
+   "value": "mcp__",
+   "role": "what the name of a connector tool starts with",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:MCP_SEPARATOR",
+   "value": "__",
+   "role": "what separates the parts of a connector tool's name; the part after the last one is matched",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:MERGE_TOOL_LEAVES",
+   "value": [
+    "merge_pull_request",
+    "enable_pr_auto_merge"
+   ],
+   "role": "the tools that merge a pull request or switch auto-merge on",
+   "status": "settings",
+   "record": "D3, 2026-11-13: auto-merge and a direct push to a default branch need the same word as a merge; in a scheduled run they are always denied (experiments/hypothesis-2026-11-15-turn-gates-cases.md)",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:FILE_PUSH_LEAVES",
+   "value": [
+    "push_files",
+    "create_or_update_file",
+    "delete_file"
+   ],
+   "role": "the tools that push a file to a repository",
+   "status": "settings",
+   "record": "owner's answer of 2026-11-15, question 6: \"Commits, pushes, PRs, scheduling\" (results/2026-11-15/turn-gates-fix/CORE-SPEC.md section 9; experiments/hypothesis-2026-11-15-turn-gates-cases.md)",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:PR_WRITE_LEAVES",
+   "value": [
+    "create_pull_request",
+    "update_pull_request",
+    "update_pull_request_branch",
+    "disable_pr_auto_merge",
+    "actions_run_trigger"
+   ],
+   "role": "the tools that create or change a pull request, or start a workflow run",
+   "status": "settings",
+   "record": "owner's answer of 2026-11-15, question 6: \"Commits, pushes, PRs, scheduling\" (results/2026-11-15/turn-gates-fix/CORE-SPEC.md section 9; experiments/hypothesis-2026-11-15-turn-gates-cases.md)",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:SCHEDULE_LEAVES",
+   "value": [
+    "create_trigger",
+    "update_trigger",
+    "delete_trigger",
+    "fire_trigger",
+    "send_later"
+   ],
+   "role": "the connector tools that change a scheduled task or set a later message",
+   "status": "settings",
+   "record": "owner's answer of 2026-11-15, question 6: \"Commits, pushes, PRs, scheduling\" (results/2026-11-15/turn-gates-fix/CORE-SPEC.md section 9; experiments/hypothesis-2026-11-15-turn-gates-cases.md)",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:SCHEDULE_TOOLS",
+   "value": [
+    "CronCreate",
+    "CronDelete",
+    "ScheduleWakeup"
+   ],
+   "role": "the built-in tools that change a scheduled task or set a wake-up",
+   "status": "settings",
+   "record": "owner's answer of 2026-11-15, question 6: \"Commits, pushes, PRs, scheduling\" (results/2026-11-15/turn-gates-fix/CORE-SPEC.md section 9; experiments/hypothesis-2026-11-15-turn-gates-cases.md)",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:OTHER_OUTWARD_LEAVES",
+   "value": [
+    "create_branch",
+    "create_repository",
+    "fork_repository",
+    "delete_repository",
+    "issue_write",
+    "sub_issue_write",
+    "add_issue_comment",
+    "update_issue_comment",
+    "pull_request_review_write",
+    "add_comment_to_pending_review",
+    "add_reply_to_pull_request_comment",
+    "request_copilot_review",
+    "resolve_review_thread",
+    "unresolve_review_thread",
+    "create_session",
+    "send_message",
+    "reply",
+    "forward",
+    "create_draft",
+    "create_file",
+    "update_file",
+    "share_file",
+    "trash_file",
+    "copy_file"
+   ],
+   "role": "outward tools the Stop gate does not count (comments, reviews, issues, mail, drive, messages)",
+   "status": "settings",
+   "record": "owner's answer of 2026-11-15, question 6: \"Commits, pushes, PRs, scheduling\" (results/2026-11-15/turn-gates-fix/CORE-SPEC.md section 9; experiments/hypothesis-2026-11-15-turn-gates-cases.md)",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:WRITE_TOOLS",
+   "value": [
+    "Edit",
+    "Write",
+    "NotebookEdit"
+   ],
+   "role": "the built-in tools that write a file",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:WRITE_PATH_KEYS",
+   "value": [
+    "file_path",
+    "notebook_path"
+   ],
+   "role": "where a write tool's input holds the path",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:SHELL_TOOLS",
+   "value": [
+    "Bash",
+    "Monitor"
+   ],
+   "role": "the tools whose input is a shell command",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:PR_NUMBER_KEYS",
+   "value": [
+    "pullNumber",
+    "pull_number"
+   ],
+   "role": "where a merge tool's input holds the pull request number",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:SCRATCH_DIRS",
+   "value": [
+    "/tmp/",
+    "/var/tmp/",
+    "/dev/",
+    "/proc/"
+   ],
+   "role": "directories where a write is scratch and needs no plan",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:HOME_LEAD",
+   "value": "~",
+   "role": "the sign of a home-relative path, which is never taken for scratch",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:GIT_COMMAND",
+   "value": "git",
+   "role": "the name of the git program",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:HELP_FLAGS",
+   "value": [
+    "--help",
+    "-h"
+   ],
+   "role": "the options that ask for a help page",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:END_OF_OPTIONS",
+   "value": "--",
+   "role": "the word that ends a command's options",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:GIT_DIR_FLAG",
+   "value": "-C",
+   "role": "git's option that names the directory to run in",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:GIT_GLOBAL_WITH_VALUE",
+   "value": [
+    "-C",
+    "-c",
+    "--git-dir",
+    "--work-tree",
+    "--namespace",
+    "--exec-path",
+    "--super-prefix",
+    "--config-env",
+    "--attr-source"
+   ],
+   "role": "git's own options that take a value, skipped before the verb",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:GIT_COMMIT_VERBS",
+   "value": [
+    "commit",
+    "revert",
+    "cherry-pick",
+    "am"
+   ],
+   "role": "the git verbs that make a commit",
+   "status": "settings",
+   "record": "owner's answer of 2026-11-15, question 6: \"Commits, pushes, PRs, scheduling\" (results/2026-11-15/turn-gates-fix/CORE-SPEC.md section 9; experiments/hypothesis-2026-11-15-turn-gates-cases.md)",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:GIT_NO_COMMIT_FLAGS",
+   "value": {
+    "commit": [
+     "--dry-run"
+    ],
+    "revert": [
+     "--dry-run",
+     "-n",
+     "--no-commit",
+     "--abort",
+     "--quit"
+    ],
+    "cherry-pick": [
+     "--dry-run",
+     "-n",
+     "--no-commit",
+     "--abort",
+     "--quit"
+    ],
+    "am": [
+     "--dry-run",
+     "--abort",
+     "--quit"
+    ]
+   },
+   "role": "the options with which those verbs make no commit (a dry run, an abort)",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:GIT_PUSH_VERB",
+   "value": "push",
+   "role": "the git verb that pushes",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:GIT_PUSH_WITH_VALUE",
+   "value": [
+    "--repo",
+    "-o",
+    "--push-option",
+    "--receive-pack",
+    "--exec",
+    "--recurse-submodules"
+   ],
+   "role": "the push options that take a value",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:GIT_PUSH_DRY_RUN",
+   "value": [
+    "--dry-run",
+    "-n"
+   ],
+   "role": "the push options that push nothing",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:GIT_PUSH_EVERYTHING",
+   "value": [
+    "--all",
+    "--mirror",
+    "--branches"
+   ],
+   "role": "the push options that push every branch: treated as a push to a default branch",
+   "status": "settings",
+   "record": "D3, 2026-11-13: auto-merge and a direct push to a default branch need the same word as a merge; in a scheduled run they are always denied (experiments/hypothesis-2026-11-15-turn-gates-cases.md)",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:GIT_PUSH_TAGS",
+   "value": [
+    "--tags"
+   ],
+   "role": "the push option that pushes tags only",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:GIT_PUSH_DELETE",
+   "value": [
+    "--delete",
+    "-d"
+   ],
+   "role": "the push options that delete a remote branch",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:GIT_HEAD_NAMES",
+   "value": [
+    "HEAD",
+    "@"
+   ],
+   "role": "the refspec words that mean the current branch",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:GIT_REFSPEC_WILDCARD",
+   "value": "*",
+   "role": "the sign of a refspec that names many branches: treated as a push to a default branch",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:GIT_BRANCH_PREFIX",
+   "value": "refs/heads/",
+   "role": "the full-name prefix of a branch",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:GIT_DEFAULT_REMOTE",
+   "value": "origin",
+   "role": "the remote a push without one goes to",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:GIT_REMOTE_NAME",
+   "value": "c823d28d",
+   "role": "what a remote's name may hold, before it is used in a path",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:GIT_SWITCH_VERBS",
+   "value": {
+    "checkout": [
+     "-b",
+     "-B"
+    ],
+    "switch": [
+     "-c",
+     "-C"
+    ]
+   },
+   "role": "the git verbs that change branch, with the options that create one",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:GIT_SWITCH_WITH_VALUE",
+   "value": [
+    "-t",
+    "--track",
+    "--orphan",
+    "--conflict",
+    "--pathspec-from-file"
+   ],
+   "role": "the options of those verbs that take a value",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:GIT_SWITCH_TRACK",
+   "value": [
+    "-t",
+    "--track"
+   ],
+   "role": "the options that make and enter a branch tracking a remote one",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:GIT_SWITCH_ORPHAN",
+   "value": "--orphan",
+   "role": "the option that makes a branch with no history",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:GIT_SWITCH_DETACH",
+   "value": [
+    "--detach",
+    "-d"
+   ],
+   "role": "the options after which no branch is checked out",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:GIT_SWITCH_PREVIOUS",
+   "value": "-",
+   "role": "the word for the branch checked out before",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:GIT_SWITCH_MAY_NAME_A_PATH",
+   "value": [
+    "checkout"
+   ],
+   "role": "the verb whose plain word may be a file to restore, not a branch",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:GIT_WRITE_VERBS",
+   "value": [
+    "add",
+    "rm",
+    "mv",
+    "apply",
+    "stash",
+    "reset",
+    "restore",
+    "merge",
+    "rebase",
+    "tag",
+    "clean"
+   ],
+   "role": "git verbs that change the working tree or the local history: writes for the advisory",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:GIT_HEAD_REF",
+   "value": "e94e2935",
+   "role": "how a checkout's HEAD file names its branch",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:GIT_REMOTE_HEAD_REF",
+   "value": "5a64ccbf",
+   "role": "how a checkout records a remote's default branch",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:GIT_DIR_POINTER",
+   "value": "367cbed9",
+   "role": "how a worktree's .git file points to its directory",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:GIT_DIR_NAME",
+   "value": ".git",
+   "role": "the name of a checkout's git directory",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:GIT_HEAD_FILE",
+   "value": "HEAD",
+   "role": "the name of the file that holds the current branch",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:GIT_COMMON_FILE",
+   "value": "commondir",
+   "role": "the file by which a worktree names the main checkout",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:GIT_REMOTES_PATH",
+   "value": "refs/remotes",
+   "role": "where a checkout keeps what it knows about remotes",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:GIT_SEARCH_DEPTH",
+   "value": 40,
+   "role": "how many parent directories are searched for the checkout",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:GIT_FILE_MAX_BYTES",
+   "value": 400,
+   "role": "how much of a small git file is read",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:GH_COMMAND",
+   "value": "gh",
+   "role": "the name of the GitHub command-line program",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:GH_GLOBAL_WITH_VALUE",
+   "value": [
+    "-R",
+    "--repo",
+    "--hostname"
+   ],
+   "role": "its options that take a value and may stand between its words",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:GH_REPO_FLAGS",
+   "value": [
+    "-R",
+    "--repo"
+   ],
+   "role": "its options that name the repository",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:GH_API_GROUP",
+   "value": "api",
+   "role": "its word for a raw API request",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:GH_PR_GROUP",
+   "value": "pr",
+   "role": "its word for pull requests",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:GH_MERGE_SUB",
+   "value": "merge",
+   "role": "its word for a merge",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:GH_AUTO_FLAG",
+   "value": "--auto",
+   "role": "its option that switches auto-merge on",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:GH_DISABLE_AUTO_FLAG",
+   "value": "--disable-auto",
+   "role": "its option that switches auto-merge off",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:GH_MERGE_WITH_VALUE",
+   "value": [
+    "-b",
+    "--body",
+    "-F",
+    "--body-file",
+    "-t",
+    "--subject",
+    "-A",
+    "--author-email",
+    "--match-head-commit"
+   ],
+   "role": "the options of its merge that take a value",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:GH_PR_WRITE_SUBS",
+   "value": [
+    "create",
+    "edit",
+    "close",
+    "reopen",
+    "ready",
+    "update-branch"
+   ],
+   "role": "its pull-request words that create or change a pull request",
+   "status": "settings",
+   "record": "owner's answer of 2026-11-15, question 6: \"Commits, pushes, PRs, scheduling\" (results/2026-11-15/turn-gates-fix/CORE-SPEC.md section 9; experiments/hypothesis-2026-11-15-turn-gates-cases.md)",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:GH_PR_OUTWARD_SUBS",
+   "value": [
+    "comment",
+    "review",
+    "lock",
+    "unlock"
+   ],
+   "role": "its pull-request words that are outward and not counted (comment, review, lock)",
+   "status": "settings",
+   "record": "owner's answer of 2026-11-15, question 6: \"Commits, pushes, PRs, scheduling\" (results/2026-11-15/turn-gates-fix/CORE-SPEC.md section 9; experiments/hypothesis-2026-11-15-turn-gates-cases.md)",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:GH_WORKFLOW_RUN",
+   "value": [
+    "workflow",
+    "run"
+   ],
+   "role": "its words that start a workflow run",
+   "status": "settings",
+   "record": "owner's answer of 2026-11-15, question 6: \"Commits, pushes, PRs, scheduling\" (results/2026-11-15/turn-gates-fix/CORE-SPEC.md section 9; experiments/hypothesis-2026-11-15-turn-gates-cases.md)",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:GH_OUTWARD_GROUPS",
+   "value": [
+    "issue",
+    "release",
+    "repo",
+    "workflow",
+    "run",
+    "label",
+    "secret",
+    "variable",
+    "gist",
+    "ruleset"
+   ],
+   "role": "its groups whose writing words are outward and not counted",
+   "status": "settings",
+   "record": "owner's answer of 2026-11-15, question 6: \"Commits, pushes, PRs, scheduling\" (results/2026-11-15/turn-gates-fix/CORE-SPEC.md section 9; experiments/hypothesis-2026-11-15-turn-gates-cases.md)",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:GH_READ_SUBS",
+   "value": [
+    "list",
+    "view",
+    "status",
+    "diff",
+    "checks",
+    "checkout",
+    "clone",
+    "download",
+    "watch",
+    "logs",
+    "browse"
+   ],
+   "role": "its words that only read",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:GH_API_WITH_VALUE",
+   "value": [
+    "-X",
+    "--method",
+    "-H",
+    "--header",
+    "-f",
+    "--raw-field",
+    "-F",
+    "--field",
+    "--input",
+    "-q",
+    "--jq",
+    "-t",
+    "--template",
+    "--cache",
+    "-p",
+    "--preview",
+    "--hostname"
+   ],
+   "role": "the options of its API request that take a value",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:GH_API_BODY_FLAGS",
+   "value": [
+    "-f",
+    "--raw-field",
+    "-F",
+    "--field"
+   ],
+   "role": "the options of its API request that give a body field",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:GH_API_INPUT_FLAG",
+   "value": "--input",
+   "role": "the option of its API request that reads the body from a file",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:GH_PR_NUMBER",
+   "value": "14f5c168",
+   "role": "a pull request named by its number",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:GH_PR_URL",
+   "value": "b12c9ee1",
+   "role": "a pull request named by its address",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:HTTP_COMMANDS",
+   "value": [
+    "curl",
+    "wget",
+    "http",
+    "https"
+   ],
+   "role": "the programs read as HTTP requests when they speak to the GitHub API",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:HTTP_URL",
+   "value": "770fb2fc",
+   "role": "a word that is an address with its scheme",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:HTTP_HOST",
+   "value": "47315a8e",
+   "role": "the host of an address",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:HTTP_METHODS",
+   "value": [
+    "GET",
+    "HEAD",
+    "POST",
+    "PUT",
+    "PATCH",
+    "DELETE"
+   ],
+   "role": "the request methods one of those programs takes as a plain word",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:HTTP_DEFAULT_SCHEME",
+   "value": "https://",
+   "role": "the scheme of an address written without one",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:METHOD_OF_NOTHING",
+   "value": "GET",
+   "role": "the method of a request that names none and sends no body",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:METHOD_OF_BODY",
+   "value": "POST",
+   "role": "the method of a request that names none and sends a body",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:METHOD_OF_UPLOAD",
+   "value": "PUT",
+   "role": "the method of a request that uploads a file",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:METHOD_OF_HEAD",
+   "value": "HEAD",
+   "role": "the method of a request for headers only",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:API_METHOD_FLAGS",
+   "value": [
+    "-X",
+    "--method",
+    "--request"
+   ],
+   "role": "the options that name a request's method",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:API_READ_METHODS",
+   "value": [
+    "GET",
+    "HEAD"
+   ],
+   "role": "the methods that only read",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:CURL_WITH_VALUE",
+   "value": [
+    "-X",
+    "--request",
+    "-H",
+    "--header",
+    "-d",
+    "--data",
+    "--data-raw",
+    "--data-binary",
+    "--data-urlencode",
+    "--json",
+    "-F",
+    "--form",
+    "-T",
+    "--upload-file",
+    "-o",
+    "--output",
+    "-u",
+    "--user",
+    "-A",
+    "--user-agent",
+    "-e",
+    "--referer",
+    "-b",
+    "--cookie",
+    "-c",
+    "--cookie-jar",
+    "--url",
+    "-w",
+    "--write-out",
+    "--connect-timeout",
+    "-m",
+    "--max-time",
+    "--retry",
+    "-K",
+    "--config",
+    "--cacert",
+    "--method",
+    "--body-data",
+    "--body-file",
+    "--post-data",
+    "--post-file",
+    "--header"
+   ],
+   "role": "the options of the HTTP programs that take a value",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:CURL_DATA_FLAGS",
+   "value": [
+    "-d",
+    "--data",
+    "--data-raw",
+    "--data-binary",
+    "--data-urlencode",
+    "--json",
+    "-F",
+    "--form",
+    "--body-data",
+    "--body-file",
+    "--post-data",
+    "--post-file"
+   ],
+   "role": "their options that give a request body",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:CURL_UPLOAD_FLAGS",
+   "value": [
+    "-T",
+    "--upload-file"
+   ],
+   "role": "their options that upload a file",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:CURL_HEAD_FLAGS",
+   "value": [
+    "-I",
+    "--head"
+   ],
+   "role": "their options that ask for headers only",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:CURL_URL_FLAG",
+   "value": "--url",
+   "role": "their option that names the address",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:GITHUB_API_HOSTS",
+   "value": [
+    "api.github.com",
+    "uploads.github.com"
+   ],
+   "role": "the hosts of the GitHub API",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:GITHUB_ENTERPRISE_API",
+   "value": "/api/v3/",
+   "role": "the path that marks the API of a GitHub server of one's own",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:API_HOST_PREFIX",
+   "value": "d487c892",
+   "role": "the host part cut from an API address",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:API_V3_PREFIX",
+   "value": "4df481e6",
+   "role": "the version part cut from an API path",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:API_REPO_PATH",
+   "value": "ddd3d7b3",
+   "role": "an API path inside a repository",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:API_MERGE_PATH",
+   "value": "1a1e8e59",
+   "role": "the API path that merges a pull request",
+   "status": "settings",
+   "record": "D3, 2026-11-13: auto-merge and a direct push to a default branch need the same word as a merge; in a scheduled run they are always denied (experiments/hypothesis-2026-11-15-turn-gates-cases.md)",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:API_MERGES_PATH",
+   "value": "merges",
+   "role": "the API path that merges one branch into another",
+   "status": "settings",
+   "record": "D3, 2026-11-13: auto-merge and a direct push to a default branch need the same word as a merge; in a scheduled run they are always denied (experiments/hypothesis-2026-11-15-turn-gates-cases.md)",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:API_REFS_PATH",
+   "value": "df6a256e",
+   "role": "the API path that moves or creates a branch",
+   "status": "settings",
+   "record": "D3, 2026-11-13: auto-merge and a direct push to a default branch need the same word as a merge; in a scheduled run they are always denied (experiments/hypothesis-2026-11-15-turn-gates-cases.md)",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:API_CONTENTS_PREFIX",
+   "value": "contents/",
+   "role": "the API path that writes a file",
+   "status": "settings",
+   "record": "owner's answer of 2026-11-15, question 6: \"Commits, pushes, PRs, scheduling\" (results/2026-11-15/turn-gates-fix/CORE-SPEC.md section 9; experiments/hypothesis-2026-11-15-turn-gates-cases.md)",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:API_PULLS_PATH",
+   "value": "bc7166d3",
+   "role": "the API paths that create or change a pull request",
+   "status": "settings",
+   "record": "owner's answer of 2026-11-15, question 6: \"Commits, pushes, PRs, scheduling\" (results/2026-11-15/turn-gates-fix/CORE-SPEC.md section 9; experiments/hypothesis-2026-11-15-turn-gates-cases.md)",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:API_BODY_BRANCH",
+   "value": "d75f4f80",
+   "role": "where a request body names its branch",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:API_FILE_BODY",
+   "value": [
+    "@",
+    "=@"
+   ],
+   "role": "the signs of a body that comes from a file and cannot be read",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:GRAPHQL_PATH",
+   "value": "graphql",
+   "role": "the API path of GraphQL requests",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:GRAPHQL_MERGE",
+   "value": "54ee0d79",
+   "role": "the GraphQL mutations that merge or queue a pull request or switch auto-merge on",
+   "status": "settings",
+   "record": "D3, 2026-11-13: auto-merge and a direct push to a default branch need the same word as a merge; in a scheduled run they are always denied (experiments/hypothesis-2026-11-15-turn-gates-cases.md)",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:GRAPHQL_REF",
+   "value": "0cdd7f49",
+   "role": "the GraphQL mutations that write to a branch",
+   "status": "settings",
+   "record": "D3, 2026-11-13: auto-merge and a direct push to a default branch need the same word as a merge; in a scheduled run they are always denied (experiments/hypothesis-2026-11-15-turn-gates-cases.md)",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:GRAPHQL_MUTATION",
+   "value": "42357fa8",
+   "role": "the word that makes a GraphQL request a write",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:SHELLS",
+   "value": [
+    "bash",
+    "sh",
+    "zsh",
+    "dash",
+    "ksh"
+   ],
+   "role": "the programs that run a shell text given to them",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:SHELL_COMMAND_FLAG",
+   "value": "c",
+   "role": "the option letter after which a shell takes its program as a word",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:SHELL_FLAGS_WITH_VALUE",
+   "value": [
+    "-o",
+    "--rcfile",
+    "--init-file",
+    "-O"
+   ],
+   "role": "the shell options that take a value",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:SHELL_KEYWORDS",
+   "value": [
+    "if",
+    "then",
+    "elif",
+    "else",
+    "fi",
+    "do",
+    "done",
+    "while",
+    "until",
+    "!",
+    "{",
+    "}",
+    "time",
+    "esac"
+   ],
+   "role": "shell words that stand before a command and are skipped",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:SHELL_NO_COMMAND",
+   "value": [
+    "for",
+    "select",
+    "case",
+    "function",
+    "[[",
+    "[",
+    "test",
+    "(("
+   ],
+   "role": "shell words after which the line holds no command to read",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:WRAPPERS_WITH_VALUE",
+   "value": {
+    "sudo": [
+     "-u",
+     "-g",
+     "-C",
+     "-h",
+     "-p",
+     "-U",
+     "-r",
+     "-t"
+    ],
+    "env": [
+     "-u",
+     "-C",
+     "-S"
+    ],
+    "command": [],
+    "builtin": [],
+    "exec": [
+     "-a"
+    ],
+    "nohup": [],
+    "time": [
+     "-o",
+     "-f"
+    ],
+    "nice": [
+     "-n"
+    ],
+    "ionice": [
+     "-c",
+     "-n",
+     "-p"
+    ],
+    "setsid": [],
+    "stdbuf": [
+     "-i",
+     "-o",
+     "-e"
+    ],
+    "unbuffer": [],
+    "timeout": [
+     "-s",
+     "--signal",
+     "-k",
+     "--kill-after"
+    ],
+    "xargs": [
+     "-I",
+     "-n",
+     "-P",
+     "-d",
+     "-L",
+     "-s",
+     "-E",
+     "-a"
+    ]
+   },
+   "role": "programs that run another command (sudo, env, timeout, xargs ...), with their options that take a value",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:ENV_WRAPPERS",
+   "value": [
+    "env"
+   ],
+   "role": "wrappers that take NAME=value words before the command",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:DURATION_WRAPPERS",
+   "value": [
+    "timeout"
+   ],
+   "role": "wrappers whose first plain word is a duration",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:STDIN_ARG_WRAPPERS",
+   "value": [
+    "xargs"
+   ],
+   "role": "wrappers that add arguments read from standard input",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:ASSIGN_COMMANDS",
+   "value": [
+    "export",
+    "declare",
+    "local",
+    "readonly",
+    "typeset"
+   ],
+   "role": "shell commands that set a variable",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:EVAL_COMMANDS",
+   "value": [
+    "eval"
+   ],
+   "role": "shell commands that run their arguments as a text",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:SOURCE_COMMANDS",
+   "value": [
+    "source",
+    "."
+   ],
+   "role": "shell commands that run a file in the same shell",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:SCRIPT_SUFFIX",
+   "value": ".sh",
+   "role": "the file ending by which a command word is taken for a shell script and read",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:DIR_COMMANDS",
+   "value": [
+    "cd"
+   ],
+   "role": "the command that changes the directory for what follows",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:DIR_UNKNOWN_COMMANDS",
+   "value": [
+    "pushd",
+    "popd"
+   ],
+   "role": "commands after which the directory is not known",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:ECHO_COMMANDS",
+   "value": [
+    "echo",
+    "printf"
+   ],
+   "role": "commands whose words, piped to a shell, are the shell's program",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:CAT_COMMANDS",
+   "value": [
+    "cat"
+   ],
+   "role": "commands whose here-document, piped to a shell, is the shell's program",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:SHELL_WRITE_COMMANDS",
+   "value": [
+    "cp",
+    "mv",
+    "install",
+    "rsync",
+    "tee",
+    "touch",
+    "mkdir",
+    "rm",
+    "rmdir",
+    "ln",
+    "truncate",
+    "patch"
+   ],
+   "role": "shell commands that write files: writes for the advisory",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:LAST_TARGET_COMMANDS",
+   "value": [
+    "cp",
+    "mv",
+    "install",
+    "rsync",
+    "ln"
+   ],
+   "role": "those of them whose target is the last plain word",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:IN_PLACE_EDITORS",
+   "value": [
+    "sed",
+    "perl"
+   ],
+   "role": "programs that edit a file in place when given the option",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:IN_PLACE_FLAG",
+   "value": "7c382ba3",
+   "role": "the option by which they do",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:MAX_SHELL_DEPTH",
+   "value": 4,
+   "role": "how deep nested shell texts are followed before the text is called unreadable",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:SCRIPT_MAX_BYTES",
+   "value": 262144,
+   "role": "the largest script file that is read for its commands",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:SHELL_WORD_END",
+   "value": " \t\r\n;|&()<>",
+   "role": "the characters that end a shell word",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:SHELL_BLANKS",
+   "value": " \t\r",
+   "role": "the blanks between shell words",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:SHELL_COMMAND_START",
+   "value": " \t\n;|&(",
+   "role": "the characters after which a comment or a numbered redirection may start",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:SHELL_OPERATORS",
+   "value": [
+    "&&",
+    "||",
+    ";;",
+    "|&",
+    ";",
+    "|",
+    "&",
+    "(",
+    ")"
+   ],
+   "role": "the operators between shell commands",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:SHELL_GROUP_OPEN",
+   "value": "(",
+   "role": "the sign that opens a subshell",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:SHELL_GROUP_CLOSE",
+   "value": ")",
+   "role": "the sign that closes a subshell",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:SHELL_REDIRECT",
+   "value": "7ffafe95",
+   "role": "the redirection operators",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:SHELL_HEREDOC_OPS",
+   "value": [
+    "<<",
+    "<<-"
+   ],
+   "role": "the operators that open a here-document",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:SHELL_HEREDOC_STRIP",
+   "value": "<<-",
+   "role": "the here-document operator that strips leading tabs",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:SHELL_HERESTRING",
+   "value": "<<<",
+   "role": "the operator that feeds one word to a command",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:SHELL_WRITE_REDIRECTS",
+   "value": [
+    ">",
+    ">>",
+    ">|",
+    "&>",
+    "&>>"
+   ],
+   "role": "the redirections that write a file",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:SHELL_PROCESS_SUBST",
+   "value": [
+    "<(",
+    ">("
+   ],
+   "role": "the signs that open a process substitution",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:SHELL_PIPES",
+   "value": [
+    "|",
+    "|&"
+   ],
+   "role": "the pipe operators",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:SHELL_SEQUENCE",
+   "value": [
+    "&&",
+    ";",
+    "\n"
+   ],
+   "role": "the operators after which a change of directory holds for what follows",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:SHELL_AND",
+   "value": "&&",
+   "role": "the operator of an and-chain, whose last step did not happen when the chain failed",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:SHELL_VAR",
+   "value": "83c92e45",
+   "role": "a variable in a shell word",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:SHELL_BRACE_VAR",
+   "value": "7b51fda0",
+   "role": "a variable in braces",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:SHELL_SPECIAL_VAR",
+   "value": "cda1b17c",
+   "role": "the shell's special variables, which cannot be resolved",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:SHELL_ASSIGNMENT",
+   "value": "e0b466a5",
+   "role": "a NAME=value word",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:SHELL_HEREDOC_SUBST",
+   "value": "6a0203fe",
+   "role": "a command substitution inside an unquoted here-document",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:FALLBACK_SPLIT",
+   "value": "d1d3f091",
+   "role": "where an unreadable shell text is cut into commands, crudely",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:FALLBACK_WORD",
+   "value": "3ae507e6",
+   "role": "one word of an unreadable shell text",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:FALLBACK_MERGE_TEXT",
+   "value": "08e91af6",
+   "role": "the texts by which an unreadable shell command is taken for a merge",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:FALLBACK_MERGE_WORDS",
+   "value": [
+    [
+     "gh",
+     "pr",
+     "merge"
+    ]
+   ],
+   "role": "the words, in this order inside one command, by which an unreadable shell command is taken for a merge",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:FALLBACK_OUTWARD_WORDS",
+   "value": [
+    [
+     "git",
+     "commit"
+    ],
+    [
+     "git",
+     "push"
+    ],
+    [
+     "gh",
+     "pr",
+     "create"
+    ],
+    [
+     "gh",
+     "pr",
+     "merge"
+    ],
+    [
+     "gh",
+     "pr",
+     "edit"
+    ]
+   ],
+   "role": "the same for an outward act the Stop gate counts",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:FALLBACK_MERGE_NUMBER",
+   "value": "81e7657c",
+   "role": "where an unreadable merge command shows its pull request number",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:DENIAL_TEXT",
+   "value": "b4c1adab",
+   "role": "what a result says when the call was denied or rejected and so was not taken",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:DENIAL_TEXT_REACH",
+   "value": 600,
+   "role": "how much of a result text is searched for those words",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:PLAN_MARK",
+   "value": "49b6d2d3",
+   "role": "what counts as a plan having been shown: the word Goal (carried from D-QA-1)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:LEDGER_DIRNAME",
+   "value": "turn-gates",
+   "role": "the folder of the gates' state files",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:LEDGER_KEY_CHARS",
+   "value": 20,
+   "role": "how many characters of a hash name a state file",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:LEDGER_FILE",
+   "value": "delegate-%s.jsonl",
+   "role": "the name of the file that notes a helper agent's outward calls",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:ADVISORY_FILE",
+   "value": "plan-shown-%s",
+   "role": "the name of the file that marks the advisory as given for one plan-gate load",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:SPAN_MARKS",
+   "value": [
+    "GOV-ENFORCE",
+    "Receipt law"
+   ],
+   "role": "the Stop hooks whose blocks the span command counts",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:ISO_STAMP",
+   "value": "6d4c432a",
+   "role": "the form of a row's time stamp",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:ISO_UTC",
+   "value": [
+    "Z",
+    "z"
+   ],
+   "role": "the signs of a time stamp in universal time",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:STATE_DIR_ENV",
+   "value": "TURNGATE_STATE_DIR",
+   "role": "the environment variable that names the state folder",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:TMPDIR_ENV",
+   "value": "TMPDIR",
+   "role": "the environment variable that names the temporary folder (state, and scratch)",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:STATE_DIR_DEFAULT",
+   "value": "/tmp",
+   "role": "where state goes when neither variable is set",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:MISSING_PLAN",
+   "value": "plan-gate (before the first outward action)",
+   "role": "text of a block: plan-gate is missing",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:MISSING_VERIFY",
+   "value": "adversarial-verify",
+   "role": "text of a block: adversarial-verify is missing",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:MISSING_PLAN_RELOAD",
+   "value": "plan-gate (loaded again after the compaction, before the outward action that followed it)",
+   "role": "text of a block: plan-gate was loaded before a compaction only",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:MISSING_VERIFY_RELOAD",
+   "value": "adversarial-verify (loaded again after the compaction)",
+   "role": "text of a block: adversarial-verify was loaded before a compaction only",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:NOTE_BEFORE_RUN",
+   "value": "The miss is in the work done before the scheduled run began.",
+   "role": "text of a block: the miss lies before a scheduled run began",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:NOTE_IN_RUN",
+   "value": "The miss is in the scheduled run.",
+   "role": "text of a block: the miss lies in the scheduled run",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:DENY_LEAD",
+   "value": "TURN-GATE (merge word) [%s]: ",
+   "role": "what every denial of the merge gate starts with: the gate's name and a code in brackets",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:REASON_NO_RECORD",
+   "value": "the gate cannot read this session's record (its path is empty or missing, or the file holds no readable row), so nothing shows the owner's word, and a merge is not let through without it. Tell the owner; they can merge it themselves.",
+   "role": "text of the denial when the session record cannot be read",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:REASON_BRANCH_UNKNOWN",
+   "value": "this push does not name its branch, the gate cannot read the checkout it runs in, and the owner is not present in this stretch of work. Name the branch in the command (git push origin HEAD:BRANCH). A push to a default branch needs the owner's word.",
+   "role": "text of the denial of a push whose branch cannot be read",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:REASON_SCHEDULED",
+   "value": "a scheduled run never merges%s and never pushes to a default branch. Record it as an open decision in the run's report; the owner merges on their own word.",
+   "role": "text of the denial in a scheduled run (the test table reads \"scheduled run never merges\")",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:REASON_DELEGATE",
+   "value": "a helper agent does not merge. Return the request to the main session.",
+   "role": "text of the denial of a helper agent's merge",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:REASON_NO_OWNER_WORD",
+   "value": "the owner has said nothing since this stretch of work began (it began at a stop, a wake-up, a restart or the start of the record), so nothing here is authorized to merge or to push to a default branch. Ask the owner with a card (AskUserQuestion) whose merge option names the pull request, and act only on that answer.",
+   "role": "text of the denial when the owner has said nothing in the window",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:REASON_TARGET_UNKNOWN",
+   "value": "the gate cannot tell which pull request this call merges (%s). Use the merge tool, or name the number in the command, so that it can be matched to the owner's word.",
+   "role": "text of the denial when the pull request cannot be read from the call",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:REASON_MERGE_WORD",
+   "value": "the owner has not ordered the merge of PR #%d in this turn. Their word is a click on a card (AskUserQuestion) that names #%d and whose chosen option says to merge it, or a typed order that starts with \"merge\" and names #%d. It covers only the pull requests named and it ends when you stop. Ask with a card whose merge option names #%d, and merge only on that answer.",
+   "role": "text of the denial when the owner's word does not name the pull request",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:REASON_DEFAULT_BRANCH",
+   "value": "a direct push to a default branch (%s) needs the owner's word for exactly that: a card that asks it and is answered yes, or a typed order such as \"push this to main\". A merge word for a pull request does not cover it. Without that word, open a pull request.",
+   "role": "text of the denial of a push to a default branch",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:NOTE_NO_NUMBER",
+   "value": "it names no number",
+   "role": "text: a merge call names no number",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:NOTE_STDIN_NUMBER",
+   "value": "the number comes from standard input",
+   "role": "text: the number comes from standard input",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:NOTE_GRAPHQL_MERGE",
+   "value": "a GraphQL merge mutation shows no number",
+   "role": "text: a GraphQL merge shows no number",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:NOTE_GRAPHQL_UNREADABLE",
+   "value": "the GraphQL request body cannot be read",
+   "role": "text: a GraphQL body cannot be read",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:NOTE_UNPARSED",
+   "value": "the command could not be parsed",
+   "role": "text: the command could not be parsed",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:NOTE_BRANCH_UNKNOWN",
+   "value": "branch-unknown",
+   "role": "the mark of a push whose branch could not be read",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:NOTE_TAGS",
+   "value": "tags only",
+   "role": "the mark of a push of tags only",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:ALL_BRANCHES",
+   "value": "every branch",
+   "role": "text: a push of every branch",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:SOME_BRANCH",
+   "value": "a branch the call does not name",
+   "role": "text: a branch the call does not name",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turn-gates-pretool.py:HOOK_DEADLINE_SECONDS",
+   "value": 8,
+   "role": "after how many seconds the pre-tool hook answers by itself; it must stay under the wired timeout of 10 s",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turn-gates-pretool.py:CRUDE_MERGE",
+   "value": "a5f1ccd7",
+   "role": "the texts by which the failure paths take a call for a merge before it is classified",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turn-gates-pretool.py:CRUDE_MERGE_WORDS",
+   "value": [
+    [
+     "gh",
+     "pr",
+     "merge"
+    ]
+   ],
+   "role": "the words, in this order inside one command, by which the failure paths take a call for a merge",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turn-gates-pretool.py:CRUDE_PUSH_WORDS",
+   "value": [
+    [
+     "git",
+     "push",
+     "main"
+    ],
+    [
+     "git",
+     "push",
+     "master"
+    ],
+    [
+     "git",
+     "push",
+     "all"
+    ],
+    [
+     "git",
+     "push",
+     "mirror"
+    ],
+    [
+     "git",
+     "push",
+     "branches"
+    ]
+   ],
+   "role": "the same for a push that names a default branch or every branch",
+   "status": "settings",
+   "record": "D3, 2026-11-13: auto-merge and a direct push to a default branch need the same word as a merge; in a scheduled run they are always denied (experiments/hypothesis-2026-11-15-turn-gates-cases.md)",
+   "decision": ""
+  },
+  {
+   "name": "turn-gates-pretool.py:CRUDE_SPLIT",
+   "value": "d1d3f091",
+   "role": "where the failure paths cut a command text into commands, crudely",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turn-gates-pretool.py:CRUDE_WORD",
+   "value": "3ae507e6",
+   "role": "one word of a command text on the failure paths",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turn-gates-pretool.py:REASON_GATE_ERROR",
+   "value": "TURN-GATE (merge word) [gate-error]: the gate %s, and neither a merge nor a push to a default branch is let through on an error. Ask the owner with a card that names the pull request (or the branch), then try again; if this repeats, tell the owner that the gate is failing.",
+   "role": "text of the denial when the gate itself fails (the test table reads its code, gate-error)",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turn-gates-pretool.py:ERROR_INPUT",
+   "value": "could not read this call",
+   "role": "text: the hook's input could not be read",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turn-gates-pretool.py:ERROR_MODULE",
+   "value": "could not load its own rules (turngate.py)",
+   "role": "text: the shared module could not be loaded",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turn-gates-pretool.py:ERROR_INTERNAL",
+   "value": "failed while judging this call",
+   "role": "text: the gate failed while judging",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turn-gates-pretool.py:ERROR_DEADLINE",
+   "value": "ran out of time while judging this call",
+   "role": "text: the gate ran out of time",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turn-gates-pretool.py:ADVISORY",
+   "value": "TURN-GATE (plan shown, advisory): plan-gate is loaded and the session record holds no plan text since. The record does not keep every message, so this may be a false alarm: if you have shown the owner the compact plan (Goal \u00b7 Method / parameters \u00b7 Done when \u00b7 If it breaks), carry on; if not, show it before this write.",
+   "role": "the plan-shown reminder's text; the gate is advisory and blocks nothing",
+   "status": "settings",
+   "record": "owner's answer 2026-10-29: 'Keep advisory (Recommended)'",
+   "decision": ""
+  },
+  {
+   "name": "governance-enforce.py:HOOK_DEADLINE_SECONDS",
+   "value": 8,
+   "role": "after how many seconds the Stop hook ends itself, quietly; it must stay under the wired timeout of 15 s",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "governance-enforce.py:TRIVIA_MAX_CHARS",
+   "value": 400,
+   "role": "a review-only answer with no tool call and fewer characters than this is not blocked (carried from D-QA-1)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "governance-enforce.py:TRIVIA_CLASSES",
+   "value": [
+    "review"
+   ],
+   "role": "the only prompt classes a short answer with no tool call may pass without a governor",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "governance-enforce.py:ACTION_WORDS",
+   "value": {
+    "merge": "merge",
+    "push_default": "push to a default branch",
+    "push": "push",
+    "commit": "commit",
+    "pr_write": "pull-request change",
+    "file_push": "file push",
+    "schedule": "scheduled-task change"
+   },
+   "role": "the plain words by which a block names each kind of outward act",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "governance-enforce.py:REASON_F1",
+   "value": "GOV-ENFORCE: this turn took an outward action (%s) without %s. Load the missing governor with the Skill tool now and follow it.",
+   "role": "text of the outward-action block (the test table reads \"outward action\" and the remedy)",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "governance-enforce.py:REASON_F1_PLAN_LATE",
+   "value": " The plan comes after the action this time: say so plainly to the owner, then state the goal and what was done.",
+   "role": "text added when plan-gate is the missing governor",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "governance-enforce.py:REASON_F1_COMPACTION",
+   "value": " The governors were loaded before a compaction; what a compaction carries over does not count, so they must be loaded again before the next commit, push or merge.",
+   "role": "text added when the governors were loaded before a compaction only",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "governance-enforce.py:REASON_F1_ANY_PROMPT",
+   "value": " This applies however short the owner's message was ('continue', 'proceed').",
+   "role": "text added when the miss lies in the owner's own turn",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "governance-enforce.py:REASON_PROMPT_CLASS",
+   "value": "GOV-ENFORCE: this is governed work (%s) and you finished WITHOUT loading %s. Load %s with the Skill tool now, follow its procedure, and revise your answer before finishing. Governor text already in your context from before a compaction does not count: it was loaded for an earlier task.",
+   "role": "text of the prompt-class block (the test table reads \"governed work\")",
+   "status": "structural",
+   "record": "",
+   "decision": ""
   }
  ]
 }
