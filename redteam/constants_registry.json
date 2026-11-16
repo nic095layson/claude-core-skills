@@ -1,5 +1,5 @@
 {
- "_about": "Judgment constants of the governance stack, read from hooks/ by redteam/live.py. Standing registry since 2026-11-12 (first made 2026-10-19 on main 7d07886 as a one-off under results/; that copy failed against the live hooks on 2026-11-12 with 6 drifted values and 15 unregistered ones). Status per the red-team skill's five. The guard runs registry_check.py on every commit. Since 2026-11-15: every upper-case module-level name of hooks/turngate.py, hooks/turn-gates-pretool.py and hooks/governance-enforce.py is registered as `<file>:<NAME>` (live.py parses the files; a compiled pattern is the hash of its source and flags), in place of the twelve values that used to be picked from those files by name or by searching for a string. Open decisions these entries point to: D-TG-1: calibrate the word lists, patterns and limits of the turn gates against real owner messages and commands. D-TG-2: the two policy defaults the owner was not asked about (RESTART_ENDS_WORD, DELEGATE_MAY_MERGE): confirm or overrule.",
+ "_about": "Judgment constants of the governance stack, read from hooks/ by redteam/live.py. Standing registry since 2026-11-12 (first made 2026-10-19 on main 7d07886 as a one-off under results/; that copy failed against the live hooks on 2026-11-12 with 6 drifted values and 15 unregistered ones). Status per the red-team skill's five. The guard runs registry_check.py on every commit. Since 2026-11-15: every upper-case module-level name of hooks/turngate.py, hooks/turn-gates-pretool.py and hooks/governance-enforce.py is registered as `<file>:<NAME>` (live.py parses the files; a compiled pattern is the hash of its source and flags), in place of the twelve values that used to be picked from those files by name or by searching for a string. Open decisions these entries point to: D-TG-1: calibrate the word lists, patterns and limits of the turn gates against real owner messages and commands. D-TG-2: the two policy defaults the owner was not asked about (RESTART_ENDS_WORD, DELEGATE_MAY_MERGE): confirm or overrule. The receipt gate's module hooks/receiptlaw.py is registered the same way since 2026-11-15, in place of RECEIPT_INABILITY_PATTERN, RECEIPT_RECEIPT_PATTERN and RECEIPT_WINDOW_CHARS (decisions D-RT-1 and D-QA-1, closed by the rebuild of that gate). D-RG-1: calibrate the receipt gate's claim families, receipt words and exemptions against real answers (first numbers: results/2026-11-15/receipt-gate-fix/). D-RG-2: the receipt gate's policy defaults the owner was not asked about (RECEIPT_MAX_BLOCKS, NOT_VERIFIED_IS_A_CLAIM; RECEIPT_SCOPE follows the rule's own words and has a tested alternative): confirm or overrule.",
  "constants": [
   {
    "name": "CLASS_PATTERN_ANALYSIS",
@@ -80,22 +80,6 @@
    "decision": "D-RT-3"
   },
   {
-   "name": "RECEIPT_INABILITY_PATTERN",
-   "value": "0608e46e",
-   "role": "receipt gate: what counts as an inability claim; misses curly apostrophes and paraphrases (R2-R4)",
-   "status": "uncalibrated",
-   "record": "",
-   "decision": "D-RT-1"
-  },
-  {
-   "name": "RECEIPT_RECEIPT_PATTERN",
-   "value": "674072cb",
-   "role": "receipt gate: what counts as a receipt; matched anywhere in the turn, substrings like 'ran ' (R5-R6)",
-   "status": "uncalibrated",
-   "record": "",
-   "decision": "D-RT-1"
-  },
-  {
    "name": "REMINDER_FIRES_PER_SESSION",
    "value": 1,
    "role": "first-write reminders fire once per session, re-armed on compaction",
@@ -170,14 +154,6 @@
    "name": "CUE_ACK_PATTERN",
    "value": "2c554e9a",
    "role": "advisory cue tier: acknowledgements that get no cue",
-   "status": "uncalibrated",
-   "record": "",
-   "decision": "D-QA-1"
-  },
-  {
-   "name": "RECEIPT_WINDOW_CHARS",
-   "value": 400,
-   "role": "receipt law: how near a receipt must sit to an inability claim",
    "status": "uncalibrated",
    "record": "",
    "decision": "D-QA-1"
@@ -3323,6 +3299,1303 @@
    "name": "governance-enforce.py:REASON_PROMPT_CLASS",
    "value": "GOV-ENFORCE: this is governed work (%s) and you finished WITHOUT loading %s. Load %s with the Skill tool now, follow its procedure, and revise your answer before finishing. Governor text already in your context from before a compaction does not count: it was loaded for an earlier task.",
    "role": "text of the prompt-class block (the test table reads \"governed work\")",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "receiptlaw.py:HOOK_DEADLINE_SECONDS",
+   "value": 8,
+   "role": "after how many seconds the receipt gate ends itself, quietly; it must stay under the wired timeout of 10 s",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:RECEIPT_MAX_BLOCKS",
+   "value": 1,
+   "role": "how many times the receipt gate blocks in one stretch (counted from the record)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-2"
+  },
+  {
+   "name": "receiptlaw.py:SCOPE_NEIGHBOURS",
+   "value": "neighbours",
+   "role": "the name of the wider reading of RECEIPT_SCOPE (the sentence before and the one after count too)",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "receiptlaw.py:RECEIPT_SCOPE",
+   "value": "sentence",
+   "role": "where a claim's receipt may sit: its own sentence, or also its two neighbours",
+   "status": "settings",
+   "record": ".claude/skills/adversarial-verify/SKILL.md, rule 6: \"only when the same sentence names what was attempted and how it failed\"",
+   "decision": ""
+  },
+  {
+   "name": "receiptlaw.py:NOT_VERIFIED_IS_A_CLAIM",
+   "value": false,
+   "role": "whether \"X was not verified\" (no \"could not\") needs a receipt; False: it reads as \"did not verify\"",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-2"
+  },
+  {
+   "name": "receiptlaw.py:REASON_EXCERPT_CHARS",
+   "value": 160,
+   "role": "how much of the sentence the block reason quotes",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "receiptlaw.py:REASON",
+   "value": "Receipt law: this answer says \"%s\" and the same sentence names no attempt and no failure (the sentence: \"%s\"). A claim that something could not be verified, found or reached needs its receipt in the sentence that makes it. Do one of these before you finish:\n  1. Run the check. If it is cheap, this is almost always the right move.\n  2. Write \"did not check\" instead, and say why (cost, time, tool budget): a stated choice the reader can overrule.\n  3. If it cannot be settled, say in that same sentence what you tried and how it failed, or what you searched and why it cannot settle the question.\nIf a conclusion rests on this item, option 2 does not finish the job: resolve it or withdraw the conclusion. If the words are not a claim of yours (you quote a tool or a person, or describe the rule), put them in quotation marks. This gate speaks once in a stretch of work.",
+   "role": "text of the receipt gate's block (it starts with the mark turngate.py counts; the test table reads its three options)",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "receiptlaw.py:MARK_BLOCK",
+   "value": "\ue000",
+   "role": "the character that stands for a fenced block or a block quote while a text is read",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "receiptlaw.py:MARK_CODE",
+   "value": "\ue001",
+   "role": "the character that stands for an inline code span",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "receiptlaw.py:MARK_QUOTE",
+   "value": "\ue002",
+   "role": "the character that stands for words inside quotation marks",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "receiptlaw.py:CHAR_MAP",
+   "value": [
+    [
+     "\u2019",
+     "'"
+    ],
+    [
+     "\u2018",
+     "'"
+    ],
+    [
+     "\u02bc",
+     "'"
+    ],
+    [
+     "\u201c",
+     "\""
+    ],
+    [
+     "\u201d",
+     "\""
+    ],
+    [
+     "\u2013",
+     " - "
+    ],
+    [
+     "\u2014",
+     " - "
+    ],
+    [
+     "\u00a0",
+     " "
+    ],
+    [
+     "\u200b",
+     ""
+    ],
+    [
+     "\r\n",
+     "\n"
+    ],
+    [
+     "\r",
+     "\n"
+    ]
+   ],
+   "role": "curly quotes, dashes and odd spaces, each mapped to one spelling before a text is read",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "receiptlaw.py:FENCE_ONE_LINE",
+   "value": "02bb91e0",
+   "role": "a fenced span that opens and closes on one line",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "receiptlaw.py:FENCE",
+   "value": "0f91adef",
+   "role": "a fenced code block (an unclosed one runs to the end of the text)",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "receiptlaw.py:BLOCKQUOTE",
+   "value": "b78d81af",
+   "role": "consecutive lines that start with \">\"",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "receiptlaw.py:INLINE_CODE",
+   "value": "f0640b17",
+   "role": "an inline code span",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "receiptlaw.py:QUOTED_DOUBLE",
+   "value": "0c35bbd1",
+   "role": "words inside double quotation marks: not the assistant's claim",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:QUOTED_SINGLE",
+   "value": "61c56911",
+   "role": "words inside single quotation marks (an apostrophe inside a word is not one)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:EMPHASIS",
+   "value": "65b9a998",
+   "role": "bold and italic marks, removed before a text is read",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "receiptlaw.py:HEADING",
+   "value": "17063844",
+   "role": "a heading line: a title, never a claim",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "receiptlaw.py:LIST_ITEM",
+   "value": "edffba5e",
+   "role": "the start of a list item: a sentence of its own",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "receiptlaw.py:TABLE_ROW",
+   "value": "7f3bf707",
+   "role": "a table row: a sentence of its own",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "receiptlaw.py:TABLE_RULE",
+   "value": "b4bfa674",
+   "role": "the line under a table's header",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "receiptlaw.py:EXAMPLE_TABLE_WORDS",
+   "value": [
+    "case",
+    "cases",
+    "example",
+    "examples",
+    "text",
+    "phrase",
+    "sentence",
+    "input",
+    "expected",
+    "wanted",
+    "verdict",
+    "fixture",
+    "test"
+   ],
+   "role": "header cells that make a table a table of examples (no row of it is a claim)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:ASSUMPTION_TABLE_WORDS",
+   "value": [
+    "assumption",
+    "assumptions",
+    "basis"
+   ],
+   "role": "header cells that make a table a register of assumptions (plan-gate: Content, Basis, Status)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:SENTENCE_END",
+   "value": "709f71da",
+   "role": "where a paragraph is cut into sentences",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:LABEL_MAX_CHARS",
+   "value": 60,
+   "role": "how long a line that ends with a colon may be and still introduce the fenced block under a claim",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:LABEL_WORDS",
+   "value": [
+    "attempt",
+    "attempts",
+    "tried",
+    "failure",
+    "failed",
+    "error",
+    "errors",
+    "output",
+    "command",
+    "commands",
+    "result",
+    "results",
+    "response",
+    "log",
+    "logs",
+    "trace",
+    "traceback",
+    "message",
+    "stderr",
+    "stdout",
+    "ran",
+    "got",
+    "receipt"
+   ],
+   "role": "what such a label line must speak of (attempt, error, output ...)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:ADVERB",
+   "value": "(?:\\w+ly|yet|still|even|ever|really|quite|just|also|now|either)",
+   "role": "the words that may stand between \"could not\" and the verb",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:MODAL_NOT",
+   "value": "(?:can't|cannot|can\\s+not|cant|couldn't|could\\s+not|couldnt)",
+   "role": "the spellings of \"cannot\" and \"could not\", contractions included",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:MODAL_NOT_PAST",
+   "value": "(?:couldn't|could\\s+not|couldnt)",
+   "role": "the past spellings alone (\"could not\"): what makes a statement with a verb of reaching a report",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:VERIFY_VERBS",
+   "value": [
+    "verify",
+    "confirm",
+    "double-check",
+    "cross-check",
+    "validate",
+    "reproduce",
+    "establish",
+    "ascertain",
+    "corroborate",
+    "tell\\s+(?:whether|if|which|what|who|how|when|where|why|from)\\b",
+    "get\\s+(?:any\\s+|a\\s+|an\\s+|the\\s+)?(?:confirmation|verification|access|response|reply|answer)\\b"
+   ],
+   "role": "the verbs of verifying that make \"could not ...\" a claim in any tense (verify, confirm, validate ...)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:ACCESS_VERBS",
+   "value": [
+    "check\\b(?!\\s+(?:(?:this|that|it|them|these|those)\\s+)?(?:in|out|off)\\b)",
+    "determine",
+    "find\\b(?!\\s+(?:any(?:thing)?\\s+|a\\s+|an\\s+|no\\s+|the\\s+|another\\s+)?(?:\\w+\\s+)?(?:wrong|amiss|issues?|problems?|bugs?|errors?|faults?|defects?|flaws?|mistakes?|regressions?|discrepanc\\w+|inconsistenc\\w+|violations?|conflicts?|ways?|alternatives?|workarounds?|solutions?|approach(?:es)?|reasons?|differences?|mismatch(?:es)?|duplicates?|typos?)\\b)(?!\\s+a\\s+single\\b)(?!\\s+(?:any|one|another)\\s+(?:\\w+\\s+)?(?:failing|failed|broken|failures?|counter-?examples?)\\b)(?!\\s+(?:a|an|any)\\s+(?:better|simpler|cheaper|faster|cleaner|shorter|smaller|safer|stronger|more\\s+\\w+|less\\s+\\w+)\\b)",
+    "reach\\b(?!\\s+(?:(?:a|an|any|the|another)\\s+)?(?:\\w+\\s+)?(?:conclusion|verdict|decision|agreement|consensus)\\b)",
+    "access",
+    "obtain",
+    "locate\\b(?!\\s+a\\s+single\\b)",
+    "retrieve"
+   ],
+   "role": "the verbs of finding and reaching, which also describe code (check, determine, find, reach, access ...), with their exceptions (\"find any issues\", \"check this in\", \"reach a conclusion\")",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:VERIFY_PARTICIPLES",
+   "value": [
+    "verified",
+    "confirmed",
+    "validated",
+    "reproduced",
+    "established",
+    "ascertained",
+    "corroborated"
+   ],
+   "role": "the verbs of verifying in \"could not be ...\"",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:ACCESS_PARTICIPLES",
+   "value": [
+    "determined",
+    "checked",
+    "found",
+    "reached",
+    "accessed",
+    "obtained",
+    "located",
+    "retrieved"
+   ],
+   "role": "the verbs of finding and reaching in \"could not be ...\": a claim in the past tense only",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:CLAIM_GERUNDS",
+   "value": [
+    "verifying",
+    "confirming",
+    "checking",
+    "determining",
+    "finding out",
+    "validating",
+    "reproducing",
+    "establishing",
+    "ascertaining"
+   ],
+   "role": "the same verbs in \"no way of ...\"",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:KNOW_VERBS",
+   "value": [
+    "know\\b",
+    "tell\\b",
+    "be\\s+sure\\b"
+   ],
+   "role": "\"no way to know / tell\", \"impossible to tell\": a claim only of \"I\" or in the past tense",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:KNOW_GERUNDS",
+   "value": [
+    "knowing",
+    "telling"
+   ],
+   "role": "the same verbs in \"no way of knowing\"",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:NOT_POSSIBLE",
+   "value": "(?:\\bimpossible|\\binfeasible|(?:\\bnot|n't)\\s+(?:possible|feasible))",
+   "role": "the spellings of \"impossible\" and \"not possible\", the contraction included",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:DATA_NOUNS",
+   "value": [
+    "data",
+    "information",
+    "info",
+    "figure",
+    "figures",
+    "number",
+    "numbers",
+    "statistic",
+    "statistics",
+    "stats",
+    "record",
+    "records",
+    "log",
+    "logs",
+    "detail",
+    "details",
+    "documentation",
+    "history"
+   ],
+   "role": "what \"not available\" and \"no ... exists\" must be said of to be a claim",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:UNVERIFIED_FOLLOWERS",
+   "value": [
+    "at",
+    "in",
+    "on",
+    "by",
+    "as",
+    "so",
+    "and",
+    "but",
+    "or",
+    "because",
+    "since",
+    "from",
+    "for",
+    "until",
+    "after",
+    "here",
+    "yet",
+    "still",
+    "due",
+    "pending",
+    "to",
+    "with",
+    "when",
+    "while",
+    "although",
+    "though",
+    "now",
+    "today",
+    "however"
+   ],
+   "role": "the words after \"unverified\" that leave it a predicate (any other word makes it a description)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:DEGREE_WORDS",
+   "value": [
+    "yet",
+    "independently",
+    "fully",
+    "currently",
+    "publicly",
+    "readily",
+    "still",
+    "simply",
+    "now"
+   ],
+   "role": "the words that may stand in \"not ... verified\" and \"not ... available\"",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:LINK_WORDS",
+   "value": [
+    "for",
+    "from",
+    "of",
+    "on",
+    "in",
+    "about"
+   ],
+   "role": "the words that may join a data noun to what it is about (\"the figures for 2024\")",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:STREAM_WORDS",
+   "value": [
+    "more",
+    "further",
+    "additional",
+    "new",
+    "remaining",
+    "longer"
+   ],
+   "role": "\"there is no MORE data to read\": words that make it a statement about a stream, not about missing facts",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:DATA_FOLLOWERS",
+   "value": [
+    "for",
+    "on",
+    "about",
+    "in",
+    "from",
+    "of",
+    "at",
+    "that",
+    "which",
+    "here",
+    "available",
+    "yet",
+    "anywhere",
+    "whatsoever",
+    "to",
+    "before",
+    "after",
+    "since",
+    "between",
+    "and",
+    "or",
+    "so",
+    "but"
+   ],
+   "role": "the words that may follow \"there is no data\"; any other word makes the noun part of a name (\"no data loss\")",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:SCOPE_WORDS",
+   "value": [
+    "at",
+    "in",
+    "on",
+    "until",
+    "before",
+    "during",
+    "when",
+    "while",
+    "unless",
+    "if",
+    "under",
+    "within",
+    "by"
+   ],
+   "role": "\"not available AT compile time\": the words after \"not available\" that say where or when a thing is offered",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:HERE_AND_NOW",
+   "value": [
+    "the\\s+moment",
+    "this\\s+time",
+    "present",
+    "this\\s+(?:session|environment|sandbox|container|machine|point|stage)",
+    "my\\b",
+    "our\\b"
+   ],
+   "role": "the scopes that are the assistant's own (\"at the moment\", \"in this session\"): there \"not available\" stays a claim",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:CLAIM_FAMILIES",
+   "value": [
+    [
+     "passive",
+     "47d0de37",
+     false
+    ],
+    [
+     "passive-past",
+     "540a73d5",
+     false
+    ],
+    [
+     "modal",
+     "670838bc",
+     true
+    ],
+    [
+     "modal-access",
+     "decb6fac",
+     true
+    ],
+    [
+     "unable",
+     "4f52e878",
+     true
+    ],
+    [
+     "not-able",
+     "41dc84a5",
+     true
+    ],
+    [
+     "failed-to",
+     "f41c5b39",
+     true
+    ],
+    [
+     "no-way",
+     "b39d2660",
+     true
+    ],
+    [
+     "know",
+     "c0d249db",
+     true
+    ],
+    [
+     "no-access",
+     "4486d59a",
+     true
+    ],
+    [
+     "impossible",
+     "80e50299",
+     false
+    ],
+    [
+     "know",
+     "a645e882",
+     false
+    ],
+    [
+     "impossible",
+     "f7827411",
+     false
+    ],
+    [
+     "unverified",
+     "035b273f",
+     false
+    ],
+    [
+     "not-verified",
+     "7a13a694",
+     false
+    ],
+    [
+     "not-available",
+     "df595c0d",
+     false
+    ],
+    [
+     "no-data",
+     "f20cc270",
+     false
+    ]
+   ],
+   "role": "the families of inability claims: name, pattern, and whether the claim's subject is checked",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:SELF_SUBJECTS",
+   "value": [
+    "i",
+    "we"
+   ],
+   "role": "the subjects that are the assistant",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:GENERAL_SUBJECT",
+   "value": "we",
+   "role": "the subject that also speaks for code (\"we can't access the DOM from a worker\"): with a verb of reaching a claim only in the past tense",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:PAST_MODAL",
+   "value": "3450d048",
+   "role": "the past spellings as a pattern, read at the start of a claim",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "receiptlaw.py:SELF_NOUNS",
+   "value": [
+    "session",
+    "container",
+    "sandbox",
+    "environment",
+    "assistant",
+    "agent"
+   ],
+   "role": "nouns that stand for the assistant (\"this session cannot ...\")",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:IMPERSONAL_SUBJECTS",
+   "value": [
+    "there"
+   ],
+   "role": "subjects that name nobody (\"there is no way to ...\"): the assistant's claim",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:JOINING_WORDS",
+   "value": [
+    "and",
+    "but",
+    "so",
+    "then",
+    "or",
+    "yet",
+    "nor",
+    "plus"
+   ],
+   "role": "words after which a claim's subject is left out",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:SELF_WORD",
+   "value": "3b856589",
+   "role": "\"I\" or \"we\" in the clause a claim is joined to",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:OTHER_START",
+   "value": "ae674e37",
+   "role": "how a joined clause about something else starts (the, a, it, they ...)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:SKIPPED_WORDS",
+   "value": [
+    "am",
+    "is",
+    "are",
+    "was",
+    "were",
+    "be",
+    "been",
+    "being",
+    "have",
+    "has",
+    "had",
+    "do",
+    "does",
+    "did",
+    "will",
+    "would",
+    "shall",
+    "may",
+    "might",
+    "still",
+    "also",
+    "just",
+    "simply",
+    "really",
+    "honestly",
+    "currently",
+    "therefore",
+    "thus",
+    "however",
+    "unfortunately",
+    "sadly",
+    "ultimately",
+    "actually",
+    "frankly",
+    "genuinely",
+    "truly",
+    "now",
+    "again",
+    "ever",
+    "even",
+    "too",
+    "both",
+    "either"
+   ],
+   "role": "auxiliaries and adverbs passed over between a claim and its subject",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:SUBJECT_REACH",
+   "value": 6,
+   "role": "how many such words are passed over",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:BEFORE_REACH",
+   "value": 600,
+   "role": "how many characters before a claim are read to tell whose it is and whether it stands (bounds the run time on one very long sentence)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:AFTER_REACH",
+   "value": 300,
+   "role": "how many characters after a claim are read for \"at first\", a period (\"while ...\") and the searched place (bounds the run time on one very long sentence)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:CLAUSE_OPENERS",
+   "value": ":;(,|\ue000\ue001\ue002",
+   "role": "characters after which a claim has no subject before it",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "receiptlaw.py:SUBJECT_PRONOUNS",
+   "value": [
+    "i",
+    "we",
+    "you",
+    "they",
+    "he",
+    "she",
+    "it",
+    "there"
+   ],
+   "role": "pronouns that may stand between \"if\", \"nothing\", \"said\" and the claim",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:NEGATED_BEFORE",
+   "value": "4e6bc7c2",
+   "role": "\"nothing I couldn't verify\": the words before a claim that negate it",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:NEGATED_CLAUSE",
+   "value": "413890c5",
+   "role": "\"none is unverified\": a negation earlier in the clause",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:CONDITIONAL_BEFORE",
+   "value": "72ea6284",
+   "role": "\"if I cannot verify ...\": the words before a claim that make it a condition",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:REPORTED_BEFORE",
+   "value": "479e209d",
+   "role": "\"git says it cannot ...\": the words before a claim that make it somebody's report",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:REPORTED_VERBS",
+   "value": "said|says|say|saying|wrote|writes|reported|reports|printed|prints|replied|replies|answered|answers|responded|stated|states|claimed|claims|warned|warns|complained|complains|reads",
+   "role": "the verbs of saying (said, says, wrote, reported ...)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:REPORTED_OPEN",
+   "value": "a90a56ac",
+   "role": "\"it says so (can't confirm ...)\": an open parenthesis right after a verb of saying holds what was said",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:REPORTED_NOUNS",
+   "value": "claim|statement|remark|assertion|finding|caveat|sentence|allegation",
+   "role": "\"the claim that X could not be verified\": nouns that name what somebody said",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:REPORTED_THAT",
+   "value": "20762c25",
+   "role": "\"he wrote (that) the figures were not available\", \"it isn't that ...\": the clause after a verb of saying, to the next comma",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:SUPERSEDED_AFTER_WORDS",
+   "value": [
+    "at first",
+    "initially",
+    "at the start",
+    "to begin with",
+    "for a while"
+   ],
+   "role": "words AFTER a claim that put it in a state that ended (\"couldn't find it at first\")",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:SUPERSEDED_AFTER",
+   "value": "e9956358",
+   "role": "the same as a pattern, within the clause",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:CONDITION_WORDS",
+   "value": [
+    "if",
+    "unless",
+    "whenever",
+    "when",
+    "where",
+    "whose",
+    "once",
+    "until",
+    "while",
+    "in case"
+   ],
+   "role": "words that open a clause which states a condition or describes (if, when, where, whose ...)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:CONDITION_BEFORE",
+   "value": "82eeb0e2",
+   "role": "\"... when the server could not be reached\": such a clause claims nothing; a comma ends it",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:PERIOD_WORDS",
+   "value": [
+    "while",
+    "during",
+    "whenever",
+    "when",
+    "until"
+   ],
+   "role": "words that open the period of an event after the claim (while, during, until ...)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:PERIOD_AFTER",
+   "value": "ab6bc4e6",
+   "role": "\"could not be reached while the certificate was rotated\": an event in the world with its period",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:EVENT_FAMILIES",
+   "value": [
+    "passive",
+    "passive-past"
+   ],
+   "role": "the families the period is read for (the passives)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:HYPOTHETICAL_BEFORE",
+   "value": "9557504f",
+   "role": "\"it would be impossible to ...\": nothing that happened",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:CAUSATIVE_BEFORE",
+   "value": "dc61ad30",
+   "role": "\"a bug made it impossible to ...\": about the bug",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:PAST_STATE",
+   "value": "5bacf347",
+   "role": "\"there WAS no way to know\": the words that make such a statement a report",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:PAST_REACH",
+   "value": 30,
+   "role": "how many characters before \"no way to know\" are read for such a word",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:OWN_IN_CLAIM",
+   "value": "8b135ed0",
+   "role": "\"no way FOR ME to know\": the assistant named inside the claim",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:SUPERSEDED_WORDS",
+   "value": [
+    "at first",
+    "initially",
+    "earlier",
+    "previously",
+    "originally",
+    "at the start",
+    "until then",
+    "before that"
+   ],
+   "role": "words that put a claim in a state that ended (at first, initially ...)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:SUPERSEDED_BEFORE",
+   "value": "864d6a5a",
+   "role": "the same as a pattern, within the clause",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:MENTION_WORDS",
+   "value": [
+    "phrase",
+    "phrases",
+    "wording",
+    "wordings",
+    "pattern",
+    "patterns",
+    "word list",
+    "the words",
+    "the word",
+    "the term",
+    "the string",
+    "regex",
+    "spelling",
+    "spellings",
+    "contraction",
+    "contractions",
+    "label",
+    "labels"
+   ],
+   "role": "words that make a sentence one about wording (phrase, pattern, label ...)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:MENTION_BEFORE",
+   "value": "3d36d2f3",
+   "role": "the same as a pattern, within the sentence",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:GENERIC_BEFORE",
+   "value": "ee845462",
+   "role": "\"a rule cannot be checked ...\": a general statement in the passive",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:ASSUMPTION_BEFORE",
+   "value": "9e416a08",
+   "role": "\"unconfirmed\" said of an assumption, also one named by its number (A1): its status, not an inability claim",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:ENUMERATION_BEFORE",
+   "value": "39ef303f",
+   "role": "\"verified, likely, and unverified\", \"12 verified, 3 unverified\": a list of labels or a tally",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:STATUS_BEFORE",
+   "value": "eb6b434d",
+   "role": "\"Status: unconfirmed\": a field of plan-gate's register",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:SECTION_BEFORE",
+   "value": "5e27b859",
+   "role": "the section name \"In scope and unverified\" (after-report)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:LABELLED_BEFORE",
+   "value": "05cd8b31",
+   "role": "\"labelled as unverified\": the word used as a label's name",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:ATTRIBUTIVE_BEFORE",
+   "value": "fb2fb65f",
+   "role": "\"an unverified, old assertion\": the word used as a description",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:QUESTION_END",
+   "value": "21c1c081",
+   "role": "how a sentence that is a question ends",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "receiptlaw.py:LABEL_COLON",
+   "value": "07cf15c4",
+   "role": "in \"Unverified: X\" what was not verified starts after the colon",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "receiptlaw.py:SUBJECT_FIRST",
+   "value": [
+    "passive",
+    "passive-past",
+    "unverified",
+    "not-verified",
+    "not-available",
+    "no-data"
+   ],
+   "role": "the families in which what was not verified stands before the claim (\"X cannot be reproduced: ...\"), so a colon after the claim opens the explanation",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:OBJECT_END",
+   "value": "e12a300f",
+   "role": "where the words that say WHAT was not verified end (a receipt must sit outside them)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:ATTEMPT",
+   "value": "aa64ce75",
+   "role": "what counts as a named attempt (ran, tried, searched, from the docs ...)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:FAILURE",
+   "value": "af294bb9",
+   "role": "what counts as a named failure mode (returned, timed out, denied, 404, not installed ...)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:CHOICE",
+   "value": "0fb6cbc0",
+   "role": "the honest alternative said in the claim's sentence (did not check, by choice, NOT-ATTEMPTED ...)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:SEARCH_CLAIM",
+   "value": "c39d1664",
+   "role": "the claims whose verb is a search (find, locate)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:SEARCHED_PLACE",
+   "value": "7ab77111",
+   "role": "\"couldn't find X IN THE repository\": a search that names its place carries its receipt",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:EVIDENCE_MARKS",
+   "value": "\ue000\ue001",
+   "role": "the marks that are a receipt by themselves: a code span, a fenced block, a block quote",
    "status": "structural",
    "record": "",
    "decision": ""

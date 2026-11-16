@@ -9,6 +9,10 @@ module-level name of each is a live value, found by parsing the file, so a value
 changed, fails the check until it is registered. Nothing in them is picked by hand here. Their entries are
 named `<file>:<NAME>`; a compiled pattern is the hash of its source AND its flags. Limit: a hand-set value
 written inside a function, or under a lower-case name, is not seen.
+
+The receipt gate's module (RECEIPT_GATE_FILES: receiptlaw.py) is read the same way since 2026-11-15, when the
+rule moved out of the shell script into it. Its entries replace the three values that used to be cut out of the
+script's text (the two patterns and the window).
 """
 import ast
 import hashlib
@@ -21,6 +25,7 @@ import sys
 REPO = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 HOOKS = os.path.join(REPO, "hooks")
 TURN_GATE_FILES = ("turngate.py", "turn-gates-pretool.py", "governance-enforce.py")
+RECEIPT_GATE_FILES = ("receiptlaw.py",)     # read whole, like the three above
 TURN_GATE_HOOK = "turn-gates-pretool"       # the wiring group whose matcher is registered
 PATTERN_TYPE = type(re.compile(""))
 
@@ -83,12 +88,6 @@ def _turn_gate_matchers(path):
     return [g.get("matcher") for g in groups if any(TURN_GATE_HOOK in str(h.get("command")) for h in g.get("hooks", []))]
 
 
-def _shell_regex(name):
-    src = open(os.path.join(HOOKS, "receipt-law-stop-gate.sh"), encoding="utf-8").read()
-    m = re.search(name + r" = re\.compile\(\n(.*?)\n\s*re\.IGNORECASE\)", src, re.S)
-    return _h(m.group(1)) if m else None
-
-
 def live_values():
     sys.dont_write_bytecode = True      # hooks/ is copied byte for byte: reading it leaves no cache file in it
     sys.path.insert(0, HOOKS)
@@ -96,8 +95,6 @@ def live_values():
     out = {f"CLASS_PATTERN_{k.upper()}": _h(v.pattern) for k, v in govclass.PATTERNS.items()}
     out["ENFORCED_CLASSES"] = list(govclass.ENFORCED)
     out["HARNESS_MARKERS"] = list(govclass.HARNESS_MARKERS)
-    out["RECEIPT_INABILITY_PATTERN"] = _shell_regex("INABILITY")
-    out["RECEIPT_RECEIPT_PATTERN"] = _shell_regex("RECEIPT")
     rem = open(os.path.join(HOOKS, "plan-gate-first-write-reminder.sh"), encoding="utf-8").read()
     out["REMINDER_FIRES_PER_SESSION"] = 1 if "sentinel" in rem else 0
     out["REMINDER_JQ_PATH"] = "/usr/bin/jq" if "/usr/bin/jq" in rem else "PATH"
@@ -114,11 +111,8 @@ def live_values():
     # --- added 2026-11-12: every hand-set value the hooks gained after 2026-10-19 ---
     out["CUE_MIN_WORDS"] = govclass.CUE_MIN_WORDS
     out["CUE_ACK_PATTERN"] = _h(govclass.ACK_RX.pattern)
-    rl = open(os.path.join(HOOKS, "receipt-law-stop-gate.sh"), encoding="utf-8").read()
-    m = re.search(r"^RECEIPT_WINDOW = (\d+)", rl, re.M)
-    out["RECEIPT_WINDOW_CHARS"] = int(m.group(1)) if m else None
     # --- 2026-11-15: the turn gates, read whole (see the module text) ---
-    for filename in TURN_GATE_FILES:
+    for filename in TURN_GATE_FILES + RECEIPT_GATE_FILES:
         out.update(module_constants(filename))
     out["WIRING_TURN_GATES_MATCHER"] = _turn_gate_matchers(os.path.join(REPO, ".claude", "settings.json"))
     out["PLUGIN_TURN_GATES_MATCHER"] = _turn_gate_matchers(os.path.join(REPO, "plugin", "core-governance", "hooks", "hooks.json"))
