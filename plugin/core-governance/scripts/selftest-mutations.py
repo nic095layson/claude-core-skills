@@ -3,7 +3,8 @@
 
 A test table that passes proves little by itself: it also has to fail when the code is wrong. Each break below
 is ONE text replacement in one file (turngate.py, turn-gates-pretool.py, governance-enforce.py, receiptlaw.py,
-receipt-law-stop-gate.sh, or the wiring file's matcher). The runner copies the hooks, applies one break to the copy, and runs the test table
+receipt-law-stop-gate.sh, the project's wiring file or the plugin's). The runner copies the hooks and both wiring
+files (the plugin's with its wrapper), applies one break to the copy, and runs the test table
 (selftest-turn-gates.py) on it: the cases named for the break first and, if none of them fails, the whole table.
 
     python3 hooks/selftest-mutations.py [--hooks DIR] [--jobs N] [--list] [--every-case] [--work DIR] [id ...]
@@ -17,9 +18,10 @@ One line per break, then the counts:
   SURVIVED   every case still passes: the table does not test the rule, or the code path is dead
   STALE      the text to replace is not found exactly once: the code moved on and the break must follow it
   ERROR      the table could not be run on the copy
+  not run    the break is of a wiring file this layout does not have (the plugin's, in a project without it)
 
 The control is the same run with no change; it must show 0 failing cases. Exit status 0 only when the control
-is clean and every break is caught. `--list` prints the list and runs nothing. `--every-case` runs the whole
+is clean and every break is caught (a break of a wiring file the layout does not have is not run). `--list` prints the list and runs nothing. `--every-case` runs the whole
 table for every break and prints every case that catches it (slow; for choosing the named cases). `--work DIR`
 keeps the copies. An id, or the start of one, selects breaks.
 
@@ -48,10 +50,15 @@ sys.dont_write_bytecode = True        # this folder is copied byte for byte: a r
 # ------------------------------------------------------------------ hand-set values of the runner
 TG, PRE, ENF = "turngate.py", "turn-gates-pretool.py", "governance-enforce.py"
 RCP, RCW = "receiptlaw.py", "receipt-law-stop-gate.sh"       # the receipt gate: its module and its wired script
-WIRING = "wiring"                     # the settings file whose matcher sends calls to the pre-tool hook
+WIRING = "wiring"                     # the project's wiring file (.claude/settings.json)
+PLUGIN_WIRING = "plugin-wiring"       # the plugin's wiring file (hooks/hooks.json of the plugin)
 TABLE_SCRIPT = "selftest-turn-gates.py"
-WIRING_PLACES = (os.path.join("..", ".claude", "settings.json"), os.path.join("..", "hooks", "hooks.json"))
-WIRING_COPY = "wiring.json"
+WIRING_PLACES = {WIRING: (os.path.join("..", ".claude", "settings.json"),),
+                 PLUGIN_WIRING: (os.path.join("..", "hooks", "hooks.json"),
+                                 os.path.join("..", "plugin", "core-governance", "hooks", "hooks.json"))}
+WIRING_COPIES = {WIRING: os.path.join("project", "settings.json"),      # the table tells the two apart by name
+                 PLUGIN_WIRING: os.path.join("plugin", "hooks", "hooks.json")}
+WRAPPER = "run-unless-project-wired.sh"   # copied with the plugin's wiring: the table runs its commands
 HOOKS_COPY = "hooks"
 CONTROL_ID = "control"
 DEFAULT_JOBS = 4                      # breaks tested at the same time
@@ -545,7 +552,9 @@ BREAKS = [
      "a short review answer with no tool call passes without a governor", ("P10b-review-only-short-answer",), "PC-7"),
     ("PS22", ENF, "TRIVIA_MAX_CHARS = 400", "TRIVIA_MAX_CHARS = 400000",
      "a long answer is not a short answer", ("P14-long-answer-not-in-record",), "PC-2"),
-    # ---- the wiring: which calls the program sends to the pre-tool hook
+    # ---- the wiring: which calls the program sends to the pre-tool hook. Re-targeted 2026-11-16: the turn-gate
+    # matcher is now two groups (the merge tools alone, with the bare command; every other gated name, behind a
+    # file test). WI01, WI02 and WI04 hit the second group; their texts are found there unchanged.
     ("WI01", WIRING, "|fire_trigger|send_later))$", "|fire_trigger|send_later))",
      "the matcher is anchored at its end: a name that only starts like a gated one is not sent", ("W01-matcher",),
      "new rule W01"),
@@ -554,11 +563,94 @@ BREAKS = [
      "new rule W01"),
     ("WI03", TG, 'MERGE_TOOL_LEAVES = ("merge_pull_request", "enable_pr_auto_merge")',
      'MERGE_TOOL_LEAVES = ("merge_pull_request", "enable_pr_auto_merge", "merge_queue_add")',
-     "every name the code classifies is sent to the pre-tool hook (a name added to the code only)", ("W01-matcher",),
-     "new rule W01"),
+     "every name the code classifies is sent to the pre-tool hook (a name added to the code only)",
+     ("W01-matcher", "W03-wiring-merge-tools-have-a-group-of-their-own"), "new rule W01"),
     ("WI04", WIRING, '"matcher": "^(Edit|Write|NotebookEdit|Bash|', '"matcher": "(Edit|Write|NotebookEdit|Bash|',
      "the matcher is anchored at its start: a name that only ends like a gated one is not sent", ("W01-matcher",),
      "new rule W01"),
+    # ---- the wiring, 2026-11-16 (findings SF-2, SF-4): the merge tools' own group, what a missing script does,
+    # every event's scripts. The auditor's recorded wiring changes are WI11 to WI18 (rev-surfaces M3, M4, M5; the
+    # verifier's N1, N2, N3), each made as one replacement on the two-group wiring.
+    ("WI05", WIRING, '|enable_pr_auto_merge)$"', '|enable_pr_auto_merge)"',
+     "the merge tools' group is anchored at its end", ("W03-wiring-merge-tools-have-a-group-of-their-own",), "SF-4"),
+    ("WI06", WIRING, '"matcher": "^mcp__.*__(merge_pull_request|', '"matcher": "mcp__.*__(merge_pull_request|',
+     "the merge tools' group is anchored at its start", ("W03-wiring-merge-tools-have-a-group-of-their-own",), "SF-4"),
+    ("WI07", WIRING, "(merge_pull_request|enable_pr_auto_merge)$", "(merge_pull_request)$",
+     "the merge tools' group selects every merge tool (auto-merge dropped)",
+     ("W03-wiring-merge-tools-have-a-group-of-their-own", "W01-matcher"), "SF-4"),
+    ("WI08", WIRING, r'"command": "python3 \"$CLAUDE_PROJECT_DIR\"/hooks/turn-gates-pretool.py"',
+     r'"command": "if [ -f \"$CLAUDE_PROJECT_DIR\"/hooks/turn-gates-pretool.py ]; then python3 '
+     r'\"$CLAUDE_PROJECT_DIR\"/hooks/turn-gates-pretool.py; fi"',
+     "a missing pre-tool script denies a merge (the merge group's command keeps no file test)",
+     ("W04-wiring-missing-script-denies-only-the-merge-tools",), "SF-2"),
+    ("WI09", WIRING, r'"command": "if [ -f \"$CLAUDE_PROJECT_DIR\"/hooks/turn-gates-pretool.py ]; then python3 '
+     r'\"$CLAUDE_PROJECT_DIR\"/hooks/turn-gates-pretool.py; fi"',
+     r'"command": "python3 \"$CLAUDE_PROJECT_DIR\"/hooks/turn-gates-pretool.py"',
+     "a missing pre-tool script does not deny every Bash, Edit and Write call (the file test of the other group)",
+     ("W04-wiring-missing-script-denies-only-the-merge-tools",), "SF-2"),
+    ("WI10", WIRING, r'if [ -f \"$CLAUDE_PROJECT_DIR\"/hooks/governance-trigger.py ]',
+     r'if [ -f \"$CLAUDE_PROJECT_DIR\"/hooks/governance-trigger.pyc ]',
+     "the file test runs the script when it is there (a test of the wrong file runs nothing)",
+     ("W06-wiring-commands-run-the-hooks",), "SF-4"),
+    ("WI11", WIRING, ',\n          {\n            "type": "command",\n            "command": "if [ -f '
+     r'\"$CLAUDE_PROJECT_DIR\"/hooks/receipt-law-stop-gate.sh ]; then bash '
+     r'\"$CLAUDE_PROJECT_DIR\"/hooks/receipt-law-stop-gate.sh; fi",' '\n            "timeout": 10\n          }', "",
+     "the project's Stop event runs the receipt gate", ("W02-wiring-every-event-runs-its-scripts",), "SF-4 M5"),
+    ("WI12", WIRING, '"matcher": "^(Edit|Write|NotebookEdit|Bash|Monitor|CronCreate|CronDelete|ScheduleWakeup|'
+     'mcp__.*__(disable_pr_auto_merge|create_pull_request|update_pull_request|update_pull_request_branch|push_files|'
+     'create_or_update_file|delete_file|actions_run_trigger|create_trigger|update_trigger|delete_trigger|fire_trigger|'
+     'send_later))$"', '"matcher": "Edit|Write|NotebookEdit|Bash"',
+     "the project's pre-tool hook is sent the PR and scheduling tools", ("W01-matcher",), "SF-4 M3"),
+    ("WI13", WIRING, '"matcher": "^mcp__.*__(merge_pull_request|enable_pr_auto_merge)$"',
+     '"matcher": "Edit|Write|NotebookEdit|Bash"',
+     "the project's pre-tool hook is sent the merge tools", ("W03-wiring-merge-tools-have-a-group-of-their-own",),
+     "SF-4 M3"),
+    ("WI14", PLUGIN_WIRING, '"matcher": "^(Edit|Write|NotebookEdit|Bash|Monitor|CronCreate|CronDelete|ScheduleWakeup|'
+     'mcp__.*__(disable_pr_auto_merge|create_pull_request|update_pull_request|update_pull_request_branch|push_files|'
+     'create_or_update_file|delete_file|actions_run_trigger|create_trigger|update_trigger|delete_trigger|fire_trigger|'
+     'send_later))$"', '"matcher": "Edit|Write|NotebookEdit|Bash"',
+     "the plugin's pre-tool hook is sent the PR and scheduling tools", ("W01-matcher",), "SF-4 M4"),
+    ("WI15", PLUGIN_WIRING, '"matcher": "^mcp__.*__(merge_pull_request|enable_pr_auto_merge)$"',
+     '"matcher": "Edit|Write|NotebookEdit|Bash"',
+     "the plugin's pre-tool hook is sent the merge tools", ("W03-wiring-merge-tools-have-a-group-of-their-own",),
+     "SF-4 M4"),
+    ("WI16", WIRING, '"matcher": "^mcp__.*__(merge_pull_request|enable_pr_auto_merge)$"', '"matcher": "NoSuchTool"',
+     "the project's merge group reaches a tool that exists", ("W03-wiring-merge-tools-have-a-group-of-their-own",),
+     "SF-4 N1"),
+    ("WI17", PLUGIN_WIRING, '"matcher": "^(Edit|Write|NotebookEdit|Bash|Monitor|CronCreate|CronDelete|ScheduleWakeup|'
+     'mcp__.*__(disable_pr_auto_merge|create_pull_request|update_pull_request|update_pull_request_branch|push_files|'
+     'create_or_update_file|delete_file|actions_run_trigger|create_trigger|update_trigger|delete_trigger|fire_trigger|'
+     'send_later))$"', '"matcher": "NoSuchTool"',
+     "the plugin's other gated names reach the pre-tool hook", ("W01-matcher",), "SF-4 N3"),
+    ("WI18", WIRING, '{\n            "type": "command",\n            "command": "if [ -f '
+     r'\"$CLAUDE_PROJECT_DIR\"/hooks/plan-gate-first-write-reminder.sh ]; then bash '
+     r'\"$CLAUDE_PROJECT_DIR\"/hooks/plan-gate-first-write-reminder.sh; fi",' '\n            "timeout": 10\n'
+     '          },\n          ', "",
+     "the project's first write runs the plan-gate reminder", ("W02-wiring-every-event-runs-its-scripts",), "SF-4 N2"),
+    ("WI19", PLUGIN_WIRING, ',\n          {\n            "type": "command",\n            "command": '
+     r'"w=\"${CLAUDE_PLUGIN_ROOT}/scripts/run-unless-project-wired.sh\"; if [ -f \"$w\" ]; then bash \"$w\" '
+     'receipt-law-stop-gate.sh; fi",\n            "timeout": 10\n          }', "",
+     "the plugin's Stop event runs the receipt gate", ("W02-wiring-every-event-runs-its-scripts",), "SF-4"),
+    ("WI20", PLUGIN_WIRING, '>&2; exit 2; fi"', '>&2; exit 0; fi"',
+     "a plugin missing its pre-tool script denies a merge",
+     ("W04-wiring-missing-script-denies-only-the-merge-tools",), "SF-2"),
+    ("WI21", PLUGIN_WIRING, r'"w=\"${CLAUDE_PLUGIN_ROOT}/scripts/run-unless-project-wired.sh\"; if [ -f \"$w\" ]; '
+     r'then bash \"$w\" governance-trigger.py; fi"',
+     r'"bash \"${CLAUDE_PLUGIN_ROOT}/scripts/run-unless-project-wired.sh\" governance-trigger.py"',
+     "a plugin command whose wrapper is missing ends with status 0",
+     ("W04-wiring-missing-script-denies-only-the-merge-tools",), "SF-2"),
+    ("WI22", PLUGIN_WIRING, r'bash \"$w\" session-doctrine.sh', r'bash \"$w\" session-doctrin.sh',
+     "every script the plugin's wiring names is beside the hooks", ("W05-wiring-scripts-beside-the-hooks",), "SF-2"),
+    ("WI23", WIRING, '"matcher": "compact|resume"', '"matcher": "compact"',
+     "the session hook runs on a resume as well as after a compaction",
+     ("W02-wiring-every-event-runs-its-scripts",), "SF-4"),
+    ("WI24", WIRING, r'then python3 \"$CLAUDE_PROJECT_DIR\"/hooks/governance-trigger.py; fi',
+     r'then python3 \"$CLAUDE_PROJECT_DIR\"/hooks/governance-triggers.py; fi',
+     "every script the project's wiring runs is beside the hooks", ("W05-wiring-scripts-beside-the-hooks",), "SF-2"),
+    ("WI25", PLUGIN_WIRING, "|fire_trigger|send_later))$", "|fire_trigger|send_later))",
+     "the plugin's matcher is anchored at its end", ("W01-matcher",), "SF-4"),
+    ("WI26", PLUGIN_WIRING, '|enable_pr_auto_merge)$"', '|enable_pr_auto_merge)"',
+     "the plugin's merge group is anchored at its end", ("W03-wiring-merge-tools-have-a-group-of-their-own",), "SF-4"),
     # ---- the receipt gate (receiptlaw.py, run by receipt-law-stop-gate.sh): table "R" of the test table
     # -- the 13 recorded breaks of the 2026-11-12 audit (finding RL-8), re-targeted at the rebuilt gate
     ("RC01", RCP, '    if data.get("stop_hook_active") and not model.feedback(start):', "    if False:",
@@ -1042,16 +1134,20 @@ BREAKS = [
 
 # ------------------------------------------------------------------ the runner
 def find_wiring(hooks):
-    """The settings file that belongs to a hooks folder: the project's, or the plugin's."""
-    for place in WIRING_PLACES:
-        path = os.path.normpath(os.path.join(hooks, place))
-        if os.path.isfile(path):
-            return path
-    return None
+    """The wiring files that belong to a hooks folder: {kind: path} for the project's and the plugin's found."""
+    found = {}
+    for kind, places in sorted(WIRING_PLACES.items()):
+        for place in places:
+            path = os.path.normpath(os.path.join(hooks, place))
+            if os.path.isfile(path):
+                found[kind] = path
+                break
+    return found
 
 
 def make_copy(hooks, wiring, root, name):
-    """A copy of the hooks (every plain file) and of the wiring file in a folder of its own."""
+    """A copy of the hooks (every plain file) and of each wiring file in a folder of its own -> (hooks copy,
+    {kind: wiring copy}). The plugin's wiring file is copied with the wrapper beside it, as in the plugin."""
     folder = os.path.join(root, name)
     copy = os.path.join(folder, HOOKS_COPY)
     os.makedirs(copy)
@@ -1059,10 +1155,15 @@ def make_copy(hooks, wiring, root, name):
         src = os.path.join(hooks, entry)
         if os.path.isfile(src):
             shutil.copy(src, copy)
-    wired = None
-    if wiring:
-        wired = os.path.join(folder, WIRING_COPY)
-        shutil.copy(wiring, wired)
+    wired = {}
+    for kind, path in sorted(wiring.items()):
+        wired[kind] = os.path.join(folder, WIRING_COPIES[kind])
+        os.makedirs(os.path.dirname(wired[kind]))
+        shutil.copy(path, wired[kind])
+        wrapper = os.path.join(os.path.dirname(os.path.dirname(path)), "scripts", WRAPPER)
+        if kind == PLUGIN_WIRING and os.path.isfile(wrapper):
+            os.makedirs(os.path.join(folder, "plugin", "scripts"))
+            shutil.copy(wrapper, os.path.join(folder, "plugin", "scripts", WRAPPER))
     return copy, wired
 
 
@@ -1070,8 +1171,8 @@ def run_table(copy, wired, names, jobs):
     """Run the test table on a copy -> (names of the failing cases, number of cases), or None when the table
     did not run to its last line."""
     cmd = [sys.executable, os.path.join(copy, TABLE_SCRIPT), "--hooks", copy, "--jobs", str(jobs), "--only-failing"]
-    if wired:
-        cmd += ["--wiring", wired]
+    for kind in sorted(wired):
+        cmd += ["--wiring", wired[kind]]
     env = dict(os.environ)
     env["PYTHONDONTWRITEBYTECODE"] = "1"
     try:
@@ -1091,8 +1192,10 @@ def run_table(copy, wired, names, jobs):
 def test_break(entry, hooks, wiring, root, every_case):
     """-> (state, text): state is caught | SURVIVED | STALE | ERROR."""
     bid, fname, old, new, _rule, cases, _origin = entry
+    if fname in (WIRING, PLUGIN_WIRING) and fname not in wiring:
+        return "absent", "not run: this layout has no %s file (a project without the plugin)" % fname
     copy, wired = make_copy(hooks, wiring, root, bid)
-    target = wired if fname == WIRING else os.path.join(copy, fname)
+    target = wired.get(fname) if fname in (WIRING, PLUGIN_WIRING) else os.path.join(copy, fname)
     try:
         with open(target, encoding="utf-8") as fh:
             text = fh.read()
@@ -1137,7 +1240,7 @@ def list_problems(hooks):
         if bid in seen or bid == CONTROL_ID:
             problems.append("%s: the id is used twice" % bid)
         seen.add(bid)
-        if fname not in (TG, PRE, ENF, RCP, RCW, WIRING):
+        if fname not in (TG, PRE, ENF, RCP, RCW, WIRING, PLUGIN_WIRING):
             problems.append("%s: %s is not a file this list may break" % (bid, fname))
         if not cases:
             problems.append("%s: names no case" % bid)
@@ -1191,7 +1294,7 @@ def main(argv):
     if work is not None:
         os.makedirs(work, exist_ok=True)
     root = os.path.abspath(tempfile.mkdtemp(prefix="turn-gates-breaks-", dir=work))
-    counts = {"caught": 0, "SURVIVED": 0, "STALE": 0, "ERROR": 0}
+    counts = {"caught": 0, "SURVIVED": 0, "STALE": 0, "ERROR": 0, "absent": 0}
     try:
         copy, wired = make_copy(hooks, wiring, root, CONTROL_ID)
         control = run_table(copy, wired, (), TABLE_JOBS)          # alone, before the breaks start
@@ -1215,9 +1318,10 @@ def main(argv):
         if work is None:
             shutil.rmtree(root, ignore_errors=True)
     tail = "" if not counts["ERROR"] else ", %d could not be run" % counts["ERROR"]
+    tail += "" if not counts["absent"] else ", %d not run (their wiring file is not in this layout)" % counts["absent"]
     print("== %d breaks: %d caught, %d survived, %d stale%s; control: %s ==" % (
         len(chosen), counts["caught"], counts["SURVIVED"], counts["STALE"], tail, control_text))
-    return 0 if clean and counts["caught"] == len(chosen) else 1
+    return 0 if clean and counts["caught"] + counts["absent"] == len(chosen) and counts["caught"] else 1
 
 
 if __name__ == "__main__":

@@ -169,9 +169,10 @@
   {
    "name": "WIRING_TURN_GATES_MATCHER",
    "value": [
-    "^(Edit|Write|NotebookEdit|Bash|Monitor|CronCreate|CronDelete|ScheduleWakeup|mcp__.*__(merge_pull_request|enable_pr_auto_merge|disable_pr_auto_merge|create_pull_request|update_pull_request|update_pull_request_branch|push_files|create_or_update_file|delete_file|actions_run_trigger|create_trigger|update_trigger|delete_trigger|fire_trigger|send_later))$"
+    "^mcp__.*__(merge_pull_request|enable_pr_auto_merge)$",
+    "^(Edit|Write|NotebookEdit|Bash|Monitor|CronCreate|CronDelete|ScheduleWakeup|mcp__.*__(disable_pr_auto_merge|create_pull_request|update_pull_request|update_pull_request_branch|push_files|create_or_update_file|delete_file|actions_run_trigger|create_trigger|update_trigger|delete_trigger|fire_trigger|send_later))$"
    ],
-   "role": "project wiring (.claude/settings.json): the names the program sends to the pre-tool hook of the turn gates; case W01 of hooks/selftest-turn-gates.py checks it against the names turngate.py classifies",
+   "role": "project wiring (.claude/settings.json): the names the program sends to the pre-tool hook of the turn gates, in two groups since 2026-11-16: the merge tools alone (the bare command: a missing script denies them) and every other gated name (behind a file test: a missing script lets them through); cases W01 and W03 of hooks/selftest-turn-gates.py check them against the names turngate.py classifies",
    "status": "structural",
    "record": "",
    "decision": ""
@@ -179,9 +180,10 @@
   {
    "name": "PLUGIN_TURN_GATES_MATCHER",
    "value": [
-    "^(Edit|Write|NotebookEdit|Bash|Monitor|CronCreate|CronDelete|ScheduleWakeup|mcp__.*__(merge_pull_request|enable_pr_auto_merge|disable_pr_auto_merge|create_pull_request|update_pull_request|update_pull_request_branch|push_files|create_or_update_file|delete_file|actions_run_trigger|create_trigger|update_trigger|delete_trigger|fire_trigger|send_later))$"
+    "^mcp__.*__(merge_pull_request|enable_pr_auto_merge)$",
+    "^(Edit|Write|NotebookEdit|Bash|Monitor|CronCreate|CronDelete|ScheduleWakeup|mcp__.*__(disable_pr_auto_merge|create_pull_request|update_pull_request|update_pull_request_branch|push_files|create_or_update_file|delete_file|actions_run_trigger|create_trigger|update_trigger|delete_trigger|fire_trigger|send_later))$"
    ],
-   "role": "plugin wiring (plugin/core-governance/hooks/hooks.json): the names the program sends to the pre-tool hook of the turn gates; case W01 of hooks/selftest-turn-gates.py checks it against the names turngate.py classifies",
+   "role": "plugin wiring (plugin/core-governance/hooks/hooks.json): the names the program sends to the pre-tool hook of the turn gates, in two groups since 2026-11-16: the merge tools alone (the bare command: a missing script denies them) and every other gated name (behind a file test: a missing script lets them through); cases W01 and W03 of hooks/selftest-turn-gates.py check them against the names turngate.py classifies",
    "status": "structural",
    "record": "",
    "decision": ""

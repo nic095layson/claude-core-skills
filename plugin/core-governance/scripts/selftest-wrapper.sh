@@ -58,6 +58,11 @@ out=$(echo '{}' | bash "$W"); rc=$?
 # 8. unknown hook file -> silent exit 0
 out=$(echo '{}' | run_cloud "$T/bare" does-not-exist.py); rc=$?
 [ $rc -eq 0 ] && [ -z "$out" ] && ok "unknown hook file -> silent exit 0" || bad "unknown hook" "rc=$rc out=$out"
+# 10. local + the project wires OTHER hooks but not this one -> runs (added 2026-11-16, finding SF-6: a wrapper
+# that yields when the project wires any hook at all passed every case above). A merge with no record -> deny.
+out=$(printf '{"session_id":"s10","transcript_path":"","tool_name":"mcp__github__merge_pull_request","tool_input":{"owner":"acme","repo":"lib","pullNumber":5},"hook_event_name":"PreToolUse"}' \
+  | TURNGATE_STATE_DIR="$T" run_local "$T/wired" turn-gates-pretool.py)
+printf '%s' "$out" | grep -q '"permissionDecision": "deny"' && ok "local + project wires other hooks, not this one -> runs (merge denied)" || bad "a hook the project does not wire should run" "$out"
 # 9. unparseable settings in a local session -> runs (fail toward governance)
 printf 'not json' > "$T/allowonly/.claude/settings.json"
 out=$(prompt s9 "$INC" | run_local "$T/allowonly" governance-trigger.py)

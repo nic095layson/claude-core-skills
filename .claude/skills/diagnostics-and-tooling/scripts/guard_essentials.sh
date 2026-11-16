@@ -159,17 +159,31 @@ PY
 
 # --- 9. Plugin twin of the pack (INC-2026-10-13-01, later the same day) --------
 # plugin/core-governance/scripts/* are copies of hooks/*. Two packs that disagree is the
-# drift failure this ledger keeps recording; a copy that drifts fails here.
-pp=0
-for f in govclass.py governance-trigger.py governance-enforce.py session-doctrine.sh plan-gate-first-write-reminder.sh scope-fence-reminder.sh receipt-law-stop-gate.sh receiptlaw.py selftest-governance-classify.py selftest-receipt-law.sh turngate.py turn-gates-pretool.py selftest-turn-gates.py selftest_rows.py selftest-mutations.py; do
-  cmp -s "hooks/$f" "plugin/core-governance/scripts/$f" || { bad "plugin parity: plugin/core-governance/scripts/$f differs from hooks/$f (or is missing)"; pp=1; }
+# drift failure this ledger keeps recording; a copy that drifts fails here. Since 2026-11-16 (finding SF-6) the
+# list is computed, not typed: EVERY file of the plugin's scripts that has a twin in hooks/ is compared, and the
+# plugin must hold every file the two wiring files run and every file those import or run (the table's --needs).
+pp=0; pn=0
+for p in plugin/core-governance/scripts/*; do
+  [ -f "$p" ] || continue; f=$(basename "$p"); [ -f "hooks/$f" ] || continue; pn=$((pn+1))
+  cmp -s "hooks/$f" "$p" || { bad "plugin parity: $p differs from hooks/$f"; pp=1; }
 done
-[ "$pp" -eq 0 ] && ok "plugin parity: 15 scripts byte-identical to hooks/"
+[ "$pn" -gt 0 ] || { bad "plugin parity: plugin/core-governance/scripts holds no copy of hooks/"; pp=1; }
+[ "$pp" -eq 0 ] && ok "plugin parity: all $pn scripts that have a twin in hooks/ are byte-identical to it"
+# What a project needs beside its hooks (the wired scripts, what they import or run, the self-tests of those),
+# computed from both wiring files over hooks/; the plugin must hold every one of them.
+pneed=$(python3 hooks/selftest-turn-gates.py --needs --wiring .claude/settings.json --wiring plugin/core-governance/hooks/hooks.json 2>&1)
+prc=$?; pm=""
+for f in $(printf '%s\n' "$pneed" | grep '|' | cut -d'|' -f1); do
+  [ -f "plugin/core-governance/scripts/$f" ] || pm="$pm $f"
+done
+if [ "$prc" -ne 0 ]; then bad "hooks/: a file the wiring runs or imports is missing:"; printf '%s\n' "$pneed" | grep -vE '\| (wired|imported|run|tests)[^|]*$' | sed 's/^/        /'
+elif [ -n "$pm" ]; then bad "plugin: missing from plugin/core-governance/scripts (the wiring runs, imports or tests it):$pm"
+else ok "plugin: holds every file the wiring runs, imports or tests ($(printf '%s\n' "$pneed" | grep -c '|') files, computed)"; fi
 python3 - <<'PY2' 2>/dev/null && ok "plugin: hooks.json wrapped in \"hooks\", every command via \${CLAUDE_PLUGIN_ROOT} and the defer wrapper" || bad "plugin: hooks/hooks.json missing, unwrapped, or a command bypasses run-unless-project-wired.sh"
 import json
 h=json.load(open('plugin/core-governance/hooks/hooks.json'))['hooks']
 cmds=[x['command'] for e in ('SessionStart','UserPromptSubmit','PreToolUse','Stop') for g in h[e] for x in g['hooks']]
-assert len(cmds)==7 and all('${CLAUDE_PLUGIN_ROOT}' in c and 'run-unless-project-wired.sh' in c for c in cmds)
+assert len(cmds)==8 and all('${CLAUDE_PLUGIN_ROOT}' in c and 'run-unless-project-wired.sh' in c for c in cmds)
 for need in ('governance-trigger.py','governance-enforce.py','session-doctrine.sh','receipt-law-stop-gate.sh','plan-gate-first-write-reminder.sh','scope-fence-reminder.sh','turn-gates-pretool.py'):
     assert any(need in c for c in cmds), need
 PY2

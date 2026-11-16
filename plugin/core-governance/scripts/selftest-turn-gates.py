@@ -4,7 +4,8 @@ Stop gate (governance-enforce.py) and the receipt gate (receipt-law-stop-gate.sh
 the shared module (turngate.py) behind them.
 
     python3 hooks/selftest-turn-gates.py [--hooks DIR] [--jobs N] [--list] [--only-failing]
-                                         [--wiring FILE] [--work DIR] [name prefix ...]
+                                         [--wiring FILE ...] [--work DIR] [name prefix ...]
+    python3 hooks/selftest-turn-gates.py --needs [--hooks DIR] [--wiring FILE ...]
 
 Every case builds a session record in the real row shapes (selftest_rows.py), runs a hook as a subprocess with
 the input the program gives it, and compares the verdict with the wanted one. Nothing of the hooks is imported
@@ -14,8 +15,12 @@ here: the table judges what the hooks print. One line per case:
 
 and a last line `== N cases: P pass, F fail ==`. Exit status 0 only when F is 0. `--list` prints
 `name | findings | wanted` and runs nothing. `--hooks DIR` tests another copy of the hooks (default: this
-directory). `--wiring FILE` names the settings file whose matcher W01 reads (default: `../.claude/settings.json`
-of the hooks directory, then `../hooks/hooks.json`). `--work DIR` keeps every case's files in DIR.
+directory). `--wiring FILE` names a wiring file the cases of table "W" read and run; it may be given more than
+once, and a file named `hooks.json` is taken for the plugin's (default: every one of `../.claude/settings.json`,
+`../hooks/hooks.json` and `../plugin/core-governance/hooks/hooks.json` of the hooks directory that exists).
+`--work DIR` keeps every case's files in DIR. `--needs` runs no case: it prints the files a project must carry
+beside its hooks, computed from the wiring files and the imports (one `name | why` line each, MISSING where the
+hooks directory lacks one), and exits 1 when one is missing. The install runbook and `sync-copies.sh` use it.
 
 The wanted verdicts of the cases in tables 1, 2 and 3 were fixed before any run, in
 experiments/hypothesis-2026-11-15-turn-gates-cases.md. They are never changed to make a case pass. The cases
@@ -112,6 +117,35 @@ READ_ONLY_NAMES = (
     "mcp__github__list_branches", "mcp__github__issue_read", "mcp__github__get_me", "mcp__other__get_trigger",
     "mcp__other__list_triggers", "mcp__other__list_sessions", "mcp__other__merge_pull_request_status",
     "mcp__other__premerge_pull_request", "merge_pull_request")
+
+# Table "W" (the wiring, added 2026-11-16): both wiring files of the layout under test, read and run.
+PROJECT_WIRING = (".claude", "settings.json")              # the project's wiring, from the folder above the hooks
+PLUGIN_WIRINGS = (("hooks", "hooks.json"), ("plugin", "core-governance", "hooks", "hooks.json"))   # the plugin's
+PLUGIN_WIRING_NAME = "hooks.json"                          # a wiring file of this name is the plugin's
+WRAPPER = "run-unless-project-wired.sh"                    # the plugin's entry point: in the plugin's scripts only
+PROJECT_SCRIPT = re.compile(r"/hooks/([A-Za-z0-9_.-]+\.(?:py|sh))\b")
+PLUGIN_SCRIPT = re.compile(r"\bbash\s+\"[^\"]*\"(?:/\S*)?\s+([A-Za-z0-9_.-]+\.(?:py|sh))\b")    # the name handed to the wrapper
+WIRED_EVENTS = (("SessionStart", ("session-doctrine.sh",)), ("UserPromptSubmit", (TRIGGER_SCRIPT,)),
+                ("PreToolUse", ("plan-gate-first-write-reminder.sh", "scope-fence-reminder.sh", PRE_SCRIPT)),
+                ("Stop", (STOP_SCRIPT, RECEIPT_SCRIPT)))   # every script each event must run
+WIRED_SELECTS = {"session-doctrine.sh": ("compact", "resume"),                  # what the group of each must select
+                 "plan-gate-first-write-reminder.sh": ("Edit", "Write", "NotebookEdit"),
+                 "scope-fence-reminder.sh": ("Edit", "Write", "NotebookEdit")}
+MERGE_GROUP_LEAVES = ("merge_pull_request", "enable_pr_auto_merge")   # the merge tools: their group fails closed
+ANCHOR_PROBES = ("x%s", "%s_x")       # names that only contain a merge tool's name: the merge group must not select them
+BLOCKING_STATUS = 2                   # H4: what python3 and bash exit with on a missing script; it denies the call
+COMMAND_SHELLS = ("sh", "bash")       # the program runs a hook's command through a shell
+COMMAND_SHELL = "sh"                  # the shell W06 runs the commands with
+SELFTEST_PREFIX = "selftest"          # the tests a project carries beside its hooks are named so
+PY_IMPORT = re.compile(r"^[ \t]*(?:import[ \t]+([A-Za-z_]\w*)(?:[ \t]+as[ \t]+\w+)?[ \t]*(?:#.*)?$|"
+                       r"from[ \t]+([A-Za-z_]\w*)[ \t]+import[ \t])", re.M)
+SIBLING = re.compile(r"[A-Za-z0-9_.-]+\.(?:py|sh)\b")
+QUOTED_SIBLING = re.compile(r"[\"']([A-Za-z0-9_.-]+\.(?:py|sh))[\"']")
+DISPUTE = ("I don't agree that career averages are being taken into account. Please provide dissertation "
+           "response.")                                 # a prompt the trigger must answer (W06)
+TRIGGER_WORDS = "Governance auto-trigger"
+REMINDER_WORDS = ("Plan check (plan-gate skill)", "Scope check (scope-fence skill)")   # the two reminders
+DOCTRINE_WORDS = "Post-compaction protocol"
 
 # J17: where the stretch starts in four records, counted by hand from the rows (first row = 0).
 SPAN_LITERALS = {"F01-ungoverned-commit": 1, "F22-loads-of-previous-turn-do-not-count": 8,
@@ -1124,20 +1158,9 @@ MODULE_NAMES = ("import json, sys\nsys.path.insert(0, sys.argv[1])\nout = {}\ntr
 
 
 def matcher_selects_every_classified_name(ctx):
-    up = os.path.dirname(os.path.abspath(ctx.hooks))
-    candidates = [ctx.wiring] if ctx.wiring else [os.path.join(up, ".claude", "settings.json"), os.path.join(up, "hooks", "hooks.json")]
-    wiring = next((p for p in candidates if os.path.isfile(p)), None)
-    if wiring is None:
+    files = wiring_files(ctx)
+    if not files:
         return "no wiring file", False
-    try:
-        with open(wiring, encoding="utf-8") as fh:
-            groups = (json.load(fh).get("hooks") or {}).get("PreToolUse") or []
-        matchers = [g.get("matcher") for g in groups if isinstance(g, dict)
-                    and any(PRE_SCRIPT in str(h.get("command")) for h in g.get("hooks") or [] if isinstance(h, dict))]
-    except Exception:
-        return "the wiring file cannot be read", False
-    if not matchers:
-        return "no group of the wiring file runs " + PRE_SCRIPT, False
     helper = ctx.path("module_names.py")
     with open(helper, "w", encoding="utf-8") as fh:
         fh.write(MODULE_NAMES)
@@ -1149,12 +1172,26 @@ def matcher_selects_every_classified_name(ctx):
     leaves = set(WIRED_LEAVES).union(*[declared.get(n, []) for n in MODULE_LEAF_CONSTANTS])
     names = set(WIRED_BUILTINS).union(*[declared.get(n, []) for n in MODULE_NAME_CONSTANTS])
     names |= set(prefix + leaf for prefix in WIRED_PREFIXES for leaf in leaves)
-    missed = sorted(n for n in names if not any(selects(m, n) for m in matchers))
-    extra = sorted(n for n in READ_ONLY_NAMES if any(selects(m, n) for m in matchers))
-    if not missed and not extra:
+    problems = []
+    for wiring, _kind in files:            # every wiring file of the layout; in each, the union of its groups
+        try:
+            groups = wiring_groups(wiring).get("PreToolUse", [])
+        except Exception:
+            problems.append("%s cannot be read" % os.path.basename(wiring))
+            continue
+        matchers = [m for m, commands in groups if any(PRE_SCRIPT in c for c in commands)]
+        if not matchers:
+            problems.append("no group of %s runs %s" % (os.path.basename(wiring), PRE_SCRIPT))
+            continue
+        missed = sorted(n for n in names if not any(selects(m, n) for m in matchers))
+        extra = sorted(n for n in READ_ONLY_NAMES if any(selects(m, n) for m in matchers))
+        if missed or extra:
+            problems.append("%s: %d of %d classified names not selected (%s); %d read-only names selected (%s)" % (
+                os.path.basename(wiring), len(missed), len(names), ", ".join(missed[:3]) or "-", len(extra),
+                ", ".join(extra[:3]) or "-"))
+    if not problems:
         return "all selected, no read-only name selected", True
-    return "%d of %d classified names not selected (%s); %d read-only names selected (%s)" % (
-        len(missed), len(names), ", ".join(missed[:3]) or "-", len(extra), ", ".join(extra[:3]) or "-"), False
+    return "; ".join(problems), False
 
 
 case("W01-matcher", "SF-3 F1-3", "all selected, no read-only name selected", matcher_selects_every_classified_name)
@@ -2186,7 +2223,368 @@ case("RLZ17-module-by-itself-internal-error", "fail-open", "allow", module_alone
 case("RLZ18-module-by-itself-input-not-json", "fail-open", "allow", module_alone("", "not json"))
 
 
+
+# ==================================================================== table "W": the wiring (added 2026-11-16)
+# The wiring files decide which calls and events reach the hooks, and what a missing script does: python3 and
+# bash exit 2 on a script that is not there, and before a tool call that status denies it (H4). So: every
+# command runs its script only when the file is there, except the one group for the merge tools alone, whose
+# missing script denies the merge. These cases read and run BOTH wiring files of the layout under test (the
+# project's settings and, where the layout has one, the plugin's hooks.json; `--wiring FILE`, repeatable, names
+# them instead). Wanted verdicts written from the unit's objective before the wiring changed (SF-2, SF-4).
+TABLE[0] = "W"
+
+
+def wiring_files(ctx):
+    """-> [(path, kind)] for every wiring file of the layout, kind "plugin" or "project"."""
+    if ctx.wiring:
+        paths = list(ctx.wiring)
+    else:
+        up = os.path.dirname(os.path.abspath(ctx.hooks))
+        paths = [p for p in (os.path.join(up, *place) for place in (PROJECT_WIRING,) + PLUGIN_WIRINGS)
+                 if os.path.isfile(p)]
+    return [(p, "plugin" if os.path.basename(p) == PLUGIN_WIRING_NAME else "project") for p in paths]
+
+
+def wiring_groups(path):
+    """-> {event: [(matcher, [command, ...]), ...]}. Raises on a file that cannot be read."""
+    with open(path, encoding="utf-8") as fh:
+        events = json.load(fh).get("hooks") or {}
+    out = {}
+    for event, groups in events.items():
+        for g in groups or []:
+            if isinstance(g, dict):
+                out.setdefault(event, []).append((g.get("matcher"), [str(h.get("command") or "") for h in
+                                                                     g.get("hooks") or [] if isinstance(h, dict)]))
+    return out
+
+
+def scripts_of(command, kind):
+    """The scripts of the hooks folder a command runs (for the plugin: the names it hands the wrapper)."""
+    return sorted(set((PLUGIN_SCRIPT if kind == "plugin" else PROJECT_SCRIPT).findall(command)))
+
+
+def wired_scripts(files):
+    """-> {script: [wiring file name, ...]} over every command of every file."""
+    out = {}
+    for wiring, kind in files:
+        for groups in wiring_groups(wiring).values():
+            for _matcher, commands in groups:
+                for c in commands:
+                    for s in scripts_of(c, kind):
+                        out.setdefault(s, []).append(os.path.basename(wiring))
+    return out
+
+
+STDLIB_PROBE = ("import importlib.util, json, sys\n"
+                "print(json.dumps([n for n in sys.argv[1:] if importlib.util.find_spec(n) is None]))\n")
+
+
+def needed(hooks, scripts):
+    """The files a project carries beside its hooks: the wired scripts, the modules and scripts they import or
+    run, the self-tests that test any of them, and what those need. -> ({name: why}, [missing names])."""
+    present = set(n for n in os.listdir(hooks) if os.path.isfile(os.path.join(hooks, n)))
+    texts = {}
+
+    def text(name):
+        if name not in texts:
+            try:
+                with open(os.path.join(hooks, name), encoding="utf-8") as fh:
+                    texts[name] = fh.read()
+            except Exception:
+                texts[name] = None
+        return texts[name]
+
+    def imports(name):
+        body = text(name) or ""
+        if name.endswith(".py"):        # a self-test also runs the files it names in a string
+            return [a or b for a, b in PY_IMPORT.findall(body)], (QUOTED_SIBLING.findall(body) if
+                                                                  name.startswith(SELFTEST_PREFIX) else [])
+        code = "\n".join(line for line in body.splitlines() if not line.lstrip().startswith("#"))
+        return [], SIBLING.findall(code)
+
+    why, modules, todo = {}, {}, [(s, "wired") for s in scripts]
+    while True:
+        if not todo:                         # the self-tests that test any file found so far
+            todo = [(n, "tests " + hit) for n in sorted(present - set(why)) if n.startswith(SELFTEST_PREFIX)
+                    for hit in [next((f for f in sorted(why) if f in SIBLING.findall(text(n) or "")), None)] if hit]
+            if not todo:
+                break
+        name, reason = todo.pop(0)
+        if name in why:
+            continue
+        why[name] = reason
+        mods, files = imports(name)
+        for m in mods:
+            modules.setdefault(m, name)
+            if m + ".py" in present:
+                todo.append((m + ".py", "imported by " + name))
+        # what a self-test names is needed only when it is there; what a hook's own code runs is needed always
+        todo += [(f, "run by " + name) for f in files if f != name and (f in present or not
+                                                                        name.startswith(SELFTEST_PREFIX))]
+    unknown = sorted(m for m in modules if m + ".py" not in present)
+    if unknown:                              # a module that is neither beside the hooks nor installed is missing
+        p = subprocess.run([sys.executable, "-I", "-c", STDLIB_PROBE] + unknown, stdout=subprocess.PIPE,
+                           stderr=subprocess.PIPE, universal_newlines=True, timeout=HOOK_WAIT_SECONDS)
+        for m in json.loads(p.stdout or "[]"):
+            why[m + ".py"] = "imported by " + modules[m]
+    missing = sorted(n for n in why if n not in present)
+    return why, missing
+
+
+def every_event_runs_its_scripts(ctx):
+    files = wiring_files(ctx)
+    if not files:
+        return "no wiring file", False
+    problems = []
+    for wiring, kind in files:
+        name = os.path.basename(wiring)
+        try:
+            events = wiring_groups(wiring)
+        except Exception:
+            problems.append(name + " cannot be read")
+            continue
+        for event, scripts in WIRED_EVENTS:
+            run = [(m, s) for m, commands in events.get(event, []) for c in commands for s in scripts_of(c, kind)]
+            for s in scripts:
+                matchers = [m for m, x in run if x == s]
+                if not matchers:
+                    problems.append("%s: %s does not run %s" % (name, event, s))
+                    continue
+                lost = [w for w in WIRED_SELECTS.get(s, ()) if not any(selects(m, w) for m in matchers)]
+                if lost:
+                    problems.append("%s: %s runs %s but not for %s" % (name, event, s, ", ".join(lost)))
+    if problems:
+        return "; ".join(problems), False
+    return "every event runs its scripts", True
+
+
+def merge_names(ctx):
+    """The merge tools' full names: the leaves of this table and of the module, under every prefix W01 uses."""
+    helper = ctx.path("merge_leaves.py")
+    with open(helper, "w", encoding="utf-8") as fh:
+        fh.write(MODULE_NAMES)
+    out = ctx.run(helper, "", hooks=ctx.dir, args=[ctx.hooks, "MERGE_TOOL_LEAVES"])
+    try:
+        leaves = set(MERGE_GROUP_LEAVES) | set(json.loads(out.out).get("MERGE_TOOL_LEAVES", []))
+    except Exception:
+        leaves = set(MERGE_GROUP_LEAVES)
+    return sorted(prefix + leaf for prefix in WIRED_PREFIXES for leaf in leaves)
+
+
+def other_names(ctx):
+    """Every classified name that is not a merge tool."""
+    helper = ctx.path("module_names_w.py")
+    with open(helper, "w", encoding="utf-8") as fh:
+        fh.write(MODULE_NAMES)
+    out = ctx.run(helper, "", hooks=ctx.dir, args=[ctx.hooks] + list(MODULE_LEAF_CONSTANTS + MODULE_NAME_CONSTANTS))
+    try:
+        declared = json.loads(out.out)
+    except Exception:
+        declared = {}
+    leaves = set(WIRED_LEAVES).union(*[declared.get(n, []) for n in MODULE_LEAF_CONSTANTS])
+    names = set(WIRED_BUILTINS).union(*[declared.get(n, []) for n in MODULE_NAME_CONSTANTS])
+    names |= set(prefix + leaf for prefix in WIRED_PREFIXES for leaf in leaves)
+    return sorted(names - set(merge_names(ctx)))
+
+
+def merge_group_of(groups, merges, others):
+    """The PreToolUse groups that run the pre-tool hook and select a merge tool and no other classified name."""
+    return [(m, commands) for m, commands in groups if any(PRE_SCRIPT in c for c in commands)
+            and any(selects(m, n) for n in merges) and not any(selects(m, n) for n in others)]
+
+
+def merge_tools_have_a_group_of_their_own(ctx):
+    files = wiring_files(ctx)
+    if not files:
+        return "no wiring file", False
+    merges, others = merge_names(ctx), other_names(ctx)
+    probes = [p % n for n in merges for p in ANCHOR_PROBES] + list(READ_ONLY_NAMES)
+    problems = []
+    for wiring, _kind in files:
+        name = os.path.basename(wiring)
+        try:
+            groups = wiring_groups(wiring).get("PreToolUse", [])
+        except Exception:
+            problems.append(name + " cannot be read")
+            continue
+        own = merge_group_of(groups, merges, others)
+        if len(own) != 1:
+            problems.append("%s: %d groups for the merge tools alone (wanted 1)" % (name, len(own)))
+            continue
+        matcher = own[0][0]
+        lost = [n for n in merges if not selects(matcher, n)]
+        extra = [n for n in probes if selects(matcher, n)]
+        if lost or extra:
+            problems.append("%s: the merge group misses %s and selects %s" % (
+                name, ", ".join(lost[:3]) or "-", ", ".join(extra[:3]) or "-"))
+    if problems:
+        return "; ".join(problems), False
+    return "one anchored group for the merge tools", True
+
+
+def run_command(ctx, command, payload, project, plugin, shell=COMMAND_SHELL):
+    """One wiring command as the program runs it: through a shell, with the project and plugin roots set."""
+    env = dict(os.environ)
+    env.update(TMPDIR=ctx.tmp, TURNGATE_STATE_DIR=ctx.state, PYTHONDONTWRITEBYTECODE="1",
+               CLAUDE_PROJECT_DIR=project, CLAUDE_PLUGIN_ROOT=plugin, CLAUDE_CODE_REMOTE="true")
+    began = time.time()
+    try:
+        p = subprocess.run([shell, "-c", command], input=json.dumps(payload), stdout=subprocess.PIPE,
+                           stderr=subprocess.PIPE, universal_newlines=True, env=env, cwd=ctx.cwd,
+                           timeout=HOOK_WAIT_SECONDS)
+    except subprocess.TimeoutExpired:
+        return Out(None, "", "", time.time() - began)
+    return Out(p.returncode, p.stdout.strip(), p.stderr.strip(), time.time() - began)
+
+
+def missing_script_denies_only_the_merge_tools(ctx):
+    files = wiring_files(ctx)
+    if not files:
+        return "no wiring file", False
+    merges, others = merge_names(ctx), other_names(ctx)
+    empty = ctx.path("empty-root")
+    os.makedirs(empty)
+    payload = {"session_id": ctx.session, "transcript_path": "", "cwd": REPO_DIR, "hook_event_name": "PreToolUse",
+               "tool_name": "Bash", "tool_input": {"command": "ls"}, "prompt": "ok", "source": "compact"}
+    problems, ran = [], 0
+    for wiring, kind in files:
+        name = os.path.basename(wiring)
+        try:
+            events = wiring_groups(wiring)
+        except Exception:
+            problems.append(name + " cannot be read")
+            continue
+        own = merge_group_of(events.get("PreToolUse", []), merges, others)
+        for event, groups in sorted(events.items()):
+            for matcher, commands in groups:
+                fails_closed = event == "PreToolUse" and (matcher, commands) in own
+                for c in commands:
+                    if not scripts_of(c, kind):
+                        continue          # a command of the project's own, not one of these hooks
+                    for shell in COMMAND_SHELLS:
+                        ran += 1
+                        status = run_command(ctx, c, payload, empty, empty, shell).status
+                        wanted = BLOCKING_STATUS if fails_closed else 0
+                        if status != wanted:
+                            problems.append("%s: %s %s exits %s with its script missing (wanted %d)" % (
+                                name, event, "/".join(scripts_of(c, kind)), status, wanted))
+                            break
+    if problems:
+        return "; ".join(problems[:4]), False
+    if not ran:
+        return "no command runs a script of the hooks", False
+    return "a missing script denies only the merge tools", True
+
+
+def wired_scripts_are_beside_the_hooks(ctx):
+    files = wiring_files(ctx)
+    if not files:
+        return "no wiring file", False
+    try:
+        scripts = wired_scripts(files)
+    except Exception:
+        return "a wiring file cannot be read", False
+    if not scripts:
+        return "the wiring runs no script of the hooks", False
+    _why, missing = needed(ctx.hooks, sorted(scripts))
+    if missing:
+        return "missing beside the hooks: " + ", ".join(missing), False
+    return "every wired script and what it needs is beside the hooks", True
+
+
+def linked_root(ctx, folder, sub, wrapper=None):
+    """A project (or plugin) root whose hooks (or scripts) folder holds links to the hooks under test."""
+    root = ctx.path(folder)
+    inner = os.path.join(root, sub)
+    os.makedirs(inner)
+    for n in os.listdir(ctx.hooks):
+        if os.path.isfile(os.path.join(ctx.hooks, n)):
+            os.symlink(os.path.join(ctx.hooks, n), os.path.join(inner, n))
+    if wrapper and not os.path.lexists(os.path.join(inner, WRAPPER)):    # the plugin's scripts hold it already
+        os.symlink(wrapper, os.path.join(inner, WRAPPER))
+    return root
+
+
+def wired_commands_run_the_hooks(ctx):
+    files = wiring_files(ctx)
+    if not files:
+        return "no wiring file", False
+    commit_rows = flat(owner(BUILD), bash(COMMIT_CMD), say("Committed."))
+    probes = (   # (event, name the matcher sees, payload fields, the words some command must print)
+        ("PreToolUse", MERGE, {"tool_input": {"owner": "acme", "repo": "lib", "pullNumber": 5}}, ('"deny"',)),
+        ("PreToolUse", "Bash", {"tool_input": {"command": G_MERGE + " 5"}}, ('"deny"',)),
+        ("PreToolUse", "Edit", {"tool_input": EDIT}, REMINDER_WORDS),
+        ("Stop", None, {"rows": commit_rows}, (F1_WORDS,)),
+        ("Stop", None, {"rows": [owner("Is the service set up correctly?"), say("I couldn't verify the port.")],
+                        "last_assistant_message": "I couldn't verify the port."}, (RECEIPT_MARK,)),
+        ("UserPromptSubmit", None, {"prompt": DISPUTE}, (TRIGGER_WORDS,)),
+        ("SessionStart", "compact", {"source": "compact"}, (DOCTRINE_WORDS,)))
+    problems = []
+    for index, (wiring, kind) in enumerate(files):
+        name = os.path.basename(wiring)
+        try:
+            events = wiring_groups(wiring)
+        except Exception:
+            problems.append(name + " cannot be read")
+            continue
+        if kind == "plugin":
+            wrapper = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(wiring))), "scripts", WRAPPER)
+            if not os.path.isfile(wrapper):
+                problems.append("%s: no %s beside it" % (name, WRAPPER))
+                continue
+            project, plugin = ctx.path("project-%d" % index), linked_root(ctx, "plugin-%d" % index, "scripts", wrapper)
+            os.makedirs(project)
+        else:
+            project, plugin = linked_root(ctx, "project-%d" % index, "hooks"), ctx.path("no-plugin")
+        for p_index, (event, selected, fields, words) in enumerate(probes):
+            session = "%s-%d-%d" % (ctx.session, index, p_index)
+            payload = {"session_id": session, "cwd": REPO_DIR, "hook_event_name": event,
+                       "transcript_path": ctx.record(fields.get("rows", [owner("Continue")]),
+                                                     name="w06-%d-%d.jsonl" % (index, p_index)),
+                       "stop_hook_active": False}
+            if event == "PreToolUse":
+                payload.update(tool_name=selected, tool_use_id="toolu_selftest")
+            payload.update((k, v) for k, v in fields.items() if k != "rows")
+            outs = [run_command(ctx, c, payload, project, plugin).out for m, commands in events.get(event, [])
+                    if selected is None or selects(m, selected) for c in commands if scripts_of(c, kind)]
+            for w in words:
+                if not any(w in o for o in outs):
+                    problems.append("%s: %s %s prints no %r" % (name, event, selected or "", w))
+    if problems:
+        return "; ".join(problems[:4]), False
+    return "every wired command runs its hook", True
+
+
+case("W02-wiring-every-event-runs-its-scripts", "SF-4", "every event runs its scripts", every_event_runs_its_scripts)
+case("W03-wiring-merge-tools-have-a-group-of-their-own", "SF-2 SF-4", "one anchored group for the merge tools",
+     merge_tools_have_a_group_of_their_own)
+case("W04-wiring-missing-script-denies-only-the-merge-tools", "SF-2 H4", "a missing script denies only the merge tools",
+     missing_script_denies_only_the_merge_tools)
+case("W05-wiring-scripts-beside-the-hooks", "SF-2", "every wired script and what it needs is beside the hooks",
+     wired_scripts_are_beside_the_hooks)
+case("W06-wiring-commands-run-the-hooks", "SF-4", "every wired command runs its hook", wired_commands_run_the_hooks)
+
+
 # ------------------------------------------------------------------ the runner
+def print_needs(hooks, wiring):
+    """`--needs`: the files a project carries beside its hooks, from the wiring files and the imports."""
+    root = tempfile.mkdtemp(prefix="turn-gates-needs-")
+    try:
+        files = wiring_files(Ctx(hooks, os.path.join(root, "ctx"), wiring or None))
+        if not files:
+            print("no wiring file")
+            return 1
+        why, missing = needed(hooks, sorted(wired_scripts(files)))
+    except Exception as exc:
+        print("the wiring files or the hooks cannot be read (%s)" % type(exc).__name__)
+        return 1
+    finally:
+        shutil.rmtree(root, ignore_errors=True)
+    for name in sorted(why):
+        print("%-36s | %s%s" % (name, why[name], " | MISSING" if name in missing else ""))
+    return 1 if missing else 0
+
+
 def run_case(entry, hooks, root, wiring):
     name, _table, _findings, _wanted, fn, _slow = entry
     folder = os.path.join(root, UNSAFE_NAME_CHARS.sub("_", name))
@@ -2199,7 +2597,8 @@ def run_case(entry, hooks, root, wiring):
 
 
 def main(argv):
-    hooks, jobs, wiring, work, listing, only_failing, prefixes = HERE, DEFAULT_JOBS, None, None, False, False, []
+    hooks, jobs, wiring, work, listing, only_failing, prefixes = HERE, DEFAULT_JOBS, [], None, False, False, []
+    show_needs = False
     args = list(argv)
     while args:
         a = args.pop(0)
@@ -2213,13 +2612,15 @@ def main(argv):
             elif a == "--jobs":
                 jobs = max(1, int(value))
             elif a == "--wiring":
-                wiring = os.path.abspath(value)
+                wiring.append(os.path.abspath(value))
             else:
                 work = os.path.abspath(value)
         elif a == "--list":
             listing = True
         elif a == "--only-failing":
             only_failing = True
+        elif a == "--needs":
+            show_needs = True
         elif a in ("-h", "--help"):
             print(__doc__)
             return 0
@@ -2228,6 +2629,8 @@ def main(argv):
             return 2
         else:
             prefixes.append(a)
+    if show_needs:
+        return print_needs(hooks, wiring)
     chosen = [c for c in CASES if not prefixes or any(c[0].startswith(p) for p in prefixes)]
     if not chosen:
         print("no case has a name that starts with: %s" % " ".join(prefixes))

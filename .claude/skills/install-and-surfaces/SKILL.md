@@ -93,21 +93,54 @@ INC-2026-10-13-01). What a cloud session *does* read is the repository: its
 `.claude/settings.json`, hooks included (Claude Code settings documentation,
 "Settings in cloud sessions", read 2026-10-13). So the pack lives in the repo.
 
-1. **Copy the hooks.** From this library: `hooks/govclass.py`,
-   `hooks/governance-trigger.py`, `hooks/governance-enforce.py`,
-   `hooks/session-doctrine.sh`, `hooks/plan-gate-first-write-reminder.sh`,
-   `hooks/scope-fence-reminder.sh`, `hooks/receipt-law-stop-gate.sh`, and the
-   two self-tests, into the target repo's `hooks/`. Keep them together: the
-   trigger and the Stop gate import the same classifier so they cannot disagree.
+1. **Copy the hooks.** Run `bash hooks/sync-copies.sh <target repo root>` from this
+   library: it copies every file below into the target's `hooks/` and prints
+   "added", "updated" or "same" for each. By hand, copy exactly these files from
+   this library's `hooks/` (generated 2026-11-16 by
+   `python3 hooks/selftest-turn-gates.py --needs`: the scripts the settings wire,
+   what those import or run, and the self-tests of them):
+
+   ```
+   hooks/govclass.py
+   hooks/governance-enforce.py
+   hooks/governance-trigger.py
+   hooks/plan-gate-first-write-reminder.sh
+   hooks/receipt-law-stop-gate.sh
+   hooks/receiptlaw.py
+   hooks/scope-fence-reminder.sh
+   hooks/selftest-governance-classify.py
+   hooks/selftest-mutations.py
+   hooks/selftest-receipt-law.sh
+   hooks/selftest-reminders.sh
+   hooks/selftest-turn-gates.py
+   hooks/selftest_rows.py
+   hooks/session-doctrine.sh
+   hooks/turn-gates-pretool.py
+   hooks/turngate.py
+   ```
+
+   How the list is checked: `--needs` recomputes it from the wiring files and the
+   imports, and exits 1 when one is missing; case W05 of the table fails when a
+   file the settings run, or one that such a file imports or runs, is not beside
+   the hooks; the guard requires the plugin to hold the same list. If `--needs`
+   prints a file this list lacks, the list is stale: copy what `--needs` prints.
 2. **Copy `.claude/settings.json`** from this library (it references the hooks
    through `$CLAUDE_PROJECT_DIR`, so no path edits). If the target already has
-   one, merge the `hooks` key.
+   one, merge the `hooks` key: `sync-copies.sh` prints that merge as a diff and
+   never writes it. Each command runs its script only when the file is there,
+   except the group for the merge tools alone (`merge_pull_request`,
+   `enable_pr_auto_merge`): there a missing script denies the merge. A half-copied
+   pack therefore no longer denies every Bash, Edit and Write call (finding SF-2).
 3. **Paste the doctrine block** (`instructions/project-doctrine-block.md`,
    between its markers) into the target's `CLAUDE.md`, below the project's own
    domain rules. Project-root `CLAUDE.md` is re-read after every compaction
    (memory documentation, read 2026-10-13), so the block survives compaction.
-4. **Self-test before committing:** `python3 hooks/selftest-governance-classify.py`
-   and `bash hooks/selftest-receipt-law.sh` must pass.
+4. **Self-test before committing:** `python3 hooks/selftest-turn-gates.py W` (the
+   wiring cases: they fail when a file of the list is missing, an event lost a
+   script, the merge tools lost their group, or a missing script would deny more
+   than a merge), then `python3 hooks/selftest-turn-gates.py`,
+   `python3 hooks/selftest-governance-classify.py` and
+   `bash hooks/selftest-receipt-law.sh`. Every one must pass.
 5. **Verify live, then commit:** in a fresh session on the repo, the first file
    write produces the plan-gate and scope-fence reminders in context, and a
    governed-class prompt produces the "Governance auto-trigger" line. (In the
@@ -193,6 +226,13 @@ never-build-inside-the-repo rule, and the copies-must-match parity discipline
 carry over; that repo's `files.zip` mechanics stay behind (this library ships no
 zip artifact yet). The environment-boundary rules are this library's own,
 evidenced by its founding session (2026-07-11 GitHub-auth incident).
+
+2026-11-16: Runbook 4 steps 1, 2 and 4 rewritten after the audit of 2026-11-12
+(finding SF-2): the hand-typed list of step 1 lacked `turn-gates-pretool.py` and
+`turngate.py`, which the copied settings wire and import, so a project installed
+to the letter denied every Bash, Edit and Write call while step 4 still passed.
+The list is now generated (`--needs`) and checked (case W05, the guard), and step
+4 runs the wiring cases.
 
 Re-verify: install matrix paths — create a canary skill in `~/.claude/skills/`
 and confirm a fresh session lists it; `.skill` format — `unzip -l` any built

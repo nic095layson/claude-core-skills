@@ -6,7 +6,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash \"${CLAUDE_PLUGIN_ROOT}\"/scripts/run-unless-project-wired.sh session-doctrine.sh",
+            "command": "w=\"${CLAUDE_PLUGIN_ROOT}/scripts/run-unless-project-wired.sh\"; if [ -f \"$w\" ]; then bash \"$w\" session-doctrine.sh; fi",
             "timeout": 10
           }
         ]
@@ -17,7 +17,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash \"${CLAUDE_PLUGIN_ROOT}\"/scripts/run-unless-project-wired.sh governance-trigger.py",
+            "command": "w=\"${CLAUDE_PLUGIN_ROOT}/scripts/run-unless-project-wired.sh\"; if [ -f \"$w\" ]; then bash \"$w\" governance-trigger.py; fi",
             "timeout": 10
           }
         ]
@@ -29,22 +29,32 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash \"${CLAUDE_PLUGIN_ROOT}\"/scripts/run-unless-project-wired.sh plan-gate-first-write-reminder.sh",
+            "command": "w=\"${CLAUDE_PLUGIN_ROOT}/scripts/run-unless-project-wired.sh\"; if [ -f \"$w\" ]; then bash \"$w\" plan-gate-first-write-reminder.sh; fi",
             "timeout": 10
           },
           {
             "type": "command",
-            "command": "bash \"${CLAUDE_PLUGIN_ROOT}\"/scripts/run-unless-project-wired.sh scope-fence-reminder.sh",
+            "command": "w=\"${CLAUDE_PLUGIN_ROOT}/scripts/run-unless-project-wired.sh\"; if [ -f \"$w\" ]; then bash \"$w\" scope-fence-reminder.sh; fi",
             "timeout": 10
           }
         ]
       },
       {
-        "matcher": "^(Edit|Write|NotebookEdit|Bash|Monitor|CronCreate|CronDelete|ScheduleWakeup|mcp__.*__(merge_pull_request|enable_pr_auto_merge|disable_pr_auto_merge|create_pull_request|update_pull_request|update_pull_request_branch|push_files|create_or_update_file|delete_file|actions_run_trigger|create_trigger|update_trigger|delete_trigger|fire_trigger|send_later))$",
+        "matcher": "^mcp__.*__(merge_pull_request|enable_pr_auto_merge)$",
         "hooks": [
           {
             "type": "command",
-            "command": "bash \"${CLAUDE_PLUGIN_ROOT}\"/scripts/run-unless-project-wired.sh turn-gates-pretool.py",
+            "command": "s=\"${CLAUDE_PLUGIN_ROOT}/scripts\"; if [ -f \"$s/run-unless-project-wired.sh\" ] && [ -f \"$s/turn-gates-pretool.py\" ]; then bash \"$s/run-unless-project-wired.sh\" turn-gates-pretool.py; else echo \"core-governance: scripts/turn-gates-pretool.py is missing, so no merge is let through; reinstall the plugin\" >&2; exit 2; fi",
+            "timeout": 10
+          }
+        ]
+      },
+      {
+        "matcher": "^(Edit|Write|NotebookEdit|Bash|Monitor|CronCreate|CronDelete|ScheduleWakeup|mcp__.*__(disable_pr_auto_merge|create_pull_request|update_pull_request|update_pull_request_branch|push_files|create_or_update_file|delete_file|actions_run_trigger|create_trigger|update_trigger|delete_trigger|fire_trigger|send_later))$",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "w=\"${CLAUDE_PLUGIN_ROOT}/scripts/run-unless-project-wired.sh\"; if [ -f \"$w\" ]; then bash \"$w\" turn-gates-pretool.py; fi",
             "timeout": 10
           }
         ]
@@ -55,12 +65,12 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash \"${CLAUDE_PLUGIN_ROOT}\"/scripts/run-unless-project-wired.sh governance-enforce.py",
+            "command": "w=\"${CLAUDE_PLUGIN_ROOT}/scripts/run-unless-project-wired.sh\"; if [ -f \"$w\" ]; then bash \"$w\" governance-enforce.py; fi",
             "timeout": 15
           },
           {
             "type": "command",
-            "command": "bash \"${CLAUDE_PLUGIN_ROOT}\"/scripts/run-unless-project-wired.sh receipt-law-stop-gate.sh",
+            "command": "w=\"${CLAUDE_PLUGIN_ROOT}/scripts/run-unless-project-wired.sh\"; if [ -f \"$w\" ]; then bash \"$w\" receipt-law-stop-gate.sh; fi",
             "timeout": 10
           }
         ]
