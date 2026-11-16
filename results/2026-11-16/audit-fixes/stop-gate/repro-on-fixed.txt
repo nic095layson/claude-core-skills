@@ -1,0 +1,144 @@
+## AS-1, lead-3 (S1): a call is denied by the record's own flags, not by its output text
+python3 hooks/selftest-turn-gates.py --jobs 6 as_s1_
+as_s1_d00-ctl-ordinary-subject                           | AS-1 control           | block:F1           | block:F1           | pass
+as_s1_d01-subject-names-the-gate                         | AS-1                   | block:F1           | block:F1           | pass
+as_s1_d02-subject-says-requires-approval                 | AS-1                   | block:F1           | block:F1           | pass
+as_s1_d03-subject-says-was-rejected                      | AS-1                   | block:F1           | block:F1           | pass
+as_s1_d04-new-file-path-names-the-gate                   | AS-1                   | block:F1           | block:F1           | pass
+as_s1_d05-push-files-echoes-hook-blocked                 | AS-1                   | block:F1           | block:F1           | pass
+as_s1_d06-branch-named-for-the-gate                      | AS-1                   | block:F1           | block:F1           | pass
+as_s1_d07-lone-push-of-that-branch                       | AS-1                   | block:F1           | block:F1           | pass
+as_s1_pr-create-echoes-requires-approval                 | AS-1 lead-3            | block:F1           | block:F1           | pass
+as_s1_output-not-an-error-is-no-denial                   | AS-1                   | block:F1           | block:F1           | pass
+as_s1_denied-by-a-hook-real-shape                        | AS-1 control           | allow              | allow              | pass
+as_s1_denied-by-a-hook-older-shape                       | AS-1 control           | allow              | allow              | pass
+as_s1_rejected-at-the-prompt-older-shape                 | AS-1 control           | allow              | allow              | pass
+as_s1_flag-alone-is-a-denial                             | AS-1 control           | allow              | allow              | pass
+as_s1_failed-push-says-was-rejected-midway               | AS-1                   | block:F1           | block:F1           | pass
+== 15 cases: 15 pass, 0 fail ==
+
+## AS-2, AR-6, AR-7, lead-1 (S2): a block counts when it was answered
+python3 hooks/selftest-turn-gates.py --jobs 6 as_s2_
+as_s2_x01-reply-only-in-the-input                        | AS-2                   | block:F1           | block:F1           | pass
+as_s2_x02-ctl-reply-in-the-record                        | AS-2 control           | block:F1           | block:F1           | pass
+as_s2_a2c-second-reply-only-in-the-input                 | AS-2 lead-1            | allow              | allow              | pass
+as_s2_pin-trailing-block-without-the-flag                | AR-7 pin               | block:F1           | block:F1           | pass
+as_s2_prompt-class-after-other-block-reply-only-in-input | AS-2 AR-6              | block:prompt-class | block:prompt-class | pass
+as_s2_t13-receipt-retry-only-in-the-input                | AR-6 AR-7              | block              | block              | pass
+== 6 cases: 6 pass, 0 fail ==
+
+## AS-5 (S3): a late plan-gate load answers the acts made before the block
+python3 hooks/selftest-turn-gates.py --jobs 6 as_s3_ F11b-
+F11b-chain-stop2-remedied                                | F1-5                   | allow              | allow              | pass
+as_s3_x03-new-push-after-the-block-then-governors        | AS-5                   | block:F1           | block:F1           | pass
+as_s3_ctl-governors-then-new-push                        | AS-5 control           | allow              | allow              | pass
+as_s3_ctl-plan-before-block-new-push-then-verify         | AS-5 control           | allow              | allow              | pass
+== 4 cases: 4 pass, 0 fail ==
+
+## AS-6, lead-2 (S4) and AS-3 (S5): where a helper's act sits
+python3 hooks/selftest-turn-gates.py --jobs 6 as_s4_ as_s5_ J16
+J16-ledger-after-rewrite                                 | F1-1 FU2-2             | block:F1           | block:F1           | pass
+J16b-stale-ledger-note-is-not-counted                    | F1-1 FU2-2             | allow              | allow              | pass
+as_s4_g05-helper-commits-after-plan-gate                 | AS-6 pin               | allow              | allow              | pass
+as_s4_note-between-owner-row-and-next-row                | AS-6 lead-2            | block:F1           | block:F1           | pass
+as_s5_helper-of-an-earlier-turn-is-charged-by-time       | AS-3 lead-2            | block:F1           | block:F1           | pass
+== 5 cases: 5 pass, 0 fail ==
+
+## AS-7 (S7): PROMPT_CLASS_SILENT_WITHOUT_OWNER_MESSAGE (pinned by P12; the switch is break AS17)
+python3 hooks/selftest-turn-gates.py --jobs 6 P12-
+P12-no-owner-row-two-writes                              | PC-6 Q8                | allow              | allow              | pass
+== 1 cases: 1 pass, 0 fail ==
+
+## AS-8, MORE lines (S8)
+python3 hooks/selftest-turn-gates.py --jobs 6 as_s8_
+as_s8_tmpdir-variable-is-scratch                         | AS-8                   | allow,advise       | allow,advise       | pass
+as_s8_tmpdir-braces-is-scratch                           | AS-8                   | allow,advise       | allow,advise       | pass
+as_s8_ctl-tmpdir-dotdot-is-a-real-write                  | AS-8 control           | advise             | advise             | pass
+as_s8_ctl-other-variable-is-a-real-write                 | AS-8 control           | advise             | advise             | pass
+as_s8_prompt-class-reason-states-the-rule                | MORE-reason            | block:prompt-class, reason as the rule | block:prompt-class, reason as the rule | pass
+as_s8_prompt-class-silent-after-an-idle-wake             | MORE-M4 pin            | allow              | allow              | pass
+as_s8_prompt-class-retry-flag-no-block-on-record         | MORE-M5 pin            | allow              | allow              | pass
+== 7 cases: 7 pass, 0 fail ==
+
+## AS-4 (S6): unchanged behaviour, stated as a limit (the existing pins)
+python3 hooks/selftest-turn-gates.py --jobs 6 F08b- F08c-
+F08b-commit-failed-nothing-to-commit                     | F1-6                   | allow              | allow              | pass
+F08c-commit-ok-push-failed                               | F1 control             | block:F1           | block:F1           | pass
+== 2 cases: 2 pass, 0 fail ==
+
+## M1: a file run directly whose first line names another program is not read
+python3 hooks/selftest-turn-gates.py --jobs 6 am2_m1_ am_d1_
+am_d1_script-without-suffix-scheduled                    | AM-3 D1                | deny:scheduled     | deny:scheduled     | pass
+am_d1_script-without-suffix-owner-ok                     | AM-3 D1                | deny               | deny               | pass
+am_d1_python-shebang-is-a-stated-limit-scheduled         | AM-3 D1 M1 limit       | allow              | allow              | pass
+am_d1_python-shebang-is-a-stated-limit-owner-ok          | AM-3 D1 M1 limit       | allow              | allow              | pass
+am_d1_ctl-script-says-hi                                 | D1 control             | allow              | allow              | pass
+am_d1_ctl-bin-ls                                         | D1 control             | allow              | allow              | pass
+am_d1_ctl-python-script-plain                            | D1 control             | allow              | allow              | pass
+am_d1_binary-is-not-read                                 | D1 pin                 | allow              | allow              | pass
+am2_m1_python-tool-mentions-the-words-scheduled          | M1                     | allow              | allow              | pass
+am2_m1_python-tool-mentions-the-words-owner-ok           | M1                     | allow              | allow              | pass
+am2_m1_ctl-bash-land-owner-ok                            | M1 control             | deny               | deny               | pass
+== 11 cases: 11 pass, 0 fail ==
+
+## M2: a negated hold is a go-ahead
+python3 hooks/selftest-turn-gates.py --jobs 6 am2_m2_
+am2_m2_lets-not-wait                                     | M2                     | allow              | allow              | pass
+am2_m2_dont-wait-first                                   | M2                     | allow              | allow              | pass
+am2_m2_dont-wait-after                                   | M2                     | allow              | allow              | pass
+am2_m2_mid-dont-wait-for-me                              | M2                     | allow              | allow              | pass
+am2_m2_ctl-no-wait                                       | M2 control             | deny [merge-word]  | deny[merge-word]   | pass
+am2_m2_ctl-mid-wait                                      | M2 control             | deny [merge-word]  | deny[merge-word]   | pass
+== 6 cases: 6 pass, 0 fail ==
+
+## M3: a condition on one line, the order on the next
+python3 hooks/selftest-turn-gates.py --jobs 6 am2_m3_
+am2_m3_comma-line                                        | M3                     | deny [merge-word]  | deny[merge-word]   | pass
+am2_m3_colon-dash-list                                   | M3                     | deny [merge-word]  | deny[merge-word]   | pass
+am2_m3_colon-numbered-list                               | M3                     | deny [merge-word]  | deny[merge-word]   | pass
+am2_m3_condition-line-no-mark                            | M3                     | deny [merge-word]  | deny[merge-word]   | pass
+am2_m3_colon-list-order-second                           | M3                     | deny [merge-word]  | deny[merge-word]   | pass
+am2_m3_ctl-order-then-line                               | M3 control             | allow              | allow              | pass
+am2_m3_ctl-numbered-orders                               | M3 control             | allow              | allow              | pass
+am2_m3_ctl-numbered-orders-2-not-granted                 | M3 control             | deny [merge-word]  | deny[merge-word]   | pass
+am2_m3_ctl-looks-good-line                               | M3 control             | allow              | allow              | pass
+am2_m3_ctl-colon-list-of-orders                          | M3 control             | allow              | allow              | pass
+== 10 cases: 10 pass, 0 fail ==
+
+## M4: more words that put an order off or hold it
+python3 hooks/selftest-turn-gates.py --jobs 6 am2_m4_
+am2_m4_eventually                                        | M4                     | deny [merge-word]  | deny[merge-word]   | pass
+am2_m4_in-the-morning                                    | M4                     | deny [merge-word]  | deny[merge-word]   | pass
+am2_m4_clock-time                                        | M4                     | deny [merge-word]  | deny[merge-word]   | pass
+am2_m4_clock-time-24h                                    | M4                     | deny [merge-word]  | deny[merge-word]   | pass
+am2_m4_afterwards                                        | M4                     | deny [merge-word]  | deny[merge-word]   | pass
+am2_m4_soon                                              | M4                     | deny [merge-word]  | deny[merge-word]   | pass
+am2_m4_mid-one-sec                                       | M4                     | deny [merge-word]  | deny[merge-word]   | pass
+am2_m4_ctl-now                                           | M4 control             | allow              | allow              | pass
+am2_m4_ctl-today                                         | M4 control             | allow              | allow              | pass
+== 9 cases: 9 pass, 0 fail ==
+
+## M5: a sequence before the order
+python3 hooks/selftest-turn-gates.py --jobs 6 am2_m5_
+am2_m5_first-the-audit                                   | M5                     | deny [merge-word]  | deny[merge-word]   | pass
+am2_m5_audit-first-merge-second                          | M5                     | deny [merge-word]  | deny[merge-word]   | pass
+am2_m5_before-that                                       | M5                     | deny [merge-word]  | deny[merge-word]   | pass
+am2_m5_ctl-first-comma-merge                             | M5 control             | allow              | allow              | pass
+am2_m5_ctl-merge-first-then-other-34                     | M5 control             | allow              | allow              | pass
+am2_m5_ctl-merge-first-then-other-141                    | M5 control             | allow              | allow              | pass
+== 6 cases: 6 pass, 0 fail ==
+
+## M6: a statement that refuses takes its pull requests out
+python3 hooks/selftest-turn-gates.py --jobs 6 am2_m6_
+am2_m6_can-wait                                          | M6                     | deny [merge-word]  | deny[merge-word]   | pass
+am2_m6_is-not-ready                                      | M6                     | deny [merge-word]  | deny[merge-word]   | pass
+am2_m6_ctl-has-two-commits                               | M6 control             | allow              | allow              | pass
+== 3 cases: 3 pass, 0 fail ==
+
+## M7: one denial test for both gates
+python3 hooks/selftest-turn-gates.py --jobs 6 am2_m7_ am_c_shell-call-denied am_c_first-call-denied
+am_c_first-call-denied-then-other-repo                   | AM-7 pin               | allow              | allow              | pass
+am_c_shell-call-denied-then-other-repo                   | AM-7 pin               | allow              | allow              | pass
+am2_m7_merge-result-echoes-requires-approval-then-other-repo | M7                     | deny [merge-word]  | deny[merge-word]   | pass
+== 3 cases: 3 pass, 0 fail ==
+

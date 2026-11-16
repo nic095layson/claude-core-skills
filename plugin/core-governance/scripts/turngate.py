@@ -117,20 +117,41 @@ OPEN_NEGATOR = re.compile(r"(?<![\w-])(?:do not|don't|dont|never|cannot|can't|ca
 AFFIRMATIVE_PHRASES = ("no objections", "no objection", "no problems", "no problem", "no worries", "no issues", "no issue",
                        "no concerns", "no complaints", "no blockers", "not a problem", "nothing against", "why not",
                        "no need to wait", "no rush", "no hurry", "no pressure", "nothing else", "can't wait", "cannot wait",
-                       "don't forget to", "dont forget to", "do not forget to")
+                       "don't forget to", "dont forget to", "do not forget to",
+                       # M2: a negated hold is a go-ahead
+                       "let's not wait", "lets not wait", "don't wait", "dont wait", "do not wait", "don't hold off",
+                       "do not hold off", "let's not delay", "don't delay", "do not delay", "without waiting",
+                       "no more waiting")
 DEFER_CUE = re.compile(r"(?<![\w-])(?:after|once|when|whenever|if|later|tomorrow|as soon as)(?![\w-])")
 # A1: a sentence that holds one of these is an order for later or under a condition: it grants nothing.
 CONDITION_WORDS = ("after", "once", "when", "whenever", "if", "later", "tomorrow", "as soon as", "unless", "until", "till",
                    "provided", "providing", "assuming", "as long as", "so long as", "in case", "pending", "subject to",
-                   "depending", "tonight", "next week", "monday", "tuesday", "wednesday", "thursday", "friday",
-                   "saturday", "sunday")
-CONDITION_CUE = re.compile(r"(?<![\w-])(?:" + "|".join(sorted(CONDITION_WORDS, key=len, reverse=True)) + r")(?![\w-])")
+                   "depending", "tonight", "next", "monday", "tuesday", "wednesday", "thursday", "friday",
+                   "saturday", "sunday", "eventually", "afterwards", "afterward", "soon", "sometime", "some time",
+                   "at some point", "in a bit", "in a while", "in the morning", "in the evening", "in the afternoon",
+                   "this evening", "this afternoon")
+CONDITION_CLOCK = r"at\s+\d"                    # M4: a clock time ("at 5pm", "at 17:00") puts an order off too
+CONDITION_CUE = re.compile(r"(?<![\w-])(?:(?:" + "|".join(sorted(CONDITION_WORDS, key=len, reverse=True)) + r")(?![\w-])|"
+                           + CONDITION_CLOCK + r")")
 # A2, A5: words that hold the work back. Un-negated when no HALT_NEGATOR word stands before them in their clause.
 HALT_WORDS = ("wait", "hold", "stop", "pause", "cancel", "abort", "postpone", "defer", "delay", "not yet", "not now",
               "never mind", "nevermind", "scratch that", "second thought", "second thoughts", "changed my mind",
-              "change of plan", "change of plans", "let's not", "lets not", "hang on", "on hold")
+              "change of plan", "change of plans", "let's not", "lets not", "hang on", "on hold",
+              "one sec", "one second", "a sec", "one moment", "a moment", "a minute", "give me", "hold up", "not so fast")
 HALT_CUE = re.compile(r"(?<![\w-])(?:" + "|".join(sorted(HALT_WORDS, key=len, reverse=True)) + r")(?![\w-])")
 HALT_NEGATOR = re.compile(r"(?<![\w-])(?:no|not|never|without|cannot|dont|cant|wont|\w+n't)(?![\w-])")
+# M5: an earlier clause that puts something first holds the order after it back, like a halt (A2): "first" with
+# at least one other word ("first the audit", "audit first"; "First, merge #34" does not), or one of these.
+SEQUENCE_FIRST = re.compile(r"(?<![\w-])first(?![\w-])")
+SEQUENCE_FIRST_MIN_WORDS = 2                   # the clause holds "first" and at least one other word
+SEQUENCE_BEFORE = re.compile(r"(?<![\w-])(?:before that|beforehand)(?![\w-])")
+# M3: where a line break does not end a sentence. A line that ends with one of LINE_JOIN_ENDS goes on into the
+# next; so does a line with none of LINE_END_MARKS that holds a condition or an un-negated hold. The items of a
+# list (LIST_ITEM) after a line that ends with LIST_INTRO_END are each read as that line plus the item.
+LINE_JOIN_ENDS = (",", ":")
+LINE_END_MARKS = ".!?;:,"
+LIST_INTRO_END = ":"
+LIST_ITEM = re.compile(r"^\s*(?:[-*•‣◦]|\d+[.)])\s+")
 # A3: words that report what someone said: an order after them in the same sentence is quoted, not given.
 REPORT_WORDS = ("said", "says", "say", "saying", "wrote", "writes", "written", "told", "asked", "typed", "quote", "quoted",
                 "quotes", "meant", "means", r"e\.g", "for example", "such as")
@@ -201,6 +222,11 @@ PROMPT_CLASS_MAX_BLOCKS = 1                    # blocks of the prompt-class rule
 WAKE_TURN_INHERITS_LOADS = True                # work woken after a completed stop keeps the turn's governor loads
 COMPACTION_VOIDS_LOADS = True                  # an outward action after a compaction needs the governors loaded again
 CLASSIFY_CARD_ANSWERS = False                  # a clicked label is not a prompt for the prompt-class rule
+# AS-3 (the documents do not decide; default taken without a question): a helper's noted act is charged to the
+# stretch in which it happens, also when the helper was started in an earlier turn. False: such an act is charged
+# only to a stretch whose main thread started a helper (HELPER_TOOLS) before it.
+HELPER_ACT_PLACED_BY_TIME = True
+HELPER_TOOLS = ("Agent", "Task")               # the main thread's calls that start a helper agent
 MERGE_GATED_KINDS = ("merge", "push_default")
 F1_COUNTED_KINDS = ("merge", "push_default", "push", "commit", "pr_write", "file_push", "schedule")
 # What the plan-shown advisory treats as a write. A list of its own: the Stop gate's list above is one of the
@@ -227,6 +253,7 @@ WRITE_PATH_KEYS = ("file_path", "notebook_path")
 SHELL_TOOLS = ("Bash", "Monitor")              # tools whose input.command is a shell command
 PR_NUMBER_KEYS = ("pullNumber", "pull_number")
 SCRATCH_DIRS = ("/tmp/", "/var/tmp/", "/dev/", "/proc/")
+SCRATCH_VARS = ("TMPDIR",)                     # a path that starts with one of these variables (unexpanded) is scratch
 HOME_LEAD = "~"
 
 # -- what a call does: git
@@ -409,10 +436,18 @@ FALLBACK_PUSH_EVERY = ("all", "mirror", "branches")          # `git push --all` 
 FALLBACK_PUSH_WORDS = tuple(("git", "push", b) for b in DEFAULT_BRANCHES + FALLBACK_PUSH_EVERY)    # D5
 FALLBACK_MERGE_NUMBER = re.compile(r"\bmerge\s+#?(\d+)\b|/pulls/(\d+)/merge")
 
-# -- was the act taken: what a result says when the call did not happen
-DENIAL_TEXT = re.compile(r"TURN-GATE|PreToolUse:\S* (?:hook )?(?:denied|blocked)|hook (?:denied|blocked)|"
-                         r"doesn't want to proceed|was rejected|permission (?:to use|denied)|requires approval", re.I)
-DENIAL_TEXT_REACH = 600                        # characters of the result text that are searched
+# -- was the act taken: a call was denied when its result row carries a denial flag, or when its result is an
+# error whose text STARTS with one of these leads. What a result that is not an error says decides nothing: a
+# successful commit echoes its branch, its subject and its new file paths, which the session chose.
+DENIAL_FLAG = "toolDenialKind"                 # the result row's field that names why a call was denied (2.1.325)
+DENIAL_WRAPPERS = ("Error: ", "<tool_use_error>")   # dropped from the front of an error text before the leads are read
+DENIAL_LEADS = re.compile(
+    r"(?:PreToolUse:\S*\s+hook\s+(?:error|denied|blocked)"     # a pre-tool hook's denial (observed 2026-11-16)
+    r"|TURN-GATE"                                              # the merge gate's own reason, shown alone
+    r"|The user doesn't want to proceed"                       # rejected at the permission prompt
+    r"|Permission to use \S+"                                  # denied by a permission rule
+    r"|(?:This (?:command|call|tool use) )?requires approval"  # held for an approval that did not come
+    r"|Hook (?:denied|blocked))", re.I)
 
 # -- Stop gate, advisory, state
 PLAN_MARK = re.compile(r"\bGoal\b")
@@ -525,6 +560,22 @@ def _result_text(block):
     if isinstance(cc, str):
         return cc
     return "\n".join(str(x.get("text", "")) for x in (cc or []) if isinstance(x, dict))
+
+
+def was_denied(block, row):
+    """The call did not run because it was denied: its result row carries a denial flag, or its result is an
+    error whose text starts (leading blanks and one wrapper dropped) with one of DENIAL_LEADS. A result that is not
+    an error is never a denial, whatever it says. One test for the Stop gate and the merge gate."""
+    if row.get(DENIAL_FLAG):
+        return True
+    if not block.get("is_error"):
+        return False
+    text = _result_text(block).lstrip()
+    for wrapper in DENIAL_WRAPPERS:
+        if text.startswith(wrapper):
+            text = text[len(wrapper):].lstrip()
+            break
+    return bool(DENIAL_LEADS.match(text))
 
 
 def _content(row):
@@ -842,6 +893,23 @@ def _unnegated(pattern, clause):
     return any(not HALT_NEGATOR.search(clause[:m.start()]) for m in pattern.finditer(clause))
 
 
+def _puts_first(clause):
+    """M5: the clause puts something first ("first the audit", "audit first", "before that"), so an order after
+    it in the same sentence is held back. "First" alone ("First, merge #34") is a lead-in, not a sequence."""
+    if SEQUENCE_BEFORE.search(clause):
+        return True
+    return bool(SEQUENCE_FIRST.search(clause)) and len(OBJECT_WORD.findall(clause)) >= SEQUENCE_FIRST_MIN_WORDS
+
+
+def _statement_revokes(clause, rest):
+    """M6: a statement about pull requests (A4) that also refuses or holds ("Merge #34 can wait.", "Merge #34 is
+    not ready.") takes them out of the grant."""
+    if not (REFUSAL_CUE.search(rest) or _unnegated(HALT_CUE, rest)):
+        return []
+    refs = _object_refs(rest) or pr_refs(clause)
+    return [("revoke", refs)] if refs else []
+
+
 def _short_refusal(clause):
     """A5 (ii): a short clause that starts with a refusal ("No, wait.", "stop", "not yet"), once a leading run of
     soft words ("actually", "hmm", "on second thought") is dropped; the word limit counts what is left."""
@@ -849,10 +917,47 @@ def _short_refusal(clause):
     return len(c.split()) <= STANDALONE_REFUSAL_MAX_WORDS and bool(REFUSAL_START.match(c))
 
 
+def _line_goes_on(line):
+    """M3: a line that does not end its sentence: it ends with "," or ":", or it has no end mark and holds a
+    condition or an un-negated hold ("If the guard passes" / "merge #34")."""
+    if line.endswith(LINE_JOIN_ENDS):
+        return True
+    if line[-1:] in tuple(LINE_END_MARKS):
+        return False
+    s = _strip_affirmative(line)
+    return bool(CONDITION_CUE.search(s)) or _unnegated(HALT_CUE, s)
+
+
+def _join_lines(lines):
+    """M3: the lines of a text as sentences go: a line that goes on is joined to the next, and each item of a
+    list after a line that ends with ":" is read as that line plus the item ("After the audit:" / "1. merge #34"
+    reads "after the audit: merge #34")."""
+    out, buf, i, n = [], [], 0, len(lines)
+    while i < n:
+        line = lines[i]
+        if line.endswith(LIST_INTRO_END) and i + 1 < n and LIST_ITEM.match(lines[i + 1]):
+            head, buf, j = " ".join(buf + [line]), [], i + 1
+            while j < n and LIST_ITEM.match(lines[j]):
+                out.append(head + " " + LIST_ITEM.sub("", lines[j], count=1))
+                j += 1
+            i = j
+            continue
+        buf.append(line)
+        if not (i + 1 < n and _line_goes_on(line)):
+            out.append(" ".join(buf))
+            buf = []
+        i += 1
+    if buf:
+        out.append(" ".join(buf))
+    return out
+
+
 def _clean(text):
-    """The text every word test reads: normalised, with code fences and quoted lines dropped."""
+    """The text every word test reads: normalised, with code fences and quoted lines dropped, and the lines joined
+    where a sentence goes on past a line break (M3)."""
     t = CODE_FENCE.sub(" ", normalize(text))
-    return "\n".join(line for line in t.split("\n") if not line.lstrip().startswith(QUOTE_LEAD))
+    lines = [line.strip() for line in t.split("\n") if not line.lstrip().startswith(QUOTE_LEAD)]
+    return "\n".join(_join_lines([line for line in lines if line]))
 
 
 def _clauses(text):
@@ -893,6 +998,7 @@ def typed_ops(text, fallback=()):
             held = held or holds                    # an earlier clause held the work back or reported speech
             halt = _unnegated(HALT_CUE, c)
             holds = halt or bool(REPORT_CUE.search(c))
+            holds = holds or _puts_first(c)         # "First the audit, then merge #34" (M5)
             may_order = not conditional and not held
             has_merge = bool(MERGE_ANY.search(c))
             cue_any = REFUSAL_CUE.search(c)
@@ -909,7 +1015,8 @@ def typed_ops(text, fallback=()):
                 rest = c[m.end(1):]
                 list_open = False
                 if _is_statement(rest):
-                    continue                        # "merge #34 has failing checks": nothing at all
+                    ops += _statement_revokes(c, rest)
+                    continue                        # "merge #34 has failing checks": no order
                 if question and not POLITE_REQUEST.match(c):
                     continue
                 cue = REFUSAL_CUE.search(rest)
@@ -1571,8 +1678,9 @@ def _parse_file(path, cwd, depth, env, written=None, direct=False):
     """The commands of a script file a command runs. Only a regular file of bounded size is read; one that is
     missing, too large, or named relative to a directory this parser does not know contributes nothing (a stated
     limit). One that cannot be parsed is handed on as text, for the text screens. A file run directly (`./land`,
-    D1) is read only when it holds no NUL byte (a program is not a script); when its first line names a program
-    other than a shell, its text goes to the text screens."""
+    D1) is read only when it holds no NUL byte (a program is not a script) and its first line names no program
+    other than a shell: a Python or Node file run directly is not read, the same stated limit as `python3 FILE`
+    (M1: its text on the screens denied honest runs of a file that only mentions the words)."""
     try:
         path = _join_dir(cwd, path)
         if not path or not os.path.isfile(path) or os.path.getsize(path) > SCRIPT_MAX_BYTES:
@@ -1585,7 +1693,7 @@ def _parse_file(path, cwd, depth, env, written=None, direct=False):
         return []
     body = data.decode("utf-8", errors="replace")
     if direct and not _runs_in_a_shell(body):
-        return [_screened(body, cwd)]
+        return []
     return _parse_body(body, cwd, depth, env, {} if written is None else written)
 
 
@@ -1962,7 +2070,18 @@ def _http_acts(argv, cwd=None):
 
 
 def _is_scratch(path, cwd):
-    """The path, made absolute and normalised, lies under a scratch directory (/tmp/../home/x does not)."""
+    """The path, made absolute and normalised, lies under a scratch directory (/tmp/../home/x does not). A path
+    that starts with $TMPDIR or ${TMPDIR} (SCRATCH_VARS, as a redirection keeps it) and holds no other expansion
+    lies under it unless `..` climbs out ($TMPDIR/../home/x does not)."""
+    for name in SCRATCH_VARS:
+        lead = _varmark + name + _varmark
+        rest = path[len(lead):] if path and path.startswith(lead) else None
+        if rest is not None and (rest == "" or rest.startswith("/")):
+            if _unresolved in rest or _varmark in rest:
+                return False
+            root = "/" + _unresolved
+            p = os.path.normpath(root + rest)
+            return p == root or p.startswith(root + "/")
     if not path or _unresolved in path or _varmark in path or path.startswith(HOME_LEAD):
         return False
     if not os.path.isabs(path):
@@ -2309,7 +2428,7 @@ class Model(object):
             res = self.results.get(tid)
             if acts and res is not None:
                 block, row = res[1], res[2]
-                if row.get("toolDenialKind") or DENIAL_TEXT.search(_result_text(block)[:DENIAL_TEXT_REACH]):
+                if was_denied(block, row):
                     continue
                 if block.get("is_error"):
                     if b.get("name") not in SHELL_TOOLS:
@@ -2342,7 +2461,7 @@ class Model(object):
             res = self.results.get(tid)
             if res is not None:                     # a call with no result yet counts
                 block, row = res[1], res[2]
-                denied = bool(row.get("toolDenialKind")) or bool(DENIAL_TEXT.search(_result_text(block)[:DENIAL_TEXT_REACH]))
+                denied = was_denied(block, row)
                 if denied or (block.get("is_error") and b.get("name") not in SHELL_TOOLS):
                     self.dropped["denied" if denied else "error"] += 1
                     continue
@@ -2350,8 +2469,11 @@ class Model(object):
                     self.dropped["failed_last"] += sum(1 for a in acts if a.last_step)
                     acts = [a for a in acts if not a.last_step]
             out += [(i, k, a) for a in acts]
-        first = self.rows[after + 1] if 0 <= after + 1 < len(self.rows) else {}
+        # The stretch's own first row (the owner's message or the stop it starts at; the file's first row when it
+        # starts at the top): a note stamped after it and before the next row belongs to this stretch.
+        first = self.rows[max(after, 0)] if self.rows else {}
         since = _epoch(first.get("timestamp"))
+        helpers = [i for (i, _k, b, side) in self.uses.values() if not side and b.get("name") in HELPER_TOOLS]
         for note in ledger:                         # a helper's outward calls, noted by the pre-tool hook
             try:
                 rows_then = int(note.get("rows"))
@@ -2360,18 +2482,23 @@ class Model(object):
                     counted = float(noted_at) > since        # placed by time: row numbers restart when the file is rewritten
                 else:
                     counted = rows_then > after
+                at = max(rows_then - 1, after + 1)
+                if counted and not HELPER_ACT_PLACED_BY_TIME:
+                    counted = any(after < i <= at for i in helpers)     # only a helper this stretch started
                 if counted:
-                    at = max(rows_then - 1, after + 1)
                     out += [(at, _ledger_block, Act(kind, "helper: " + str(note.get("tool"))))
                             for kind in note.get("kinds") or [] if kind in F1_COUNTED_KINDS]
             except Exception:
                 continue
         return sorted(out, key=lambda x: (x[0], x[1]))
 
-    def feedback(self, after, mark=None):
-        """Rows after `after` where a Stop hook's block was fed back and work followed; with `mark` (a text, or a
-        test of the reason) only the blocks whose reason satisfies it. A block leaves two rows side by side (the
-        feedback row and the attachment): neighbouring feedback rows are one block."""
+    def feedback(self, after, mark=None, retry=False):
+        """Rows after `after` where a Stop hook's block was fed back and answered; with `mark` (a text, or a test
+        of the reason) only the blocks whose reason satisfies it. A block is answered when work follows it in the
+        record, or when it is the record's last block and `retry` (the Stop input's stop_hook_active) says this
+        stop is the answer to it: the record can be behind, and the reply may exist only in the Stop input. A
+        block leaves two rows side by side (the feedback row and the attachment): neighbouring feedback rows are
+        one block."""
         last_work = max([e.i for e in self.evs if e.kind == "ASSISTANT"] or [-1])
         blocks, run = [], None
         for e in self.evs:
@@ -2382,7 +2509,8 @@ class Model(object):
                 run.append(e)
             elif e.kind != "OTHER":
                 run = None
-        return [b[0].i for b in blocks if b[0].i > after and b[-1].i < last_work
+        return [b[0].i for n, b in enumerate(blocks) if b[0].i > after
+                and (b[-1].i < last_work or (retry and n == len(blocks) - 1))
                 and any(_marked(e.text, mark) for e in b)]
 
     def prose(self, after, last_message=None):
@@ -2487,12 +2615,15 @@ def f1_decision(model, ledger=(), stop_hook_active=False):
     (a scheduled run that begins mid-stretch); each part is judged on the loads of its own governance turn.
     In a part, plan-gate must be loaded before each act and adversarial-verify anywhere; a compaction voids the
     loads made before it for the acts that come after it. After this rule's own block, a plan-gate load made
-    since counts although it comes after the act. The retry flag decides nothing by itself: this rule's
-    earlier blocks are counted from the record, at most F1_MAX_BLOCKS per stretch."""
+    since answers the acts made before that block although it comes after them; an act made after the block
+    needs plan-gate before it, as any act does (S8). The retry flag decides nothing by itself: this rule's
+    earlier blocks are counted from the record (the last one also when the flag says this stop answers it), at
+    most F1_MAX_BLOCKS per stretch."""
     model.f1_note = ""
     start = model.stretch_start
-    own = model.feedback(start, _own_f1_block)
-    if stop_hook_active and not model.feedback(start):
+    retry = bool(stop_hook_active)
+    own = model.feedback(start, _own_f1_block, retry)
+    if retry and not model.feedback(start, None, retry):
         return False, [], []                        # the flag is set and the record shows no block: one retry
     if len(own) >= F1_MAX_BLOCKS:
         return False, [], []
@@ -2513,7 +2644,8 @@ def f1_decision(model, ledger=(), stop_hook_active=False):
         plan_ok, plan_voided = True, False
         for i, k, _act in mine:
             floor = max([c for c in compactions if c < i] or [gov])
-            if not any(g == PLAN_GOVERNOR and li > floor and ((li, lk) < (i, k) or (remedy is not None and li > remedy))
+            if not any(g == PLAN_GOVERNOR and li > floor
+                       and ((li, lk) < (i, k) or (remedy is not None and i < remedy and li > remedy))
                        for li, lk, g in loads):
                 plan_ok = False
                 plan_voided = plan_voided or any(g == PLAN_GOVERNOR and li <= floor for li, _lk, g in loads)

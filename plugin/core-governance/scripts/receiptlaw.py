@@ -601,9 +601,10 @@ def decide(data):
         return None                         # no record to judge
     model = turngate.Model(rows)
     start = turngate.stop_span(model)[0] - 1        # the row before the stretch: the same stretch the other Stop gate judges
-    if data.get("stop_hook_active") and not model.feedback(start):
+    retry = bool(data.get("stop_hook_active"))
+    if retry and not model.feedback(start, None, retry):
         return None                         # the flag is set and the record shows no block: the one retry
-    if len(model.feedback(start, turngate.RECEIPT_BLOCK_MARK)) >= RECEIPT_MAX_BLOCKS:
+    if len(model.feedback(start, turngate.RECEIPT_BLOCK_MARK, retry)) >= RECEIPT_MAX_BLOCKS:
         return None                         # this gate has spoken in this stretch
     for text in model.prose(start, data.get("last_assistant_message")):     # the final answer too, when the record lacks it
         bare = bare_claim(text)

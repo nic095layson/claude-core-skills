@@ -1,5 +1,5 @@
 {
- "_about": "Judgment constants of the governance stack, read from hooks/ by redteam/live.py. Standing registry since 2026-11-12 (first made 2026-10-19 on main 7d07886 as a one-off under results/; that copy failed against the live hooks on 2026-11-12 with 6 drifted values and 15 unregistered ones). Status per the red-team skill's five. The guard runs registry_check.py on every commit. Since 2026-11-15: every upper-case module-level name of hooks/turngate.py, hooks/turn-gates-pretool.py and hooks/governance-enforce.py is registered as `<file>:<NAME>` (live.py parses the files; a compiled pattern is the hash of its source and flags), in place of the twelve values that used to be picked from those files by name or by searching for a string. Open decisions these entries point to: D-TG-1: calibrate the word lists, patterns and limits of the turn gates against real owner messages and commands. D-TG-2: the policy defaults the owner was not asked about (RESTART_ENDS_WORD, DELEGATE_MAY_MERGE; since 2026-11-16 also QUEUED_OWNER_ATTENDS_RUN, MIDTURN_DOUBT_ENDS_WORD, BARE_NUMBER_ONE_REPOSITORY): confirm or overrule. The receipt gate's module hooks/receiptlaw.py is registered the same way since 2026-11-15, in place of RECEIPT_INABILITY_PATTERN, RECEIPT_RECEIPT_PATTERN and RECEIPT_WINDOW_CHARS (decisions D-RT-1 and D-QA-1, closed by the rebuild of that gate). D-RG-1: calibrate the receipt gate's claim families, receipt words and exemptions against real answers (first numbers: results/2026-11-15/receipt-gate-fix/). D-RG-2: the receipt gate's policy defaults the owner was not asked about (RECEIPT_MAX_BLOCKS, NOT_VERIFIED_IS_A_CLAIM; RECEIPT_SCOPE follows the rule's own words and has a tested alternative): confirm or overrule.",
+ "_about": "Judgment constants of the governance stack, read from hooks/ by redteam/live.py. Standing registry since 2026-11-12 (first made 2026-10-19 on main 7d07886 as a one-off under results/; that copy failed against the live hooks on 2026-11-12 with 6 drifted values and 15 unregistered ones). Status per the red-team skill's five. The guard runs registry_check.py on every commit. Since 2026-11-15: every upper-case module-level name of hooks/turngate.py, hooks/turn-gates-pretool.py and hooks/governance-enforce.py is registered as `<file>:<NAME>` (live.py parses the files; a compiled pattern is the hash of its source and flags), in place of the twelve values that used to be picked from those files by name or by searching for a string. Open decisions these entries point to: D-TG-1: calibrate the word lists, patterns and limits of the turn gates against real owner messages and commands. D-TG-2: the policy defaults the owner was not asked about (RESTART_ENDS_WORD, DELEGATE_MAY_MERGE; since 2026-11-16 also QUEUED_OWNER_ATTENDS_RUN, MIDTURN_DOUBT_ENDS_WORD, BARE_NUMBER_ONE_REPOSITORY, HELPER_ACT_PLACED_BY_TIME and governance-enforce.py's PROMPT_CLASS_SILENT_WITHOUT_OWNER_MESSAGE): confirm or overrule. The receipt gate's module hooks/receiptlaw.py is registered the same way since 2026-11-15, in place of RECEIPT_INABILITY_PATTERN, RECEIPT_RECEIPT_PATTERN and RECEIPT_WINDOW_CHARS (decisions D-RT-1 and D-QA-1, closed by the rebuild of that gate). D-RG-1: calibrate the receipt gate's claim families, receipt words and exemptions against real answers (first numbers: results/2026-11-15/receipt-gate-fix/). D-RG-2: the receipt gate's policy defaults the owner was not asked about (RECEIPT_MAX_BLOCKS, NOT_VERIFIED_IS_A_CLAIM; RECEIPT_SCOPE follows the rule's own words and has a tested alternative): confirm or overrule.",
  "constants": [
   {
    "name": "CLASS_PATTERN_ANALYSIS",
@@ -707,7 +707,19 @@
     "cannot wait",
     "don't forget to",
     "dont forget to",
-    "do not forget to"
+    "do not forget to",
+    "let's not wait",
+    "lets not wait",
+    "don't wait",
+    "dont wait",
+    "do not wait",
+    "don't hold off",
+    "do not hold off",
+    "let's not delay",
+    "don't delay",
+    "do not delay",
+    "without waiting",
+    "no more waiting"
    ],
    "role": "phrases with \"no\" or \"not\" in them that refuse nothing (\"no rush\", \"no objections\")",
    "status": "uncalibrated",
@@ -2797,22 +2809,6 @@
    "decision": "D-TG-1"
   },
   {
-   "name": "turngate.py:DENIAL_TEXT",
-   "value": "b4c1adab",
-   "role": "what a result says when the call was denied or rejected and so was not taken",
-   "status": "uncalibrated",
-   "record": "",
-   "decision": "D-TG-1"
-  },
-  {
-   "name": "turngate.py:DENIAL_TEXT_REACH",
-   "value": 600,
-   "role": "how much of a result text is searched for those words",
-   "status": "uncalibrated",
-   "record": "",
-   "decision": "D-TG-1"
-  },
-  {
    "name": "turngate.py:PLAN_MARK",
    "value": "49b6d2d3",
    "role": "what counts as a plan having been shown: the word Goal (carried from D-QA-1)",
@@ -3302,7 +3298,7 @@
   },
   {
    "name": "governance-enforce.py:REASON_PROMPT_CLASS",
-   "value": "GOV-ENFORCE: this is governed work (%s) and you finished WITHOUT loading %s. Load %s with the Skill tool now, follow its procedure, and revise your answer before finishing. Governor text already in your context from before a compaction does not count: it was loaded for an earlier task.",
+   "value": "GOV-ENFORCE: this is governed work (%s) and you finished WITHOUT loading %s. Load %s with the Skill tool now, follow its procedure, and revise your answer before finishing. Only a load with the Skill tool in this turn counts (one made earlier in this turn counts, also before a compaction); governor text you remember from an earlier turn does not.",
    "role": "text of the prompt-class block (the test table reads \"governed work\")",
    "status": "structural",
    "record": "",
@@ -4623,7 +4619,7 @@
   },
   {
    "name": "turngate.py:CONDITION_CUE",
-   "value": "eb8f0f2e",
+   "value": "2d151c01",
    "role": "the pattern of CONDITION_WORDS (rule A1; also a doubt for rule A6 and a cue for the card rules B1, B2)",
    "status": "uncalibrated",
    "record": "",
@@ -4653,14 +4649,28 @@
     "subject to",
     "depending",
     "tonight",
-    "next week",
+    "next",
     "monday",
     "tuesday",
     "wednesday",
     "thursday",
     "friday",
     "saturday",
-    "sunday"
+    "sunday",
+    "eventually",
+    "afterwards",
+    "afterward",
+    "soon",
+    "sometime",
+    "some time",
+    "at some point",
+    "in a bit",
+    "in a while",
+    "in the morning",
+    "in the evening",
+    "in the afternoon",
+    "this evening",
+    "this afternoon"
    ],
    "role": "the words that make a sentence an order for later or under a condition, which grants nothing (rule A1)",
    "status": "uncalibrated",
@@ -4797,7 +4807,7 @@
   },
   {
    "name": "turngate.py:HALT_CUE",
-   "value": "11c670e2",
+   "value": "6e778aee",
    "role": "the pattern of HALT_WORDS",
    "status": "uncalibrated",
    "record": "",
@@ -4836,7 +4846,16 @@
     "let's not",
     "lets not",
     "hang on",
-    "on hold"
+    "on hold",
+    "one sec",
+    "one second",
+    "a sec",
+    "one moment",
+    "a moment",
+    "a minute",
+    "give me",
+    "hold up",
+    "not so fast"
    ],
    "role": "the words that hold the work back (rules A2, A5, A6, B1)",
    "status": "uncalibrated",
@@ -5240,6 +5259,145 @@
    "status": "uncalibrated",
    "record": "",
    "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:DENIAL_FLAG",
+   "value": "toolDenialKind",
+   "role": "the result row's field whose presence says the call was denied (observed 2026-11-16, program 2.1.325; finding AS-1)",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:DENIAL_WRAPPERS",
+   "value": [
+    "Error: ",
+    "<tool_use_error>"
+   ],
+   "role": "what is dropped from the front of an error text before the denial leads are read (finding AS-1)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:DENIAL_LEADS",
+   "value": "3199f455",
+   "role": "how the text of an error result that is a denial STARTS: a hook's denial, the merge gate's reason, a rejection at the permission prompt, a permission rule (finding AS-1; replaces DENIAL_TEXT and DENIAL_TEXT_REACH)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:HELPER_ACT_PLACED_BY_TIME",
+   "value": true,
+   "role": "a helper's noted act is charged to the stretch in which it happens, also when the helper was started in an earlier turn (finding AS-3; False: only to a stretch whose main thread started a helper)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-2"
+  },
+  {
+   "name": "turngate.py:HELPER_TOOLS",
+   "value": [
+    "Agent",
+    "Task"
+   ],
+   "role": "the main thread's calls that start a helper agent (read only when HELPER_ACT_PLACED_BY_TIME is False)",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:SCRATCH_VARS",
+   "value": [
+    "TMPDIR"
+   ],
+   "role": "variables a path may start with, unexpanded, and still be scratch for the plan-shown advisory (finding AS-8)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:CONDITION_CLOCK",
+   "value": "at\\s+\\d",
+   "role": "a clock time ('at 5pm', 'at 17:00') puts an order off (rule A1, follow-up M4)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:SEQUENCE_FIRST",
+   "value": "fbe0f16c",
+   "role": "the word that puts something first: an earlier clause with it holds the order after it back (rule A2, follow-up M5)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:SEQUENCE_FIRST_MIN_WORDS",
+   "value": 2,
+   "role": "how many words a clause holding 'first' needs to be a sequence ('First, merge #34' is a lead-in; follow-up M5)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:SEQUENCE_BEFORE",
+   "value": "00f92224",
+   "role": "'before that', 'beforehand': an earlier clause with them holds the order after it back (follow-up M5)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:LINE_JOIN_ENDS",
+   "value": [
+    ",",
+    ":"
+   ],
+   "role": "a line that ends with one of these goes on into the next line (rule A10, follow-up M3)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:LINE_END_MARKS",
+   "value": ".!?;:,",
+   "role": "a line that ends with none of these and holds a condition or a hold goes on into the next line (follow-up M3)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:LIST_INTRO_END",
+   "value": ":",
+   "role": "a line that ends with this introduces a list: each item is read with it (follow-up M3)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:LIST_ITEM",
+   "value": "56a966e3",
+   "role": "how a list item starts: a dash, a star, a bullet, or a number and '.' or ')' (follow-up M3)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "governance-enforce.py:PROMPT_CLASS_SILENT_WITHOUT_OWNER_MESSAGE",
+   "value": true,
+   "role": "a stretch whose record holds no owner message is not judged by the prompt-class rule (finding AS-7, PC-6; False: one that made a real write is judged as work that needs plan-gate)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-2"
+  },
+  {
+   "name": "governance-enforce.py:WRITE_GOVERNED_CLASS",
+   "value": "build",
+   "role": "the class a stretch with no owner message is judged as when PROMPT_CLASS_SILENT_WITHOUT_OWNER_MESSAGE is False",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-2"
   }
  ]
 }

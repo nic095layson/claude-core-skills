@@ -4,7 +4,9 @@
 Merge gate. A call that merges a pull request, switches auto-merge on, or pushes to a default branch is denied
 unless the owner's word for THAT pull request (or that branch) stands in the current window: a click on a card
 that names it, or a typed order with its number. The word covers only what it names and ends when the assistant
-stops. In a scheduled run such a call is always denied. The rule itself is turngate.merge_decision.
+stops. In a scheduled run such a call is always denied, for the routes the gate reads (a file run directly whose
+first line names a program other than a shell, such as `./tool.py`, is not read: a stated limit, as `python3
+FILE` is). The rule itself is turngate.merge_decision.
 
 Plan-shown advisory. After a plan-gate load, the first real write is preceded by one reminder when the record
 holds no plan text since the load. Advisory only: the record does not keep every message.

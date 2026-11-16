@@ -151,7 +151,7 @@ command `find -exec` (`-execdir`, `-ok`, `-okdir`) runs, and these script files:
 | the file | how it is read |
 |---|---|
 | one handed to a shell (`bash FILE`, `sh FILE`) or to `source` / `.` | as a shell script; `bash -n FILE` (also `-en`) only checks syntax and reads nothing |
-| one run directly: a command word that holds a `/` (`./land`, `/opt/x/ship`) or ends in `.sh` | as a shell script when it is a regular file of at most 256 KB that holds no NUL byte (a program, such as `/bin/ls`, is not read) and its first line is not the `#!` line of another program; a `#!` line of another program (`#!/usr/bin/env python3`) sends its text to the text screens |
+| one run directly: a command word that holds a `/` (`./land`, `/opt/x/ship`) or ends in `.sh` | as a shell script when it is a regular file of at most 256 KB that holds no NUL byte (a program, such as `/bin/ls`, is not read) and its first line is not the `#!` line of another program; a file whose `#!` line names another program (`#!/usr/bin/env python3`) is not read at all, as `python3 FILE` is not (since 2026-11-16, rule M1: its text on the text screens denied honest runs such as `./hooks/selftest-turn-gates.py --list`) |
 | one the same command text writes and then runs | what the text wrote: a here-document given to `cat > F`, `cat <<EOF > F` or `tee F`, or the words of `echo` / `printf` with a redirection, is remembered and read when F runs later in the text (by a shell, by `source` / `.`, or directly). A file the text writes in any other way (a copy, a download, another program's output) and then runs sends the whole command text to the text screens |
 
 A command word the parser cannot resolve (`$(which gh) pr merge 40`, `$GH ...`, a backtick word) is judged
@@ -179,7 +179,7 @@ What makes the word.
 | the assistant's own text; a tool's output, whatever it quotes; a notification body; a stored prompt; a compaction summary; a helper agent's row; any row the program wrote | nothing. Only the result of the card's own call, paired with it by id, is a click |
 
 The operations of one message apply in the order they were said: "Merge #34. No wait." grants and then
-empties. "No rush", "no objections", "why not", "don't forget to" and their like refuse nothing.
+empties. "No rush", "no objections", "why not", "don't forget to", "don't wait" and their like refuse nothing.
 
 The merge word, rule by rule (the outside audit of 2026-11-16, findings AM-1, AM-2, AM-5, AM-7; every word list
 is an upper-case name in `turngate.py`). A cue is looked for in the text after normalising, with code fences,
@@ -187,14 +187,16 @@ quoted lines and the phrases that refuse nothing dropped.
 
 | # | rule | examples |
 |---|---|---|
-| A1 | A sentence that holds a condition (`CONDITION_CUE`: after, once, when, if, unless, until, provided, assuming, as long as, in case, pending, subject to, depending, later, tomorrow, tonight, next week, a weekday ...) anywhere grants nothing and sets no branch word. A refusal in it still takes the grant back | "Once CI is green, merge #34.", "Merge #34, if CI is green.", "Merge #34 on Monday.", "If CI passes, push to main.": nothing |
-| A2 | An order grants nothing when an earlier clause of the same sentence holds the work back (`HALT_CUE`: wait, hold, stop, pause, cancel, postpone, not yet, never mind, scratch that, on second thought, let's not, hang on ...), un-negated: no "no", "not", "never", "without" or "n't" word before it in its clause | "Wait for CI, then merge #34.": nothing. "Merge #34, then wait for my word on #141.": #34 |
+| A1 | A sentence that holds a condition (`CONDITION_CUE`: after, once, when, if, unless, until, provided, assuming, as long as, in case, pending, subject to, depending, later, tomorrow, tonight, next, a weekday, eventually, afterwards, soon, sometime, at some point, in a bit, in a while, in the morning / evening / afternoon, this evening / afternoon ..., and a clock time, `at` followed by a digit) anywhere grants nothing and sets no branch word. A refusal in it still takes the grant back | "Once CI is green, merge #34.", "Merge #34, if CI is green.", "Merge #34 on Monday.", "Merge #34 at 5pm.", "Merge #34 soon.", "If CI passes, push to main.": nothing |
+| A2 | An order grants nothing when an earlier clause of the same sentence holds the work back (`HALT_CUE`: wait, hold, stop, pause, cancel, postpone, not yet, never mind, scratch that, on second thought, let's not, hang on, one sec, a moment, a minute, give me, hold up, not so fast ...), un-negated: no "no", "not", "never", "without" or "n't" word before it in its clause; or puts something first (M5: "first" with at least one other word, "before that", "beforehand") | "Wait for CI, then merge #34.", "First the audit, then merge #34.", "The plan: audit first, merge #34 second.": nothing. "Merge #34, then wait for my word on #141.": #34. "First, merge #34.": #34. "Merge #34 first, then #141.": both |
 | A3 | An order grants nothing when an earlier clause of the same sentence reports speech (`REPORT_CUE`: said, says, wrote, told, asked, quoted, meant, e.g., for example, such as ...) | "Yesterday you said: merge #34.", "The note says: merge #34.": nothing |
-| A4 | The verb followed, after its pull requests, by one of `STATEMENT_WORDS` (is, has, was, failed, needs, looks, still ...) is a statement, not an order: no grant, no revocation | "Merge #34 has failing checks, look at it.", "No, merge #34 is not approved.": nothing. "Merge #34 now.": #34 |
+| A4 | The verb followed, after its pull requests, by one of `STATEMENT_WORDS` (is, has, was, failed, needs, looks, still ...) is a statement, not an order: no grant. A statement that also holds a refusal word or an un-negated hold takes its pull requests out of the grant (M6) | "Merge #34 has failing checks, look at it.", "No, merge #34 is not approved.": nothing. "Merge #34. Merge #34 can wait.", "Merge #34. Merge #34 is not ready.": the word for #34 is gone. "Merge #34. Merge #34 has two commits.": #34. "Merge #34 now.": #34 |
 | A5 | A clause with no number and no merge word empties the grant when it holds an un-negated hold (whatever its length), or when it is a short refusal (six words at most, starting with no, not, don't, wait, stop ...) once a leading run of soft words (`SOFT_LEADIN`: actually, well, hmm, sorry, please, ok, so, and, also, maybe, I think, on second thought ...) is dropped | after "Merge #34.": "Actually, let's wait for the audit first.", "Scratch that, I want to review it first.", "Merge #34. Actually no.": the word is gone. "Merge #34. There is no reason to hold this back any longer.": #34 stands |
 | A6 | A message the owner sends while the assistant works, from which nothing above reads an operation, and which holds any refusal, hold or condition word, empties the grant (`MIDTURN_DOUBT_ENDS_WORD = True`, a default; False: such a message does nothing) | "I don't think we should do that right now.", "Only after the audit.": the word is gone. "Thanks, I am here now.": nothing |
 | A7 | "Don't forget to merge #34" is an order | #34 |
 | A8 | The lead-in words of an order (`ORDER_LEADIN_WORDS`) are read in one way only, so a long run of them cannot make the search slow | 200 times "go ahead and", then "merge #34": #34, judged at once |
+| A9 | A negated hold is a go-ahead (M2, `AFFIRMATIVE_PHRASES`): let's not wait, don't wait, do not wait, don't hold off, don't delay, without waiting, no more waiting ... refuse nothing | "Let's not wait any longer, merge #34.", "Merge #34 now, don't wait for CI.": #34. After "Merge #34.", a mid-turn "Don't wait for me.": #34 stands |
+| A10 | A line break ends a sentence (M3), except: a line that ends with "," or ":" goes on into the next; a line with no end mark (`. ! ? ; : ,`) that holds a condition or an un-negated hold goes on into the next; each item of a list (a line that starts with `-`, `*`, a bullet, or a number and `.` or `)`) under a line that ends with ":" is read as that line plus the item | "Once CI is green,\nmerge #34.", "If the guard passes\nmerge #34", "After the audit:\n1. merge #34\n2. upload the plugin": nothing. "Merge #34\nThen update the README", "Do these:\n- merge #34\n- upload the plugin": #34 |
 | B1 | A yes on a card grants a merge only when its question plainly asks for one: the question holds no refusal, condition, un-negated hold or `QUESTION_DOUBT` word (or, versus, vs), and one of its clauses starts with the verb, after an optional lead-in (`QUESTION_LEADIN_WORDS`: the order lead-ins and shall I, should we, do you want me to, ok to ...), not followed by a statement (A4). A yes on any other question of a merge card takes the question's pull requests out of the grant | yes on "Shall I merge #34 now?": #34. Yes on "Wait for the outside audit before I merge #34?", "Merge #34 once CI is green?", "Is #34 ready to merge?", "Merge #34 or wait?": nothing |
 | B2 | The same for the branch word: a yes sets it only on a plain push question to a default branch | yes on "Push this to main?": the branch word. Yes on "Push to main once CI is green?": nothing |
 | B3 | Unchanged: an option that is itself an order ("Merge #34 now") grants what it names; an option that refuses or defers takes the grant back; free text typed into a card is read as a typed message | |
@@ -241,6 +243,18 @@ session's own wake-ups included. Not counted: comments, reviews, issues, creatin
 mail, drive, messages to other sessions. Not an action at all: a command that only mentions the words, a dry
 run, a help page, a call that was denied or rejected, and the last step of an and-chain that failed.
 
+Whether a call was denied is read from the record's own flags, never from what its output says (since
+2026-11-16, finding AS-1: a successful commit echoes its branch, subject and new file paths, which the session
+chose, so a branch named `claude/turn-gates-fix` used to make its own commit uncounted). A call was denied when
+its result row carries `toolDenialKind` (observed 2026-11-16 for a hook's denial: `"permission-rule"`), or when
+its result is an error whose text STARTS, after leading blanks and an optional `Error: `, with one of
+`DENIAL_LEADS`: `PreToolUse:<Tool> hook error:` (the observed form of a hook's denial), `TURN-GATE`, "The user
+doesn't want to proceed" (rejected at the permission prompt), "Permission to use ...", "requires approval",
+"Hook denied / blocked". A result that is not an error is never a denial, whatever it says. A failed call whose
+error text holds such words in its middle (a push "was rejected" by the remote) is judged as a failure, not a
+denial: the last step of its and-chain is dropped, the earlier steps count. The merge gate uses the same test
+when it counts an earlier merge of a bare number (rule C).
+
 - **What one stop judges: the stretch.** The rows since the owner's latest message or the latest completed
   stop, whichever is later. A blocked stop is not a completed stop. A miss that was let go at its own stop is
   not raised again at a later one.
@@ -257,18 +271,25 @@ run, a help page, a call that was denied or rejected, and the last step of an an
   words when this is the miss.
 - **How often it blocks** (the owner's answer: "Yes, twice at most"). At most twice in one stretch: again when
   its first block was not answered, then the stop is let go. After its own block, a plan-gate load made since
-  answers it although it can no longer come first. The retry flag (`stop_hook_active`) decides nothing by
-  itself: it is set after ANY Stop hook blocked. The rule counts its own earlier blocks from the record; only
-  when the flag is set and the record shows no block at all is the stop let go.
+  answers the acts made BEFORE that block, although it can no longer come first; an outward act made AFTER the
+  block needs plan-gate before it, as any act does (specification row S8, finding AS-5): "block, push, then
+  both governors" blocks again; "block, both governors, then push" is allowed. The retry flag
+  (`stop_hook_active`) decides nothing by itself: it is set after ANY Stop hook blocked. The rule counts its own
+  earlier blocks from the record. A block counts when it was answered: work follows it in the record, or it is
+  the record's last block and the flag is set (this stop is the answer to it; the record can be behind, and the
+  reply may exist only in the Stop input: finding AS-2). Only when the flag is set and no block is counted at
+  all is the stop let go.
 
 **Prompt class.** The owner's prompts of the turn are what the owner types (the owner's answer: "No, only what
 you type"): the message that starts the turn, a slash command's arguments, and every message sent while the
 assistant worked. A clicked card label is not a prompt; a row the program wrote is not; a message that merely
 quotes a harness marker is the owner's and is classified. When the prompts match an enforced class of
 `govclass.py`, the primary governor of every matched class must have been loaded in the governance turn (for
-this rule a load made before a compaction counts; a load made before the turn does not). The rule is judged
-only at the first stop after the owner's message: it is silent in a scheduled run, when the record holds no
-owner message, and after a completed stop or a wake row. Allowance: the classes are review only, no tool other
+this rule a load made before a compaction counts; a load made before the turn does not; its block reason says
+so). The rule is judged only at the first stop after the owner's message: it is silent in a scheduled run, when
+the record holds no owner message (`PROMPT_CLASS_SILENT_WITHOUT_OWNER_MESSAGE = True`, a default; False: such a
+stretch that made a real write is judged as work that needs plan-gate), and after a completed stop or a wake
+row. Its blocks are counted as the outward rule counts them (answered, or the last one on a retry). Allowance: the classes are review only, no tool other
 than Skill ran, and the answer is shorter than 400 characters (the final answer the program hands the hook is
 read when the record does not hold it). It blocks once in a stretch; a block by the other rule or by another
 Stop hook does not use that up.
@@ -279,7 +300,11 @@ After a plan-gate load, the first real write (a file outside scratch, a shell co
 action, a scheduled-task change) is preceded by one reminder when the record holds no text of the assistant
 with the word "Goal" since the load. Once per load. It never blocks. **Its stated limit:** the record does not
 keep every message, so the reminder can be a false alarm, and its text says so. A command that only mentions
-write words, or writes only to scratch (`/tmp`, `/var/tmp`, `$TMPDIR`), does not spend it. A helper agent's call gets none:
+write words, or writes only to scratch (`/tmp`, `/var/tmp`, the hook's `$TMPDIR`, and a redirection to a path
+written `$TMPDIR/...` or `${TMPDIR}/...` that does not climb out with `..`), does not spend it. Limit: a write
+command's argument written with the variable (`cp x "$TMPDIR/y"`) is still taken for a real write, because the
+parser keeps a variable's name only in a redirection; nor does it see a `TMPDIR=...` set in the same command.
+A helper agent's call gets none:
 the helper's own load and plan are not in the record the hook reads.
 
 ### Which way each failure goes
@@ -342,9 +367,16 @@ A helper agent's rows are not in the record the hooks are handed. So when a call
 an action the Stop gate counts and is not denied, the pre-tool hook notes it in a small ledger
 (`delegate-<hash of the record's path>.jsonl` in `$TURNGATE_STATE_DIR`, else `$TMPDIR/turn-gates`, else
 `/tmp/turn-gates`), and the Stop gate counts the note as an outward action of the stretch. A note is placed by
-its time stamp, so it stays usable after the record was rewritten at a compaction. Limits: a helper's call that
-was let through and then failed still counts; when the ledger cannot be written nothing is counted and nothing
-is blocked; the ledger is lost with the container.
+its time stamp, so it stays usable after the record was rewritten at a compaction: it belongs to the stretch
+when it is later than the stretch's own first row (the owner's message or the stop it starts at), and it sits
+at the row the record had reached when it was written, so a helper that commits after plan-gate was loaded is
+judged as acting after it (finding AS-6). A helper's act is charged to the stretch in which it happens, also
+when the helper was started in an earlier turn (`HELPER_ACT_PLACED_BY_TIME = True`, a default taken without a
+question, finding AS-3). Its cost: the owner's next turn ("thanks") can be blocked once for a background
+helper's late commit, and loading the governors answers it. False: such an act is charged only to a stretch
+whose main thread started a helper (`HELPER_TOOLS`) before it. Limits: a helper's call that was let through
+and then failed still counts; when the ledger cannot be written nothing is counted and nothing is blocked; the
+ledger is lost with the container.
 
 ### The owner's answers, one constant each
 
@@ -363,24 +395,27 @@ not registered.
 | which actions the Stop gate counts | "Commits, pushes, PRs, scheduling" (2026-11-15) | `F1_COUNTED_KINDS` |
 | which calls need the merge word | D1 to D3 (2026-11-13) | `MERGE_GATED_KINDS`, `MERGE_TOOL_LEAVES` |
 
-Five defaults were taken without a question and are open for the owner (registry decision D-TG-2):
+Seven defaults were taken without a question and are open for the owner (registry decision D-TG-2):
 `RESTART_ENDS_WORD = True`, `DELEGATE_MAY_MERGE = True`, `QUEUED_OWNER_ATTENDS_RUN = True` (a message the owner
 types during a scheduled run makes the rest of it attended, so a typed order then may merge; False: a scheduled
 run stays unattended to its end), and, from the audit of 2026-11-16, `MIDTURN_DOUBT_ENDS_WORD = True` (rule A6)
 and `BARE_NUMBER_ONE_REPOSITORY = True` (rule C; the stricter choice the owner may want instead: a word must name
-the repository whenever the session has several). `F1_COUNTED_KINDS` (what the Stop gate counts) can
+the repository whenever the session has several). Two more from the outside audit of the Stop gate (2026-11-16):
+`HELPER_ACT_PLACED_BY_TIME = True` in `turngate.py` (finding AS-3, "Helper agents" above) and
+`PROMPT_CLASS_SILENT_WITHOUT_OWNER_MESSAGE = True` in `governance-enforce.py` (finding AS-7, "Prompt class"
+above). `F1_COUNTED_KINDS` (what the Stop gate counts) can
 be changed without touching the merge gate: what needs the owner's word is `MERGE_GATED_KINDS`, and the pre-tool
 hook looks at every call that holds a gated act, a write, or a push whose branch it cannot read (cases `X06a`
 and `X06b` run the hooks with a shorter Stop list and still expect the denials).
 
 ### Tests
 
-    python3 hooks/selftest-turn-gates.py              # the table: 878 cases, one line each; exit 0 only when all pass
+    python3 hooks/selftest-turn-gates.py              # the table: 950 cases, one line each; exit 0 only when all pass
     python3 hooks/selftest-turn-gates.py --only-failing J04 X05     # by the start of a name
     python3 hooks/selftest-turn-gates.py --hooks DIR  # another copy of the hooks
     python3 hooks/selftest-turn-gates.py W            # table "W": both wiring files, read and run
     python3 hooks/selftest-turn-gates.py --needs      # the files a project carries beside its hooks
-    python3 hooks/selftest-mutations.py               # the break list: 400 deliberate breaks, each must be caught
+    python3 hooks/selftest-mutations.py               # the break list: 434 deliberate breaks, each must be caught
     python3 hooks/selftest-mutations.py --list        # what each break removes, and the cases named for it
 
 `selftest-turn-gates.py` builds a session record in the real row shapes for every case (`selftest_rows.py` is
@@ -395,7 +430,8 @@ time (`timing.txt`), the guard (`guard-after.txt`). Evidence of the merge-gate f
 `results/2026-11-16/audit-fixes/merge-gate/`: the new cases on the hooks as they stood (`red-on-start.txt`), the
 table and the break list after (`table-after.txt`, `mutations-after.txt`), each finding's reproduction on the
 fixed tree (`repro-on-fixed.txt`), the replay totals before and after (`replay-before-after.txt`), the guard
-(`guard-after.txt`).
+(`guard-after.txt`). Evidence of the Stop-gate findings of the same audit and of the follow-ups to the merge
+gate, the same files in `results/2026-11-16/audit-fixes/stop-gate/` (table "U" of the test table).
 
 ### Limits, stated as limits
 
@@ -403,9 +439,10 @@ fixed tree (`repro-on-fixed.txt`), the replay totals before and after (`replay-b
 
 "A scheduled run never merges" and "always denied" hold for the routes the gate reads (above). It does not see:
 
-- a program in another language (inline, as in `python3 -c ...`, or a file run by its interpreter, as in
-  `python3 land.py`) that merges or pushes through a library or a subprocess. A file run directly whose `#!` line
-  names such a program goes to the text screens, which catch only the plain words;
+- a program in another language (inline, as in `python3 -c ...`, a file run by its interpreter, as in
+  `python3 land.py`, or a file run directly whose `#!` line names such a program, as in `./land.py`) that
+  merges or pushes through a library or a subprocess. Such a file is not read at all (since 2026-11-16, rule
+  M1; before, its text went to the text screens, which denied a file that only mentions the words);
 - a program found through `PATH` (a command word without a `/`, such as `land`, is not looked up);
 - a file written by a program the parser cannot follow and then run by a later command, or by another call;
   a file run directly that holds a NUL byte (it is taken for a program; bash itself refuses one whose first
@@ -441,6 +478,13 @@ still allowed: a stated limit, not fixed.
   interrupted there: checked 2026-11-15, the denial came at 8.0 s). On a system without that signal the
   fallback timer cannot interrupt a single long call.
 - A record without stop rows is judged as never judged before: every real record has a stop row at every stop.
+- A failed and-chain (finding AS-4, the documents do not decide; behaviour unchanged): only its last step is
+  dropped. When an earlier step is the one that failed (`git commit -m x && git push` with nothing to commit),
+  the stretch is still counted as having committed, which costs one block; loading the governors answers it.
+- The new word rules (A1 to A10, from the follow-ups of 2026-11-16) read more holds as holds: "Give me a summary,
+  then merge #34" holds the order back ("give me"), "Merge #34 next" is read as for later ("next"), and "Let's do
+  this first: merge #34" puts something first. Each such valid order costs one card. A hold inside the order's
+  own clause ("Merge #34 in a minute") is still read as an order.
 - The replay tool judges a recorded push that names no branch against the checkout as it is at replay time,
   not as it was when the push was made (`replay-vs-baseline.md` shows one denial that comes from this).
 - These gates run where hooks run: Claude Code. On claude.ai nothing here is enforced.
@@ -619,7 +663,10 @@ couldn't verify the port: `ss -ltnp` returned permission denied" has one.
 At most `RECEIPT_MAX_BLOCKS` (1) block in a stretch. The count is read from the record: the feedback rows a
 blocked stop leaves, those whose reason carries this gate's mark ("Receipt law"). There is no state file. The
 retry flag (`stop_hook_active`) is true after ANY Stop hook's block, for the rest of the turn, so it decides
-nothing by itself: only when the flag is set and the record shows no block at all is the stop let go. The block
+nothing by itself. A block is counted when it was answered: work follows it in the record, or it is the
+record's last block and the flag is set (this stop answers it; the reply may be only in the Stop input, as in
+finding AR-6, where the other gate's block and a retried bare claim that the record did not hold yet were let
+go). Only when the flag is set and no block is counted at all is the stop let go. The block
 reason starts with "Receipt law", quotes the claim and its sentence, and gives the three ways out: run the
 check; write "did not check" and why; say in that sentence what was tried and how it failed.
 

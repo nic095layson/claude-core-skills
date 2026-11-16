@@ -1436,8 +1436,6 @@ B("am_c_record-holds-the-call-itself", "AM-7 control", "allow", holding_itself, 
 # -- D: shell routes. Each deny case runs in a scheduled run and in an owner turn whose only word is "ok".
 _ROUTES = (
     ("d1_script-without-suffix", "AM-3 D1", then(put("land", LAND), "./land")),
-    ("d1_python-shebang-is-screened", "AM-3 D1",
-     then(put("tool", "#!/usr/bin/env python3\nimport subprocess\nsubprocess.run(['gh', 'pr', 'merge', '40'])\n"), "./tool")),
     ("d2_heredoc-written-then-run", "AM-3 D2", "cat > x.sh <<'EOF'\n" + G_MERGE + " 40 --squash\nEOF\nbash x.sh"),
     ("d2_heredoc-other-form-then-source", "AM-3 D2", "cat <<'EOF' > x.sh\n" + G_MERGE + " 40\nEOF\nsource x.sh"),
     ("d2_echo-written-then-run", "AM-3 D2", "echo 'git push origin HEAD:main' > y.sh && sh y.sh"),
@@ -1453,6 +1451,14 @@ _ROUTES = (
 for _n, _f, _cmd in _ROUTES:
     B("am_" + _n + "-scheduled", _f, "deny:scheduled", run_rows(), _cmd, **HERE_CWD)
     B("am_" + _n + "-owner-ok", _f, "deny", [ok()], _cmd, **HERE_CWD)
+# A file run directly whose first line names a program that is not a shell is not read: the same stated limit as
+# `python3 FILE`. These two were "am_d1_python-shebang-is-screened-..." with the wanted verdict deny; the orchestrator
+# of the Stop-gate audit unit changed name and verdict (rule M1 of that unit: the text screens denied honest runs
+# such as `./hooks/selftest-turn-gates.py --list`). See results/2026-11-16/audit-fixes/stop-gate/.
+_PY_MERGE = then(put("tool", "#!/usr/bin/env python3\nimport subprocess\nsubprocess.run(['gh', 'pr', 'merge', '40'])\n"),
+                 "./tool")
+B("am_d1_python-shebang-is-a-stated-limit-scheduled", "AM-3 D1 M1 limit", "allow", run_rows(), _PY_MERGE, **HERE_CWD)
+B("am_d1_python-shebang-is-a-stated-limit-owner-ok", "AM-3 D1 M1 limit", "allow", [ok()], _PY_MERGE, **HERE_CWD)
 B("am_d1_ctl-script-says-hi", "D1 control", "allow", [ok()], then(put("land", "#!/bin/bash\necho hi\n"), "./land"), **HERE_CWD)
 B("am_d1_ctl-bin-ls", "D1 control", "allow", [ok()], "/bin/ls -la", **HERE_CWD)
 B("am_d1_ctl-python-script-plain", "D1 control", "allow", [ok()],
@@ -2472,6 +2478,228 @@ RA("RLZ19-one-very-long-sentence-does-not-run-into-the-deadline", "robust", "blo
    "no item is unverified and none remains unconfirmed, " * 4000 + "\n\nI couldn't verify the port.")
 case("RLZ17-module-by-itself-internal-error", "fail-open", "allow", module_alone(LOAD_RAISES))
 case("RLZ18-module-by-itself-input-not-json", "fail-open", "allow", module_alone("", "not json"))
+
+
+# ==================================================================== table "U": the outside audit of the fix, Stop gate
+# Findings AS-1 to AS-8, AR-6, AR-7, the second agent's leads and further lines on the Stop gate (cases as_..), and
+# the follow-ups M1 to M7 to the merge-gate unit before it (cases am2_..): results/2026-11-16/audit-fixes/stop-gate/.
+# Every wanted verdict was written from the unit's rules before the code changed; the run on the tree as it stood
+# is red-on-start.txt there. A case marked "control" or "pin" passed on that tree.
+TABLE[0] = "U"
+FIX_ASK = "Fix the wording in the README and push it to the branch."
+PUSH_OUT = "To https://github.com/acme/lib.git\n   1a2b3c4..5d6e7f8  claude/x -> claude/x"
+HOOK_DENIAL = ("PreToolUse:Bash hook error: [python3 hooks/turn-gates-pretool.py]: TURN-GATE (merge word) "
+               "[default-branch]: a direct push to a default branch (main) needs the owner's word.")
+PUSH_REJECTED = ("Exit code 1\nTo https://github.com/acme/lib.git\n ! [remote rejected] claude/x -> claude/x\n"
+                 "remote: error: the push was rejected: this branch requires approval\nerror: failed to push some refs")
+CLEAN_ANSWER = "The deploy is live: the health endpoint returned 200."
+BARE_ANSWER = "I couldn't verify the deploy."
+STAMP_STEP = R.STAMP_STEP_SECONDS
+
+
+def commit_out(subject, created=""):
+    return "[claude/x 5d6e7f8] %s\n 2 files changed, 14 insertions(+), 3 deletions(-)\n%s%s" % (subject, created, PUSH_OUT)
+
+
+def ship(command, out, is_error=False, **extra):
+    """The owner asks for a fix; the session runs one shell command and stops, no governor loaded."""
+    return flat(owner(FIX_ASK), bash(command, out, is_error, **extra), say("Pushed."))
+
+
+# -- S1 (AS-1): whether a call was denied is read from the record's own flags, never from what its output says
+S("as_s1_d00-ctl-ordinary-subject", "AS-1 control", "block:F1",
+  ship('git commit -am "Fix README wording" && git push', commit_out("Fix README wording")))
+for _n, _subject in (("d01-subject-names-the-gate", "Fix turn-gate reason wording"),
+                     ("d02-subject-says-requires-approval", "Doc: a push to main requires approval"),
+                     ("d03-subject-says-was-rejected", "Log the case where the card was rejected")):
+    S("as_s1_" + _n, "AS-1", "block:F1", ship('git commit -am "%s" && git push' % _subject, commit_out(_subject)))
+S("as_s1_d04-new-file-path-names-the-gate", "AS-1", "block:F1",
+  ship('git add -A && git commit -m "Add selftest" && git push',
+       commit_out("Add selftest", " create mode 100644 hooks/selftest-turn-gates.py\n")))
+S("as_s1_d05-push-files-echoes-hook-blocked", "AS-1", "block:F1",
+  flat(owner(FIX_ASK), call("mcp__github__push_files", '{"ref":"refs/heads/claude/x","object":{"sha":"5d6e"},'
+                            '"message":"Stop gate: say when a hook blocked the call"}', owner="acme", repo="lib",
+                            branch="claude/x", message="Stop gate: say when a hook blocked the call", files=[]),
+       say("Pushed.")))
+S("as_s1_d06-branch-named-for-the-gate", "AS-1", "block:F1",
+  ship('git commit -am "Fix README wording"', "[claude/turn-gates-fix 5d6e7f8] Fix README wording\n 1 file changed"))
+S("as_s1_d07-lone-push-of-that-branch", "AS-1", "block:F1",
+  ship("git push -u origin claude/turn-gates-fix", "To https://github.com/acme/lib.git\n * [new branch]      "
+       "claude/turn-gates-fix -> claude/turn-gates-fix\nbranch 'claude/turn-gates-fix' set up to track "
+       "'origin/claude/turn-gates-fix'."))
+S("as_s1_pr-create-echoes-requires-approval", "AS-1 lead-3", "block:F1",
+  flat(owner(FIX_ASK), call("mcp__github__create_pull_request",
+                            '{"number":35,"title":"Doc: a push to main requires approval","state":"open"}',
+                            owner="acme", repo="lib", title="Doc: a push to main requires approval", head="claude/x",
+                            base="main"), say("Opened the pull request.")))
+S("as_s1_output-not-an-error-is-no-denial", "AS-1", "block:F1",
+  ship("git commit -qm x", "TURN-GATE (merge word) [merge-word]: a line the test printed\n[claude/x 5d6e7f8] x"))
+S("as_s1_denied-by-a-hook-real-shape", "AS-1 control", "allow",
+  ship("git push origin HEAD:main", HOOK_DENIAL, True, toolDenialKind="permission-rule"))
+S("as_s1_denied-by-a-hook-older-shape", "AS-1 control", "allow",
+  ship("git commit -qm x && git push origin HEAD:main", "Error: " + HOOK_DENIAL, True))
+S("as_s1_rejected-at-the-prompt-older-shape", "AS-1 control", "allow",
+  ship("git commit -qm x && git push", R.REJECTED, True))
+S("as_s1_flag-alone-is-a-denial", "AS-1 control", "allow",
+  ship("git commit -qm x && git push", "Permission for this call was not given.", True, toolDenialKind="user-rejected"))
+S("as_s1_failed-push-says-was-rejected-midway", "AS-1", "block:F1",
+  ship("git commit -qm x && git push origin claude/x", PUSH_REJECTED, True))
+
+# -- S2 (AS-2, AR-6, AR-7, lead A2c): a block counts when work followed it, or when it is the record's last block
+# and the Stop input says this stop is a retry
+S1_ROWS = flat(owner("Fix the typo in README and push it."), bash(COMMIT_CMD, "[claude/x 1a2b3c] x"), say("done"))
+S("as_s2_x01-reply-only-in-the-input", "AS-2", "block:F1", flat(S1_ROWS, blocked_stop(F1_REASON)), active=True,
+  last_assistant_message="Understood.")
+S("as_s2_x02-ctl-reply-in-the-record", "AS-2 control", "block:F1", flat(S1_ROWS, blocked_stop(F1_REASON), say("Understood.")),
+  active=True)
+S("as_s2_a2c-second-reply-only-in-the-input", "AS-2 lead-1", "allow",
+  flat(S1_ROWS, blocked_stop(F1_REASON), say("Understood."), blocked_stop(F1_REASON)), active=True,
+  last_assistant_message="Understood.")
+S("as_s2_pin-trailing-block-without-the-flag", "AR-7 pin", "block:F1",
+  flat(S1_ROWS, blocked_stop(F1_REASON), say("Understood."), blocked_stop(F1_REASON)))
+S("as_s2_prompt-class-after-other-block-reply-only-in-input", "AS-2 AR-6", "block:prompt-class",
+  flat(owner(BUILD), write_file(), say("Built process.py."), blocked_stop(RECEIPT_REASON)), active=True,
+  last_assistant_message="Built process.py; the output was checked against the sample files.")
+
+
+def receipt_retry_only_in_input(ctx):
+    """AR-6 (the auditor's T13): the other gate blocked; the retried answer is only in the Stop input."""
+    rows = flat(owner("Is the deploy live?"), say(CLEAN_ANSWER), blocked_stop(PC_REASON))
+    verdict, _text = receipt_verdict(ctx.receipt(rows, True, last=BARE_ANSWER))
+    return verdict, verdict == "block"
+
+
+case("as_s2_t13-receipt-retry-only-in-the-input", "AR-6 AR-7", "block", receipt_retry_only_in_input)
+
+# -- S3 (AS-5): a plan-gate load made after the gate's block answers the acts made BEFORE that block
+S("as_s3_x03-new-push-after-the-block-then-governors", "AS-5", "block:F1",
+  flat(S1_ROWS, blocked_stop(F1_REASON), push(), skill("plan-gate"), skill("adversarial-verify"),
+       say("Plan came late. Goal: fix.")), active=True)
+S("as_s3_ctl-governors-then-new-push", "AS-5 control", "allow",
+  flat(S1_ROWS, blocked_stop(F1_REASON), skill("plan-gate"), skill("adversarial-verify"), push(),
+       say("Plan came late. Goal: fix.")), active=True)
+S("as_s3_ctl-plan-before-block-new-push-then-verify", "AS-5 control", "allow",
+  flat(owner("Continue"), skill("plan-gate"), commit(), say("done"), blocked_stop(F1_REASON), push(),
+       skill("adversarial-verify"), say("Verified.")), active=True)
+
+
+# -- S4 (AS-6, lead-2), S5 (AS-3): where a helper's noted act sits
+def with_note(rows, at_row, wanted, rows_then=None):
+    """A Stop case whose ledger holds one helper commit, noted one second after the time stamp of row `at_row`
+    while the main record held `rows_then` rows (default: up to and including that row)."""
+    def fn(ctx):
+        path = ctx.record(rows)
+        with open(R.ledger_path(ctx.state, path), "w", encoding="utf-8") as fh:
+            fh.write(R.ledger_line(R.STAMP_EPOCH + at_row * STAMP_STEP + 1, (at_row + 1) if rows_then is None else rows_then))
+        return judge(wanted, *stop_verdict(ctx.stop(rows)))
+    return fn
+
+
+_G05 = flat(owner("Fix the typo and push it."), bash("git status", "clean"), skill("plan-gate"), say("Goal: fix."),
+            tool("Agent", description="fix", prompt="fix, commit, push"))
+_G05_ALL = flat(_G05, res(_G05[-1], "Done."), skill("adversarial-verify"), say("Done."))
+STOP_FIXTURES.append(("as_s4_g05-helper-commits-after-plan-gate", _G05_ALL, False, ""))
+case("as_s4_g05-helper-commits-after-plan-gate", "AS-6 pin", "allow", with_note(_G05_ALL, len(_G05) - 1, "allow"))
+case("as_s4_note-between-owner-row-and-next-row", "AS-6 lead-2", "block:F1",
+     with_note(flat(owner("Continue"), say("Looking."), say("done")), 0, "block:F1"))
+_BG = tool("Agent", description="fix", prompt="fix, commit, push", run_in_background=True)
+_G03 = flat(owner("Fix the typo and push it; run the helper in the background."), skill("plan-gate"), say("Goal: fix."),
+            _BG, res(_BG, "Async agent launched successfully. agentId: a1"), skill("adversarial-verify"),
+            say("The helper is running."), stop(), owner("thanks"))
+case("as_s5_helper-of-an-earlier-turn-is-charged-by-time", "AS-3 lead-2", "block:F1",
+     with_note(flat(_G03, say("You're welcome.")), len(_G03) - 1, "block:F1"))
+
+
+# -- S8 (AS-8, MORE): $TMPDIR is scratch; the prompt-class reason; the prompt-class rule's two silences
+def advisory_steps(steps):
+    """Pre-tool calls run in order on one record and one state; the verdicts, joined by a comma."""
+    wanted = ",".join(w for _t, _i, w in steps)
+
+    def fn(ctx):
+        got = ",".join(pre_verdict(ctx.pre(loaded(), t, i))[0] for t, i, _w in steps)
+        return got, got == wanted
+    return fn
+
+
+case("as_s8_tmpdir-variable-is-scratch", "AS-8", "allow,advise",
+     advisory_steps([("Bash", {"command": "echo hi > $TMPDIR/x.txt"}, "allow"), ("Edit", EDIT, "advise")]))
+case("as_s8_tmpdir-braces-is-scratch", "AS-8", "allow,advise",
+     advisory_steps([("Bash", {"command": 'printf x > "${TMPDIR}/note.txt"'}, "allow"), ("Edit", EDIT, "advise")]))
+B("as_s8_ctl-tmpdir-dotdot-is-a-real-write", "AS-8 control", "advise", loaded(), "echo hi > $TMPDIR/../work/acme/lib/a.md")
+B("as_s8_ctl-other-variable-is-a-real-write", "AS-8 control", "advise", loaded(), "echo hi > $HOME/a.md")
+
+
+def prompt_class_reason_states_the_rule(ctx):
+    verdict, reason = stop_verdict(ctx.stop(flat(owner(BUILD), write_file(), say("done"))))
+    if verdict != "block:prompt-class":
+        return verdict, False
+    wrong = "from before a compaction does not count" in reason
+    return ("block:prompt-class, the reason contradicts the rule" if wrong else "block:prompt-class, reason as the rule"), not wrong
+
+
+STOP_FIXTURES.append(("as_s8_prompt-class-reason-states-the-rule", flat(owner(BUILD), write_file(), say("done")), False, ""))
+case("as_s8_prompt-class-reason-states-the-rule", "MORE-reason", "block:prompt-class, reason as the rule",
+     prompt_class_reason_states_the_rule)
+S("as_s8_prompt-class-silent-after-an-idle-wake", "MORE-M4 pin", "allow",
+  flat(owner(BUILD), write_file(), say("done"), wake(), read_notifs([GH]), say("Nothing needed.")))
+S("as_s8_prompt-class-retry-flag-no-block-on-record", "MORE-M5 pin", "allow", flat(owner(BUILD), write_file(), say("done")),
+  active=True)
+
+# -- M1: a file run directly whose first line names a program that is not a shell is not read
+_PY_MENTIONS = then(put("tool", "#!/usr/bin/env python3\nprint('to land it: gh pr merge 40 --squash')\n"), "./tool")
+B("am2_m1_python-tool-mentions-the-words-scheduled", "M1", "allow", run_rows(), _PY_MENTIONS, **HERE_CWD)
+B("am2_m1_python-tool-mentions-the-words-owner-ok", "M1", "allow", [ok()], _PY_MENTIONS, **HERE_CWD)
+B("am2_m1_ctl-bash-land-owner-ok", "M1 control", "deny", [ok()], then(put("land", LAND), "./land"), **HERE_CWD)
+
+# -- M2: a negated hold is a go-ahead
+for _n, _text in (("lets-not-wait", "Let's not wait any longer, merge #34."),
+                  ("dont-wait-first", "Don't wait for CI, merge #34 now."),
+                  ("dont-wait-after", "Merge #34 now, don't wait for CI.")):
+    P("am2_m2_" + _n, "M2", "allow", [owner(_text)])
+P("am2_m2_mid-dont-wait-for-me", "M2", "allow", mid("Don't wait for me."))
+P("am2_m2_ctl-no-wait", "M2 control", "deny [merge-word]", [owner("Merge #34. No wait.")])
+P("am2_m2_ctl-mid-wait", "M2 control", "deny [merge-word]", mid("Wait."))
+
+# -- M3: a condition or a hold on one line, the order on the next
+for _n, _text in (("comma-line", "Once CI is green,\nmerge #34."),
+                  ("colon-dash-list", "When the audit is back:\n- merge #34\n- then sync the kit"),
+                  ("colon-numbered-list", "After the audit:\n1. merge #34\n2. upload the plugin"),
+                  ("condition-line-no-mark", "If the guard passes\nmerge #34"),
+                  ("colon-list-order-second", "When the audit is back:\n- update the README\n- merge #34")):
+    P("am2_m3_" + _n, "M3", "deny [merge-word]", [owner(_text)])
+P("am2_m3_ctl-order-then-line", "M3 control", "allow", [owner("Merge #34\nThen update the README")])
+P("am2_m3_ctl-numbered-orders", "M3 control", "allow", [owner("1. Merge #34\n2. Upload the plugin")])
+P("am2_m3_ctl-numbered-orders-2-not-granted", "M3 control", "deny [merge-word]", [owner("1. Merge #34\n2. Upload the plugin")],
+  inp=mi(2))
+P("am2_m3_ctl-looks-good-line", "M3 control", "allow", [owner("Looks good\nMerge #34")])
+P("am2_m3_ctl-colon-list-of-orders", "M3 control", "allow", [owner("Do these:\n- merge #34\n- upload the plugin")])
+
+# -- M4: more words that put an order off or hold it
+for _n, _text in (("eventually", "Merge #34 eventually."), ("in-the-morning", "Merge #34 in the morning."),
+                  ("clock-time", "Merge #34 at 5pm."), ("clock-time-24h", "Merge #34 at 17:00."),
+                  ("afterwards", "Merge #34 afterwards."), ("soon", "Merge #34 soon.")):
+    P("am2_m4_" + _n, "M4", "deny [merge-word]", [owner(_text)])
+P("am2_m4_mid-one-sec", "M4", "deny [merge-word]", mid("one sec"))
+P("am2_m4_ctl-now", "M4 control", "allow", [owner("Merge #34 now.")])
+P("am2_m4_ctl-today", "M4 control", "allow", [owner("Merge #34 today.")])
+
+# -- M5: a sequence before the order holds it back
+P("am2_m5_first-the-audit", "M5", "deny [merge-word]", [owner("First the audit, then merge #34.")])
+P("am2_m5_audit-first-merge-second", "M5", "deny [merge-word]", [owner("The plan: audit first, merge #34 second.")])
+P("am2_m5_before-that", "M5", "deny [merge-word]", [owner("Run the guard before that, then merge #34.")])
+P("am2_m5_ctl-first-comma-merge", "M5 control", "allow", [owner("First, merge #34.")])
+P("am2_m5_ctl-merge-first-then-other-34", "M5 control", "allow", [owner("Merge #34 first, then #141.")])
+P("am2_m5_ctl-merge-first-then-other-141", "M5 control", "allow", [owner("Merge #34 first, then #141.")], inp=mi(141, "deck"))
+
+# -- M6: a statement that holds a refusal or a hold takes its pull requests out of the grant
+P("am2_m6_can-wait", "M6", "deny [merge-word]", [owner("Merge #34. Merge #34 can wait.")])
+P("am2_m6_is-not-ready", "M6", "deny [merge-word]", [owner("Merge #34. Merge #34 is not ready.")])
+P("am2_m6_ctl-has-two-commits", "M6 control", "allow", [owner("Merge #34. Merge #34 has two commits.")])
+
+# -- M7: the merge gate reads a denial as the Stop gate does
+P("am2_m7_merge-result-echoes-requires-approval-then-other-repo", "M7", "deny [merge-word]",
+  flat(owner("Merge #34."), call(MERGE, "Pull request #34 merged: Doc: a push to main requires approval", **mi(34))),
+  inp=mi(34, "deck"))
 
 
 

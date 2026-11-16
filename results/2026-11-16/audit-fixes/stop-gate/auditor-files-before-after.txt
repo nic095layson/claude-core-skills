@@ -1,0 +1,52 @@
+FASTOP_HOOKS=<the tree's hooks/> python3 <the auditor's file>.py   (fa-stop: denial, bb2, ledger, adv; fa-receipt: turns with RG_HOOKS)
+# run on copies of the auditors' files (their fixture and state folders moved to a scratch folder), before (077c860) and after this unit
+# Each line that changed: before -> after. Then every mismatch that remains, with one line of why.
+
+== denial.py: 9 lines before, 9 after; mismatches before 7, after 0
+  - MISMATCH D01   gate: allow              rule: block:F1           | same, subject mentions 'turn-gate'
+  + ok       D01   gate: block:F1           rule: block:F1           | same, subject mentions 'turn-gate'
+  - MISMATCH D02   gate: allow              rule: block:F1           | same, subject says 'requires approval'
+  + ok       D02   gate: block:F1           rule: block:F1           | same, subject says 'requires approval'
+  - MISMATCH D03   gate: allow              rule: block:F1           | same, subject says 'was rejected'
+  + ok       D03   gate: block:F1           rule: block:F1           | same, subject says 'was rejected'
+  - MISMATCH D04   gate: allow              rule: block:F1           | ordinary subject; a NEW FILE whose path holds 'turn-gate' (git prints 'create mode ... path')
+  + ok       D04   gate: block:F1           rule: block:F1           | ordinary subject; a NEW FILE whose path holds 'turn-gate' (git prints 'create mode ... path')
+  - MISMATCH D05   gate: allow              rule: block:F1           | push_files to a feature branch; the result echoes its message ('hook blocked')
+  + ok       D05   gate: block:F1           rule: block:F1           | push_files to a feature branch; the result echoes its message ('hook blocked')
+  - MISMATCH D06   gate: allow              rule: block:F1           | ordinary subject, committed on a branch named claude/turn-gates-fix (git prints the branch)
+  + ok       D06   gate: block:F1           rule: block:F1           | ordinary subject, committed on a branch named claude/turn-gates-fix (git prints the branch)
+  - MISMATCH D07   gate: allow              rule: block:F1           | a lone push of that branch (git prints the branch name)
+  + ok       D07   gate: block:F1           rule: block:F1           | a lone push of that branch (git prints the branch name)
+  - == 7 case(s) differ
+  + == 0 case(s) differ
+
+== bb2.py: 19 lines before, 19 after; mismatches before 4, after 2
+  - MISMATCH X01  gate: allow              rule: block:F1           | F1 blocked once; the continuation is text only and not yet in the record (handed over as last_assistant_message) [retry]
+  + ok       X01  gate: block:F1           rule: block:F1           | F1 blocked once; the continuation is text only and not yet in the record (handed over as last_assistant_message) [retry]
+  - MISMATCH X03  gate: allow              rule: block:F1           | after the block: a NEW push, THEN plan-gate and adversarial-verify (plan-gate not before the push) [retry]
+  + ok       X03  gate: block:F1           rule: block:F1           | after the block: a NEW push, THEN plan-gate and adversarial-verify (plan-gate not before the push) [retry]
+  - == 4 case(s) differ
+  + == 2 case(s) differ
+  remains: MISMATCH X15  gate: block:F1           rule: allow              | a commit that failed (nothing to commit) in an and-chain: no outward action happened
+           why: remains by S6 (finding AS-4, the documents do not decide): only the last step of a failed and-chain is dropped; README limits state the cost (one block)
+  remains: MISMATCH X16  gate: block:F1           rule: allow              | commit failed, push did nothing (';' chain)
+           why: remains by S6 (AS-4): the same; the verifier also notes that a ';' chain ending in a no-op push exits 0 in a real shell
+
+== ledger.py: 9 lines before, 9 after; mismatches before 1, after 1
+  remains: MISMATCH G03b gate: block:F1  rule: allow     | owner 'thanks' turn: no outward act of its own (rule: the act belongs to the launching turn)
+           why: remains by S5 (AS-3): HELPER_ACT_PLACED_BY_TIME = True charges a helper's late act to the stretch in which it happens; README states the cost
+
+== adv.py: 16 lines before, 16 after; mismatches before 2, after 0
+  - MISMATCH V6.1 pre-tool: advise  rule: allow   | a redirect to $TMPDIR (scratch)
+  + ok       V6.1 pre-tool: allow   rule: allow   | a redirect to $TMPDIR (scratch)
+  - MISMATCH V6.2 pre-tool: allow   rule: advise  | then a real write
+  + ok       V6.2 pre-tool: advise  rule: advise  | then a real write
+  - == 2 step(s) differ
+  + == 0 step(s) differ
+
+== turns.py: 22 lines before, 22 after; mismatches before 1, after 0
+  - MISMATCH T13  want=block got=allow active=True  other gate's block; retry is text only and the record does not hold it
+  + ok       T13  want=block got=block active=True  other gate's block; retry is text only and the record does not hold it
+  - == turns: 20/21 judged as the rule requires
+  + == turns: 21/21 judged as the rule requires
+

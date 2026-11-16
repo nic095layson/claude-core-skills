@@ -1,0 +1,79 @@
+python3 hooks/selftest-turn-gates.py --jobs 8 --hooks COPY-OF-hooks-AT-077c860 as_ am2_ am_d1_python
+# the table with the new cases, run against an unchanged copy of hooks/ as committed at 077c860 (the hooks as this unit found them).
+# 46 of 74 fail: every case not marked control or pin, as wanted. The two am_d1_python-shebang-is-a-stated-limit-* cases are the
+# orchestrator's change of name and verdict (rule M1): before, they were am_d1_python-shebang-is-screened-* with the verdict deny.
+am_d1_python-shebang-is-a-stated-limit-scheduled         | AM-3 D1 M1 limit       | allow              | deny:scheduled     | FAIL
+am_d1_python-shebang-is-a-stated-limit-owner-ok          | AM-3 D1 M1 limit       | allow              | deny               | FAIL
+as_s1_d00-ctl-ordinary-subject                           | AS-1 control           | block:F1           | block:F1           | pass
+as_s1_d01-subject-names-the-gate                         | AS-1                   | block:F1           | allow              | FAIL
+as_s1_d02-subject-says-requires-approval                 | AS-1                   | block:F1           | allow              | FAIL
+as_s1_d03-subject-says-was-rejected                      | AS-1                   | block:F1           | allow              | FAIL
+as_s1_d04-new-file-path-names-the-gate                   | AS-1                   | block:F1           | allow              | FAIL
+as_s1_d05-push-files-echoes-hook-blocked                 | AS-1                   | block:F1           | allow              | FAIL
+as_s1_d06-branch-named-for-the-gate                      | AS-1                   | block:F1           | allow              | FAIL
+as_s1_d07-lone-push-of-that-branch                       | AS-1                   | block:F1           | allow              | FAIL
+as_s1_pr-create-echoes-requires-approval                 | AS-1 lead-3            | block:F1           | allow              | FAIL
+as_s1_output-not-an-error-is-no-denial                   | AS-1                   | block:F1           | allow              | FAIL
+as_s1_denied-by-a-hook-real-shape                        | AS-1 control           | allow              | allow              | pass
+as_s1_denied-by-a-hook-older-shape                       | AS-1 control           | allow              | allow              | pass
+as_s1_rejected-at-the-prompt-older-shape                 | AS-1 control           | allow              | allow              | pass
+as_s1_flag-alone-is-a-denial                             | AS-1 control           | allow              | allow              | pass
+as_s1_failed-push-says-was-rejected-midway               | AS-1                   | block:F1           | allow              | FAIL
+as_s2_x01-reply-only-in-the-input                        | AS-2                   | block:F1           | allow              | FAIL
+as_s2_x02-ctl-reply-in-the-record                        | AS-2 control           | block:F1           | block:F1           | pass
+as_s2_a2c-second-reply-only-in-the-input                 | AS-2 lead-1            | allow              | block:F1           | FAIL
+as_s2_pin-trailing-block-without-the-flag                | AR-7 pin               | block:F1           | block:F1           | pass
+as_s2_prompt-class-after-other-block-reply-only-in-input | AS-2 AR-6              | block:prompt-class | allow              | FAIL
+as_s2_t13-receipt-retry-only-in-the-input                | AR-6 AR-7              | block              | allow              | FAIL
+as_s3_x03-new-push-after-the-block-then-governors        | AS-5                   | block:F1           | allow              | FAIL
+as_s3_ctl-governors-then-new-push                        | AS-5 control           | allow              | allow              | pass
+as_s3_ctl-plan-before-block-new-push-then-verify         | AS-5 control           | allow              | allow              | pass
+as_s4_g05-helper-commits-after-plan-gate                 | AS-6 pin               | allow              | allow              | pass
+as_s4_note-between-owner-row-and-next-row                | AS-6 lead-2            | block:F1           | allow              | FAIL
+as_s5_helper-of-an-earlier-turn-is-charged-by-time       | AS-3 lead-2            | block:F1           | allow              | FAIL
+as_s8_tmpdir-variable-is-scratch                         | AS-8                   | allow,advise       | advise,advise      | FAIL
+as_s8_tmpdir-braces-is-scratch                           | AS-8                   | allow,advise       | advise,advise      | FAIL
+as_s8_ctl-tmpdir-dotdot-is-a-real-write                  | AS-8 control           | advise             | advise             | pass
+as_s8_ctl-other-variable-is-a-real-write                 | AS-8 control           | advise             | advise             | pass
+as_s8_prompt-class-reason-states-the-rule                | MORE-reason            | block:prompt-class, reason as the rule | block:prompt-class, the reason contradicts the rule | FAIL
+as_s8_prompt-class-silent-after-an-idle-wake             | MORE-M4 pin            | allow              | allow              | pass
+as_s8_prompt-class-retry-flag-no-block-on-record         | MORE-M5 pin            | allow              | allow              | pass
+am2_m1_python-tool-mentions-the-words-scheduled          | M1                     | allow              | deny:scheduled     | FAIL
+am2_m1_python-tool-mentions-the-words-owner-ok           | M1                     | allow              | deny               | FAIL
+am2_m1_ctl-bash-land-owner-ok                            | M1 control             | deny               | deny               | pass
+am2_m2_lets-not-wait                                     | M2                     | allow              | deny               | FAIL
+am2_m2_dont-wait-first                                   | M2                     | allow              | deny               | FAIL
+am2_m2_dont-wait-after                                   | M2                     | allow              | deny               | FAIL
+am2_m2_mid-dont-wait-for-me                              | M2                     | allow              | deny               | FAIL
+am2_m2_ctl-no-wait                                       | M2 control             | deny [merge-word]  | deny[merge-word]   | pass
+am2_m2_ctl-mid-wait                                      | M2 control             | deny [merge-word]  | deny[merge-word]   | pass
+am2_m3_comma-line                                        | M3                     | deny [merge-word]  | allow              | FAIL
+am2_m3_colon-dash-list                                   | M3                     | deny [merge-word]  | allow              | FAIL
+am2_m3_colon-numbered-list                               | M3                     | deny [merge-word]  | allow              | FAIL
+am2_m3_condition-line-no-mark                            | M3                     | deny [merge-word]  | allow              | FAIL
+am2_m3_colon-list-order-second                           | M3                     | deny [merge-word]  | allow              | FAIL
+am2_m3_ctl-order-then-line                               | M3 control             | allow              | allow              | pass
+am2_m3_ctl-numbered-orders                               | M3 control             | allow              | allow              | pass
+am2_m3_ctl-numbered-orders-2-not-granted                 | M3 control             | deny [merge-word]  | deny[merge-word]   | pass
+am2_m3_ctl-looks-good-line                               | M3 control             | allow              | allow              | pass
+am2_m3_ctl-colon-list-of-orders                          | M3 control             | allow              | allow              | pass
+am2_m4_eventually                                        | M4                     | deny [merge-word]  | allow              | FAIL
+am2_m4_in-the-morning                                    | M4                     | deny [merge-word]  | allow              | FAIL
+am2_m4_clock-time                                        | M4                     | deny [merge-word]  | allow              | FAIL
+am2_m4_clock-time-24h                                    | M4                     | deny [merge-word]  | allow              | FAIL
+am2_m4_afterwards                                        | M4                     | deny [merge-word]  | allow              | FAIL
+am2_m4_soon                                              | M4                     | deny [merge-word]  | allow              | FAIL
+am2_m4_mid-one-sec                                       | M4                     | deny [merge-word]  | allow              | FAIL
+am2_m4_ctl-now                                           | M4 control             | allow              | allow              | pass
+am2_m4_ctl-today                                         | M4 control             | allow              | allow              | pass
+am2_m5_first-the-audit                                   | M5                     | deny [merge-word]  | allow              | FAIL
+am2_m5_audit-first-merge-second                          | M5                     | deny [merge-word]  | allow              | FAIL
+am2_m5_before-that                                       | M5                     | deny [merge-word]  | allow              | FAIL
+am2_m5_ctl-first-comma-merge                             | M5 control             | allow              | allow              | pass
+am2_m5_ctl-merge-first-then-other-34                     | M5 control             | allow              | allow              | pass
+am2_m5_ctl-merge-first-then-other-141                    | M5 control             | allow              | allow              | pass
+am2_m6_can-wait                                          | M6                     | deny [merge-word]  | allow              | FAIL
+am2_m6_is-not-ready                                      | M6                     | deny [merge-word]  | allow              | FAIL
+am2_m6_ctl-has-two-commits                               | M6 control             | allow              | allow              | pass
+am2_m7_merge-result-echoes-requires-approval-then-other-repo | M7                     | deny [merge-word]  | allow              | FAIL
+== 74 cases: 28 pass, 46 fail ==

@@ -1,0 +1,8 @@
+python3 <audit pack>/pack/tools/replay_real.py --hooks <tree>/hooks --what all      # before (077c860) and after this unit; the tool prints verdicts only
+
+== diff before -> after (the timing lines of the before run left out)
+(no difference: every STOP, PRE and PROMPT line is the same)
+
+== totals after
+  totals: {'allow': 24, 'receipt:allow': 23, 'BLOCK:F1': 1, 'receipt:BLOCK:receipt': 3, 'BLOCK:prompt-class': 1}
+  totals: {'outward:ADVISE:plan-shown': 38, 'merge:DENY:merge-word': 3, 'write:allow': 4, 'outward:allow': 8, 'merge:allow': 4, 'write:ADVISE:plan-shown': 46, 'merge:ADVISE:plan-shown': 11}
