@@ -1,0 +1,29 @@
+$ python3 follow_runbook4.py <library now> <its SKILL.md> <empty project>
+step 1 copied 16 files: govclass.py governance-enforce.py governance-trigger.py plan-gate-first-write-reminder.sh receipt-law-stop-gate.sh receiptlaw.py scope-fence-reminder.sh selftest-governance-classify.py selftest-mutations.py selftest-receipt-law.sh selftest-reminders.sh selftest-turn-gates.py selftest_rows.py session-doctrine.sh turn-gates-pretool.py turngate.py
+step 2 copied .claude/settings.json
+step 4 $ python3 hooks/selftest-turn-gates.py W -> exit 0; == 6 cases: 6 pass, 0 fail ==
+step 4 $ python3 hooks/selftest-turn-gates.py -> exit 0; == 740 cases: 740 pass, 0 fail ==
+step 4 $ python3 hooks/selftest-governance-classify.py -> exit 0; == 45 passed, 0 failed ==
+step 4 $ bash hooks/selftest-receipt-law.sh -> exit 0; == 15 passed, 0 failed ==
+== step 4 (the runbook's self-test): PASS ==
+wired but missing in the project: none
+
+$ python3 follow_runbook4.py <library now> <its SKILL.md> <empty project> --drop turn-gates-pretool.py
+step 1 copied 15 files (dropped turn-gates-pretool.py): govclass.py governance-enforce.py governance-trigger.py plan-gate-first-write-reminder.sh receipt-law-stop-gate.sh receiptlaw.py scope-fence-reminder.sh selftest-governance-classify.py selftest-mutations.py selftest-receipt-law.sh selftest-reminders.sh selftest-turn-gates.py selftest_rows.py session-doctrine.sh turngate.py
+step 2 copied .claude/settings.json
+step 4 $ python3 hooks/selftest-turn-gates.py W -> exit 1; == 6 cases: 4 pass, 2 fail ==; failing: W05-wiring-scripts-beside-the-hooks, W06-wiring-commands-run-the-hooks
+step 4 $ python3 hooks/selftest-turn-gates.py -> exit 1; == 740 cases: 517 pass, 223 fail ==; failing: M01-card-names-prs-merge-both, M02-card-for-34-141-call-35, M03a-library-only-call-141, M03b-library-only-call-34
+step 4 $ python3 hooks/selftest-governance-classify.py -> exit 0; == 45 passed, 0 failed ==
+step 4 $ bash hooks/selftest-receipt-law.sh -> exit 0; == 15 passed, 0 failed ==
+== step 4 (the runbook's self-test): FAIL ==
+wired but missing in the project: PreToolUse:turn-gates-pretool.py
+
+$ python3 follow_runbook4.py <library now> <its SKILL.md> <empty project> --drop receiptlaw.py
+step 1 copied 15 files (dropped receiptlaw.py): govclass.py governance-enforce.py governance-trigger.py plan-gate-first-write-reminder.sh receipt-law-stop-gate.sh scope-fence-reminder.sh selftest-governance-classify.py selftest-mutations.py selftest-receipt-law.sh selftest-reminders.sh selftest-turn-gates.py selftest_rows.py session-doctrine.sh turn-gates-pretool.py turngate.py
+step 2 copied .claude/settings.json
+step 4 $ python3 hooks/selftest-turn-gates.py W -> exit 1; == 6 cases: 4 pass, 2 fail ==; failing: W05-wiring-scripts-beside-the-hooks, W06-wiring-commands-run-the-hooks
+step 4 $ python3 hooks/selftest-turn-gates.py -> exit 1; == 740 cases: 551 pass, 189 fail ==; failing: RLP00-couldnt-verify, RLP01-cant-verify, RLP02-cant-confirm, RLP03-cant-determine
+step 4 $ python3 hooks/selftest-governance-classify.py -> exit 0; == 45 passed, 0 failed ==
+step 4 $ bash hooks/selftest-receipt-law.sh -> exit 1; == 8 passed, 7 failed ==
+== step 4 (the runbook's self-test): FAIL ==
+wired but missing in the project: none

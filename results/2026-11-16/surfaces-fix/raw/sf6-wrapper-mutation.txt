@@ -1,0 +1,11 @@
+$ bash wrapper_mutation.sh   # the auditor script; plugin path and scratch dir rewritten to the fixed tree
+mutation applied (diff original -> copy):
+   38c38
+   <             if sys.argv[2] in str(x.get("command", "")):
+   ---
+   >             if True:
+the plugin's own selftest, run from the mutated copy:
+   == 10 passed, 1 failed ==
+case W6 (local project wires ONLY governance-trigger.py; merge call, owner said only "ok"):
+   original wrapper: ok   W6   want=deny     got=deny     loc
+   mutated wrapper : DIFF W6   want=deny     got=silent   loc

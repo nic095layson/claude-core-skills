@@ -1,3 +1,12 @@
+> **Status 2026-11-16 — the wiring, the plugin and the copies.** The two wiring files (`.claude/settings.json`,
+> `plugin/core-governance/hooks/hooks.json`) now run each script only when its file is there, except one group
+> for the merge tools alone, where a missing script denies the merge (finding SF-2: a project installed by the
+> runbook to the letter lacked a file its settings called, and every Bash, Edit and Write call was denied). Table
+> "W" of `selftest-turn-gates.py` reads and runs both files (SF-4: the guard passed with the merge gate cut off
+> from the PR tools); the guard's parity list is computed (SF-6). Plugin version 0.1.6, not yet uploaded. Which
+> copy judges which session, and what holds until the upload: "Wiring, copies, and which copy judges a session"
+> below. Evidence: `results/2026-11-16/surfaces-fix/`.
+
 > **Status 2026-11-15 — the receipt gate rebuilt.** The same audit recorded eleven findings on
 > `receipt-law-stop-gate.sh` (RL-1 to RL-8, TB-5, FU2-1, FU2-9). The rule now lives in `receiptlaw.py`, which
 > the wired script runs: claims by family, contractions included; a receipt in the claim's own sentence and
@@ -249,6 +258,43 @@ pass over the words of the text, so no text can keep them busy. They are crude o
 `git push origin main-fix` is taken for a push to main and denied. No environment variable and no key of a
 hook's input switches a rule off.
 
+### Wiring, copies, and which copy judges a session (2026-11-16)
+
+The program runs a hook's command through a shell. python3 exits 2 on a script that is not there, and before a
+tool call status 2 denies the call (bash exits 127, which lets it go). So every command of both wiring files
+runs its script only when the file is there (`if [ -f ... ]; then python3 ...; fi`), except the PreToolUse group
+for the merge tools alone (`^mcp__.*__(merge_pull_request|enable_pr_auto_merge)$`), which keeps the bare
+command: a missing `turn-gates-pretool.py` denies a merge tool. Every other gated name (Bash, Edit, Write,
+Monitor, the scheduling and PR tools: the matcher of the second group) goes to the same hook behind the file
+test, so a half-copied hooks folder no longer denies every call. The plugin's commands go through
+`run-unless-project-wired.sh` as before; each checks that the wrapper is there, and the merge group's command
+exits 2 with a message when the wrapper or the hook is missing from the plugin.
+
+| a missing file | merge tools | Bash, Edit, Write and the other gated tools | Stop, prompt, session start |
+|---|---|---|---|
+| `turn-gates-pretool.py` (or the whole hooks folder) | denied (status 2) | let through, **not judged** | let through |
+| `turngate.py` only | denied (`gate-error`) | let through; a shell command that crudely looks like a merge is denied (`gate-error`) | let through, not judged |
+
+Limit: with `turn-gates-pretool.py` missing, a merge made by a shell command is not judged at all in that
+project, and in a local session the plugin does not stand in, because the project's settings still name the
+hook (the wrapper's rule, unchanged here). Case W05 and the install runbook's self-test step fail on such a
+project; nothing stops a session from running in it.
+
+Which copy judges which session:
+
+| session | hooks that run | the scheduled-run rule |
+|---|---|---|
+| started inside this repository (local, or cloud with this one repository) | this repository's `hooks/`, wired by `.claude/settings.json` | holds |
+| started inside the kit or the deck (`fantasy-basketball-2026-27`, `yahoo-fantasy-basketball`) | that repository's own copy of these hooks | holds only once that repository's sync pull request is merged (until then its copies are the hooks of 2026-11-12) |
+| a cloud session with several repositories attached (the weekly task's session) | the account's plugin, `core-governance`, and only that | holds only once the owner uploads plugin 0.1.6; until then that session is judged by the version the account serves (0.1.4 on 2026-11-13), in which a scheduled run inherits the owner's last turn and may merge on an earlier "merge" word (findings F2-6, WR-1, SF-1) |
+
+The copies: `plugin/core-governance/scripts/` holds byte-identical copies; the guard compares every file there
+that has a twin here, and fails when a file the wiring runs, imports or tests is missing there. The other
+repositories carry their own copies, brought to this directory's by `bash hooks/sync-copies.sh <their root>`
+(it copies the files and prints the settings change as a diff, which it never applies) and a pull request the
+owner merges. What a project needs is computed, not typed: `python3 hooks/selftest-turn-gates.py --needs`
+prints the wired scripts, what they import or run, and the self-tests of them (16 files on 2026-11-16).
+
 ### Helper agents
 
 A helper agent's rows are not in the record the hooks are handed. So when a call that carries `agent_id` holds
@@ -284,10 +330,12 @@ and `X06b` run the hooks with a shorter Stop list and still expect the denials).
 
 ### Tests
 
-    python3 hooks/selftest-turn-gates.py              # the table: 735 cases, one line each; exit 0 only when all pass
+    python3 hooks/selftest-turn-gates.py              # the table: 740 cases, one line each; exit 0 only when all pass
     python3 hooks/selftest-turn-gates.py --only-failing J04 X05     # by the start of a name
     python3 hooks/selftest-turn-gates.py --hooks DIR  # another copy of the hooks
-    python3 hooks/selftest-mutations.py               # the break list: 330 deliberate breaks, each must be caught
+    python3 hooks/selftest-turn-gates.py W            # table "W": both wiring files, read and run
+    python3 hooks/selftest-turn-gates.py --needs      # the files a project carries beside its hooks
+    python3 hooks/selftest-mutations.py               # the break list: 352 deliberate breaks, each must be caught
     python3 hooks/selftest-mutations.py --list        # what each break removes, and the cases named for it
 
 `selftest-turn-gates.py` builds a session record in the real row shapes for every case (`selftest_rows.py` is

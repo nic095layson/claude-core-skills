@@ -1,0 +1,17 @@
+$ python3 missing_script_runs.py <tree> <work>   # each wired command of .claude/settings.json through bash -c, CLAUDE_PROJECT_DIR set
+== hooks folder emptied (hooks/ now holds 0 files)
+  Bash       turn-gates-pretool.py -> exit 0, silent
+  Bash+gh    turn-gates-pretool.py -> exit 0, silent
+  Edit       plan-gate-first-write-reminder.sh -> exit 0, silent | scope-fence-reminder.sh -> exit 0, silent | turn-gates-pretool.py -> exit 0, silent
+  Write      plan-gate-first-write-reminder.sh -> exit 0, silent | scope-fence-reminder.sh -> exit 0, silent | turn-gates-pretool.py -> exit 0, silent
+  merge tool turn-gates-pretool.py -> exit 2 = DENIED/BLOCKED (lder/hooks/turn-gates-pretool.py': [Errno 2] No such file or directory)
+  Stop       governance-enforce.py -> exit 0, silent | receipt-law-stop-gate.sh -> exit 0, silent
+  prompt     governance-trigger.py -> exit 0, silent
+== only turngate.py removed (hooks/ now holds 20 files)
+  Bash       turn-gates-pretool.py -> exit 0, silent
+  Bash+gh    turn-gates-pretool.py -> deny: TURN-GATE (merge word) [gate-error]: the gate could not load
+  Edit       plan-gate-first-write-reminder.sh -> exit 0, silent | scope-fence-reminder.sh -> exit 0, silent | turn-gates-pretool.py -> exit 0, silent
+  Write      plan-gate-first-write-reminder.sh -> exit 0, silent | scope-fence-reminder.sh -> exit 0, silent | turn-gates-pretool.py -> exit 0, silent
+  merge tool turn-gates-pretool.py -> deny: TURN-GATE (merge word) [gate-error]: the gate could not load
+  Stop       governance-enforce.py -> exit 0, silent | receipt-law-stop-gate.sh -> exit 0, silent
+  prompt     governance-trigger.py -> exit 0, silent

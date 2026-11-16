@@ -1,0 +1,20 @@
+$ bash hooks/sync-copies.sh <deck clone root> --proposed-settings <scratch>/deck-settings.json
+same     hooks/govclass.py
+same     hooks/governance-enforce.py
+same     hooks/governance-trigger.py
+same     hooks/plan-gate-first-write-reminder.sh
+same     hooks/receipt-law-stop-gate.sh
+same     hooks/receiptlaw.py
+same     hooks/scope-fence-reminder.sh
+same     hooks/selftest-governance-classify.py
+same     hooks/selftest-mutations.py
+same     hooks/selftest-receipt-law.sh
+same     hooks/selftest-reminders.sh
+updated  hooks/selftest-turn-gates.py
+same     hooks/selftest_rows.py
+same     hooks/session-doctrine.sh
+same     hooks/turn-gates-pretool.py
+same     hooks/turngate.py
+--- settings: no change needed
+--- proposal written to <scratch>/clones/deck-settings2.json
+exit 0

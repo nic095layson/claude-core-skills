@@ -1,0 +1,26 @@
+$ python3 unattended_forms.py <kit>/hooks <library>/hooks <work>
+source | form | what it is | pre-tool verdict (earlier owner click: "Audit today's merge (Recommended)")
+kit morning runner, step 1c | git -C ../yahoo-fantasy-basketball pull --ff-only | fast-forward the deck checkout | allow
+kit morning runner, step 2 | git fetch origin | fetch | allow
+kit morning runner, step 2 | git stash push -u -m "leftover before 2026-11-17" | stash an earlier run's leftovers | allow (advisory line)
+kit morning runner, step 2 | git checkout -B season/daily origin/season/daily && git merge --no-edit origin/main | local merge of main into the records branch | allow (advisory line)
+kit morning runner, step 6 | git add data report && git commit -m "Morning run 2026-11-17: MORNING PASS" | commit | allow (advisory line)
+kit morning runner, step 6 | git push -u origin season/daily | push the records branch | allow (advisory line)
+kit morning runner, step 6 | gh api repos/nic095layson/fantasy-basketball-2026-27/pulls -X POST -f title="Season: daily records" -f head=season/daily -f base=main -F draft=true -f body="Daily records from the morning run. Do not merge without the owner's word." | open the standing draft PR through the API | allow (advisory line)
+kit morning runner, step 6 (if the PR is opened with the tool instead) | mcp__github__create_pull_request {"owner": "nic095layson", "repo": "fantasy-basketball-2026-27", "title": "Season: daily records", "head": "season/daily", "base": "main", "draft": true} | open the draft PR with the GitHub tool | allow (advisory line)
+kit afternoon runner, step 4 | git add data report && git commit -m "Afternoon check 2026-11-17: LEAGUE LIVE PASS" && git push -u origin season/daily | commit and push the records branch | allow (advisory line)
+kit DATA-PULL.md, section 6 | git add -A && git commit -m "Data pull 2026-11-17: no changes" && git push | commit and push on main (checkout on main) | DENY:scheduled[scheduled]
+kit DATA-PULL.md, section 6 | git push origin main | push to main, branch named | DENY:scheduled[scheduled]
+kit season-end calibration task (fires 2027-03-22) | git checkout -b claude/season-end-2027 && git add report && git commit -m "Season-end calibration" && git push -u origin claude/season-end-2027 | branch, commit, push | allow (advisory line)
+kit season-end calibration task (fires 2027-03-22) | mcp__github__create_pull_request {"owner": "nic095layson", "repo": "fantasy-basketball-2026-27", "title": "Season-end calibration", "head": "claude/season-end-2027", "base": "main"} | open the PR | allow (advisory line)
+deck SEPTEMBER-PLAN.md, the September and October Routines (fired 2026-09-01 and 2026-10-12) | git checkout -b claude/2026-10-12-october-refresh && git commit -am "October refresh" && git push -u origin claude/2026-10-12-october-refresh | branch, commit, push | allow (advisory line)
+deck SEPTEMBER-PLAN.md, the September and October Routines (fired 2026-09-01 and 2026-10-12) | mcp__github__create_pull_request {"owner": "nic095layson", "repo": "yahoo-fantasy-basketball", "title": "October refresh", "head": "claude/2026-10-12-october-refresh", "base": "main", "draft": true} | open the draft PR | allow (advisory line)
+CONTROL: a merge inside the morning run (its prompt says merge nothing) | mcp__github__merge_pull_request {"owner": "nic095layson", "repo": "fantasy-basketball-2026-27", "pullNumber": 165} | merge the standing PR | DENY:scheduled[scheduled]
+
+Stop gates on whole runs | governors loaded | enforce verdict | receipt verdict
+kit morning runner, as its prompt says (plan-gate before step 1, adversarial-verify before the report) | plan-gate, adversarial-verify | allow | allow
+kit afternoon runner, IF its prompt carries the same governor line (not in these files) | plan-gate, adversarial-verify | allow | allow
+kit afternoon runner, IF its prompt names no governor | none | BLOCK:F1 without plan-gate (before the first outward action) and adversarial-verify | allow
+kit season-end calibration task: plan-gate (RULES.md), no adversarial-verify named in its prompt | plan-gate | BLOCK:F1 without adversarial-verify | allow
+kit DATA-PULL.md run: no governor named in DATA-PULL.md (the doctrine block asks for both) | none | BLOCK:F1 without plan-gate (before the first outward action) and adversarial-verify | allow
+deck October Routine: no governor named in SEPTEMBER-PLAN.md section 6 | none | BLOCK:F1 without plan-gate (before the first outward action) and adversarial-verify | allow

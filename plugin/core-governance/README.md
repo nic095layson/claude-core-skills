@@ -15,6 +15,7 @@ carried the mechanism).
 | `Stop` | `receipt-law-stop-gate.sh` | the receipt law ("can't" needs a receipt) |
 | `PreToolUse` (`Edit\|Write\|NotebookEdit`) | `plan-gate-first-write-reminder.sh`, `scope-fence-reminder.sh` | once-per-session reminders at the first file write |
 | `SessionStart` (`compact\|resume`) | `session-doctrine.sh` | post-compaction protocol; re-arms the reminders |
+| `PreToolUse`, two groups (since 0.1.6) | `turn-gates-pretool.py` | the merge gate and the plan-shown advisory. The merge tools (`merge_pull_request`, `enable_pr_auto_merge`) have a group of their own whose command DENIES the call when the plugin lacks its scripts; every other gated name (Bash, Edit, Write, the PR and scheduling tools) is in a second group whose command does nothing when a script is missing |
 
 Every hook runs through `scripts/run-unless-project-wired.sh`. It yields (exits silently,
 fail-open) only where repository hooks are known to run: a **local** session
@@ -26,10 +27,12 @@ which it is in; a yield there could silence both copies in exactly the case the 
 for (independent verifier finding, 2026-10-13). The cost is a duplicate trigger line in a
 one-repository cloud session that also carries the pack; the first-write reminders and the
 receipt-law gate keep per-session sentinels and do not double-fire. The rule is pinned by
-`scripts/selftest-wrapper.sh` (9 cases).
+`scripts/selftest-wrapper.sh` (11 cases since 2026-11-16).
 
-`scripts/*.py` and `scripts/*.sh` (other than the wrapper) are **byte-identical copies** of
-`hooks/*` in this repository; the guard (`guard_essentials.sh`) fails if they drift. Edit
+`scripts/*.py` and `scripts/*.sh` (other than the wrapper and its self-test) are **byte-identical
+copies** of `hooks/*` in this repository; the guard (`guard_essentials.sh`) compares every file here
+that has a twin in `hooks/` (the list is computed since 2026-11-16) and fails if one drifts, or if a
+file the wiring runs, imports or tests (`python3 hooks/selftest-turn-gates.py --needs`) is missing here. Edit
 `hooks/`, run the self-tests, then re-copy. Symlinks are not an option: the validator rejects
 component paths that leave the plugin root.
 
@@ -88,6 +91,16 @@ component paths that leave the plugin root.
   it flagged the stream-attribution gap (answered by the debug run above), the original yield
   rule (replaced by the rule above), and a hard-coded `/usr/bin/jq` in the two first-write
   reminders inherited from `hooks/` (not fixed here; owner decision in the after-report).
+
+## 0.1.6 (2026-11-16)
+
+The rebuilt merge gate, Stop gate and receipt gate (`hooks/README.md`; evidence under
+`results/2026-11-15/` and `results/2026-11-16/surfaces-fix/`), re-synced byte-identical to `hooks/`. `hooks.json`
+splits the turn-gate group in two: the merge tools alone, failing closed when a script is missing, and
+every other gated name, through the wrapper as before. Every other command checks that the wrapper is
+there and does nothing when it is not. Until this version is uploaded to the account, a cloud session
+with several repositories attached is judged by the version the account serves (0.1.4 on 2026-11-13),
+which has no scheduled-run rule.
 
 ## 0.1.5 (2026-11-12)
 
