@@ -12,8 +12,11 @@
 # a hook process cannot tell which it is in — so yielding could silence both copies in
 # exactly the case this plugin exists for (INC-2026-10-13-01, verifier finding
 # 2026-10-13). The cost is a duplicate trigger line in a one-repository cloud session
-# that also carries the pack; the first-write reminders and the receipt-law gate keep
-# their own per-session sentinels, so they do not double-fire.
+# that also carries the pack; the first-write reminders keep their own per-session
+# sentinels, so they do not double-fire. The receipt-law gate keeps no file: it counts
+# its blocks from the session record, so two copies block together at most once in a
+# stretch of work and are then both silent (read from the code, 2026-11-16; not run in a
+# real two-copy session).
 #
 # Yield = exit 0 with no output (fail-open: no context, no block). Otherwise exec the hook
 # from this plugin's own scripts/ directory, stdin intact.

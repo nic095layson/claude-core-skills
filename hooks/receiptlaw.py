@@ -5,9 +5,12 @@ The rule (adversarial-verify rule 6): "couldn't verify", "unable to confirm", "n
 and their variants, contractions included, may be written only when the same sentence names what was attempted
 and how it failed. With no attempt to cite, the honest wording is "did not check".
 
-What is judged: what the assistant said in the stretch this stop answers for (the rows since the owner's latest
-message or the latest completed stop: turngate.stop_span, the same rows the other Stop gate judges), plus the
-final answer the program hands over in the input (`last_assistant_message`) when the record does not hold it.
+What is judged: the texts the owner is asked to read in the stretch this stop answers for (the rows since the
+owner's latest message or the latest completed stop: turngate.stop_span, the same rows the other Stop gate judges):
+the final answer (every text after the last tool call that is not a Skill call), the texts directly before a card
+(AskUserQuestion), the answer of a stop another Stop hook blocked (BLOCKED_STOP_ENDS_ANSWER), and the final answer
+the program hands over in the input (`last_assistant_message`) when the record does not hold it. A working note
+(a text an ordinary tool call follows) is not judged (RECEIPT_JUDGES; the other reading judges every text).
 
 How a text is read:
   1. Fenced code, block quotes, inline code and words inside quotation marks are not the assistant's claim.
@@ -18,15 +21,19 @@ How a text is read:
   3. A claim is a match of one of CLAIM_FAMILIES that is the assistant's own and stands: not in a question,
      not negated ("nothing I couldn't verify"), not conditional ("if I can't verify it ..."), not reported
      ("git says it cannot ...", "he wrote that the figures were not available"), not about somebody else ("the
-     vendor could not ..."), not superseded ("at first I couldn't ..."), not a sentence about wording, not a row
-     of a table of examples. A statement about code or a product is not a claim either: the verbs of finding and
-     reaching (ACCESS_VERBS) with "we" or in the passive are claims in the past tense only ("we can't access the
-     DOM from a worker" against "we couldn't access the dashboard"); "no way to know" is a claim of "I" or in
-     the past tense; a clause that states a condition or describes ("when the server could not be reached", "a
-     player whose team could not be found") and an event told with its period ("could not be reached while the
-     certificate was rotated") claim nothing.
-  4. A receipt is, in the same sentence and outside the words that say what was not verified: an attempt
-     (ATTEMPT), a failure mode (FAILURE), a stated choice (CHOICE: "did not check, to save time"), or a code
+     vendor could not ...", "could not be verified by older clients"), not superseded ("at first I couldn't
+     ..."), not a sentence about wording, not a row of a table of examples (a header cell names sentences,
+     phrases, quotes ...), not a count ("| Unconfirmed | 0 |"). The assistant's whole work as subject ("this
+     run", "my report", "the weekly review") is the assistant. A statement about code or a product is not a
+     claim either: the verbs of finding and reaching (ACCESS_VERBS) with "we" or in the passive are claims in
+     the past tense only ("we can't access the DOM from a worker" against "we couldn't access the dashboard");
+     "no way to know" is a claim of "I" or in the past tense; a clause that states a condition or describes
+     ("when the server could not be reached", "a player whose team could not be found") and an event told with
+     its period ("could not be reached while the certificate was rotated") claim nothing.
+  4. A receipt is, in the same sentence and outside the words that say what was not verified (they end at a
+     comma, a colon, a bracket, a clause word, or a phrase of means or source: "with", "from", "per", "in 50
+     runs"; a clause such as "whether the job ran" runs on to a comma or a clause word): an attempt (ATTEMPT), a
+     failure mode (FAILURE), a stated choice (CHOICE: "did not check, to save time"), or a code
      span, fenced block or block quote. A search that names its place ("couldn't find X in the repository")
      carries its receipt. RECEIPT_SCOPE widens "same sentence" to its two neighbours.
 
@@ -59,6 +66,9 @@ RECEIPT_MAX_BLOCKS = 1              # blocks of this gate in one stretch (counte
 SCOPE_NEIGHBOURS = "neighbours"     # the other value RECEIPT_SCOPE may take: the sentence before and the one after count too
 RECEIPT_SCOPE = "sentence"          # where a claim's receipt may sit: its own sentence ("sentence"), or SCOPE_NEIGHBOURS
 NOT_VERIFIED_IS_A_CLAIM = False     # whether "X was not verified / has not been confirmed" (no "could not") needs a receipt
+JUDGES_EVERY_TEXT = "every-text"    # the other value RECEIPT_JUDGES may take: every text of the stretch is judged
+RECEIPT_JUDGES = "answers"          # which texts are judged: what the owner is asked to read ("answers"), or JUDGES_EVERY_TEXT
+BLOCKED_STOP_ENDS_ANSWER = True     # a text the assistant stopped on is an answer, also when another Stop hook blocked that stop
 REASON_EXCERPT_CHARS = 160          # how much of the sentence the block reason quotes
 REASON = ('Receipt law: this answer says "%s" and the same sentence names no attempt and no failure (the sentence: '
           '"%s"). A claim that something could not be verified, found or reached needs its receipt in the sentence '
@@ -89,8 +99,11 @@ HEADING = re.compile(r"^[ \t]{0,3}#{1,6}\s")
 LIST_ITEM = re.compile(r"^[ \t]*(?:[-*+]|\d{1,3}[.)])\s+")
 TABLE_ROW = re.compile(r"^[ \t]*\|.*\|[ \t]*$")
 TABLE_RULE = re.compile(r"^[ \t]*\|?[ \t:|-]*-[ \t:|-]*\|?[ \t]*$")              # the line under a table's header
-EXAMPLE_TABLE_WORDS = ("case", "cases", "example", "examples", "text", "phrase", "sentence", "input", "expected",
-                       "wanted", "verdict", "fixture", "test")                  # a header cell of a table of examples
+EXAMPLE_TABLE_WORDS = ("example", "examples", "sentence", "sentences", "phrase", "phrases", "wording", "wordings",
+                       "quote", "quotes", "text", "texts", "fixture", "fixtures", "claim",
+                       "claims")                # a header cell that names language samples: a table of examples
+TALLY_LABEL = re.compile(r"^(?:unverified|unconfirmed|unverifiable|unconfirmable)$", re.I)   # "| Unconfirmed | 0 |": a count ...
+TALLY_NUMBER = re.compile(r"^[\d\s.,/%+-]*\d[\d\s.,/%+-]*$")                 # ... when every other cell is a number
 ASSUMPTION_TABLE_WORDS = ("assumption", "assumptions", "basis")                 # ... and of a register of assumptions
 SENTENCE_END = re.compile(r"(?:(?<=[.!?])|(?<=[.!?][)\]'\"]))(?<!\be\.g\.)(?<!\bi\.e\.)(?<!\bvs\.)(?<!\bcf\.)\s+"
                           r"(?=[A-Z0-9\"'(\[\ue001\ue002])")
@@ -123,6 +136,8 @@ CLAIM_GERUNDS = ("verifying", "confirming", "checking", "determining", "finding 
                  "validating", "reproducing", "establishing", "ascertaining")
 KNOW_VERBS = (r"know\b", r"tell\b", r"be\s+sure\b")      # "no way to know": said of code in the present tense; a claim in the past or of "I"
 KNOW_GERUNDS = ("knowing", "telling")
+NOMINAL_GERUNDS = ("verifying", "confirming", "validating")     # "VERIFYING the upload wasn't possible"
+NOMINAL_REACH = 6                   # words between "verification (of)" or such a gerund and "was not possible"
 NOT_POSSIBLE = r"(?:\bimpossible|\binfeasible|(?:\bnot|n't)\s+(?:possible|feasible))"
 DATA_NOUNS = ("data", "information", "info", "figure", "figures", "number", "numbers", "statistic", "statistics",
               "stats", "record", "records", "log", "logs", "detail", "details", "documentation",
@@ -171,8 +186,9 @@ CLAIM_FAMILIES = (
                              r"lack(?:s|ed)?)\s+(?:any\s+|direct\s+|read\s+|write\s+)?access\s+to\b", re.I), True),
     ("impossible", re.compile(r"%s\s+(?:for\s+(?:me|us)\s+)?to%s\s+%s%s" % (NOT_POSSIBLE, _advs, _not_know, _verb), re.I), False),
     ("know", re.compile(r"%s\s+(?:for\s+(?:me|us)\s+)?to%s\s+%s" % (NOT_POSSIBLE, _advs, _know), re.I), False),
-    ("impossible", re.compile(r"\b(?:verification|confirmation|validation)\s+(?:(?:was|is|were)\s*(?:\s+not|n't)|"
-                              r"has\s+not\s+been|hasn't\s+been)\s+(?:possible|feasible)\b", re.I), False),
+    ("impossible", re.compile(r"\b(?:(?:verification|confirmation|validation)(?:\s+of)?|%s)(?:\s+[\w'./-]+){0,%d}?\s+"
+                              r"(?:(?:was|is|were)\s*(?:\s+not|n't)|has\s+not\s+been|hasn't\s+been)\s+(?:possible|feasible)\b"
+                              % ("|".join(NOMINAL_GERUNDS), NOMINAL_REACH), re.I), False),
     ("unverified", re.compile(r"(?<![\w-])(?:unverified|unconfirmed|unverifiable|unconfirmable)\b(?=\s*(?:$|[^\w\s]|(?:%s)\b))"
                               % "|".join(UNVERIFIED_FOLLOWERS), re.I), False),
     ("not-verified", re.compile(r"(?<!have\s)(?<!has\s)(?<!had\s)(?<!'ve\s)(?<!did\s)(?<!do\s)(?<!does\s)\bnot\s+%s"
@@ -195,6 +211,9 @@ SELF_SUBJECTS = ("i", "we")
 GENERAL_SUBJECT = "we"              # "we can't access X from a worker" describes code; "we couldn't access X" reports
 PAST_MODAL = re.compile(MODAL_NOT_PAST, re.I)
 SELF_NOUNS = ("session", "container", "sandbox", "environment", "assistant", "agent")   # "this session cannot reach ..."
+WORK_NOUNS = ("run", "session", "report", "audit", "review", "pass", "task", "job", "analysis")   # "THIS RUN couldn't confirm ..."
+WORK_OWNERS = ("this", "my", "our")         # ... the assistant's whole work when one of these stands before the noun
+WORK_TIMES = ("weekly", "scheduled", "daily", "nightly", "morning", "afternoon", "unattended")   # ... or "the" and one of these
 IMPERSONAL_SUBJECTS = ("there",)
 JOINING_WORDS = ("and", "but", "so", "then", "or", "yet", "nor", "plus")       # the subject is left out after these
 SELF_WORD = re.compile(r"(?<![\w'-])(?:i|we)(?![\w-])", re.I)                  # ... and is the assistant when the clause before says "I"
@@ -243,6 +262,9 @@ PERIOD_WORDS = ("while", "during", "whenever", "when", "until")
 # "the dashboard could not be reached WHILE the certificate was rotated": an event in the world, with its period
 PERIOD_AFTER = re.compile(r"[^,;:.!?()]*?\b(?:%s)\b" % "|".join(PERIOD_WORDS), re.I)
 EVENT_FAMILIES = ("passive", "passive-past")                                    # the families PERIOD_AFTER is read for
+NOT_AGENTS = ("me", "us", "myself", "ourselves", "this", "the time", "the end", "then", "now", "today", "tomorrow",
+              "hand")                   # after "could not be verified by": the assistant, a time or a means, not another agent
+PASSIVE_AGENT = re.compile(r"\s+by\s+(?!(?:%s)\b)(?![a-z]+ing\b)[a-z]" % "|".join(NOT_AGENTS).replace(" ", r"\s+"), re.I)
 HYPOTHETICAL_BEFORE = re.compile(r"\b(?:would|might|may)\s+(?:be|prove|become)\s+(?:\w+ly\s+)?$", re.I)   # "it WOULD BE impossible to ..."
 CAUSATIVE_BEFORE = re.compile(r"\b(?:made|makes|make|making|renders?|rendered|rendering)\s+it\s+(?:\w+ly\s+)?$", re.I)   # "a bug MADE IT impossible to ..."
 PAST_STATE = re.compile(r"\b(?:was|were|had|been)(?:n't)?(?![\w])", re.I)       # "there WAS no way to know": a report of what happened
@@ -267,22 +289,28 @@ QUESTION_END = re.compile(r"\?[\s)\]\"'" + MARK_QUOTE + MARK_CODE + r"]*$")
 LABEL_COLON = re.compile(r"\s*:\s*")    # "Unverified: X": what was not verified starts after the colon
 SUBJECT_FIRST = ("passive", "passive-past", "unverified", "not-verified", "not-available",
                  "no-data")             # "X cannot be reproduced: ...": in these families what was not verified stands BEFORE the claim
+OWN_SUBJECT_FAMILIES = ("not-available", "no-data")     # their match holds the subject: a colon after it opens the explanation
 OBJECT_END = re.compile(                # where the words that say WHAT was not verified end
-    r"[:;()|" + MARK_BLOCK + r"]|\s-{1,2}\s|(?<=[.!?])\s|,\s+(?=(?:which|where|that)\s+(?:i|we)\b)|"
-    r",\s+(?!(?:which|who|whom|whose|where|that|or|nor|and|as\s+well|including|especially|not|the|a|an|its|their|\d+)\b)|"
+    r"[:;(),|" + MARK_BLOCK + r"]|\s-{1,2}\s|(?<=[.!?])\s|"
     r"\b(?:because|since|after|despite|although|though|whereas|while|via|using|without|due\s+to|owing\s+to|given\s+that|"
     r"so|but|when\s+(?:i|we)|as\s+(?:the|it|i|we|there|no|none|neither)|and\s+(?:i|we|it|they|that|this|then|so)|"
     r"by\s+\w+ing)\b", re.I)
+MEANS_END = re.compile(r"\b(?:with|from|per)\b|\b(?:in|over|across)\s+(?=\d)", re.I)   # ... also a phrase that names the
+                                        # means or the source ("in 50 runs", "from the changelog"), after at least one word
+CLAUSE_OBJECT = re.compile(r"\s*(?:that|whether|if|which|what|who|whom|whose|how|when|where|why)\b", re.I)   # ... but not
+                                        # in a clause ("whether the job ran per the schedule"): it runs to OBJECT_END
+FIRST_WORD = re.compile(r"\s*\S+")    # the first word of what was not verified: a means after it ends it
 ATTEMPT = re.compile(                   # an attempt: a verb of trying, or the source or the means that was used
-    r"(?<![\w-])(?:ran|re-?ran|tried|attempted|attempts?|searched|search(?:ed|ing|es)?\s+(?:for|of|on|in|through)|"
+    r"(?<![\w-])(?:ran|re-?ran|tried(?!\s*(?:[,.!?;:]|but\b|and\b|$))|attempted|attempts?|searched|searching|"
+    r"search(?:ed|ing|es)?\s+(?:for|of|on|in|through)|"
     r"looked\s+(?:up|for|at|in|into|through|on)|looking\s+(?:up|for|at|in|into|through)|queried|querying|fetched|fetching|"
     r"called|calling|opened|opening|(?:i|we)\s+asked|read|reading|re-?read|grepped|grepping|inspected|inspecting|checked|"
     r"checking|requested|requesting|pinged|curled|downloaded|downloading|executed|executing|invoked|invoking|tested|"
     r"testing|probed|scanned|browsed|visited|pulled|cloned|logged\s+in|consulted|reviewed|examined|compared|diffed|"
     r"re-?computed|replayed|sampled|sampling|spot-check(?:s|ed|ing)?|re-?runs?|\d+\s+(?:runs|attempts|tries|trials|iterations|passes|requests|searches|queries|retries)|"
     r"attempted-failed|according\s+to|per\s+(?:the|its|their|this|that)\s+[\w./-]+|"
-    r"from\s+the\s+(?:docs?|documentation|page|site|logs?|output|file|repo|repository|code|source|config|readme|changelog|api|"
-    r"response|record|transcript|diff)|(?:using|via)\s+(?:the\s+)?[\w./" + MARK_CODE + r"-]+)(?![\w-])", re.I)
+    r"from\s+the\s+(?:[\w'-]+\s+){0,2}?(?:docs?|documentation|page|site|logs?|output|files?|repo|repository|code|source|config|"
+    r"readme|changelog|api|response|records?|transcript|diff)|(?:using|via)\s+(?:the\s+)?[\w./" + MARK_CODE + r"-]+)(?![\w-])", re.I)
 FAILURE = re.compile(                   # a failure mode: what came back, or why it could not work
     r"(?<![\w-])(?:returned|returns|returning|printed|answered|responded|replied|raised|threw|came\s+back|comes\s+back|"
     r"timed\s+out|times?\s+out|time-?outs?|denied|refused|rejected|forbidden|unauthori[sz]ed|not\s+authori[sz]ed|"
@@ -295,7 +323,7 @@ FAILURE = re.compile(                   # a failure mode: what came back, or why
     r"login|permissions?|path|route|way|means|connection)|not\s+exposed|does\s+not\s+expose|doesn't\s+expose|"
     r"read-?only|requires?\s+(?:a\s+|an\s+)?(?:login|account|subscription|credentials?|token|key|password|sudo|root|approval|"
     r"permission|vpn|network|javascript)|without\s+[\w'./-]+|"
-    r"(?:shows?|showed|gives?|gave|lists?|listed|holds?|held|contains?|contained)\s+(?:none|nothing)|needs\s+(?:sudo|root|credentials?|a\s+token|network|a\s+login)|"
+    r"(?:shows?|showed|gives?|gave|lists?|listed|holds?|held|contains?|contained|prints?|printed)\s+(?:none|nothing)|needs\s+(?:sudo|root|credentials?|a\s+token|network|a\s+login)|"
     r"no\s+results?|no\s+hits?|zero\s+hits?|no\s+match(?:es)?|found\s+(?:nothing|none|no\b)|nothing\s+(?:found|came\s+back|matched)|"
     r"none\s+(?:of\s+(?:them|these|those|the\s+\w+)\s+)?(?:lists?|mentions?|shows?|has|have|contains?|includes?|gives?|states?|says?)|"
     r"neither\s+(?:of\s+them\s+)?(?:lists?|mentions?|shows?|has|contains?|includes?|gives?|states?|says?)|"
@@ -303,7 +331,7 @@ FAILURE = re.compile(                   # a failure mode: what came back, or why
     r"there(?:'s|\s+is|\s+was)\s+nothing|"
     r"(?:is|are|was|were)\s+not\s+(?:in|on|part\s+of|within)\s+(?:this|the)\s+(?:repo|repository|container|session|machine|"
     r"environment|sandbox|record|file|checkout)|"
-    r"(?:does\s+not|doesn't|do\s+not|don't|did\s+not|didn't)\s+(?:list|mention|show|say|state|include|contain|record|publish)|"
+    r"(?:does\s+not|doesn't|do\s+not|don't|did\s+not|didn't)\s+(?:list|mention|show|say|state|include|contain|record|publish|find)|"
     r"(?:http\s*)?(?:40[0134589]|410|422|429|50[0-4])(?!\.\d|%))(?![\w-])", re.I)
 CHOICE = re.compile(                    # the honest alternative, said in the claim's own sentence
     r"(?<![\w-])(?:did\s+not\s+(?:check|try|attempt|look|run|test|verify|confirm)|didn't\s+(?:check|try|attempt|look|run|"
@@ -344,6 +372,12 @@ def _is_label(sentence):
     return any(w in words for w in LABEL_WORDS)
 
 
+def _tally(row):
+    """A row that counts ("| Unconfirmed | 0 |"): its first cell is only a status word, every other cell a number."""
+    cells = [c.strip() for c in row.strip().strip("|").split("|")]
+    return len(cells) >= 2 and bool(TALLY_LABEL.match(cells[0])) and all(TALLY_NUMBER.match(c) for c in cells[1:])
+
+
 def _blocks(text):
     """The parts of one prepared text, in order, as (kind, indent, sentences): a paragraph ("para"), a list item
     ("item"), the rows of a table ("rows"), a fenced block or block quote ("code"), a heading or a table of
@@ -369,7 +403,7 @@ def _blocks(text):
                 blocks.append(("title", 0, []))     # examples, or a register of assumptions: no row is an inability claim
                 return
             rows = rows[2:]                         # the header is a title
-        blocks.append(("rows", 0, [r.strip() for r in rows if not TABLE_RULE.match(r)]))
+        blocks.append(("rows", 0, [r.strip() for r in rows if not TABLE_RULE.match(r) and not _tally(r)]))
 
     for line in text.split("\n"):
         stripped = line.strip()
@@ -455,6 +489,8 @@ def _whose(before):
         base = word.split("'")[0] if "'" in word else word
         if base in SELF_SUBJECTS or base in SELF_NOUNS:
             return "we" if base == GENERAL_SUBJECT else "self"
+        if base in WORK_NOUNS and _own_work(rest[:m.start()]):
+            return "self"
         if base in IMPERSONAL_SUBJECTS:
             return "none"
         if base in JOINING_WORDS:                   # "X did this and couldn't ...": whose claim is said in the clause before
@@ -467,6 +503,14 @@ def _whose(before):
             continue
         return "other"
     return "other"
+
+
+def _own_work(before):
+    """The words before a noun of WORK_NOUNS make it the assistant's whole work: "this run", "the weekly review"."""
+    words = [w.lower().strip("\"')]*_") for w in before.split()[-2:]]
+    if words and words[-1] in WORK_OWNERS:
+        return True
+    return len(words) == 2 and words[-1] in WORK_TIMES and words[0] in ("the",) + WORK_OWNERS
 
 
 def find_claims(sentence):
@@ -487,6 +531,8 @@ def find_claims(sentence):
                 continue
             if family in EVENT_FAMILIES and PERIOD_AFTER.match(sentence[m.end():m.end() + AFTER_REACH]):
                 continue
+            if family in EVENT_FAMILIES and PASSIVE_AGENT.match(sentence, m.end()):
+                continue                            # "could not be verified by older clients": somebody else's inability
             if family == "know" and not (OWN_IN_CLAIM.search(m.group(0)) or (personal and who != "none")
                                          or PAST_STATE.search(sentence[max(0, start - PAST_REACH):m.end()])):
                 continue
@@ -521,9 +567,18 @@ def _outside(sentence, claims):
         label = LABEL_COLON.match(sentence, end)
         if label and family in SUBJECT_FIRST and re.search(r"[A-Za-z]", sentence[:start]):
             label = None                    # the colon opens the explanation, not the list of what was not verified
+        if label and family in OWN_SUBJECT_FAMILIES:
+            label = None                    # "Data for last week is not available: ...": the claim holds its subject
         begin = label.end() if label else end
         limit = claims[n + 1][0] if n + 1 < len(claims) else len(sentence)
         stop = OBJECT_END.search(sentence, begin, max(begin, limit))    # never past the next claim: one long sentence stays cheap
+        if not CLAUSE_OBJECT.match(sentence, begin):
+            # in the families whose subject stands first the words after the claim are no object: a means ends at once
+            first = FIRST_WORD.match(sentence, begin)
+            word = begin if family in SUBJECT_FIRST or not first else first.end()
+            means = MEANS_END.search(sentence, word, max(word, limit))
+            if means and (stop is None or means.start() < stop.start()):
+                stop = means
         finish = min(stop.start() if stop else len(sentence), limit)
         parts.append(sentence[at:max(at, start)])
         at = max(at, finish)
@@ -589,6 +644,44 @@ def arm_deadline():
         timer.start()
 
 
+def judged_texts(model, after, last_message):
+    """The texts after row `after` that the owner is asked to read, in order: the final answer (every text after the
+    last tool call that is not a Skill call) and the texts before a card (back to the last tool call that is neither
+    a Skill call nor a card), plus `last_message` when the record does not hold it. A text followed by an ordinary
+    tool call is a working note and is not judged. With BLOCKED_STOP_ENDS_ANSWER, a text the assistant stopped on is
+    an answer also when another Stop hook blocked that stop. RECEIPT_JUDGES = JUDGES_EVERY_TEXT judges every text."""
+    import turngate
+    if RECEIPT_JUDGES == JUDGES_EVERY_TEXT:
+        return model.prose(after, last_message)
+    judged, pending = [], []
+    for e in model.evs:
+        if e.i <= after:
+            continue
+        if e.kind in ("FEEDBACK", "STOP_BLOCKED") and BLOCKED_STOP_ENDS_ANSWER:
+            judged, pending = judged + pending, []
+        if e.i in model.run_starts or e.kind == "WAKE":
+            judged, pending = judged + pending, []      # the session had stopped: what it said last was an answer
+        if e.kind != "ASSISTANT":
+            continue
+        message = model.rows[e.i].get("message")
+        content = message.get("content") if isinstance(message, dict) else None
+        for block in content if isinstance(content, list) else []:
+            if not isinstance(block, dict):
+                continue
+            if block.get("type") == "text" and str(block.get("text") or "").strip():
+                pending.append(str(block["text"]))
+            elif block.get("type") == "tool_use" and block.get("name") not in (turngate.SKILL_TOOL,) + turngate.NOTIF_READ_TOOLS:
+                if block.get("name") == turngate.CARD_TOOL:
+                    judged += pending           # what directly precedes a card
+                pending = []                    # a working note: an ordinary tool call follows it
+    judged += pending                           # the final answer
+    said = model.prose(after)
+    last = last_message.strip() if isinstance(last_message, str) else ""
+    if last and not any(last in t for t in said):
+        judged.append(last_message)
+    return judged
+
+
 def decide(data):
     """The answer to one Stop input: a block, or None."""
     if not isinstance(data, dict):
@@ -606,7 +699,7 @@ def decide(data):
         return None                         # the flag is set and the record shows no block: the one retry
     if len(model.feedback(start, turngate.RECEIPT_BLOCK_MARK, retry)) >= RECEIPT_MAX_BLOCKS:
         return None                         # this gate has spoken in this stretch
-    for text in model.prose(start, data.get("last_assistant_message")):     # the final answer too, when the record lacks it
+    for text in judged_texts(model, start, data.get("last_assistant_message")):     # the final answer too, when the record lacks it
         bare = bare_claim(text)
         if bare:
             return {"decision": "block", "reason": REASON % (bare[0], bare[1][:REASON_EXCERPT_CHARS])}

@@ -25,8 +25,11 @@ its `hooks` key (parsed, not grepped: an allow rule naming the file does not cou
 a one-repository session and not in a several-repository one, and a hook process cannot tell
 which it is in; a yield there could silence both copies in exactly the case the plugin exists
 for (independent verifier finding, 2026-10-13). The cost is a duplicate trigger line in a
-one-repository cloud session that also carries the pack; the first-write reminders and the
-receipt-law gate keep per-session sentinels and do not double-fire. The rule is pinned by
+one-repository cloud session that also carries the pack; the first-write reminders keep
+per-session sentinels and do not double-fire. The receipt-law gate keeps no file since
+2026-11-15: it counts its blocks from the session record, so two copies block together at most
+once in a stretch of work and are then both silent (read from the code on 2026-11-16, not run in
+a real two-copy session). The rule is pinned by
 `scripts/selftest-wrapper.sh` (11 cases since 2026-11-16).
 
 `scripts/*.py` and `scripts/*.sh` (other than the wrapper and its self-test) are **byte-identical

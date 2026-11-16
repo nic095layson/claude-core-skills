@@ -3528,21 +3528,24 @@
   {
    "name": "receiptlaw.py:EXAMPLE_TABLE_WORDS",
    "value": [
-    "case",
-    "cases",
     "example",
     "examples",
-    "text",
-    "phrase",
     "sentence",
-    "input",
-    "expected",
-    "wanted",
-    "verdict",
+    "sentences",
+    "phrase",
+    "phrases",
+    "wording",
+    "wordings",
+    "quote",
+    "quotes",
+    "text",
+    "texts",
     "fixture",
-    "test"
+    "fixtures",
+    "claim",
+    "claims"
    ],
-   "role": "header cells that make a table a table of examples (no row of it is a claim)",
+   "role": "header cells that name language samples and make a table a table of examples (no row of it is a claim); a status table headed Test, Case, Input or Verdict is none (AR-3)",
    "status": "uncalibrated",
    "record": "",
    "decision": "D-RG-1"
@@ -3997,7 +4000,7 @@
     ],
     [
      "impossible",
-     "f7827411",
+     "809cff4a",
      false
     ],
     [
@@ -4547,15 +4550,15 @@
   },
   {
    "name": "receiptlaw.py:OBJECT_END",
-   "value": "e12a300f",
-   "role": "where the words that say WHAT was not verified end (a receipt must sit outside them)",
+   "value": "9677aad4",
+   "role": "where the words that say WHAT was not verified end (a receipt must sit outside them); a comma always ends them (AR-1)",
    "status": "uncalibrated",
    "record": "",
    "decision": "D-RG-1"
   },
   {
    "name": "receiptlaw.py:ATTEMPT",
-   "value": "aa64ce75",
+   "value": "bf2c9c0c",
    "role": "what counts as a named attempt (ran, tried, searched, from the docs ...)",
    "status": "uncalibrated",
    "record": "",
@@ -4563,7 +4566,7 @@
   },
   {
    "name": "receiptlaw.py:FAILURE",
-   "value": "af294bb9",
+   "value": "8a31103d",
    "role": "what counts as a named failure mode (returned, timed out, denied, 404, not installed ...)",
    "status": "uncalibrated",
    "record": "",
@@ -5398,6 +5401,176 @@
    "status": "uncalibrated",
    "record": "",
    "decision": "D-TG-2"
+  },
+  {
+   "name": "receiptlaw.py:BLOCKED_STOP_ENDS_ANSWER",
+   "value": true,
+   "role": "a text the assistant stopped on is judged as an answer also when another Stop hook blocked that stop (AR-2; False: only the final answer and what precedes a card)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-2"
+  },
+  {
+   "name": "receiptlaw.py:CLAUSE_OBJECT",
+   "value": "5c0bc0f4",
+   "role": "what was not verified is a clause (\"whether the job ran\"): it runs on to OBJECT_END, past a phrase of means (AR-1)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:FIRST_WORD",
+   "value": "b08c296d",
+   "role": "one word: a phrase of means ends what was not verified only after at least one word of it (\"impossible to tell from the log which ...\")",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "receiptlaw.py:JUDGES_EVERY_TEXT",
+   "value": "every-text",
+   "role": "the name of the other reading of RECEIPT_JUDGES (every text of the stretch is judged)",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "receiptlaw.py:MEANS_END",
+   "value": "cd9fb15c",
+   "role": "a phrase that names the means or the source (with, from, per, in/over/across + a number) ends what was not verified (AR-1)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:NOMINAL_GERUNDS",
+   "value": [
+    "verifying",
+    "confirming",
+    "validating"
+   ],
+   "role": "gerunds that make \"VERIFYING X wasn't possible\" a claim (AR-8)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:NOMINAL_REACH",
+   "value": 6,
+   "role": "words that may stand between \"verification (of)\" or such a gerund and \"was not possible\" (AR-8)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:NOT_AGENTS",
+   "value": [
+    "me",
+    "us",
+    "myself",
+    "ourselves",
+    "this",
+    "the time",
+    "the end",
+    "then",
+    "now",
+    "today",
+    "tomorrow",
+    "hand"
+   ],
+   "role": "after \"could not be verified by\": the assistant, a time or a means, so the passive stays the assistant's claim (AR-8)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:OWN_SUBJECT_FAMILIES",
+   "value": [
+    "not-available",
+    "no-data"
+   ],
+   "role": "families whose match holds its own subject: a colon after it opens the explanation, not the list of what was not verified",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:PASSIVE_AGENT",
+   "value": "9d47a62b",
+   "role": "\"could not be verified by older clients\": a passive whose agent is somebody else is not the assistant's claim (AR-8 MORE)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:RECEIPT_JUDGES",
+   "value": "answers",
+   "role": "which texts the receipt gate judges: \"answers\" = the final answer and what precedes a card, not a working note (AR-2); \"every-text\" = every text of the stretch",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-2"
+  },
+  {
+   "name": "receiptlaw.py:TALLY_LABEL",
+   "value": "342631c2",
+   "role": "a table cell that is only a status word: with numbers in the other cells the row is a count, not a claim (AR-3, AR-5)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:TALLY_NUMBER",
+   "value": "002a6611",
+   "role": "a table cell that is a number (a tally row's other cells)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:WORK_NOUNS",
+   "value": [
+    "run",
+    "session",
+    "report",
+    "audit",
+    "review",
+    "pass",
+    "task",
+    "job",
+    "analysis"
+   ],
+   "role": "nouns of the assistant's whole work: with this/my/our (or the + WORK_TIMES) as subject the claim is the assistant's (AR-4)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:WORK_OWNERS",
+   "value": [
+    "this",
+    "my",
+    "our"
+   ],
+   "role": "words before a noun of WORK_NOUNS that make it the assistant's work (AR-4)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:WORK_TIMES",
+   "value": [
+    "weekly",
+    "scheduled",
+    "daily",
+    "nightly",
+    "morning",
+    "afternoon",
+    "unattended"
+   ],
+   "role": "\"the weekly / scheduled / nightly ...\" before a noun of WORK_NOUNS: the assistant's work (AR-4)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
   }
  ]
 }

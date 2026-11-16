@@ -1,3 +1,21 @@
+> **Status 2026-11-16 — the receipt gate after the outside audit.** The outside audit of the rebuilt gate found
+> it blocking honest work: a receipt written after the unverified thing ("I couldn't verify the deploy, the
+> health endpoint returned 503", "... from the changelog", "... in 50 runs") was read as part of it (AR-1), and a
+> working note between tool calls blocked the stop (AR-2); it also let through a status table headed "Test"
+> (AR-3), the assistant's own work as subject ("This run couldn't confirm ...", AR-4) and two wordings of
+> "verification was not possible" (AR-8). Now: a comma and a phrase of means or source end what was not
+> verified; only what the owner is asked to read is judged (the final answer and what precedes a card:
+> `RECEIPT_JUDGES`, an open policy default); a table is a table of examples only when a header cell names
+> language samples, and a tally row is a count; "this run", "my report", "the weekly review" are the assistant.
+> Read again against prose (AR-5; `results/2026-11-16/audit-fixes/receipt-gate/prose-scans.md`): on the four
+> bodies the first build measured, the blocked sentences are the same (9 of 11,008 sentences of this
+> repository's Markdown, 17 of 19,145 of the audit's reports, 0 of 86,733 of tool documentation; 7 of 199
+> hand-written ordinary sentences, the first build's stated limits). On two bodies nobody had tuned against, the
+> domain kit's Markdown (39,164 sentences) and the season deck's (7,809), it blocks 22 and 0: by my reading 11
+> of the 22 are bare claims, 8 are false blocks and 3 are borderline; the classes are under "Limits" below. On
+> the real record 2 of 26 stops would be blocked (3 before; the one released was a working note). Table "V"
+> (112 cases), 28 new breaks. Evidence: `results/2026-11-16/audit-fixes/receipt-gate/`.
+
 > **Status 2026-11-16 — the wiring, the plugin and the copies.** The two wiring files (`.claude/settings.json`,
 > `plugin/core-governance/hooks/hooks.json`) now run each script only when its file is there, except one group
 > for the merge tools alone, where a missing script denies the merge (finding SF-2: a project installed by the
@@ -16,8 +34,9 @@
 > 174 breaks (now 330); the 102 hand-set values of `receiptlaw.py` are in the registry. Because this gate
 > blocks a stop, it was then read against ordinary prose (this repository's Markdown, the audit's reports,
 > four hand-written lists of technical sentences): statements about code, conditions, reported speech and
-> search results that claim no inability are let through, and what is still blocked wrongly is listed as a
-> limit (`results/2026-11-15/receipt-gate-fix/prose-scan.md`). On the real record replayed that day 3 of 26
+> search results that claim no inability are let through, and what was still blocked wrongly in those bodies is
+> listed as a limit (`results/2026-11-15/receipt-gate-fix/prose-scan.md`). That held for the bodies it was
+> tuned on; on a body it had not read it did not (finding AR-5; the status of 2026-11-16 above gives the count). On the real record replayed that day 3 of 26
 > stops would have been blocked (the old gate: none); the three answers were not read for the fix. Not
 > measured: a live session.
 
@@ -618,7 +637,7 @@ experiment file.
 The lever for INC-9. A **Stop** hook that may *block*: it asks a question about words that has a factual
 answer, *does this claim of inability name an attempt or a failure in its own sentence?*, and blocks the stop
 when the answer is no. `receipt-law-stop-gate.sh` is the wired entry point and only runs `receiptlaw.py`, which
-holds the rule and every hand-set value of it (102, all in the registry as `receiptlaw.py:<NAME>`).
+holds the rule and every hand-set value of it (118 since 2026-11-16, all in the registry as `receiptlaw.py:<NAME>`).
 
 **The rule it enforces** (adversarial-verify rule 6; the custom-instructions block): "couldn't verify", "unable
 to confirm", "not available", "no data exists" and their variants, contractions included, may be written only
@@ -635,11 +654,23 @@ stops; it never read the final answer the program hands over; and 11 of 13 delib
 
 ### What is judged
 
-What the assistant said in the **stretch** this stop answers for: the rows since the owner's latest message or
-the latest completed stop (`turngate.stop_span`: the same rows `governance-enforce.py` judges), every text of
-it, plus the final answer the program hands over in the Stop input (`last_assistant_message`) when the record
-does not hold it. A claim in an earlier text of the stretch counts, also when a later lookup settled it: say so
-in the sentence ("at first I couldn't ..."), or give the note its receipt.
+What the owner is asked to read in the **stretch** this stop answers for: the rows since the owner's latest
+message or the latest completed stop (`turngate.stop_span`: the same rows `governance-enforce.py` judges). Since
+2026-11-16 (finding AR-2) that is, with `RECEIPT_JUDGES = "answers"`:
+
+1. the final answer: every text after the last tool call of the stretch that is not a Skill call (a governor
+   load does not turn the text before it into a working note), plus the final answer the program hands over in
+   the Stop input (`last_assistant_message`) when the record does not hold it;
+2. what directly precedes a card: the texts between the last earlier tool call that is neither a Skill call nor
+   a card, and an `AskUserQuestion` call;
+3. the answer of an earlier stop in the stretch: the texts before a stop another Stop hook blocked
+   (`BLOCKED_STOP_ENDS_ANSWER`), and, in a record without stop rows, the texts before a scheduled run or a wake
+   (the session had stopped there).
+
+A working note (a text an ordinary tool call follows) is not judged. What this lets go: a bare claim in a
+mid-turn message that the final answer does not repeat ("I couldn't find the config. Let me search the whole
+repository." and then a clean answer). Before 2026-11-16 every text of the stretch was judged and the note
+blocked the stop; `RECEIPT_JUDGES = "every-text"` is that reading (case `RLD70` runs under it).
 
 ### How a text is read
 
@@ -648,12 +679,13 @@ in the sentence ("at first I couldn't ..."), or give the note its receipt.
 | not the assistant's claim | words inside a fenced block, a block quote, inline code, or quotation marks (double, single, curly) |
 | a sentence | ends at `.`, `!`, `?` before a capital, a digit or a quote, and at a paragraph break. It goes on after a colon, a semicolon, a dash and in parentheses. A table row is a sentence; so is a list item. A line that ends with a colon goes on in every list item under it, in every row of the table under it, or in the first sentence of the paragraph after it. A heading is a title, never a claim |
 | a fenced block | belongs to the sentence above it, also across one short label line that speaks of an attempt, an error or an output ("Attempt and failure:") |
-| a claim | the assistant (I, we, "this session", or no subject at all) could not verify, confirm, validate, reproduce, establish (the verbs of verifying, `VERIFY_VERBS`) or check, determine, find, reach, access, obtain, locate (the verbs of finding and reaching, `ACCESS_VERBS`) something; was unable or not able to; failed to; has no way to or of; has no access to; "impossible to verify", "it wasn't possible to"; "could not be verified"; "X is unverified / unconfirmed / unverifiable" as a predicate, a label or a table cell; data, records, figures or logs "are not available" or "unavailable"; "no data exists", "there is no data for" |
+| a claim | the assistant (I, we, "this session", the assistant's whole work: "this / my / our" + run, session, report, audit, review, pass, task, job, analysis, and "the weekly / scheduled / daily / nightly / morning / afternoon / unattended" + run, review, task, job, audit; or no subject at all) could not verify, confirm, validate, reproduce, establish (the verbs of verifying, `VERIFY_VERBS`) or check, determine, find, reach, access, obtain, locate (the verbs of finding and reaching, `ACCESS_VERBS`) something; was unable or not able to; failed to; has no way to or of; has no access to; "impossible to verify", "it wasn't possible to", "verification (of X) was not possible", "verifying / confirming X wasn't possible"; "could not be verified"; "X is unverified / unconfirmed / unverifiable" as a predicate, a label or a table cell; data, records, figures or logs "are not available" or "unavailable"; "no data exists", "there is no data for" |
 | a statement about code or a product, not a claim | the verbs of finding and reaching also describe systems, so with "we" and in the passive they are claims in the past tense only: "we can't access the DOM from a worker" and "the type cannot be determined at compile time" pass, "we couldn't access the dashboard" and "the status page could not be reached" are claims. "No way to know / tell" and "impossible to tell" are claims of "I" ("I have no way of knowing", "no way for me to know") or in the past tense ("there was no way to tell"). "Not available at compile time / in version 2 / until Friday" says where or when a thing is offered; "not available at the moment / in this session" stays a claim. "There is no more data to read", "no data loss", "no record type" are not about missing facts |
 | a clause that claims nothing | a condition or a description with a subject of its own, to the next comma: "the client retries when the server could not be reached", "a bug where the file could not be found", "any player whose team could not be found", "if this information is not available"; an event told with its period: "the dashboard could not be reached while the certificate was rotated"; "a bug made it impossible to ..."; "it would be impossible to ..." |
-| not a claim | a question; a negation ("nothing I couldn't verify", "none is unverified", "it isn't that the data is not available"); a condition ("if I can't verify it ..."); what a tool or a person said ("git says it cannot ...", "stopped with: Could not ...", "he wrote that the figures were not available", "the model card says the data is not available", "it says so (can't confirm ...)", "the claim that X could not be verified"); somebody else's inability ("the vendor could not ..."); a state that ended ("at first I couldn't ...", "couldn't find it at first"); a sentence about wording (it says phrase, pattern, wording, label ...); a general statement ("a rule cannot be checked ..."); a row of a table of examples; a result, not an inability: "couldn't find anything wrong / any difference / a single failing test / a better way", "couldn't reach a different conclusion", "can't check this in"; the honest alternative itself ("did not check", "I have not verified") |
+| not a claim | a question; a negation ("nothing I couldn't verify", "none is unverified", "it isn't that the data is not available"); a condition ("if I can't verify it ..."); what a tool or a person said ("git says it cannot ...", "stopped with: Could not ...", "he wrote that the figures were not available", "the model card says the data is not available", "it says so (can't confirm ...)", "the claim that X could not be verified"); somebody else's inability ("the vendor could not ...", a passive with another agent: "could not be verified by older Android clients"); a subject that names one attempt ("my search, my grep, my checks, my query, my lookup, my probe, my tests, my scan couldn't find ...") already names what was attempted and passes; a state that ended ("at first I couldn't ...", "couldn't find it at first"); a sentence about wording (it says phrase, pattern, wording, label ...); a general statement ("a rule cannot be checked ..."); a row of a table of examples (a header cell names language samples: example, sentence, phrase, wording, quote, text, fixture, claim; a status table headed Test, Case, Input, Expected or Verdict is no table of examples); a row that counts ("\| Unconfirmed \| 0 \|": the first cell only a status word, every other cell a number); a result, not an inability: "couldn't find anything wrong / any difference / a single failing test / a better way", "couldn't reach a different conclusion", "can't check this in"; the honest alternative itself ("did not check", "I have not verified") |
 | the house's own forms | not claims: the status of an assumption ("Status: unconfirmed", a table with a Basis or Assumption column, "assumption A2, unconfirmed", "A1 (...) is unconfirmed"), the section name "In scope and unverified", "labelled as unverified", "an unverified, old assertion", a list of labels or a tally ("verified, likely, and unverified", "12 verified, 3 unverified") |
-| a receipt | in the claim's own sentence and **outside the words that say what was not verified**: an attempt (ran, tried, searched, queried, fetched, opened, read, grepped, checked, sampled, "the re-run", "50 runs", "from the docs", "per the README", "using X"), a failure mode (returned, timed out, denied, refused, failed, error, a 4xx or 5xx code, not found, not installed, no network, "no tool ...", "no live path to ...", "requires a login", "without X" (the missing means), "after my training cut-off", "found nothing", "none of them lists ...", "the record shows none"), a stated choice ("did not check, to save time", "by choice", `NOT-ATTEMPTED`), or a code span, a fenced block or a block quote. A search that names its place carries its receipt: "I couldn't find the config in the repository" (not "I couldn't find the config"). In "X cannot be reproduced: the re-run gives 13" the colon opens the explanation; in "Unverified: X" it opens the list of what was not verified |
+| what was not verified | the words after the claim, up to a comma, a colon, a semicolon, a bracket, a dash, a clause word (because, since, after, but, so, using, via, by + -ing ...) or, after at least one word, a phrase of means or source (with, from, per, in / over / across + a number). A clause ("whether the job ran", "that the tests passed", "which runs timed out") runs on past a phrase of means, to a comma or a clause word. In the families whose subject stands first ("X could not be verified", "X is unverifiable") the words after the claim are no object, and a phrase of means there ends at once |
+| a receipt | in the claim's own sentence and **outside the words that say what was not verified**: an attempt (ran, tried + what was tried (a bare "tried" before a comma, "but", "and" or the end names nothing), searched, searching, queried, fetched, opened, read, grepped, checked, sampled, "the re-run", "50 runs", "from the docs", "from the kit's records", "per the README", "using X"), a failure mode (returned, timed out, denied, refused, failed, error, a 4xx or 5xx code, not found, not installed, no network, "no tool ...", "no live path to ...", "requires a login", "without X" (the missing means), "after my training cut-off", "found nothing", "didn't find", "none of them lists ...", "the record shows none", "the dry run prints none"), a stated choice ("did not check, to save time", "by choice", `NOT-ATTEMPTED`), or a code span, a fenced block or a block quote. A search that names its place carries its receipt: "I couldn't find the config in the repository" (not "I couldn't find the config"). In "X cannot be reproduced: the re-run gives 13" the colon opens the explanation; in "Unverified: X" it opens the list of what was not verified |
 
 So "I couldn't verify whether the cron job ran" has no receipt (the word is the unverified thing), and "I
 couldn't verify the port: `ss -ltnp` returned permission denied" has one.
@@ -686,6 +718,8 @@ claims takes 2 to 6 s; past the deadline the stop is let go.
 | `RECEIPT_SCOPE` | `"sentence"`: the receipt sits in the claim's own sentence (the rule's words) | `"neighbours"`: the sentence before and the one after count too. Tested as cases `RLD90` to `RLD92`. On the real record replayed on 2026-11-15, two of the three stops this gate would have blocked hold a receipt word in a neighbouring sentence |
 | `NOT_VERIFIED_IS_A_CLAIM` | `False`: "X was not verified", "has not been confirmed" (no "could not") reads as "did not verify", the honest alternative. The rule does not name it and the house's own reports use it as a plain label | `True`: it needs a receipt like "unverified" does (the second auditor's reading). Tested as cases `RLD93` to `RLD96` |
 | `RECEIPT_MAX_BLOCKS` | 1 | 2, as the outward-action rule has: the answer after the block is then judged once more |
+| `RECEIPT_JUDGES` | `"answers"`: the final answer and what precedes a card are judged, a working note is not (finding AR-2; the documents disagree on what is judged, this is the default the owner can overrule). It lets a bare claim in a mid-turn message go when the final answer does not repeat it | `"every-text"`: every text of the stretch (the reading of 2026-11-15; a settled working note blocks the stop, 10 of 10 in the audit's list `narration.py`). Tested as cases `RLD70`, `ar_r2_every-text-*` |
+| `BLOCKED_STOP_ENDS_ANSWER` | `True`: the text the assistant stopped on is an answer also when another Stop hook blocked that stop, and is judged though work followed (the rule is silent; the safer reading) | `False`: only the final answer and what precedes a card. Case `ar_r2_answer-of-a-stop-another-gate-blocked` |
 | `CONDITION_WORDS`, `PERIOD_WORDS` | a clause opened by if, when, where, whose, once, until, while (to the next comma) and an event told with "while / during / until ..." claim nothing: they are how answers describe code and incidents | empty lists: every such sentence needs its receipt, and explanations of code are blocked ("the client retries when the server could not be reached") |
 | `SEARCHED_PLACE` | "couldn't find X in the repository" carries its receipt: the search and its place are named | no such reading: the sentence must also say how the search was made |
 | `FAILURE` ("without X") | "can't verify the signature without the raw body" names the missing means and passes | only the listed means count (credentials, a token, network, access) |
@@ -693,9 +727,9 @@ claims takes 2 to 6 s; past the deadline the stop is let go.
 
 ### Tests
 
-    python3 hooks/selftest-turn-gates.py RL           # table "R": 386 cases of this gate, one line each
+    python3 hooks/selftest-turn-gates.py RL ar_       # table "R" (386 cases) and table "V" (112, the outside audit)
     bash hooks/selftest-receipt-law.sh                # the gate's first 15 cases, as a quick check
-    python3 hooks/selftest-mutations.py RC RD RE      # 174 deliberate breaks of receiptlaw.py and the wired script
+    python3 hooks/selftest-mutations.py RC RD RE AR   # 202 deliberate breaks of receiptlaw.py and the wired script
 
 Table "R" holds every sentence of the audit's lists under its number (P, R, F, H, Q, T and the second auditor's
 V lists), the record shapes of RL-2, RL-7, TB-5, FU2-1 and FU2-9 built with `selftest_rows.py`, the failure
@@ -736,7 +770,21 @@ name a finding fail, 66 controls pass), the cases of the prose scan on the gate 
   31 of 32 sentences judged as wanted). The block reason says how to mark such a sentence: quotation
   marks, or the receipt.
 - A receipt word that sits outside the unverified thing but is about something else still counts ("I couldn't
-  verify the port, but the build failed"). So does any code span in the claim's sentence, and any fenced block
+  verify the port, but the build failed"). Since a comma ends the unverified thing (2026-11-16), that includes
+  the items of a list after a comma: "I couldn't verify the error rate, the timeout or the 404 page" passes
+  (case `ar_r1_limit-receipt-words-listed-after-a-comma`), as do "using the information I have" and "so I tried
+  to be careful" (the audit's FK12, FK21). A phrase of means right after the verb, before the object ("I couldn't
+  confirm from the changelog the release date"), is read as part of the object and blocks.
+- Not the assistant, by the subject's words: "today's check", "the review" (no "this", "my" or a time word),
+  the assistant's name, and any noun outside `WORK_NOUNS` (the audit's PX05, PX06, PX09 pass).
+- Still blocked wrongly on the domain kit's Markdown, a body nobody tuned against (2026-11-16, 22 blocked of
+  39,164 sentences, `prose-scans.md`): a reason or a result in free words (6: "appears only as ... with no
+  article behind it", "don't exist yet", "with this file, which holds one team's totals with no weekly rosters",
+  "with the simulator as it is"); a search table whose attempt stands only in its header ("query run") and a
+  quoted query (1, new with the narrower table rule); a quotation that is not closed in its sentence (1).
+  Borderline there: "unverifiable until <a time or an event>" (2) and an idiom of doubt about a source (1).
+  Facts about data said in the rule's own words with their reason ("No data exists for the 2019 season because
+  the league started in 2020", the audit's FBE list) still block. So does any code span in the claim's sentence, and any fenced block
   or block quote directly under it.
 - A claim inside a block quote or inline code is exempt on purpose (the audit's cases Q01 and Q02 stay
   allowed): a caveat written as a markdown callout is not judged.
@@ -756,8 +804,11 @@ name a finding fail, 66 controls pass), the cases of the prose scan on the gate 
   the same record with its stop row is allowed, case `RLS05a`).
 - After its one block the gate is silent for the rest of the stretch, also when the next answer repeats the
   claim (the audit's case Y01).
-- Every word list and pattern is hand-set (registry status `uncalibrated`, decision D-RG-1). Measured on
-  2026-11-15: the audit's lists (bare claims 40 of 40 blocked, false receipts 12 of 12 blocked, true receipts
+- Every word list and pattern is hand-set (registry status `uncalibrated`, decision D-RG-1). Re-measured on
+  2026-11-16 with the same tools (`results/2026-11-16/audit-fixes/receipt-gate/prose-scans.md`): the bodies
+  below block the same sentences as on 2026-11-15 (the ordinary lists 7 of 199, one fewer); the two bodies
+  nobody had tuned against block 22 (the domain kit; 8 false, 3 borderline by the implementer's reading) and 0
+  (the season deck). Measured on 2026-11-15: the audit's lists (bare claims 40 of 40 blocked, false receipts 12 of 12 blocked, true receipts
   12 of 12 allowed, non-claims 16 of 16 allowed). Ordinary prose (`prose-scan.md`): this repository's Markdown
   at the commit before this fix, 10,384 sentences in 209 files, 9 blocked, each a bare claim by the rule's
   words (before the scan's changes 11, two of them false blocks); the audit's briefs and reports, 18,975
