@@ -1,0 +1,78 @@
+$ python3 hooks/selftest-turn-gates.py --hooks <the hooks before the prose scan's changes> RLD15 RLD16 RLD17 RLD18 RLD19 RLD20 RLD21
+# 2026-11-15. The cases of the prose scan (RLD150 to RLD214) on the rebuilt gate as it stood BEFORE the scan changed
+# its grammar (the receipt gate of this fix after its first build: receiptlaw.py with two classes of verbs, 321 cases
+# green). "prose scan" = a false block the scan found: all 46 FAIL here (the gate blocks an ordinary sentence).
+# "prose scan pin" = what must still block: all pass here and after. RLD175 (RL-3) is a claim form the gate missed
+# ("it wasn't possible to"): it fails here. RLD206 pins an older rule and passes. The name prefixes also select
+# five older cases (RLD15, RLD20, RLD21 ...), which pass. Each case was written with its wanted verdict before the
+# change that meets it; the fixture text of two was repaired before their first green run and their wanted
+# verdicts kept (RLD154: the first text held the receipt word "returns"; RLD205: the first text held "replied").
+RLD15-records-are-unavailable                            | RL-3                   | block              | block              | pass
+RLD20-receipt-in-the-sentence-before                     | RL-6                   | block              | block              | pass
+RLD21-receipt-in-the-sentence-after                      | RL-6                   | block              | block              | pass
+RLD150-condition-whenever-could-not-be-reached           | prose scan             | allow              | block              | FAIL
+RLD151-a-bug-where-could-not-be-found                    | prose scan             | allow              | block              | FAIL
+RLD152-when-the-checksum-cannot-be-verified              | prose scan             | allow              | block              | FAIL
+RLD153-if-the-migration-could-not-be-verified            | prose scan             | allow              | block              | FAIL
+RLD154-null-if-information-is-not-available              | prose scan             | allow              | block              | FAIL
+RLD155-no-more-data-to-be-read                           | prose scan             | allow              | block              | FAIL
+RLD156-no-data-loss                                      | prose scan             | allow              | block              | FAIL
+RLD157-no-record-type                                    | prose scan             | allow              | block              | FAIL
+RLD158-not-available-at-compile-time                     | prose scan             | allow              | block              | FAIL
+RLD159-no-way-to-know-what-the-caller-intended           | prose scan             | allow              | block              | FAIL
+RLD160-not-possible-to-tell-without-the-type             | prose scan             | allow              | block              | FAIL
+RLD161-impossible-to-determine-without-consuming         | prose scan             | allow              | block              | FAIL
+RLD162-a-regression-made-it-impossible-to-obtain         | prose scan             | allow              | block              | FAIL
+RLD163-we-cant-verify-without-the-raw-body               | prose scan             | allow              | block              | FAIL
+RLD164-could-not-find-a-single-failing-test              | prose scan             | allow              | block              | FAIL
+RLD165-couldnt-reproduce-in-fifty-runs                   | prose scan             | allow              | block              | FAIL
+RLD166-cant-check-this-in                                | prose scan             | allow              | block              | FAIL
+RLD167-couldnt-reach-a-different-conclusion              | prose scan             | allow              | block              | FAIL
+RLD168-couldnt-find-it-at-first                          | prose scan             | allow              | block              | FAIL
+RLD169-a-list-of-tiers                                   | prose scan             | allow              | block              | FAIL
+RLD170-reported-in-parentheses                           | prose scan             | allow              | block              | FAIL
+RLD171-an-assumption-named-by-its-number                 | prose scan             | allow              | block              | FAIL
+RLD172-no-live-path-names-the-missing-means              | prose scan             | allow              | block              | FAIL
+RLD173-the-re-run-gives-another-number                   | prose scan             | allow              | block              | FAIL
+RLD174-a-tally-of-statuses                               | prose scan             | allow              | block              | FAIL
+RLD175-wasnt-possible-to-obtain                          | RL-3                   | block              | allow              | FAIL
+RLD176-a-comma-ends-the-condition                        | prose scan pin         | block              | block              | pass
+RLD177-there-was-no-way-to-tell                          | prose scan pin         | block              | block              | pass
+RLD178-i-have-no-way-to-know                             | prose scan pin         | block              | block              | pass
+RLD179-no-data-for-a-year                                | prose scan pin         | block              | block              | pass
+RLD180-verified-then-a-claim                             | prose scan pin         | block              | block              | pass
+RLD181-check-the-settings-in                             | prose scan pin         | block              | block              | pass
+RLD182-not-available-at-the-moment                       | prose scan pin         | block              | block              | pass
+RLD183-without-in-the-next-sentence                      | prose scan pin         | block              | block              | pass
+RLD184-couldnt-reach-the-server                          | prose scan pin         | block              | block              | pass
+RLD185-couldnt-find-the-test-file                        | prose scan pin         | block              | block              | pass
+RLD186-a-player-whose-team-could-not-be-found            | prose scan             | allow              | block              | FAIL
+RLD187-impossible-to-tell-from-the-box-score             | prose scan             | allow              | block              | FAIL
+RLD188-couldnt-find-a-better-trade                       | prose scan             | allow              | block              | FAIL
+RLD189-no-record-which-i-searched                        | prose scan             | allow              | block              | FAIL
+RLD190-he-wrote-that-the-figures-were-not-available      | prose scan             | allow              | block              | FAIL
+RLD191-it-was-impossible-to-tell                         | prose scan pin         | block              | block              | pass
+RLD192-no-record-which-is-odd                            | prose scan pin         | block              | block              | pass
+RLD193-could-not-be-reached-while                        | prose scan             | allow              | block              | FAIL
+RLD194-it-would-be-impossible-to-verify-every-row        | prose scan             | allow              | block              | FAIL
+RLD195-couldnt-find-anything-in-the-diff                 | prose scan             | allow              | block              | FAIL
+RLD196-could-not-find-any-difference                     | prose scan             | allow              | block              | FAIL
+RLD197-couldnt-locate-a-single-call-site                 | prose scan             | allow              | block              | FAIL
+RLD198-the-old-claim-that-is-withdrawn                   | prose scan             | allow              | block              | FAIL
+RLD199-it-isnt-that-the-data-is-not-available            | prose scan             | allow              | block              | FAIL
+RLD200-couldnt-find-it-in-the-repo                       | prose scan             | allow              | block              | FAIL
+RLD201-it-was-impossible-to-verify                       | prose scan pin         | block              | block              | pass
+RLD202-could-not-be-reached-full-stop                    | prose scan pin         | block              | block              | pass
+RLD203-couldnt-verify-it-in-the-repo                     | prose scan pin         | block              | block              | pass
+RLD204-the-model-card-says-the-data-is-not-available     | prose scan             | allow              | block              | FAIL
+RLD205-a-semicolon-ends-what-was-said                    | prose scan pin         | block              | block              | pass
+RLD206-general-statement-with-a-verb-of-verifying        | new rule               | allow              | allow              | pass
+RLD207-no-more-data-to-read                              | prose scan             | allow              | block              | FAIL
+RLD208-it-would-be-impossible                            | prose scan             | allow              | block              | FAIL
+RLD209-sampled-names-the-attempt                         | prose scan             | allow              | block              | FAIL
+RLD210-no-way-for-me-to-know                             | prose scan pin         | block              | block              | pass
+RLD211-it-is-not-that                                    | prose scan             | allow              | block              | FAIL
+RLD212-couldnt-find-any-failing-tests                    | prose scan             | allow              | block              | FAIL
+RLD213-the-record-shows-none                             | prose scan             | allow              | block              | FAIL
+RLD214-the-re-run-names-the-attempt                      | prose scan             | allow              | block              | FAIL
+== 68 cases: 21 pass, 47 fail ==

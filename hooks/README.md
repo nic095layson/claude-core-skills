@@ -1,11 +1,25 @@
+> **Status 2026-11-15 — the receipt gate rebuilt.** The same audit recorded eleven findings on
+> `receipt-law-stop-gate.sh` (RL-1 to RL-8, TB-5, FU2-1, FU2-9). The rule now lives in `receiptlaw.py`, which
+> the wired script runs: claims by family, contractions included; a receipt in the claim's own sentence and
+> outside the unverified thing; the same stretch as the other Stop gate; the final answer from the Stop input;
+> blocks counted from the record, no sentinel file. Rule, policy defaults and limits: "The receipt gate" below.
+> `selftest-turn-gates.py` gains table "R" (386 cases; the table now holds 735) and `selftest-mutations.py`
+> 174 breaks (now 330); the 102 hand-set values of `receiptlaw.py` are in the registry. Because this gate
+> blocks a stop, it was then read against ordinary prose (this repository's Markdown, the audit's reports,
+> four hand-written lists of technical sentences): statements about code, conditions, reported speech and
+> search results that claim no inability are let through, and what is still blocked wrongly is listed as a
+> limit (`results/2026-11-15/receipt-gate-fix/prose-scan.md`). On the real record replayed that day 3 of 26
+> stops would have been blocked (the old gate: none); the three answers were not read for the fix. Not
+> measured: a live session.
+
 > **Status 2026-11-15 — the turn gates rebuilt.** An outside audit of the hooks as merged on 2026-11-12
 > recorded 128 findings. The three files behind the merge gate and the Stop gate (`turngate.py`,
 > `turn-gates-pretool.py`, `governance-enforce.py`) are rewritten from one specification
 > (`results/2026-11-15/turn-gates-fix/CORE-SPEC.md` and its addendum), on the owner's decisions of 2026-11-13
 > and 2026-11-15. The rules as they stand are in "The turn gates" below; the older status blocks are history
-> and say so where a rule changed. `selftest-turn-gates.py` is now a table of 349 cases (204 of them fail on the
+> and say so where a rule changed. `selftest-turn-gates.py` was then a table of 349 cases (204 of them fail on the
 > hooks before the rebuild: `results/2026-11-15/turn-gates-fix/red-on-merged.txt`), and
-> `selftest-mutations.py` is a standing list of 156 deliberate breaks that the guard runs, so a rule that no
+> `selftest-mutations.py` a standing list of 156 deliberate breaks that the guard runs, so a rule that no
 > case tests fails the guard. Every upper-case constant of the three files is in the registry. Not measured:
 > a live session.
 
@@ -57,7 +71,8 @@
 >   (D-SV-5: "2+2=4, right?" was blocked 2/2).
 > - `receipt-law-stop-gate.sh` normalizes curly quotes ("couldn’t verify" passed 2/2 live — R2),
 >   adds paraphrases (R3-R4), uses word boundaries ("veteran" no longer contains the receipt
->   "ran " — R6), and requires the receipt within 400 characters of the claim (R5).
+>   "ran " — R6), and requires the receipt within 400 characters of the claim (R5). (Rebuilt 2026-11-15: the
+>   window is gone, the receipt sits in the claim's own sentence. See "The receipt gate" below.)
 > - the two first-write reminders and `session-doctrine.sh` read JSON with python3, not jq
 >   (D-GF-8: the hard-coded `/usr/bin/jq` made a jq-elsewhere machine share one sentinel per
 >   machine; no jq on PATH silenced the compaction protocol entirely). Pinned by the new
@@ -66,7 +81,8 @@
 > chars) are hand-set, uncalibrated; live acceptance 8/8 pre-registered in
 > `experiments/hypothesis-2026-10-19-redteam-fixes.md`. Known residuals, deliberately not fixed
 > here: the receipt gate's turn boundary (attacks R7-R9) and an unrelated-but-near receipt word
-> (R5's cousin inside the window); the band hook's B3-B5; the classifier's sealed-set recall
+> (R5's cousin inside the window; the first closed on 2026-11-15, the second narrowed to the claim's own
+> sentence); the band hook's B3-B5; the classifier's sealed-set recall
 > (D-SV-3 options a/b stand).
 
 > **Status 2026-10-13 — wired at project scope.** `.claude/settings.json` in this
@@ -268,10 +284,10 @@ and `X06b` run the hooks with a shorter Stop list and still expect the denials).
 
 ### Tests
 
-    python3 hooks/selftest-turn-gates.py              # the table: 349 cases, one line each; exit 0 only when all pass
+    python3 hooks/selftest-turn-gates.py              # the table: 735 cases, one line each; exit 0 only when all pass
     python3 hooks/selftest-turn-gates.py --only-failing J04 X05     # by the start of a name
     python3 hooks/selftest-turn-gates.py --hooks DIR  # another copy of the hooks
-    python3 hooks/selftest-mutations.py               # the break list: 156 deliberate breaks, each must be caught
+    python3 hooks/selftest-mutations.py               # the break list: 330 deliberate breaks, each must be caught
     python3 hooks/selftest-mutations.py --list        # what each break removes, and the cases named for it
 
 `selftest-turn-gates.py` builds a session record in the real row shapes for every case (`selftest_rows.py` is
@@ -428,72 +444,179 @@ Pipe-tested all three paths PASS 2026-08-03 (repo copy, this session,
 including the "spent all afternoon" variant). Live-fire and A/B owed, same
 experiment file.
 
-## receipt-law-stop-gate.sh (proposed 2026-08-12; installed and live-verified 2026-08-26)
+## The receipt gate: receipt-law-stop-gate.sh and receiptlaw.py (rebuilt 2026-11-15)
 
-The lever for INC-9. A **Stop** hook — the first in this pack that may *block*
-rather than remind, and the reason it may is worth stating: the house rule
-against blocking exists because a hook cannot judge triviality. This one never
-has to. It asks a textual question with a factual answer — *does this claim of
-inability name an attempt and a failure mode?* — and blocks only when the answer
-is no. Once per turn, never on a continuation it caused, fail-open on any error.
+The lever for INC-9. A **Stop** hook that may *block*: it asks a question about words that has a factual
+answer, *does this claim of inability name an attempt or a failure in its own sentence?*, and blocks the stop
+when the answer is no. `receipt-law-stop-gate.sh` is the wired entry point and only runs `receiptlaw.py`, which
+holds the rule and every hand-set value of it (102, all in the registry as `receiptlaw.py:<NAME>`).
 
-**The design correction that matters.** The first version passed any turn in
-which some verification tool had run. Tested against the real incident, that
-**allowed it**: the founding session ran three searches, stopped, and then wrote
-"couldn't verify" about eight items it had never touched. *Some tool ran* proves
-nothing about a *specific* claim. The receipt is owed per claim, not per turn —
-so the tool count now only enriches the block message and never grants a pass.
-The regression is pinned as selftest case `t3-tools-ran-no-receipt`.
+**The rule it enforces** (adversarial-verify rule 6; the custom-instructions block): "couldn't verify", "unable
+to confirm", "not available", "no data exists" and their variants, contractions included, may be written only
+when the same sentence names what was attempted and how it failed. With no attempt to cite, the honest wording
+is "did not check".
 
-Install (user scope):
-1. `cp hooks/receipt-law-stop-gate.sh ~/.claude/hooks/` and `chmod +x` it.
-2. Merge into `~/.claude/settings.json`:
-   `{"hooks":{"Stop":[{"hooks":[{"type":"command","command":"bash ~/.claude/hooks/receipt-law-stop-gate.sh","timeout":10}]}]}}`
-3. Verify: `bash hooks/selftest-receipt-law.sh` (expects 10/10 PASS), then
-   observe a real turn that claims an unreceipted inability.
+**Rebuilt on 2026-11-15** after the audit of 2026-11-12 (findings RL-1 to RL-8, TB-5, FU2-1, FU2-9). What was
+wrong, in one line each: the contraction "can't" was never matched; 37 of 37 ordinary bare claims passed,
+"not available" among them; any of about 25 words within 400 characters counted as the receipt, the unverified
+thing itself included; a receipt that quoted its command and error was invisible; a quoted phrase, a negation,
+a question and a table of test cases were blocked; after ANY Stop hook's block the gate skipped every later
+answer of the turn; it started its turn at harness rows and disagreed with the other Stop gate at 18 of 26 real
+stops; it never read the final answer the program hands over; and 11 of 13 deliberate breaks passed its tests.
 
-Pipe-tested 10/10 PASS 2026-08-12, twice consecutively (repo copy), plus a
-fixture built from the **verbatim INC-9 report text** including its three real
-`WebSearch` calls: v1 → BLOCK, corrected v2 → ALLOW.
+### What is judged
 
-**Live-fired 2026-08-12** in an isolated `CLAUDE_CONFIG_DIR` with the hook wired
-as a real Stop hook, `claude-sonnet-5`, 3 sessions:
+What the assistant said in the **stretch** this stop answers for: the rows since the owner's latest message or
+the latest completed stop (`turngate.stop_span`: the same rows `governance-enforce.py` judges), every text of
+it, plus the final answer the program hands over in the Stop input (`last_assistant_message`) when the record
+does not hold it. A claim in an earlier text of the stretch counts, also when a later lookup settled it: say so
+in the sentence ("at first I couldn't ..."), or give the note its receipt.
 
-- Ordinary turn ("default PostgreSQL port") — **not interrupted**, 6s, one-line
-  answer. The deployment risk for a blocking Stop hook is that it degrades every
-  turn it touches; it did not.
-- INC-9-shaped turn (classify 10 packages by licence, tally, ship/no-ship, web
-  tools disallowed) — run twice. **Gate stayed silent both times, correctly**:
-  the model volunteered its own receipt ("from training knowledge, not verified
-  live", "no web access", "run `license-checker` for a verified report"), which
-  is precisely the ATTEMPTED-FAILED shape the rule asks for.
-- **Zero false fires** across all live runs, verified against a clean `TMPDIR`
-  (0 sentinels written), not against leftover state from the fixture tests.
+### How a text is read
 
-Honest limit on this evidence: **no live BLOCK was observed**, because no live
-run produced an unreceipted inability claim — two attempts, both self-corrected.
-So the no-false-positive property is EVIDENCE from live sessions; the blocking
-path remains proven by fixture only, including against the verbatim incident
-text. A/B still owed (`experiments/hypothesis-2026-08-11-gap-provenance.md`, H8).
+| step | rule |
+|---|---|
+| not the assistant's claim | words inside a fenced block, a block quote, inline code, or quotation marks (double, single, curly) |
+| a sentence | ends at `.`, `!`, `?` before a capital, a digit or a quote, and at a paragraph break. It goes on after a colon, a semicolon, a dash and in parentheses. A table row is a sentence; so is a list item. A line that ends with a colon goes on in every list item under it, in every row of the table under it, or in the first sentence of the paragraph after it. A heading is a title, never a claim |
+| a fenced block | belongs to the sentence above it, also across one short label line that speaks of an attempt, an error or an output ("Attempt and failure:") |
+| a claim | the assistant (I, we, "this session", or no subject at all) could not verify, confirm, validate, reproduce, establish (the verbs of verifying, `VERIFY_VERBS`) or check, determine, find, reach, access, obtain, locate (the verbs of finding and reaching, `ACCESS_VERBS`) something; was unable or not able to; failed to; has no way to or of; has no access to; "impossible to verify", "it wasn't possible to"; "could not be verified"; "X is unverified / unconfirmed / unverifiable" as a predicate, a label or a table cell; data, records, figures or logs "are not available" or "unavailable"; "no data exists", "there is no data for" |
+| a statement about code or a product, not a claim | the verbs of finding and reaching also describe systems, so with "we" and in the passive they are claims in the past tense only: "we can't access the DOM from a worker" and "the type cannot be determined at compile time" pass, "we couldn't access the dashboard" and "the status page could not be reached" are claims. "No way to know / tell" and "impossible to tell" are claims of "I" ("I have no way of knowing", "no way for me to know") or in the past tense ("there was no way to tell"). "Not available at compile time / in version 2 / until Friday" says where or when a thing is offered; "not available at the moment / in this session" stays a claim. "There is no more data to read", "no data loss", "no record type" are not about missing facts |
+| a clause that claims nothing | a condition or a description with a subject of its own, to the next comma: "the client retries when the server could not be reached", "a bug where the file could not be found", "any player whose team could not be found", "if this information is not available"; an event told with its period: "the dashboard could not be reached while the certificate was rotated"; "a bug made it impossible to ..."; "it would be impossible to ..." |
+| not a claim | a question; a negation ("nothing I couldn't verify", "none is unverified", "it isn't that the data is not available"); a condition ("if I can't verify it ..."); what a tool or a person said ("git says it cannot ...", "stopped with: Could not ...", "he wrote that the figures were not available", "the model card says the data is not available", "it says so (can't confirm ...)", "the claim that X could not be verified"); somebody else's inability ("the vendor could not ..."); a state that ended ("at first I couldn't ...", "couldn't find it at first"); a sentence about wording (it says phrase, pattern, wording, label ...); a general statement ("a rule cannot be checked ..."); a row of a table of examples; a result, not an inability: "couldn't find anything wrong / any difference / a single failing test / a better way", "couldn't reach a different conclusion", "can't check this in"; the honest alternative itself ("did not check", "I have not verified") |
+| the house's own forms | not claims: the status of an assumption ("Status: unconfirmed", a table with a Basis or Assumption column, "assumption A2, unconfirmed", "A1 (...) is unconfirmed"), the section name "In scope and unverified", "labelled as unverified", "an unverified, old assertion", a list of labels or a tally ("verified, likely, and unverified", "12 verified, 3 unverified") |
+| a receipt | in the claim's own sentence and **outside the words that say what was not verified**: an attempt (ran, tried, searched, queried, fetched, opened, read, grepped, checked, sampled, "the re-run", "50 runs", "from the docs", "per the README", "using X"), a failure mode (returned, timed out, denied, refused, failed, error, a 4xx or 5xx code, not found, not installed, no network, "no tool ...", "no live path to ...", "requires a login", "without X" (the missing means), "after my training cut-off", "found nothing", "none of them lists ...", "the record shows none"), a stated choice ("did not check, to save time", "by choice", `NOT-ATTEMPTED`), or a code span, a fenced block or a block quote. A search that names its place carries its receipt: "I couldn't find the config in the repository" (not "I couldn't find the config"). In "X cannot be reproduced: the re-run gives 13" the colon opens the explanation; in "Unverified: X" it opens the list of what was not verified |
 
-**Update 2026-08-26 — installed, and the first live BLOCK observed.** The hook
-is installed at user scope on the primary machine and registered as a Stop hook
-in `~/.claude/settings.json` (settings mtime 2026-08-19, observed 2026-08-26).
-In a real session on 2026-08-26 it blocked a turn that wrote "couldn't check"
-about the claude.ai settings box with no attempt named: the block message cited
-the turn's 9 lookups, the corrected turn shipped a proper receipt (what was
-available and why none of it could reach the box), and the gate passed it. The
-blocking path is now live-proven, not fixture-only; the paragraph above stands
-as the honest record of what was known before this firing. Selftest re-run
-2026-08-26: 10/10, twice. Evidence: `results/2026-08-26/system-integrity/`.
-The A/B (H8) remains owed — one live block is an existence proof, not a rate.
+So "I couldn't verify whether the cron job ran" has no receipt (the word is the unverified thing), and "I
+couldn't verify the port: `ss -ltnp` returned permission denied" has one.
 
-**Surface limit, stated plainly:** Claude Code only. claude.ai has no hook
-layer, and INC-9 happened on claude.ai — so on that surface the receipt law is
-carried by the custom-instructions block alone
-(`instructions/claude-ai-custom-instructions.md`, standing principles). This
-hook hardens the surface where the incident did *not* happen. That is worth
-having and is not a substitute for the paste.
+### How often, and the retry flag
+
+At most `RECEIPT_MAX_BLOCKS` (1) block in a stretch. The count is read from the record: the feedback rows a
+blocked stop leaves, those whose reason carries this gate's mark ("Receipt law"). There is no state file. The
+retry flag (`stop_hook_active`) is true after ANY Stop hook's block, for the rest of the turn, so it decides
+nothing by itself: only when the flag is set and the record shows no block at all is the stop let go. The block
+reason starts with "Receipt law", quotes the claim and its sentence, and gives the three ways out: run the
+check; write "did not check" and why; say in that sentence what was tried and how it failed.
+
+### Which way a failure goes
+
+Every one lets the stop go, with exit status 0 and nothing printed: python3 missing, `receiptlaw.py` or
+`turngate.py` missing, an input that is not a JSON object, a record that is missing, unreadable or empty (also
+the empty path of a session without a record), an error inside, and the gate's own deadline
+(`HOOK_DEADLINE_SECONDS`, 8, under the wired timeout of 10 s). No environment variable and no key of the input
+switches the rule off. Run time on a record of 48 MB: 0.69 s. One sentence of 200 KB that holds thousands of
+claims takes 2 to 6 s; past the deadline the stop is let go.
+
+### Policy defaults, one constant each (open for the owner; registry decision D-RG-2)
+
+| constant | default | the other reading |
+|---|---|---|
+| `RECEIPT_SCOPE` | `"sentence"`: the receipt sits in the claim's own sentence (the rule's words) | `"neighbours"`: the sentence before and the one after count too. Tested as cases `RLD90` to `RLD92`. On the real record replayed on 2026-11-15, two of the three stops this gate would have blocked hold a receipt word in a neighbouring sentence |
+| `NOT_VERIFIED_IS_A_CLAIM` | `False`: "X was not verified", "has not been confirmed" (no "could not") reads as "did not verify", the honest alternative. The rule does not name it and the house's own reports use it as a plain label | `True`: it needs a receipt like "unverified" does (the second auditor's reading). Tested as cases `RLD93` to `RLD96` |
+| `RECEIPT_MAX_BLOCKS` | 1 | 2, as the outward-action rule has: the answer after the block is then judged once more |
+| `CONDITION_WORDS`, `PERIOD_WORDS` | a clause opened by if, when, where, whose, once, until, while (to the next comma) and an event told with "while / during / until ..." claim nothing: they are how answers describe code and incidents | empty lists: every such sentence needs its receipt, and explanations of code are blocked ("the client retries when the server could not be reached") |
+| `SEARCHED_PLACE` | "couldn't find X in the repository" carries its receipt: the search and its place are named | no such reading: the sentence must also say how the search was made |
+| `FAILURE` ("without X") | "can't verify the signature without the raw body" names the missing means and passes | only the listed means count (credentials, a token, network, access) |
+| `ENUMERATION_BEFORE` | "12 verified, 3 unverified" is a tally: the items stand elsewhere and are judged there | a tally needs a receipt too |
+
+### Tests
+
+    python3 hooks/selftest-turn-gates.py RL           # table "R": 386 cases of this gate, one line each
+    bash hooks/selftest-receipt-law.sh                # the gate's first 15 cases, as a quick check
+    python3 hooks/selftest-mutations.py RC RD RE      # 174 deliberate breaks of receiptlaw.py and the wired script
+
+Table "R" holds every sentence of the audit's lists under its number (P, R, F, H, Q, T and the second auditor's
+V lists), the record shapes of RL-2, RL-7, TB-5, FU2-1 and FU2-9 built with `selftest_rows.py`, the failure
+paths, the 65 cases of the prose scan (`RLD150` to `RLD214`: each false block it found, and what must still
+block), and one case for every rule the break list needs. The break list holds the 13 mutations the audit
+recorded (RL-8), re-targeted, one break for every hand-set value and one for every rule that is not a value;
+the guard runs the table, the 15 cases and the break list. Evidence of 2026-11-15, in
+`results/2026-11-15/receipt-gate-fix/`: the cases on the gate as it was (`red-on-start.txt`: 176 cases that
+name a finding fail, 66 controls pass), the cases of the prose scan on the gate as it stood before the scan
+(`red-before-prose-scan.txt`), all cases on the rebuilt gate (`pass-on-fixed.txt`), the break list
+(`mutations.txt`), the audit's own reproductions (`audit-reproductions.txt`), the replay of the real record
+(`replay-vs-baseline.md`), run time and broken inputs (`timing-and-broken-inputs.txt`), the registry proof
+(`registry-proof.txt`), the prose scan with its two tools (`prose-scan.md`, `prose_scan.py`,
+`prose_probe.py`), the guard (`guard-after.txt`).
+
+### Limits, stated as limits
+
+- It reads words, not meaning. A paraphrase outside the families passes ("I had trouble confirming", "it is
+  unclear whether", "couldn't open / load / fetch / read / see X", "the projections are not available": not a
+  noun of `DATA_NOUNS`). A reason given in free words is not seen as a receipt: "cannot be verified from this
+  session, which has one repository attached" and "I cannot confirm the order for you: only the account holder
+  can" block once.
+- **It blocks a stop, so a doubt goes to the answer.** Where the words can be read both as the assistant's
+  inability and as a statement about a system, the sentence passes. That lets some true claims through: an
+  inability said of "we" or in the passive in the present tense with a verb of finding or reaching ("the logs
+  cannot be accessed"), "there is no way to know ..." in the present tense, a claim inside a clause opened by
+  if, when, where, whose, once, until, while ("I skipped the rows where the date could not be confirmed"), a
+  claim told with a period ("the figures could not be confirmed during this session"), an impersonal claim
+  after a verb of saying in the same clause ("I reported the outage and the status page could not be
+  reached"), and any "without ..." beside the claim ("couldn't verify the port without a doubt").
+- Still blocked wrongly, known: a general statement in the present passive with a verb of verifying ("the
+  constraint cannot be validated online on a table this large", "licence terms cannot be verified by a
+  machine"); a statement about a system in the past tense ("in the old schema there was no way to tell a refund
+  from a chargeback"); a claim in a clause opened by a word outside `CONDITION_WORDS` ("gives up after the
+  broker could not be reached"); a verb of saying outside `REPORTED_VERBS` ("their docs admit that ...");
+  idioms ("I can't confirm or deny a rumor"); "no data exists" said of a place inside a description of a
+  system ("no data exists in the table until the first import runs": the orchestrator's own probe, 2026-11-16,
+  31 of 32 sentences judged as wanted). The block reason says how to mark such a sentence: quotation
+  marks, or the receipt.
+- A receipt word that sits outside the unverified thing but is about something else still counts ("I couldn't
+  verify the port, but the build failed"). So does any code span in the claim's sentence, and any fenced block
+  or block quote directly under it.
+- A claim inside a block quote or inline code is exempt on purpose (the audit's cases Q01 and Q02 stay
+  allowed): a caveat written as a markdown callout is not judged.
+- A claim under a heading passes when the lines under it do not repeat the words ("## Could not verify" and a
+  bare list). A sentence that uses a word of `MENTION_WORDS` (phrase, pattern, wording, label ...) before the
+  claim is read as a sentence about wording. A question is never a claim, also "want me to retry what I
+  couldn't verify?".
+- A claim whose subject is left out after "and" or "but" is the assistant's unless the clause before starts
+  with "the", "a", "it" and the like; a tool's error text pasted with no quotation marks and no reporting verb
+  ("Could not determine the dependencies.") is read as the assistant's claim.
+- "Not available" is a claim only when said of data, records, figures, logs and the like (`DATA_NOUNS`), or
+  with "to me / here / in this session": "the flag is not available in version 2" is a fact about a product.
+- A sentence that starts in lower case after a full stop is not split off; a quotation that is never closed is
+  not seen as one.
+- When the answer is in neither the record nor the Stop input there is nothing to judge (the audit's case T06).
+  A record without stop rows is one stretch from the owner's latest message on (the audit's fixture S05 blocks;
+  the same record with its stop row is allowed, case `RLS05a`).
+- After its one block the gate is silent for the rest of the stretch, also when the next answer repeats the
+  claim (the audit's case Y01).
+- Every word list and pattern is hand-set (registry status `uncalibrated`, decision D-RG-1). Measured on
+  2026-11-15: the audit's lists (bare claims 40 of 40 blocked, false receipts 12 of 12 blocked, true receipts
+  12 of 12 allowed, non-claims 16 of 16 allowed). Ordinary prose (`prose-scan.md`): this repository's Markdown
+  at the commit before this fix, 10,384 sentences in 209 files, 9 blocked, each a bare claim by the rule's
+  words (before the scan's changes 11, two of them false blocks); the audit's briefs and reports, 18,975
+  sentences, 17 blocked, none a false block (before: 23, six false blocks); documentation of tools installed
+  on the machine, 86,715 sentences, none blocked; four hand-written lists of 199 ordinary sentences that hold
+  the gate's words: 74 blocked before the scan's changes, 8 after. The last list was not tuned against: 3 of
+  its 40 ordinary sentences are blocked and 1 of its 25 bare claims passes. So of ordinary sentences that hold
+  these words, roughly one in thirteen is still blocked wrongly, once per stretch. The real record: 3 of 26
+  stops would have been blocked where the old gate blocked none. The implementers did not read those three
+  answers (the record is closed to them). The orchestrator, who holds the record, read them on 2026-11-16: each
+  holds a first-person "can't confirm" or "can't reach" with no attempt and no failure named in its sentence;
+  in two of them a reason follows in the next line. By the rule's words all three are bare claims; whether a
+  reason in the neighbouring line should count is the owner's decision (`RECEIPT_SCOPE`).
+  `replay-vs-baseline.md` gives each stop without its text.
+- Claude Code only. claude.ai has no hook layer, and INC-9 happened there: on that surface the receipt law is
+  carried by the custom-instructions block (`instructions/claude-ai-custom-instructions.md`).
+- Not measured: a live session with the rebuilt gate.
+
+### History
+
+- 2026-08-12, proposed. The first version passed any turn in which some verification tool had run; tested
+  against the real incident that **allowed it** (three searches, then "couldn't verify" about eight items never
+  touched). *Some tool ran* proves nothing about a *specific* claim: the receipt is owed per claim. Live-fired
+  that day in three sessions with an isolated configuration: an ordinary turn was not interrupted; two
+  INC-9-shaped turns volunteered their own receipts and the gate stayed silent.
+- 2026-08-26, installed at user scope on the primary machine; first live block observed (a turn that wrote
+  "couldn't check" about the claude.ai settings box; the corrected turn named what was available and why none
+  of it could reach the box). Evidence: `results/2026-08-26/system-integrity/`.
+- 2026-10-13, wired at project scope (the plugin runs its own copy). 2026-10-19, red team: curly quotes, paraphrases, word
+  boundaries, a 400-character window (R2 to R6); the turn boundary and the near word were left as residuals.
+- 2026-11-15, rebuilt as described above. The window, the sentinel file and the two patterns are gone.
 
 ## governance-trigger.py + governance-enforce.py (RESCUED 2026-08-12, validated 2026-07-15, NOT installed)
 
