@@ -85,7 +85,7 @@ MERGE_VERB_TEXT = r"(?:(?:auto|squash|rebase)[- ]?)?merge"
 PUSH_VERB_TEXT = r"(?:push|merge|commit|land)"
 MERGE_VERB = re.compile(r"(?<![\w-])(" + MERGE_VERB_TEXT + r")(?![\w-])")
 MERGE_ANY = re.compile(r"(?<![\w])(?:auto-?)?merg(?:e|ed|es|ing)(?![\w])")
-MERGE_NOUN_BEFORE = re.compile(r"(?:\b(?:the|a|an|this|that|last|previous|next|my|your|our|its|every|each|any|no)|'s)\s+$")
+MERGE_NOUN_BEFORE = re.compile(r"(?:\b(?:the|a|an|this|that|last|previous|next|my|your|our|its|every|each|any|no)|(?<!\blet)'s)\s+$")
 MERGE_NOUN_AFTER = re.compile(r"^[- ](?:conflicts?|commits?|gate|queue|requests?|word|button|base|strategy|tool|route|check)\b")
 # The words an order may start with. One separator class, in one place, after each word, and no word that is also
 # a part of another ("go ahead" and "and" are two words, not "go ahead and"): a text cannot be read in two ways,
@@ -98,14 +98,8 @@ LEADIN_SEPARATORS = r"[\s,:;.!-]*"             # what may stand between the lead
 ORDER_LEADIN = (LEADIN_SEPARATORS + r"(?:(?:" + "|".join(ORDER_LEADIN_WORDS) + r")\b" + LEADIN_SEPARATORS + r")*")
 TYPED_ORDER = re.compile(r"^" + ORDER_LEADIN + r"(" + MERGE_VERB_TEXT + r")(?![\w-])")
 PUSH_ORDER = re.compile(r"^" + ORDER_LEADIN + r"(?:force[- ]?)?" + PUSH_VERB_TEXT + r"(?![\w-])")
-PUSH_VERB = re.compile(r"(?<![\w-])" + PUSH_VERB_TEXT + r"(?![\w-])")
 CARD_ORDER = re.compile(r"^\W*(?:yes\W+)?(" + MERGE_VERB_TEXT + r")(?![\w-])")
 CARD_PUSH_ORDER = re.compile(r"^\W*(?:yes\W+)?(?:force[- ]?)?" + PUSH_VERB_TEXT + r"(?![\w-])")
-# The branch as a destination ("to main", "onto the default branch"): "merge main into my branch" and
-# "commit the fix in main.py" name the word and order no push to it.
-DEFAULT_BRANCH_WORD = re.compile(
-    r"(?<![\w/.-])(?:to|into|onto|on)\s+(?:the\s+)?(?:(?:origin|upstream)[/ ])?(?:(?:"
-    + "|".join(re.escape(b) for b in DEFAULT_BRANCHES) + r")(?:\s+branch)?|default\s+branch)(?![\w/-]|\.\w)")
 REFUSAL_CUE = re.compile(
     r"(?<![\w-])(?:no|not|never|none|neither|nor|nothing|without|cannot|stop|wait|hold|pause|later|dont|cant|wont|"
     r"shouldnt|isnt|doesnt|didnt|except|excluding|exclude|skip|leave|until|unless|cancel|abort|"
@@ -122,41 +116,16 @@ AFFIRMATIVE_PHRASES = ("no objections", "no objection", "no problems", "no probl
                        "let's not wait", "lets not wait", "don't wait", "dont wait", "do not wait", "don't hold off",
                        "do not hold off", "let's not delay", "don't delay", "do not delay", "without waiting",
                        "no more waiting")
-DEFER_CUE = re.compile(r"(?<![\w-])(?:after|once|when|whenever|if|later|tomorrow|as soon as)(?![\w-])")
-# A1: a sentence that holds one of these is an order for later or under a condition: it grants nothing.
-CONDITION_WORDS = ("after", "once", "when", "whenever", "if", "later", "tomorrow", "as soon as", "unless", "until", "till",
-                   "provided", "providing", "assuming", "as long as", "so long as", "in case", "pending", "subject to",
-                   "depending", "tonight", "next", "monday", "tuesday", "wednesday", "thursday", "friday",
-                   "saturday", "sunday", "eventually", "afterwards", "afterward", "soon", "sometime", "some time",
-                   "at some point", "in a bit", "in a while", "in the morning", "in the evening", "in the afternoon",
-                   "this evening", "this afternoon")
-CONDITION_CLOCK = r"at\s+\d"                    # M4: a clock time ("at 5pm", "at 17:00") puts an order off too
-CONDITION_CUE = re.compile(r"(?<![\w-])(?:(?:" + "|".join(sorted(CONDITION_WORDS, key=len, reverse=True)) + r")(?![\w-])|"
-                           + CONDITION_CLOCK + r")")
 # A2, A5: words that hold the work back. Un-negated when no HALT_NEGATOR word stands before them in their clause.
+# They only REVOKE (a typed order grants only when it is plain, D4): revoking too much costs one card.
 HALT_WORDS = ("wait", "hold", "stop", "pause", "cancel", "abort", "postpone", "defer", "delay", "not yet", "not now",
               "never mind", "nevermind", "scratch that", "second thought", "second thoughts", "changed my mind",
               "change of plan", "change of plans", "let's not", "lets not", "hang on", "on hold",
               "one sec", "one second", "a sec", "one moment", "a moment", "a minute", "give me", "hold up", "not so fast")
 HALT_CUE = re.compile(r"(?<![\w-])(?:" + "|".join(sorted(HALT_WORDS, key=len, reverse=True)) + r")(?![\w-])")
 HALT_NEGATOR = re.compile(r"(?<![\w-])(?:no|not|never|without|cannot|dont|cant|wont|\w+n't)(?![\w-])")
-# M5: an earlier clause that puts something first holds the order after it back, like a halt (A2): "first" with
-# at least one other word ("first the audit", "audit first"; "First, merge #34" does not), or one of these.
-SEQUENCE_FIRST = re.compile(r"(?<![\w-])first(?![\w-])")
-SEQUENCE_FIRST_MIN_WORDS = 2                   # the clause holds "first" and at least one other word
-SEQUENCE_BEFORE = re.compile(r"(?<![\w-])(?:before that|beforehand)(?![\w-])")
-# M3: where a line break does not end a sentence. A line that ends with one of LINE_JOIN_ENDS goes on into the
-# next; so does a line with none of LINE_END_MARKS that holds a condition or an un-negated hold. The items of a
-# list (LIST_ITEM) after a line that ends with LIST_INTRO_END are each read as that line plus the item.
-LINE_JOIN_ENDS = (",", ":")
-LINE_END_MARKS = ".!?;:,"
-LIST_INTRO_END = ":"
-LIST_ITEM = re.compile(r"^\s*(?:[-*•‣◦]|\d+[.)])\s+")
-# A3: words that report what someone said: an order after them in the same sentence is quoted, not given.
-REPORT_WORDS = ("said", "says", "say", "saying", "wrote", "writes", "written", "told", "asked", "typed", "quote", "quoted",
-                "quotes", "meant", "means", r"e\.g", "for example", "such as")
-REPORT_CUE = re.compile(r"(?<![\w-])(?:" + "|".join(REPORT_WORDS) + r")(?![\w-])")
-# A4: the first word after an order's pull requests that makes the clause a statement about them, not an order.
+# M6: the first word after an order's pull requests that makes the clause a statement about them; a statement that
+# also refuses or holds ("Merge #34 can wait.") takes them out of the grant.
 STATEMENT_WORDS = ("is", "isn't", "isnt", "was", "wasn't", "are", "aren't", "were", "has", "hasn't", "had", "have", "does",
                    "doesn't", "did", "didn't", "will", "won't", "would", "wouldn't", "should", "shouldn't", "can", "can't",
                    "cannot", "could", "couldn't", "might", "may", "must", "needs", "need", "failed", "fails", "broke",
@@ -167,8 +136,6 @@ SOFT_LEADIN_WORDS = ("actually", "well", "hmm", "hm", "um", "uh", "oh", "sorry",
                      "maybe", "perhaps", "i think", "i guess", "on second thought")
 SOFT_LEADIN = re.compile(r"^(?:[\s,:;.!-]*(?:" + "|".join(sorted(SOFT_LEADIN_WORDS, key=len, reverse=True))
                          + r")(?![\w-]))+[\s,:;.!-]*")
-# B1, B2: a yes on a card grants only when its question plainly asks for the act
-QUESTION_DOUBT = re.compile(r"(?<![\w-])(?:or|versus|vs)(?![\w-])")
 QUESTION_LEADIN_WORDS = ORDER_LEADIN_WORDS + ("shall i", "shall we", "should i", "should we", "do you want me to",
                                               "want me to", "would you like me to", "can i", "may i", "do i", "ok to",
                                               "okay to", "is it ok to", "is it okay to")
@@ -181,8 +148,53 @@ CLAUSE_SPLIT = re.compile(r",\s+|:\s+|\s+-\s+|\s+\bthen\b\s+|\s+\band\b\s+(?=(?:
                           + MERGE_VERB_TEXT + r"(?![\w-]))")
 QUESTION_END = "?"
 POLITE_REQUEST = re.compile(r"^[\s,:;.!-]*(?:\w+[\s,]+){0,3}(?:can|could|would|will) you\b")
-# A clause made only of numbers and list words. `(?!\d)` keeps a long run of digits from being split in many ways.
-PURE_LIST = re.compile(r"^\W*(?:(?:and|&|\+|plus|also|then|both|prs?|pull requests?|#?\d+(?!\d))\W*)+$")
+# -- D4 (the owner's decision of 2026-11-16): a typed message grants only when its LAST sentence is a plain order.
+# Every list below lets an order through; none of them is what stops a merge. A wordier order costs one card.
+ORDER_MESSAGE_MAX_CHARS = 4000                  # A1: a longer message is not read for an order: it grants nothing
+SENTENCE_END_MARKS = (".", "!", "?")            # A1: a line break ends a sentence only after one of these
+CLAUSE_END_MARKS = ".!?;"                       # dropped from the end of a clause before it is read
+# A2: a sentence after the order made only of these words closes the message; any other sentence there voids it
+CLOSING_WORDS = ("thanks", "thank you", "thx", "cheers", "please", "go", "go ahead", "do it", "that's all", "that is all")
+CLOSING_SENTENCE = re.compile(r"^\W*(?:(?:" + "|".join(sorted(CLOSING_WORDS, key=len, reverse=True)) + r")(?![\w'-])\W*)+$")
+# A3 (1): a clause before the order made only of lead-in words or of one affirmative phrase
+LEADIN_CLAUSE = re.compile(r"^" + LEADIN_SEPARATORS + r"(?:(?:" + "|".join(ORDER_LEADIN_WORDS + ("first",))
+                           + r")\b" + LEADIN_SEPARATORS + r")+$")
+# A3 (3): what may follow an order's pull requests in its own clause; nothing else may
+ORDER_TAIL_WORDS = ("now", "right now", "right away", "immediately", "today", "asap", "please", "pls", "thanks", "too",
+                    "as well", "first", "squash", "squashed", "yourself", "after all", "with squash", "with rebase",
+                    "with a merge commit", "for me", "for us")
+ORDER_DESTINATION = (r"(?:into|to|onto)\s+(?:the\s+)?(?:" + "|".join(re.escape(b) for b in DEFAULT_BRANCHES)
+                     + r"|default)(?:\s+branch)?")
+ORDER_TAIL = re.compile(r"\s*,?\s*(?:(?:" + "|".join(re.escape(w) for w in sorted(ORDER_TAIL_WORDS, key=len, reverse=True))
+                        + r"|" + ORDER_DESTINATION + r")(?![\w'-])|\([^()]{0,200}\))")
+ORDER_TAIL_END = re.compile(r"\s*[.!?]*\s*$")
+# A3 (3), A5: the object of an order that names no number: the card's pull requests (none for a typed message)
+ORDER_OBJECT_WORDS = ("it", "this", "that", "them", "this one", "that one", "both", "both of them", "all", "all of them",
+                      "everything", "the pr", "the prs", "this pr", "the pull request", "the pull requests")
+ORDER_COUNT_WORDS = ("two", "three", "four", "five", "six")    # "merge all three", "merge both PRs" (a card option)
+ORDER_OBJECT = re.compile(r"\s*,?\s*(?:" + "|".join(re.escape(w) for w in sorted(ORDER_OBJECT_WORDS, key=len, reverse=True))
+                          + r")(?:\s+(?:of\s+)?(?:them|these|those|the))?(?:\s+(?:" + "|".join(ORDER_COUNT_WORDS)
+                          + r"))?(?:\s+(?:prs?|pull\s+requests?|ones?))?(?![\w'-])")
+# A3 (4): a clause after the order made only of numbers and list words ("34 first", "then #141")
+ORDER_LIST_CLAUSE = re.compile(r"^\W*(?:(?:and|&|\+|plus|also|then|both|first|prs?|pull requests?|#?\d+(?!\d))\W*)+$")
+# A3 (2, 4): a refusal that names only OTHER pull requests ("not #141", "don't merge #26", "leave 141 alone"): it
+# starts with one of REFUSAL_START and holds, besides its numbers, only these words
+REFUSAL_OTHER_WORDS = ("no", "not", "nope", "don't", "dont", "do", "never", "leave", "alone", "keep", "open", "hold", "skip",
+                       "wait", "for", "my", "word", "on", "merge", "pr", "prs", "pull", "request", "requests", "and", "or",
+                       "nor", "neither", "yet", "the", "other", "one", "please", "just", "touch", "that", "those")
+REFUSAL_OTHER_WORD = re.compile(r"[a-z][a-z']*")
+REFUSAL_OTHER_LEAD = re.compile(r"^(?:(?:then|and|also|but|please|just)\s+)+")    # "then wait for my word on #141"
+# A3 (3): the words an order's list may hold besides its numbers, unless the numbers stand in a bracket ("merge
+# library only (#34)"); an object word ("it", "both") counts too
+ORDER_LIST_WORDS = ("and", "plus", "also", "pr", "prs", "pull", "request", "requests", "the", "both", "all", "of", "them")
+ORDER_WORD = re.compile(r"[a-z][\w'-]*")
+# The push order (Q2, D4): lead-in words, the push verb, at most OBJECT_FILLER_MAX words of object, the default
+# branch as the destination, then only tail words
+PUSH_DESTINATION = re.compile(r"\s*(?<![\w/.-])(?:to|into|onto|on)\s+(?:the\s+)?(?:(?:origin|upstream)[/ ])?(?:(?:"
+                              + "|".join(re.escape(b) for b in DEFAULT_BRANCHES)
+                              + r")(?:\s+branch)?|default\s+branch)(?![\w/-]|\.\w)")
+PUSH_OBJECT_WORD = re.compile(r"\s*[\w'/.-]+")
+GRANT_OPS = ("grant", "branch")
 CODE_FENCE = re.compile(r"```.*?```", re.S)
 QUOTE_LEAD = ">"
 STANDALONE_REFUSAL_MAX_WORDS = 6
@@ -215,7 +227,7 @@ POLICY_ALLOW = "allow"
 PUSH_UNKNOWN_BRANCH_POLICY = POLICY_DENY_UNATTENDED   # a push whose branch cannot be read: denied where the owner is absent
 DELEGATE_MAY_MERGE = True                      # a helper agent may merge what the owner's standing word names
 QUEUED_OWNER_ATTENDS_RUN = True                # a message the owner types during a scheduled run makes the rest of it attended
-MIDTURN_DOUBT_ENDS_WORD = True                 # a mid-turn message that orders nothing but doubts or defers ends the word
+MIDTURN_MESSAGE_ENDS_WORD = True               # D4: a message typed mid-turn that is no plain order ends the word
 BARE_NUMBER_ONE_REPOSITORY = True              # a word naming a number without a repository covers it in one repository
 F1_MAX_BLOCKS = 2                              # blocks of the outward-action rule in one stretch
 PROMPT_CLASS_MAX_BLOCKS = 1                    # blocks of the prompt-class rule in one stretch
@@ -362,7 +374,11 @@ GRAPHQL_MUTATION = re.compile(r"\bmutation\b")
 # -- what a call does: the shell
 SHELLS = ("bash", "sh", "zsh", "dash", "ksh")
 SHELL_COMMAND_FLAG = "c"                       # `bash -c TEXT`, also inside a cluster such as -lc
-SHELL_FLAGS_WITH_VALUE = ("-o", "--rcfile", "--init-file", "-O")
+SHELL_FLAGS_WITH_VALUE = ("-o", "--rcfile", "--init-file", "-O", "+o", "+O")
+SHELL_OPTION_LEADS = ("-", "+")                # B4: `bash +x FILE` runs FILE: a word that starts so is an option
+SHELL_STDIN_FLAG = "s"                         # B1: `bash -s ARGS`: the program comes from standard input
+SHELL_STDIN_NAMES = ("/dev/stdin", "/dev/fd/0", "/proc/self/fd/0")   # B1: the script named so is standard input
+SHELL_STDIN_REDIRECT = "<"                     # B1: `bash < FILE` reads FILE as its program
 SHELL_KEYWORDS = ("if", "then", "elif", "else", "fi", "do", "done", "while", "until", "!", "{", "}", "time", "esac")
 SHELL_NO_COMMAND = ("for", "select", "case", "function", "[[", "[", "test", "((")
 WRAPPERS_WITH_VALUE = {"sudo": ("-u", "-g", "-C", "-h", "-p", "-U", "-r", "-t"), "env": ("-u", "-C", "-S"),
@@ -382,6 +398,10 @@ SCRIPT_SHEBANG = "#!"                          # a first line that names the pro
 SHEBANG_ENV = "env"                            # `#!/usr/bin/env PROGRAM`: the program is the next word
 SCRIPT_BINARY_BYTE = b"\x00"                   # a file that holds this byte is a program, not a script: it is not read
 SHELL_SYNTAX_FLAG = "n"                        # `bash -n FILE` (also in a cluster): syntax check only, nothing runs (D6)
+PWD_VARIABLE = "PWD"                           # B2: `$PWD/x`, `${PWD}/x`, `$(pwd)/x` name x in the command's directory
+PWD_COMMANDS = ("pwd", "pwd -L", "pwd -P")     # B2: a substitution of one of these is the command's directory
+COPY_COMMANDS = ("cp", "mv")                   # B2: `cp A B`: B then holds the text of A
+HTTP_FILE_BODY_FLAGS = ("--post-file", "--body-file")   # B3: wget sends the text of the file these name
 UNRESOLVED_READINGS = ("gh", "git")            # a command word that cannot be resolved is judged as each of these (D3)
 FIND_COMMANDS = ("find",)
 FIND_EXEC_FLAGS = ("-exec", "-execdir", "-ok", "-okdir")   # find runs the words after one of these as a command (D4)
@@ -486,9 +506,12 @@ REASON_NO_OWNER_WORD = ("the owner has said nothing since this stretch of work b
 REASON_TARGET_UNKNOWN = ("the gate cannot tell which pull request this call merges (%s). Use the merge tool, or name "
                          "the number in the command, so that it can be matched to the owner's word.")
 REASON_MERGE_WORD = ("the owner has not ordered the merge of PR #%d in this turn. Their word is a click on a card "
-                     "(AskUserQuestion) that names #%d and whose chosen option says to merge it, or a typed order "
-                     "that starts with \"merge\" and names #%d. It covers only the pull requests named and it ends "
-                     "when you stop. Ask with a card whose merge option names #%d, and merge only on that answer.")
+                     "(AskUserQuestion) that names #%d and whose chosen option says to merge it, or a plain typed order "
+                     "as the LAST sentence of their message, for example \"Merge #%d\". A wordier message (a "
+                     "condition, a report, a question, more words after the order) and any message typed while you "
+                     "work that is not itself such an order do not count. The word covers only the pull requests "
+                     "named and ends when you stop. Ask with a card whose merge option names #%d, and merge only on "
+                     "that answer.")
 REASON_BARE_NUMBER = ("the owner's word for #%d names no repository, and it was already used in this turn for #%d of "
                       "another repository (%s), so it does not cover this call (%s). A word that names only a number is "
                       "good for one repository. Ask the owner with a card that names the repository (owner/repo#%d), "
@@ -838,14 +861,21 @@ def _is_verb(text, m):
 
 def _object_scan(rest):
     """(the pull requests an order names, where that list ends in `rest`). The list directly follows the verb
-    ("merge #34 and #141"); a number elsewhere in the clause is not on it ("merge #34 and close #35" names 34;
-    "merge the 3 PRs" names none). With no number on it, the list ends where the verb does."""
+    ("merge #34 and #141"), after at most OBJECT_FILLER_MAX filler words ("merge the QA-loop PRs (#34 library,
+    #141 deck)", "merge library only (#34)": a bracket that holds numbers before the first one counts); a number
+    elsewhere in the clause is not on it ("merge #34 and close #35" names 34; "merge the 3 PRs" names none). With
+    no number on it, the list ends where the verb does."""
     out, pos, filler, end = set(), 0, 0, 0
     while pos < len(rest):
         pos = OBJECT_GAP.match(rest, pos).end()
         m = OBJECT_PAREN.match(rest, pos)
         if m and out:
             pos = end = m.end()                     # "#34 (library) and #141 (deck)"
+            continue
+        if m and pr_refs(m.group(0)):
+            out |= pr_refs(m.group(0))              # "library only (#34)"
+            pos = end = m.end()
+            filler = 0
             continue
         m = PR_REF.match(rest, pos)
         if m:
@@ -881,8 +911,8 @@ def _object_refs(rest):
 
 
 def _is_statement(rest):
-    """A4: the first word after the pull requests an order names is one of STATEMENT_WORDS ("merge #34 has failing
-    checks", "merge #34 is not approved"): the clause says something about them and orders nothing."""
+    """M6: the first word after the pull requests an order names is one of STATEMENT_WORDS ("merge #34 can wait",
+    "merge #34 is not ready"): the clause says something about them and orders nothing."""
     m = STATEMENT_NEXT.match(rest[_object_scan(rest)[1]:])
     return bool(m and m.group(1) in STATEMENT_WORDS)
 
@@ -893,17 +923,9 @@ def _unnegated(pattern, clause):
     return any(not HALT_NEGATOR.search(clause[:m.start()]) for m in pattern.finditer(clause))
 
 
-def _puts_first(clause):
-    """M5: the clause puts something first ("first the audit", "audit first", "before that"), so an order after
-    it in the same sentence is held back. "First" alone ("First, merge #34") is a lead-in, not a sequence."""
-    if SEQUENCE_BEFORE.search(clause):
-        return True
-    return bool(SEQUENCE_FIRST.search(clause)) and len(OBJECT_WORD.findall(clause)) >= SEQUENCE_FIRST_MIN_WORDS
-
-
 def _statement_revokes(clause, rest):
-    """M6: a statement about pull requests (A4) that also refuses or holds ("Merge #34 can wait.", "Merge #34 is
-    not ready.") takes them out of the grant."""
+    """M6: a statement about pull requests that also refuses or holds ("Merge #34 can wait.", "Merge #34 is not
+    ready.") takes them out of the grant."""
     if not (REFUSAL_CUE.search(rest) or _unnegated(HALT_CUE, rest)):
         return []
     refs = _object_refs(rest) or pr_refs(clause)
@@ -911,151 +933,251 @@ def _statement_revokes(clause, rest):
 
 
 def _short_refusal(clause):
-    """A5 (ii): a short clause that starts with a refusal ("No, wait.", "stop", "not yet"), once a leading run of
+    """A5: a short clause that starts with a refusal ("No, wait.", "stop", "not yet", "nope"), once a leading run of
     soft words ("actually", "hmm", "on second thought") is dropped; the word limit counts what is left."""
     c = SOFT_LEADIN.sub("", clause, count=1)
     return len(c.split()) <= STANDALONE_REFUSAL_MAX_WORDS and bool(REFUSAL_START.match(c))
 
 
-def _line_goes_on(line):
-    """M3: a line that does not end its sentence: it ends with "," or ":", or it has no end mark and holds a
-    condition or an un-negated hold ("If the guard passes" / "merge #34")."""
-    if line.endswith(LINE_JOIN_ENDS):
-        return True
-    if line[-1:] in tuple(LINE_END_MARKS):
-        return False
-    s = _strip_affirmative(line)
-    return bool(CONDITION_CUE.search(s)) or _unnegated(HALT_CUE, s)
-
-
-def _join_lines(lines):
-    """M3: the lines of a text as sentences go: a line that goes on is joined to the next, and each item of a
-    list after a line that ends with ":" is read as that line plus the item ("After the audit:" / "1. merge #34"
-    reads "after the audit: merge #34")."""
-    out, buf, i, n = [], [], 0, len(lines)
-    while i < n:
-        line = lines[i]
-        if line.endswith(LIST_INTRO_END) and i + 1 < n and LIST_ITEM.match(lines[i + 1]):
-            head, buf, j = " ".join(buf + [line]), [], i + 1
-            while j < n and LIST_ITEM.match(lines[j]):
-                out.append(head + " " + LIST_ITEM.sub("", lines[j], count=1))
-                j += 1
-            i = j
+def _sentences(text):
+    """A1: the sentences of a typed text, after `normalize`, with code fences and quoted lines dropped. A line break
+    ends a sentence only when the line before it ends with one of SENTENCE_END_MARKS; otherwise the two lines are
+    one sentence. Then the sentences are split as SENTENCE_SPLIT says. One pass over the text."""
+    t = CODE_FENCE.sub(" ", normalize(text))
+    chunks, buf = [], []
+    for line in t.split("\n"):
+        line = line.strip()
+        if not line or line.startswith(QUOTE_LEAD):
             continue
         buf.append(line)
-        if not (i + 1 < n and _line_goes_on(line)):
-            out.append(" ".join(buf))
+        if line.endswith(SENTENCE_END_MARKS):
+            chunks.append(" ".join(buf))
             buf = []
-        i += 1
     if buf:
-        out.append(" ".join(buf))
+        chunks.append(" ".join(buf))
+    out = []
+    for chunk in chunks:
+        out += [s.strip() for s in SENTENCE_SPLIT.split(chunk) if s and s.strip()]
     return out
 
 
-def _clean(text):
-    """The text every word test reads: normalised, with code fences and quoted lines dropped, and the lines joined
-    where a sentence goes on past a line break (M3)."""
-    t = CODE_FENCE.sub(" ", normalize(text))
-    lines = [line.strip() for line in t.split("\n") if not line.lstrip().startswith(QUOTE_LEAD)]
-    return "\n".join(_join_lines([line for line in lines if line]))
-
-
-def _clauses(text):
-    """The clauses of a cleaned text, sentence by sentence."""
-    for sentence in SENTENCE_SPLIT.split(text):
-        for clause in CLAUSE_SPLIT.split((sentence or "").strip()):
-            c = (clause or "").strip()
-            if c:
-                yield c
-
-
-def doubts(text):
-    """A6: the text holds a refusal, a hold or a condition anywhere (after the phrases that refuse nothing)."""
-    t = _strip_affirmative(_clean(text))
-    return bool(REFUSAL_CUE.search(t) or HALT_CUE.search(t) or CONDITION_CUE.search(t))
-
-
-def typed_ops(text, fallback=()):
-    """What a text the owner typed does to the grant, as an ordered list of operations:
-    ("grant", PRs)  ("revoke", PRs)  ("revoke_all",)  ("branch",).  Order matters: "Merge #34. No wait." grants
-    and then empties. `fallback` = the PRs an order without a number takes (a card answered in free text).
-    A sentence that holds a condition grants nothing (A1); an order after a clause that holds the work back or
-    reports what someone said grants nothing (A2, A3); the verb followed by a statement is no order (A4); a clause
-    that holds the work back, or a short refusal after soft words, empties the grant (A5). Revocations always
-    apply."""
-    ops = []
-    for sentence in SENTENCE_SPLIT.split(_clean(text)):
-        sentence = (sentence or "").strip()
-        if not sentence:
+def _clauses_of(sentence):
+    """The clauses of one sentence, each without the end marks after it. A bracket is not split ("(#34 library,
+    #141 deck)")."""
+    out, held = [], ""
+    for clause in CLAUSE_SPLIT.split(sentence):
+        piece = (held + ", " if held else "") + (clause or "").strip()
+        if piece.count("(") > piece.count(")"):
+            held = piece
             continue
-        question = sentence.endswith(QUESTION_END)
-        conditional = bool(CONDITION_CUE.search(_strip_affirmative(sentence)))
-        open_neg, list_open, held, holds = False, False, False, False
+        held = ""
+        c = piece.strip().rstrip(CLAUSE_END_MARKS).strip()
+        if c:
+            out.append(c)
+    if held.strip().rstrip(CLAUSE_END_MARKS).strip():
+        out.append(held.strip().rstrip(CLAUSE_END_MARKS).strip())
+    return out
+
+
+def _revocations(sentences):
+    """What a typed text takes out of the grant, in order: ("revoke", PRs) or ("revoke_all",). A refusal names
+    what it refuses ("not #141", "leave 141 alone") or, with a merge word or as a short refusal, everything; a
+    clause that holds the work back ("wait", "scratch that") does the same; a negation that comes before its verb
+    ("don't, under any circumstances, merge #34") reaches it. Revoking too much costs one card."""
+    ops = []
+    for sentence in sentences:
+        open_neg = False
         for clause in CLAUSE_SPLIT.split(sentence):
             c = _strip_affirmative((clause or "").strip())
             if not c.strip():
                 continue
-            held = held or holds                    # an earlier clause held the work back or reported speech
             halt = _unnegated(HALT_CUE, c)
-            holds = halt or bool(REPORT_CUE.search(c))
-            holds = holds or _puts_first(c)         # "First the audit, then merge #34" (M5)
-            may_order = not conditional and not held
             has_merge = bool(MERGE_ANY.search(c))
             cue_any = REFUSAL_CUE.search(c)
-            if (may_order and PUSH_ORDER.match(c) and DEFAULT_BRANCH_WORD.search(c) and not question and not cue_any
-                    and not pr_refs(c) and not open_neg):
-                ops.append(("branch",))             # "push this to main"
             if open_neg and has_merge:              # "don't, under any circumstances, merge #34"
                 refs = pr_refs(c) | _bare_numbers(c)
                 ops.append(("revoke", refs) if refs else ("revoke_all",))
-                open_neg, list_open = False, False
+                open_neg = False
                 continue
             m = TYPED_ORDER.match(c)
             if m and _is_verb(c, m):
                 rest = c[m.end(1):]
-                list_open = False
                 if _is_statement(rest):
                     ops += _statement_revokes(c, rest)
-                    continue                        # "merge #34 has failing checks": no order
-                if question and not POLITE_REQUEST.match(c):
                     continue
                 cue = REFUSAL_CUE.search(rest)
-                head, tail = (rest[:cue.start()], rest[cue.start():]) if cue else (rest, "")
-                named = _object_refs(head)
                 if cue:                             # "merge #34, not #141"; "merge everything except #141"
-                    excluded = pr_refs(tail) | _bare_numbers(tail)
-                    if named - excluded and may_order:
-                        ops.append(("grant", named - excluded))
+                    excluded = pr_refs(rest[cue.start():]) | _bare_numbers(rest[cue.start():])
                     if excluded:
                         ops.append(("revoke", excluded))
-                    elif not named:
+                    elif not _object_refs(rest[:cue.start()]):
                         ops.append(("revoke_all",))                 # "merge nothing"
-                else:
-                    named = named or set(fallback)
-                    if named and may_order:
-                        ops.append(("grant", named))
-                    list_open = may_order           # "merge both, #34 and #141"; "merge #34, #141"
                 continue
-            if list_open and PURE_LIST.match(c) and not question:
-                refs = pr_refs(c) | _bare_numbers(c)
-                if refs:
-                    ops.append(("grant", refs))
-                continue
-            list_open = False
             if cue_any:
                 refs = pr_refs(c) | _bare_numbers(c[cue_any.end():])
                 if refs:
                     ops.append(("revoke", refs))
-                elif has_merge:
-                    ops.append(("revoke_all",))
-                elif _short_refusal(c) or halt:
+                elif has_merge or halt or _short_refusal(c):
                     ops.append(("revoke_all",))     # "No, wait."; "Actually no."; "Better to wait for the audit."
                 negator = OPEN_NEGATOR.search(c)
                 if negator and not MERGE_ANY.search(c[negator.end():]):
                     open_neg = True                 # the verb it negates is still to come in this sentence
-            elif halt:                              # "Scratch that.", "On second thought", "postpone #34"
+            elif halt or _short_refusal(c):         # "Scratch that."; "postpone #34"; "Nope."; "Keep #34 open."
                 refs = pr_refs(c) | _bare_numbers(c)
                 ops.append(("revoke", refs) if refs else ("revoke_all",))
+    return ops
+
+
+def _tail_only(text):
+    """A3 (3): nothing but tail words (ORDER_TAIL_WORDS, the default branch as destination, a bracket) and end
+    marks."""
+    pos = 0
+    while True:
+        m = ORDER_TAIL.match(text, pos)
+        if not m or m.end() == pos:
+            break
+        pos = m.end()
+    return bool(ORDER_TAIL_END.match(text, pos))
+
+
+def _order_object(rest, fallback):
+    """(the pull requests an order clause names, where its object ends in `rest`), the verb already read. With no
+    number, an object word ("it", "both") or nothing, and then `fallback` (a card's pull requests)."""
+    refs, end = _object_scan(rest)
+    if refs:
+        return refs, end
+    obj = ORDER_OBJECT.match(rest)
+    end = obj.end() if obj else 0
+    if len(fallback) > 1 and not (obj and CARD_ALL_WORD.search(obj.group(0))):
+        return set(), end                           # several pull requests: only "both" / "all" takes them
+    return set(fallback), end
+
+
+def _merge_clause(c, start, fallback):
+    """A3 (3): a plain merge order clause -> the pull requests it names, or None. `start` reads the lead-in words
+    and the verb (TYPED_ORDER, QUESTION_ORDER, CARD_ORDER)."""
+    m = start.match(c)
+    if not m or not _is_verb(c, m):
+        return None
+    rest = c[m.end(1):]
+    refs, end = _order_object(rest, fallback)
+    if not refs or not _tail_only(rest[end:]) or REFUSAL_CUE.search(rest[:end]):
+        return None                                 # "merge everything except #141" orders nothing
+    words = ORDER_WORD.findall(PR_REF.sub(" ", rest[:end]))
+    if _object_refs(rest) and not OBJECT_PAREN.search(rest[:end]) and any(w not in ORDER_LIST_WORDS for w in words):
+        return None                                 # words before a number count only before a bracket of numbers
+    return refs
+
+
+def _push_clause(c, start):
+    """The plain push order: lead-in words and the push verb (`start`), at most OBJECT_FILLER_MAX words of object,
+    the default branch as destination, then only tail words. It names no pull request."""
+    m = start.match(c)
+    if not m or pr_refs(c):
+        return False
+    pos = m.end()
+    for n in range(OBJECT_FILLER_MAX + 1):
+        dest = PUSH_DESTINATION.match(c, pos)
+        if dest:
+            return _tail_only(c[dest.end():])
+        word = PUSH_OBJECT_WORD.match(c, pos)
+        if not word or n == OBJECT_FILLER_MAX:
+            return False
+        pos = word.end()
+    return False
+
+
+def _refuses_others(c):
+    """A3 (2, 4): the clause refuses pull requests it names ("not #141", "don't merge #26", "leave 141 alone") and
+    holds no other word than REFUSAL_OTHER_WORDS -> the pull requests it names, or None."""
+    c = REFUSAL_OTHER_LEAD.sub("", c, count=1)
+    if not REFUSAL_START.match(c):
+        return None
+    refs = pr_refs(c) | _bare_numbers(c)
+    rest = BARE_NUMBER.sub(" ", PR_REF.sub(" ", c))
+    if not refs or any(w not in REFUSAL_OTHER_WORDS for w in REFUSAL_OTHER_WORD.findall(rest)):
+        return None
+    return refs
+
+
+def _plain_order(sentence, fallback=(), question=False):
+    """A3: the sentence is a plain order -> ("merge", PRs) or ("branch", None); else None. Its clauses, in order:
+    lead-in clauses (LEADIN_CLAUSE, AFFIRMATIVE_PHRASES) or refusals of other pull requests; the order clause; then
+    only further orders, lists of numbers ("34 first"), tail words, affirmative phrases or refusals of other pull
+    requests. With `question` (a card's question), the lead-in words of a question ("shall I") are read and the
+    end mark is not looked at; a typed sentence that ends with "?" is an order only in the polite form."""
+    if not question and sentence.endswith(QUESTION_END) and not POLITE_REQUEST.match(sentence):
+        return None
+    merge_start, push_start = (QUESTION_ORDER, QUESTION_PUSH) if question else (TYPED_ORDER, PUSH_ORDER)
+    granted, refused, branch, ordered = set(), set(), False, False
+    for c in _clauses_of(sentence):
+        refs = _merge_clause(c, merge_start, fallback)
+        if refs:
+            granted |= refs
+            ordered = True
+            continue
+        if not refs and _push_clause(c, push_start):
+            branch = ordered = True
+            continue
+        other = _refuses_others(c)
+        if other:
+            refused |= other
+            continue
+        if c in AFFIRMATIVE_PHRASES:
+            continue
+        if not ordered:
+            if LEADIN_CLAUSE.match(c):
+                continue
+            return None
+        if ORDER_LIST_CLAUSE.match(c) and (pr_refs(c) | _bare_numbers(c)) and not branch:
+            granted |= pr_refs(c) | _bare_numbers(c)
+            continue
+        if _tail_only(c):
+            continue
+        return None
+    if not ordered or any(_same_pr(g, r) for g in granted for r in refused):
+        return None
+    return ("branch", None) if branch and not granted else ("merge", granted)
+
+
+def _closing(sentence):
+    """A2: a sentence after the order that closes the message -> the pull requests it refuses (an empty set for
+    closing words alone), or None for any other sentence."""
+    if CLOSING_SENTENCE.match(sentence):
+        return set()
+    refused = set()
+    for c in _clauses_of(sentence):
+        other = _refuses_others(c)
+        if other:
+            refused |= other
+        elif not (CLOSING_SENTENCE.match(c) or c in AFFIRMATIVE_PHRASES):
+            return None
+    return refused or None
+
+
+def typed_ops(text, fallback=()):
+    """What a text the owner typed does to the grant, as an ordered list of operations:
+    ("grant", PRs)  ("revoke", PRs)  ("revoke_all",)  ("branch",).  What the text revokes comes first, sentence by
+    sentence; then, only when its LAST sentence (closing sentences after it aside) is a plain order (A2, A3), what
+    that order grants. A text longer than ORDER_MESSAGE_MAX_CHARS is not read at all. `fallback` = the PRs an order
+    without a number takes (a card answered in free text)."""
+    text = text or ""
+    if len(text) > ORDER_MESSAGE_MAX_CHARS:
+        return []
+    sentences = _sentences(text)
+    ops = _revocations(sentences)
+    refused, k = set(), len(sentences) - 1
+    while k >= 0:
+        closing = _closing(sentences[k])
+        if closing is None:
+            break
+        refused |= closing
+        k -= 1
+    order = _plain_order(sentences[k], fallback) if k >= 0 else None
+    if order and order[0] == "branch":
+        ops.append(("branch",))
+    elif order and not any(_same_pr(g, r) for g in order[1] for r in refused):
+        ops.append(("grant", order[1]))
     return ops
 
 
@@ -1115,50 +1237,32 @@ def _merge_question(q):
     return any(_is_verb(q, m) for m in MERGE_VERB.finditer(q))
 
 
-def _plain_question(q):
-    """B1, B2: the question holds no refusal, no condition, no un-negated hold and no "or" anywhere."""
-    t = _strip_affirmative(q)
-    if REFUSAL_CUE.search(t) or CONDITION_CUE.search(t) or QUESTION_DOUBT.search(t):
-        return False
-    return not any(_unnegated(HALT_CUE, c) for c in _clauses(t))
-
-
-def _asks_for_merge(q):
-    """B1: a yes on this question is the word to merge now. The question is plain, and one of its clauses starts
-    with the verb (after an optional lead-in such as "shall I", "should we"), used as a verb and not followed by a
-    statement: "Merge #34 now?", "Shall I merge PR 34?"; not "Is #34 ready to merge?", "Merge #34 once CI is green?"."""
-    if not _plain_question(q):
-        return False
-    for c in _clauses(_strip_affirmative(q)):
-        m = QUESTION_ORDER.match(c)
-        if m and _is_verb(c, m) and not _is_statement(c[m.end(1):]):
-            return True
-    return False
-
-
-def _asks_for_push(q):
-    """B2: the same for a push: plain, and a clause starts with the push verb and names a default branch as where
-    it goes ("Push this to main?")."""
-    return _plain_question(q) and any(QUESTION_PUSH.match(c) and DEFAULT_BRANCH_WORD.search(c)
-                                      for c in _clauses(_strip_affirmative(q)))
+def _asked(q, qrefs):
+    """A5: what a yes on this question grants: its LAST sentence is a plain order question (question lead-ins such
+    as "shall I", the verb, the list, only tail words) -> ("merge", PRs) | ("branch", None) | None. Sentences before
+    it are context ("PR 34 is green. Merge it now?")."""
+    sentences = _sentences(q) if len(q) <= ORDER_MESSAGE_MAX_CHARS else []
+    return _plain_order(sentences[-1], qrefs, question=True) if sentences else None
 
 
 def card_ops(question, answer, labels):
     """What one answered question of a card does to the grant (same operations as typed_ops). Only the chosen
-    options are read. An option without a number takes the question's pull requests when the question names
-    exactly one, or when the option says both / all."""
+    options are read. A chosen option grants only when it is a plain order clause ("Merge #34", "Merge both
+    (Recommended)", "Yes, merge #34"); a yes only on a plain order question. An option without a number takes the
+    question's pull requests when it names exactly one, or when the option says both / all. Any other option of a
+    merge card takes the question's pull requests out of the grant. Text typed into the card is a typed message."""
     ops = []
     q = normalize(question)
     qrefs = pr_refs(q)
     merge_q = _merge_question(q)
-    asks = _asks_for_merge(q)                       # a yes grants only on a plain merge question (B1)
-    push_q = bool(PUSH_VERB.search(q) and DEFAULT_BRANCH_WORD.search(q) and not qrefs)
-    push_asks = push_q and _asks_for_push(q)        # ... and sets the branch word only on a plain push question (B2)
+    asked = _asked(q, qrefs)
     for raw, is_label in _split_labels(answer, labels):
         if not is_label:                            # free text typed into the card: read as a typed message
-            fb = qrefs if (merge_q and (len(qrefs) == 1 or CARD_ALL_WORD.search(normalize(raw)))) else ()
-            for op in typed_ops(raw, fallback=fb):
-                ops.append(("revoke", set(qrefs)) if (op[0] == "revoke_all" and qrefs) else op)
+            got = [("revoke", set(qrefs)) if (op[0] == "revoke_all" and qrefs) else op
+                   for op in typed_ops(raw, fallback=qrefs if merge_q else ())]
+            if MIDTURN_MESSAGE_ENDS_WORD and not any(op[0] in GRANT_OPS for op in got):
+                got.append(("revoke_all",))         # A4: typed while the assistant works, and no plain order
+            ops += got
             continue
         p = RECOMMENDED.sub(" ", normalize(raw)).strip()
         refs = pr_refs(p)
@@ -1168,20 +1272,18 @@ def card_ops(question, answer, labels):
             elif MERGE_ANY.search(p) or merge_q:
                 ops.append(("revoke_all",))
             continue
-        m = CARD_ORDER.match(p)
-        order = bool(m and _is_verb(p, m))
-        yes = bool(YES_LABEL.match(p))
-        if DEFER_CUE.search(p):                     # "Merge after the audit": not the word to merge now
-            if (refs or qrefs) and (order or merge_q):
-                ops.append(("revoke", set(refs or qrefs)))
-            continue
-        target = set(refs) or (set(qrefs) if (len(qrefs) == 1 or CARD_ALL_WORD.search(p)) else set())
-        if (order or (yes and asks)) and target:
+        target = _merge_clause(p, CARD_ORDER, qrefs)
+        yes = YES_LABEL.match(p)
+        if target is None and yes and asked and asked[0] == "merge":
+            found, end = _order_object(p[yes.end():], asked[1])
+            if found and _tail_only(p[yes.end() + end:]):
+                target = found
+        if target:
             ops.append(("grant", target))
-        elif (not refs and not qrefs and (CARD_PUSH_ORDER.match(p) or (yes and push_asks))
-              and (DEFAULT_BRANCH_WORD.search(p) or push_q)):
+        elif not refs and not qrefs and (_push_clause(p, CARD_PUSH_ORDER) or (
+                yes and asked and asked[0] == "branch" and _tail_only(p[yes.end():]))):
             ops.append(("branch",))
-        elif (refs or qrefs) and merge_q and not order and not (yes and asks):
+        elif (refs or qrefs) and merge_q:
             ops.append(("revoke", set(refs or qrefs)))      # any other option of a merge card; a yes to holding it
     return ops
 
@@ -1239,6 +1341,8 @@ def _read_dollar(s, i):
         return k + 2, _unresolved, []
     if s.startswith("$(", i):
         k = _match_paren(s, i + 1)
+        if " ".join(s[i + 2:k].split()) in PWD_COMMANDS:
+            return k + 1, _varmark + PWD_VARIABLE + _varmark, [s[i + 2:k]]     # B2: `$(pwd)`, the directory
         return k + 1, _unresolved, [s[i + 2:k]]
     if s.startswith("${", i):
         k = s.find("}", i)
@@ -1387,12 +1491,12 @@ class Cmd(object):
     """One simple command: its words, its redirections, the operators around it, and the directory it runs in
     (None when this parser does not know it). `unparsed` holds the text of a script file that could not be read
     as shell."""
-    __slots__ = ("argv", "redirs", "before", "after", "via", "heredocs", "stdin_args", "cwd", "unparsed")
+    __slots__ = ("argv", "redirs", "before", "after", "via", "heredocs", "stdin_args", "cwd", "unparsed", "known")
 
     def __init__(self, argv, redirs, before, after, via, cwd):
         self.argv, self.redirs, self.before, self.after, self.via, self.cwd = argv, redirs, before, after, via, cwd
         self.heredocs = [r[4] for r in redirs if r[4] is not None]
-        self.stdin_args, self.unparsed = False, None
+        self.stdin_args, self.unparsed, self.known = False, None, {}
 
 
 def _expand(text, env):
@@ -1496,11 +1600,13 @@ def parse_shell(text, cwd=None, depth=0, via="top", env=None, written=None):
             if _unresolved not in value:
                 local[name] = value
             words.pop(0)
-        argv, stdin_args = _strip_wrappers([_expand(w[1], env) for w in words])
+        seen = env if (PWD_VARIABLE in env or not here) else dict(env, **{PWD_VARIABLE: here})    # B2: $PWD
+        argv, stdin_args = _strip_wrappers([_expand(w[1], seen) for w in words])
         if not argv:
             env.update(local)                       # NAME=value alone sets it for what follows
             if raw["r"]:
                 out.append(Cmd([_no_command], raw["r"], before, after, via, here))    # a redirection alone
+                out[-1].known = dict(written)
                 _note_writes(out[-1], here, written)
             upstream = None
             continue
@@ -1513,7 +1619,7 @@ def parse_shell(text, cwd=None, depth=0, via="top", env=None, written=None):
             upstream = None
             continue
         c = Cmd(argv, raw["r"], before, after, via, here)
-        c.stdin_args = stdin_args
+        c.stdin_args, c.known = stdin_args, dict(written)
         out.append(c)
         if base in DIR_COMMANDS:
             if after in SHELL_SEQUENCE:
@@ -1533,9 +1639,13 @@ def parse_shell(text, cwd=None, depth=0, via="top", env=None, written=None):
                 if a in SHELL_FLAGS_WITH_VALUE:
                     j += 2
                     continue
-                if a.startswith("-"):
+                if short and SHELL_STDIN_FLAG in a[1:]:
+                    break                           # `bash -s ARGS`: the words after it are the program's arguments
+                if a.startswith(SHELL_OPTION_LEADS):
                     j += 1
                     continue
+                if a in SHELL_STDIN_NAMES:
+                    break                           # `bash /dev/stdin < FILE`
                 if not syntax_only:
                     out += _run_file(a, here, depth, env, written, text)
                 program = ""
@@ -1549,6 +1659,8 @@ def parse_shell(text, cwd=None, depth=0, via="top", env=None, written=None):
                     if r[1] == SHELL_HERESTRING:
                         out += parse_shell(_expand(r[2], env).replace(_unresolved, " "), here, depth + 1,
                                            "herestring", dict(env), written)
+                    elif r[1] == SHELL_STDIN_REDIRECT and r[2] and not r[2].isdigit():
+                        out += _run_file(r[2], here, depth, env, written, text)      # `bash < FILE` (B1)
                 if before in SHELL_PIPES and upstream is not None:
                     feeder = os.path.basename(upstream.argv[0])
                     if feeder in ECHO_COMMANDS:
@@ -1557,6 +1669,8 @@ def parse_shell(text, cwd=None, depth=0, via="top", env=None, written=None):
                     elif feeder in CAT_COMMANDS:
                         for h in upstream.heredocs:
                             out += parse_shell(h["body"], here, depth + 1, "pipe", dict(env), written)
+                        for name in [a for a in upstream.argv[1:] if not a.startswith("-")]:
+                            out += _run_file(name, upstream.cwd, depth, env, written, text)   # `cat FILE | bash` (B1)
             elif program:
                 out += parse_shell(program.replace(_unresolved, " "), here, depth + 1, "sh-c", dict(env), written)
         elif base in EVAL_COMMANDS:
@@ -1573,9 +1687,28 @@ def parse_shell(text, cwd=None, depth=0, via="top", env=None, written=None):
     return out
 
 
+def _with_pwd(name, cwd):
+    """B2: a name that starts with `$PWD`, `${PWD}` or `$(pwd)` names a file in the command's directory."""
+    lead = _varmark + PWD_VARIABLE + _varmark
+    if cwd and name and name.startswith(lead):
+        return cwd + name[len(lead):]
+    return name
+
+
 def _file_key(cwd, name):
     """How a file the text writes or runs is known: its path, or its name where the directory is not known."""
+    name = _with_pwd(name, cwd)
     return _join_dir(cwd, name) or (UNKNOWN_DIR_KEY + (name or ""))
+
+
+def _known_text(name, cwd, written):
+    """B2: the text of a file as this point of the command text leaves it: what the text wrote into it, else the file
+    on disk; None when it cannot be known."""
+    key = _file_key(cwd, name)
+    if key in written:
+        return written[key]
+    text = _file_text(name, cwd)
+    return None if text == _unresolved else text
 
 
 def _echo_text(argv):
@@ -1604,10 +1737,14 @@ def _note_writes(c, cwd, written):
             given = r[4]["body"]
         elif r[1] == SHELL_HERESTRING:
             given = r[2].replace(_unresolved, " ")
+    plain = [a for a in argv[1:] if not a.startswith("-")]
     if base == _no_command:
         produced = ""                               # `> FILE` alone: an empty file
     elif base in CAT_COMMANDS and len(argv) == 1:
         produced = given
+    elif base in CAT_COMMANDS and plain and len(plain) == len(argv) - 1:
+        texts = [_known_text(a, cwd, written) for a in plain]      # `cat A > B` (B2)
+        produced = None if any(t is None for t in texts) else "".join(texts)
     elif base in ECHO_COMMANDS:
         produced = _echo_text(argv)
     else:
@@ -1620,11 +1757,16 @@ def _note_writes(c, cwd, written):
                 written[key] = earlier + "\n" + produced if isinstance(earlier, str) and produced is not None else None
             else:
                 written[key] = produced
-    plain = [a for a in argv[1:] if not a.startswith("-")]
     if base in TEE_COMMANDS:
         appending = any(a in TEE_APPEND_FLAGS for a in argv[1:])
         for a in plain:
             written[_file_key(cwd, a)] = None if appending else given
+    elif base in COPY_COMMANDS and len(plain) == 2:              # `cp A B`, `mv A B`: B holds A's text (B2)
+        target = _with_pwd(plain[1], cwd)
+        folder = _join_dir(cwd, target)
+        if target.endswith("/") or (folder and os.path.isdir(folder)):
+            target = os.path.join(target, os.path.basename(plain[0]))
+        written[_file_key(cwd, target)] = _known_text(plain[0], cwd, written)
     elif base in LAST_TARGET_COMMANDS and plain:
         written[_file_key(cwd, plain[-1])] = None
     elif base in IN_PLACE_EDITORS and any(IN_PLACE_FLAG.match(a) for a in argv[1:]):
@@ -1650,7 +1792,7 @@ def _run_file(name, cwd, depth, env, written, text, direct=False):
     if key in written:
         body = written[key]
         return [_screened(text, cwd)] if body is None else _parse_body(body, cwd, depth, env, written)
-    return _parse_file(name, cwd, depth, env, written, direct)
+    return _parse_file(_with_pwd(name, cwd), cwd, depth, env, written, direct)
 
 
 def _parse_body(body, cwd, depth, env, written):
@@ -1969,13 +2111,18 @@ def _body_parts(values):
     return [_unresolved if (v.startswith(API_FILE_BODY[0]) or API_FILE_BODY[1] in v) else v for v in values]
 
 
-def _file_text(name, cwd):
-    """The text of a file a request body is read from (E): named relative to the command's directory, a regular
-    file within SCRIPT_MAX_BYTES. Standard input, a missing file or an unknown directory -> the unreadable mark."""
+def _file_text(name, cwd, known=None):
+    """The text of a file a request body is read from (E): what the command text wrote into it before (`known`,
+    B3: text that cannot be followed is unreadable), else the file named relative to the command's directory, a
+    regular file within SCRIPT_MAX_BYTES. Standard input, a missing file or an unknown directory -> the unreadable
+    mark."""
     if name == BODY_FILE_STDIN:
         return _unresolved
+    key = _file_key(cwd, name)
+    if known and key in known:
+        return _unresolved if known[key] is None else known[key]
     try:
-        path = _join_dir(cwd, name)
+        path = _join_dir(cwd, _with_pwd(name, cwd))
         if not path or not os.path.isfile(path) or os.path.getsize(path) > SCRIPT_MAX_BYTES:
             return _unresolved
         with open(path, encoding="utf-8", errors="replace") as fh:
@@ -1984,16 +2131,16 @@ def _file_text(name, cwd):
         return _unresolved
 
 
-def _field_value(value, cwd):
+def _field_value(value, cwd, known=None):
     """`gh api -F key=@FILE`: the text of FILE in place of the reference. Any other form keeps today's reading."""
     if not value.startswith(API_FILE_BODY[0]) and API_FILE_BODY[1] in value:
         key, name = value.split(API_FILE_BODY[1], 1)
-        text = _file_text(name, cwd)
+        text = _file_text(name, cwd, known)
         return text if text == _unresolved else key + "=" + text
     return _body_parts([value])[0]
 
 
-def _gh_acts(argv, cwd=None):
+def _gh_acts(argv, cwd=None, known=None):
     # the words `pr merge` (or `api`), with the command line's own options before and between them skipped
     j, lead, words = 1, [], []
     while j < len(argv) and len(words) < 2 and words[:1] != [GH_API_GROUP]:
@@ -2010,9 +2157,9 @@ def _gh_acts(argv, cwd=None):
         plain, opts = _options(rest, GH_API_WITH_VALUE)
         if any(k in HELP_FLAGS for k, _v in lead + opts):
             return []
-        body = [_field_value(v, cwd) if k in GH_API_FILE_FIELD_FLAGS else _body_parts([v])[0]
+        body = [_field_value(v, cwd, known) if k in GH_API_FILE_FIELD_FLAGS else _body_parts([v])[0]
                 for k, v in opts if k in GH_API_BODY_FLAGS and isinstance(v, str)]
-        body += [_file_text(v, cwd) for v in _values(opts, (GH_API_INPUT_FLAG,))]    # the body read from a file
+        body += [_file_text(v, cwd, known) for v in _values(opts, (GH_API_INPUT_FLAG,))]    # the body read from a file
         return classify_api(_method(opts, bool(body)), plain[0] if plain else "", "\n".join(body))
     plain, opts = _options(rest, GH_GLOBAL_WITH_VALUE + GH_MERGE_WITH_VALUE)
     flags = dict(lead + opts)
@@ -2045,11 +2192,13 @@ def _gh_acts(argv, cwd=None):
     return []
 
 
-def _http_acts(argv, cwd=None):
-    """curl, wget and their like, when they speak to the GitHub API. `-d @FILE` sends the text of FILE."""
+def _http_acts(argv, cwd=None, known=None):
+    """curl, wget and their like, when they speak to the GitHub API. `-d @FILE` (curl) and `--post-file FILE`
+    (wget) send the text of FILE."""
     plain, opts = _options(argv[1:], CURL_WITH_VALUE)
     flags = dict(opts)
-    body = [_file_text(v[1:], cwd) if (k in CURL_FILE_DATA_FLAGS and v.startswith(API_FILE_BODY[0]))
+    body = [_file_text(v[1:], cwd, known) if (k in CURL_FILE_DATA_FLAGS and v.startswith(API_FILE_BODY[0]))
+            else _file_text(v, cwd, known) if k in HTTP_FILE_BODY_FLAGS
             else _body_parts([v])[0] for k, v in opts if k in CURL_DATA_FLAGS and isinstance(v, str)]
     if plain and plain[0] in HTTP_METHODS:          # `http PUT url`
         method = plain[0]
@@ -2134,18 +2283,18 @@ def _command_acts(c, switched, lookup):
     if _unresolved in argv[0] or _varmark in argv[0]:
         for name in UNRESOLVED_READINGS:            # `$(which gh) pr merge 40`: judged as each program (D3)
             read = [name] + argv[1:]
-            acts = _gh_acts(read, c.cwd) if name == GH_COMMAND else _git_acts(read, c.cwd, dict(switched), lookup)
+            acts = _gh_acts(read, c.cwd, c.known) if name == GH_COMMAND else _git_acts(read, c.cwd, dict(switched), lookup)
             mine += [a for a in acts if a.kind in MERGE_GATED_KINDS]
     elif base == GIT_COMMAND:
         mine = _git_acts(argv, c.cwd, switched, lookup)
     elif base == GH_COMMAND:
-        mine = _gh_acts(argv, c.cwd)
+        mine = _gh_acts(argv, c.cwd, c.known)
         if c.stdin_args:
             for a in mine:
                 if a.kind == "merge" and a.pr is None:
                     a.note = NOTE_STDIN_NUMBER
     elif base in HTTP_COMMANDS:
-        mine = _http_acts(argv, c.cwd)
+        mine = _http_acts(argv, c.cwd, c.known)
     elif base in IN_PLACE_EDITORS and any(IN_PLACE_FLAG.match(a) for a in argv[1:]):
         files = [a for a in argv[1:] if not a.startswith("-")][1:]
         if not files or not all(_is_scratch(f, c.cwd) for f in files):
@@ -2384,8 +2533,8 @@ class Model(object):
                 ops, may_grant = typed_ops(ev.text), ev.grantable
             elif ev.kind == "QUEUED_OWNER" and ev.i > self.auth_start:
                 ops, may_grant = typed_ops(ev.text), ev.grantable
-                if not ops and MIDTURN_DOUBT_ENDS_WORD and doubts(ev.text):
-                    ops = [("revoke_all",)]         # "I don't think we should do that right now." (A6)
+                if MIDTURN_MESSAGE_ENDS_WORD and not (may_grant and any(op[0] in GRANT_OPS for op in ops)):
+                    ops = [("revoke_all",)]         # D4: typed while the assistant works, and no plain order (A4)
                 if ev.grantable and QUEUED_OWNER_ATTENDS_RUN:
                     scheduled = False               # the owner is here: the rest of the run is attended
             elif ev.kind == "RESULT" and ev.i > self.auth_start:
@@ -2470,8 +2619,13 @@ class Model(object):
                     acts = [a for a in acts if not a.last_step]
             out += [(i, k, a) for a in acts]
         # The stretch's own first row (the owner's message or the stop it starts at; the file's first row when it
-        # starts at the top): a note stamped after it and before the next row belongs to this stretch.
-        first = self.rows[max(after, 0)] if self.rows else {}
+        # starts at the top): a note stamped after it and before the next row belongs to this stretch. A stretch
+        # that starts at the owner's message also takes the notes stamped while the session was idle before it,
+        # after the last completed stop (C2): no other stretch counts them, and none counts a note twice.
+        low = after
+        if after >= 0 and self.evs[after].kind == "OWNER" and _last_before(self.stops_done, after) >= 0:
+            low = _last_before(self.stops_done, after)
+        first = self.rows[max(low, 0)] if self.rows else {}
         since = _epoch(first.get("timestamp"))
         helpers = [i for (i, _k, b, side) in self.uses.values() if not side and b.get("name") in HELPER_TOOLS]
         for note in ledger:                         # a helper's outward calls, noted by the pre-tool hook
@@ -2481,7 +2635,7 @@ class Model(object):
                 if since is not None and isinstance(noted_at, (int, float)) and not isinstance(noted_at, bool):
                     counted = float(noted_at) > since        # placed by time: row numbers restart when the file is rewritten
                 else:
-                    counted = rows_then > after
+                    counted = rows_then > low
                 at = max(rows_then - 1, after + 1)
                 if counted and not HELPER_ACT_PLACED_BY_TIME:
                     counted = any(after < i <= at for i in helpers)     # only a helper this stretch started
@@ -2495,10 +2649,10 @@ class Model(object):
     def feedback(self, after, mark=None, retry=False):
         """Rows after `after` where a Stop hook's block was fed back and answered; with `mark` (a text, or a test
         of the reason) only the blocks whose reason satisfies it. A block is answered when work follows it in the
-        record, or when it is the record's last block and `retry` (the Stop input's stop_hook_active) says this
-        stop is the answer to it: the record can be behind, and the reply may exist only in the Stop input. A
-        block leaves two rows side by side (the feedback row and the attachment): neighbouring feedback rows are
-        one block."""
+        record, or, whenever `retry` (the Stop input's stop_hook_active) is set, in any case (C1): the session went
+        on after each block of the stretch, or it would not be stopping again, and its replies may never reach the
+        record (an empty reply, a record that is behind). A block leaves two rows side by side (the feedback row
+        and the attachment): neighbouring feedback rows are one block."""
         last_work = max([e.i for e in self.evs if e.kind == "ASSISTANT"] or [-1])
         blocks, run = [], None
         for e in self.evs:
@@ -2509,8 +2663,8 @@ class Model(object):
                 run.append(e)
             elif e.kind != "OTHER":
                 run = None
-        return [b[0].i for n, b in enumerate(blocks) if b[0].i > after
-                and (b[-1].i < last_work or (retry and n == len(blocks) - 1))
+        return [b[0].i for b in blocks if b[0].i > after
+                and (b[-1].i < last_work or retry)
                 and any(_marked(e.text, mark) for e in b)]
 
     def prose(self, after, last_message=None):

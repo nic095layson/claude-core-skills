@@ -77,6 +77,16 @@ DEFAULT_JOBS = 4
 HOOK_WAIT_SECONDS = 15                # longer than the wired timeout of 10 s: a hook still running then has failed
 SLEEP_SECONDS = 20                    # how long the slow record reader of J04 sleeps
 DEADLINE_LIMIT_SECONDS = 9            # J04a: the denial must be printed within this
+# B6: a case about speed judges the CPU time the hook used, not the wall clock. The wrapper runs the hook as its
+# own child and reports that child's CPU time on standard error after CPU_MARK.
+CPU_MARK = "\nselftest-cpu-seconds "
+CPU_WRAPPER = ("import resource, subprocess, sys\n"
+               "p = subprocess.run(sys.argv[1:])\n"
+               "r = resource.getrusage(resource.RUSAGE_CHILDREN)\n"
+               "sys.stderr.write(%r + '%%.3f\\n' %% (r.ru_utime + r.ru_stime))\n"
+               "sys.exit(p.returncode)\n" % CPU_MARK)
+LONG_SENTENCE_CPU_SECONDS = 4.0       # RLZ19: at most half the receipt gate's own deadline of 8 s
+LONG_PASTE_CPU_SECONDS = 1.0          # d4_t: a 70,000-character paste is judged within this much CPU time
 STALE_NOTE_SECONDS = 3600             # J16b: how long before the record's first row the stale note was written
 SLOW_WAIT_SECONDS = SLEEP_SECONDS + 10
 SCHEDULED_WORDS = "scheduled run never merges"
@@ -186,8 +196,19 @@ TABLE = ["1"]
 
 # ------------------------------------------------------------------ running one hook
 class Out(object):
-    def __init__(self, status, out, err, seconds):
-        self.status, self.out, self.err, self.seconds = status, out, err, seconds
+    def __init__(self, status, out, err, seconds, cpu=None):
+        self.status, self.out, self.err, self.seconds, self.cpu = status, out, err, seconds, cpu
+
+
+def _cpu_of(err):
+    """(the hook's own error text, the CPU seconds the wrapper reported for it) -> see CPU_WRAPPER."""
+    head, sep, tail = err.rpartition(CPU_MARK)
+    if not sep:
+        return err, None
+    try:
+        return head.strip(), float(tail.split()[0])
+    except (ValueError, IndexError):
+        return err, None
 
 
 class Ctx(object):
@@ -216,31 +237,37 @@ class Ctx(object):
             rows = rows(self)
         return R.write(rows, self.path(name), bare=bare, tail=tail)
 
-    def run(self, script, payload, hooks=None, wait=HOOK_WAIT_SECONDS, args=(), env=None, shell=None):
+    def run(self, script, payload, hooks=None, wait=HOOK_WAIT_SECONDS, args=(), env=None, shell=None, cpu=False):
+        """One hook run. `cpu` = also measure the CPU time the hook used (Out.cpu): a timing case judges that,
+        not the wall clock, so that a loaded machine does not decide it (B6)."""
         more_env, env = env, dict(os.environ)
         env.update(TMPDIR=self.tmp, TURNGATE_STATE_DIR=self.state, PYTHONDONTWRITEBYTECODE="1")
         env.update(more_env or {})
         text = payload if isinstance(payload, str) else json.dumps(payload)
         program = (shell or SHELL_PROGRAM) if script.endswith(".sh") else sys.executable
+        command = [program, os.path.join(hooks or self.hooks, script)] + list(args)
+        if cpu:
+            command = [sys.executable, "-c", CPU_WRAPPER] + command
         began = time.time()
         try:
-            p = subprocess.run([program, os.path.join(hooks or self.hooks, script)] + list(args), input=text,
-                               stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True, env=env,
-                               cwd=self.cwd, timeout=wait)
+            p = subprocess.run(command, input=text, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                               universal_newlines=True, env=env, cwd=self.cwd, timeout=wait)
         except subprocess.TimeoutExpired:
             return Out(None, "", "", time.time() - began)
-        return Out(p.returncode, p.stdout.strip(), p.stderr.strip(), time.time() - began)
+        err, used = _cpu_of(p.stderr) if cpu else (p.stderr, None)
+        return Out(p.returncode, p.stdout.strip(), err.strip(), time.time() - began, used)
 
-    def pre(self, rows, tool_name, tool_input, bare=False, tail="", hooks=None, wait=HOOK_WAIT_SECONDS, **more):
+    def pre(self, rows, tool_name, tool_input, bare=False, tail="", hooks=None, wait=HOOK_WAIT_SECONDS, cpu=False,
+            **more):
         if callable(tool_input):
             tool_input = tool_input(self)
         payload = {"session_id": self.session, "transcript_path": self.record(rows, bare, tail), "cwd": REPO_DIR,
                    "hook_event_name": "PreToolUse", "tool_name": tool_name, "tool_input": tool_input,
                    "tool_use_id": "toolu_selftest"}
         payload.update((key, value(self) if callable(value) else value) for key, value in more.items())
-        return self.run(PRE_SCRIPT, payload, hooks, wait)
+        return self.run(PRE_SCRIPT, payload, hooks, wait, cpu=cpu)
 
-    def stop(self, rows, active=False, bare=False, tail="", hooks=None, wait=HOOK_WAIT_SECONDS, **more):
+    def stop(self, rows, active=False, bare=False, tail="", hooks=None, wait=HOOK_WAIT_SECONDS, cpu=False, **more):
         if callable(rows):
             rows = rows(self)
         payload = {"session_id": self.session, "transcript_path": self.record(rows, bare, tail), "cwd": REPO_DIR,
@@ -249,10 +276,10 @@ class Ctx(object):
         if last is not None:
             payload["last_assistant_message"] = last      # the program hands the final answer to a Stop hook
         payload.update(more)
-        return self.run(STOP_SCRIPT, payload, hooks, wait)
+        return self.run(STOP_SCRIPT, payload, hooks, wait, cpu=cpu)
 
     def receipt(self, rows, active=False, bare=False, tail="", hooks=None, wait=HOOK_WAIT_SECONDS, last=FROM_RECORD,
-                name="record.jsonl", env=None, shell=None, **more):
+                name="record.jsonl", env=None, shell=None, cpu=False, **more):
         """One stop as the receipt gate sees it. `last` = the final answer the program hands over (default: the
         text of the record's last row when the assistant wrote it; None = the field is left out)."""
         if callable(rows):
@@ -264,7 +291,7 @@ class Ctx(object):
         if last is not None:
             payload["last_assistant_message"] = last
         payload.update(more)
-        return self.run(RECEIPT_SCRIPT, payload, hooks, wait, env=env, shell=shell)
+        return self.run(RECEIPT_SCRIPT, payload, hooks, wait, env=env, shell=shell, cpu=cpu)
 
     def trigger(self, rows, prompt):
         out = self.run(TRIGGER_SCRIPT, {"session_id": self.session, "transcript_path": self.record(rows),
@@ -939,7 +966,9 @@ P("m_card_several_prs_label_names_none", "D1a G8", "deny[merge-word]",
 P("m_card_result_is_error", "D1a", "deny[merge-word]",
   flat(owner("x"), click("Merge PR #35?", ["Merge #35", "Wait"], "Merge #35", flag_error=True)), inp=mi(35))
 P("m_queued_stop_revokes_all", "FU2-4", "deny[merge-word]", [owner("Merge #34 and #35."), queued("stop")], inp=mi(35))
-P("m_queued_second_message_keeps_word", "D2 FU2-4", "allow",
+# d4: the owner's decision D4 (2026-11-16) changed this pre-registered verdict from allow: a message typed while the
+# assistant works ends the word unless it is itself a plain order (results/2026-11-16/audit-fixes/second-read/).
+P("m_queued_second_message_keeps_word", "D2 FU2-4 d4", "deny[merge-word]",
   [owner("Merge #34."), say("On it."), queued("And fix the typo in the README while you're there.")])
 P("m_d2_midturn_notification_keeps_word", "D2", "allow",
   flat(stop(), owner("Merge #34."), queued("<task-notification>x</task-notification>", kind="task-notification", mode="task-notification"),
@@ -1348,27 +1377,29 @@ P("am_a5_same-message-scratch-that", "AM-5", "deny [merge-word]", [owner("Merge 
 # "Merge #34? Or wait for CI?" (m_question_form_is_no_order) is now also emptied by rule A5; this one pins the
 # question rule alone (break WD14).
 P("am_a5_pin-typed-question-is-no-order", "A5 pin", "deny [merge-word]", [owner("Merge #34 now?")])
-P("am_a5_ctl-mid-fix-the-typo", "AM-5 control", "allow", mid("And fix the typo in the README while you're there."))
+P("am_a5_ctl-mid-fix-the-typo", "AM-5 control d4", "deny [merge-word]", mid("And fix the typo in the README while you're there."))
 P("am_a5_ctl-no-rush", "AM-5 control", "allow", [owner("Merge #34, no rush")])
-P("am_a5_ctl-no-reason-to-hold", "AM-5 control", "allow",
+P("am_a5_ctl-no-reason-to-hold", "AM-5 control d4", "deny [merge-word]",
   [owner("Merge #34. There is no reason to hold this back any longer.")])
 
 # -- A6: a message sent while the assistant works that orders nothing but doubts (MIDTURN_DOUBT_ENDS_WORD)
 P("am_a6_mid-dont-think-so", "AM-5 A6", "deny [merge-word]", mid("I don't think we should do that right now."))
 P("am_a6_mid-only-after-the-audit", "AM-5 A6", "deny [merge-word]", mid("Only after the audit."))
 P("am_a6_mid-not-comfortable", "AM-5 A6", "deny [merge-word]", mid("I'm not comfortable with this anymore."))
-P("am_a6_ctl-mid-here-now", "A6 control", "allow", mid("Thanks, I am here now."))
+P("am_a6_ctl-mid-here-now", "A6 control d4", "deny [merge-word]", mid("Thanks, I am here now."))
 
 # -- A7, A8
-P("am_a7_dont-forget-to-merge", "MORE-dont-forget", "allow", [owner("Don't forget to merge #34.")])
+P("am_a7_dont-forget-to-merge", "MORE-dont-forget d4", "deny [merge-word]", [owner("Don't forget to merge #34.")])
 
 
 def leadin_timing(ctx):
     """A8: an order with a long run of lead-in words is judged (and allowed) about as fast as a plain one."""
-    long_out = ctx.pre([owner("go ahead and " * LEADIN_REPEAT + "merge #34")], MERGE, mi(34))
-    plain_out = ctx.pre([owner("Merge #34.")], MERGE, mi(34))
+    long_out = ctx.pre([owner("go ahead and " * LEADIN_REPEAT + "merge #34")], MERGE, mi(34), cpu=True)
+    plain_out = ctx.pre([owner("Merge #34.")], MERGE, mi(34), cpu=True)
     verdict = pre_verdict(long_out)[0]
-    extra = long_out.seconds - plain_out.seconds
+    if long_out.cpu is None or plain_out.cpu is None:
+        return "%s, no CPU time reported" % verdict, False
+    extra = long_out.cpu - plain_out.cpu              # CPU time, not the wall clock (B6)
     return "%s, %+.2f s" % (verdict, extra), verdict == "allow" and extra < LEADIN_EXTRA_SECONDS
 
 
@@ -2499,8 +2530,34 @@ case("RLZ13-no-python3-on-path", "fail-open", "allow", no_python)
 case("RLZ14-shared-module-missing", "fail-open", "allow", fault_receipt("", "allow", drop=MODULE_FILE))
 case("RLZ15-internal-error", "fail-open", "allow", fault_receipt(LOAD_RAISES, "allow"))
 case("RLZ16-deadline", "fail-open H4", "allow", fault_receipt(LOAD_SLEEPS, "allow", wait=SLOW_WAIT_SECONDS), slow=True)
-RA("RLZ19-one-very-long-sentence-does-not-run-into-the-deadline", "robust", "block",
-   "no item is unverified and none remains unconfirmed, " * 4000 + "\n\nI couldn't verify the port.")
+LONG_SENTENCE = "no item is unverified and none remains unconfirmed, " * 4000 + "\n\nI couldn't verify the port."
+RECEIPT_DEADLINE_LINE = re.compile(r"(?m)^HOOK_DEADLINE_SECONDS = \d+")
+RECEIPT_DEADLINE_RAISED = "HOOK_DEADLINE_SECONDS = 120"
+
+
+def long_sentence_in_cpu_time(ctx):
+    """RLZ19 (B6): the gate reads the long sentence in well under its deadline. Judged on the CPU time the gate
+    used, on a copy whose deadline is raised so that a loaded machine cannot cut the run short: the wall clock of a
+    loaded machine decided this case before."""
+    copy = hooks_copy(ctx, "")
+    if copy is None:
+        return "no " + MODULE_FILE, False
+    module = os.path.join(copy, RECEIPT_MODULE)
+    with open(module, encoding="utf-8") as fh:
+        text = fh.read()
+    raised, found = RECEIPT_DEADLINE_LINE.subn(RECEIPT_DEADLINE_RAISED, text)
+    if found != 1:
+        return "the receipt gate's deadline was found %d times" % found, False
+    with open(module, "w", encoding="utf-8") as fh:
+        fh.write(raised)
+    out = ctx.receipt([owner(ASK), say(LONG_SENTENCE)], hooks=copy, wait=HOOK_WAIT_SECONDS * 8, cpu=True)
+    verdict = receipt_verdict(out)[0]
+    if out.cpu is None:
+        return "%s, no CPU time reported" % verdict, False
+    return "%s in %.2f s of CPU" % (verdict, out.cpu), verdict == "block" and out.cpu < LONG_SENTENCE_CPU_SECONDS
+
+
+case("RLZ19-one-very-long-sentence-does-not-run-into-the-deadline", "robust", "block", long_sentence_in_cpu_time)
 case("RLZ17-module-by-itself-internal-error", "fail-open", "allow", module_alone(LOAD_RAISES))
 case("RLZ18-module-by-itself-input-not-json", "fail-open", "allow", module_alone("", "not json"))
 
@@ -2677,11 +2734,12 @@ B("am2_m1_python-tool-mentions-the-words-owner-ok", "M1", "allow", [ok()], _PY_M
 B("am2_m1_ctl-bash-land-owner-ok", "M1 control", "deny", [ok()], then(put("land", LAND), "./land"), **HERE_CWD)
 
 # -- M2: a negated hold is a go-ahead
+# d4: these four were "allow"; the owner's decision D4 makes each a wordier order (or a message typed mid-turn).
 for _n, _text in (("lets-not-wait", "Let's not wait any longer, merge #34."),
                   ("dont-wait-first", "Don't wait for CI, merge #34 now."),
                   ("dont-wait-after", "Merge #34 now, don't wait for CI.")):
-    P("am2_m2_" + _n, "M2", "allow", [owner(_text)])
-P("am2_m2_mid-dont-wait-for-me", "M2", "allow", mid("Don't wait for me."))
+    P("am2_m2_" + _n, "M2 d4", "deny [merge-word]", [owner(_text)])
+P("am2_m2_mid-dont-wait-for-me", "M2 d4", "deny [merge-word]", mid("Don't wait for me."))
 P("am2_m2_ctl-no-wait", "M2 control", "deny [merge-word]", [owner("Merge #34. No wait.")])
 P("am2_m2_ctl-mid-wait", "M2 control", "deny [merge-word]", mid("Wait."))
 
@@ -2692,12 +2750,12 @@ for _n, _text in (("comma-line", "Once CI is green,\nmerge #34."),
                   ("condition-line-no-mark", "If the guard passes\nmerge #34"),
                   ("colon-list-order-second", "When the audit is back:\n- update the README\n- merge #34")):
     P("am2_m3_" + _n, "M3", "deny [merge-word]", [owner(_text)])
-P("am2_m3_ctl-order-then-line", "M3 control", "allow", [owner("Merge #34\nThen update the README")])
-P("am2_m3_ctl-numbered-orders", "M3 control", "allow", [owner("1. Merge #34\n2. Upload the plugin")])
+P("am2_m3_ctl-order-then-line", "M3 control d4", "deny [merge-word]", [owner("Merge #34\nThen update the README")])
+P("am2_m3_ctl-numbered-orders", "M3 control d4", "deny [merge-word]", [owner("1. Merge #34\n2. Upload the plugin")])
 P("am2_m3_ctl-numbered-orders-2-not-granted", "M3 control", "deny [merge-word]", [owner("1. Merge #34\n2. Upload the plugin")],
   inp=mi(2))
 P("am2_m3_ctl-looks-good-line", "M3 control", "allow", [owner("Looks good\nMerge #34")])
-P("am2_m3_ctl-colon-list-of-orders", "M3 control", "allow", [owner("Do these:\n- merge #34\n- upload the plugin")])
+P("am2_m3_ctl-colon-list-of-orders", "M3 control d4", "deny [merge-word]", [owner("Do these:\n- merge #34\n- upload the plugin")])
 
 # -- M4: more words that put an order off or hold it
 for _n, _text in (("eventually", "Merge #34 eventually."), ("in-the-morning", "Merge #34 in the morning."),
@@ -2719,7 +2777,7 @@ P("am2_m5_ctl-merge-first-then-other-141", "M5 control", "allow", [owner("Merge 
 # -- M6: a statement that holds a refusal or a hold takes its pull requests out of the grant
 P("am2_m6_can-wait", "M6", "deny [merge-word]", [owner("Merge #34. Merge #34 can wait.")])
 P("am2_m6_is-not-ready", "M6", "deny [merge-word]", [owner("Merge #34. Merge #34 is not ready.")])
-P("am2_m6_ctl-has-two-commits", "M6 control", "allow", [owner("Merge #34. Merge #34 has two commits.")])
+P("am2_m6_ctl-has-two-commits", "M6 control d4", "deny [merge-word]", [owner("Merge #34. Merge #34 has two commits.")])
 
 # -- M7: the merge gate reads a denial as the Stop gate does
 P("am2_m7_merge-result-echoes-requires-approval-then-other-repo", "M7", "deny [merge-word]",
@@ -3267,6 +3325,471 @@ case("W04-wiring-missing-script-denies-only-the-merge-tools", "SF-2 H4", "a miss
 case("W05-wiring-scripts-beside-the-hooks", "SF-2", "every wired script and what it needs is beside the hooks",
      wired_scripts_are_beside_the_hooks)
 case("W06-wiring-commands-run-the-hooks", "SF-4", "every wired command runs its hook", wired_commands_run_the_hooks)
+
+
+# ==================================================================== table "D": plain orders (D4), the second outside read
+# The owner's decision D4 (2026-11-16): a typed message grants only when its LAST sentence is a plain order, and a
+# message the owner types while the assistant works ends the word unless it is itself such an order. Findings DM-1
+# to DM-10 and DS-1 to DS-7 of the second outside read and their "MORE" lines (cases d4_..):
+# results/2026-11-16/audit-fixes/second-read/. Every wanted verdict was written from the rules before the code
+# changed; the run on the tree as it stood is red-on-start.txt there. A case marked "control" or "pin" passed on
+# that tree.
+TABLE[0] = "D"
+DECK = lambda n: mi(n, "deck")        # noqa: E731
+# -- A2, A3: what a typed message grants (an owner turn; the merge of #34 of acme/lib unless said)
+_D4_GRANTS = (
+    ("g01-merge-hash", "Merge #34.", None), ("g02-merge-bare-number", "merge 34", None),
+    ("g03-please-now", "Please merge #34 now.", None), ("g04-lets", "Let's merge #34.", None),
+    ("g05-ok-lets-now", "Ok, let's merge #34 now.", None), ("g06-looks-good", "Looks good, merge #34.", None),
+    ("g07-yes-why-not", "Yes, why not, merge #34.", None), ("g08-no-objections", "No objections, merge #34.", None),
+    ("g09-first-comma", "First, merge #34.", None),
+    ("g10-two-call-34", "Merge #34 and #141.", None), ("g10-two-call-141", "Merge #34 and #141.", DECK(141)),
+    ("g11-brackets-call-34", "Merge #34 (library) and #141 (deck).", None),
+    ("g11-brackets-call-141", "Merge #34 (library) and #141 (deck).", DECK(141)),
+    ("g12-34-first-call-34", "Merge #34 and #141, 34 first.", None),
+    ("g12-34-first-call-141", "Merge #34 and #141, 34 first.", DECK(141)),
+    ("g13-then-call-34", "Merge #34 first, then #141.", None), ("g13-then-call-141", "Merge #34 first, then #141.", DECK(141)),
+    ("g14-not-141-call-34", "Merge #34, not #141.", None),
+    ("g15-do-not-34-merge-35-call-35", "Do not merge #34. Merge #35.", mi(35)),
+    ("g16-dont-26-merge-27-call-27", "don't merge #26, merge #27", mi(27)),
+    ("g17-leave-141-alone-call-34", "Merge 34. Leave 141 alone", None),
+    ("g18-no-rush", "Merge #34, no rush", None), ("g19-can-you", "Can you merge #34?", None),
+    ("g20-into-main", "Merge #34 into main.", None), ("g21-with-squash", "Merge #34 with squash.", None),
+    ("g22-today", "Merge #34 today.", None), ("g23-after-all", "Merge #34 after all.", None),
+    ("g24-context-sentence-first", "The audit is done. Merge #34.", None),
+    ("g25-looks-good-line", "Looks good\nMerge #34", None), ("g26-thanks-after", "Merge #34. Thanks!", None),
+    ("g27-url", "Merge https://github.com/acme/lib/pull/34", None))
+for _n, _text, _inp in _D4_GRANTS:
+    P("d4_" + _n, "D4 DM-4", "allow", [owner(_text)], inp=_inp)
+for _n, _text, _inp in (("g14-not-141-call-141", "Merge #34, not #141.", DECK(141)),
+                        ("g15-do-not-34-merge-35-call-34", "Do not merge #34. Merge #35.", None),
+                        ("g16-dont-26-merge-27-call-26", "don't merge #26, merge #27", mi(26)),
+                        ("g17-leave-141-alone-call-141", "Merge 34. Leave 141 alone", DECK(141))):
+    P("d4_" + _n, "D4 control", "deny [merge-word]", [owner(_text)], inp=_inp)
+P("d4_g28-mid-turn-order-after-ok", "D4 A4", "allow", flat(ok(), bash("gh pr checks 34", "all green"), queued("Merge #34.")))
+B("d4_g29-push-this-to-main", "D4", "allow", [owner("Push this to main.")], PUSH_MAIN_CMD)
+B("d4_g30-ok-push-the-fix-to-main", "D4", "allow", [owner("Ok, push the fix to main.")], PUSH_MAIN_CMD)
+
+# -- A5: cards
+P("d4_c01-option-merge-34", "D4 A5", "allow", flat(ok(), click("Merge #34?", ["Merge #34", "Wait"], "Merge #34")))
+P("d4_c02-option-merge-both", "D4 A5", "allow", flat(ok(), qa("Merge both (Recommended)")), inp=DECK(141))
+P("d4_c03-option-library-only", "D4 A5", "allow", flat(ok(), qa("Merge library only (#34)")))
+P("d4_c04-yes-on-merge-now", "D4 A5", "allow", yes_on("Merge #34 now?"))
+P("d4_c05-yes-both-on-two", "D4 A5", "allow",
+  yes_on("Shall I merge PR 34 and PR 141?", "Yes, both (Recommended)", ["Yes, both (Recommended)", "No"]), inp=mi(141))
+P("d4_c06-yes-context-then-question", "D4 A5", "allow", yes_on("PR 34 is green. Merge it now?"))
+P("d4_c07-free-text-squash-please", "D4 A5", "allow",
+  flat(ok(), click("Merge PR #34?", ["Merge #34", "Wait"], "merge it, squash please")))
+P("d4_c08-option-merge-recommended", "D4 A5", "allow",
+  flat(ok(), click("Shall I merge PR 34 now?", ["Merge (Recommended)", "Not yet"], "Merge (Recommended)")))
+P("d4_c09-option-yes-merge-34", "D4 A5", "allow",
+  flat(ok(), click("What should I do with #34?", ["Yes, merge #34", "Leave it"], "Yes, merge #34")))
+B("d4_c10-yes-on-push-to-main", "D4 A5", "allow", yes_on("Push this to main?"), PUSH_MAIN_CMD)
+
+# -- A1 to A3: what grants nothing
+_LINES = "".join("Note %04d: nothing to act on here.\n" % _i for _i in range(140))
+LONG_MESSAGE = _LINES + "y" * (4988 - len(_LINES)) + ".\nMerge #34."      # 5,000 characters, the order last
+_D4_DENIES = (
+    ("n01-once-after", "Merge #34 once CI is green."), ("n02-once-first", "Once CI is green, merge #34."),
+    ("n03-once-line", "Once CI is green,\nmerge #34."), ("n04-if-line-no-mark", "If the guard passes\nmerge #34"),
+    ("n05-colon-dash-list", "When the audit is back:\n- merge #34\n- then sync the kit"),
+    ("n06-next-steps-list", "Next steps:\n- merge #34\n- upload the plugin"),
+    ("n07-numbered-list", "1. Merge #34\n2. Upload the plugin"),
+    ("n08-and-let-me-know", "Merge #34 and let me know when it's done."),
+    ("n09-then-sync-sentence", "Merge #34. Then sync the kit."), ("n10-nope-sentence", "Merge #34. Nope."),
+    ("n11-second-thought", "Merge #34. On second thought, let's wait for the audit."),
+    ("n12-in-an-hour", "Merge #34 in an hour."), ("n13-at-noon", "Merge #34 at noon."),
+    ("n14-by-end-of-day", "Merge #34 by end of day."), ("n15-this-weekend", "Merge #34 this weekend."),
+    ("n16-following-the-audit", "Merge #34 following the audit."), ("n17-eventually", "Merge #34 eventually."),
+    ("n18-conflicts-with", "Merge #34 conflicts with #35."),
+    ("n19-touches-the-hooks", "Merge #34 touches the hooks, review it again."),
+    ("n20-has-failing-checks", "Merge #34 has failing checks, look at it."),
+    ("n21-plan-says-lines", "Your plan says\nmerge #34\nIs that right?"),
+    ("n22-you-said", "Yesterday you said: merge #34. Explain why."), ("n23-ci-is-green", "CI is green, merge #34."),
+    ("n24-dont-wait-for-ci", "Don't wait for CI, merge #34 now."), ("n25-wait-then", "Wait for CI, then merge #34."),
+    ("n26-question", "Merge #34?"), ("n27-should-we", "Should we merge #34?"),
+    ("n28-i-might", "I might merge #34 myself."),
+    ("n29-long-message", LONG_MESSAGE),
+    ("n30-wait-for-the-guard-line", "Wait for the guard\nmerge #34"),
+    ("n31-still-fails", "Merge #34 still fails CI, look at it."))
+for _n, _text in _D4_DENIES:
+    P("d4_" + _n, "D4 DM-2 DM-3 DM-5", "deny [merge-word]", [owner(_text)])
+P("d4_n07-numbered-list-call-2", "D4", "deny [merge-word]", [owner("1. Merge #34\n2. Upload the plugin")], inp=mi(2))
+B("d4_n32-push-by-end-of-day", "D4 DM-3", "deny [default-branch]", [owner("Push to main by end of day.")], PUSH_MAIN_CMD)
+B("d4_n33-push-straight-no-pr", "D4", "deny [default-branch]", [owner("Push to main and let me know when it's done.")],
+  PUSH_MAIN_CMD)
+P("d4_n34-option-by-end-of-day", "D4 A5 DM-3", "deny [merge-word]",
+  flat(ok(), click("Merge #34?", ["Merge #34 by end of day", "Wait"], "Merge #34 by end of day")))
+P("d4_n35-option-after-the-audit", "D4 A5", "deny [merge-word]",
+  flat(ok(), click("Merge #34?", ["Merge after the audit", "Merge #34 now"], "Merge after the audit")))
+for _n, _q in (("n36-yes-in-an-hour", "Merge #34 in an hour?"),
+               ("n37-yes-wait-before", "Wait for the outside audit before I merge #34?"),
+               ("n38-yes-safe-to-merge", "Is #34 safe to merge?"), ("n39-yes-or-wait", "Merge #34 or wait?")):
+    P("d4_" + _n, "D4 A5", "deny [merge-word]", yes_on(_q))
+P("d4_n40-wordy-option-takes-back-typed-order", "D4 A5", "deny [merge-word]",
+  flat(owner("Merge #34."), click("Merge #34 now?", ["Merge #34 by end of day", "Merge #34 now"], "Merge #34 by end of day")))
+P("d4_n41-free-text-wordy-takes-back-typed-order", "D4 A5", "deny [merge-word]",
+  flat(owner("Merge #34."), click("Merge PR #34?", ["Merge #34", "Wait"], "merge it once CI is green")))
+
+# -- A4: a message typed while the assistant works, after "Merge #34."
+for _n, _text in (("m01-nope", "Nope."), ("m02-forget-it", "Forget it."), ("m03-ignore-that", "Ignore that."),
+                  ("m04-take-that-back", "I take that back."), ("m05-think-about-it", "Let me think about it."),
+                  ("m06-review-first", "Let me review #34 first."), ("m07-do-it-myself", "Actually, I'll do it myself."),
+                  ("m08-keep-open", "Keep #34 open."), ("m09-hang-tight", "Hang tight."), ("m10-one-sec", "one sec"),
+                  ("m11-fix-the-typo", "And fix the typo in the README while you're there."),
+                  ("m12-here-now", "Thanks, I am here now."), ("m13-dont-wait-for-me", "Don't wait for me.")):
+    P("d4_" + _n, "D4 A4 DM-2", "deny [merge-word]", mid(_text))
+B("d4_m14-push-then-nope", "D4 A4 DM-2", "deny [default-branch]",
+  flat(owner("Push this to main."), bash("git status", "clean"), queued("Nope.")), PUSH_MAIN_CMD)
+P("d4_m15-another-order-call-141", "D4 A4", "allow", mid("Merge #141 too."), inp=DECK(141))
+P("d4_m16-another-order-call-34", "D4 A4", "allow", mid("Merge #141 too."))
+P("d4_m17-scheduled-run-queued-order", "D4 A4 control", "allow", flat(run_rows(), queued("Merge #40.")), inp=mi(40))
+P("d4_m18-nope-before-a-new-order-revokes", "A6 lead-REFUSAL_START", "deny [merge-word]",
+  mid("Nope. Merge #141.", order="Merge #34 and #141."))
+P("d4_m19-nope-before-a-new-order-grants-it", "A6 control", "allow", mid("Nope. Merge #141.", order="Merge #34 and #141."),
+  inp=mi(141))
+
+
+# -- A1 (DM-9): a long paste is not read for an order, and it is judged in linear time
+def _paste(lines):
+    rows = ["%d,kit-%d,green,%d," % (i, i, i * 7) for i in range(lines)]
+    items = ["- check item %d" % i for i in range(lines // 4)]
+    return "\n".join(rows) + "\nTo do:\n" + "\n".join(items)
+
+
+PASTE = _paste(3000)                   # about 70,000 characters: lines that end with commas, then a checklist
+
+
+def paste_timing(rows, wanted):
+    def fn(ctx):
+        out = ctx.pre(rows, MERGE, mi(34), cpu=True)
+        got, passed = judge(wanted, *pre_verdict(out))
+        if out.cpu is None:
+            return got + ", no CPU time reported", False
+        return "%s in %.2f s of CPU" % (got, out.cpu), passed and out.cpu < LONG_PASTE_CPU_SECONDS
+    return fn
+
+
+case("d4_t01-paste-then-separate-order", "DM-9 B6", "allow, under 1 s of CPU",
+     paste_timing(flat(owner(PASTE), bash("ls", "x"), queued("Merge #34.")), "allow"))
+case("d4_t02-paste-ending-in-order", "DM-9 B6", "deny [merge-word], under 1 s of CPU",
+     paste_timing([owner(PASTE + "\nMerge #34.")], "deny [merge-word]"))
+
+# -- B1 (DM-1): a script fed to a shell on standard input is read like a script the shell is given
+for _n, _cmd in (("b1-bash-stdin", "bash < land.sh"), ("b1-bash-s-stdin", "bash -s < land.sh"),
+                 ("b1-sh-stdin", "sh < land.sh"), ("b1-cat-pipe-bash", "cat land.sh | bash"),
+                 ("b1-cat-pipe-sh", "cat land.sh | sh"), ("b1-dev-stdin", "bash /dev/stdin < land.sh"),
+                 ("b1-dash", "bash - < land.sh"), ("b1-cat-pipe-bash-x", "cat ./land.sh | bash -x")):
+    B("d4_" + _n + "-scheduled", "DM-1", "deny:scheduled", run_rows(), then(put("land.sh", LAND), _cmd), **HERE_CWD)
+    B("d4_" + _n + "-owner-ok", "DM-1", "deny [merge-word]", [ok()], then(put("land.sh", LAND), _cmd), **HERE_CWD)
+B("d4_b1-push-script-on-stdin", "DM-1 lead", "deny [default-branch]", [ok()],
+  then(put("ship.sh", PUSH_LAND), "bash < ship.sh"), **HERE_CWD)
+B("d4_b1-push-script-cat-pipe", "DM-1 lead", "deny [default-branch]", [ok()],
+  then(put("ship.sh", PUSH_LAND), "cat ship.sh | bash"), **HERE_CWD)
+B("d4_b1-ctl-cat-pipe-grep", "DM-1 control", "allow", [ok()],
+  then(put("notes.txt", LAND, mode=0o644), "cat notes.txt | grep x"), **HERE_CWD)
+B("d4_b1-ctl-stdin-script-says-hi", "DM-1 control", "allow", [ok()], then(put("hi.sh", "echo hi\n"), "bash < hi.sh"),
+  **HERE_CWD)
+
+# -- B2 (DM-7): the written-file memory
+_W40 = "echo '" + G_MERGE + " 40' > "
+_CI = put("ci.sh", "echo running checks\n")
+for _n, _prep, _cmd in (("b2-pwd-spelling", [], _W40 + "x.sh; bash \"$PWD/x.sh\""),
+                        ("b2-pwd-braces", [], _W40 + "x.sh; bash \"${PWD}/x.sh\""),
+                        ("b2-pwd-substituted", [], _W40 + "x.sh; bash \"$(pwd)/x.sh\""),
+                        ("b2-pwd-in-the-write", [], _W40 + "\"$PWD/x.sh\"; bash x.sh"),
+                        ("b2-cp-over-existing", [put("land.sh", LAND), _CI], "cp land.sh ci.sh && bash ci.sh"),
+                        ("b2-mv-over-existing", [put("land.sh", LAND), _CI], "mv land.sh ci.sh && bash ci.sh"),
+                        ("b2-cat-over-existing", [put("land.sh", LAND), _CI], "cat land.sh > ci.sh && bash ci.sh"),
+                        ("b2-cp-written-then-run", [_CI], _W40 + "a.sh && cp a.sh ci.sh && bash ci.sh"),
+                        ("b2-written-cat-pipe", [], _W40 + "x3.sh; cat x3.sh | bash"),
+                        ("b2-written-stdin", [], _W40 + "x4.sh; bash < x4.sh")):
+    B("d4_" + _n + "-scheduled", "DM-7", "deny:scheduled", run_rows(), then([_CI] + _prep, _cmd), **HERE_CWD)
+B("d4_b2-cp-over-existing-owner-ok", "DM-7", "deny [merge-word]", [ok()],
+  then([put("land.sh", LAND), _CI], "cp land.sh ci.sh && bash ci.sh"), **HERE_CWD)
+B("d4_b2-ctl-cp-harmless-then-run", "DM-7 control", "allow", [ok()],
+  then([put("hi.sh", "echo hi\n"), put("ci.sh", LAND)], "cp hi.sh ci.sh && bash ci.sh"), **HERE_CWD)
+B("d4_b2-ctl-cp-not-run", "DM-7 control", "allow", [ok()], then(put("land.sh", LAND), "cp land.sh backup.sh"), **HERE_CWD)
+B("d4_b2-ctl-pwd-harmless", "DM-7 control", "allow", [ok()], "echo 'echo hi' > x.sh; bash \"$PWD/x.sh\"", **HERE_CWD)
+
+# -- B3 (DM-6): a request body file the same command wrote; wget --post-file
+_Q = put("q.graphql", PLAIN_QUERY, mode=0o644)
+_M = put("m.graphql", MERGE_QUERY, mode=0o644)
+_MJ = '{"query": "' + MERGE_QUERY.strip().replace("\"", "\\\"") + '"}'
+_QJ = '{"query": "query { viewer { login } }"}'
+for _n, _prep, _cmd in (
+        ("b3-heredoc-then-post", [_Q], "cat > q.graphql <<'EOF'\n" + MERGE_QUERY + "EOF\ngh api graphql -F query=@q.graphql"),
+        ("b3-copy-then-post", [_Q, _M], "cp m.graphql q.graphql && gh api graphql -F query=@q.graphql"),
+        ("b3-echo-then-curl", [put("qb.json", _QJ, mode=0o644)],
+         "echo '" + _MJ + "' > qb.json; curl -s -d @qb.json https://api.github.com/graphql"),
+        ("b3-wget-post-file", [put("mb.json", _MJ, mode=0o644)],
+         "wget -q -O- --post-file=mb.json https://api.github.com/graphql"),
+        ("b3-wget-post-file-spaced", [put("mb.json", _MJ, mode=0o644)],
+         "wget -q -O- --post-file mb.json https://api.github.com/graphql"),
+        ("b3-wget-post-file-missing", [], "wget -q -O- --post-file=nothere.json https://api.github.com/graphql")):
+    B("d4_" + _n + "-owner-ok", "DM-6", "deny [target-unknown]", [ok()], then(_prep, _cmd), **HERE_CWD)
+    B("d4_" + _n + "-scheduled", "DM-6", "deny:scheduled", run_rows(), then(_prep, _cmd), **HERE_CWD)
+B("d4_b3-ctl-heredoc-query-over-mutation", "DM-6 control", "allow", [ok()],
+  then(_M, "cat > m.graphql <<'EOF'\n" + PLAIN_QUERY + "EOF\ngh api graphql -F query=@m.graphql"), **HERE_CWD)
+B("d4_b3-ctl-wget-post-file-query", "DM-6 control", "allow", [ok()],
+  then(put("qb.json", _QJ, mode=0o644), "wget -q -O- --post-file=qb.json https://api.github.com/graphql"), **HERE_CWD)
+
+# -- B4 (DM-8): a shell's "+x" word is an option, not the script's name
+for _n, _cmd in (("b4-bash-plus-n", "bash +n land.sh"), ("b4-bash-plus-x", "bash +x land.sh"),
+                 ("b4-sh-plus-e", "sh +e land.sh"), ("b4-bash-plus-o", "bash +o posix land.sh")):
+    B("d4_" + _n + "-scheduled", "DM-8", "deny:scheduled", run_rows(), then(put("land.sh", LAND), _cmd), **HERE_CWD)
+    B("d4_" + _n + "-owner-ok", "DM-8", "deny [merge-word]", [ok()], then(put("land.sh", LAND), _cmd), **HERE_CWD)
+
+# -- B5 (DM-10): one case for each break of the merge gate's rules the second read found no case for
+_M34 = G_MERGE + " 34"
+for _n, _wanted, _prep, _cmd in (
+        ("N01-unresolved-word-read-as-git", "deny [default-branch]", [], "$G push origin HEAD:main"),
+        ("N03-field-body-file", "allow", [put("q.graphql", "query{viewer{login}}", mode=0o644)],
+         "gh api graphql --field query=@q.graphql"),
+        ("N04-data-binary-body-file", "allow", [put("qb.json", '{"query":"query{viewer{login}}"}', mode=0o644)],
+         "curl -s --data-binary @qb.json https://api.github.com/graphql"),
+        ("N05-body-on-stdin", "deny [target-unknown]", [],
+         "gh api graphql -F query=@- <<'EOF'\n" + MERGE_QUERY + "EOF"),
+        ("N06-push-all-unparsed", "deny [default-branch]", [], "git push --all origin 'unterminated"),
+        ("N08-sed-in-place-then-run", "allow", [put("land1.sh", _M34 + "\necho done\n")],
+         "sed -i '1d' land1.sh && bash land1.sh"),
+        ("N10-printf-escapes", "deny [merge-word]", [], "printf 'echo hi\\n" + _M34 + "\\n' > p.sh; bash p.sh"),
+        ("N11-tee-append", "deny [merge-word]", [], "echo '" + _M34 + "' > t.sh; tee -a t.sh <<< 'echo hi' >/dev/null; bash t.sh"),
+        ("N12-append-redirect", "deny [merge-word]", [], "echo '" + _M34 + "' > a.sh; echo 'echo hi' >> a.sh; bash a.sh"),
+        ("N13-env-shebang", "deny [merge-word]", [put("envb.sh", "#!/usr/bin/env bash\n" + _M34 + "\n")], "./envb.sh"),
+        ("N15-find-execdir", "deny [merge-word]", [], "find . -maxdepth 0 -execdir " + _M34 + " \\;"),
+        ("N16-find-exec-plus-end", "deny [merge-word]", [], "find . -maxdepth 0 -exec ls {} + -o -exec " + _M34 + " \\;"),
+        ("N17-curl-output-then-run", "allow", [put("run.sh", _M34 + "\n")],
+         "curl -sS -o run.sh https://example.com/x; bash run.sh"),
+        ("N18-echo-e-escapes", "deny [merge-word]", [], "echo -e 'echo hi\\n" + _M34 + "' > e.sh; bash e.sh")):
+    B("d4_b5-" + _n, "DM-10 pin", _wanted, [ok()], then(_prep, _cmd), **HERE_CWD)
+P("d4_b5-N19-repository-any-case", "DM-10 pin", "allow",
+  flat(owner("Merge #34."), call(MERGE, "Pull request #34 merged", owner="ACME", repo="LIB", pullNumber=34)))
+P("d4_b5-N21-failed-cli-merge-elsewhere", "DM-10 pin", "allow",
+  flat(owner("Merge #34."), bash(G_MERGE + " 34 -R acme/deck", "GraphQL: Could not resolve to a PullRequest", True)))
+
+
+# -- C1 (DS-1): on a retry every block of the stretch counts, answered in the record or not
+def stop_series(rows, reply, mode, limits):
+    """Up to eight stops of one turn whose miss is never fixed, both Stop hooks at each (sim.py of the second
+    read). mode: "record" (each reply lands in the record before the next stop), "input" (the reply is only in the
+    Stop input, and reaches the record one stop later), "empty" (a reply leaves no row). Passes when the stop is let
+    go and no rule blocked more often than `limits` allows."""
+    def fn(ctx):
+        counts, active, pending, let_go, cur = {}, False, None, False, list(rows)
+        for _n in range(8):
+            last = reply if (active and mode != "empty") else ("" if active else None)
+            more = {} if last is None else {"last_assistant_message": last}
+            g = stop_verdict(ctx.stop(cur, active, **more))
+            r = receipt_verdict(ctx.receipt(cur, active, last=last))
+            reasons = [x[1] for x in (g, r) if x[0] != "allow"]
+            for v in (g[0], r[0]):
+                if v != "allow":
+                    counts[v] = counts.get(v, 0) + 1
+            if not reasons:
+                let_go = True
+                break
+            block = []
+            for reason in reasons:
+                block += R.blocked_stop(reason)[:2]
+            block.append(R.stop(reasons[0]))
+            block[-1]["hookErrors"] = list(reasons)
+            cur = cur + block
+            if mode == "record":
+                cur.append(say(reply))
+            elif mode == "input":
+                if pending:
+                    cur.append(pending)
+                pending = say(reply)
+            active = True
+        got = ", ".join("%s %d" % kv for kv in sorted(counts.items())) or "no block"
+        passed = let_go and all(counts.get(k, 0) <= v for k, v in limits.items())
+        return got + ("" if let_go else ", never let go"), passed
+    return fn
+
+
+_F1_START = flat(owner("Fix the typo in README and push it."), commit(), say("done"))
+_ALL_START = flat(owner(BUILD), write_file(), commit(), say(BARE_ANSWER))
+for _mode in ("empty", "record", "input"):
+    case("d4_s1-f1-series-" + _mode, "DS-1", "let go, at most 2 F1 blocks",
+         stop_series(_F1_START, "Understood.", _mode, {"block:F1": 2}))
+case("d4_s1-all-rules-series-empty", "DS-1", "let go, F1 2, prompt-class 1, receipt 1",
+     stop_series(_ALL_START, BARE_ANSWER, "empty", {"block:F1": 2, "block:prompt-class": 1, "block": 1}))
+S("d4_s1-two-unanswered-f1-blocks-third-stop", "DS-1 R2a", "allow",
+  flat(_F1_START, blocked_stop(F1_REASON), blocked_stop(F1_REASON)), active=True, last_assistant_message="")
+S("d4_s1-ctl-one-unanswered-block-blocks-again", "DS-1 control", "block:F1",
+  flat(_F1_START, blocked_stop(F1_REASON)), active=True, last_assistant_message="")
+
+
+# -- C2 (DS-2): a helper's note stamped while the session was idle is charged to the owner's next stretch
+def note_case(rows, ledger_text, wanted, change=None):
+    """A Stop case whose ledger holds `ledger_text`; `change` = (file, old text, new text) for a copy of the hooks
+    with one of the owner's switches set the other way."""
+    def fn(ctx):
+        hooks = None
+        if change:
+            hooks = hooks_copy(ctx, "")
+            target = os.path.join(hooks, change[0])
+            with open(target, encoding="utf-8") as fh:
+                text = fh.read()
+            if text.count(change[1]) != 1:
+                return "the switch was found %d times" % text.count(change[1]), False
+            with open(target, "w", encoding="utf-8") as fh:
+                fh.write(text.replace(change[1], change[2]))
+        path = ctx.record(rows)
+        with open(R.ledger_path(ctx.state, path), "w", encoding="utf-8") as fh:
+            fh.write(ledger_text)
+        return judge(wanted, *stop_verdict(ctx.stop(rows, hooks=hooks)))
+    return fn
+
+
+def note_at(row, rows_then):
+    return R.ledger_line(R.STAMP_EPOCH + row * STAMP_STEP + 1, rows_then)
+
+
+_LAUNCH = flat(owner("Fix the typo and push it; run the helper in the background."), _BG,
+               res(_BG, "Async agent launched successfully. agentId: a1"), say("The helper is running."), stop())
+_THANKS = flat(_LAUNCH, owner("thanks"), say("You're welcome."))         # the stop row is row 4, the owner's row 5
+_QUEUED_WAKE = flat(_LAUNCH, owner("thanks"), queued("<task-notification>helper done</task-notification>",
+                                                      kind="task-notification", mode="task-notification"),
+                    say("The helper finished; it committed."))
+_WAKE_FIRST = flat(_LAUNCH, wake(), say("The helper finished."))
+case("d4_s2-l1-idle-note-charged-to-next-owner-stretch", "DS-2", "block:F1", note_case(_THANKS, note_at(4, 5), "block:F1"))
+case("d4_s2-l1b-idle-note-notice-in-owner-turn", "DS-2", "block:F1", note_case(_QUEUED_WAKE, note_at(4, 5), "block:F1"))
+case("d4_s2-l1c-ctl-wake-before-owner", "DS-2 control", "block:F1", note_case(_WAKE_FIRST, note_at(4, 5), "block:F1"))
+case("d4_s2-l1d-ctl-note-after-owner", "DS-2 control", "block:F1", note_case(_THANKS, note_at(5, 6), "block:F1"))
+case("d4_s2-note-before-the-stop-not-counted-here", "DS-2 control", "allow", note_case(_THANKS, note_at(3, 4), "allow"))
+case("d4_s2-row-placed-idle-note", "DS-2", "block:F1",
+     note_case(_THANKS, '{"rows": 5, "agent": "agent-7", "tool": "Bash", "kinds": ["commit"]}\n', "block:F1"))
+case("d4_s2-row-placed-note-before-the-stop", "DS-2 control", "allow",
+     note_case(_THANKS, '{"rows": 4, "agent": "agent-7", "tool": "Bash", "kinds": ["commit"]}\n', "allow"))
+
+# -- C3 (DS-3, DS-4): each denial lead, and the leading blanks, pinned
+for _n, _text in (("permission-to-use", "Permission to use Bash with command git push has been denied."),
+                  ("requires-approval", "This command requires approval"),
+                  ("hook-denied", "Hook denied this tool call."),
+                  ("leading-blanks", "\n   The user doesn't want to proceed with this tool use.")):
+    S("d4_s3-denial-lead-" + _n, "DS-4 pin", "allow", ship("git commit -qm x && git push", _text, True))
+S("d4_s3-ctl-other-wording-without-flag-counts", "DS-3 limit", "block:F1",
+  ship("git commit -qm x && git push", "This Bash command contains multiple operations. The following parts require "
+       "approval: git push", True))
+
+# -- C4 (DS-5): each rule's "once" on a retry whose reply is only in the Stop input
+S("d4_s4-prompt-class-once-reply-only-in-input", "DS-5", "allow",
+  flat(owner(BUILD), write_file(), say("done"), blocked_stop(PC_REASON)), active=True,
+  last_assistant_message="Understood.")
+
+
+def receipt_once_on_retry(ctx):
+    rows = flat(owner("Is the deploy live?"), say(BARE_ANSWER), blocked_stop(RECEIPT_REASON))
+    verdict = receipt_verdict(ctx.receipt(rows, True, last=BARE_ANSWER))[0]
+    return verdict, verdict == "allow"
+
+
+case("d4_s4-receipt-once-reply-only-in-input", "DS-5", "allow", receipt_once_on_retry)
+
+# -- C5 (DS-6, DS-7): the other value of two switches
+_PC_FALSE = (STOP_SCRIPT, "PROMPT_CLASS_SILENT_WITHOUT_OWNER_MESSAGE = True", "PROMPT_CLASS_SILENT_WITHOUT_OWNER_MESSAGE = False")
+_DENIED_WRITE = call("Write", "Permission to use Write has been denied.", True, {"toolDenialKind": "permission-rule"},
+                     file_path=REPO_DIR + "/a.py", content="x")
+case("d4_s5-pc-false-denied-write-is-no-write", "DS-7", "allow",
+     note_case(flat(compaction(), _DENIED_WRITE, say("I could not write it.")), "", "allow", _PC_FALSE))
+case("d4_s5-pc-false-ctl-real-write", "DS-7 control", "block:prompt-class",
+     note_case(flat(compaction(), write_file(), say("done")), "", "block:prompt-class", _PC_FALSE))
+case("d4_s5-pc-false-scheduled-run-write", "DS-7", "block:prompt-class",
+     note_case(flat(governed(), wake(), read_notifs([SCHED], ["Weekly QA review."]), write_file(), say("done")), "",
+               "block:prompt-class", _PC_FALSE))
+_HELPER_FALSE = (MODULE_FILE, "HELPER_ACT_PLACED_BY_TIME = True", "HELPER_ACT_PLACED_BY_TIME = False")
+_HELPER_LATER = flat(owner("Continue"), say("Looking."), tool("Agent", description="x", prompt="look"), say("done"))
+case("d4_s5-helper-false-helper-started-after-the-act", "DS-6 MU09", "allow",
+     note_case(_HELPER_LATER, note_at(1, 2), "allow", _HELPER_FALSE))
+case("d4_s5-helper-false-ctl-helper-before-the-act", "DS-6 control", "block:F1",
+     note_case(_HELPER_LATER, note_at(3, 4), "block:F1", _HELPER_FALSE))
+case("d4_s5-helper-false-idle-note-dropped", "DS-6", "allow", note_case(_THANKS, note_at(4, 5), "allow", _HELPER_FALSE))
+
+
+def reason_names(rows, words, change):
+    """A Stop case on a copy of the hooks with one switch changed: blocked by the prompt-class rule, and the reason
+    names `words`."""
+    def fn(ctx):
+        copy = hooks_copy(ctx, "")
+        target = os.path.join(copy, change[0])
+        with open(target, encoding="utf-8") as fh:
+            text = fh.read()
+        if text.count(change[1]) != 1:
+            return "the switch was found %d times" % text.count(change[1]), False
+        with open(target, "w", encoding="utf-8") as fh:
+            fh.write(text.replace(change[1], change[2]))
+        verdict, reason = stop_verdict(ctx.stop(rows, hooks=copy))
+        named = words in reason
+        return "%s%s" % (verdict, ", the reason names " + words if named else ""), verdict == "block:prompt-class" and named
+    return fn
+
+
+case("d4_s5-pc-false-helper-write-is-not-the-main-thread", "DS-7 MU10", "allow",
+     note_case(flat(compaction(), [sidechain(r) for r in write_file()], say("done")), "", "allow", _PC_FALSE))
+case("d4_s5-pc-false-write-before-the-run-not-counted", "DS-7 MU11", "allow",
+     note_case(flat(governed(), wake(), read_notifs([SCHED], ["Weekly QA review."]), say("Nothing to do.")), "", "allow",
+               _PC_FALSE))
+STOP_FIXTURES.append(("d4_s5-pc-false-reason-names-plan-gate", flat(compaction(), write_file(), say("done")), False, ""))
+case("d4_s5-pc-false-reason-names-plan-gate", "DS-7 MU12", "block:prompt-class, the reason names plan-gate",
+     reason_names(flat(compaction(), write_file(), say("done")), "plan-gate", _PC_FALSE))
+
+# -- the revoking path, pinned where it still decides: an earlier word, then a message that is itself a plain order
+_TWO = "Merge #34 and #141."
+P("d4_r01-refusal-names-what-it-refuses", "WD01 pin", "deny [merge-word]", mid("I don't want #141 merged. Merge #35.", order=_TWO),
+  inp=DECK(141))
+P("d4_r02-refusal-inside-an-order", "WD02 pin", "deny [merge-word]",
+  mid("Merge everything except #141. Merge #35.", order=_TWO), inp=DECK(141))
+P("d4_r03-negation-before-its-verb", "WD15 pin", "deny [merge-word]",
+  mid("I would never, under any circumstances, merge #141. Merge #35.", order=_TWO), inp=DECK(141))
+P("d4_r04-two-questions-apply-in-order", "WD16 pin", "deny [merge-word]",
+  flat(ok(), card([("Merge #34?", ["Merge #34", "Wait"], False), ("Merge #34 right away?", ["Merge #34 now", "Wait for CI"], False)],
+                  {"Merge #34?": "Merge #34", "Merge #34 right away?": "Wait for CI"})))
+P("d4_r05-affirmative-no-refuses-nothing", "WD17 pin", "allow", mid("No objections, merge #35.", order=_TWO))
+P("d4_r06-negated-hold-holds-nothing", "AM08 pin", "allow", mid("There is no reason to wait. Merge #35."))
+P("d4_r07-statement-that-holds", "AM09 AM61 pin", "deny [merge-word]", mid("Merge #141 can wait. Merge #35.", order=_TWO),
+  inp=DECK(141))
+P("d4_r08-failed-is-a-statement", "AM10 pin", "deny [merge-word]",
+  mid("Merge #141 failed and can wait. Merge #35.", order=_TWO), inp=DECK(141))
+P("d4_r09-soft-words-before-a-short-refusal", "AM13 WD05 pin", "deny [merge-word]", mid("Actually no. Merge #35."))
+P("d4_r10-one-sec-holds", "AM58 pin", "deny [merge-word]", mid("One sec. Merge #35."))
+P("d4_r11-merged-is-no-order", "WD06 pin", "deny [merge-word]", [owner("Merged #34.")])
+P("d4_r12-curly-apostrophe", "WD07 pin", "allow", [owner("Let’s merge #34.")])
+_RUN_CARD = flat(ok(), say("done"), stop(), wake(), read_notifs([SCHED], ["Weekly QA review. Propose; never merge."]),
+                 click("Merge #34?", ["Merge #34", "Wait"], "Merge #34"), queued("Merge #35."))
+P("d4_r13-card-in-run-then-owner-order", "SC05 pin", "deny [merge-word]", _RUN_CARD)
+P("d4_r13-ctl-the-owner-order-grants", "SC05 control", "allow", _RUN_CARD, inp=mi(35))
+P("d4_r14-dont-forget-to-refuses-nothing", "AM15 pin", "allow", mid("Don't forget to merge #141. Merge #35.", order=_TWO),
+  inp=DECK(141))
+P("d4_r15-dont-wait-is-a-lead-in", "AM51 pin", "allow", [owner("Don't wait, merge #34.")])
+P("d4_r16-scratch-that", "AM11 pin", "deny [merge-word]", mid("Scratch that. Merge #35."))
+P("d4_r17-better-to-wait", "AM12 pin", "deny [merge-word]", mid("Better to wait for the audit. Merge #35."))
+P("d4_r18-refusal-label-on-another-card", "CD11 pin", "deny [merge-word]",
+  flat(owner("Merge #34."), click("What should I do next?", ["Run the audit", "Don't merge anything yet"],
+                                  "Don't merge anything yet")))
+P("d4_g31-bracket-list-of-two", "D4 pin", "allow", [owner("Merge the QA-loop PRs (#34 library, #141 deck).")],
+  inp=DECK(141))
+P("d4_n42-words-before-a-number", "D4 pin", "deny [merge-word]", [owner("Merge the risky #34.")])
+P("d4_n43-refusal-before-a-bracket", "D4 pin", "deny [merge-word]", [owner("Merge everything except (#141).")],
+  inp=DECK(141))
+
+P("d4_n48-a-number-after-the-list", "WD10 pin", "deny [merge-word]", [owner("Merge #34 and the #35.")], inp=mi(35))
+# The replay of the real record (results/2026-11-16/audit-fixes/second-read/replay-before-after.txt; verdicts only, the
+# record was not opened): the owner's real merges come back only when an option may name its pull requests by count
+# ("all three", "both PRs"). An inference, not a reading of the record.
+P("d4_c11-option-merge-all-three", "D4 A5 replay", "allow",
+  flat(ok(), click("Merge #26, #27 and #28?", ["Merge all three (Recommended)", "Wait"], "Merge all three (Recommended)")),
+  inp=mi(28))
+P("d4_c12-option-merge-both-prs", "D4 A5 replay", "allow",
+  flat(ok(), click("Merge #34 and #141?", ["Merge both PRs", "Wait"], "Merge both PRs")), inp=DECK(141))
+P("d4_n44-refuses-its-own-number", "D4 pin", "deny [merge-word]", [owner("Merge #34, not #34.")])
+P("d4_n45-closing-refuses-its-own-number", "D4 pin", "deny [merge-word]", [owner("Merge #34. Leave 34 alone.")])
+P("d4_n46-yes-with-a-condition", "D4 A5 pin", "deny [merge-word]",
+  yes_on("Merge #34 now?", "Yes, after the audit", ["Yes, after the audit", "No"]))
+B("d4_n47-push-order-naming-a-pr", "D4 pin", "deny [default-branch]", [owner("Push PR 34 to main.")], PUSH_MAIN_CMD)
+B("d4_b1-bash-s-arguments-are-not-the-script", "DM-1 pin", "deny [default-branch]", [ok()],
+  then([put("land.sh", LAND), put("ship.sh", PUSH_LAND)], "bash -s land.sh < ship.sh"), **HERE_CWD)
 
 
 # ------------------------------------------------------------------ the runner

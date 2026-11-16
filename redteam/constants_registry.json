@@ -588,8 +588,8 @@
   },
   {
    "name": "turngate.py:MERGE_NOUN_BEFORE",
-   "value": "66eb06dc",
-   "role": "words before \"merge\" that make it a noun (\"the merge\"), not an order",
+   "value": "9c00b2e1",
+   "role": "words before \"merge\" that make it a noun (\"the merge\"), not an order (\"let's merge\" is the verb: finding DM-4)",
    "status": "uncalibrated",
    "record": "",
    "decision": "D-TG-1"
@@ -627,14 +627,6 @@
    "decision": ""
   },
   {
-   "name": "turngate.py:PUSH_VERB",
-   "value": "b75c3606",
-   "role": "the push verbs as whole words, for card questions",
-   "status": "uncalibrated",
-   "record": "",
-   "decision": "D-TG-1"
-  },
-  {
    "name": "turngate.py:CARD_ORDER",
    "value": "6b80c231",
    "role": "a card option that is an order to merge: it starts with the verb",
@@ -646,14 +638,6 @@
    "name": "turngate.py:CARD_PUSH_ORDER",
    "value": "2da8f2ec",
    "role": "a card option that is an order to push to a default branch",
-   "status": "settings",
-   "record": "owner's answer of 2026-11-15, question 2: \"An order naming the branch\" (results/2026-11-15/turn-gates-fix/CORE-SPEC.md section 9; experiments/hypothesis-2026-11-15-turn-gates-cases.md)",
-   "decision": ""
-  },
-  {
-   "name": "turngate.py:DEFAULT_BRANCH_WORD",
-   "value": "92eb4268",
-   "role": "how an order names a default branch as its destination (\"to main\", \"onto the default branch\")",
    "status": "settings",
    "record": "owner's answer of 2026-11-15, question 2: \"An order naming the branch\" (results/2026-11-15/turn-gates-fix/CORE-SPEC.md section 9; experiments/hypothesis-2026-11-15-turn-gates-cases.md)",
    "decision": ""
@@ -727,14 +711,6 @@
    "decision": "D-TG-1"
   },
   {
-   "name": "turngate.py:DEFER_CUE",
-   "value": "5b9058f3",
-   "role": "the words that make an order one for later or under a condition, which grants nothing",
-   "status": "uncalibrated",
-   "record": "",
-   "decision": "D-TG-1"
-  },
-  {
    "name": "turngate.py:SENTENCE_SPLIT",
    "value": "c0887cac",
    "role": "where a typed message is cut into sentences",
@@ -762,14 +738,6 @@
    "name": "turngate.py:POLITE_REQUEST",
    "value": "489361eb",
    "role": "the questions that are still orders (\"can you merge #34?\")",
-   "status": "uncalibrated",
-   "record": "",
-   "decision": "D-TG-1"
-  },
-  {
-   "name": "turngate.py:PURE_LIST",
-   "value": "726eaca0",
-   "role": "a clause made only of numbers and list words, which continues the order before it",
    "status": "uncalibrated",
    "record": "",
    "decision": "D-TG-1"
@@ -2244,7 +2212,9 @@
     "-o",
     "--rcfile",
     "--init-file",
-    "-O"
+    "-O",
+    "+o",
+    "+O"
    ],
    "role": "the shell options that take a value",
    "status": "structural",
@@ -3008,7 +2978,7 @@
   },
   {
    "name": "turngate.py:REASON_MERGE_WORD",
-   "value": "the owner has not ordered the merge of PR #%d in this turn. Their word is a click on a card (AskUserQuestion) that names #%d and whose chosen option says to merge it, or a typed order that starts with \"merge\" and names #%d. It covers only the pull requests named and it ends when you stop. Ask with a card whose merge option names #%d, and merge only on that answer.",
+   "value": "the owner has not ordered the merge of PR #%d in this turn. Their word is a click on a card (AskUserQuestion) that names #%d and whose chosen option says to merge it, or a plain typed order as the LAST sentence of their message, for example \"Merge #%d\". A wordier message (a condition, a report, a question, more words after the order) and any message typed while you work that is not itself such an order do not count. The word covers only the pull requests named and ends when you stop. Ask with a card whose merge option names #%d, and merge only on that answer.",
    "role": "text of the denial when the owner's word does not name the pull request",
    "status": "structural",
    "record": "",
@@ -4621,66 +4591,6 @@
    "decision": ""
   },
   {
-   "name": "turngate.py:CONDITION_CUE",
-   "value": "2d151c01",
-   "role": "the pattern of CONDITION_WORDS (rule A1; also a doubt for rule A6 and a cue for the card rules B1, B2)",
-   "status": "uncalibrated",
-   "record": "",
-   "decision": "D-TG-1"
-  },
-  {
-   "name": "turngate.py:CONDITION_WORDS",
-   "value": [
-    "after",
-    "once",
-    "when",
-    "whenever",
-    "if",
-    "later",
-    "tomorrow",
-    "as soon as",
-    "unless",
-    "until",
-    "till",
-    "provided",
-    "providing",
-    "assuming",
-    "as long as",
-    "so long as",
-    "in case",
-    "pending",
-    "subject to",
-    "depending",
-    "tonight",
-    "next",
-    "monday",
-    "tuesday",
-    "wednesday",
-    "thursday",
-    "friday",
-    "saturday",
-    "sunday",
-    "eventually",
-    "afterwards",
-    "afterward",
-    "soon",
-    "sometime",
-    "some time",
-    "at some point",
-    "in a bit",
-    "in a while",
-    "in the morning",
-    "in the evening",
-    "in the afternoon",
-    "this evening",
-    "this afternoon"
-   ],
-   "role": "the words that make a sentence an order for later or under a condition, which grants nothing (rule A1)",
-   "status": "uncalibrated",
-   "record": "",
-   "decision": "D-TG-1"
-  },
-  {
    "name": "turngate.py:CURL_FILE_DATA_FLAGS",
    "value": [
     "-d",
@@ -4887,14 +4797,6 @@
    "decision": ""
   },
   {
-   "name": "turngate.py:MIDTURN_DOUBT_ENDS_WORD",
-   "value": true,
-   "role": "a message typed mid-turn that orders nothing but holds a refusal, hold or condition word ends the merge word (rule A6; default, audit 2026-11-16 AM-5)",
-   "status": "uncalibrated",
-   "record": "",
-   "decision": "D-TG-2"
-  },
-  {
    "name": "turngate.py:NOTE_UNKNOWN_REPOSITORY",
    "value": "a repository the gate cannot read",
    "role": "text: a repository the gate cannot read",
@@ -4937,14 +4839,6 @@
     "(?:can|could|would|will) you"
    ],
    "role": "the words an order may start with before its verb (\"ok, please\", \"go ahead and\", \"can you\")",
-   "status": "uncalibrated",
-   "record": "",
-   "decision": "D-TG-1"
-  },
-  {
-   "name": "turngate.py:QUESTION_DOUBT",
-   "value": "eb22ac4d",
-   "role": "the words that make a card's question offer a choice, so a yes on it grants nothing (rule B1)",
    "status": "uncalibrated",
    "record": "",
    "decision": "D-TG-1"
@@ -5041,41 +4935,6 @@
    "status": "structural",
    "record": "",
    "decision": ""
-  },
-  {
-   "name": "turngate.py:REPORT_CUE",
-   "value": "a8246bfd",
-   "role": "the pattern of REPORT_WORDS",
-   "status": "uncalibrated",
-   "record": "",
-   "decision": "D-TG-1"
-  },
-  {
-   "name": "turngate.py:REPORT_WORDS",
-   "value": [
-    "said",
-    "says",
-    "say",
-    "saying",
-    "wrote",
-    "writes",
-    "written",
-    "told",
-    "asked",
-    "typed",
-    "quote",
-    "quoted",
-    "quotes",
-    "meant",
-    "means",
-    "e\\.g",
-    "for example",
-    "such as"
-   ],
-   "role": "the words that report speech: an order after them in the same sentence grants nothing (rule A3)",
-   "status": "uncalibrated",
-   "record": "",
-   "decision": "D-TG-1"
   },
   {
    "name": "turngate.py:SCRIPT_BINARY_BYTE",
@@ -5320,73 +5179,6 @@
    "decision": "D-TG-1"
   },
   {
-   "name": "turngate.py:CONDITION_CLOCK",
-   "value": "at\\s+\\d",
-   "role": "a clock time ('at 5pm', 'at 17:00') puts an order off (rule A1, follow-up M4)",
-   "status": "uncalibrated",
-   "record": "",
-   "decision": "D-TG-1"
-  },
-  {
-   "name": "turngate.py:SEQUENCE_FIRST",
-   "value": "fbe0f16c",
-   "role": "the word that puts something first: an earlier clause with it holds the order after it back (rule A2, follow-up M5)",
-   "status": "uncalibrated",
-   "record": "",
-   "decision": "D-TG-1"
-  },
-  {
-   "name": "turngate.py:SEQUENCE_FIRST_MIN_WORDS",
-   "value": 2,
-   "role": "how many words a clause holding 'first' needs to be a sequence ('First, merge #34' is a lead-in; follow-up M5)",
-   "status": "uncalibrated",
-   "record": "",
-   "decision": "D-TG-1"
-  },
-  {
-   "name": "turngate.py:SEQUENCE_BEFORE",
-   "value": "00f92224",
-   "role": "'before that', 'beforehand': an earlier clause with them holds the order after it back (follow-up M5)",
-   "status": "uncalibrated",
-   "record": "",
-   "decision": "D-TG-1"
-  },
-  {
-   "name": "turngate.py:LINE_JOIN_ENDS",
-   "value": [
-    ",",
-    ":"
-   ],
-   "role": "a line that ends with one of these goes on into the next line (rule A10, follow-up M3)",
-   "status": "uncalibrated",
-   "record": "",
-   "decision": "D-TG-1"
-  },
-  {
-   "name": "turngate.py:LINE_END_MARKS",
-   "value": ".!?;:,",
-   "role": "a line that ends with none of these and holds a condition or a hold goes on into the next line (follow-up M3)",
-   "status": "uncalibrated",
-   "record": "",
-   "decision": "D-TG-1"
-  },
-  {
-   "name": "turngate.py:LIST_INTRO_END",
-   "value": ":",
-   "role": "a line that ends with this introduces a list: each item is read with it (follow-up M3)",
-   "status": "uncalibrated",
-   "record": "",
-   "decision": "D-TG-1"
-  },
-  {
-   "name": "turngate.py:LIST_ITEM",
-   "value": "56a966e3",
-   "role": "how a list item starts: a dash, a star, a bullet, or a number and '.' or ')' (follow-up M3)",
-   "status": "uncalibrated",
-   "record": "",
-   "decision": "D-TG-1"
-  },
-  {
    "name": "governance-enforce.py:PROMPT_CLASS_SILENT_WITHOUT_OWNER_MESSAGE",
    "value": true,
    "role": "a stretch whose record holds no owner message is not judged by the prompt-class rule (finding AS-7, PC-6; False: one that made a real write is judged as work that needs plan-gate)",
@@ -5571,6 +5363,386 @@
    "status": "uncalibrated",
    "record": "",
    "decision": "D-RG-1"
+  },
+  {
+   "name": "turngate.py:CLAUSE_END_MARKS",
+   "value": ".!?;",
+   "role": "end marks dropped from a clause before it is read",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:CLOSING_SENTENCE",
+   "value": "0a74fc36",
+   "role": "the pattern of CLOSING_WORDS (D4, A2)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:CLOSING_WORDS",
+   "value": [
+    "thanks",
+    "thank you",
+    "thx",
+    "cheers",
+    "please",
+    "go",
+    "go ahead",
+    "do it",
+    "that's all",
+    "that is all"
+   ],
+   "role": "words of a sentence after the order that close the message (D4, A2; an allowlist: a miss costs one card)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:COPY_COMMANDS",
+   "value": [
+    "cp",
+    "mv"
+   ],
+   "role": "commands after which the target holds the source's text (cp, mv; finding DM-7)",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:GRANT_OPS",
+   "value": [
+    "grant",
+    "branch"
+   ],
+   "role": "the operations that grant (a grant, the branch word)",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:HTTP_FILE_BODY_FLAGS",
+   "value": [
+    "--post-file",
+    "--body-file"
+   ],
+   "role": "wget options whose value names a file the request body is read from (finding DM-6)",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:LEADIN_CLAUSE",
+   "value": "8d78764a",
+   "role": "a clause before the order made only of lead-in words or \"first\" (D4, A3)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:MIDTURN_MESSAGE_ENDS_WORD",
+   "value": true,
+   "role": "a message the owner types mid-turn that is not itself a plain order ends the merge word and the branch word",
+   "status": "settings",
+   "record": "the owner's decision D4 of 2026-11-16, card answer \"Plain orders only\" (results/2026-11-16/audit-fixes/second-read/)",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:ORDER_COUNT_WORDS",
+   "value": [
+    "two",
+    "three",
+    "four",
+    "five",
+    "six"
+   ],
+   "role": "count words an option may name its pull requests by (\"Merge all three\"; inferred from the replay of the real record)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:ORDER_DESTINATION",
+   "value": "(?:into|to|onto)\\s+(?:the\\s+)?(?:main|master|default)(?:\\s+branch)?",
+   "role": "the default branch as an order's destination (\"into main\"), a tail of a merge order",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:ORDER_LIST_CLAUSE",
+   "value": "473ab421",
+   "role": "a clause after the order made only of numbers and list words (\"34 first\", \"then #141\"; D4, A3)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:ORDER_LIST_WORDS",
+   "value": [
+    "and",
+    "plus",
+    "also",
+    "pr",
+    "prs",
+    "pull",
+    "request",
+    "requests",
+    "the",
+    "both",
+    "all",
+    "of",
+    "them"
+   ],
+   "role": "words an order's list may hold besides its numbers when they stand in no bracket (D4, A3; an allowlist)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:ORDER_MESSAGE_MAX_CHARS",
+   "value": 4000,
+   "role": "a typed message longer than this is not read for an order and grants nothing (D4, A1; finding DM-9)",
+   "status": "settings",
+   "record": "the owner's decision D4 of 2026-11-16, card answer \"Plain orders only\" (results/2026-11-16/audit-fixes/second-read/)",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:ORDER_OBJECT",
+   "value": "81c7a583",
+   "role": "the pattern of ORDER_OBJECT_WORDS",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:ORDER_OBJECT_WORDS",
+   "value": [
+    "it",
+    "this",
+    "that",
+    "them",
+    "this one",
+    "that one",
+    "both",
+    "both of them",
+    "all",
+    "all of them",
+    "everything",
+    "the pr",
+    "the prs",
+    "this pr",
+    "the pull request",
+    "the pull requests"
+   ],
+   "role": "the object of an order that names no number (\"merge it\", \"both\"): the card's pull requests (D4, A5)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:ORDER_TAIL",
+   "value": "f5b937e1",
+   "role": "the pattern of ORDER_TAIL_WORDS, the destination and a bracket",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:ORDER_TAIL_END",
+   "value": "a99dffca",
+   "role": "the end marks after an order's tail",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:ORDER_TAIL_WORDS",
+   "value": [
+    "now",
+    "right now",
+    "right away",
+    "immediately",
+    "today",
+    "asap",
+    "please",
+    "pls",
+    "thanks",
+    "too",
+    "as well",
+    "first",
+    "squash",
+    "squashed",
+    "yourself",
+    "after all",
+    "with squash",
+    "with rebase",
+    "with a merge commit",
+    "for me",
+    "for us"
+   ],
+   "role": "the only words that may follow an order's pull requests (D4, A3; an allowlist: a miss costs one card)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:ORDER_WORD",
+   "value": "5a2aae41",
+   "role": "a word of an order's list",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:PUSH_DESTINATION",
+   "value": "161217c0",
+   "role": "a default branch as the destination of a plain push order (Q2, D4)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:PUSH_OBJECT_WORD",
+   "value": "1fc56d41",
+   "role": "one word of a push order's object",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:PWD_COMMANDS",
+   "value": [
+    "pwd",
+    "pwd -L",
+    "pwd -P"
+   ],
+   "role": "substitutions that stand for the command's directory (`$(pwd)`; finding DM-7)",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:PWD_VARIABLE",
+   "value": "PWD",
+   "role": "the variable that holds the command's directory (`$PWD`; finding DM-7)",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:REFUSAL_OTHER_LEAD",
+   "value": "9f4cc745",
+   "role": "words a refusal of other pull requests may start with (\"then wait for my word on #141\")",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:REFUSAL_OTHER_WORD",
+   "value": "168ef861",
+   "role": "a word of a refusal of other pull requests",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:REFUSAL_OTHER_WORDS",
+   "value": [
+    "no",
+    "not",
+    "nope",
+    "don't",
+    "dont",
+    "do",
+    "never",
+    "leave",
+    "alone",
+    "keep",
+    "open",
+    "hold",
+    "skip",
+    "wait",
+    "for",
+    "my",
+    "word",
+    "on",
+    "merge",
+    "pr",
+    "prs",
+    "pull",
+    "request",
+    "requests",
+    "and",
+    "or",
+    "nor",
+    "neither",
+    "yet",
+    "the",
+    "other",
+    "one",
+    "please",
+    "just",
+    "touch",
+    "that",
+    "those"
+   ],
+   "role": "the words a refusal of other pull requests may hold besides its numbers (\"not #141\", \"leave 141 alone\"; D4, A3; an allowlist)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:SENTENCE_END_MARKS",
+   "value": [
+    ".",
+    "!",
+    "?"
+   ],
+   "role": "a line break ends a sentence only after one of these (D4, A1)",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:SHELL_OPTION_LEADS",
+   "value": [
+    "-",
+    "+"
+   ],
+   "role": "a shell word that starts with one of these is an option, not the script (`bash +x FILE`; finding DM-8)",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:SHELL_STDIN_FLAG",
+   "value": "s",
+   "role": "the shell option after which the program comes from standard input (`bash -s`; finding DM-1)",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:SHELL_STDIN_NAMES",
+   "value": [
+    "/dev/stdin",
+    "/dev/fd/0",
+    "/proc/self/fd/0"
+   ],
+   "role": "script names that are standard input (`bash /dev/stdin < FILE`; finding DM-1)",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:SHELL_STDIN_REDIRECT",
+   "value": "<",
+   "role": "the redirection that feeds a file to a shell as its program (`bash < FILE`; finding DM-1)",
+   "status": "structural",
+   "record": "",
+   "decision": ""
   }
  ]
 }

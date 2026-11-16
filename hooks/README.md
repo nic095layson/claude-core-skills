@@ -165,65 +165,120 @@ GraphQL API through the command line or an HTTP program; a push to `main`, `mast
 the checkout records; a push of every branch (`--all`, `--mirror`, `--branches`, a wildcard refspec); a file
 pushed to a default branch through a tool or the API. A command is read through `bash -c`, `eval`, command
 substitution, a pipe or here-document into a shell, wrappers such as `sudo`, `env`, `timeout` and `xargs`, the
-command `find -exec` (`-execdir`, `-ok`, `-okdir`) runs, and these script files:
+command `find -exec` (`-execdir`, `-ok`, `-okdir`) runs, and these script files (a shell word that starts with `-`
+or `+` is an option, not the script: `bash +x FILE` and `bash +n FILE` run FILE, finding DM-8):
 
 | the file | how it is read |
 |---|---|
 | one handed to a shell (`bash FILE`, `sh FILE`) or to `source` / `.` | as a shell script; `bash -n FILE` (also `-en`) only checks syntax and reads nothing |
+| one fed to a shell on its standard input: `bash < FILE`, `sh < FILE`, `bash -s ARGS < FILE`, `bash /dev/stdin < FILE`, `bash - < FILE`, `cat FILE \| bash` (a shell option after the pipe changes nothing) | as a shell script, the same as `bash FILE` (since 2026-11-16, finding DM-1) |
 | one run directly: a command word that holds a `/` (`./land`, `/opt/x/ship`) or ends in `.sh` | as a shell script when it is a regular file of at most 256 KB that holds no NUL byte (a program, such as `/bin/ls`, is not read) and its first line is not the `#!` line of another program; a file whose `#!` line names another program (`#!/usr/bin/env python3`) is not read at all, as `python3 FILE` is not (since 2026-11-16, rule M1: its text on the text screens denied honest runs such as `./hooks/selftest-turn-gates.py --list`) |
-| one the same command text writes and then runs | what the text wrote: a here-document given to `cat > F`, `cat <<EOF > F` or `tee F`, or the words of `echo` / `printf` with a redirection, is remembered and read when F runs later in the text (by a shell, by `source` / `.`, or directly). A file the text writes in any other way (a copy, a download, another program's output) and then runs sends the whole command text to the text screens |
+| one the same command text writes and then runs | what the text wrote: a here-document given to `cat > F`, `cat <<EOF > F` or `tee F`, the words of `echo` / `printf` with a redirection, `cat A > F` (the text of A), and `cp A F` / `mv A F` (F then holds the text of A: what the text wrote into A, else A on disk) are remembered and read when F runs later in the text (by a shell, on standard input, by `source` / `.`, or directly). `$PWD/F`, `${PWD}/F` and `$(pwd)/F` name F in the command's directory (since 2026-11-16, finding DM-7). A file the text writes in any other way (a download, another program's output, a copy of a file that cannot be read) and then runs sends the whole command text to the text screens |
 
 A command word the parser cannot resolve (`$(which gh) pr merge 40`, `$GH ...`, a backtick word) is judged
 once as `gh` and once as `git`; a merge or a push to a default branch under either reading counts. A request
 body read from a file (`gh api -F key=@FILE`, `gh api --input FILE`, curl's `-d @FILE`, `--data @FILE`,
-`--data-binary @FILE`) is read from the file (relative to the command's directory; a regular file of at most
-256 KB) and judged as if it were inline; a file that cannot be read keeps the verdict of a body the gate cannot
-see (a GraphQL call is denied as a merge whose target is unknown, `target-unknown`). A command that only
+`--data-binary @FILE`, wget's `--post-file FILE` and `--body-file FILE`) is read as the same command text left it
+(since 2026-11-16, finding DM-6: a body the text wrote before the call is read as written, one it wrote in a way
+the parser cannot follow cannot be read), else from the file (relative to the command's directory; a regular file
+of at most 256 KB), and judged as if it were inline; a file that cannot be read keeps the verdict of a body the
+gate cannot see (a GraphQL call is denied as a merge whose target is unknown, `target-unknown`). A command that only
 mentions the words (a search, an echo, a commit message, a script that is written and not run) is not gated.
 
-What makes the word.
+What makes the word: the owner's decision D4 (card answer of 2026-11-16, "Plain orders only"; it refines D1). **A
+typed message counts only when its order is plain and comes last; anything wordier gets a card; any message the
+owner types while the assistant is working ends the word unless it is itself such an order.** Its principle is
+default deny: every word list below lets an order through, and none of them is what stops a merge. A list that
+misses an honest order costs one card; no list that misses a condition can let a merge through.
 
-| the owner's word | grants |
+How a typed message is read (`typed_ops` in `turngate.py`; texts after `normalize`, with code fences and quoted
+lines dropped):
+
+1. A message longer than `ORDER_MESSAGE_MAX_CHARS` (4,000 characters) is not read for an order: it grants
+   nothing. Reading is one pass over the text, so a long paste costs no more than its length (finding DM-9).
+2. A line break ends a sentence only when the line before it ends with `.`, `!` or `?`; otherwise the two lines
+   are one sentence. The sentences are then split at `.`, `!`, `?`, `;`, "but" and "however".
+3. Only the LAST sentence can grant. Closing sentences after it are passed over: closing words only
+   (`CLOSING_WORDS`: thanks, thank you, cheers, please, go ahead, do it, that's all ...) or a refusal that names
+   only other pull requests ("Leave 141 alone."). Any other sentence after the order means no grant. The
+   sentences before it are context: they grant nothing, and what they refuse is taken back first, in order.
+4. The last sentence is a plain order when its clauses (split at commas, colons, " - ", "then", and "and" before
+   the verb; a bracket is not split) are, in order: lead-in clauses (`ORDER_LEADIN_WORDS` and "first", or one of
+   `AFFIRMATIVE_PHRASES`: "yes", "ok", "looks good", "no objections", "why not", "don't wait" ...) or refusals of
+   other pull requests ("don't merge #26"); then the order clause: lead-in words, the verb used as a verb, the
+   pull requests, then only tail words (`ORDER_TAIL_WORDS`: now, today, asap, please, too, first, after all, with
+   squash, for me ...; "into / to / onto (the) main / master / default branch"; a bracket); then only further
+   orders, lists of numbers ("34 first", "then #141"), tail words, affirmative phrases, or refusals of other pull
+   requests ("not #141"). Words before the first number are allowed only when the numbers stand in a bracket
+   ("merge the QA-loop PRs (#34 library, #141 deck)", "merge library only (#34)"); otherwise the list holds only
+   numbers and `ORDER_LIST_WORDS` (and, PR, the, both ...). A refusal word inside the list ("except") makes it no
+   order. A sentence that ends with "?" is an order only in the polite form ("Can you merge #34?").
+5. The branch word works the same way: the last sentence is a plain push order (lead-in words, the push verb,
+   at most three words of object, a default branch as the destination, then only tail words; no pull request).
+6. A message typed while the assistant works (`MIDTURN_MESSAGE_ENDS_WORD = True`, the owner's decision): one that
+   is not itself such an order empties the grant and the branch word. One that is such an order is applied as
+   any message: what it refuses, then what it grants; what was granted before it stays.
+
+| the owner typed (an owner turn; the merge of #34 unless said) | grants |
 |---|---|
-| a typed order: the verb starts its clause (after words such as "ok, please", "go ahead and", "can you") and the numbers follow it: "Merge #34.", "ok, merge 34 and 141", "Can you merge #34?", a pull-request address, `owner/repo#34` | those pull requests; an address or `owner/repo#34` binds the repository too |
+| "Merge #34.", "merge 34", "Please merge #34 now.", "Let's merge #34.", "Ok, let's merge #34 now.", "Looks good, merge #34.", "Yes, why not, merge #34.", "No objections, merge #34.", "First, merge #34.", "Merge #34, no rush", "Can you merge #34?", "Merge #34 into main.", "Merge #34 with squash.", "Merge #34 today.", "Merge #34 after all.", "The audit is done. Merge #34.", "Looks good\nMerge #34", "Merge #34. Thanks!", "Merge https://github.com/acme/lib/pull/34" | #34 |
+| "Merge #34 and #141.", "Merge #34 (library) and #141 (deck).", "Merge #34 and #141, 34 first.", "Merge #34 first, then #141." | both |
+| "Merge #34, not #141.", "Merge 34. Leave 141 alone" | #34, and #141 leaves the grant |
+| "Do not merge #34. Merge #35."; "don't merge #26, merge #27" | #35; #27 |
+| "Push this to main." | the branch word |
+| "Merge #34 once CI is green.", "Once CI is green, merge #34.", "Once CI is green,\nmerge #34.", "If the guard passes\nmerge #34", "Merge #34 in an hour.", "Merge #34 at noon.", "Merge #34 by end of day.", "Merge #34 this weekend.", "Merge #34 following the audit.", "Merge #34 eventually." | nothing |
+| "When the audit is back:\n- merge #34\n- then sync the kit", "Next steps:\n- merge #34\n- upload the plugin", "1. Merge #34\n2. Upload the plugin" | nothing (#2 neither) |
+| "Merge #34 and let me know when it's done.", "Merge #34. Then sync the kit.", "Merge #34. Nope.", "Merge #34. On second thought, let's wait for the audit." | nothing |
+| "Merge #34 conflicts with #35.", "Merge #34 touches the hooks, review it again.", "Merge #34 has failing checks, look at it.", "Your plan says\nmerge #34\nIs that right?", "Yesterday you said: merge #34. Explain why." | nothing |
+| "CI is green, merge #34.", "Don't wait for CI, merge #34 now.", "Wait for CI, then merge #34.", "Merge #34?", "Should we merge #34?", "I might merge #34 myself.", a message of 5,000 characters that ends with "Merge #34." | nothing |
+| "Push to main by end of day." | no branch word |
 | the verb with no number: "merge it", "yes", "proceed and merge" | nothing |
-| the verb negated, asked about, reported or not at the start of its clause: "Don't merge #34" (straight or curly apostrophe), "Don't, under any circumstances, merge #34", "Is #34 safe to merge?", "#34 is ready to merge" | nothing; a negated clause takes its numbers out of the grant, or empties it when it names none |
-| "Merge #34, not #141", "Merge 34. Leave 141 alone", "Merge everything except #141" | #34; #34; nothing |
-| an order for later or under a condition, wherever the condition stands in the sentence: "Merge #34 once CI is green", "Once CI is green, merge #34" (rule A1 below) | nothing, and nothing is taken back |
-| a card: the chosen option is an order ("Merge #34", "Merge both") or a yes on a question that plainly asks for a merge now (rule B1 below) | the numbers in the chosen option; with no number there, the question's pull request when the question names exactly one, or all of them when the option says both / all / every / each / everything |
-| "Yes" or "Merge library only" on a card whose question names several pull requests | nothing: the gate cannot tell which |
-| a card option that refuses or defers ("Wait", "Not yet", "Merge neither", "Merge after the audit"), or any other option of a merge card | nothing; the question's numbers leave the grant |
-| free text typed into a card | read as a typed message; an order without a number ("merge it, squash please") takes the question's pull request under the rule for an option without a number |
-| a push to a default branch: a typed order that names the branch as its destination ("push this to main", "land it on the default branch"), or a card that asks exactly that and is answered yes or with the order | the word for that push. "Merge main into my branch" and "commit the fix in main.py" name the word and order no push. A word for pull request n does not cover a push to main |
 | the assistant's own text; a tool's output, whatever it quotes; a notification body; a stored prompt; a compaction summary; a helper agent's row; any row the program wrote | nothing. Only the result of the card's own call, paired with it by id, is a click |
 
-The operations of one message apply in the order they were said: "Merge #34. No wait." grants and then
-empties. "No rush", "no objections", "why not", "don't forget to", "don't wait" and their like refuse nothing.
+Typed while the assistant works, after "Merge #34.": "Nope.", "Forget it.", "Ignore that.", "I take that back.",
+"Let me think about it.", "Let me review #34 first.", "Actually, I'll do it myself.", "Keep #34 open.", "Hang
+tight.", "one sec", "And fix the typo in the README while you're there.", "Thanks, I am here now.", "Don't wait
+for me.": the word is gone (after "Push this to main.", "Nope." ends the branch word too). "Merge #141 too.": #141,
+and #34 stays. In a scheduled run, a typed "Merge #40." makes the rest of the run attended and grants #40.
 
-The merge word, rule by rule (the outside audit of 2026-11-16, findings AM-1, AM-2, AM-5, AM-7; every word list
-is an upper-case name in `turngate.py`). A cue is looked for in the text after normalising, with code fences,
-quoted lines and the phrases that refuse nothing dropped.
+Cards (rule A5):
 
-| # | rule | examples |
-|---|---|---|
-| A1 | A sentence that holds a condition (`CONDITION_CUE`: after, once, when, if, unless, until, provided, assuming, as long as, in case, pending, subject to, depending, later, tomorrow, tonight, next, a weekday, eventually, afterwards, soon, sometime, at some point, in a bit, in a while, in the morning / evening / afternoon, this evening / afternoon ..., and a clock time, `at` followed by a digit) anywhere grants nothing and sets no branch word. A refusal in it still takes the grant back | "Once CI is green, merge #34.", "Merge #34, if CI is green.", "Merge #34 on Monday.", "Merge #34 at 5pm.", "Merge #34 soon.", "If CI passes, push to main.": nothing |
-| A2 | An order grants nothing when an earlier clause of the same sentence holds the work back (`HALT_CUE`: wait, hold, stop, pause, cancel, postpone, not yet, never mind, scratch that, on second thought, let's not, hang on, one sec, a moment, a minute, give me, hold up, not so fast ...), un-negated: no "no", "not", "never", "without" or "n't" word before it in its clause; or puts something first (M5: "first" with at least one other word, "before that", "beforehand") | "Wait for CI, then merge #34.", "First the audit, then merge #34.", "The plan: audit first, merge #34 second.": nothing. "Merge #34, then wait for my word on #141.": #34. "First, merge #34.": #34. "Merge #34 first, then #141.": both |
-| A3 | An order grants nothing when an earlier clause of the same sentence reports speech (`REPORT_CUE`: said, says, wrote, told, asked, quoted, meant, e.g., for example, such as ...) | "Yesterday you said: merge #34.", "The note says: merge #34.": nothing |
-| A4 | The verb followed, after its pull requests, by one of `STATEMENT_WORDS` (is, has, was, failed, needs, looks, still ...) is a statement, not an order: no grant. A statement that also holds a refusal word or an un-negated hold takes its pull requests out of the grant (M6) | "Merge #34 has failing checks, look at it.", "No, merge #34 is not approved.": nothing. "Merge #34. Merge #34 can wait.", "Merge #34. Merge #34 is not ready.": the word for #34 is gone. "Merge #34. Merge #34 has two commits.": #34. "Merge #34 now.": #34 |
-| A5 | A clause with no number and no merge word empties the grant when it holds an un-negated hold (whatever its length), or when it is a short refusal (six words at most, starting with no, not, don't, wait, stop ...) once a leading run of soft words (`SOFT_LEADIN`: actually, well, hmm, sorry, please, ok, so, and, also, maybe, I think, on second thought ...) is dropped | after "Merge #34.": "Actually, let's wait for the audit first.", "Scratch that, I want to review it first.", "Merge #34. Actually no.": the word is gone. "Merge #34. There is no reason to hold this back any longer.": #34 stands |
-| A6 | A message the owner sends while the assistant works, from which nothing above reads an operation, and which holds any refusal, hold or condition word, empties the grant (`MIDTURN_DOUBT_ENDS_WORD = True`, a default; False: such a message does nothing) | "I don't think we should do that right now.", "Only after the audit.": the word is gone. "Thanks, I am here now.": nothing |
-| A7 | "Don't forget to merge #34" is an order | #34 |
-| A8 | The lead-in words of an order (`ORDER_LEADIN_WORDS`) are read in one way only, so a long run of them cannot make the search slow | 200 times "go ahead and", then "merge #34": #34, judged at once |
-| A9 | A negated hold is a go-ahead (M2, `AFFIRMATIVE_PHRASES`): let's not wait, don't wait, do not wait, don't hold off, don't delay, without waiting, no more waiting ... refuse nothing | "Let's not wait any longer, merge #34.", "Merge #34 now, don't wait for CI.": #34. After "Merge #34.", a mid-turn "Don't wait for me.": #34 stands |
-| A10 | A line break ends a sentence (M3), except: a line that ends with "," or ":" goes on into the next; a line with no end mark (`. ! ? ; : ,`) that holds a condition or an un-negated hold goes on into the next; each item of a list (a line that starts with `-`, `*`, a bullet, or a number and `.` or `)`) under a line that ends with ":" is read as that line plus the item | "Once CI is green,\nmerge #34.", "If the guard passes\nmerge #34", "After the audit:\n1. merge #34\n2. upload the plugin": nothing. "Merge #34\nThen update the README", "Do these:\n- merge #34\n- upload the plugin": #34 |
-| B1 | A yes on a card grants a merge only when its question plainly asks for one: the question holds no refusal, condition, un-negated hold or `QUESTION_DOUBT` word (or, versus, vs), and one of its clauses starts with the verb, after an optional lead-in (`QUESTION_LEADIN_WORDS`: the order lead-ins and shall I, should we, do you want me to, ok to ...), not followed by a statement (A4). A yes on any other question of a merge card takes the question's pull requests out of the grant | yes on "Shall I merge #34 now?": #34. Yes on "Wait for the outside audit before I merge #34?", "Merge #34 once CI is green?", "Is #34 ready to merge?", "Merge #34 or wait?": nothing |
-| B2 | The same for the branch word: a yes sets it only on a plain push question to a default branch | yes on "Push this to main?": the branch word. Yes on "Push to main once CI is green?": nothing |
-| B3 | Unchanged: an option that is itself an order ("Merge #34 now") grants what it names; an option that refuses or defers takes the grant back; free text typed into a card is read as a typed message | |
-| C | A word that names a number without a repository is good for that number in ONE repository (`BARE_NUMBER_ONE_REPOSITORY = True`, a default): once a merge of #n was called in this window and the record does not show it denied or failed, a later merge of #n passes only when both calls name the same repository (owner/name, any case). A call whose repository the gate cannot read (`gh pr merge 34` without `-R`) counts as another repository. Denied with `merge-word`. A word that names the repository (`owner/repo#34`, an address) is unchanged. False: a bare number covers the number in every repository | "Merge #34.", then acme/lib#34 merged, then acme/deck#34: denied. The gate cannot know which repository the owner meant when the FIRST merge goes to another one: "Merge #34." then acme/deck#34 first passes |
+- A chosen option grants only when its label is a plain order clause: an optional "yes", the verb, the list (or
+  none: then the question's pull request when it names exactly one, or all of them when the option says both /
+  all, also by count: "Merge all three", "Merge both PRs"), then only tail words or a bracket. "Merge #34", "Merge both (Recommended)", "Merge library only (#34)",
+  "Merge (Recommended)", "Yes, merge #34" grant; "Merge #34 by end of day", "Merge after the audit" do not.
+- A "yes" label grants only when the question's LAST sentence is a plain order question: question lead-ins
+  (`QUESTION_LEADIN_WORDS`: shall I, should we, do you want me to, ok to ...), the verb, the list, only tail
+  words. Sentences before it are context: a yes on "PR 34 is green. Merge it now?" grants #34; a yes on "Merge #34
+  in an hour?", "Wait for the outside audit before I merge #34?", "Is #34 safe to merge?" or "Merge #34 or wait?"
+  grants nothing. A yes label itself is followed only by "both" / "all" or tail words ("Yes, after the audit"
+  grants nothing). The same for the branch word on a plain push question ("Push this to main?").
+- Any other option of a merge card, and an option that refuses ("Wait", "Not yet", "Merge neither"), takes the
+  question's pull requests out of the grant; a refusal that names no pull request but mentions a merge empties it.
+- Free text typed into a card is read as a typed message, with the question's pull request as the object of an
+  order that names none ("merge it, squash please"). Text that is not itself a plain order ends the word, as a
+  message typed mid-turn does.
 
-Cost, stated: a valid order worded with one of these cues ("Merge #34, it's pending review anyway") costs one
-card; a condition, a hold or a quotation worded outside the lists can still be read as an order. The card is
-the unambiguous form.
+Taking back (unchanged by D4; revoking too much costs one card): a refusal (`REFUSAL_CUE`), a hold (`HALT_CUE`,
+un-negated: no "no", "not", "never", "without" or "n't" before it in its clause), a short refusal after soft words
+(`SOFT_LEADIN`, `REFUSAL_START`, six words at most: "Actually no.", "Nope."), a negation before its verb ("Don't,
+under any circumstances, merge #34"), and a statement about a pull request that refuses or holds it ("Merge #34
+can wait.") take the pull requests they name out of the grant, or empty it when they name none. "No rush", "no
+objections", "why not", "don't forget to", "don't wait" and their like refuse nothing. These are read in every
+sentence of a message, before its grant; they decide only where a message that is itself a plain order follows an
+earlier word, or a card follows a typed order.
+
+The cost of D4, stated: a wordier order ("Merge #34 and let me know when it's done", "Next steps: - merge #34")
+costs one card; so does any message the owner types while the assistant works that is not itself a plain order,
+also an unrelated remark ("And fix the typo while you're there"). The card is the unambiguous form.
+
+Rule C. A word that names a number without a repository is good for that number in ONE repository
+(`BARE_NUMBER_ONE_REPOSITORY = True`, a default): once a merge of #n was called in this window and the record does
+not show it denied or failed, a later merge of #n passes only when both calls name the same repository
+(owner/name, any case). A call whose repository the gate cannot read (`gh pr merge 34` without `-R`) counts as
+another repository. Denied with `merge-word`. A word that names the repository (`owner/repo#34`, an address) is
+unchanged. False: a bare number covers the number in every repository. The gate cannot know which repository the
+owner meant when the FIRST merge goes to another one: "Merge #34." then acme/deck#34 first passes.
 
 What ends the word, and what does not.
 
@@ -234,8 +289,8 @@ What ends the word, and what does not.
 | the restart notice of the worker process | the word is gone (`RESTART_ENDS_WORD`, a default the owner was not asked about) |
 | a scheduled notification read in the middle of the owner's turn | the word given before it is gone; a card the owner answers after it grants again (the owner's answer of 2026-11-15: "No, ask me again") |
 | a blocked stop; a notification queued mid-turn; a GitHub notification read mid-turn; a skill load; a compaction | nothing: the word stands |
-| a later refusal by the owner, typed mid-turn or clicked | the refused numbers leave the grant; a bare refusal empties it (rules A5, B1) |
-| a message typed mid-turn that orders nothing but holds a refusal, hold or condition word | the word is gone (rule A6, `MIDTURN_DOUBT_ENDS_WORD`) |
+| a message the owner types while the assistant works that is not itself a plain order | the word and the branch word are gone (D4, `MIDTURN_MESSAGE_ENDS_WORD`) |
+| a message typed mid-turn that is itself a plain order; a clicked option that refuses or is no plain order | what it refuses (or the question's pull requests) leaves the grant; a bare refusal empties it; what it orders is added |
 | a later merge of the same bare number in another repository | denied (rule C, `BARE_NUMBER_ONE_REPOSITORY`) |
 
 A card counts by where its ANSWER sits: a card shown before a restart notice and answered after it is answered
@@ -269,7 +324,12 @@ its result row carries `toolDenialKind` (observed 2026-11-16 for a hook's denial
 its result is an error whose text STARTS, after leading blanks and an optional `Error: `, with one of
 `DENIAL_LEADS`: `PreToolUse:<Tool> hook error:` (the observed form of a hook's denial), `TURN-GATE`, "The user
 doesn't want to proceed" (rejected at the permission prompt), "Permission to use ...", "requires approval",
-"Hook denied / blocked". A result that is not an error is never a denial, whatever it says. A failed call whose
+"Hook denied / blocked". A result that is not an error is never a denial, whatever it says. Observed (records of
+program 2.1.325, 2026-11-16): 14 of 14 denied calls carried `toolDenialKind`, 7 hook denials and 7 "auto mode
+classifier gave no verdict"; none lacked the flag. The leads are for rows that lack it: a denial worded outside
+them AND without the flag (the headless wordings "This Bash command contains multiple operations ...", "Claude
+requested permissions to use ...", recorded in stream output in this repository's results/) counts as an act;
+its cost is one block (finding DS-3, a stated limit; no lead was added). A failed call whose
 error text holds such words in its middle (a push "was rejected" by the remote) is judged as a failure, not a
 denial: the last step of its and-chain is dropped, the earlier steps count. The merge gate uses the same test
 when it counts an earlier merge of a bare number (rule C).
@@ -293,11 +353,14 @@ when it counts an earlier merge of a bare number (rule C).
   answers the acts made BEFORE that block, although it can no longer come first; an outward act made AFTER the
   block needs plan-gate before it, as any act does (specification row S8, finding AS-5): "block, push, then
   both governors" blocks again; "block, both governors, then push" is allowed. The retry flag
-  (`stop_hook_active`) decides nothing by itself: it is set after ANY Stop hook blocked. The rule counts its own
-  earlier blocks from the record. A block counts when it was answered: work follows it in the record, or it is
-  the record's last block and the flag is set (this stop is the answer to it; the record can be behind, and the
-  reply may exist only in the Stop input: finding AS-2). Only when the flag is set and no block is counted at
-  all is the stop let go.
+  (`stop_hook_active`) is set after ANY Stop hook blocked. The rule counts its own earlier blocks from the
+  record. Without the flag, a block counts when work follows it in the record. With the flag, EVERY block of the
+  stretch counts, answered in the record or not (since 2026-11-16, finding DS-1): the session went on after each
+  of them, or it would not be stopping again, and its replies may never reach the record (an empty reply, a
+  record that is behind; counting only the last one blocked without end when two replies left no row). So the
+  rule blocks at most twice and the third stop is let go whatever the record holds, and the prompt-class rule
+  and the receipt gate, which count the same way, block at most once. Only when the flag is set and the record
+  shows no block at all is the stop let go at once.
 
 **Prompt class.** The owner's prompts of the turn are what the owner types (the owner's answer: "No, only what
 you type"): the message that starts the turn, a slash command's arguments, and every message sent while the
@@ -308,7 +371,13 @@ this rule a load made before a compaction counts; a load made before the turn do
 so). The rule is judged only at the first stop after the owner's message: it is silent in a scheduled run, when
 the record holds no owner message (`PROMPT_CLASS_SILENT_WITHOUT_OWNER_MESSAGE = True`, a default; False: such a
 stretch that made a real write is judged as work that needs plan-gate), and after a completed stop or a wake
-row. Its blocks are counted as the outward rule counts them (answered, or the last one on a retry). Allowance: the classes are review only, no tool other
+row. What each value costs: True lets a stretch with no owner message on record (a file that starts at a
+compaction, a scheduled run) write without plan-gate, unjudged by this rule (the outward-action rule still judges
+its commits and pushes); False judges such a stretch as build work whenever its main thread made a real write (a
+write call the record does not show denied, `was_denied`, the same test as the outward-action rule; a helper's
+write and a write before the run began do not count), which covers scheduled runs too, and costs one block for a
+run that writes a file without loading plan-gate. Its blocks are counted as the outward rule counts them (every
+block of the stretch on a retry). Allowance: the classes are review only, no tool other
 than Skill ran, and the answer is shorter than 400 characters (the final answer the program hands the hook is
 read when the record does not hold it). It blocks once in a stretch; a block by the other rule or by another
 Stop hook does not use that up.
@@ -391,9 +460,14 @@ when it is later than the stretch's own first row (the owner's message or the st
 at the row the record had reached when it was written, so a helper that commits after plan-gate was loaded is
 judged as acting after it (finding AS-6). A helper's act is charged to the stretch in which it happens, also
 when the helper was started in an earlier turn (`HELPER_ACT_PLACED_BY_TIME = True`, a default taken without a
-question, finding AS-3). Its cost: the owner's next turn ("thanks") can be blocked once for a background
-helper's late commit, and loading the governors answers it. False: such an act is charged only to a stretch
-whose main thread started a helper (`HELPER_TOOLS`) before it. Limits: a helper's call that was let through
+question, finding AS-3). A note stamped while the session was idle (after a completed stop, before the owner's
+next message) is charged to the stretch that the owner's message starts: for such a stretch, notes later than the
+last completed stop before it count (since 2026-11-16, finding DS-2; no note is counted twice, because no other
+stretch counts that interval). What each value costs: True: the owner's next turn ("thanks") can be blocked once
+for a background helper's commit, and loading the governors answers it. False: such an act is charged only to a
+stretch whose main thread started a helper (`HELPER_TOOLS`) before the act, so the act of a helper started in an
+earlier turn is not counted at all (the launching turn's stop has already passed): a background helper of an
+ungoverned turn can then commit and push with no block at any stop. Limits: a helper's call that was let through
 and then failed still counts; when the ledger cannot be written nothing is counted and nothing is blocked; the
 ledger is lost with the container.
 
@@ -407,18 +481,18 @@ not registered.
 | question | the owner's answer | constant |
 |---|---|---|
 | a scheduled notification lands between the order and the merge | "No, ask me again" (2026-11-15) | `SCHEDULED_READ_ENDS_WORD = True` |
-| what authorizes a direct push to main | "An order naming the branch" (2026-11-15) | `PUSH_ORDER`, `DEFAULT_BRANCH_WORD`; `PUSH_UNKNOWN_BRANCH_POLICY = "deny-unattended"` |
+| what authorizes a direct push to main | "An order naming the branch" (2026-11-15) | `PUSH_ORDER`, `PUSH_DESTINATION`; `PUSH_UNKNOWN_BRANCH_POLICY = "deny-unattended"` |
+| how a typed order is read | "Plain orders only" (2026-11-16, D4) | `MIDTURN_MESSAGE_ENDS_WORD = True`, `ORDER_MESSAGE_MAX_CHARS = 4000`, the allowlists `CLOSING_WORDS`, `ORDER_TAIL_WORDS`, `ORDER_LIST_WORDS`, `ORDER_OBJECT_WORDS`, `REFUSAL_OTHER_WORDS` |
 | block again after a Stop block that was not answered | "Yes, twice at most" (2026-11-15) | `F1_MAX_BLOCKS = 2`, `PROMPT_CLASS_MAX_BLOCKS = 1` |
 | governor loads after a compaction inside the turn | "Yes after compaction" (2026-11-15) | `COMPACTION_VOIDS_LOADS = True`, `WAKE_TURN_INHERITS_LOADS = True` |
 | is a clicked card label the owner's prompt | "No, only what you type" (2026-11-15) | `CLASSIFY_CARD_ANSWERS = False` |
 | which actions the Stop gate counts | "Commits, pushes, PRs, scheduling" (2026-11-15) | `F1_COUNTED_KINDS` |
 | which calls need the merge word | D1 to D3 (2026-11-13) | `MERGE_GATED_KINDS`, `MERGE_TOOL_LEAVES` |
 
-Seven defaults were taken without a question and are open for the owner (registry decision D-TG-2):
+Six defaults were taken without a question and are open for the owner (registry decision D-TG-2):
 `RESTART_ENDS_WORD = True`, `DELEGATE_MAY_MERGE = True`, `QUEUED_OWNER_ATTENDS_RUN = True` (a message the owner
 types during a scheduled run makes the rest of it attended, so a typed order then may merge; False: a scheduled
-run stays unattended to its end), and, from the audit of 2026-11-16, `MIDTURN_DOUBT_ENDS_WORD = True` (rule A6)
-and `BARE_NUMBER_ONE_REPOSITORY = True` (rule C; the stricter choice the owner may want instead: a word must name
+run stays unattended to its end), and, from the audit of 2026-11-16, `BARE_NUMBER_ONE_REPOSITORY = True` (rule C; the stricter choice the owner may want instead: a word must name
 the repository whenever the session has several). Two more from the outside audit of the Stop gate (2026-11-16):
 `HELPER_ACT_PLACED_BY_TIME = True` in `turngate.py` (finding AS-3, "Helper agents" above) and
 `PROMPT_CLASS_SILENT_WITHOUT_OWNER_MESSAGE = True` in `governance-enforce.py` (finding AS-7, "Prompt class"
@@ -429,12 +503,12 @@ and `X06b` run the hooks with a shorter Stop list and still expect the denials).
 
 ### Tests
 
-    python3 hooks/selftest-turn-gates.py              # the table: 950 cases, one line each; exit 0 only when all pass
+    python3 hooks/selftest-turn-gates.py              # the table: 1304 cases, one line each; exit 0 only when all pass
     python3 hooks/selftest-turn-gates.py --only-failing J04 X05     # by the start of a name
     python3 hooks/selftest-turn-gates.py --hooks DIR  # another copy of the hooks
     python3 hooks/selftest-turn-gates.py W            # table "W": both wiring files, read and run
     python3 hooks/selftest-turn-gates.py --needs      # the files a project carries beside its hooks
-    python3 hooks/selftest-mutations.py               # the break list: 434 deliberate breaks, each must be caught
+    python3 hooks/selftest-mutations.py               # the break list: 514 deliberate breaks, each must be caught
     python3 hooks/selftest-mutations.py --list        # what each break removes, and the cases named for it
 
 `selftest-turn-gates.py` builds a session record in the real row shapes for every case (`selftest_rows.py` is
@@ -450,7 +524,12 @@ time (`timing.txt`), the guard (`guard-after.txt`). Evidence of the merge-gate f
 table and the break list after (`table-after.txt`, `mutations-after.txt`), each finding's reproduction on the
 fixed tree (`repro-on-fixed.txt`), the replay totals before and after (`replay-before-after.txt`), the guard
 (`guard-after.txt`). Evidence of the Stop-gate findings of the same audit and of the follow-ups to the merge
-gate, the same files in `results/2026-11-16/audit-fixes/stop-gate/` (table "U" of the test table).
+gate, the same files in `results/2026-11-16/audit-fixes/stop-gate/` (table "U" of the test table). Evidence of the
+owner's decision D4 and of the second outside read (findings DM-1 to DM-10, DS-1 to DS-7), the same files in
+`results/2026-11-16/audit-fixes/second-read/` (table "D"), with `verdicts-changed-by-d4.md`: the 13 existing
+cases whose wanted verdict the decision changed, one of them pre-registered. A case about speed judges the CPU
+time the hook used (measured by a small wrapper around the hook), never the wall clock, so that a loaded machine
+cannot decide it; the deadline cases (`J04`) test the wall-clock deadline itself and stay on the clock.
 
 ### Limits, stated as limits
 
@@ -472,8 +551,11 @@ gate, the same files in `results/2026-11-16/audit-fixes/stop-gate/` (table "U" o
   encoded text decoded into a shell, a branch held in a default expansion (`HEAD:${B:-main}`; a push whose branch
   cannot be read is denied only where the owner is absent, `PUSH_UNKNOWN_BRANCH_POLICY`);
 - a script file as it is not when the hook runs: one that is missing, larger than 256 KB, or named relative to
-  a directory the gate does not know contributes nothing. A loop over directories is not unrolled, so a push
-  inside it has no readable branch.
+  a directory the gate does not know contributes nothing; a file replaced between the hook's check and the run
+  (by another call, or by a process the command starts) is judged as it was at the check. A loop over
+  directories is not unrolled, so a push inside it has no readable branch;
+- `find ... -exec bash {} \;` and its like: the script's name is filled in by find, so the gate cannot read
+  it (since 2026-11-16, a stated limit).
 
 The auditor's case `python-c` (a merge through `python3 -c` and a subprocess, in a scheduled run) is therefore
 still allowed: a stated limit, not fixed.
@@ -483,16 +565,18 @@ still allowed: a stated limit, not fixed.
 - Rule C: when the FIRST merge of a bare number goes to another repository than the one the owner meant, the
   gate cannot know; a call whose repository it cannot read counts as another repository, so a second merge of a
   bare number through `gh pr merge N` without `-R` is denied.
-- Rule A6 also ends the word on an ordinary remark that holds a condition word ("when you're done, update the
-  README"): one card more. A refusal worded with none of the listed words is still missed.
+- D4 ends the word on any remark typed while the assistant works ("And fix the typo while you're there"): one
+  card more, by the owner's decision. A message typed mid-turn that is itself a plain order keeps what was
+  granted before it, and a refusal in its earlier sentences worded with none of the listed words ("Forget it.
+  Merge #35.") does not take the earlier word back.
+- Words before the numbers of an order are not read when the numbers stand in a bracket ("merge the QA-loop
+  PRs (#34 library, #141 deck)"): a refusal word there ("except") still voids the order, any other word does not.
 - A notification body that imitates exactly the next expected header line of its batch takes that header's
   place. It can make a GitHub batch look scheduled (the word ends: the gate fails closed) or hide a scheduled
   header that is not the first of its batch.
 - The word lists and patterns that read the owner's messages are hand-set and were not measured against real
-  messages (registry status `uncalibrated`, decision D-TG-1, open). An order worded in a way the grammar does
-  not take as an order costs one card. A refusal, a condition or a quotation worded with none of the listed
-  words can still be read as an order (the audit of 2026-11-16 found nine such retractions; rules A1 to A6 read
-  them now); the card is the unambiguous form.
+  messages (registry status `uncalibrated`, decision D-TG-1, open). Since D4 they are allowlists: a word missing
+  from one costs one card; none of them is what stops a merge. The card is the unambiguous form.
 - The deadline inside the hooks relies on the alarm signal (Linux and macOS; a pattern match that runs long is
   interrupted there: checked 2026-11-15, the denial came at 8.0 s). On a system without that signal the
   fallback timer cannot interrupt a single long call.
@@ -500,10 +584,6 @@ still allowed: a stated limit, not fixed.
 - A failed and-chain (finding AS-4, the documents do not decide; behaviour unchanged): only its last step is
   dropped. When an earlier step is the one that failed (`git commit -m x && git push` with nothing to commit),
   the stretch is still counted as having committed, which costs one block; loading the governors answers it.
-- The new word rules (A1 to A10, from the follow-ups of 2026-11-16) read more holds as holds: "Give me a summary,
-  then merge #34" holds the order back ("give me"), "Merge #34 next" is read as for later ("next"), and "Let's do
-  this first: merge #34" puts something first. Each such valid order costs one card. A hold inside the order's
-  own clause ("Merge #34 in a minute") is still read as an order.
 - The replay tool judges a recorded push that names no branch against the checkout as it is at replay time,
   not as it was when the push was made (`replay-vs-baseline.md` shows one denial that comes from this).
 - These gates run where hooks run: Claude Code. On claude.ai nothing here is enforced.

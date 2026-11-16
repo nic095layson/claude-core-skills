@@ -104,8 +104,15 @@ def outward_rule(turngate, model, path, active):
 
 
 def wrote(turngate, model, after):
-    """The main thread made a real write (a file outside scratch, a commit, a push ...) after row `after`."""
-    return any(i > after and not side and turngate.is_write(b) for (i, _k, b, side) in model.uses.values())
+    """The main thread made a real write (a file outside scratch, a commit, a push ...) after row `after`: a call
+    the record does not show denied (the same test as the outward-action rule's, turngate.was_denied)."""
+    for tid, (i, _k, b, side) in model.uses.items():
+        if i <= after or side or not turngate.is_write(b):
+            continue
+        res = model.results.get(tid)
+        if res is None or not turngate.was_denied(res[1], res[2]):
+            return True
+    return False
 
 
 def prompt_class_rule(turngate, govclass, model, data, active):
