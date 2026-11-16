@@ -1,0 +1,97 @@
+{
+ "verdicts": [
+  {
+   "id": "AS-1",
+   "verdict": "CONFIRMED",
+   "reproduced": true,
+   "command_run": "PYTHONDONTWRITEBYTECODE=1 TMPDIR=WORK/verify-fa-stop/tmp python3 WORK/verify-fa-stop/copy/denial.py  (the finder's script copied, with fixture/state paths moved to my scratch);  PYTHONDONTWRITEBYTECODE=1 TMPDIR=WORK/verify-fa-stop/tmp python3 WORK/verify-fa-stop/mine.py",
+   "observed": "finder copy: ok D00 gate: block:F1 | MISMATCH D01..D07 gate: allow rule: block:F1 | == 7 case(s) differ.  Own fixtures: ok A1a got=block:F1 (branch claude/docs-v2) | DIFF A1b got=allow want=block:F1 (branch claude/turn-gates-v2 printed by git) | DIFF A1c got=allow want=block:F1 (subject holds 'requires approval') | ok A1d got=allow (real TURN-GATE denial, is_error) | ok A1e got=allow (rejected call)",
+   "rule_check": "README.md:196-201 is quoted word for word: 'Not an action at all: ... a call that was denied or rejected, and the last step of an and-chain that failed.' A successful call is none of these. turngate.py:345-347 searches DENIAL_TEXT (TURN-GATE|...|was rejected|...|requires approval, re.I) in the first 600 characters of ANY result, and line 1994 drops the act on a match even when is_error is absent.",
+   "reason": "My own fixtures reproduce it: git-shaped commit output naming the branch claude/turn-gates-v2, and a commit subject containing 'requires approval'. In both, an ungoverned commit is not counted and the stop is allowed. The honest neighbours (a real hook denial, a rejected call) are still dropped, as they should be. This is realistic in this repository: its history holds a PR branch claude/turn-gates-2026-10-29 (#32) and commit subjects that name the turn-gate, and git prints the branch and new-file paths (hooks/turn-gates-pretool.py etc.) in its output. The row shapes are ordinary Bash call/result pairs.",
+   "severity": "high",
+   "realistic": "happens_in_normal_use"
+  },
+  {
+   "id": "AS-2",
+   "verdict": "CONFIRMED",
+   "reproduced": true,
+   "command_run": "PYTHONDONTWRITEBYTECODE=1 TMPDIR=WORK/verify-fa-stop/tmp python3 WORK/verify-fa-stop/copy/bb2.py X01 X02;  PYTHONDONTWRITEBYTECODE=1 TMPDIR=WORK/verify-fa-stop/tmp python3 WORK/verify-fa-stop/mine.py",
+   "observed": "MISMATCH X01 gate: allow rule: block:F1 ... [retry] | ok X02 gate: block:F1.  Own: DIFF A2a got=allow want=block:F1 (1st F1 block answered with text only, not in record yet) | ok A2b got=block:F1 (control: text in record)",
+   "rule_check": "The README.md:217-221 quote is real: 'At most twice in one stretch: again when its first block was not answered, then the stop is let go.' decisions.md:64 Q3 'Yes, twice at most' -> F1_MAX_BLOCKS = 2. In the code, feedback() (turngate.py ~2034) counts a block only if an ASSISTANT row follows it (b[-1].i < last_work). f1_decision then takes the 'flag set and record shows no block' shortcut and lets the stop go after one block.",
+   "reason": "Reproduced independently. The builder's own README and spec (H7, prose()) accept that the record may not yet hold the final answer when the Stop hook runs, so this is a case the code already anticipates elsewhere. When it happens, the owner-chosen second block is lost. The same mechanism also cuts the other way (see new_leads): if the reply to the second block is missing from the record, the gate blocks a third time.",
+   "severity": "medium",
+   "realistic": "needs_unusual_but_plausible_input"
+  },
+  {
+   "id": "AS-3",
+   "verdict": "UNCLEAR",
+   "reproduced": true,
+   "command_run": "PYTHONDONTWRITEBYTECODE=1 TMPDIR=WORK/verify-fa-stop/tmp python3 WORK/verify-fa-stop/copy/ledger.py;  PYTHONDONTWRITEBYTECODE=1 TMPDIR=WORK/verify-fa-stop/tmp python3 WORK/verify-fa-stop/mine.py  (case A3a: ledger note written by me with a time inside the owner's 'thanks' turn)",
+   "observed": "finder copy: ok G03a gate: allow | MISMATCH G03b gate: block:F1 rule: allow | reason at G03b: GOV-ENFORCE: this turn took an outward action (commit, push) without plan-gate (before the first outward action) and adversarial-verify.  Own: DIFF A3a got=block:F1 (helper of a governed turn commits during the next 'thanks' turn)",
+   "rule_check": "The wording 'governance turn it belongs to' comes from the audit brief (briefs/fa-stop.md:14-16), not from decisions.md. README.md:300-306 says 'A note is placed by its time stamp', and CORE-SPEC S13 (line 141) says a helper call 'counts, at the point of the main record where it was made'. The code does what the README and the spec say. Only the brief's paraphrase and decisions.md:41-42 ('A false block is a defect too') point the other way.",
+   "reason": "The behaviour reproduces: when a governed turn's background helper commits after that turn's stop, the owner's next turn, which took no action, is blocked. But the stated rules (README, CORE-SPEC S13) explicitly place the note by time, so under those documents the behaviour is intended. Nothing binding decides whether a helper's act belongs to the turn that launched it. The verdict is UNCLEAR because it reproduces but the documents disagree or are silent.",
+   "severity": "low",
+   "realistic": "needs_unusual_but_plausible_input"
+  },
+  {
+   "id": "AS-4",
+   "verdict": "UNCLEAR",
+   "reproduced": true,
+   "command_run": "PYTHONDONTWRITEBYTECODE=1 TMPDIR=WORK/verify-fa-stop/tmp python3 WORK/verify-fa-stop/copy/bb2.py X15 X16;  PYTHONDONTWRITEBYTECODE=1 TMPDIR=WORK/verify-fa-stop/tmp python3 WORK/verify-fa-stop/mine.py",
+   "observed": "MISMATCH X15 gate: block:F1 rule: allow | MISMATCH X16 gate: block:F1 rule: allow.  Own: DIFF A4a got=block:F1 want=allow (commit failed in && chain, push never ran) | ok A4b got=allow (control: a lone failed commit)",
+   "rule_check": "The README.md:200-201 quote is real, but it excludes only 'the last step of an and-chain that failed'. CORE-SPEC S4 (line 132) says the same. Neither says that an earlier step of a failed chain is not counted. decisions.md:41-42 ('A false block is a defect too') is real but general.",
+   "reason": "Reproduced: 'commit && push' with nothing to commit (is_error, 'nothing to commit') is blocked as an ungoverned commit. The code follows the README and spec wording literally. The finding's reading ('a failed commit is not a commit') is reasonable, but it is not what the stated rule says. The session did attempt an ungoverned outward act, so whether this is a false block is arguable. The X16 fixture is weak: in a real shell, a ';' chain that ends in a no-op push exits 0, so the harness would not write is_error=True there. The block costs little: load the governors and stop.",
+   "severity": "low",
+   "realistic": "needs_unusual_but_plausible_input"
+  },
+  {
+   "id": "AS-5",
+   "verdict": "CONFIRMED",
+   "reproduced": true,
+   "command_run": "PYTHONDONTWRITEBYTECODE=1 TMPDIR=WORK/verify-fa-stop/tmp python3 WORK/verify-fa-stop/copy/bb2.py X03;  FASTOP_HOOKS=WORK/verify-fa-stop/mhooks-M8 python3 .../verify-fa-stop/copy/bb2.py X03;  python3 WORK/verify-fa-stop/copy/mut.py M8-remedy-only-for-earlier-acts SANITY  (on my own worktree WORK/verify-fa-stop/wt);  python3 WORK/verify-fa-stop/mine.py",
+   "observed": "fixed: MISMATCH X03 gate: allow rule: block:F1 ... [retry] | M8 hooks: ok X03 gate: block:F1 | M8-remedy-only-for-earlier-acts == 740 cases: 740 pass, 0 fail == | SANITY (F1_MAX_BLOCKS = 0) == 740 cases: 677 pass, 63 fail == (the harness detects breaks) | Own: DIFF A5a got=allow want=block:F1 (after the block: a new push, then plan-gate) | ok A5b got=allow (control)",
+   "rule_check": "CORE-SPEC.md:136 (S8) is quoted word for word: 'this rule already blocked in the stretch and the miss is still there, or a new outward action came without the governors | BLOCK again, at most F1_MAX_BLOCKS (2) times'. README.md:218-219, 'After its own block, a plan-gate load made since answers it although it can no longer come first', can be read either way. The turngate.py remedy (li > remedy) excuses every act of the stretch, including acts made after the block.",
+   "reason": "For a new outward act after the block, the code contradicts the builder's own spec row S8, and the test table pins neither reading. The mutation that implements S8 passes all 740 cases, while a sanity mutation fails 63, so the check itself is sound. The consequence is limited: both governors are loaded by the end, and only plan-gate comes after the push.",
+   "severity": "medium",
+   "realistic": "needs_unusual_but_plausible_input"
+  },
+  {
+   "id": "AS-6",
+   "verdict": "CONFIRMED",
+   "reproduced": true,
+   "command_run": "python3 WORK/verify-fa-stop/copy/mut.py M2-ledger-at-stretch-start  (my own worktree);  bash WORK/verify-fa-stop/copy/mkmut.sh M2 'at = max(rows_then - 1, after + 1)' 'at = after + 1';  PYTHONDONTWRITEBYTECODE=1 TMPDIR=WORK/verify-fa-stop/tmp python3 WORK/verify-fa-stop/mine.py WORK/verify-fa-stop/mhooks-M2",
+   "observed": "M2-ledger-at-stretch-start == 740 cases: 740 pass, 0 fail == | failing: -  ;  fixed hooks: ok A6a got=allow (governed delegation: helper commits after plan-gate) ; M2 hooks: DIFF A6a got=block:F1 want=allow ; finder's G05 on my M2 copy: MISMATCH G05 gate: block:F1 rule: allow",
+   "rule_check": "CORE-SPEC.md:141 S13 is quoted word for word: 'an outward call by a helper agent | counts, at the point of the main record where it was made, from the note the pre-tool hook left'.",
+   "reason": "Moving every helper act to the start of the stretch changes the verdict on an ordinary governed delegation, in my own fixture (with a ledger note I wrote by hand) and in the finder's G05. Yet the shipped table still passes 740 of 740. The sanity mutation shows the table harness does catch breaks, so the placement rule S13 is not pinned by any case.",
+   "severity": "medium",
+   "realistic": "happens_in_normal_use"
+  },
+  {
+   "id": "AS-7",
+   "verdict": "CONFIRMED",
+   "reproduced": true,
+   "command_run": "cd WORK/verify-fa-stop/copy/pc && PYTHONDONTWRITEBYTECODE=1 TMPDIR=.../verify-fa-stop/tmp HOOKS=FIXED/hooks TURNGATE_STATE_DIR=.../verify-fa-stop/mystate-empty python3 wb3_more.py L;  python3 WORK/verify-fa-stop/as7.py;  python3 OLDPACK/pack/tools/replay_real.py --hooks FIXED/hooks --what stop | head",
+   "observed": "DIFF L1 want=block:prompt-class got=allow file starts at the boundary; the turn goes on: two file writes, no governor | ok L2 ... CONTROL.  Own: C1 boundary-first, no owner row : allow | C2 control, owner row present : {\"decision\": \"block\", \"reason\": \"GOV-ENFORCE: this is governed work (plan-gate) and you finished WITHOUT loading it...  Replay: 2026-10-21T23:24 | then: GOV-ENFORCE: this is governed work (adversar | now: allow / allow.  governance-enforce.py:97: if model.gov_kind != \"owner\": return None",
+   "rule_check": "decisions.md:37-40 is quoted word for word and names PC-6 explicitly: the default goes 'behind one clearly named constant, and list it under \"open policy questions\"'. CORE-SPEC P1 (line 150) and the PC-6 map (line 629) settle it with a hard-coded condition instead. Section 9 (line 907 on) lists Q1-Q6 and a 'defaults taken without a question' line, and neither mentions this case. README:229 states the silence plainly, but a plainly stated limit that contradicts an owner decision is still a finding.",
+   "reason": "Reproduced with my own fixture, a record that starts at a compaction boundary. The chosen default (silent) is on the 'no new block' side, so the behaviour itself is defensible. The defect is that the owner's explicit procedure for PC-6 was not followed: there is no named constant and it is not listed as an open question, so the owner cannot overrule it with one click. The 23:24 change against the installed hook is the old PC-6 behaviour carried forward, not a new change made by the fix.",
+   "severity": "low",
+   "realistic": "happens_in_normal_use"
+  },
+  {
+   "id": "AS-8",
+   "verdict": "CONFIRMED",
+   "reproduced": true,
+   "command_run": "PYTHONDONTWRITEBYTECODE=1 TMPDIR=WORK/verify-fa-stop/tmp python3 WORK/verify-fa-stop/copy/adv.py;  PYTHONDONTWRITEBYTECODE=1 TMPDIR=WORK/verify-fa-stop/tmp python3 WORK/verify-fa-stop/mine.py",
+   "observed": "MISMATCH V6.1 pre-tool: advise rule: allow | MISMATCH V6.2 pre-tool: allow rule: advise | ok V3.1.  Own: DIFF A8a.1 got=advise want=allow (printf \"x\" > \"$TMPDIR/note.txt\") | DIFF A8a.2 got=allow want=advise | ok A8b.1 got=allow (literal path under the hook's TMPDIR) | ok A8c.1 got=allow (/tmp)",
+   "rule_check": "README.md:240-241 is quoted word for word: 'writes only to scratch (`/tmp`, `/var/tmp`, `$TMPDIR`), does not spend it.' turngate.py _is_scratch (~1645) returns False for any path that holds a variable mark, so a write to \"$TMPDIR/...\" counts as a real write.",
+   "reason": "Reproduced: the one reminder is spent on a $TMPDIR write, and the next real write gets none. Refusing to trust an unresolved variable is a defensible design choice, but the README statement claims more than the code does. The advisory never blocks, so the cost is small.",
+   "severity": "low",
+   "realistic": "needs_unusual_but_plausible_input"
+  }
+ ],
+ "new_leads": [
+  "AS-2 mirror (a third block): when the reply to the SECOND F1 block is not yet in the record, feedback() counts only the first block, so the gate blocks a third time, past 'twice at most'. Case A2c in WORK/verify-fa-stop/mine.py: two blocked stops in the record, stop_hook_active=True, the reply only in last_assistant_message -> got=block:F1, want=allow.",
+  "Helper-ledger edge: Model.outward compares a note's time with the timestamp of the row AFTER the stretch start. A note stamped between the owner's message row and the next row therefore falls outside the new stretch (mine.py case A3b -> allow). The previous stretch was already judged, so such a helper commit is never counted.",
+  "AS-1 reaches other counted calls too: a PR create/update through MCP whose result echoes a title or body holding 'requires approval' or 'TURN-GATE' in its first 600 characters would be dropped the same way (not run)."
+ ]
+}

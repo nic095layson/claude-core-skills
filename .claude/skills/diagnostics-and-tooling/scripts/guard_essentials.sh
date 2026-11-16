@@ -145,7 +145,9 @@ def has(ev,frag): return any(frag in x['command'] for e in h.get(ev,[]) for x in
 assert has('UserPromptSubmit','governance-trigger') and has('Stop','governance-enforce') and has('SessionStart','session-doctrine') and has('PreToolUse','scope-fence-reminder') and has('PreToolUse','turn-gates-pretool')
 PY
 python3 hooks/selftest-governance-classify.py >/dev/null 2>&1 && ok "enforcement pack: classifier + Stop-gate fixture passes" || bad "enforcement pack: classifier fixture FAILS (run hooks/selftest-governance-classify.py)"
-python3 hooks/selftest-turn-gates.py >/dev/null 2>&1 && ok "enforcement pack: turn-gates fixture passes (F1 outward actions, F2 merge word, F3 plan shown)" || bad "enforcement pack: turn-gates fixture FAILS (run hooks/selftest-turn-gates.py)"
+python3 hooks/selftest-turn-gates.py >/dev/null 2>&1 && ok "enforcement pack: turn-gates table passes (merge gate, Stop gate, plan-shown advisory, receipt gate)" || bad "enforcement pack: turn-gates table FAILS (run hooks/selftest-turn-gates.py --only-failing)"
+bash hooks/selftest-receipt-law.sh >/dev/null 2>&1 && ok "enforcement pack: receipt gate's own selftest passes (hooks/selftest-receipt-law.sh, 15 cases)" || bad "enforcement pack: receipt gate's selftest FAILS (run bash hooks/selftest-receipt-law.sh)"
+python3 hooks/selftest-mutations.py >/dev/null 2>&1 && ok "enforcement pack: every deliberate break of the turn gates and the receipt gate is caught by the table (hooks/selftest-mutations.py)" || bad "enforcement pack: a deliberate break of the turn gates or the receipt gate SURVIVES or is STALE, or the unchanged hooks fail the table (run hooks/selftest-mutations.py)"
 python3 .claude/skills/red-team/scripts/registry_check.py --root . >/dev/null 2>&1 && ok "red team: every hand-set value in hooks/ is registered and unchanged (redteam/constants_registry.json)" || bad "red team: hooks/ constants DRIFTED from redteam/constants_registry.json or are unregistered (run registry_check.py --root .; re-register with a status, do not just overwrite)"
 python3 - <<'PY' 2>/dev/null && ok "doctrine block: CLAUDE.md copy equals instructions/project-doctrine-block.md" || bad "doctrine block: CLAUDE.md copy DRIFTED from instructions/project-doctrine-block.md"
 import re,sys
@@ -157,17 +159,31 @@ PY
 
 # --- 9. Plugin twin of the pack (INC-2026-10-13-01, later the same day) --------
 # plugin/core-governance/scripts/* are copies of hooks/*. Two packs that disagree is the
-# drift failure this ledger keeps recording; a copy that drifts fails here.
-pp=0
-for f in govclass.py governance-trigger.py governance-enforce.py session-doctrine.sh plan-gate-first-write-reminder.sh scope-fence-reminder.sh receipt-law-stop-gate.sh selftest-governance-classify.py selftest-receipt-law.sh turngate.py turn-gates-pretool.py selftest-turn-gates.py; do
-  cmp -s "hooks/$f" "plugin/core-governance/scripts/$f" || { bad "plugin parity: plugin/core-governance/scripts/$f differs from hooks/$f (or is missing)"; pp=1; }
+# drift failure this ledger keeps recording; a copy that drifts fails here. Since 2026-11-16 (finding SF-6) the
+# list is computed, not typed: EVERY file of the plugin's scripts that has a twin in hooks/ is compared, and the
+# plugin must hold every file the two wiring files run and every file those import or run (the table's --needs).
+pp=0; pn=0
+for p in plugin/core-governance/scripts/*; do
+  [ -f "$p" ] || continue; f=$(basename "$p"); [ -f "hooks/$f" ] || continue; pn=$((pn+1))
+  cmp -s "hooks/$f" "$p" || { bad "plugin parity: $p differs from hooks/$f"; pp=1; }
 done
-[ "$pp" -eq 0 ] && ok "plugin parity: 12 scripts byte-identical to hooks/"
+[ "$pn" -gt 0 ] || { bad "plugin parity: plugin/core-governance/scripts holds no copy of hooks/"; pp=1; }
+[ "$pp" -eq 0 ] && ok "plugin parity: all $pn scripts that have a twin in hooks/ are byte-identical to it"
+# What a project needs beside its hooks (the wired scripts, what they import or run, the self-tests of those),
+# computed from both wiring files over hooks/; the plugin must hold every one of them.
+pneed=$(python3 hooks/selftest-turn-gates.py --needs --wiring .claude/settings.json --wiring plugin/core-governance/hooks/hooks.json 2>&1)
+prc=$?; pm=""
+for f in $(printf '%s\n' "$pneed" | grep '|' | cut -d'|' -f1); do
+  [ -f "plugin/core-governance/scripts/$f" ] || pm="$pm $f"
+done
+if [ "$prc" -ne 0 ]; then bad "hooks/: a file the wiring runs or imports is missing:"; printf '%s\n' "$pneed" | grep -vE '\| (wired|imported|run|tests)[^|]*$' | sed 's/^/        /'
+elif [ -n "$pm" ]; then bad "plugin: missing from plugin/core-governance/scripts (the wiring runs, imports or tests it):$pm"
+else ok "plugin: holds every file the wiring runs, imports or tests ($(printf '%s\n' "$pneed" | grep -c '|') files, computed)"; fi
 python3 - <<'PY2' 2>/dev/null && ok "plugin: hooks.json wrapped in \"hooks\", every command via \${CLAUDE_PLUGIN_ROOT} and the defer wrapper" || bad "plugin: hooks/hooks.json missing, unwrapped, or a command bypasses run-unless-project-wired.sh"
 import json
 h=json.load(open('plugin/core-governance/hooks/hooks.json'))['hooks']
 cmds=[x['command'] for e in ('SessionStart','UserPromptSubmit','PreToolUse','Stop') for g in h[e] for x in g['hooks']]
-assert len(cmds)==7 and all('${CLAUDE_PLUGIN_ROOT}' in c and 'run-unless-project-wired.sh' in c for c in cmds)
+assert len(cmds)==8 and all('${CLAUDE_PLUGIN_ROOT}' in c and 'run-unless-project-wired.sh' in c for c in cmds)
 for need in ('governance-trigger.py','governance-enforce.py','session-doctrine.sh','receipt-law-stop-gate.sh','plan-gate-first-write-reminder.sh','scope-fence-reminder.sh','turn-gates-pretool.py'):
     assert any(need in c for c in cmds), need
 PY2

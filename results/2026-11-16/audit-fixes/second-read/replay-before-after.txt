@@ -1,0 +1,68 @@
+$ python3 <merge-audit pack>/tools/replay_real.py --hooks <hooks of ed8ef13> --what all   (before)
+$ python3 <merge-audit pack>/tools/replay_real.py --hooks hooks --what all   (after)
+# How it got here (the record was not opened; the tool prints verdicts only). The first run on the D4 grammar
+# changed the merge lines: the four real merges of the turn from 2026-10-22T16:01 went from allow to
+# DENY:merge-word, and the merges of the turns from 2026-10-28T22:56, 23:16 and 2026-11-02T21:59 (3 each, allowed
+# with the plan-shown advisory) to DENY:merge-word. The replay was then run on copies of the hooks with one rule
+# relaxed at a time: switching off the mid-turn rule, the length cap, the lead-in rule, the rule for clauses after
+# the order, the closing-sentence rule, the filler-word rule, the free-text rule or the yes-question rule changed
+# nothing; skipping the tail check for a card OPTION alone, or letting an option name its pull requests by count
+# ("all three", "both PRs"), brought every line back to the run before. Inference: those merges were clicks on
+# options of that shape. The count words are now part of an option's object (ORDER_COUNT_WORDS, cases d4_c11,
+# d4_c12, breaks DA21, DA22), and the outputs before and after are identical.
+# diff before after: none (the two outputs are identical; below, the after output)
+== STOP: every real stop point (ts | then: what the installed hooks reported | now: enforce / receipt)
+  2026-10-21T23:24 | then: GOV-ENFORCE: this is governed work (adversar   | now: allow              / allow
+  2026-10-21T23:25 | then: -                                              | now: allow              / allow
+  2026-10-21T23:26 | then: -                                              | now: BLOCK:F1           / allow
+  2026-10-21T23:26 | then: -                                              | now: allow              / allow
+  2026-10-22T16:08 | then: -                                              | now: allow              / allow
+  2026-10-22T16:08 | then: -                                              | now: allow              / allow
+  2026-10-22T16:10 | then: -                                              | now: allow              / allow
+  2026-10-22T20:17 | then: -                                              | now: allow              / allow
+  2026-10-28T23:00 | then: -                                              | now: allow              / allow
+  2026-10-28T23:01 | then: -                                              | now: allow              / allow
+  2026-10-28T23:02 | then: -                                              | now: allow              / BLOCK:receipt
+  2026-10-28T23:04 | then: -                                              | now: allow              / allow
+  2026-10-28T23:23 | then: -                                              | now: allow              / allow
+  2026-10-28T23:47 | then: -                                              | now: allow              / allow
+  2026-10-28T23:47 | then: -                                              | now: allow              / allow
+  2026-10-28T23:53 | then: -                                              | now: allow              / allow
+  2026-10-28T23:55 | then: -                                              | now: allow              / allow
+  2026-10-28T23:56 | then: -                                              | now: allow              / allow
+  2026-10-29T01:50 | then: -                                              | now: allow              / allow
+  2026-10-29T01:55 | then: -                                              | now: allow              / allow
+  2026-11-02T22:13 | then: -                                              | now: allow              / allow
+  2026-11-02T22:13 | then: -                                              | now: allow              / allow
+  2026-11-02T22:41 | then: -                                              | now: allow              / BLOCK:receipt
+  2026-11-02T22:43 | then: GOV-ENFORCE: this is governed work (adversar   | now: BLOCK:prompt-class / allow
+  2026-11-02T22:43 | then: -                                              | now: allow              / allow
+  2026-11-12T21:36 | then: -                                              | now: allow              / allow
+  totals: {'allow': 24, 'receipt:allow': 24, 'BLOCK:F1': 1, 'receipt:BLOCK:receipt': 2, 'BLOCK:prompt-class': 1}
+== PRE: every real write-class or merge tool call (verdict now), grouped by owner turn
+  turn from 2026-10-21T23:25: outward:ADVISE:plan-shown x2, merge:DENY:merge-word x2
+  turn from 2026-10-22T16:01: write:allow x3, outward:allow x8, merge:allow x4
+  turn from 2026-10-22T16:10: write:allow x1
+  turn from 2026-10-28T22:56: write:ADVISE:plan-shown x3, outward:ADVISE:plan-shown x7, merge:ADVISE:plan-shown x3
+  turn from 2026-10-28T23:16: write:ADVISE:plan-shown x25, outward:ADVISE:plan-shown x14, merge:ADVISE:plan-shown x3
+  turn from 2026-11-02T21:59: outward:ADVISE:plan-shown x8, write:ADVISE:plan-shown x2, merge:ADVISE:plan-shown x3
+  turn from 2026-11-12T21:23: write:ADVISE:plan-shown x16, outward:ADVISE:plan-shown x7, merge:DENY:merge-word x1, merge:ADVISE:plan-shown x2
+  totals: {'outward:ADVISE:plan-shown': 38, 'merge:DENY:merge-word': 3, 'write:allow': 4, 'outward:allow': 8, 'merge:allow': 4, 'write:ADVISE:plan-shown': 46, 'merge:ADVISE:plan-shown': 11}
+== PROMPT: every real owner message (ts | chars | classes | cue? | what the trigger injects now)
+  2026-10-21T23:25 |    67 | -                            | True  | cue
+  2026-10-22T16:01 |   291 | analysis                     | True  | auto-trigger
+  2026-10-22T16:10 |    31 | -                            | False | silent
+  2026-10-22T20:16 |    83 | -                            | True  | cue
+  2026-10-28T22:56 |   100 | -                            | False | silent
+  2026-10-28T23:02 |    85 | -                            | True  | cue
+  2026-10-28T23:03 |   388 | -                            | True  | cue
+  2026-10-28T23:16 |   140 | -                            | True  | cue
+  2026-10-28T23:52 |    55 | -                            | True  | cue
+  2026-10-28T23:55 |   512 | -                            | True  | cue
+  2026-10-28T23:56 |   119 | -                            | True  | cue
+  2026-10-29T01:50 |    37 | -                            | True  | cue
+  2026-10-29T01:55 |    39 | -                            | True  | cue
+  2026-11-02T21:59 |    81 | -                            | False | silent
+  2026-11-02T22:41 |    22 | -                            | False | silent
+  2026-11-02T22:43 |   395 | analysis                     | True  | auto-trigger
+  2026-11-12T21:23 |   383 | analysis,build               | True  | auto-trigger

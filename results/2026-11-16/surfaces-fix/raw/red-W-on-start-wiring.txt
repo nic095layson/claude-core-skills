@@ -1,0 +1,8 @@
+$ python3 hooks/selftest-turn-gates.py W    # new W cases; the wiring files as they stood at the start (c52e3ad)
+W01-matcher                                              | SF-3 F1-3              | all selected, no read-only name selected | all selected, no read-only name selected | pass
+W02-wiring-every-event-runs-its-scripts                  | SF-4                   | every event runs its scripts | every event runs its scripts | pass
+W03-wiring-merge-tools-have-a-group-of-their-own         | SF-2 SF-4              | one anchored group for the merge tools | settings.json: 0 groups for the merge tools alone (wanted 1); hooks.json: 0 groups for the merge tools alone (wanted 1) | FAIL
+W04-wiring-missing-script-denies-only-the-merge-tools    | SF-2 H4                | a missing script denies only the merge tools | settings.json: PreToolUse plan-gate-first-write-reminder.sh exits 127 with its script missing (wanted 0); settings.json: PreToolUse scope-fence-reminder.sh exits 127 with its script missing (wanted 0); settings.json: PreToolUse turn-gates-pretool.py exits 2 with its script missing (wanted 0); settings.json: SessionStart session-doctrine.sh exits 127 with its script missing (wanted 0) | FAIL
+W05-wiring-scripts-beside-the-hooks                      | SF-2                   | every wired script and what it needs is beside the hooks | every wired script and what it needs is beside the hooks | pass
+W06-wiring-commands-run-the-hooks                        | SF-4                   | every wired command runs its hook | every wired command runs its hook | pass
+== 6 cases: 4 pass, 2 fail ==

@@ -1,0 +1,29 @@
+$ bash guard_section9.sh <guard> <scratch copy> <mutation>   # section 9 of the guard (plugin twin) only
+== the guard and the tree as they stood at the start (c52e3ad), M0
+  ok    plugin parity: 15 scripts byte-identical to hooks/
+  section 9: PASS
+== the guard and the tree now, M0
+  ok    plugin parity: all 16 scripts that have a twin in hooks/ are byte-identical to it
+  ok    plugin: holds every file the wiring runs, imports or tests (16 files, computed)
+  section 9: PASS
+== the guard and the tree as they stood at the start (c52e3ad), M2
+  ok    plugin parity: 15 scripts byte-identical to hooks/
+  section 9: PASS
+== the guard and the tree now, M2
+  FAIL  plugin parity: plugin/core-governance/scripts/selftest-reminders.sh differs from hooks/selftest-reminders.sh
+  ok    plugin: holds every file the wiring runs, imports or tests (16 files, computed)
+  section 9: FAIL
+== the guard and the tree as they stood at the start (c52e3ad), M2b
+  ok    plugin parity: 15 scripts byte-identical to hooks/
+  section 9: PASS
+== the guard and the tree now, M2b
+  ok    plugin parity: all 15 scripts that have a twin in hooks/ are byte-identical to it
+  FAIL  plugin: missing from plugin/core-governance/scripts (the wiring runs, imports or tests it): selftest-reminders.sh
+  section 9: FAIL
+== the guard and the tree as they stood at the start (c52e3ad), M2c
+  FAIL  plugin parity: plugin/core-governance/scripts/receiptlaw.py differs from hooks/receiptlaw.py (or is missing)
+  section 9: FAIL
+== the guard and the tree now, M2c
+  ok    plugin parity: all 15 scripts that have a twin in hooks/ are byte-identical to it
+  FAIL  plugin: missing from plugin/core-governance/scripts (the wiring runs, imports or tests it): receiptlaw.py
+  section 9: FAIL

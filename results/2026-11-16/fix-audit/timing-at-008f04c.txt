@@ -1,0 +1,25 @@
+$ python3 results/2026-11-16/fix-audit/timing.py --hooks hooks   (three runs at commit 008f04c; uptime: load average: 3.77, 6.39, 6.65)
+synthetic record: 48.0 MB, 41588 rows (3199 rounds), python 3.13.18
+call                                         wall s    cpu s  exit  printed
+Stop gate (governance-enforce.py)              0.67     0.66     0  silent
+receipt gate (receipt-law-stop-gate.sh)        0.75     0.75     0  silent
+pre merge tool                                 0.69     0.69     0  silent
+pre Bash commit+push                           0.65     0.64     0  silent
+pre Bash ls                                    0.11     0.11     0  silent
+pre Edit                                       0.68     0.67     0  silent
+synthetic record: 48.0 MB, 41588 rows (3199 rounds), python 3.13.18
+call                                         wall s    cpu s  exit  printed
+Stop gate (governance-enforce.py)              0.78     0.78     0  silent
+receipt gate (receipt-law-stop-gate.sh)        0.73     0.72     0  silent
+pre merge tool                                 0.71     0.71     0  silent
+pre Bash commit+push                           0.72     0.72     0  silent
+pre Bash ls                                    0.11     0.11     0  silent
+pre Edit                                       0.68     0.67     0  silent
+synthetic record: 48.0 MB, 41588 rows (3199 rounds), python 3.13.18
+call                                         wall s    cpu s  exit  printed
+Stop gate (governance-enforce.py)              0.64     0.64     0  silent
+receipt gate (receipt-law-stop-gate.sh)        0.70     0.69     0  silent
+pre merge tool                                 0.67     0.67     0  silent
+pre Bash commit+push                           0.71     0.69     0  silent
+pre Bash ls                                    0.12     0.12     0  silent
+pre Edit                                       0.66     0.65     0  silent

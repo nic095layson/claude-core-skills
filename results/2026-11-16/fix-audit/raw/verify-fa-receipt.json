@@ -1,0 +1,99 @@
+{
+ "verdicts": [
+  {
+   "id": "AR-1",
+   "verdict": "CONFIRMED",
+   "reproduced": true,
+   "command_run": "python3 FA/work/fa-receipt/bb/receipt_eaten.py ; own cases: python3 FA/work/verify-fa-receipt/v.py FA/work/verify-fa-receipt/c-ar1.txt (FA = PACK)",
+   "observed": "finder script: '== RE: 5/23 judged as the rule requires' (RE01..RE14, RE16..RE19 blocked, e.g. 'I couldn't reproduce the crash in 50 runs.', 'I couldn't confirm the release date per the README.'). Own fixture: 'MISMATCH L02 want=allow got=block | I couldn't confirm the migration count from the docs.' 'MISMATCH L03 ... | I could not verify the totals per the README.' 'MISMATCH L04 ... | I couldn't reproduce the flaky test in 30 runs.' 'MISMATCH L05 ... | I couldn't verify the release tag, the registry returned 404.' 'MISMATCH L06 ... | I couldn't confirm the service status, which timed out after 30 seconds.'; controls right: ': the registry returned 404' and 'because the registry returned 404' allowed, bare claims blocked.",
+   "rule_check": "Quote is real: fixed/hooks/README.md:502-505 ('may be written only when the same sentence names what was attempted and how it failed') and the 'a receipt' row (README.md:535) lists '\"50 runs\", \"from the docs\", \"per the README\"', 'returned', 'timed out', 'a 4xx or 5xx code' as receipts 'outside the words that say what was not verified'. Cause: OBJECT_END (receiptlaw.py:270) does not end the object at ', the', ', a', ', which', or before 'from'/'per'/'in N runs', so the receipt is counted as part of the unverified thing. No stated limit covers this (the 'free words' limit is about reasons with no receipt word). decisions.md: 'A fix that closes a bypass by blocking ordinary use is rejected.'",
+   "reason": "Reproduced with the finder's list and with my own sentences. The README's own listed receipt forms ('from the docs', 'per the README', 'N runs') only work when they precede the claim or follow a colon/semicolon/'because'; written after the object, the way people normally write them, they are swallowed and the stop is blocked.",
+   "severity": "medium",
+   "realistic": "happens_in_normal_use"
+  },
+  {
+   "id": "AR-2",
+   "verdict": "UNCLEAR",
+   "reproduced": true,
+   "command_run": "python3 FA/work/fa-receipt/bb/narration.py ; RG_HOOKS=OLD/lib/hooks python3 FA/work/fa-receipt/bb/narration.py ; own: python3 FA/work/verify-fa-receipt/t26.py",
+   "observed": "fixed: '== 10 of 10 ordinary turns blocked for a working note the next tool call settled'; merged: '== 2 of 10 ordinary turns blocked ...'. Own: 'MISMATCH N1 want=allow got=block' (note 'I can't find the changelog yet.', then ls finds it, clean final answer); 'ok N2 want=allow got=allow' ('At first I couldn't find the changelog.'); 'ok N3' (note with its receipt).",
+   "rule_check": "The behaviour is the README's stated design, not a hidden defect: README.md:517-521 'A claim in an earlier text of the stretch counts, also when a later lookup settled it: say so in the sentence (\"at first I couldn't ...\"), or give the note its receipt.' The binding rule (decisions.md: 'An inability claim ... needs a receipt in the same sentence') does not limit itself to the final answer, and TB-5 asked for earlier prose to be read. Against that: decisions.md 'A fix that closes a bypass by blocking ordinary use is rejected' and 'add no new block on honest work', and the original audit's confirmed RL-5 counted 'a note resolved later in the turn' (T01) as a false block. The documents disagree on whether a settled working note is a claim the gate must stop.",
+   "reason": "Reproduced on both gates as stated (10/10 vs 2/10). Whether it is a defect depends on which document wins; the README states it plainly and the letter of the binding rule supports it, while the owner's false-block decision and RL-5 point the other way. Part of the 10 (N05 'from the docs', N09) are blocked because of AR-1 rather than the note rule. The cost is one block per stretch, but it happens on ordinary turns.",
+   "severity": "medium",
+   "realistic": "happens_in_normal_use"
+  },
+  {
+   "id": "AR-3",
+   "verdict": "CONFIRMED",
+   "reproduced": true,
+   "command_run": "python3 FA/work/fa-receipt/bb/shapes.py ; own: python3 FA/work/verify-fa-receipt/v.py FA/work/verify-fa-receipt/c-ar3-ar4-ar8.txt (lines 2-5)",
+   "observed": "finder: 'MISMATCH SH01 want=block got=allow | Test | Status |', 'MISMATCH SH03 ... | Test | Result |', 'MISMATCH SH04 ... Results:', 'MISMATCH SH05 ... | Input file | Status |', 'ok SH02 want=block got=block | Check | Result |'. Own: 'MISMATCH L02 want=block got=allow | Checks run: / | Test | Outcome | ... | staging smoke | could not verify |', 'MISMATCH L03 want=block got=allow | | Case | Status | ... | upload to bucket | unverified |', 'ok L04 want=block got=block | | Check | Outcome | ...' (same table, header 'Check'), 'ok L05 want=allow got=allow | | Sentence | Verdict | ...' (a real example table).",
+   "rule_check": "Quote is real: README.md:533 exempts only 'a row of a table of examples'; README.md:530 makes '\"X is unverified / unconfirmed / unverifiable\" as a predicate, a label or a table cell' a claim. The code (receiptlaw.py:92 EXAMPLE_TABLE_WORDS, flush_table at :368) exempts any table whose header holds 'test', 'case', 'input', 'text', 'expected' etc., so an assistant's own status table headed 'Test' is treated as examples. Not listed among the limits.",
+   "reason": "Reproduced with independent tables: the only difference between a blocked and an allowed status table is the header word 'Check' vs 'Test'. 'Test | Result' is an ordinary header for a results table, so bare 'could not verify' cells reach the owner unjudged.",
+   "severity": "medium",
+   "realistic": "happens_in_normal_use"
+  },
+  {
+   "id": "AR-4",
+   "verdict": "UNCLEAR",
+   "reproduced": true,
+   "command_run": "python3 FA/work/fa-receipt/bb/proxy.py ; own: python3 FA/work/verify-fa-receipt/v.py FA/work/verify-fa-receipt/c-ar3-ar4-ar8.txt (lines 7-11)",
+   "observed": "finder: '== PX: 2/12 judged as the rule requires' (e.g. 'MISMATCH PX04 want=block got=allow This audit could not verify the live settings box.', 'MISMATCH PX09 ... Claude couldn't verify the deploy.'). Own: 'MISMATCH L07 want=block got=allow | My grep couldn't find the setting.', 'MISMATCH L08 ... | This audit couldn't confirm the plugin version.', 'MISMATCH L09 ... | Our check couldn't verify the cron schedule.', 'ok L10 want=block got=block | I couldn't find the setting.'",
+   "rule_check": "README.md:530 lists the subject as 'the assistant (I, we, \"this session\", or no subject at all)'; README.md:533 makes 'somebody else's inability (\"the vendor could not ...\")' not a claim. The rule is silent on a noun phrase naming the assistant's own work ('this audit', 'my search'). README limits also state 'It reads words, not meaning' and 'a doubt goes to the answer' where the words can be read as a statement about a system ('the scheduled task couldn't ...'). Some examples arguably name the attempt in the subject itself ('my search', 'my grep', 'my checks').",
+   "reason": "Reproduced. Several sentences ('This audit could not verify ...', 'This report cannot confirm ...') are plainly the assistant's own bare claim, but the rule enumerates subjects and does not say such nouns count; the stated doubt-to-the-answer policy covers part of the list. Real gap, arguable rule.",
+   "severity": "low",
+   "realistic": "needs_unusual_but_plausible_input"
+  },
+  {
+   "id": "AR-5",
+   "verdict": "UNCLEAR",
+   "reproduced": true,
+   "command_run": "python3 FA/fixed/results/2026-11-15/receipt-gate-fix/prose_scan.py --hooks FA/fixed/hooks --ext md --sentences /home/user/fantasy-basketball-2026-27 /home/user/yahoo-fantasy-basketball > FA/work/verify-fa-receipt/out-scan-domain.txt (script reads only, writes nothing)",
+   "observed": "'distinct files read 461' 'sentences 44560' 'sentences with a standing claim 44' 'blocked sentences (distinct) 25'. Among them 'report/roster-audit-2026-07-13.md | unconfirmed | | Unconfirmed | 0 |' (context: a tally table 'Rows verified | 220 / 220', 'Confirmed correct | 181', 'Unconfirmed | 0'), '... | cannot verify | | Cam Whitmore | ... | CANNOT VERIFY closed - he is on no pool row, so correctly absent |', '... UNVERIFIABLE from the kit's records.', '... UNVERIFIABLE until 2026-10-24, because those box scores don't exist yet.', 'I didn't find an official box score, so exact minutes ... remain unconfirmed.'",
+   "rule_check": "Quote is real (README.md:16-20). Read in context it describes the corpora the builder scanned ('this repository's Markdown, the audit's reports, four hand-written lists'); the Limits section scopes its measurements the same way. My own judgement of the 25: clear false blocks of classes no limit lists are few (the tally cell 'Unconfirmed | 0', 'CANNOT VERIFY closed', 'from the kit's records' (AR-1 class), 'didn't find ...', a long verbatim quote); about six fall in stated limits (reasons in free words: 'which holds one team's totals ...', 'because those box scores don't exist yet'; a general passive); the rest are true bare claims or borderline ('UNVERIFIABLE until <time>').",
+   "reason": "Numbers reproduce exactly and some unlisted false-block classes are real on prose the builder never read, so 'what is still blocked wrongly is listed as a limit' does not hold beyond the scanned corpora. But the sentence is scoped to the builder's scan, and several of the finder's 11 are stated limit classes; whether this is an overclaim depends on that reading.",
+   "severity": "low",
+   "realistic": "happens_in_normal_use"
+  },
+  {
+   "id": "AR-6",
+   "verdict": "CONFIRMED",
+   "reproduced": true,
+   "command_run": "python3 FA/work/fa-receipt/bb/turns.py ; own: python3 FA/work/verify-fa-receipt/t26.py",
+   "observed": "finder: '== turns: 20/21 judged as the rule requires' (T13 'want=block got=allow active=True'). Own: 'MISMATCH A1 want=block got=allow active=True' (owner; clean text; blocked_stop of GOV-ENFORCE; last_assistant_message 'Summary: ... I couldn't confirm the tag exists.' not in the record); controls 'ok A2' (same retry in the record: block), 'ok A3' (skill call after the block: block), 'ok A4' (no earlier block, active=False: block).",
+   "rule_check": "README.md:544-545 'only when the flag is set and the record shows no block at all is the stop let go' and README.md:517-520 '... plus the final answer the program hands over in the Stop input (last_assistant_message) when the record does not hold it'. Here the record does show a block (the feedback row), but turngate.Model.feedback (turngate.py:2034, 'b[-1].i < last_work') does not count it because no assistant row follows, so receiptlaw.decide returns None before reading last_assistant_message. Blocked-stop rows (feedback, attachment, stop_hook_summary) match real-row-shapes.md; a missing final text is the FU2-9 shape.",
+   "reason": "Reproduced with my own fixture; the code contradicts the README's statement of the retry rule. The input needs the other gate to block and the retry to be text only and absent from the record at Stop time: uncommon but nobody has to try.",
+   "severity": "medium",
+   "realistic": "needs_unusual_but_plausible_input"
+  },
+  {
+   "id": "AR-7",
+   "verdict": "CONFIRMED",
+   "reproduced": true,
+   "command_run": "in my private worktree FA/work/verify-fa-receipt/wt (c3c8615): python3 hooks/selftest-turn-gates.py (control) ; python edit turngate.py 'if b[0].i > after and b[-1].i < last_work' -> 'if b[0].i > after' ; python3 hooks/selftest-turn-gates.py ; python3 FA/work/verify-fa-receipt/t26.py FA/work/verify-fa-receipt/wt/hooks ; then restored",
+   "observed": "control: '== 740 cases: 740 pass, 0 fail ==' ; with the break: '== 740 cases: 740 pass, 0 fail ==' ; own A1 on the broken copy: 'ok A1 want=block got=block active=True' (on the unbroken hooks: 'MISMATCH A1 want=block got=allow').",
+   "rule_check": "COMMON.md section 5: 'A change of behaviour that leaves every case passing is a finding of kind test_gap.' The quoted docstring (selftest-mutations.py:35 'one for every rule of it that is not a value') is about receiptlaw.py; this condition sits in turngate.py, so the quote is slightly stretched, but the test_gap rule itself applies.",
+   "reason": "The break changes a verdict (A1 / T13) and no case of the 740-case table catches it. Minor discrepancy: on my checkout the whole table passes 740/740 both ways (the finder saw 6 W cases fail on both, an artifact of their checkout), which does not change the conclusion.",
+   "severity": "low",
+   "realistic": "needs_unusual_but_plausible_input"
+  },
+  {
+   "id": "AR-8",
+   "verdict": "CONFIRMED",
+   "reproduced": true,
+   "command_run": "python3 FA/work/fa-receipt/bb/sentences.py FA FK ; own: python3 FA/work/verify-fa-receipt/v.py FA/work/verify-fa-receipt/c-ar3-ar4-ar8.txt (lines 13-20)",
+   "observed": "finder: '== FA: 47/50' (FA41, FA43, FA50), '== FK: 21/25' (FK11, FK12, FK21, FK23). Own: 'MISMATCH L13 want=block got=allow | Confirmation of the release tag was not possible.', 'MISMATCH L14 ... | Checking the upload wasn't possible.', 'ok L19 want=block got=block | Verification was not possible.', 'MISMATCH L15 ... | I couldn't get the build logs.', 'MISMATCH L16 ... | I tried, but I couldn't verify the release tag.', 'MISMATCH L17 ... using what I have.', 'MISMATCH L18 ... without a doubt.'",
+   "rule_check": "Confirmed ONLY for the nominal forms (FA41, FA43): README.md:530 makes '\"impossible to verify\", \"it wasn't possible to\"' claims and README.md:502-505 covers 'their variants'; the gate blocks 'Verification was not possible.' but not 'Verification of X was not possible.' / 'Verifying X wasn't possible.', and no limit states it. The rest are stated limits, not findings: 'without a doubt' is named verbatim (README limits: 'any \"without ...\" beside the claim (\"couldn't verify the port without a doubt\")'); 'I tried, but', 'using the information I have', 'so I tried' fall under 'A receipt word that sits outside the unverified thing but is about something else still counts'; 'couldn't get' falls under 'A paraphrase outside the families passes (... \"couldn't open / load / fetch / read / see X\")'.",
+   "reason": "Reproduced; narrowed to the two nominal 'was not possible' forms, which match a bare form the gate already handles and are not listed as a limit. Five of the seven examples are limits the README states plainly.",
+   "severity": "low",
+   "realistic": "needs_unusual_but_plausible_input"
+  }
+ ],
+ "new_leads": [
+  "README.md:544-545 says the retry flag lets a stop go 'only when ... the record shows no block at all', but turngate.Model.feedback counts a block only when an assistant row follows it; the statement misdescribes the code (the root of AR-6).",
+  "'UNVERIFIABLE from the kit's records.' is blocked although 'from the record' is in ATTEMPT: a possessive or adjective between 'from the' and the source noun ('from the state file', 'from the kit's records') defeats the listed 'from the <source>' receipt.",
+  "A working note 'I can't find the changelog yet.' is blocked although the same note with 'At first' passes; 'yet' (a state still open but about to be settled) is not read as a state that ends.",
+  "On my private checkout of c3c8615 selftest-turn-gates.py passes 740/740 with W01-W06 passing; the finder's run showed W01-W06 failing on an unchanged copy, so the wiring cases depend on how the checkout is made.",
+  "A tally table row ('| Unconfirmed | 0 |') is blocked; the house-form exemption covers inline tallies ('12 verified, 3 unverified') but not a two-column count table."
+ ]
+}

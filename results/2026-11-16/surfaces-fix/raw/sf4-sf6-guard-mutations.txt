@@ -1,0 +1,26 @@
+$ bash guard_mutations_new.sh <tree> <work> M0 M1 M2 M3 M4 M5 M8   # the auditor guard_mutations.sh, pointed at the fixed tree; guard sections 8-9
+M1  control: one byte added to plugin/.../scripts/turngate.py       -> expect FAIL (plugin parity)
+      FAIL  plugin parity: plugin/core-governance/scripts/turngate.py differs from hooks/turngate.py
+      == sections 8-9: FAIL ==
+M2  one byte added to plugin/.../scripts/selftest-reminders.sh      -> expected FAIL
+      FAIL  plugin parity: plugin/core-governance/scripts/selftest-reminders.sh differs from hooks/selftest-reminders.sh
+      == sections 8-9: FAIL ==
+M3  .claude/settings.json: merge-gate matcher cut to Edit|Write|NotebookEdit|Bash -> expected FAIL
+      FAIL  enforcement pack: turn-gates table FAILS (run hooks/selftest-turn-gates.py --only-failing)
+      FAIL  enforcement pack: a deliberate break of the turn gates or the receipt gate SURVIVES or is STALE, or the unchanged hooks fail the table (run hooks/selftest-mutations.py)
+      FAIL  red team: hooks/ constants DRIFTED from redteam/constants_registry.json or are unregistered (run registry_check.py --root .; re-register with a status, do not just overwrite)
+      == sections 8-9: FAIL ==
+M4  plugin hooks.json: the same matcher cut                         -> expected FAIL
+      FAIL  enforcement pack: turn-gates table FAILS (run hooks/selftest-turn-gates.py --only-failing)
+      FAIL  enforcement pack: a deliberate break of the turn gates or the receipt gate SURVIVES or is STALE, or the unchanged hooks fail the table (run hooks/selftest-mutations.py)
+      FAIL  red team: hooks/ constants DRIFTED from redteam/constants_registry.json or are unregistered (run registry_check.py --root .; re-register with a status, do not just overwrite)
+      == sections 8-9: FAIL ==
+M5  .claude/settings.json: receipt-law-stop-gate.sh removed from Stop -> expected FAIL
+      FAIL  enforcement pack: turn-gates table FAILS (run hooks/selftest-turn-gates.py --only-failing)
+      FAIL  enforcement pack: a deliberate break of the turn gates or the receipt gate SURVIVES or is STALE, or the unchanged hooks fail the table (run hooks/selftest-mutations.py)
+      == sections 8-9: FAIL ==
+M8  wrapper: yields when the project wires ANY hook                 -> expected FAIL (mutated lines: 1)
+      FAIL  plugin: selftest-wrapper.sh FAILS (run it for the case)
+      == sections 8-9: FAIL ==
+M0  control: untouched copy                                         -> expect PASS
+      == sections 8-9: PASS ==

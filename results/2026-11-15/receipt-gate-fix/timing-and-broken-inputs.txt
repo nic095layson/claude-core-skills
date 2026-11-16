@@ -1,0 +1,26 @@
+$ python3 results/2026-11-15/receipt-gate-fix/timing.py <an empty work directory>      # from the tree root, 2026-11-15, 4 CPUs, after the last change
+# The hook is run as the program runs it (bash hooks/receipt-law-stop-gate.sh, the Stop input on standard input).
+synthetic record: 48.0 MB, 41602 rows
+  Stop, answer with a bare claim:  0.69 s  (block, exit 0)   best of 3
+  Stop, answer with no claim:      0.69 s  (nothing printed, exit 0)   best of 3
+broken inputs (each must end with exit status 0 and print nothing):
+  empty input                            exit 0, nothing printed, 0.06 s
+  input that is not JSON                 exit 0, nothing printed, 0.05 s
+  input: random bytes                    exit 0, nothing printed, 0.09 s
+  input: one line of 6 MB                exit 0, nothing printed, 0.08 s
+  record missing                         exit 0, nothing printed, 0.10 s
+  record of random bytes                 exit 0, nothing printed, 0.10 s
+  record that is one line of 6 MB        exit 0, nothing printed, 0.11 s
+  record path is a directory             exit 0, nothing printed, 0.14 s
+  no record path, answer in the input    exit 0, nothing printed, 0.10 s
+broken inputs not as required: 0 of 9
+
+# The reading itself on degenerate and on long texts. Past HOOK_DEADLINE_SECONDS (8) the hook ends itself and the stop is let go.
+one sentence with thousands of claims and no full stop (python3, receiptlaw.bare_claim, seconds):
+  "and I couldn't find the config, " x 7000                           224 KB  2.6 s  block
+  "the page could not be reached, " x 7000                            217 KB  3.0 s  block
+  "I couldn't verify the port, " x 7000                               196 KB  2.4 s  block
+  "the port is unverified and the version is unconfirmed, " x 7000    385 KB  6.3 s  block
+ordinary long answers:
+  300 sentences, each a claim with its receipt                         31 KB  0.03 s  allow
+  1 MB of prose with no claim                                        1125 KB  0.75 s  allow

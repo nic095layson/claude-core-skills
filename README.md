@@ -211,6 +211,21 @@ done
 Then verify in a fresh session that they appear in the skills list — files in
 place is half an install; registration observed is the half that counts.
 
+**The enforcement hooks, in another repository:** `install-and-surfaces` Runbook 4.
+`bash hooks/sync-copies.sh <that repository's root>` copies every file a project needs
+(computed by `python3 hooks/selftest-turn-gates.py --needs`) and prints the settings change
+as a diff, which it never applies; the runbook's self-test step runs the wiring cases
+(`python3 hooks/selftest-turn-gates.py W`) inside that repository.
+
+**Which copy of the hooks judges which session (2026-11-16):** a session started inside
+one repository runs that repository's `hooks/`; this library's are the rebuilt ones, the
+kit's and the deck's stay the hooks of 2026-11-12 until the owner merges each one's sync
+pull request. A cloud session with several repositories attached (the weekly task's
+session) runs only the account's plugin: until the owner uploads `core-governance` 0.1.6,
+that session is judged by the version the account serves (0.1.4 on 2026-11-13), which has
+no scheduled-run rule — a scheduled run there inherits the owner's last turn and may merge
+on an earlier "merge" word. Steps and checks: `results/2026-11-16/surfaces-fix/after-the-merge.md`.
+
 **claude.ai:** package each skill per `install-and-surfaces` Runbook 2 and upload
 via Settings → Capabilities → Skills. The paired custom-instructions text (the
 always-on trigger pointers + style rules) is versioned at

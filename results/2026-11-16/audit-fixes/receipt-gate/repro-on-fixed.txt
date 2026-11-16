@@ -1,0 +1,149 @@
+RG_HOOKS=<the tree's hooks/> python3 <the auditor's file>.py ; python3 hooks/selftest-turn-gates.py ar_
+# each finding's reproduction on this unit's hooks: the auditor's own files (copies; see auditor-files-before-after.txt) and the
+# table cases written for it.
+
+== AR-1
+  == RE: 23/23 judged as the rule requires; mismatches: none
+  == FR: 20/20 judged as the rule requires; mismatches: none
+
+== AR-2
+  == 0 of 10 ordinary turns blocked for a working note the next tool call settled
+
+== AR-3
+  MISMATCH SH11   want=block got=allow ## Couldn't verify
+  == SH: 15/16 judged as the rule requires; mismatches: SH11
+
+== AR-4
+  MISMATCH PX03   want=block got=allow My search couldn't find the config.
+  MISMATCH PX05   want=block got=allow Today's check couldn't confirm the deploy.
+  MISMATCH PX06   want=block got=allow The review was unable to confirm the release date.
+  MISMATCH PX07   want=block got=allow My checks couldn't confirm the cron job ran.
+  MISMATCH PX09   want=block got=allow <the assistant's name> couldn't verify the deploy.
+  == PX: 7/12 judged as the rule requires; mismatches: PX03 PX05 PX06 PX07 PX09
+
+== AR-8
+  MISMATCH FA50   want=block got=allow I couldn't get the logs.
+  == FA: 49/50 judged as the rule requires; mismatches: FA50
+  MISMATCH FK12   want=block got=allow I couldn't verify the deploy using the information I have.
+  MISMATCH FK21   want=block got=allow I couldn't verify the deploy, so I tried to be careful in the summary.
+  MISMATCH FK23   want=block got=allow I couldn't verify the deploy without a doubt.
+  == FK: 22/25 judged as the rule requires; mismatches: FK12 FK21 FK23
+  ok       FB48   want=allow got=allow The certificate could not be verified by older Android clients, which lack the new root.
+
+== AR-5: the prose scans, before and after: prose-scans.md
+
+== the table cases of this unit (table V)
+RLD70-bare-claim-in-an-earlier-text-of-the-stretch       | RL-7 RL-8              | block              | block              | pass
+ar_r1_re01-receipt-after-the-object                      | AR-1                   | allow              | allow              | pass
+ar_r1_re02-receipt-after-the-object                      | AR-1                   | allow              | allow              | pass
+ar_r1_re03-receipt-after-the-object                      | AR-1                   | allow              | allow              | pass
+ar_r1_re04-receipt-after-the-object                      | AR-1                   | allow              | allow              | pass
+ar_r1_re05-receipt-after-the-object                      | AR-1                   | allow              | allow              | pass
+ar_r1_re06-receipt-after-the-object                      | AR-1                   | allow              | allow              | pass
+ar_r1_re07-receipt-after-the-object                      | AR-1                   | allow              | allow              | pass
+ar_r1_re08-receipt-after-the-object                      | AR-1                   | allow              | allow              | pass
+ar_r1_re09-receipt-after-the-object                      | AR-1                   | allow              | allow              | pass
+ar_r1_re10-receipt-after-the-object                      | AR-1                   | allow              | allow              | pass
+ar_r1_re11-receipt-after-the-object                      | AR-1                   | allow              | allow              | pass
+ar_r1_re12-receipt-after-the-object                      | AR-1                   | allow              | allow              | pass
+ar_r1_re13-receipt-after-the-object                      | AR-1                   | allow              | allow              | pass
+ar_r1_re14-receipt-after-the-object                      | AR-1                   | allow              | allow              | pass
+ar_r1_re15-receipt-after-the-object                      | AR-1 control           | allow              | allow              | pass
+ar_r1_re16-receipt-after-the-object                      | AR-1                   | allow              | allow              | pass
+ar_r1_re17-receipt-after-the-object                      | AR-1                   | allow              | allow              | pass
+ar_r1_re18-receipt-after-the-object                      | AR-1                   | allow              | allow              | pass
+ar_r1_re19-receipt-after-the-object                      | AR-1                   | allow              | allow              | pass
+ar_r1_re20-receipt-after-the-object                      | AR-1 control           | allow              | allow              | pass
+ar_r1_re21-control-semicolon                             | AR-1 control           | allow              | allow              | pass
+ar_r1_re22-control-because                               | AR-1 control           | allow              | allow              | pass
+ar_r1_re23-control-bare                                  | AR-1 control           | block              | block              | pass
+ar_r1_fr01-free-receipt                                  | AR-1                   | allow              | allow              | pass
+ar_r1_fr02-free-receipt                                  | AR-1                   | allow              | allow              | pass
+ar_r1_fr03-free-receipt                                  | AR-1 control           | allow              | allow              | pass
+ar_r1_fr04-free-receipt                                  | AR-1 control           | allow              | allow              | pass
+ar_r1_fr05-free-receipt                                  | AR-1 control           | allow              | allow              | pass
+ar_r1_fr06-free-receipt                                  | AR-1 control           | allow              | allow              | pass
+ar_r1_fr07-free-receipt                                  | AR-1                   | allow              | allow              | pass
+ar_r1_fr08-free-receipt                                  | AR-1 control           | allow              | allow              | pass
+ar_r1_fr09-free-receipt                                  | AR-1 control           | allow              | allow              | pass
+ar_r1_fr10-free-receipt                                  | AR-1 control           | allow              | allow              | pass
+ar_r1_fr11-free-receipt                                  | AR-1 control           | allow              | allow              | pass
+ar_r1_fr12-free-receipt                                  | AR-1 control           | allow              | allow              | pass
+ar_r1_fr13-free-receipt                                  | AR-1 control           | allow              | allow              | pass
+ar_r1_fr14-free-receipt                                  | AR-1 control           | allow              | allow              | pass
+ar_r1_fr15-free-receipt                                  | AR-1 control           | allow              | allow              | pass
+ar_r1_fr16-free-receipt                                  | AR-1 control           | allow              | allow              | pass
+ar_r1_fr17-free-receipt                                  | AR-1                   | allow              | allow              | pass
+ar_r1_fr18-free-receipt                                  | AR-1 control           | allow              | allow              | pass
+ar_r1_fr19-free-receipt                                  | AR-1 control           | allow              | allow              | pass
+ar_r1_fr20-free-receipt                                  | AR-1                   | allow              | allow              | pass
+ar_r1_fb08-in-50-runs-then-so                            | AR-1 MORE              | allow              | allow              | pass
+ar_r1_from-the-kits-records                              | AR-1 AR-5 lead         | allow              | allow              | pass
+ar_r1_from-the-state-file                                | AR-1 lead              | allow              | allow              | pass
+ar_r1_didnt-find-names-the-failed-attempt                | AR-5 lead              | allow              | allow              | pass
+ar_r1_did-not-find                                       | AR-5 lead              | allow              | allow              | pass
+ar_r1_found-nothing                                      | AR-5 lead control      | allow              | allow              | pass
+ar_r1_pin-clause-object-runs-on                          | AR-1 pin               | block              | block              | pass
+ar_r1_pin-that-clause-with-a-number                      | AR-1 pin               | block              | block              | pass
+ar_r1_pin-preposition-without-a-number                   | AR-1 pin               | block              | block              | pass
+ar_r1_pin-source-word-without-the                        | AR-1 pin               | block              | block              | pass
+ar_r1_limit-receipt-words-listed-after-a-comma           | AR-1 limit             | allow              | allow              | pass
+ar_r2_n01-working-note-then-the-attempt                  | AR-2                   | allow              | allow              | pass
+ar_r2_n02-working-note-then-the-attempt                  | AR-2                   | allow              | allow              | pass
+ar_r2_n03-working-note-then-the-attempt                  | AR-2                   | allow              | allow              | pass
+ar_r2_n04-working-note-then-the-attempt                  | AR-2                   | allow              | allow              | pass
+ar_r2_n05-working-note-then-the-attempt                  | AR-2                   | allow              | allow              | pass
+ar_r2_n06-working-note-then-the-attempt                  | AR-2                   | allow              | allow              | pass
+ar_r2_n07-working-note-then-the-attempt                  | AR-2                   | allow              | allow              | pass
+ar_r2_n08-working-note-then-the-attempt                  | AR-2                   | allow              | allow              | pass
+ar_r2_n09-working-note-then-the-attempt                  | AR-2                   | allow              | allow              | pass
+ar_r2_n10-working-note-then-the-attempt                  | AR-2                   | allow              | allow              | pass
+ar_r2_note-repeated-in-the-final-answer                  | AR-2 pin               | block              | block              | pass
+ar_r2_bare-claim-after-a-governor-load                   | AR-2 pin               | block              | block              | pass
+ar_r2_bare-claim-then-the-stop                           | AR-2 pin               | block              | block              | pass
+ar_r2_bare-claim-before-a-card                           | AR-2 pin               | block              | block              | pass
+ar_r2_note-before-a-card-after-work                      | AR-2                   | allow              | allow              | pass
+ar_r2_answer-of-a-stop-another-gate-blocked              | AR-2 pin               | block              | block              | pass
+ar_r2_answer-before-a-scheduled-run-in-a-file-without-stop-rows | AR-2 pin               | block              | block              | pass
+ar_r2_answer-before-a-wake-in-a-file-without-stop-rows   | AR-2 pin               | block              | block              | pass
+ar_r2_rld70-shape-under-the-default                      | AR-2                   | allow              | allow              | pass
+ar_r2_every-text-judges-a-working-note                   | AR-2 policy switch     | block              | block              | pass
+ar_r2_every-text-clean-turn                              | AR-2 policy switch     | allow              | allow              | pass
+ar_r3_sh01-test-status-table                             | AR-3                   | block              | block              | pass
+ar_r3_sh02-check-result-table                            | AR-3 control           | block              | block              | pass
+ar_r3_sh03-test-result-table                             | AR-3                   | block              | block              | pass
+ar_r3_sh04-case-outcome-table-under-a-label              | AR-3                   | block              | block              | pass
+ar_r3_sh05-input-file-status-table                       | AR-3                   | block              | block              | pass
+ar_r3_sh16-test-table-with-its-receipt                   | AR-3 control           | allow              | allow              | pass
+ar_r3_expected-verdict-table                             | AR-3                   | block              | block              | pass
+ar_r3_sentence-verdict-table-of-examples                 | AR-3 control           | allow              | allow              | pass
+ar_r3_tally-table                                        | AR-3 AR-5 lead         | allow              | allow              | pass
+ar_r3_tally-row-without-a-header                         | AR-3 AR-5 lead         | allow              | allow              | pass
+ar_r3_pin-status-word-then-a-thing                       | AR-3 pin               | block              | block              | pass
+ar_r4_px01-whose-work                                    | AR-4                   | block              | block              | pass
+ar_r4_px02-whose-work                                    | AR-4                   | block              | block              | pass
+ar_r4_px03-whose-work                                    | AR-4 control           | allow              | allow              | pass
+ar_r4_px04-whose-work                                    | AR-4                   | block              | block              | pass
+ar_r4_px05-whose-work                                    | AR-4                   | block              | block              | pass
+ar_r4_px06-whose-work                                    | AR-4 control           | allow              | allow              | pass
+ar_r4_px07-whose-work                                    | AR-4                   | block              | block              | pass
+ar_r4_px08-whose-work                                    | AR-4 control           | allow              | allow              | pass
+ar_r4_px09-whose-work                                    | AR-4 control           | block              | block              | pass
+ar_r4_px10-whose-work                                    | AR-4                   | block              | block              | pass
+ar_r4_px11-whose-work                                    | AR-4                   | block              | block              | pass
+ar_r4_px12-whose-work                                    | AR-4 control           | allow              | allow              | pass
+ar_r4_px13-whose-work                                    | AR-4 control           | allow              | allow              | pass
+ar_r4_pin-the-current-session-as-subject                 | AR-4 pin               | block              | block              | pass
+ar_r5_fa41-verifying-x-wasnt-possible                    | AR-8                   | block              | block              | pass
+ar_r5_fa43-verification-of-x-was-not-possible            | AR-8                   | block              | block              | pass
+ar_r5_confirmation-of-x-was-not-possible                 | AR-8                   | block              | block              | pass
+ar_r5_confirming-x-isnt-possible                         | AR-8                   | block              | block              | pass
+ar_r5_verification-was-not-possible                      | AR-8 control           | block              | block              | pass
+ar_r5_fk11-bare-tried-then-but                           | AR-8                   | block              | block              | pass
+ar_r5_bare-tried-then-and                                | AR-8                   | block              | block              | pass
+ar_r5_tried-a-thing                                      | AR-8 control           | allow              | allow              | pass
+ar_r5_tried-n-times                                      | AR-8 control           | allow              | allow              | pass
+ar_r5_fb48-passive-with-another-agent                    | AR-8 MORE              | allow              | allow              | pass
+ar_r5_pin-passive-by-a-time                              | AR-8 pin               | block              | block              | pass
+ar_r5_pin-passive-by-me                                  | AR-8 pin               | block              | block              | pass
+== 113 cases: 113 pass, 0 fail ==

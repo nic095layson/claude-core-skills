@@ -1,0 +1,10 @@
+$ bash wrapper_red.sh <tree> <work>
+mutated lines in the wrapper copy: 1
+--- unmutated wrapper, the self-test now:
+  ok   local + unparseable settings -> runs
+== 11 passed, 0 failed ==
+--- mutated wrapper, the self-test as it stood at the start:
+== 10 passed, 0 failed ==
+--- mutated wrapper, the self-test now:
+  FAIL a hook the project does not wire should run — got: 
+== 10 passed, 1 failed ==

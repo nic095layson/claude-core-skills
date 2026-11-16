@@ -1,0 +1,76 @@
+{
+ "verdicts": [
+  {
+   "id": "AC-1",
+   "verdict": "CONFIRMED",
+   "reproduced": true,
+   "command_run": "bash WORK/verify-fa-claims/repro_claims.sh AC-1 (the finder's script copied, TMPDIR moved to my scratch); git -C .../fixed log --reverse 1ce99d5..HEAD; python3 fixed/hooks/selftest-turn-gates.py --hooks OLD/lib/hooks > verify-fa-claims/table-old.txt and --hooks fixed/hooks > table-new.txt; python3 -I WORK/verify-fa-claims/count_prereg.py fixed/experiments/hypothesis-2026-11-15-turn-gates-cases.md verify-fa-claims/table-old.txt verify-fa-claims/table-new.txt",
+   "observed": "PR:15 \"| Pre-registrations (...) | Committed before any fix code and before any test run |\". hypothesis-2026-11-15:12-18 \"These are not blind predictions. Between 2026-11-14 and this commit ... two prototypes with their own test tables (254 cases and 241 cases) ... the verdicts of the merged hooks (commit 1ce99d5) on those fixtures\". Line 7 says \"committed before any test of the fix is run in this repository\". Commit order: 7df03f2 (11-14 05:20) prereg 1, then 48c7bfc (11-15 03:12) prereg 2, then c224c94, the first hook change. My count: \"table cases: old run 740, new run 740 / named in pre-registration: 314; not named: 426 {'core-other': 35, 'receipt(RL*)': 386, 'wiring(W*)': 5}\". The only wiring case in the prereg is W01-matcher. red-on-start.txt:4-5: \"First saved with 260 cases before the gate was rewritten; saved again with the 34 cases added while it was written, and a third time with all 386\". The first prereg mentions RL only twice (the G5 row, a one-line prediction).",
+   "rule_check": "decisions.md:46 is quoted word for word (\"written and committed BEFORE any test run of the fix\"). PR:15 and hooks/README.md:123-124 are also quoted word for word. For the shipped code the decisions.md rule itself is arguably met: both preregs come before c224c94, and G5/G9 pre-register the receipt gate and the wiring at prediction level. Two statements are false. The PR's unqualified 'before any test run' is one: the second prereg itself records prototype test runs and merged-hook runs made before it, and it limits its own claim to 'in this repository'. README's 'the wanted verdict of every test case was fixed before any run' is the other: 35 core cases were added later, as red-first-vs-preregistration.md and the selftest docstring's table 'A' both say.",
+   "reason": "I reproduced the 314/740 split independently (35 core, 386 receipt and 5 wiring cases are in neither prereg), and the commit order. The statements say more than the PR's own files disclose. The substance holds: the shipped code was first run after both preregs. So this is a document overclaim, not a process breach.",
+   "severity": "medium",
+   "realistic": "happens_in_normal_use"
+  },
+  {
+   "id": "AC-2",
+   "verdict": "CONFIRMED",
+   "reproduced": true,
+   "command_run": "bash .../verify-fa-claims/repro_claims.sh AC-2; grep -rnE '\\b94\\b|\\bG3\\b|\\bG7\\b|false blocks?|11-13|new false block|No new false|exception' fixed/results/2026-11-15 fixed/results/2026-11-16 pr-36-body.md; grep -rnwE 'TB-8|F1-7|RL-8|PC-7|ADV-6|OS-3|SF-4' (results, README, selftest-mutations.py, PR); grep -n -w 94 fixed/hooks/README.md fixed/hooks/selftest-mutations.py",
+   "observed": "hypothesis-2026-11-14:32, G3 ends \"On the replay of the real session record the five false blocks of 2026-11-13 are gone\". Line 36, G7: \"... 94 in all. After the fix: 0 of the 94 pass\". Lines 48-49, prediction 3: \"each exception is listed by finding id\". Line 55: \"A prediction that misses is reported as a miss.\" No evidence file mentions the five false blocks or the 94 breaks. My broader grep found only prose-scan 'false block' rows and case names tagged 'G3'; nothing counts the 94, and README and selftest-mutations.py have no '94'. Replay's last stop: \"2026-11-12T21:36 | then: - | now: allow / allow\" (the record runs 2026-10-21 to 2026-11-12, per replay-vs-baseline.md:4). The turn-gates replay-vs-baseline.md reports against the SECOND prereg's prediction 3. The receipt replay-vs-baseline.md lists the 3 new blocks, and only the first is tied to a finding (RL-7).",
+   "rule_check": "The quoted rule (line 55) is in the file word for word, and G3, G7 and prediction 3 read as quoted. The PR's 'Predictions that missed' list (PR:44-49) covers only the second prereg.",
+   "reason": "G3's five-false-block prediction cannot be measured on a record that ends 2026-11-12, and it is never reported as unmeasured or missed. G7's '0 of the 94' is never counted, although several of those breaks belong to units deferred to the second PR. Prediction 3 is partly reported: the turn-gates replay ties most changed lines to F1-5, RI-8, ADV-4 and D1, so 'never reported' slightly overstates that one. Still, the third pre-tool denial and two of the three receipt blocks carry no finding id.",
+   "severity": "low",
+   "realistic": "happens_in_normal_use"
+  },
+  {
+   "id": "AC-3",
+   "verdict": "CONFIRMED",
+   "reproduced": true,
+   "command_run": "bash .../verify-fa-claims/repro_claims.sh AC-3 && python3 -I .../work/fa-claims/classifier_stop.py fixed/hooks OLD/lib/hooks fixed/hooks .../verify-fa-claims/tmp/cstop; git -C fixed diff 1ce99d5..HEAD -- hooks/govclass.py; own check: python3 -I WORK/verify-fa-claims/trig.py OLD/lib/hooks fixed/hooks",
+   "observed": "Finder's run: \"1ce99d5 classify=[] trigger=silent Build a script that parses lines starting with <task-notific\" became \"c3c8615 classify=['build'] trigger=auto-trigger ...\". Stop gate: \"1ce99d5 no governor allow\" became \"c3c8615 no governor block: GOV-ENFORCE: this is governed work (plan-gate)...\"; with governors loaded, both allow. Diff: `any(m in p for m in HARNESS_MARKERS)` became `harness_lead(p)` in cue() and classify(), and `from turngate import HARNESS_MARKERS, harness_lead` was added. My run: \"old silent ... strips <\\local-command-stdout> blocks\" became \"new auto-trigger\"; \"old silent ... <webhook-pay\" became \"new auto-trigger\". A real lead, \"<\\task-notification> build failed\", is silent on both. The honest neighbour without a marker auto-triggers on both. governance-trigger.py itself is unchanged (empty diff stat).",
+   "rule_check": "PR:9 \"The other units (classifier and prompt trigger, ...) go into a second pull request.\" and the c224c94 message \"Not in this commit: the receipt gate, the classifier's word lists, the prompt trigger\" are real. README:74 ('the blocking classifier is unchanged') sits in an older status block that README:125-126 says the new section overrides, so that citation is weak. README:225-226 does state the Stop-gate half: \"a message that merely quotes a harness marker is the owner's and is classified\", and case P02a (PC-1) pre-registers it. Nothing states that the prompt trigger's output changes.",
+   "reason": "I reproduced the behaviour change two ways. It looks intended (PC-1, README:226), so the defect is the statement. The PR says the classifier and prompt trigger are untouched here, and 'What changes' leaves the change out, yet the trigger now fires on prompts that quote a marker. README:226 partly covers the Stop-gate side.",
+   "severity": "low",
+   "realistic": "needs_unusual_but_plausible_input"
+  },
+  {
+   "id": "AC-4",
+   "verdict": "UNCLEAR",
+   "reproduced": true,
+   "command_run": "bash .../verify-fa-claims/repro_claims.sh AC-4; own check: python3 -I WORK/verify-fa-claims/nv.py fixed/hooks .../verify-fa-claims/tmp/nv; sed -n 50,66p fixed/hooks/receiptlaw.py; grep NOT_VERIFIED fixed/hooks/README.md",
+   "observed": "Shipped default: \"totals: {'allow': 24, 'receipt:allow': 23, 'BLOCK:F1': 1, 'receipt:BLOCK:receipt': 3, 'BLOCK:prompt-class': 1}\". With True, the two 2026-11-02T22:43 stops turn to BLOCK:receipt: \"'receipt:BLOCK:receipt': 5\". My run: \"False(shipped) allow Done. The second index was not verified.\" against \"True block ...\". \"I couldn't verify the second index.\" blocks under both settings, and the same sentence with a receipt is allowed under both. replay-vs-baseline.md:31-34: \"The gate was not tuned to the record: no rule, word or case of this fix was written from these three answers. The earlier build blocked two more stops (both of 2026-11-02T22:43) through the family \\\"X was not verified\\\"; that family was switched off for a reason found in this repository's own reports (NOT_VERIFIED_IS_A_CLAIM, a policy default), not for the record.\" README:563 gives the reason: the phrase reads as \"did not verify\", and the rule does not name it. PR:59 lists the default without saying what it does on the record.",
+   "rule_check": "The quotes are real. decisions.md:33 says \"'couldn't verify' and its variants\". The decision does not settle whether the passive 'X was not verified' counts as a variant of a first-person inability claim. README:563 states the default and its reason plainly.",
+   "reason": "The numbers reproduce: this one constant removes 2 real blocks. But the evidence file discloses the sequence in the very next sentence after the one the finding calls an overclaim, and gives the reason; README:563 states the default too. The 'not tuned' sentence is scoped to the three answers and is accurate as written. What remains is small but real: the PR's open decision does not say that it decides 2 of 26 real stops. The underlying rule question is the owner's. Reproduced but arguable.",
+   "severity": "low",
+   "realistic": "happens_in_normal_use"
+  },
+  {
+   "id": "AC-5",
+   "verdict": "CONFIRMED",
+   "reproduced": true,
+   "command_run": "bash .../verify-fa-claims/repro_claims.sh AC-5; own: count_prereg.py on my own table runs (table-old.txt, table-new.txt); awk count of the doc's own table rows and (RED) labels in red-first-vs-preregistration.md; git -C fixed log -S'Of these 33' / -S'X06a' -- that file",
+   "observed": "Finder's: \"cases added after the pre-registration (outside tables R and W): 35; RED on 1ce99d5: 12; pins: 23\". Mine: \"core added: 35; FAIL on old: 12; pass on old: 23\". The doc's own table: \"doc table rows: 35  RED-labelled: 12\". red-on-merged.txt:329-330 shows X06a and X06b FAIL. Doc line 60 says \"... and the 35 below\"; line 102 says \"Of these 33, 10 are RED on the merged hooks and 23 are pins\". 'Of these 33' arrived in 4dedf62; X06a was added in fc3539f.",
+   "rule_check": "Both quoted lines are in the file as quoted. The file contradicts itself: it lists 35 cases and labels 12 RED in its own table.",
+   "reason": "The count went stale after X06a and X06b were added. The totals elsewhere (349, 204) are right. It is a wrong number in an evidence file and changes no verdict.",
+   "severity": "low",
+   "realistic": "happens_in_normal_use"
+  },
+  {
+   "id": "AC-6",
+   "verdict": "CONFIRMED",
+   "reproduced": true,
+   "command_run": "bash .../verify-fa-claims/repro_claims.sh AC-6 (timing_head.py, work dir in my scratch); cd fixed && python3 fixed/results/2026-11-15/receipt-gate-fix/timing.py .../verify-fa-claims/tmp/rt; git -C fixed log -- results/2026-11-15/turn-gates-fix/timing.txt; git -C fixed diff --stat 4dedf62..HEAD -- hooks/turngate.py hooks/turn-gates-pretool.py hooks/governance-enforce.py",
+   "observed": "PR:41: \"| Run time | 0.51 to 0.57 s per gated call on a 38 MB record |\". timing.txt:8,16: \"synthetic record: 38.4 MB, 41606 rows\". There is no .py in turn-gates-fix/. The finder's recipe at head: \"synthetic record: 48.0 MB, 41601 rows / Stop enforce 0.61 s / Stop receipt 0.64 s / pre merge tool 0.66 s / pre Bash commit+push 0.62 s / pre Bash ls 0.04 s / pre Edit 0.65 s\". The committed receipt tool, whose docstring says it uses 'the recipe of results/2026-11-15/turn-gates-fix/timing.txt', gives \"synthetic record: 48.0 MB, 41602 rows / Stop, answer with a bare claim: 0.65 s\". timing.txt appears only in 4dedf62. After that, turngate.py and turn-gates-pretool.py changed (2 files, 5+/2-), and the receipt gate was rebuilt.",
+   "rule_check": "PR:41 and the timing.txt lines are quoted correctly. CLAUDE.md's 'Raw artifacts commit beside the report' fits only loosely: timing.txt is the raw output, and what is missing is the tool that made it. The PR's own receipt evidence (0.69 s on 48 MB) falls outside the stated 0.51-0.57 s range.",
+   "reason": "The committed tool that claims the same recipe gives 48 MB, not 38.4 MB, so nothing committed rebuilds the PR's number. The number also predates later hook changes and leaves out the receipt gate, which runs at every stop. Every call stayed under the 1 s prediction in every run, so the defect is a stale, narrow number, not a missed limit.",
+   "severity": "low",
+   "realistic": "happens_in_normal_use"
+  }
+ ],
+ "new_leads": [
+  "hooks/README.md:70-74 (an older status block) still says 'the blocking classifier is unchanged', although c224c94 changed govclass.py. Only the override sentence at README:125-126 keeps this from being a live contradiction.",
+  "First pre-registration G7 counts breaks of units this PR defers (PC-7, ADV-6, OS-3, RG-1, part of RL-8). The PR's 'Predictions that missed' list covers only the second pre-registration. So every first-file prediction for a deferred unit (G4, G6, G10, G11, G12) is left silently open, instead of being listed as deferred with a reason as that file's own MAY DEFER rule asks.",
+  "red-on-start.txt:5-7: six receipt cases added late passed on the old gate and then had their findings label changed from a finding number to 'control' or 'new rule'. The PR's count ('176 fail on the old gate' of the receipt cases that name a finding) depends on those labels.",
+  "Not checked: whether the five false blocks of 2026-11-13 exist in any record the builder holds. The replay tool's record ends 2026-11-12, so G3's last clause may be untestable by design."
+ ]
+}

@@ -1,0 +1,192 @@
+## AM-1 an order whose condition comes first, or follows as unless
+python3 hooks/selftest-turn-gates.py am_a1_
+am_a1_once-first                                         | AM-1                   | deny [merge-word]  | deny[merge-word]   | pass
+am_a1_if-first                                           | AM-1                   | deny [merge-word]  | deny[merge-word]   | pass
+am_a1_after-first                                        | AM-1                   | deny [merge-word]  | deny[merge-word]   | pass
+am_a1_when-first                                         | AM-1                   | deny [merge-word]  | deny[merge-word]   | pass
+am_a1_unless-first                                       | AM-1                   | deny [merge-word]  | deny[merge-word]   | pass
+am_a1_unless-after                                       | AM-1                   | deny [merge-word]  | deny[merge-word]   | pass
+am_a1_if-after-comma                                     | AM-1                   | deny [merge-word]  | deny[merge-word]   | pass
+am_a1_weekday                                            | AM-1                   | deny [merge-word]  | deny[merge-word]   | pass
+am_a1_provided                                           | AM-1                   | deny [merge-word]  | deny[merge-word]   | pass
+am_a1_push-if-first                                      | AM-1                   | deny [default-branch] | deny[default-branch] | pass
+am_a1_push-once-first                                    | AM-1                   | deny [default-branch] | deny[default-branch] | pass
+am_a1_ctl-once-after                                     | AM-1 control           | deny [merge-word]  | deny[merge-word]   | pass
+am_a1_ctl-plain-order                                    | AM-1 control           | allow              | allow              | pass
+am_a1_ctl-push-to-main                                   | AM-1 control           | allow              | allow              | pass
+== 14 cases: 14 pass, 0 fail ==
+
+## AM-2 a yes on a card whose question asks to hold, wait or defer
+python3 hooks/selftest-turn-gates.py am_b1_ am_b2_ am_b3_
+am_b1_yes-merge-now                                      | AM-2 control           | allow              | allow              | pass
+am_b1_yes-shall-i                                        | AM-2 control           | allow              | allow              | pass
+am_b1_yes-should-i-pr                                    | AM-2 control           | allow              | allow              | pass
+am_b1_yes-both-on-two-prs                                | AM-2 control           | allow              | allow              | pass
+am_b1_yes-hold-and-not-merge                             | AM-2                   | deny [merge-word]  | deny[merge-word]   | pass
+am_b1_yes-dont-merge-until                               | AM-2                   | deny [merge-word]  | deny[merge-word]   | pass
+am_b1_yes-wait-before                                    | AM-2                   | deny [merge-word]  | deny[merge-word]   | pass
+am_b1_yes-wait-then-merge                                | AM-2                   | deny [merge-word]  | deny[merge-word]   | pass
+am_b1_yes-after-audit                                    | AM-2                   | deny [merge-word]  | deny[merge-word]   | pass
+am_b1_yes-once-green                                     | AM-2                   | deny [merge-word]  | deny[merge-word]   | pass
+am_b1_yes-tomorrow                                       | AM-2                   | deny [merge-word]  | deny[merge-word]   | pass
+am_b1_yes-leave-open                                     | AM-2                   | deny [merge-word]  | deny[merge-word]   | pass
+am_b1_yes-safe-to-merge                                  | AM-2                   | deny [merge-word]  | deny[merge-word]   | pass
+am_b1_yes-ready-to-merge                                 | AM-2                   | deny [merge-word]  | deny[merge-word]   | pass
+am_b1_yes-or-wait                                        | AM-2                   | deny [merge-word]  | deny[merge-word]   | pass
+am_b1_yes-or-close                                       | AM-2                   | deny [merge-word]  | deny[merge-word]   | pass
+am_b1_yes-hold-off-until                                 | AM-2                   | deny [merge-word]  | deny[merge-word]   | pass
+am_b1_yes-not-a-statement                                | AM-2 A4                | deny [merge-word]  | deny[merge-word]   | pass
+am_b1_yes-hold-after-typed-order                         | AM-2                   | deny [merge-word]  | deny[merge-word]   | pass
+am_b2_yes-push-to-main                                   | AM-2 control           | allow              | allow              | pass
+am_b2_yes-push-once-green                                | AM-2 B2                | deny [default-branch] | deny[default-branch] | pass
+am_b2_yes-wait-before-push                               | AM-2 B2                | deny [default-branch] | deny[default-branch] | pass
+am_b3_ctl-option-is-the-order                            | B3 control             | allow              | allow              | pass
+am_b3_ctl-free-text-order                                | B3 control             | allow              | allow              | pass
+== 24 cases: 24 pass, 0 fail ==
+
+## AM-3 shell routes the parser did not read (scheduled run and owner turn)
+python3 hooks/selftest-turn-gates.py am_d1_ am_d2_ am_d3_ am_d4_ am_d6_
+am_d1_script-without-suffix-scheduled                    | AM-3 D1                | deny:scheduled     | deny:scheduled     | pass
+am_d1_script-without-suffix-owner-ok                     | AM-3 D1                | deny               | deny               | pass
+am_d1_python-shebang-is-screened-scheduled               | AM-3 D1                | deny:scheduled     | deny:scheduled     | pass
+am_d1_python-shebang-is-screened-owner-ok                | AM-3 D1                | deny               | deny               | pass
+am_d2_heredoc-written-then-run-scheduled                 | AM-3 D2                | deny:scheduled     | deny:scheduled     | pass
+am_d2_heredoc-written-then-run-owner-ok                  | AM-3 D2                | deny               | deny               | pass
+am_d2_heredoc-other-form-then-source-scheduled           | AM-3 D2                | deny:scheduled     | deny:scheduled     | pass
+am_d2_heredoc-other-form-then-source-owner-ok            | AM-3 D2                | deny               | deny               | pass
+am_d2_echo-written-then-run-scheduled                    | AM-3 D2                | deny:scheduled     | deny:scheduled     | pass
+am_d2_echo-written-then-run-owner-ok                     | AM-3 D2                | deny               | deny               | pass
+am_d2_printf-written-then-run-scheduled                  | AM-3 D2                | deny:scheduled     | deny:scheduled     | pass
+am_d2_printf-written-then-run-owner-ok                   | AM-3 D2                | deny               | deny               | pass
+am_d2_tee-heredoc-then-run-directly-scheduled            | AM-3 D2                | deny:scheduled     | deny:scheduled     | pass
+am_d2_tee-heredoc-then-run-directly-owner-ok             | AM-3 D2                | deny               | deny               | pass
+am_d2_other-writer-goes-to-screens-scheduled             | AM-3 D2                | deny:scheduled     | deny:scheduled     | pass
+am_d2_other-writer-goes-to-screens-owner-ok              | AM-3 D2                | deny               | deny               | pass
+am_d3_command-word-substituted-scheduled                 | AM-3 D3                | deny:scheduled     | deny:scheduled     | pass
+am_d3_command-word-substituted-owner-ok                  | AM-3 D3                | deny               | deny               | pass
+am_d3_command-word-backticks-scheduled                   | AM-3 D3                | deny:scheduled     | deny:scheduled     | pass
+am_d3_command-word-backticks-owner-ok                    | AM-3 D3                | deny               | deny               | pass
+am_d3_command-word-variable-scheduled                    | AM-3 D3                | deny:scheduled     | deny:scheduled     | pass
+am_d3_command-word-variable-owner-ok                     | AM-3 D3                | deny               | deny               | pass
+am_d4_find-exec-scheduled                                | AM-3 D4                | deny:scheduled     | deny:scheduled     | pass
+am_d4_find-exec-owner-ok                                 | AM-3 D4                | deny               | deny               | pass
+am_d1_ctl-script-says-hi                                 | D1 control             | allow              | allow              | pass
+am_d1_ctl-bin-ls                                         | D1 control             | allow              | allow              | pass
+am_d1_ctl-python-script-plain                            | D1 control             | allow              | allow              | pass
+am_d1_binary-is-not-read                                 | D1 pin                 | allow              | allow              | pass
+am_d2_ctl-heredoc-says-hi-then-run                       | D2 control             | allow              | allow              | pass
+am_d2_ctl-echo-script-then-mention                       | D2 control             | allow              | allow              | pass
+am_d2_ctl-written-not-run                                | D2 control             | allow              | allow              | pass
+am_d3_ctl-variable-version                               | D3 control             | allow              | allow              | pass
+am_d3_ctl-substituted-python                             | D3 control             | allow              | allow              | pass
+am_d4_ctl-find-exec-wc                                   | D4 control             | allow              | allow              | pass
+am_d6_bash-n-checks-syntax-only                          | MORE-bash-n            | allow              | allow              | pass
+am_d6_sh-cluster-n-checks-syntax-only                    | MORE-bash-n            | allow              | allow              | pass
+am_d6_ctl-bash-runs-it                                   | D6 control             | deny [merge-word]  | deny[merge-word]   | pass
+== 37 cases: 37 pass, 0 fail ==
+
+## AM-4 stated behaviours no case pinned
+python3 hooks/selftest-turn-gates.py am_f_
+am_f_source-script-pushes-main                           | AM-4 pin               | deny [default-branch] | deny[default-branch] | pass
+am_f_dot-script-pushes-main                              | AM-4 pin               | deny [default-branch] | deny[default-branch] | pass
+am_f_push-master                                         | AM-4 pin               | deny [default-branch] | deny[default-branch] | pass
+am_f_push-mirror                                         | AM-4 pin               | deny [default-branch] | deny[default-branch] | pass
+am_f_push-branches                                       | AM-4 pin               | deny [default-branch] | deny[default-branch] | pass
+am_f_push-wildcard-refspec                               | AM-4 pin               | deny [default-branch] | deny[default-branch] | pass
+== 6 cases: 6 pass, 0 fail ==
+
+## AM-5 retractions in the owner's own words (A2, A5, A6)
+python3 hooks/selftest-turn-gates.py am_a2_ am_a5_ am_a6_
+am_a2_wait-then-merge                                    | AM-5 A2                | deny [merge-word]  | deny[merge-word]   | pass
+am_a2_hold-on-then-merge                                 | AM-5 A2 pin            | deny [merge-word]  | deny[merge-word]   | pass
+am_a2_ctl-dont-26-merge-27                               | A2 control             | allow              | allow              | pass
+am_a2_ctl-merge-then-wait-other-34                       | A2 control             | allow              | allow              | pass
+am_a2_ctl-merge-then-wait-other-141                      | A2 control             | deny [merge-word]  | deny[merge-word]   | pass
+am_a5_mid-lets-wait                                      | AM-5                   | deny [merge-word]  | deny[merge-word]   | pass
+am_a5_mid-on-second-thought                              | AM-5                   | deny [merge-word]  | deny[merge-word]   | pass
+am_a5_mid-actually-no                                    | AM-5                   | deny [merge-word]  | deny[merge-word]   | pass
+am_a5_mid-please-wait-tonight                            | AM-5                   | deny [merge-word]  | deny[merge-word]   | pass
+am_a5_mid-lets-not                                       | AM-5                   | deny [merge-word]  | deny[merge-word]   | pass
+am_a5_mid-scratch-that                                   | AM-5                   | deny [merge-word]  | deny[merge-word]   | pass
+am_a5_mid-better-to-wait                                 | AM-5                   | deny [merge-word]  | deny[merge-word]   | pass
+am_a5_mid-hmm-hold-off                                   | AM-5                   | deny [merge-word]  | deny[merge-word]   | pass
+am_a5_same-message-second-thought                        | AM-5                   | deny [merge-word]  | deny[merge-word]   | pass
+am_a5_same-message-actually-no                           | AM-5                   | deny [merge-word]  | deny[merge-word]   | pass
+am_a5_same-message-better-to-wait                        | AM-5                   | deny [merge-word]  | deny[merge-word]   | pass
+am_a5_same-message-scratch-that                          | AM-5                   | deny [merge-word]  | deny[merge-word]   | pass
+am_a5_ctl-mid-fix-the-typo                               | AM-5 control           | allow              | allow              | pass
+am_a5_ctl-no-rush                                        | AM-5 control           | allow              | allow              | pass
+am_a5_ctl-no-reason-to-hold                              | AM-5 control           | allow              | allow              | pass
+am_a6_mid-dont-think-so                                  | AM-5 A6                | deny [merge-word]  | deny[merge-word]   | pass
+am_a6_mid-only-after-the-audit                           | AM-5 A6                | deny [merge-word]  | deny[merge-word]   | pass
+am_a6_mid-not-comfortable                                | AM-5 A6                | deny [merge-word]  | deny[merge-word]   | pass
+am_a6_ctl-mid-here-now                                   | A6 control             | allow              | allow              | pass
+== 24 cases: 24 pass, 0 fail ==
+
+## AM-6 a request body read from a file
+python3 hooks/selftest-turn-gates.py am_e_
+am_e_graphql-file-plain-query                            | AM-6                   | allow              | allow              | pass
+am_e_graphql-file-merge-mutation                         | AM-6 pin               | deny [target-unknown] | deny[target-unknown] | pass
+am_e_graphql-file-missing                                | AM-6 control           | deny [target-unknown] | deny[target-unknown] | pass
+am_e_graphql-inline-plain-query                          | AM-6 control           | allow              | allow              | pass
+am_e_graphql-input-file-plain-query                      | AM-6                   | allow              | allow              | pass
+am_e_curl-data-file-plain-query                          | AM-6                   | allow              | allow              | pass
+am_e_curl-data-file-merge-mutation                       | AM-6 pin               | deny [target-unknown] | deny[target-unknown] | pass
+== 7 cases: 7 pass, 0 fail ==
+
+## AM-7 one named number, one pull request
+python3 hooks/selftest-turn-gates.py am_c_
+am_c_bare-number-other-repo-after-merge                  | AM-7                   | deny [merge-word]  | deny[merge-word]   | pass
+am_c_bare-number-same-repo-again                         | AM-7 control           | allow              | allow              | pass
+am_c_bare-number-first-call-other-repo                   | AM-7 control           | allow              | allow              | pass
+am_c_repo-named-other-repo                               | AM-7 control           | deny [merge-word]  | deny[merge-word]   | pass
+am_c_first-call-denied-then-other-repo                   | AM-7 pin               | allow              | allow              | pass
+am_c_first-call-failed-then-other-repo                   | AM-7 pin               | allow              | allow              | pass
+am_c_unreadable-repo-counts-as-other                     | AM-7                   | deny [merge-word]  | deny[merge-word]   | pass
+am_c_card-bare-number-other-repo                         | AM-7                   | deny [merge-word]  | deny[merge-word]   | pass
+am_c_shell-call-denied-then-other-repo                   | AM-7 pin               | allow              | allow              | pass
+am_c_two-unreadable-repos-count-as-two                   | AM-7                   | deny [merge-word]  | deny[merge-word]   | pass
+am_c_record-holds-the-call-itself                        | AM-7 control           | allow              | allow              | pass
+== 11 cases: 11 pass, 0 fail ==
+
+## OW-1 the text screens know a push to a default branch
+python3 hooks/selftest-turn-gates.py am_d5_
+am_d5_unbalanced-push-main-scheduled                     | OW-1 D5                | deny:scheduled     | deny:scheduled     | pass
+am_d5_unbalanced-push-main-owner-ok                      | OW-1 D5                | deny               | deny               | pass
+am_d5_ctl-unbalanced-push-feature                        | OW-1 control           | allow              | allow              | pass
+== 3 cases: 3 pass, 0 fail ==
+
+## MORE-statement: reported speech and statements that start with the verb
+python3 hooks/selftest-turn-gates.py am_a3_ am_a4_
+am_a3_you-said                                           | MORE-statement A3      | deny [merge-word]  | deny[merge-word]   | pass
+am_a3_the-note-says                                      | MORE-statement A3      | deny [merge-word]  | deny[merge-word]   | pass
+am_a3_ctl-looks-good                                     | A3 control             | allow              | allow              | pass
+am_a4_has-failing-checks                                 | MORE-statement         | deny [merge-word]  | deny[merge-word]   | pass
+am_a4_no-is-not-approved                                 | MORE-statement         | deny [merge-word]  | deny[merge-word]   | pass
+am_a4_failed-again                                       | MORE-statement         | deny [merge-word]  | deny[merge-word]   | pass
+am_a4_ctl-now                                            | A4 control             | allow              | allow              | pass
+am_a4_ctl-not-141-call-34                                | A4 control             | allow              | allow              | pass
+am_a4_ctl-not-141-call-141                               | A4 control             | deny [merge-word]  | deny[merge-word]   | pass
+== 9 cases: 9 pass, 0 fail ==
+
+## MORE-dont-forget
+python3 hooks/selftest-turn-gates.py am_a7_
+am_a7_dont-forget-to-merge                               | MORE-dont-forget       | allow              | allow              | pass
+== 1 cases: 1 pass, 0 fail ==
+
+## MORE-backtrack
+python3 hooks/selftest-turn-gates.py am_a8_
+am_a8_long-leadin-is-judged-fast                         | MORE-backtrack         | allow, under 1 s more than a plain order | allow, -0.01 s     | pass
+== 1 cases: 1 pass, 0 fail ==
+
+## MORE-bash-n
+python3 hooks/selftest-turn-gates.py am_d6_
+am_d6_bash-n-checks-syntax-only                          | MORE-bash-n            | allow              | allow              | pass
+am_d6_sh-cluster-n-checks-syntax-only                    | MORE-bash-n            | allow              | allow              | pass
+am_d6_ctl-bash-runs-it                                   | D6 control             | deny [merge-word]  | deny[merge-word]   | pass
+== 3 cases: 3 pass, 0 fail ==
+
+## G: QUEUED_OWNER_ATTENDS_RUN keeps today's behaviour
+python3 hooks/selftest-turn-gates.py S15-
+S15-owner-queued-message-in-scheduled-run                | Q2                     | allow              | allow              | pass
+== 1 cases: 1 pass, 0 fail ==
