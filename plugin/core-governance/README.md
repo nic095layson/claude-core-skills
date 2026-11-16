@@ -106,7 +106,8 @@ which has no scheduled-run rule.
 
 A scheduled run is a turn of its own (upstreamed from the kit, where it was built on 2026-11-04): the
 turn gates start at the latest scheduled-trigger notification when it is later than the owner's last
-message, and a scheduled run never merges. Scripts re-synced byte-identical to `hooks/`.
+message, and a scheduled run never merges (for the routes the gate reads: see "What the gates cannot see" in
+`hooks/README.md`). Scripts re-synced byte-identical to `hooks/`.
 
 ## 0.1.4 (2026-11-02)
 

@@ -1256,6 +1256,257 @@ case("X06a-merge-gate-keeps-its-own-list-merge", "fail-safe D1", "deny [merge-wo
 case("X06b-merge-gate-keeps-its-own-list-push-main", "fail-safe D3", "deny [default-branch]",
      other_stop_list(g34(), "Bash", {"command": PUSH_MAIN_CMD}, "deny [default-branch]"))
 
+# ---------------------------------------------------------------- the outside audit of the fix (2026-11-16): merge gate
+# Findings AM-1 to AM-7, OW-1 and the auditor's further lines (results/2026-11-16/audit-fixes/merge-gate/). Every
+# wanted verdict was written from the unit's rules before turngate.py changed; the run on the tree as it stood is
+# red-on-start.txt there. A case marked "control" or "pin" in its findings column passed on that tree: a control
+# is an honest neighbour the new rules must not deny, a pin holds a stated behaviour so that a break of it is caught.
+YES = ["Yes (Recommended)", "No"]
+LEADIN_REPEAT = 200                   # A8: how often the lead-in "go ahead and" is repeated before the verb
+LEADIN_EXTRA_SECONDS = 1.0            # A8: how much longer than a plain order that clause may take to judge
+
+
+def mid(text, order="Merge #34."):
+    """The owner orders, the assistant works, the owner writes again while it works."""
+    return flat(owner(order), bash("gh pr checks 34", "all green"), queued(text))
+
+
+def yes_on(question, answer="Yes (Recommended)", labels=None):
+    return flat(ok(), click(question, labels or YES, answer))
+
+
+def put(name, text=None, data=None, mode=0o755):
+    """-> a function that writes a file into the case's folder and returns its name (the case runs there)."""
+    def make(ctx):
+        with open(ctx.path(name), "wb") as fh:
+            fh.write(data if data is not None else text.encode("utf-8"))
+        os.chmod(ctx.path(name), mode)
+        return name
+    return make
+
+
+def then(prep, command):
+    """-> the command text, after `prep` wrote its file (or files) into the case's folder."""
+    def make(ctx):
+        for p in (prep if isinstance(prep, (list, tuple)) else [prep]):
+            p(ctx)
+        return command
+    return make
+
+
+HERE_CWD = {"cwd": lambda ctx: ctx.dir}           # the call runs in the case's folder
+LAND = "#!/bin/bash\nset -e\n" + G_MERGE + " 40 --squash\n"
+PUSH_LAND = "#!/bin/bash\ngit push origin HEAD:main\n"
+
+# -- A1: a sentence that holds a condition grants nothing and sets no branch word
+for _n, _text in (("once-first", "Once CI is green, merge #34."), ("if-first", "If the checks pass, merge #34."),
+                  ("after-first", "After the audit is done, merge #34."), ("when-first", "When CI passes, merge #34."),
+                  ("unless-first", "Unless CI fails, merge #34."),
+                  ("unless-after", "Go ahead and merge #34 unless the audit finds something."),
+                  ("if-after-comma", "Merge #34, if CI is green."), ("weekday", "Merge #34 on Monday."),
+                  ("provided", "Merge #34, provided CI is green.")):
+    P("am_a1_" + _n, "AM-1", "deny [merge-word]", [owner(_text)])
+B("am_a1_push-if-first", "AM-1", "deny [default-branch]", [owner("If CI passes, push to main.")], PUSH_MAIN_CMD)
+B("am_a1_push-once-first", "AM-1", "deny [default-branch]", [owner("Once the audit is done, push to main.")], PUSH_MAIN_CMD)
+P("am_a1_ctl-once-after", "AM-1 control", "deny [merge-word]", [owner("Merge #34 once CI is green.")])
+P("am_a1_ctl-plain-order", "AM-1 control", "allow", [owner("Merge #34.")])
+B("am_a1_ctl-push-to-main", "AM-1 control", "allow", [owner("Push this to main.")], PUSH_MAIN_CMD)
+
+# -- A2: an earlier clause that halts; A3: an earlier clause that reports
+P("am_a2_wait-then-merge", "AM-5 A2", "deny [merge-word]", [owner("Wait for CI, then merge #34.")])
+P("am_a2_hold-on-then-merge", "AM-5 A2 pin", "deny [merge-word]", [owner("Hold on, merge #34 after I look.")])
+P("am_a2_ctl-dont-26-merge-27", "A2 control", "allow", [owner("Don't merge #26, merge #27.")], inp=mi(27))
+P("am_a2_ctl-merge-then-wait-other-34", "A2 control", "allow", [owner("Merge #34, then wait for my word on #141.")])
+P("am_a2_ctl-merge-then-wait-other-141", "A2 control", "deny [merge-word]",
+  [owner("Merge #34, then wait for my word on #141.")], inp=mi(141, "deck"))
+P("am_a3_you-said", "MORE-statement A3", "deny [merge-word]", [owner("Yesterday you said: merge #34. Explain why.")])
+P("am_a3_the-note-says", "MORE-statement A3", "deny [merge-word]", [owner("The note says: merge #34.")])
+P("am_a3_ctl-looks-good", "A3 control", "allow", [owner("Looks good, merge #34.")])
+
+# -- A4: the verb first, then a statement about the pull request
+P("am_a4_has-failing-checks", "MORE-statement", "deny [merge-word]", [owner("Merge #34 has failing checks, look at it.")])
+P("am_a4_no-is-not-approved", "MORE-statement", "deny [merge-word]", [owner("No, merge #34 is not approved.")])
+P("am_a4_failed-again", "MORE-statement", "deny [merge-word]", [owner("Merge #34 failed again.")])
+P("am_a4_ctl-now", "A4 control", "allow", [owner("Merge #34 now.")])
+P("am_a4_ctl-not-141-call-34", "A4 control", "allow", [owner("Merge #34, not #141.")])
+P("am_a4_ctl-not-141-call-141", "A4 control", "deny [merge-word]", [owner("Merge #34, not #141.")], inp=mi(141, "deck"))
+
+# -- A5: a retraction in the owner's own words empties the grant
+for _n, _text in (("lets-wait", "Actually, let's wait for the audit first."),
+                  ("on-second-thought", "On second thought, let's hold off."),
+                  ("actually-no", "Actually no, let's wait."),
+                  ("please-wait-tonight", "Please wait until I have read the audit report tonight."),
+                  ("lets-not", "Let's not do that today."), ("scratch-that", "Scratch that, I want to review it first."),
+                  ("better-to-wait", "Better to wait for the outside audit."),
+                  ("hmm-hold-off", "Hmm, hold off until the audit is in.")):
+    P("am_a5_mid-" + _n, "AM-5", "deny [merge-word]", mid(_text))
+P("am_a5_same-message-second-thought", "AM-5", "deny [merge-word]",
+  [owner("Merge #34. On second thought, let's wait for the audit.")])
+P("am_a5_same-message-actually-no", "AM-5", "deny [merge-word]", [owner("Merge #34. Actually no.")])
+P("am_a5_same-message-better-to-wait", "AM-5", "deny [merge-word]", [owner("Merge #34. Better to wait for the outside audit.")])
+P("am_a5_same-message-scratch-that", "AM-5", "deny [merge-word]", [owner("Merge #34. Scratch that.")])
+# "Merge #34? Or wait for CI?" (m_question_form_is_no_order) is now also emptied by rule A5; this one pins the
+# question rule alone (break WD14).
+P("am_a5_pin-typed-question-is-no-order", "A5 pin", "deny [merge-word]", [owner("Merge #34 now?")])
+P("am_a5_ctl-mid-fix-the-typo", "AM-5 control", "allow", mid("And fix the typo in the README while you're there."))
+P("am_a5_ctl-no-rush", "AM-5 control", "allow", [owner("Merge #34, no rush")])
+P("am_a5_ctl-no-reason-to-hold", "AM-5 control", "allow",
+  [owner("Merge #34. There is no reason to hold this back any longer.")])
+
+# -- A6: a message sent while the assistant works that orders nothing but doubts (MIDTURN_DOUBT_ENDS_WORD)
+P("am_a6_mid-dont-think-so", "AM-5 A6", "deny [merge-word]", mid("I don't think we should do that right now."))
+P("am_a6_mid-only-after-the-audit", "AM-5 A6", "deny [merge-word]", mid("Only after the audit."))
+P("am_a6_mid-not-comfortable", "AM-5 A6", "deny [merge-word]", mid("I'm not comfortable with this anymore."))
+P("am_a6_ctl-mid-here-now", "A6 control", "allow", mid("Thanks, I am here now."))
+
+# -- A7, A8
+P("am_a7_dont-forget-to-merge", "MORE-dont-forget", "allow", [owner("Don't forget to merge #34.")])
+
+
+def leadin_timing(ctx):
+    """A8: an order with a long run of lead-in words is judged (and allowed) about as fast as a plain one."""
+    long_out = ctx.pre([owner("go ahead and " * LEADIN_REPEAT + "merge #34")], MERGE, mi(34))
+    plain_out = ctx.pre([owner("Merge #34.")], MERGE, mi(34))
+    verdict = pre_verdict(long_out)[0]
+    extra = long_out.seconds - plain_out.seconds
+    return "%s, %+.2f s" % (verdict, extra), verdict == "allow" and extra < LEADIN_EXTRA_SECONDS
+
+
+case("am_a8_long-leadin-is-judged-fast", "MORE-backtrack", "allow, under 1 s more than a plain order", leadin_timing)
+
+# -- B1, B2: a yes grants only on a plain merge (or push) question; B3: an option that is an order is unchanged
+for _n, _q in (("merge-now", "Merge #34 now?"), ("shall-i", "Shall I merge #34 now?"), ("should-i-pr", "Should I merge PR 34?")):
+    P("am_b1_yes-" + _n, "AM-2 control", "allow", yes_on(_q))
+P("am_b1_yes-both-on-two-prs", "AM-2 control", "allow",
+  yes_on("Shall I merge PR 34 and PR 141?", "Yes, both (Recommended)", ["Yes, both (Recommended)", "No"]), inp=mi(141))
+for _n, _q in (("hold-and-not-merge", "Should I hold #34 and not merge it yet?"),
+               ("dont-merge-until", "Don't merge #34 until the audit is back?"),
+               ("wait-before", "Wait for the outside audit before I merge #34?"),
+               ("wait-then-merge", "Wait for CI, then merge #34?"), ("after-audit", "Merge #34 after the audit passes?"),
+               ("once-green", "Merge #34 once CI is green?"), ("tomorrow", "Merge #34 tomorrow morning?"),
+               ("leave-open", "Leave #34 open and merge it later?"), ("safe-to-merge", "Is #34 safe to merge?"),
+               ("ready-to-merge", "Is #34 ready to merge?"), ("or-wait", "Merge #34 or wait?"),
+               ("or-close", "Merge #34 or close it?"),
+               ("hold-off-until", "Hold off and not merge #34 until the audit lands?")):
+    P("am_b1_yes-" + _n, "AM-2", "deny [merge-word]", yes_on(_q))
+P("am_b1_yes-not-a-statement", "AM-2 A4", "deny [merge-word]", yes_on("Merge #34 has passed CI?"))
+P("am_b1_yes-hold-after-typed-order", "AM-2", "deny [merge-word]",
+  flat(owner("Merge #34."), click("Should I hold #34 and not merge it yet?", YES, "Yes (Recommended)")))
+B("am_b2_yes-push-to-main", "AM-2 control", "allow", yes_on("Push this to main?"), PUSH_MAIN_CMD)
+B("am_b2_yes-push-once-green", "AM-2 B2", "deny [default-branch]", yes_on("Push to main once CI is green?"), PUSH_MAIN_CMD)
+B("am_b2_yes-wait-before-push", "AM-2 B2", "deny [default-branch]", yes_on("Wait before I push to main?"), PUSH_MAIN_CMD)
+P("am_b3_ctl-option-is-the-order", "B3 control", "allow",
+  yes_on("What should I do with #34?", "Merge #34 now", ["Merge #34 now", "Leave it"]))
+P("am_b3_ctl-free-text-order", "B3 control", "allow",
+  yes_on("Wait for the audit before I merge #34?", "merge it now", ["Yes, wait (Recommended)", "No"]))
+
+# -- C: a bare number is good for one repository (BARE_NUMBER_ONE_REPOSITORY)
+LIB34 = lambda: call(MERGE, "Pull request #34 merged", **mi(34))      # noqa: E731
+P("am_c_bare-number-other-repo-after-merge", "AM-7", "deny [merge-word]", flat(owner("Merge #34."), LIB34()),
+  inp=mi(34, "deck"))
+P("am_c_bare-number-same-repo-again", "AM-7 control", "allow", flat(owner("Merge #34."), LIB34()))
+P("am_c_bare-number-first-call-other-repo", "AM-7 control", "allow", [owner("Merge #34.")], inp=mi(34, "deck"))
+P("am_c_repo-named-other-repo", "AM-7 control", "deny [merge-word]", [owner("Merge acme/lib#34.")], inp=mi(34, "deck"))
+P("am_c_first-call-denied-then-other-repo", "AM-7 pin", "allow",
+  flat(owner("Merge #34."), call(MERGE, "TURN-GATE (merge word) [merge-word]: not ordered", True, None, **mi(34))),
+  inp=mi(34, "deck"))
+P("am_c_first-call-failed-then-other-repo", "AM-7 pin", "allow",
+  flat(owner("Merge #34."), call(MERGE, "Pull Request is not mergeable", True, None, **mi(34))), inp=mi(34, "deck"))
+B("am_c_unreadable-repo-counts-as-other", "AM-7", "deny [merge-word]", flat(owner("Merge #34."), LIB34()),
+  G_MERGE + " 34 --squash")
+P("am_c_card-bare-number-other-repo", "AM-7", "deny [merge-word]",
+  flat(ok(), click("Merge #34?", ["Merge #34", "Wait"], "Merge #34"), LIB34()), inp=mi(34, "deck"))
+
+P("am_c_shell-call-denied-then-other-repo", "AM-7 pin", "allow",
+  flat(owner("Merge #34."), bash(G_MERGE + " 34 -R acme/lib && echo done", "TURN-GATE (merge word) [merge-word]: x", True)),
+  inp=mi(34, "deck"))
+B("am_c_two-unreadable-repos-count-as-two", "AM-7", "deny [merge-word]",
+  flat(owner("Merge #34."), bash(G_MERGE + " 34 --squash", "merged")), G_MERGE + " 34 --squash")
+
+
+def holding_itself(ctx):
+    """The record already holds the call being judged (same id as the hook's input), with no result yet."""
+    use = tool("Bash", command=G_MERGE + " 34 --squash")
+    use["message"]["content"][0]["id"] = "toolu_selftest"
+    return [owner("Merge #34."), use]
+
+
+B("am_c_record-holds-the-call-itself", "AM-7 control", "allow", holding_itself, G_MERGE + " 34 --squash")
+
+# -- D: shell routes. Each deny case runs in a scheduled run and in an owner turn whose only word is "ok".
+_ROUTES = (
+    ("d1_script-without-suffix", "AM-3 D1", then(put("land", LAND), "./land")),
+    ("d1_python-shebang-is-screened", "AM-3 D1",
+     then(put("tool", "#!/usr/bin/env python3\nimport subprocess\nsubprocess.run(['gh', 'pr', 'merge', '40'])\n"), "./tool")),
+    ("d2_heredoc-written-then-run", "AM-3 D2", "cat > x.sh <<'EOF'\n" + G_MERGE + " 40 --squash\nEOF\nbash x.sh"),
+    ("d2_heredoc-other-form-then-source", "AM-3 D2", "cat <<'EOF' > x.sh\n" + G_MERGE + " 40\nEOF\nsource x.sh"),
+    ("d2_echo-written-then-run", "AM-3 D2", "echo 'git push origin HEAD:main' > y.sh && sh y.sh"),
+    ("d2_printf-written-then-run", "AM-3 D2", "printf '" + G_MERGE + " 40\\n' > new.sh && bash new.sh"),
+    ("d2_tee-heredoc-then-run-directly", "AM-3 D2", "tee ./z.sh <<'EOF' >/dev/null\n" + G_MERGE + " 40\nEOF\n./z.sh"),
+    ("d2_other-writer-goes-to-screens", "AM-3 D2", "cp plan.txt run.sh && bash run.sh; echo 'then " + G_MERGE + " 40'"),
+    ("d3_command-word-substituted", "AM-3 D3", "$(which gh) pr merge 40 --squash"),
+    ("d3_command-word-backticks", "AM-3 D3", "`which gh` pr merge 40"),
+    ("d3_command-word-variable", "AM-3 D3", "$GH pr merge 40"),
+    ("d4_find-exec", "AM-3 D4", "find . -maxdepth 0 -exec " + G_MERGE + " 40 \\;"),
+    ("d5_unbalanced-push-main", "OW-1 D5", 'git push origin HEAD:main "unbalanced'),
+)
+for _n, _f, _cmd in _ROUTES:
+    B("am_" + _n + "-scheduled", _f, "deny:scheduled", run_rows(), _cmd, **HERE_CWD)
+    B("am_" + _n + "-owner-ok", _f, "deny", [ok()], _cmd, **HERE_CWD)
+B("am_d1_ctl-script-says-hi", "D1 control", "allow", [ok()], then(put("land", "#!/bin/bash\necho hi\n"), "./land"), **HERE_CWD)
+B("am_d1_ctl-bin-ls", "D1 control", "allow", [ok()], "/bin/ls -la", **HERE_CWD)
+B("am_d1_ctl-python-script-plain", "D1 control", "allow", [ok()],
+  then(put("tool", "#!/usr/bin/env python3\nprint('hello')\n"), "./tool"), **HERE_CWD)
+B("am_d1_binary-is-not-read", "D1 pin", "allow", [ok()],
+  then(put("blob", data=b"\x7fELF\x02\x01\x01\x00\x00\x00\n" + PUSH_LAND.encode("utf-8")), "./blob"), **HERE_CWD)
+B("am_d2_ctl-heredoc-says-hi-then-run", "D2 control", "allow", [ok()], "cat > x.sh <<'EOF'\necho hi\nEOF\nbash x.sh",
+  **HERE_CWD)
+B("am_d2_ctl-echo-script-then-mention", "D2 control", "allow", [ok()],
+  "echo 'echo hi' > y.sh && sh y.sh && git commit -m 'note: " + G_MERGE + " 40 comes later'", **HERE_CWD)
+B("am_d2_ctl-written-not-run", "D2 control", "allow", [ok()], "cat > x.sh <<'EOF'\n" + G_MERGE + " 40\nEOF\nchmod +x x.sh",
+  **HERE_CWD)
+B("am_d3_ctl-variable-version", "D3 control", "allow", [ok()], "$TOOL --version", **HERE_CWD)
+B("am_d3_ctl-substituted-python", "D3 control", "allow", [ok()], "$(which python3) x.py", **HERE_CWD)
+B("am_d4_ctl-find-exec-wc", "D4 control", "allow", [ok()], "find . -name '*.py' -exec wc -l {} +", **HERE_CWD)
+B("am_d5_ctl-unbalanced-push-feature", "OW-1 control", "allow", [ok()], 'git push origin HEAD:feature-x "unbalanced',
+  **HERE_CWD)
+B("am_d6_bash-n-checks-syntax-only", "MORE-bash-n", "allow", [ok()], then(put("land.sh", LAND), "bash -n land.sh"),
+  **HERE_CWD)
+B("am_d6_sh-cluster-n-checks-syntax-only", "MORE-bash-n", "allow", [ok()], then(put("land.sh", LAND), "sh -en land.sh"),
+  **HERE_CWD)
+B("am_d6_ctl-bash-runs-it", "D6 control", "deny [merge-word]", [ok()], then(put("land.sh", LAND), "bash land.sh"),
+  **HERE_CWD)
+
+# -- E: a request body read from a file
+PLAIN_QUERY = "query { repository(owner: \"acme\", name: \"lib\") { pullRequest(number: 34) { state } } }\n"
+MERGE_QUERY = "mutation { mergePullRequest(input: {pullRequestId: \"PR_x\"}) { clientMutationId } }\n"
+B("am_e_graphql-file-plain-query", "AM-6", "allow", [ok()],
+  then(put("q.graphql", PLAIN_QUERY, mode=0o644), "gh api graphql -F query=@q.graphql"), **HERE_CWD)
+B("am_e_graphql-file-merge-mutation", "AM-6 pin", "deny [target-unknown]", [ok()],
+  then(put("q.graphql", MERGE_QUERY, mode=0o644), "gh api graphql -F query=@q.graphql"), **HERE_CWD)
+B("am_e_graphql-file-missing", "AM-6 control", "deny [target-unknown]", [ok()], "gh api graphql -F query=@q.graphql",
+  **HERE_CWD)
+B("am_e_graphql-inline-plain-query", "AM-6 control", "allow", [ok()],
+  "gh api graphql -f query='" + PLAIN_QUERY.strip() + "'", **HERE_CWD)
+B("am_e_graphql-input-file-plain-query", "AM-6", "allow", [ok()],
+  then(put("q.json", '{"query": "query { viewer { login } }"}', mode=0o644), "gh api graphql --input q.json"), **HERE_CWD)
+B("am_e_curl-data-file-plain-query", "AM-6", "allow", [ok()],
+  then(put("q.json", '{"query": "query { viewer { login } }"}', mode=0o644),
+       "curl -s -X POST -d @q.json https://api.github.com/graphql"), **HERE_CWD)
+B("am_e_curl-data-file-merge-mutation", "AM-6 pin", "deny [target-unknown]", [ok()],
+  then(put("q.json", '{"query": "' + MERGE_QUERY.strip().replace("\"", "\\\"") + '"}', mode=0o644),
+       "curl -s -X POST --data-binary @q.json https://api.github.com/graphql"), **HERE_CWD)
+
+# -- F: stated behaviours that no case pinned (AM-4)
+B("am_f_source-script-pushes-main", "AM-4 pin", "deny [default-branch]", [ok()],
+  then(put("land.sh", PUSH_LAND), "source land.sh"), **HERE_CWD)
+B("am_f_dot-script-pushes-main", "AM-4 pin", "deny [default-branch]", [ok()], then(put("land.sh", PUSH_LAND), ". ./land.sh"),
+  **HERE_CWD)
+B("am_f_push-master", "AM-4 pin", "deny [default-branch]", [ok()], "git push origin HEAD:master")
+B("am_f_push-mirror", "AM-4 pin", "deny [default-branch]", [ok()], "git push --mirror backup")
+B("am_f_push-branches", "AM-4 pin", "deny [default-branch]", [ok()], "git push --branches origin")
+B("am_f_push-wildcard-refspec", "AM-4 pin", "deny [default-branch]", [ok()], "git push origin 'refs/heads/*:refs/heads/*'")
+
 # ==================================================================== cases of the earlier fixture nothing else carries
 TABLE[0] = "O"
 S("O01-plan-gate-without-adversarial-verify", "F1 2026-10-29", "block:F1",

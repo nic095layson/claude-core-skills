@@ -1,5 +1,5 @@
 {
- "_about": "Judgment constants of the governance stack, read from hooks/ by redteam/live.py. Standing registry since 2026-11-12 (first made 2026-10-19 on main 7d07886 as a one-off under results/; that copy failed against the live hooks on 2026-11-12 with 6 drifted values and 15 unregistered ones). Status per the red-team skill's five. The guard runs registry_check.py on every commit. Since 2026-11-15: every upper-case module-level name of hooks/turngate.py, hooks/turn-gates-pretool.py and hooks/governance-enforce.py is registered as `<file>:<NAME>` (live.py parses the files; a compiled pattern is the hash of its source and flags), in place of the twelve values that used to be picked from those files by name or by searching for a string. Open decisions these entries point to: D-TG-1: calibrate the word lists, patterns and limits of the turn gates against real owner messages and commands. D-TG-2: the two policy defaults the owner was not asked about (RESTART_ENDS_WORD, DELEGATE_MAY_MERGE): confirm or overrule. The receipt gate's module hooks/receiptlaw.py is registered the same way since 2026-11-15, in place of RECEIPT_INABILITY_PATTERN, RECEIPT_RECEIPT_PATTERN and RECEIPT_WINDOW_CHARS (decisions D-RT-1 and D-QA-1, closed by the rebuild of that gate). D-RG-1: calibrate the receipt gate's claim families, receipt words and exemptions against real answers (first numbers: results/2026-11-15/receipt-gate-fix/). D-RG-2: the receipt gate's policy defaults the owner was not asked about (RECEIPT_MAX_BLOCKS, NOT_VERIFIED_IS_A_CLAIM; RECEIPT_SCOPE follows the rule's own words and has a tested alternative): confirm or overrule.",
+ "_about": "Judgment constants of the governance stack, read from hooks/ by redteam/live.py. Standing registry since 2026-11-12 (first made 2026-10-19 on main 7d07886 as a one-off under results/; that copy failed against the live hooks on 2026-11-12 with 6 drifted values and 15 unregistered ones). Status per the red-team skill's five. The guard runs registry_check.py on every commit. Since 2026-11-15: every upper-case module-level name of hooks/turngate.py, hooks/turn-gates-pretool.py and hooks/governance-enforce.py is registered as `<file>:<NAME>` (live.py parses the files; a compiled pattern is the hash of its source and flags), in place of the twelve values that used to be picked from those files by name or by searching for a string. Open decisions these entries point to: D-TG-1: calibrate the word lists, patterns and limits of the turn gates against real owner messages and commands. D-TG-2: the policy defaults the owner was not asked about (RESTART_ENDS_WORD, DELEGATE_MAY_MERGE; since 2026-11-16 also QUEUED_OWNER_ATTENDS_RUN, MIDTURN_DOUBT_ENDS_WORD, BARE_NUMBER_ONE_REPOSITORY): confirm or overrule. The receipt gate's module hooks/receiptlaw.py is registered the same way since 2026-11-15, in place of RECEIPT_INABILITY_PATTERN, RECEIPT_RECEIPT_PATTERN and RECEIPT_WINDOW_CHARS (decisions D-RT-1 and D-QA-1, closed by the rebuild of that gate). D-RG-1: calibrate the receipt gate's claim families, receipt words and exemptions against real answers (first numbers: results/2026-11-15/receipt-gate-fix/). D-RG-2: the receipt gate's policy defaults the owner was not asked about (RECEIPT_MAX_BLOCKS, NOT_VERIFIED_IS_A_CLAIM; RECEIPT_SCOPE follows the rule's own words and has a tested alternative): confirm or overrule.",
  "constants": [
   {
    "name": "CLASS_PATTERN_ANALYSIS",
@@ -604,7 +604,7 @@
   },
   {
    "name": "turngate.py:ORDER_LEADIN",
-   "value": "(?:[\\s,:;.!-]*(?:yes|yep|yeah|ok|okay|sure|great|good|fine|perfect|approved?|lgtm|thanks|thank you|please|now|then|and|so|also|just|do|go ahead(?: and)?|you (?:can|may)(?: now)?|feel free to|let's|lets|looks good|sounds good|(?:can|could|would|will) you(?: please)?)\\b)*[\\s,:;.!-]*",
+   "value": "[\\s,:;.!-]*(?:(?:yes|yep|yeah|ok|okay|sure|great|good|fine|perfect|approved?|lgtm|thanks|thank you|please|now|then|and|so|also|just|do|go ahead|you (?:can|may)|feel free to|let's|lets|looks good|sounds good|(?:can|could|would|will) you)\\b[\\s,:;.!-]*)*",
    "role": "the words an order may start with before its verb (\"ok, please\", \"go ahead and\", \"can you\")",
    "status": "uncalibrated",
    "record": "",
@@ -612,7 +612,7 @@
   },
   {
    "name": "turngate.py:TYPED_ORDER",
-   "value": "9d4ace67",
+   "value": "4ed69d2f",
    "role": "a typed order to merge: the verb at the start of its clause, after the lead-in words only",
    "status": "settings",
    "record": "D1, 2026-11-13: a merge is authorized only by a click on a card that names the pull request, or by a typed order with its number (experiments/hypothesis-2026-11-15-turn-gates-cases.md)",
@@ -620,7 +620,7 @@
   },
   {
    "name": "turngate.py:PUSH_ORDER",
-   "value": "5a9ec800",
+   "value": "918a2aaf",
    "role": "a typed order to push to a default branch: its verb at the start of its clause",
    "status": "settings",
    "record": "owner's answer of 2026-11-15, question 2: \"An order naming the branch\" (results/2026-11-15/turn-gates-fix/CORE-SPEC.md section 9; experiments/hypothesis-2026-11-15-turn-gates-cases.md)",
@@ -704,7 +704,10 @@
     "no pressure",
     "nothing else",
     "can't wait",
-    "cannot wait"
+    "cannot wait",
+    "don't forget to",
+    "dont forget to",
+    "do not forget to"
    ],
    "role": "phrases with \"no\" or \"not\" in them that refuse nothing (\"no rush\", \"no objections\")",
    "status": "uncalibrated",
@@ -4601,6 +4604,642 @@
    "status": "structural",
    "record": "",
    "decision": ""
+  },
+  {
+   "name": "turngate.py:BARE_NUMBER_ONE_REPOSITORY",
+   "value": true,
+   "role": "a word that names a number without a repository covers that number in one repository only (rule C; default taken without a question, audit 2026-11-16 AM-7)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-2"
+  },
+  {
+   "name": "turngate.py:BODY_FILE_STDIN",
+   "value": "-",
+   "role": "the file name that means standard input in a request body",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:CONDITION_CUE",
+   "value": "eb8f0f2e",
+   "role": "the pattern of CONDITION_WORDS (rule A1; also a doubt for rule A6 and a cue for the card rules B1, B2)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:CONDITION_WORDS",
+   "value": [
+    "after",
+    "once",
+    "when",
+    "whenever",
+    "if",
+    "later",
+    "tomorrow",
+    "as soon as",
+    "unless",
+    "until",
+    "till",
+    "provided",
+    "providing",
+    "assuming",
+    "as long as",
+    "so long as",
+    "in case",
+    "pending",
+    "subject to",
+    "depending",
+    "tonight",
+    "next week",
+    "monday",
+    "tuesday",
+    "wednesday",
+    "thursday",
+    "friday",
+    "saturday",
+    "sunday"
+   ],
+   "role": "the words that make a sentence an order for later or under a condition, which grants nothing (rule A1)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:CURL_FILE_DATA_FLAGS",
+   "value": [
+    "-d",
+    "--data",
+    "--data-binary"
+   ],
+   "role": "the options of curl whose @FILE sends the text of the file (E)",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:ECHO_ESCAPES",
+   "value": [
+    [
+     "\\n",
+     "\n"
+    ],
+    [
+     "\\t",
+     "\t"
+    ]
+   ],
+   "role": "what printf (and echo -e) turn into a new line and a tab",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:ECHO_ESCAPE_FLAG",
+   "value": "-e",
+   "role": "the option with which echo reads escapes",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:FALLBACK_PUSH_EVERY",
+   "value": [
+    "all",
+    "mirror",
+    "branches"
+   ],
+   "role": "the push words that mean every branch, for the text screens",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:FALLBACK_PUSH_WORDS",
+   "value": [
+    [
+     "git",
+     "push",
+     "main"
+    ],
+    [
+     "git",
+     "push",
+     "master"
+    ],
+    [
+     "git",
+     "push",
+     "all"
+    ],
+    [
+     "git",
+     "push",
+     "mirror"
+    ],
+    [
+     "git",
+     "push",
+     "branches"
+    ]
+   ],
+   "role": "the words, in order inside one command, that make an unparsed text a push to a default branch (D5, OW-1)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:FIND_COMMANDS",
+   "value": [
+    "find"
+   ],
+   "role": "the program whose -exec words are a command (D4)",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:FIND_EXEC_ENDS",
+   "value": [
+    ";",
+    "+"
+   ],
+   "role": "the words that end the command find runs",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:FIND_EXEC_FLAGS",
+   "value": [
+    "-exec",
+    "-execdir",
+    "-ok",
+    "-okdir"
+   ],
+   "role": "the options of find after which its words are a command",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:GH_API_FILE_FIELD_FLAGS",
+   "value": [
+    "-F",
+    "--field"
+   ],
+   "role": "the options of gh api whose key=@FILE reads the file (E)",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:HALT_CUE",
+   "value": "11c670e2",
+   "role": "the pattern of HALT_WORDS",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:HALT_NEGATOR",
+   "value": "c5990f08",
+   "role": "a word that, before a hold in the same clause, negates it (\"no reason to hold\")",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:HALT_WORDS",
+   "value": [
+    "wait",
+    "hold",
+    "stop",
+    "pause",
+    "cancel",
+    "abort",
+    "postpone",
+    "defer",
+    "delay",
+    "not yet",
+    "not now",
+    "never mind",
+    "nevermind",
+    "scratch that",
+    "second thought",
+    "second thoughts",
+    "changed my mind",
+    "change of plan",
+    "change of plans",
+    "let's not",
+    "lets not",
+    "hang on",
+    "on hold"
+   ],
+   "role": "the words that hold the work back (rules A2, A5, A6, B1)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:HTTP_OUTPUT_FLAGS",
+   "value": [
+    "-o",
+    "--output",
+    "-O",
+    "--output-document"
+   ],
+   "role": "the options with which curl and wget write what they fetch into a file",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:LEADIN_SEPARATORS",
+   "value": "[\\s,:;.!-]*",
+   "role": "what may stand between the lead-in words of an order or a question",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:MIDTURN_DOUBT_ENDS_WORD",
+   "value": true,
+   "role": "a message typed mid-turn that orders nothing but holds a refusal, hold or condition word ends the merge word (rule A6; default, audit 2026-11-16 AM-5)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-2"
+  },
+  {
+   "name": "turngate.py:NOTE_UNKNOWN_REPOSITORY",
+   "value": "a repository the gate cannot read",
+   "role": "text: a repository the gate cannot read",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:ORDER_LEADIN_WORDS",
+   "value": [
+    "yes",
+    "yep",
+    "yeah",
+    "ok",
+    "okay",
+    "sure",
+    "great",
+    "good",
+    "fine",
+    "perfect",
+    "approved?",
+    "lgtm",
+    "thanks",
+    "thank you",
+    "please",
+    "now",
+    "then",
+    "and",
+    "so",
+    "also",
+    "just",
+    "do",
+    "go ahead",
+    "you (?:can|may)",
+    "feel free to",
+    "let's",
+    "lets",
+    "looks good",
+    "sounds good",
+    "(?:can|could|would|will) you"
+   ],
+   "role": "the words an order may start with before its verb (\"ok, please\", \"go ahead and\", \"can you\")",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:QUESTION_DOUBT",
+   "value": "eb22ac4d",
+   "role": "the words that make a card's question offer a choice, so a yes on it grants nothing (rule B1)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:QUESTION_LEADIN",
+   "value": "[\\s,:;.!-]*(?:(?:(?:can|could|would|will) you|would you like me to|do you want me to|you (?:can|may)|is it okay to|feel free to|sounds good|is it ok to|looks good|want me to|approved?|thank you|should we|go ahead|shall we|should i|perfect|shall i|okay to|thanks|please|great|let's|can i|may i|ok to|yeah|okay|sure|good|fine|lgtm|then|also|just|lets|do i|yes|yep|now|and|ok|so|do)\\b[\\s,:;.!-]*)*",
+   "role": "the pattern of QUESTION_LEADIN_WORDS, read in one way only",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:QUESTION_LEADIN_WORDS",
+   "value": [
+    "yes",
+    "yep",
+    "yeah",
+    "ok",
+    "okay",
+    "sure",
+    "great",
+    "good",
+    "fine",
+    "perfect",
+    "approved?",
+    "lgtm",
+    "thanks",
+    "thank you",
+    "please",
+    "now",
+    "then",
+    "and",
+    "so",
+    "also",
+    "just",
+    "do",
+    "go ahead",
+    "you (?:can|may)",
+    "feel free to",
+    "let's",
+    "lets",
+    "looks good",
+    "sounds good",
+    "(?:can|could|would|will) you",
+    "shall i",
+    "shall we",
+    "should i",
+    "should we",
+    "do you want me to",
+    "want me to",
+    "would you like me to",
+    "can i",
+    "may i",
+    "do i",
+    "ok to",
+    "okay to",
+    "is it ok to",
+    "is it okay to"
+   ],
+   "role": "the words a plain merge or push question may start with before its verb (rules B1, B2)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:QUESTION_ORDER",
+   "value": "9e79ca54",
+   "role": "a clause of a card's question that starts with the merge verb (rule B1)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:QUESTION_PUSH",
+   "value": "5076d4e9",
+   "role": "a clause of a card's question that starts with the push verb (rule B2)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:QUEUED_OWNER_ATTENDS_RUN",
+   "value": true,
+   "role": "a message the owner types during a scheduled run makes the rest of the run attended (default taken without a question; named 2026-11-16)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-2"
+  },
+  {
+   "name": "turngate.py:REASON_BARE_NUMBER",
+   "value": "the owner's word for #%d names no repository, and it was already used in this turn for #%d of another repository (%s), so it does not cover this call (%s). A word that names only a number is good for one repository. Ask the owner with a card that names the repository (owner/repo#%d), and merge only on that answer.",
+   "role": "text of the denial when a bare number's word was already used in another repository (rule C)",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:REPORT_CUE",
+   "value": "a8246bfd",
+   "role": "the pattern of REPORT_WORDS",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:REPORT_WORDS",
+   "value": [
+    "said",
+    "says",
+    "say",
+    "saying",
+    "wrote",
+    "writes",
+    "written",
+    "told",
+    "asked",
+    "typed",
+    "quote",
+    "quoted",
+    "quotes",
+    "meant",
+    "means",
+    "e\\.g",
+    "for example",
+    "such as"
+   ],
+   "role": "the words that report speech: an order after them in the same sentence grants nothing (rule A3)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:SCRIPT_BINARY_BYTE",
+   "value": "b'\\x00'",
+   "role": "a file run directly that holds this byte is a program, not a script, and is not read",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:SCRIPT_PATH_MARK",
+   "value": "/",
+   "role": "a command word that holds this names a file the command runs, which is read (D1)",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:SCRIPT_SHEBANG",
+   "value": "#!",
+   "role": "how a first line that names the program running the file starts",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:SHEBANG_ENV",
+   "value": "env",
+   "role": "the program of `#!/usr/bin/env PROGRAM`, after which the program is the next word",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:SHELL_APPEND_REDIRECTS",
+   "value": [
+    ">>",
+    "&>>"
+   ],
+   "role": "the redirections that append to a file",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:SHELL_SYNTAX_FLAG",
+   "value": "n",
+   "role": "the shell's option letter for a syntax check only (`bash -n FILE`, D6)",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:SOFT_LEADIN",
+   "value": "176cb150",
+   "role": "the pattern of a leading run of SOFT_LEADIN_WORDS",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:SOFT_LEADIN_WORDS",
+   "value": [
+    "actually",
+    "well",
+    "hmm",
+    "hm",
+    "um",
+    "uh",
+    "oh",
+    "sorry",
+    "please",
+    "ok",
+    "okay",
+    "so",
+    "and",
+    "also",
+    "maybe",
+    "perhaps",
+    "i think",
+    "i guess",
+    "on second thought"
+   ],
+   "role": "the words a refusal may start with, dropped before the short-refusal test (rule A5)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:STATEMENT_NEXT",
+   "value": "cbdce9e7",
+   "role": "reads the first word after an order's pull requests",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:STATEMENT_WORDS",
+   "value": [
+    "is",
+    "isn't",
+    "isnt",
+    "was",
+    "wasn't",
+    "are",
+    "aren't",
+    "were",
+    "has",
+    "hasn't",
+    "had",
+    "have",
+    "does",
+    "doesn't",
+    "did",
+    "didn't",
+    "will",
+    "won't",
+    "would",
+    "wouldn't",
+    "should",
+    "shouldn't",
+    "can",
+    "can't",
+    "cannot",
+    "could",
+    "couldn't",
+    "might",
+    "may",
+    "must",
+    "needs",
+    "need",
+    "failed",
+    "fails",
+    "broke",
+    "breaks",
+    "looks",
+    "seems",
+    "appears",
+    "got",
+    "went",
+    "still"
+   ],
+   "role": "the first words after an order's pull requests that make the clause a statement, not an order (rule A4)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:TEE_APPEND_FLAGS",
+   "value": [
+    "-a",
+    "--append"
+   ],
+   "role": "the options with which tee appends",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:TEE_COMMANDS",
+   "value": [
+    "tee"
+   ],
+   "role": "the program that writes what it reads into the files it names (D2)",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:UNKNOWN_DIR_KEY",
+   "value": "?",
+   "role": "the key of a file named relative to a directory the parser does not know",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "turngate.py:UNRESOLVED_READINGS",
+   "value": [
+    "gh",
+    "git"
+   ],
+   "role": "the programs a command word the parser cannot resolve is judged as (D3)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
   }
  ]
 }

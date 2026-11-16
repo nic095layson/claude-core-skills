@@ -137,7 +137,8 @@ def judge(turngate, data, name, inp):
     rows = turngate.load(path) if isinstance(path, str) and path else []
     model = turngate.Model(rows) if rows else None
     agent = data.get("agent_id") or None
-    allow, _code, reason = turngate.merge_decision(model, acts, agent)
+    call_id = data.get("tool_use_id") if isinstance(data.get("tool_use_id"), str) else None
+    allow, _code, reason = turngate.merge_decision(model, acts, agent, call_id)
     if not allow:
         return deny(reason)
     if agent:                               # a helper's call: note it for the Stop gate; no advisory, because
