@@ -1,0 +1,19 @@
+$ python3 .claude/skills/red-team/scripts/registry_check.py --root . --fingerprint copy      # in a scratch copy of the tree, unchanged
+CONSTANTS CHECK: PASS — 420 registered = 420 live on copy; settings 41, structural 224, uncalibrated 155
+exit status: 0
+
+# one word added to a receipt word list of the copy (hooks/receiptlaw.py, ATTEMPT: "ran|" becomes "ran|glanced|"), nothing registered:
+$ python3 .claude/skills/red-team/scripts/registry_check.py --root . --fingerprint copy
+CONSTANTS CHECK: FAIL
+  receiptlaw.py:ATTEMPT: registry 'aa64ce75' != live 'a153cf14'
+exit status: 1
+
+# a word removed from a claim word list of the copy as well (VERIFY_VERBS without "validate"), and one added to a list of the prose scan (CONDITION_WORDS with "because"):
+$ python3 .claude/skills/red-team/scripts/registry_check.py --root . --fingerprint copy
+CONSTANTS CHECK: FAIL
+  receiptlaw.py:VERIFY_VERBS: registry ['verify', 'confirm', 'double-check', 'cross-check', 'validate', 'reproduce', 'establish', 'ascertain', 'corroborate', 'tell\\s+(?:whether|if|which|what|who|how|when|where|why|from)\\b', 'get\\s+(?:any
+  receiptlaw.py:CLAIM_FAMILIES: registry [['passive', '47d0de37', False], ['passive-past', '540a73d5', False], ['modal', '670838bc', True], ['modal-access', 'decb6fac', True], ['unable', '4f52e878', True], ['not-able', '41dc84a5', True], ['
+  receiptlaw.py:CONDITION_WORDS: registry ['if', 'unless', 'whenever', 'when', 'where', 'whose', 'once', 'until', 'while', 'in case'] != live ['if', 'because', 'unless', 'whenever', 'when', 'where', 'whose', 'once', 'until', 'while', 'in ca
+  receiptlaw.py:CONDITION_BEFORE: registry '82eeb0e2' != live 'e52c9d31'
+  receiptlaw.py:ATTEMPT: registry 'aa64ce75' != live 'a153cf14'
+exit status: 1

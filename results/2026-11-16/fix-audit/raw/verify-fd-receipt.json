@@ -1,0 +1,97 @@
+{
+ "verdicts": [
+  {
+   "id": "DR-1",
+   "verdict": "CONFIRMED",
+   "reproduced": true,
+   "command_run": "finder's command as given (rules25.py J; rule2b.py; rules25.py J against FIRST/fixed/hooks), then my own fixtures: export PYTHONDONTWRITEBYTECODE=1 TMPDIR=WORK2/verify-fd-receipt/tmp; python3 WORK2/verify-fd-receipt/v.py D1; same with --hooks FIXED/hooks D1",
+   "observed": "finder: MISMATCH J01/J05/J10/J13 want=block got=allow; MISMATCH K01/K02/K03 want=block got=allow; on c3c8615 J01 J10 J13 got=block. Mine on ed8ef13: ok a1 (summary last) got=block; MISMATCH a2 (summary, TodoWrite, 'Done.') got=allow; MISMATCH a3 (summary, SendUserFile last; Stop input = the summary) got=allow; MISMATCH a4 (same, no Stop input) got=allow; ok a5 (README's own working-note example) got=allow. On c3c8615: a2 a3 a4 got=block.",
+   "rule_check": "The quotes are real. decisions.md:33. README.md:661-663 defines the final answer as 'every text after the last tool call of the stretch that is not a Skill call'. README.md:670-671 and 721 state the cost as 'a bare claim in a mid-turn message that the final answer does not repeat'. The code does what README 661 says. What the README understates is the cost: the summary the owner reads becomes an unjudged 'note' whenever any ordinary call (TodoWrite, SendUserFile, Write, Agent) follows it. In a3 the Stop input's own last_assistant_message is that summary, and it is still not judged because the record holds it as a note.",
+   "reason": "Reproduced with my own minimal fixtures. RECEIPT_JUDGES is a named default. COMMON section 0 allows reporting what a default costs when the README understates it, and 'a mid-turn message' (illustrated by a 'Let me search' note) does not tell the owner that a trailing bookkeeping or file-delivery call exempts the turn's own summary. SendUserFile after a summary occurs in the real record (4 'files delivered to user' results in real-row-shapes.md). For these shapes this is a regression against c3c8615.",
+   "severity": "medium",
+   "realistic": "happens_in_normal_use"
+  },
+  {
+   "id": "DR-2",
+   "verdict": "CONFIRMED",
+   "reproduced": true,
+   "command_run": "finder's claimtable.py as given; then python3 WORK2/verify-fd-receipt/v.py D2 (and --hooks FIRST/fixed/hooks D2)",
+   "observed": "finder: fixed ed8ef13 H1 H3 H5 got=allow, H2 H4 H6 got=block; before c3c8615 all got=block. Mine on ed8ef13: MISMATCH b1 '| Claim | Status |' row 'could not verify' got=allow; ok b2 '| Item | Status |' got=block; MISMATCH b3 '| Claims checked | Result |' got=allow; MISMATCH b4 '| Quote | Verified? |' got=allow; ok b5 real example table got=allow; MISMATCH b6 '| Claim | Status |' row 'unverified' got=allow. On c3c8615 b1 b3 b4 b6 got=block.",
+   "rule_check": "README.md:685 is real and does list 'claim' among the header words, so the word list is stated. The same line defines the class as 'a header cell names language samples', and a status table headed Claim does not do that. README.md:682 makes 'X is unverified ... a table cell' a claim, and decisions.md:33 binds. receiptlaw.py:102-104 puts 'claim', 'claims' and 'quote' in EXAMPLE_TABLE_WORDS.",
+   "reason": "Reproduced independently. The code's word list is broader than the rule's stated intent (language samples). A claim/status table in the house's own style (after-report's claim-and-evidence form) now exempts every bare verdict row, and these rows were blocked before. The Limits section does not state this.",
+   "severity": "medium",
+   "realistic": "happens_in_normal_use"
+  },
+  {
+   "id": "DR-3",
+   "verdict": "CONFIRMED",
+   "reproduced": true,
+   "command_run": "finder's rules25.py S (fixed and FIRST hooks); then python3 WORK2/verify-fd-receipt/v.py D3 (and --hooks FIRST/fixed/hooks D3)",
+   "observed": "finder: MISMATCH S14 S15 S18 S19 S20 want=allow got=block; c3c8615 ok got=allow. Mine on ed8ef13: MISMATCH c1 'Our nightly job couldn't access the bucket after the key rotation.' got=block; MISMATCH c2 'The weekly job couldn't find the export, so ...' got=block; MISMATCH c3 'In CI, this job couldn't access the secrets.' got=block; MISMATCH c4 'The daily job couldn't reach the API on Tuesday.' got=block; ok c5 vendor's job and c6 'Your nightly job' got=allow. On c3c8615 all six got=allow.",
+   "rule_check": "README.md:682 is real and explicitly makes 'the weekly / scheduled / daily / nightly ...' + job and 'this / my / our' + job the assistant's whole work, so the code does what README 682 says. Against that, decisions.md:39 ('add no new block on honest work') and decisions.md:41-42 ('A fix that closes a bypass by blocking ordinary use is rejected') are real and binding. README.md:755-756 also states the gate's own principle: 'Where the words can be read both as the assistant's inability and as a statement about a system, the sentence passes.' These sentences are exactly that ambiguity. The lists of known false blocks (README 763-771, 780-788) do not include it.",
+   "reason": "Reproduced with my own sentences. The new subject rule contradicts the binding decision against new blocks on honest work and the README's own principle that a doubt goes to the answer, and the README does not state this cost. The consequence is limited (one block per stretch, cleared by quoting or a receipt word), so medium.",
+   "severity": "medium",
+   "realistic": "needs_unusual_but_plausible_input"
+  },
+  {
+   "id": "DR-4",
+   "verdict": "CONFIRMED",
+   "reproduced": true,
+   "command_run": "finder's unattended.py; then python3 WORK2/verify-fd-receipt/v.py D4 (and --hooks FIRST/fixed/hooks D4)",
+   "observed": "finder: U01..U10 MISMATCH want=block got=allow; U11 U12 U13 got=block. Mine on ed8ef13: MISMATCH d1 'This week's run ...' got=allow; d2 'Our scheduled weekly run ...' got=allow; d3 'This automated run ...' got=allow; d4 'Today's weekly review ...' got=allow; ok d5 'This run', d6 'The weekly review', d7 'This scheduled run' got=block. On c3c8615 all seven got=allow, so this is an incomplete new rule, not a regression.",
+   "rule_check": "README.md:778-779 is real: 'Not the assistant, by the subject's words: \"today's check\", \"the review\" (no \"this\", \"my\" or a time word) ...'. The parenthetical implies that a subject with a time word or 'this' is caught, yet 'Today's weekly review' (time word directly before the noun) and 'This automated run' pass. receiptlaw.py:508-512 (_own_work) reads only the last two words before the noun and needs 'the', 'this', 'my' or 'our' before a time word. README 682's 'this / my / our + run' does not say 'directly before'.",
+   "reason": "Reproduced. The code is narrower than the README's statement of its own limit, and a reader takes that statement to cover these subjects. Per COMMON, a limit that is stated wrongly is a finding. The broader stated limit ('reads words, not meaning') softens it, and none of these sentences was blocked before, so low.",
+   "severity": "low",
+   "realistic": "needs_unusual_but_plausible_input"
+  },
+  {
+   "id": "DR-5",
+   "verdict": "CONFIRMED",
+   "reproduced": true,
+   "command_run": "finder's rules25.py W (fixed and FIRST hooks); then python3 WORK2/verify-fd-receipt/v.py D5 (and --hooks FIRST/fixed/hooks D5)",
+   "observed": "finder: MISMATCH W16 W17 W21 W23 want=block got=allow; c3c8615 ok got=block. Mine on ed8ef13: MISMATCH e1 'by the assistant.' got=allow; e2 'by any means.' got=allow; e3 'by midnight.' got=allow; e4 'by <the assistant's name>.' got=allow; ok e5 'by me.' got=block; ok e6 'by older Android clients.' got=allow; ok e7 bare got=block. On c3c8615 e1-e4 got=block (e6 was a false block then).",
+   "rule_check": "README.md:685 is real: 'somebody else's inability (... a passive with another agent: \"could not be verified by older Android clients\")'. The assistant itself, a means and a time are not another agent. receiptlaw.py:265-267: PASSIVE_AGENT exempts any 'by' followed by a word unless it is on the closed NOT_AGENTS list.",
+   "reason": "Reproduced independently. These neighbours of the fixed example regressed against c3c8615. 'by any means' and 'by <a deadline>' are natural phrasings; 'by the assistant' is rarer. The consequence is limited to a bare claim passing.",
+   "severity": "low",
+   "realistic": "needs_unusual_but_plausible_input"
+  },
+  {
+   "id": "DR-6",
+   "verdict": "CONFIRMED",
+   "reproduced": true,
+   "command_run": "finder's rules25.py W | grep W06..W12; then python3 WORK2/verify-fd-receipt/v.py D6 and python3 WORK2/verify-fd-receipt/v2.py",
+   "observed": "finder: ok W06; MISMATCH W07-W11 want=block got=allow; ok W12. Mine on ed8ef13: ok f1 'I tried, but ...' got=block; MISMATCH f2 'tried hard but', f3 'tried my best but', f4 'tried again and', f5 'tried to verify the deploy but couldn't.' got=allow; ok f6/f7 real attempts got=allow. v2: MISMATCH h1 'I wanted to verify the deploy but couldn't.' got=allow; h2 'I tried to verify the deploy but couldn't verify it.' got=allow; h3 'I tried again but couldn't verify the deploy.' got=allow; h4 'I tried again, and I couldn't verify the deploy.' got=allow.",
+   "rule_check": "README.md:688 is real and states the implemented exclusion precisely ('a bare \"tried\" before a comma, \"but\", \"and\" or the end names nothing'). The same entry also requires 'tried + what was tried', and README.md:644-645 requires the sentence to name what was attempted and how it failed. 'hard', 'my best' and 'again' name no attempt. receiptlaw.py:304 matches exactly as the finding says.",
+   "reason": "Reproduced for W07-W10 and for 'tried to verify X but couldn't verify it' (h2). Checking the checker: the finder misattributes W11. h1, which has no 'tried', also passes, so the elliptical 'but couldn't.' is not detected as a claim at all, and W11's allow does not come from ATTEMPT. The core finding stands: the fix fits the reported shape and not its neighbours. These forms also passed on c3c8615, so this is an incomplete fix, not a regression.",
+   "severity": "medium",
+   "realistic": "needs_unusual_but_plausible_input"
+  },
+  {
+   "id": "DR-7",
+   "verdict": "CONFIRMED",
+   "reproduced": true,
+   "command_run": "finder's rule2b.py | grep K06; rules25.py J | grep J08; then python3 WORK2/verify-fd-receipt/v.py D7 (and --hooks FIRST/fixed/hooks D7)",
+   "observed": "finder: MISMATCH K06 want=block got=allow; MISMATCH J08 want=block got=allow. Mine on ed8ef13: MISMATCH g1 (note 'Checking now. I couldn't verify the deploy. Let me look at the logs.', then a Bash call, record ends; Stop input 'I couldn't verify the deploy.') got=allow; ok g2 (same, but the note lacks the words) got=block. On c3c8615 g1 got=block.",
+   "rule_check": "README.md:661-663 is real: the Stop input's final answer is judged 'when the record does not hold it'. In receiptlaw.py judged_texts, said = model.prose(after) covers every text, notes included, and the test is 'if last and not any(last in t for t in said)'. The record holds the words only inside an unjudged note, not as the final answer. Under 'every-text' this was harmless; under 'answers' it drops the answer.",
+   "reason": "Reproduced with my own fixture and a control. The literal README wording ('record does not hold it') can be read as satisfied, but the stated intent of 661-663 (the final answer is judged) is not met. It needs both a lagging record (the README's own AR-6 case) and a final answer contained in an earlier note, so it is rare; low.",
+   "severity": "low",
+   "realistic": "needs_unusual_but_plausible_input"
+  },
+  {
+   "id": "DR-8",
+   "verdict": "CONFIRMED",
+   "reproduced": true,
+   "command_run": "I did not run the finder's mut.py as given, because it writes into the finder's checkout, which I may not change. I ran a copy pointed at my own worktree: cd WORK2/verify-fd-receipt/wt && python3 hooks/selftest-turn-gates.py; python3 WORK2/verify-fd-receipt/mut.py K15 K18 K25 K26 --full; plus a grep of fixed/hooks/selftest-mutations.py",
+   "observed": "unmutated: == 1062 cases: 1062 pass, 0 fail ==\nK15  SURVIVED | 'claim' and 'claims' dropped from the table-of-examples words | == 1062 cases: 1062 pass, 0 fail ==\nK18  SURVIVED | a tally may hold letters in its number cells | == 1062 cases: 1062 pass, 0 fail ==\nK25  SURVIVED | NOMINAL_REACH 6 -> 20 | == 1062 cases: 1062 pass, 0 fail ==\nK26  CAUGHT   | bare 'tried' counts again | == 1062 cases: 1060 pass, 2 fail == (control)\nselftest-mutations.py has RC49 (whole EXAMPLE_TABLE_WORDS dropped), AR15 (TALLY_NUMBER check replaced by True) and AR18 (NOMINAL_REACH 6 -> 0); finder's out-mut.txt shows K24 (6 -> 1) CAUGHT.",
+   "rule_check": "COMMON.md section 5 is real ('A change of behaviour that leaves every case passing is a finding of kind test_gap'). README.md:738 ('one break for every hand-set value and one for every rule that is not a value') is real. Each constant has one break that is caught, so the README's sentence is literally met. The specific behaviours ('claim' in the word list, tally cells that hold only digits, the upper reach) are pinned by no case.",
+   "reason": "Reproduced in my own checkout, with a control break that is caught. The title's 'pinned by no case' overstates slightly for TALLY_NUMBER and NOMINAL_REACH, which are pinned in one direction. Still, each named change of behaviour survives the full 1062-case table, which is the test_gap definition. K25 survives the full table too, not only the RL/ar_ subset.",
+   "severity": "low",
+   "realistic": "theoretical"
+  }
+ ],
+ "new_leads": [
+  "The gate does not detect an elliptical inability claim at all: 'I wanted to verify the deploy but couldn't.' passes on ed8ef13 (fixture h1 in WORK2/verify-fd-receipt/v2.py). Not checked against the README's stated limits.",
+  "Under RECEIPT_JUDGES = \"answers\", a final summary followed by SendUserFile is not judged even when the Stop input equals that summary (fixture a3). The substring test from DR-7 hides the Stop input whenever the record holds the summary as a note, so DR-1 and DR-7 share one mechanism.",
+  "'Your nightly job couldn't access ...' passes while 'Our nightly job couldn't access ...' blocks (c6 vs c1). For the same diagnosis, the split between 'our' and 'your' in WORK_OWNERS decides between a false block and an allow."
+ ]
+}

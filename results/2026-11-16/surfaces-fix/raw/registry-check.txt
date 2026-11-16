@@ -1,0 +1,2 @@
+$ python3 .claude/skills/red-team/scripts/registry_check.py --root .
+CONSTANTS CHECK: PASS — 420 registered = 420 live on c52e3ad; settings 41, structural 224, uncalibrated 155

@@ -1,0 +1,25 @@
+$ python3 follow_runbook4.py <library at c52e3ad> <its SKILL.md> <empty project>     # the runbook as it stood
+step 1 copied 9 files: govclass.py governance-enforce.py governance-trigger.py plan-gate-first-write-reminder.sh receipt-law-stop-gate.sh scope-fence-reminder.sh selftest-governance-classify.py selftest-receipt-law.sh session-doctrine.sh
+step 2 copied .claude/settings.json
+step 4 $ python3 hooks/selftest-governance-classify.py -> exit 1; ModuleNotFoundError: No module named 'turngate'
+step 4 $ bash hooks/selftest-receipt-law.sh -> exit 1; == 8 passed, 7 failed ==
+== step 4 (the runbook's self-test): FAIL ==
+wired but missing in the project: PreToolUse:turn-gates-pretool.py
+
+$ python3 follow_runbook4.py <library at c52e3ad> <its SKILL.md> <empty project>, then the NEW step 4 wiring cases in that project
+W01-matcher                                              | SF-3 F1-3              | all selected, no read-only name selected | all selected, no read-only name selected | pass
+W02-wiring-every-event-runs-its-scripts                  | SF-4                   | every event runs its scripts | every event runs its scripts | pass
+W03-wiring-merge-tools-have-a-group-of-their-own         | SF-2 SF-4              | one anchored group for the merge tools | settings.json: 0 groups for the merge tools alone (wanted 1) | FAIL
+W04-wiring-missing-script-denies-only-the-merge-tools    | SF-2 H4                | a missing script denies only the merge tools | settings.json: PreToolUse plan-gate-first-write-reminder.sh exits 127
+W05-wiring-scripts-beside-the-hooks                      | SF-2                   | every wired script and what it needs is beside the hooks | missing beside the hooks: receiptlaw.py, turn-gates-preto
+W06-wiring-commands-run-the-hooks                        | SF-4                   | every wired command runs its hook | settings.json: PreToolUse mcp__github__merge_pull_request prints no '"deny"'; se
+== 6 cases: 2 pass, 4 fail ==
+
+--- the same project with the two modules the step-4 tests now import added (turngate.py, receiptlaw.py), turn-gates-pretool.py still missing:
+$ python3 hooks/selftest-governance-classify.py -> == 45 passed, 0 failed == (exit 0)
+$ bash hooks/selftest-receipt-law.sh -> == 15 passed, 0 failed == (exit 0)
+python3: can't open file '<work>/rb4/start2/hooks/turn-gates-pretool.py': [Errno 2] No such file or directory
+the wired pre-tool command on a Bash call: exit 2
+--- the new step 4 wiring cases in that project:
+W05-wiring-scripts-beside-the-hooks                      | SF-2                   | every wired script and what it needs is beside the hooks | missing beside the hooks: turn-gates-pretool.py | FAIL
+== 6 cases: 2 pass, 4 fail ==

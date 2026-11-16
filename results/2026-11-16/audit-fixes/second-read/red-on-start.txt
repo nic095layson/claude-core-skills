@@ -1,0 +1,261 @@
+$ python3 hooks/selftest-turn-gates.py --hooks <hooks/ of commit ed8ef13, the tree as it stood, extracted with git show> --jobs 6 d4_ RLZ19 am_a8 m_queued_second_message_keeps_word am_a5_ctl-mid-fix-the-typo am_a5_ctl-no-reason-to-hold am_a6_ctl-mid-here-now am_a7_dont-forget-to-merge am2_m2_lets-not-wait am2_m2_dont-wait-first am2_m2_dont-wait-after am2_m2_mid-dont-wait-for-me am2_m3_ctl-order-then-line am2_m3_ctl-numbered-orders am2_m3_ctl-colon-list-of-orders am2_m6_ctl-has-two-commits
+# the new table (this unit's cases, and the 13 existing cases whose wanted verdict D4 changed) run on the code before this unit's change
+m_queued_second_message_keeps_word                       | D2 FU2-4 d4            | deny[merge-word]   | allow              | FAIL
+am_a5_ctl-mid-fix-the-typo                               | AM-5 control d4        | deny [merge-word]  | allow              | FAIL
+am_a5_ctl-no-reason-to-hold                              | AM-5 control d4        | deny [merge-word]  | allow              | FAIL
+am_a6_ctl-mid-here-now                                   | A6 control d4          | deny [merge-word]  | allow              | FAIL
+am_a7_dont-forget-to-merge                               | MORE-dont-forget d4    | deny [merge-word]  | allow              | FAIL
+am_a8_long-leadin-is-judged-fast                         | MORE-backtrack         | allow, under 1 s more than a plain order | allow, +0.00 s     | pass
+RLZ19-one-very-long-sentence-does-not-run-into-the-deadline | robust                 | block              | block in 1.05 s of CPU | pass
+am2_m2_lets-not-wait                                     | M2 d4                  | deny [merge-word]  | allow              | FAIL
+am2_m2_dont-wait-first                                   | M2 d4                  | deny [merge-word]  | allow              | FAIL
+am2_m2_dont-wait-after                                   | M2 d4                  | deny [merge-word]  | allow              | FAIL
+am2_m2_mid-dont-wait-for-me                              | M2 d4                  | deny [merge-word]  | allow              | FAIL
+am2_m3_ctl-order-then-line                               | M3 control d4          | deny [merge-word]  | allow              | FAIL
+am2_m3_ctl-numbered-orders                               | M3 control d4          | deny [merge-word]  | allow              | FAIL
+am2_m3_ctl-numbered-orders-2-not-granted                 | M3 control             | deny [merge-word]  | deny[merge-word]   | pass
+am2_m3_ctl-colon-list-of-orders                          | M3 control d4          | deny [merge-word]  | allow              | FAIL
+am2_m6_ctl-has-two-commits                               | M6 control d4          | deny [merge-word]  | allow              | FAIL
+d4_g01-merge-hash                                        | D4 DM-4                | allow              | allow              | pass
+d4_g02-merge-bare-number                                 | D4 DM-4                | allow              | allow              | pass
+d4_g03-please-now                                        | D4 DM-4                | allow              | allow              | pass
+d4_g04-lets                                              | D4 DM-4                | allow              | deny               | FAIL
+d4_g05-ok-lets-now                                       | D4 DM-4                | allow              | deny               | FAIL
+d4_g06-looks-good                                        | D4 DM-4                | allow              | allow              | pass
+d4_g07-yes-why-not                                       | D4 DM-4                | allow              | allow              | pass
+d4_g08-no-objections                                     | D4 DM-4                | allow              | allow              | pass
+d4_g09-first-comma                                       | D4 DM-4                | allow              | allow              | pass
+d4_g10-two-call-34                                       | D4 DM-4                | allow              | allow              | pass
+d4_g10-two-call-141                                      | D4 DM-4                | allow              | allow              | pass
+d4_g11-brackets-call-34                                  | D4 DM-4                | allow              | allow              | pass
+d4_g11-brackets-call-141                                 | D4 DM-4                | allow              | allow              | pass
+d4_g12-34-first-call-34                                  | D4 DM-4                | allow              | allow              | pass
+d4_g12-34-first-call-141                                 | D4 DM-4                | allow              | allow              | pass
+d4_g13-then-call-34                                      | D4 DM-4                | allow              | allow              | pass
+d4_g13-then-call-141                                     | D4 DM-4                | allow              | allow              | pass
+d4_g14-not-141-call-34                                   | D4 DM-4                | allow              | allow              | pass
+d4_g15-do-not-34-merge-35-call-35                        | D4 DM-4                | allow              | allow              | pass
+d4_g16-dont-26-merge-27-call-27                          | D4 DM-4                | allow              | allow              | pass
+d4_g17-leave-141-alone-call-34                           | D4 DM-4                | allow              | allow              | pass
+d4_g18-no-rush                                           | D4 DM-4                | allow              | allow              | pass
+d4_g19-can-you                                           | D4 DM-4                | allow              | allow              | pass
+d4_g20-into-main                                         | D4 DM-4                | allow              | allow              | pass
+d4_g21-with-squash                                       | D4 DM-4                | allow              | allow              | pass
+d4_g22-today                                             | D4 DM-4                | allow              | allow              | pass
+d4_g23-after-all                                         | D4 DM-4                | allow              | deny               | FAIL
+d4_g24-context-sentence-first                            | D4 DM-4                | allow              | allow              | pass
+d4_g25-looks-good-line                                   | D4 DM-4                | allow              | allow              | pass
+d4_g26-thanks-after                                      | D4 DM-4                | allow              | allow              | pass
+d4_g27-url                                               | D4 DM-4                | allow              | allow              | pass
+d4_g14-not-141-call-141                                  | D4 control             | deny [merge-word]  | deny[merge-word]   | pass
+d4_g15-do-not-34-merge-35-call-34                        | D4 control             | deny [merge-word]  | deny[merge-word]   | pass
+d4_g16-dont-26-merge-27-call-26                          | D4 control             | deny [merge-word]  | deny[merge-word]   | pass
+d4_g17-leave-141-alone-call-141                          | D4 control             | deny [merge-word]  | deny[merge-word]   | pass
+d4_g28-mid-turn-order-after-ok                           | D4 A4                  | allow              | allow              | pass
+d4_g29-push-this-to-main                                 | D4                     | allow              | allow              | pass
+d4_g30-ok-push-the-fix-to-main                           | D4                     | allow              | allow              | pass
+d4_c01-option-merge-34                                   | D4 A5                  | allow              | allow              | pass
+d4_c02-option-merge-both                                 | D4 A5                  | allow              | allow              | pass
+d4_c03-option-library-only                               | D4 A5                  | allow              | allow              | pass
+d4_c04-yes-on-merge-now                                  | D4 A5                  | allow              | allow              | pass
+d4_c05-yes-both-on-two                                   | D4 A5                  | allow              | allow              | pass
+d4_c06-yes-context-then-question                         | D4 A5                  | allow              | allow              | pass
+d4_c07-free-text-squash-please                           | D4 A5                  | allow              | allow              | pass
+d4_c08-option-merge-recommended                          | D4 A5                  | allow              | allow              | pass
+d4_c09-option-yes-merge-34                               | D4 A5                  | allow              | allow              | pass
+d4_c10-yes-on-push-to-main                               | D4 A5                  | allow              | allow              | pass
+d4_n01-once-after                                        | D4 DM-2 DM-3 DM-5      | deny [merge-word]  | deny[merge-word]   | pass
+d4_n02-once-first                                        | D4 DM-2 DM-3 DM-5      | deny [merge-word]  | deny[merge-word]   | pass
+d4_n03-once-line                                         | D4 DM-2 DM-3 DM-5      | deny [merge-word]  | deny[merge-word]   | pass
+d4_n04-if-line-no-mark                                   | D4 DM-2 DM-3 DM-5      | deny [merge-word]  | deny[merge-word]   | pass
+d4_n05-colon-dash-list                                   | D4 DM-2 DM-3 DM-5      | deny [merge-word]  | deny[merge-word]   | pass
+d4_n06-next-steps-list                                   | D4 DM-2 DM-3 DM-5      | deny [merge-word]  | deny[merge-word]   | pass
+d4_n07-numbered-list                                     | D4 DM-2 DM-3 DM-5      | deny [merge-word]  | allow              | FAIL
+d4_n08-and-let-me-know                                   | D4 DM-2 DM-3 DM-5      | deny [merge-word]  | deny[merge-word]   | pass
+d4_n09-then-sync-sentence                                | D4 DM-2 DM-3 DM-5      | deny [merge-word]  | allow              | FAIL
+d4_n10-nope-sentence                                     | D4 DM-2 DM-3 DM-5      | deny [merge-word]  | allow              | FAIL
+d4_n11-second-thought                                    | D4 DM-2 DM-3 DM-5      | deny [merge-word]  | deny[merge-word]   | pass
+d4_n12-in-an-hour                                        | D4 DM-2 DM-3 DM-5      | deny [merge-word]  | allow              | FAIL
+d4_n13-at-noon                                           | D4 DM-2 DM-3 DM-5      | deny [merge-word]  | allow              | FAIL
+d4_n14-by-end-of-day                                     | D4 DM-2 DM-3 DM-5      | deny [merge-word]  | allow              | FAIL
+d4_n15-this-weekend                                      | D4 DM-2 DM-3 DM-5      | deny [merge-word]  | allow              | FAIL
+d4_n16-following-the-audit                               | D4 DM-2 DM-3 DM-5      | deny [merge-word]  | allow              | FAIL
+d4_n17-eventually                                        | D4 DM-2 DM-3 DM-5      | deny [merge-word]  | deny[merge-word]   | pass
+d4_n18-conflicts-with                                    | D4 DM-2 DM-3 DM-5      | deny [merge-word]  | allow              | FAIL
+d4_n19-touches-the-hooks                                 | D4 DM-2 DM-3 DM-5      | deny [merge-word]  | allow              | FAIL
+d4_n20-has-failing-checks                                | D4 DM-2 DM-3 DM-5      | deny [merge-word]  | deny[merge-word]   | pass
+d4_n21-plan-says-lines                                   | D4 DM-2 DM-3 DM-5      | deny [merge-word]  | allow              | FAIL
+d4_n22-you-said                                          | D4 DM-2 DM-3 DM-5      | deny [merge-word]  | deny[merge-word]   | pass
+d4_n23-ci-is-green                                       | D4 DM-2 DM-3 DM-5      | deny [merge-word]  | allow              | FAIL
+d4_n24-dont-wait-for-ci                                  | D4 DM-2 DM-3 DM-5      | deny [merge-word]  | allow              | FAIL
+d4_n25-wait-then                                         | D4 DM-2 DM-3 DM-5      | deny [merge-word]  | deny[merge-word]   | pass
+d4_n26-question                                          | D4 DM-2 DM-3 DM-5      | deny [merge-word]  | deny[merge-word]   | pass
+d4_n27-should-we                                         | D4 DM-2 DM-3 DM-5      | deny [merge-word]  | deny[merge-word]   | pass
+d4_n28-i-might                                           | D4 DM-2 DM-3 DM-5      | deny [merge-word]  | deny[merge-word]   | pass
+d4_n29-long-message                                      | D4 DM-2 DM-3 DM-5      | deny [merge-word]  | allow              | FAIL
+d4_n30-wait-for-the-guard-line                           | D4 DM-2 DM-3 DM-5      | deny [merge-word]  | deny[merge-word]   | pass
+d4_n31-still-fails                                       | D4 DM-2 DM-3 DM-5      | deny [merge-word]  | deny[merge-word]   | pass
+d4_n07-numbered-list-call-2                              | D4                     | deny [merge-word]  | deny[merge-word]   | pass
+d4_n32-push-by-end-of-day                                | D4 DM-3                | deny [default-branch] | allow              | FAIL
+d4_n33-push-straight-no-pr                               | D4                     | deny [default-branch] | deny[default-branch] | pass
+d4_n34-option-by-end-of-day                              | D4 A5 DM-3             | deny [merge-word]  | allow              | FAIL
+d4_n35-option-after-the-audit                            | D4 A5                  | deny [merge-word]  | deny[merge-word]   | pass
+d4_n36-yes-in-an-hour                                    | D4 A5                  | deny [merge-word]  | allow              | FAIL
+d4_n37-yes-wait-before                                   | D4 A5                  | deny [merge-word]  | deny[merge-word]   | pass
+d4_n38-yes-safe-to-merge                                 | D4 A5                  | deny [merge-word]  | deny[merge-word]   | pass
+d4_n39-yes-or-wait                                       | D4 A5                  | deny [merge-word]  | deny[merge-word]   | pass
+d4_n40-wordy-option-takes-back-typed-order               | D4 A5                  | deny [merge-word]  | allow              | FAIL
+d4_n41-free-text-wordy-takes-back-typed-order            | D4 A5                  | deny [merge-word]  | allow              | FAIL
+d4_m01-nope                                              | D4 A4 DM-2             | deny [merge-word]  | allow              | FAIL
+d4_m02-forget-it                                         | D4 A4 DM-2             | deny [merge-word]  | allow              | FAIL
+d4_m03-ignore-that                                       | D4 A4 DM-2             | deny [merge-word]  | allow              | FAIL
+d4_m04-take-that-back                                    | D4 A4 DM-2             | deny [merge-word]  | allow              | FAIL
+d4_m05-think-about-it                                    | D4 A4 DM-2             | deny [merge-word]  | allow              | FAIL
+d4_m06-review-first                                      | D4 A4 DM-2             | deny [merge-word]  | allow              | FAIL
+d4_m07-do-it-myself                                      | D4 A4 DM-2             | deny [merge-word]  | allow              | FAIL
+d4_m08-keep-open                                         | D4 A4 DM-2             | deny [merge-word]  | allow              | FAIL
+d4_m09-hang-tight                                        | D4 A4 DM-2             | deny [merge-word]  | allow              | FAIL
+d4_m10-one-sec                                           | D4 A4 DM-2             | deny [merge-word]  | deny[merge-word]   | pass
+d4_m11-fix-the-typo                                      | D4 A4 DM-2             | deny [merge-word]  | allow              | FAIL
+d4_m12-here-now                                          | D4 A4 DM-2             | deny [merge-word]  | allow              | FAIL
+d4_m13-dont-wait-for-me                                  | D4 A4 DM-2             | deny [merge-word]  | allow              | FAIL
+d4_m14-push-then-nope                                    | D4 A4 DM-2             | deny [default-branch] | allow              | FAIL
+d4_m15-another-order-call-141                            | D4 A4                  | allow              | allow              | pass
+d4_m16-another-order-call-34                             | D4 A4                  | allow              | allow              | pass
+d4_m17-scheduled-run-queued-order                        | D4 A4 control          | allow              | allow              | pass
+d4_m18-nope-before-a-new-order-revokes                   | A6 lead-REFUSAL_START  | deny [merge-word]  | allow              | FAIL
+d4_m19-nope-before-a-new-order-grants-it                 | A6 control             | allow              | allow              | pass
+d4_t01-paste-then-separate-order                         | DM-9 B6                | allow, under 1 s of CPU | deny in 2.73 s of CPU | FAIL
+d4_t02-paste-ending-in-order                             | DM-9 B6                | deny [merge-word], under 1 s of CPU | deny[gate-error] in 2.56 s of CPU | FAIL
+d4_b1-bash-stdin-scheduled                               | DM-1                   | deny:scheduled     | allow              | FAIL
+d4_b1-bash-stdin-owner-ok                                | DM-1                   | deny [merge-word]  | allow              | FAIL
+d4_b1-bash-s-stdin-scheduled                             | DM-1                   | deny:scheduled     | allow              | FAIL
+d4_b1-bash-s-stdin-owner-ok                              | DM-1                   | deny [merge-word]  | allow              | FAIL
+d4_b1-sh-stdin-scheduled                                 | DM-1                   | deny:scheduled     | allow              | FAIL
+d4_b1-sh-stdin-owner-ok                                  | DM-1                   | deny [merge-word]  | allow              | FAIL
+d4_b1-cat-pipe-bash-scheduled                            | DM-1                   | deny:scheduled     | allow              | FAIL
+d4_b1-cat-pipe-bash-owner-ok                             | DM-1                   | deny [merge-word]  | allow              | FAIL
+d4_b1-cat-pipe-sh-scheduled                              | DM-1                   | deny:scheduled     | allow              | FAIL
+d4_b1-cat-pipe-sh-owner-ok                               | DM-1                   | deny [merge-word]  | allow              | FAIL
+d4_b1-dev-stdin-scheduled                                | DM-1                   | deny:scheduled     | allow              | FAIL
+d4_b1-dev-stdin-owner-ok                                 | DM-1                   | deny [merge-word]  | allow              | FAIL
+d4_b1-dash-scheduled                                     | DM-1                   | deny:scheduled     | allow              | FAIL
+d4_b1-dash-owner-ok                                      | DM-1                   | deny [merge-word]  | allow              | FAIL
+d4_b1-cat-pipe-bash-x-scheduled                          | DM-1                   | deny:scheduled     | allow              | FAIL
+d4_b1-cat-pipe-bash-x-owner-ok                           | DM-1                   | deny [merge-word]  | allow              | FAIL
+d4_b1-push-script-on-stdin                               | DM-1 lead              | deny [default-branch] | allow              | FAIL
+d4_b1-push-script-cat-pipe                               | DM-1 lead              | deny [default-branch] | allow              | FAIL
+d4_b1-ctl-cat-pipe-grep                                  | DM-1 control           | allow              | allow              | pass
+d4_b1-ctl-stdin-script-says-hi                           | DM-1 control           | allow              | allow              | pass
+d4_b2-pwd-spelling-scheduled                             | DM-7                   | deny:scheduled     | allow              | FAIL
+d4_b2-pwd-braces-scheduled                               | DM-7                   | deny:scheduled     | allow              | FAIL
+d4_b2-pwd-substituted-scheduled                          | DM-7                   | deny:scheduled     | allow              | FAIL
+d4_b2-pwd-in-the-write-scheduled                         | DM-7                   | deny:scheduled     | allow              | FAIL
+d4_b2-cp-over-existing-scheduled                         | DM-7                   | deny:scheduled     | allow              | FAIL
+d4_b2-mv-over-existing-scheduled                         | DM-7                   | deny:scheduled     | allow              | FAIL
+d4_b2-cat-over-existing-scheduled                        | DM-7                   | deny:scheduled     | allow              | FAIL
+d4_b2-cp-written-then-run-scheduled                      | DM-7                   | deny:scheduled     | deny:scheduled     | pass
+d4_b2-written-cat-pipe-scheduled                         | DM-7                   | deny:scheduled     | allow              | FAIL
+d4_b2-written-stdin-scheduled                            | DM-7                   | deny:scheduled     | allow              | FAIL
+d4_b2-cp-over-existing-owner-ok                          | DM-7                   | deny [merge-word]  | allow              | FAIL
+d4_b2-ctl-cp-harmless-then-run                           | DM-7 control           | allow              | allow              | pass
+d4_b2-ctl-cp-not-run                                     | DM-7 control           | allow              | allow              | pass
+d4_b2-ctl-pwd-harmless                                   | DM-7 control           | allow              | allow              | pass
+d4_b3-heredoc-then-post-owner-ok                         | DM-6                   | deny [target-unknown] | allow              | FAIL
+d4_b3-heredoc-then-post-scheduled                        | DM-6                   | deny:scheduled     | allow              | FAIL
+d4_b3-copy-then-post-owner-ok                            | DM-6                   | deny [target-unknown] | allow              | FAIL
+d4_b3-copy-then-post-scheduled                           | DM-6                   | deny:scheduled     | allow              | FAIL
+d4_b3-echo-then-curl-owner-ok                            | DM-6                   | deny [target-unknown] | allow              | FAIL
+d4_b3-echo-then-curl-scheduled                           | DM-6                   | deny:scheduled     | allow              | FAIL
+d4_b3-wget-post-file-owner-ok                            | DM-6                   | deny [target-unknown] | allow              | FAIL
+d4_b3-wget-post-file-scheduled                           | DM-6                   | deny:scheduled     | allow              | FAIL
+d4_b3-wget-post-file-spaced-owner-ok                     | DM-6                   | deny [target-unknown] | allow              | FAIL
+d4_b3-wget-post-file-spaced-scheduled                    | DM-6                   | deny:scheduled     | allow              | FAIL
+d4_b3-wget-post-file-missing-owner-ok                    | DM-6                   | deny [target-unknown] | allow              | FAIL
+d4_b3-wget-post-file-missing-scheduled                   | DM-6                   | deny:scheduled     | allow              | FAIL
+d4_b3-ctl-heredoc-query-over-mutation                    | DM-6 control           | allow              | deny               | FAIL
+d4_b3-ctl-wget-post-file-query                           | DM-6 control           | allow              | allow              | pass
+d4_b4-bash-plus-n-scheduled                              | DM-8                   | deny:scheduled     | allow              | FAIL
+d4_b4-bash-plus-n-owner-ok                               | DM-8                   | deny [merge-word]  | allow              | FAIL
+d4_b4-bash-plus-x-scheduled                              | DM-8                   | deny:scheduled     | allow              | FAIL
+d4_b4-bash-plus-x-owner-ok                               | DM-8                   | deny [merge-word]  | allow              | FAIL
+d4_b4-sh-plus-e-scheduled                                | DM-8                   | deny:scheduled     | allow              | FAIL
+d4_b4-sh-plus-e-owner-ok                                 | DM-8                   | deny [merge-word]  | allow              | FAIL
+d4_b4-bash-plus-o-scheduled                              | DM-8                   | deny:scheduled     | allow              | FAIL
+d4_b4-bash-plus-o-owner-ok                               | DM-8                   | deny [merge-word]  | allow              | FAIL
+d4_b5-N01-unresolved-word-read-as-git                    | DM-10 pin              | deny [default-branch] | deny[default-branch] | pass
+d4_b5-N03-field-body-file                                | DM-10 pin              | allow              | allow              | pass
+d4_b5-N04-data-binary-body-file                          | DM-10 pin              | allow              | allow              | pass
+d4_b5-N05-body-on-stdin                                  | DM-10 pin              | deny [target-unknown] | deny[target-unknown] | pass
+d4_b5-N06-push-all-unparsed                              | DM-10 pin              | deny [default-branch] | deny[default-branch] | pass
+d4_b5-N08-sed-in-place-then-run                          | DM-10 pin              | allow              | allow              | pass
+d4_b5-N10-printf-escapes                                 | DM-10 pin              | deny [merge-word]  | deny[merge-word]   | pass
+d4_b5-N11-tee-append                                     | DM-10 pin              | deny [merge-word]  | deny[merge-word]   | pass
+d4_b5-N12-append-redirect                                | DM-10 pin              | deny [merge-word]  | deny[merge-word]   | pass
+d4_b5-N13-env-shebang                                    | DM-10 pin              | deny [merge-word]  | deny[merge-word]   | pass
+d4_b5-N15-find-execdir                                   | DM-10 pin              | deny [merge-word]  | deny[merge-word]   | pass
+d4_b5-N16-find-exec-plus-end                             | DM-10 pin              | deny [merge-word]  | deny[merge-word]   | pass
+d4_b5-N17-curl-output-then-run                           | DM-10 pin              | allow              | allow              | pass
+d4_b5-N18-echo-e-escapes                                 | DM-10 pin              | deny [merge-word]  | deny[merge-word]   | pass
+d4_b5-N19-repository-any-case                            | DM-10 pin              | allow              | allow              | pass
+d4_b5-N21-failed-cli-merge-elsewhere                     | DM-10 pin              | allow              | allow              | pass
+d4_s1-f1-series-empty                                    | DS-1                   | let go, at most 2 F1 blocks | block:F1 8, never let go | FAIL
+d4_s1-f1-series-record                                   | DS-1                   | let go, at most 2 F1 blocks | block:F1 2         | pass
+d4_s1-f1-series-input                                    | DS-1                   | let go, at most 2 F1 blocks | block:F1 2         | pass
+d4_s1-all-rules-series-empty                             | DS-1                   | let go, F1 2, prompt-class 1, receipt 1 | block 4, block:F1 8, never let go | FAIL
+d4_s1-two-unanswered-f1-blocks-third-stop                | DS-1 R2a               | allow              | block:F1           | FAIL
+d4_s1-ctl-one-unanswered-block-blocks-again              | DS-1 control           | block:F1           | block:F1           | pass
+d4_s2-l1-idle-note-charged-to-next-owner-stretch         | DS-2                   | block:F1           | allow              | FAIL
+d4_s2-l1b-idle-note-notice-in-owner-turn                 | DS-2                   | block:F1           | allow              | FAIL
+d4_s2-l1c-ctl-wake-before-owner                          | DS-2 control           | block:F1           | block:F1           | pass
+d4_s2-l1d-ctl-note-after-owner                           | DS-2 control           | block:F1           | block:F1           | pass
+d4_s2-note-before-the-stop-not-counted-here              | DS-2 control           | allow              | allow              | pass
+d4_s2-row-placed-idle-note                               | DS-2                   | block:F1           | allow              | FAIL
+d4_s2-row-placed-note-before-the-stop                    | DS-2 control           | allow              | allow              | pass
+d4_s3-denial-lead-permission-to-use                      | DS-4 pin               | allow              | allow              | pass
+d4_s3-denial-lead-requires-approval                      | DS-4 pin               | allow              | allow              | pass
+d4_s3-denial-lead-hook-denied                            | DS-4 pin               | allow              | allow              | pass
+d4_s3-denial-lead-leading-blanks                         | DS-4 pin               | allow              | allow              | pass
+d4_s3-ctl-other-wording-without-flag-counts              | DS-3 limit             | block:F1           | block:F1           | pass
+d4_s4-prompt-class-once-reply-only-in-input              | DS-5                   | allow              | allow              | pass
+d4_s4-receipt-once-reply-only-in-input                   | DS-5                   | allow              | allow              | pass
+d4_s5-pc-false-denied-write-is-no-write                  | DS-7                   | allow              | block:prompt-class | FAIL
+d4_s5-pc-false-ctl-real-write                            | DS-7 control           | block:prompt-class | block:prompt-class | pass
+d4_s5-pc-false-scheduled-run-write                       | DS-7                   | block:prompt-class | block:prompt-class | pass
+d4_s5-helper-false-helper-started-after-the-act          | DS-6 MU09              | allow              | allow              | pass
+d4_s5-helper-false-ctl-helper-before-the-act             | DS-6 control           | block:F1           | block:F1           | pass
+d4_s5-helper-false-idle-note-dropped                     | DS-6                   | allow              | allow              | pass
+d4_s5-pc-false-helper-write-is-not-the-main-thread       | DS-7 MU10              | allow              | allow              | pass
+d4_s5-pc-false-write-before-the-run-not-counted          | DS-7 MU11              | allow              | allow              | pass
+d4_s5-pc-false-reason-names-plan-gate                    | DS-7 MU12              | block:prompt-class, the reason names plan-gate | block:prompt-class, the reason names plan-gate | pass
+d4_r01-refusal-names-what-it-refuses                     | WD01 pin               | deny [merge-word]  | deny[merge-word]   | pass
+d4_r02-refusal-inside-an-order                           | WD02 pin               | deny [merge-word]  | deny[merge-word]   | pass
+d4_r03-negation-before-its-verb                          | WD15 pin               | deny [merge-word]  | deny[merge-word]   | pass
+d4_r04-two-questions-apply-in-order                      | WD16 pin               | deny [merge-word]  | deny[merge-word]   | pass
+d4_r05-affirmative-no-refuses-nothing                    | WD17 pin               | allow              | allow              | pass
+d4_r06-negated-hold-holds-nothing                        | AM08 pin               | allow              | allow              | pass
+d4_r07-statement-that-holds                              | AM09 AM61 pin          | deny [merge-word]  | deny[merge-word]   | pass
+d4_r08-failed-is-a-statement                             | AM10 pin               | deny [merge-word]  | deny[merge-word]   | pass
+d4_r09-soft-words-before-a-short-refusal                 | AM13 WD05 pin          | deny [merge-word]  | deny[merge-word]   | pass
+d4_r10-one-sec-holds                                     | AM58 pin               | deny [merge-word]  | deny[merge-word]   | pass
+d4_r11-merged-is-no-order                                | WD06 pin               | deny [merge-word]  | deny[merge-word]   | pass
+d4_r12-curly-apostrophe                                  | WD07 pin               | allow              | deny               | FAIL
+d4_r13-card-in-run-then-owner-order                      | SC05 pin               | deny [merge-word]  | deny[merge-word]   | pass
+d4_r13-ctl-the-owner-order-grants                        | SC05 control           | allow              | allow              | pass
+d4_r14-dont-forget-to-refuses-nothing                    | AM15 pin               | allow              | allow              | pass
+d4_r15-dont-wait-is-a-lead-in                            | AM51 pin               | allow              | allow              | pass
+d4_r16-scratch-that                                      | AM11 pin               | deny [merge-word]  | deny[merge-word]   | pass
+d4_r17-better-to-wait                                    | AM12 pin               | deny [merge-word]  | deny[merge-word]   | pass
+d4_r18-refusal-label-on-another-card                     | CD11 pin               | deny [merge-word]  | deny[merge-word]   | pass
+d4_g31-bracket-list-of-two                               | D4 pin                 | allow              | deny               | FAIL
+d4_n42-words-before-a-number                             | D4 pin                 | deny [merge-word]  | allow              | FAIL
+d4_n43-refusal-before-a-bracket                          | D4 pin                 | deny [merge-word]  | deny[merge-word]   | pass
+d4_n48-a-number-after-the-list                           | WD10 pin               | deny [merge-word]  | deny[merge-word]   | pass
+d4_c11-option-merge-all-three                            | D4 A5 replay           | allow              | allow              | pass
+d4_c12-option-merge-both-prs                             | D4 A5 replay           | allow              | allow              | pass
+d4_n44-refuses-its-own-number                            | D4 pin                 | deny [merge-word]  | deny[merge-word]   | pass
+d4_n45-closing-refuses-its-own-number                    | D4 pin                 | deny [merge-word]  | deny[merge-word]   | pass
+d4_n46-yes-with-a-condition                              | D4 A5 pin              | deny [merge-word]  | deny[merge-word]   | pass
+d4_n47-push-order-naming-a-pr                            | D4 pin                 | deny [default-branch] | deny[default-branch] | pass
+d4_b1-bash-s-arguments-are-not-the-script                | DM-1 pin               | deny [default-branch] | deny[merge-word]   | FAIL
+== 258 cases: 147 pass, 111 fail ==

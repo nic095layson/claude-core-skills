@@ -1,0 +1,147 @@
+{
+ "findings": [
+  {
+   "id": "AC-1",
+   "title": "The pull request says the pre-registrations were committed before any fix code and before any test run. Its own second pre-registration records prototypes and test runs made before it was committed, and the receipt gate's 386 cases and the new wiring cases were never pre-registered at all.",
+   "component": "pr-36-body.md Status table; experiments/hypothesis-2026-11-15-turn-gates-cases.md; hooks/README.md (turn gates section); CORE-SPEC.md section 10",
+   "kind": "overclaim",
+   "rule_quoted": "decisions.md: \"Pre-registration: `experiments/hypothesis-<date>-<slug>.md` is written and committed BEFORE any test run of the fix.\" Claim tested, pr-36-body.md line 15: \"Pre-registrations (...) | Committed before any fix code and before any test run\". hooks/README.md line 124: \"the wanted verdict of every test case was fixed before any run, in experiments/hypothesis-2026-11-15-turn-gates-cases.md\".",
+   "rule_source": "decisions.md (Repository conventions, first bullet); pr-36-body.md:15; fixed/hooks/README.md:124",
+   "repro_command": "bash WORK/fa-claims/repro_claims.sh AC-1",
+   "repro_files": [
+    "WORK/fa-claims/repro_claims.sh"
+   ],
+   "observed": "15:| Pre-registrations (...) | Committed before any fix code and before any test run |\n-- the pre-registration's own words\n12:These are not blind predictions. Between 2026-11-14 and this commit a specification was written from two\n15:- two prototypes with their own test tables (254 cases and 241 cases) and lists of deliberate breaks (55 and 84);\n18:- the verdicts of the merged hooks (commit 1ce99d5) on those fixtures, quoted in the tables below.\n-- the specification, committed as evidence\n26:| R1 | ... | 241 cases: 241 pass on A's prototype; 147 red on the merged hooks; 94 controls |\n932:... Nothing is run before step 0 is\n-- pre-registrations added by the fix\nA experiments/hypothesis-2026-11-14-gate-fixes.md\nA experiments/hypothesis-2026-11-15-turn-gates-cases.md\n-- receipt-table (RL..) and new wiring-case (W02..W06) names in them: ...gate-fixes.md:0 ...turn-gates-cases.md:0\n-- receipt cases relabelled after the red run\n6:# cases added late carried a finding's number and pass on the old gate: their labels were corrected to \"control\"\nAlso measured: of the 740 cases in the table, 314 are pre-registered (script prereg_vs_table.py: 314 of 314 names present, 0 wanted verdicts changed). 35 core cases, 386 receipt cases and 5 wiring cases were written after the pre-registrations.",
+   "expected": "The status line says what happened. The first pre-registration (7df03f2) came before every change. The second (48c7bfc) was committed after two prototypes and a reference prototype had been built and run against the merged hooks (as that file itself says), and before any change to the three shipped files. The receipt gate (386 cases) and the wiring (W02 to W06) were pre-registered only by the one-line predictions G5 and G9 of the first file, with no wanted verdict fixed per case. hooks/README.md should say 314 of the 740 cases had their verdict fixed in advance, not \"every test case\".",
+   "how_it_arises": "This is not a gate behaviour. It is the statement the owner reads first in the PR, and the owner decided to merge only after an outside audit. A reader who takes \"before any test run\" at face value treats the 188-RED prediction and the receipt evidence as blind tests, which the records do not support: the pre-registration itself says they are not blind, and six receipt cases were relabelled after the red run, so every case that names a finding fails on the old gate by construction.",
+   "severity_guess": "medium"
+  },
+  {
+   "id": "AC-2",
+   "title": "Three predictions of the first pre-registration are never reported as met or missed: G3's \"the five false blocks of 2026-11-13 are gone\", G7's \"0 of the 94 pass\", and overall prediction 3's \"each exception is listed by finding id\".",
+   "component": "experiments/hypothesis-2026-11-14-gate-fixes.md against results/2026-11-15/*, results/2026-11-16/surfaces-fix/*, pr-36-body.md",
+   "kind": "overclaim",
+   "rule_quoted": "hypothesis-2026-11-14-gate-fixes.md (last line): \"A prediction that misses is reported as a miss.\" Brief fa-claims method 4: \"every prediction is either met or reported as a miss ... A prediction that quietly disappeared is a finding.\"",
+   "rule_source": "fixed/experiments/hypothesis-2026-11-14-gate-fixes.md:32,36,48-49,55",
+   "repro_command": "bash WORK/fa-claims/repro_claims.sh AC-2",
+   "repro_files": [
+    "WORK/fa-claims/repro_claims.sh"
+   ],
+   "observed": "-- predictions of the first pre-registration\n32:| G3 | Stop gate: ... (row ends: On the replay of the real session record the five false blocks of 2026-11-13 are gone)\n36:| G7 | ... Recorded today as passing: 9 (TB-8), 9 (F1-7), 11 ... (row ends: 94 in all. After the fix: 0 of the 94 pass)\n49:   block or a denial, except where a finding names it as wrongly allowed; each exception is listed by finding id.\n-- evidence files that cite the first pre-registration (expect a list):\n.../results/2026-11-15/turn-gates-fix/CORE-SPEC.md   (a different file name, hypothesis-2026-11-14-turn-gates-fix.md, in its build plan)\n.../pr-36-body.md   (names the file in the Status table only)\n-- evidence that mentions the five false blocks or the 94 breaks:\n   none\n-- the replayed record's last stop (the record ends before 2026-11-13):\n  2026-11-12T21:36 | then: - | now: allow / allow",
+   "expected": "Each prediction of the first file is reported. G3's five false blocks cannot be measured on a record that ends 2026-11-12, so they are reported as not measured or as a miss. G7 lists how many of the 94 recorded breaks are now caught, and which ones belong to the deferred units (PC-7, ADV-6 and OS-3 are in the second PR). Prediction 3 lists, by finding id, each new block or denial on the replay: the three new receipt blocks (only one is tied to a finding, RL-7) and the third pre-tool denial (tied to none).",
+   "how_it_arises": "The evidence and the PR report only against the second pre-registration (red-first-vs-preregistration.md, replay-vs-baseline.md) and the receipt replay. So the PR's 'Predictions that missed' paragraph is not a complete list of the misses.",
+   "severity_guess": "medium"
+  },
+  {
+   "id": "AC-3",
+   "title": "The pull request changes the prompt classifier (govclass.py), which it says is left for a second pull request. Owner prompts that quote a harness marker are now classified, so the prompt trigger fires and the Stop gate's prompt-class rule can block where the merged hooks stayed silent. No commit message or PR line says so.",
+   "component": "hooks/govclass.py (changed in c224c94); pr-36-body.md 'What this is' and 'What changes'; commit c224c94 message",
+   "kind": "overclaim",
+   "rule_quoted": "pr-36-body.md line 9: \"The other units (classifier and prompt trigger, ...) go into a second pull request.\" Commit c224c94: \"Not in this commit: the receipt gate, the classifier's word lists, the prompt trigger, ...\". hooks/README.md line 74 (still standing): \"the blocking classifier is unchanged\".",
+   "rule_source": "pr-36-body.md:9; git log -1 c224c94; fixed/hooks/README.md:74",
+   "repro_command": "bash WORK/fa-claims/repro_claims.sh AC-3 && python3 -I WORK/fa-claims/classifier_stop.py FIXED/hooks OLDPACK/lib/hooks FIXED/hooks WORK/fa-claims/tmp/cstop",
+   "repro_files": [
+    "WORK/fa-claims/repro_claims.sh",
+    "WORK/fa-claims/classifier_change.py",
+    "WORK/fa-claims/classifier_stop.py"
+   ],
+   "observed": " hooks/govclass.py | 12 ++++++------\n1ce99d5 classify=[]          trigger=silent       Build a script that parses lines starting with <task-notific\n1ce99d5 classify=[]          trigger=silent       Review this: the hook treats [SYSTEM NOTIFICATION text in a\nc3c8615 classify=['build']   trigger=auto-trigger Build a script that parses lines starting with <task-notific\nc3c8615 classify=[]          trigger=cue          Fix the parser: it drops every message that contains <comman\nc3c8615 classify=['review']  trigger=auto-trigger Review this: the hook treats [SYSTEM NOTIFICATION text in a\n(classifier_stop.py, same build prompt, a Write, no governor)\n1ce99d5 no governor            allow\nc3c8615 no governor            block: GOV-ENFORCE: this is governed work (plan-gate) and you finished WITHOUT loading it. Load p\n1ce99d5 governors loaded       allow\nc3c8615 governors loaded       allow",
+   "expected": "Either 'What changes' names the change, or the PR stops saying the classifier and prompt trigger are untouched here. The change: the classifier now treats a marker as harness text only at the start of the text, and it imports turngate, so the prompt trigger and the Stop gate's prompt-class rule now act on prompts that quote a marker. The behaviour itself looks like what the rule intends (the honest neighbour with governors loaded still passes). The defect is the statement.",
+   "how_it_arises": "Any owner prompt that quotes notification or command markers now gets the auto-trigger and can be blocked at stop. That happens often when the owner discusses these hooks. The owner was told the classifier was deferred, so a new block would look like a regression in a unit that did not change. The same change has a second effect: govclass now imports turngate, so with turngate.py missing the prompt trigger goes silent. The README's missing-file table does say 'let through, not judged' for prompts.",
+   "severity_guess": "medium"
+  },
+  {
+   "id": "AC-4",
+   "title": "The receipt evidence says the gate was not tuned to the real record. In fact, the earlier build's blocks on the record were seen, and the claim family behind two of them was then switched off. The PR lists NOT_VERIFIED_IS_A_CLAIM = False as a plain default and does not say that this one setting removes two real blocks.",
+   "component": "results/2026-11-15/receipt-gate-fix/replay-vs-baseline.md; pr-36-body.md 'Open decisions'; hooks/receiptlaw.py:61",
+   "kind": "overclaim",
+   "rule_quoted": "replay-vs-baseline.md line 31: \"The gate was not tuned to the record: no rule, word or case of this fix was written from these three answers.\" decisions.md: \"An inability claim (\"couldn't verify\" and its variants, contractions included) needs a receipt in the same sentence.\"",
+   "rule_source": "fixed/results/2026-11-15/receipt-gate-fix/replay-vs-baseline.md:31-34; decisions.md (Standing rules, last bullet)",
+   "repro_command": "bash WORK/fa-claims/repro_claims.sh AC-4",
+   "repro_files": [
+    "WORK/fa-claims/repro_claims.sh"
+   ],
+   "observed": "-- shipped default:\n  totals: {'allow': 24, 'receipt:allow': 23, 'BLOCK:F1': 1, 'receipt:BLOCK:receipt': 3, 'BLOCK:prompt-class': 1}\n-- NOT_VERIFIED_IS_A_CLAIM = True:\n  2026-11-02T22:43 | then: GOV-ENFORCE: this is governed work (adversar | now: BLOCK:prompt-class / BLOCK:receipt\n  2026-11-02T22:43 | then: - | now: allow / BLOCK:receipt\n  totals: {'allow': 24, 'receipt:allow': 21, 'BLOCK:F1': 1, 'receipt:BLOCK:receipt': 5, 'BLOCK:prompt-class': 1}\n-- what the documents say\n31:The gate was not tuned to the record: no rule, word or case of this fix was written from these three answers.\n32:The earlier build blocked two more stops (both of 2026-11-02T22:43) through the family \"X was not verified\";\n59 (PR):- `RECEIPT_SCOPE = \"sentence\"`, `NOT_VERIFIED_IS_A_CLAIM = False`, `RECEIPT_MAX_BLOCKS = 1` are the receipt gate's defaults.",
+   "expected": "The sentence about tuning claims only what it can support: no rule was written from the three answers that are still blocked, and the family that blocked two other real stops was switched off after those blocks were seen, for a stated reason. The PR's open decision on NOT_VERIFIED_IS_A_CLAIM says what it decides on the real record (2 of 26 stops), as the PR already does for RECEIPT_SCOPE. Whether this default matches the owner's rule ('and its variants') is for the owner to decide.",
+   "how_it_arises": "The owner reads 'not tuned to the record' as meaning the 3 blocks out of 26 stops are a blind result. The record says the build before the prose scan blocked 5. The shipped default that brings it down to 3 is one the owner was not asked about. The second auditor's reading (True) is the one the replay shows would block more.",
+   "severity_guess": "medium"
+  },
+  {
+   "id": "AC-5",
+   "title": "red-first-vs-preregistration.md says 33 cases were added after the pre-registration, 10 RED and 23 pins. The same section lists 35, and the table run gives 12 RED.",
+   "component": "results/2026-11-15/turn-gates-fix/red-first-vs-preregistration.md",
+   "kind": "wrong_result",
+   "rule_quoted": "red-first-vs-preregistration.md line 60: \"The table now holds 349 cases: the 314 pre-registered ones ... and the 35 below\"; line 102: \"Of these 33, 10 are RED on the merged hooks and 23 are pins\".",
+   "rule_source": "fixed/results/2026-11-15/turn-gates-fix/red-first-vs-preregistration.md:60,102",
+   "repro_command": "bash WORK/fa-claims/repro_claims.sh AC-5",
+   "repro_files": [
+    "WORK/fa-claims/repro_claims.sh",
+    "WORK/fa-claims/out/table-on-old.txt"
+   ],
+   "observed": "cases added after the pre-registration (outside tables R and W): 35; RED on 1ce99d5: 12; pins: 23\n60:wanted verdict, and the 35 below. `red-on-merged.txt` was made again at the end, with the same command, on the grown table:\n102:Of these 33, 10 are RED on the merged hooks and 23 are pins (the 20 `O..` cases by construction, the two controls, and `J16b`).",
+   "expected": "35 cases, 12 RED, 23 pins (204 - 192 = 12). That matches the 349 and 204 totals that the same file and the PR quote. The 33/10 line is the count from before X06a and X06b were added in fc3539f, and it was not updated.",
+   "how_it_arises": "A stale count in an evidence file the PR cites. The totals elsewhere (349 cases, 204 failing) are right.",
+   "severity_guess": "low"
+  },
+  {
+   "id": "AC-6",
+   "title": "The PR's run-time line (0.51 to 0.57 s per gated call on a 38 MB record) has no committed tool and cannot be rebuilt from its stated recipe, because the committed row builder gives 48 MB. It was measured before three of the commits it is quoted for, and it leaves out the receipt gate, which runs at every stop alongside the other Stop gate.",
+   "component": "pr-36-body.md Evidence table; results/2026-11-15/turn-gates-fix/timing.txt",
+   "kind": "overclaim",
+   "rule_quoted": "pr-36-body.md line 41: \"| Run time | 0.51 to 0.57 s per gated call on a 38 MB record |\"; CLAUDE.md conventions: \"Raw artifacts commit beside the report\".",
+   "rule_source": "pr-36-body.md:41; fixed/results/2026-11-15/turn-gates-fix/timing.txt:2,8,16",
+   "repro_command": "bash WORK/fa-claims/repro_claims.sh AC-6",
+   "repro_files": [
+    "WORK/fa-claims/repro_claims.sh",
+    "WORK/fa-claims/timing_head.py"
+   ],
+   "observed": "41:| Run time | 0.51 to 0.57 s per gated call on a 38 MB record |\n2:# Run by the orchestrator on 2026-11-15, after implementer 2's work, on the 4-CPU machine of this session, Python 3.13.\n8:synthetic record: 38.4 MB, 41606 rows\n-- tools committed for that timing (expect a script):\n   none\n-- the recipe re-run at c3c8615:\nsynthetic record: 48.0 MB, 41601 rows\n  Stop enforce           0.65 s  exit 0  silent\n  Stop receipt           0.66 s  exit 0  silent\n  pre merge tool         0.62 s  exit 0  silent\n  pre Bash commit+push   0.67 s  exit 0  silent\n  pre Bash ls            0.04 s  exit 0  silent\n  pre Edit               0.62 s  exit 0  silent",
+   "expected": "The timing can be reproduced from a committed tool at the head of the PR, and the PR line covers every gated hook. On the same recipe the receipt gate's own evidence gives 0.69 s on 48 MB, and each stop runs both Stop hooks. The prediction (under 1 s per call) still held in every run here.",
+   "how_it_arises": "The consequence is small: every measured call is under the 1 s prediction. But the line is quoted as current evidence, although it was measured before fc3539f, 9708c5d and 10461ae. The timings here ran on a machine shared with other runs, so the absolute numbers are noisy; the 38.4 vs 48.0 MB difference is not noise.",
+   "severity_guess": "low"
+  }
+ ],
+ "covered": [
+  "Test table: python3 hooks/selftest-turn-gates.py in the private checkout printed '== 740 cases: 740 pass, 0 fail ==' (the claim in the PR, 10461ae and hooks/README is true)",
+  "Red on merged hooks: the table with --hooks OLD/lib/hooks gave 740 cases, 415 fail. Core 349 (W01 included): 204 fail. Receipt cases that name a finding: 176 of 176 fail. 66 receipt controls pass. (PR, fc3539f and README are true; the 176 is circular after the relabelling, see AC-1)",
+  "Prediction 2 of hypothesis-2026-11-15: 314 pre-registered names, 192 fail on 1ce99d5 (188 predicted), and exactly the 4 moved marks the evidence lists (M14, m_d1_card_free_text_refusal, J04c, J17): true",
+  "Pre-registered wanted verdicts vs table --list: all 314 names present, 0 wanted verdicts differ (README 'never changed to make a case pass': true)",
+  "Break list: python3 hooks/selftest-mutations.py printed '== 352 breaks: 352 caught, 0 survived, 0 stale; control: 0 failing of 740 cases ==' in 2m51s. Per file: 120 turngate, 20 pretool, 13 enforce, 172 receiptlaw, 2 wrapper script, 16 wiring, 9 plugin-wiring. The 174 receipt breaks and 22 wiring breaks match what is stated: true",
+  "Registry: registry_check.py --root . printed '420 registered = 420 live on c3c8615' (true). Mutation check: an added constant in turngate.py, and a changed RECEIPT_MAX_BLOCKS, each make it FAIL (claim 'an unregistered change fails the check': true). 102 receiptlaw entries, as stated",
+  "Guard at head in the private checkout: '== RESULT: PASS ==' in 3m44s (PR says PASS in 3m22s; true, timed on a shared machine)",
+  "Per-commit claim 'Guard: PASS on this tree before the commit': PASS at c224c94 (66 s) and at 9708c5d (289 s), each run in a private clone",
+  "Replay of the real record (replay_real.py --hooks fixed --what all): Stop totals are allow 24, F1 1, prompt-class 1; receipt 23 allow, 3 block. Pre-tool totals: merge DENY 3, merge advisory 11, write advisory 45, write allow 4, outward advisory 38. Prompt section equal to baseline (17 of 17). Every number in both replay-vs-baseline.md files and the PR: true",
+  "Receipt replay with NOT_VERIFIED_IS_A_CLAIM = True: 5 blocks (the two extra at 2026-11-02T22:43), which confirms the evidence's own statement (AC-4)",
+  "Prose scan: prose_scan.py at fc3539f: 10,384 sentences, 9 blocked (true). At c3c8615: 10,610 sentences, the same 9 blocked",
+  "Prose probe: prose_probe.py lists 1 to 4 give 1/72, 1/47, 3/40 and 3/40 ordinary sentences blocked (PR '3 of 40': true)",
+  "Missing-file runs: missing_script_runs.py on the checkout gave the same verdicts as raw/missing-script-runs.txt: Bash, Edit, Write, Stop and prompt not blocked; merge tool exit 2; with turngate.py missing, a shell merge is denied with gate-error. One difference: in a fresh TMPDIR the two reminders print their once-per-session context line",
+  "Limit 'Case W05 and the runbook self-test fail on a project missing turn-gates-pretool.py': the W cases on such a copy show W05 and W06 FAIL (true)",
+  "--needs lists 16 files (README, guard and other-repositories.md: true). Plugin wrapper selftest: '== 11 passed, 0 failed ==' (plugin README: true)",
+  "after-the-merge.md step-1 check, run on a copy of the plugin laid out as a synced plugin: W '6 pass', table '740 pass' (true); plugin.json prints \"version\": \"0.1.6\",",
+  "Runbook 4 followed to the letter (follow_runbook4.py) into an empty project: step 4 PASS, nothing wired is missing (true)",
+  "Unattended command forms (unattended_forms.py) on the library hooks: output identical to raw/kit-unattended-forms.txt",
+  "Old fixture: OLD/lib/hooks/selftest-turn-gates.py printed '== 44 passed, 0 failed ==' (old-selftest-mapping.md '44 cases': true). Classifier selftest: 45 passed (prediction 6: true)",
+  "Kit and deck copies in the pack: turngate.py, turn-gates-pretool.py, governance-enforce.py and receipt-law-stop-gate.sh are byte-equal to 1ce99d5 (README 'stay the hooks of 2026-11-12': true for the pack copies)",
+  "Timing recipe re-run at c3c8615 and at 4dedf62: every gated call took 0.57 to 0.76 s on 48.0 MB (prediction 'under 1 s': true; see AC-6)",
+  "Rule 6: added lines of git diff 1ce99d5..HEAD, all nine commit messages and the PR body searched for model names (a list of model names): none found; commit trailers say only 'Claude'",
+  "SKILL.md description fields: the install-and-surfaces SKILL.md diff touches no description line (PR rule: true)",
+  "Commit order: 7df03f2 (2026-11-14 05:20) and 48c7bfc (2026-11-15 03:12) come before the first code commit, c224c94 (2026-11-15 14:16). No pre-registration exists for the receipt gate's cases or the wiring cases (AC-1)",
+  "Counts across documents: 155->156->330->352 breaks; 321->420 registry entries; 347->349->735->740 cases; 202->204 failing; 174 receipt breaks; 386 receipt cases; 65 prose-scan cases RLD150-214 (46 + 17 + 2). All consistent except AC-5"
+ ],
+ "not_covered": [
+  "Guard PASS claims in the commit messages of 10461ae and c3c8615 for their own trees: only the head tree (c3c8615) was run; 10461ae alone was not",
+  "plugin-validate.txt ('claude plugin validate --strict passes'): the guard at head ran it and it passed; not re-run separately",
+  "kit-selftests.txt, deck-selftests.txt and the sync script's outputs (other-repositories.md): the clones they were made in are not in the pack; only the hook copies and the unattended forms were re-run",
+  "CORE-SPEC.md and CORE-SPEC-ADDENDUM.md: read in part (sections 9-10 and the R1 table), not checked against decisions.md line by line (that is the gate auditors' scope)",
+  "followup-reproductions.txt, audit-reproductions.txt, sf2-auditor-repro.txt: summaries read, not re-run (the regression lists of the other areas cover them)",
+  "The 2026-11-15 'categories only' copy of the receipt gate that read the record during the first build: not available, so not re-run"
+ ],
+ "not_verified": [
+  "PR '60 of the audit's 128 findings are resolved or decided here; 3 more ...; 65 are left': no file in the pull request lists which 60. The pack's regression lists for this PR name 63 ids (25 + 9 + 19 + 10), plus F2-6, WR-1 and SF-1. The decisions record says 57 at 2026-11-16 03:35, and the surfaces commit closes SF-2, SF-4 and SF-6 (57 + 3 = 60). The count could not be checked id by id",
+  "replay-vs-baseline.md (turn gates) says the third denial carries code `default-branch` and comes from the checkout's HEAD at replay time. The replay tool labels every non-scheduled denial 'DENY:merge-word' and prints no code or content, so an outside auditor can check neither the code nor the explanation",
+  "Receipt replay, 'The orchestrator read the three answers ... each holds a first-person can't': the record is closed to auditors, so this reading cannot be checked",
+  "'The weekly scheduled task stays paused': checking it needs the scheduling tools, which this audit may not call",
+  "Run times in the PR line (0.51 to 0.57 s): not reproducible as stated (AC-6). The machine was shared with other auditors' runs during every timing here"
+ ],
+ "notes": "Most numeric claims hold: 740/740, 352/352, 420=420, guard PASS, the replay totals, the prose-scan counts, --needs 16, wrapper 11 cases. The defects are in what the PR says about its own method (AC-1, AC-2, AC-4) and in one behaviour change it does not mention (AC-3). MORE: prose_probe.py and prose-scan.md call list 4 'not tuned against', and c52e3ad says 'on the list that was not tuned against, 3 of 40'. But the grammar was changed once after list 4's first run (RLD204), which took it from 4 of 40 to 3 of 40; low overclaim. MORE: red-on-start.txt relabelled six receipt cases that carried a finding's number and passed on the old gate to 'control' or 'new rule', so the PR's '176 fail on the old gate' is true by construction (folded into AC-1). MORE: the hooks/README.md receipt status says 'the three answers were not read for the fix', while replay-vs-baseline.md says the orchestrator read them after the gate was finished. The two agree only if 'for the fix' means 'to build it'; wording. MORE: the hooks/README.md status block dates the receipt rebuild 2026-11-15, but its commits 9708c5d and c52e3ad are dated 2026-11-16 00:19 UTC; cosmetic. MORE: CORE-SPEC.md step 0 names a pre-registration file 'hypothesis-2026-11-14-turn-gates-fix.md' and step 1 a red-run file under results/2026-11-14/. The shipped files are hypothesis-2026-11-15-turn-gates-cases.md and results/2026-11-15/; drift between the spec and what shipped, cosmetic. MORE: selftest-turn-gates.py and selftest-mutations.py (both in hooks/) carry hand-set values (e.g. HOOK_WAIT_SECONDS) that are not in the registry, and changing HOOK_WAIT_SECONDS leaves registry_check at PASS. The fix's own text claims only the gate modules are registered, but the older README line 'Every hand-set value in this directory is now registered' still stands; for fa-surfaces. MORE: DELEGATE_MAY_MERGE = True is listed as an open default, while decisions.md asks that silent cases default to 'fail closed for merges'. Whether the rule is silent here is for the merge auditor and the owner. Each pair of commits (c224c94/4dedf62, 9708c5d/c52e3ad, 10461ae/c3c8615) shares the same second as author and commit time; the per-commit guard claims were checked for c224c94 and 9708c5d and hold. The report is saved at WORK/fa-claims/findings.json, and the reproductions are in WORK/fa-claims/repro_claims.sh."
+}

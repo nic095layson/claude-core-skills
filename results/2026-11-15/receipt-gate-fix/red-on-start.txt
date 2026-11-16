@@ -1,0 +1,399 @@
+$ python3 hooks/selftest-turn-gates.py --hooks <the hooks of commit fc3539f> RL     # the receipt cases (table R) on the hooks as they stood before any change to the gate
+# 2026-11-15. A case whose findings column names a finding (RL-n, TB-5, FU2-1, FU2-9) FAILS here; a "control" passes;
+# any other label is a case of the new rules and may do either (the policy-switch cases need the new module and fail).
+# First saved with 260 cases before the gate was rewritten; saved again with the 34 cases added while it was written,
+# and a third time with all 386 (each case written with its wanted verdict before the code that meets it). Six
+# cases added late carried a finding's number and pass on the old gate: their labels were corrected to "control"
+# or "new rule" (RLD125, RLD127, RLD130, RLD133, RLD137, RLD138); no wanted verdict was changed. The cases
+# labelled "prose scan" have a red run of their own, on the gate as it stood before the scan:
+# red-before-prose-scan.txt. The check is at the end of this file.
+RLP00-couldnt-verify                                     | control                | block              | block              | pass
+RLP01-cant-verify                                        | RL-1 RL-3              | block              | allow              | FAIL
+RLP02-cant-confirm                                       | RL-1 RL-3              | block              | allow              | FAIL
+RLP03-cant-determine                                     | RL-1 RL-3              | block              | allow              | FAIL
+RLP04-not-available                                      | RL-3                   | block              | allow              | FAIL
+RLP05-isnt-available                                     | RL-3                   | block              | allow              | FAIL
+RLP06-bold-not                                           | RL-3                   | block              | allow              | FAIL
+RLP07-italic-not                                         | RL-3                   | block              | allow              | FAIL
+RLP08-adverb-between                                     | RL-3                   | block              | allow              | FAIL
+RLP09-unable-to-fully-confirm                            | RL-3                   | block              | allow              | FAIL
+RLP10-could-not-yet-verify                               | RL-3                   | block              | allow              | FAIL
+RLP11-passive-could-not-be-verified                      | RL-3                   | block              | allow              | FAIL
+RLP12-passive-cannot-be-confirmed                        | RL-3                   | block              | allow              | FAIL
+RLP13-remains-unverified                                 | RL-3                   | block              | allow              | FAIL
+RLP14-were-unverified                                    | RL-3                   | block              | allow              | FAIL
+RLP15-cant-check                                         | RL-1 RL-3              | block              | allow              | FAIL
+RLP16-cannot-check                                       | RL-3                   | block              | allow              | FAIL
+RLP17-unable-to-check                                    | RL-3                   | block              | allow              | FAIL
+RLP18-couldnt-validate                                   | RL-3                   | block              | allow              | FAIL
+RLP19-couldnt-reproduce                                  | RL-3                   | block              | allow              | FAIL
+RLP20-couldnt-access                                     | RL-3                   | block              | allow              | FAIL
+RLP21-couldnt-find-any-record                            | RL-3                   | block              | allow              | FAIL
+RLP22-couldnt-tell-whether                               | RL-3                   | block              | allow              | FAIL
+RLP23-no-way-of-knowing                                  | RL-3                   | block              | allow              | FAIL
+RLP24-impossible-to-verify                               | RL-3                   | block              | allow              | FAIL
+RLP25-dont-have-access                                   | RL-3                   | block              | allow              | FAIL
+RLP26-im-not-able-to                                     | RL-3                   | block              | allow              | FAIL
+RLP27-we-werent-able-to                                  | RL-3                   | block              | allow              | FAIL
+RLP28-havent-been-able-to                                | RL-3                   | block              | allow              | FAIL
+RLP29-there-is-no-data-for                               | RL-3                   | block              | allow              | FAIL
+RLP30-no-records-exist                                   | RL-3                   | block              | allow              | FAIL
+RLP31-failed-to-confirm                                  | RL-3                   | block              | allow              | FAIL
+RLP32-verification-was-not-possible                      | RL-3                   | block              | allow              | FAIL
+RLP33-line-break-inside-the-phrase                       | RL-3                   | block              | allow              | FAIL
+RLP34-table-cells                                        | RL-3                   | block              | allow              | FAIL
+RLP35-label-form                                         | RL-3                   | block              | allow              | FAIL
+RLP36-unverifiable                                       | RL-3                   | block              | allow              | FAIL
+RLP37-couldnt-get-confirmation                           | RL-3                   | block              | allow              | FAIL
+RLP38-unable-to-verify-alone                             | control                | block              | block              | pass
+RLP39-no-data-exists                                     | control                | block              | block              | pass
+RL1C4-we-cant-curly-apostrophe                           | RL-1                   | block              | allow              | FAIL
+RL1C5-cant-verify-then-a-list                            | RL-1                   | block              | allow              | FAIL
+RL1K1-cannot-verify                                      | control                | block              | block              | pass
+RLVA1-cannot-confirm                                     | control                | block              | block              | pass
+RLVA2-cant-confirm                                       | RL-1                   | block              | allow              | FAIL
+RLVA3-cant-verify-that                                   | RL-1                   | block              | allow              | FAIL
+RLVA4-honestly-i-cant-determine                          | RL-1                   | block              | allow              | FAIL
+RLVA5-cant-verify-curly                                  | RL-1                   | block              | allow              | FAIL
+RLVK1-could-not-confirm                                  | control                | block              | block              | pass
+RLVK2-plain-fact                                         | control                | allow              | allow              | pass
+RLVB01-log-is-not-available                              | RL-3                   | block              | allow              | FAIL
+RLVB02-figure-not-available-to-me                        | RL-3                   | block              | allow              | FAIL
+RLVB03-could-not-independently-verify                    | RL-3                   | block              | allow              | FAIL
+RLVB04-was-not-verified                                  | policy default         | allow              | allow              | pass
+RLVB05-owner-remains-unverified                          | RL-3                   | block              | allow              | FAIL
+RLVB06-was-unable-to-check                               | RL-3                   | block              | allow              | FAIL
+RLVB07-couldnt-validate                                  | RL-3                   | block              | allow              | FAIL
+RLVB08-no-way-of-confirming                              | RL-3                   | block              | allow              | FAIL
+RLVB09-could-bold-not-verify                             | RL-3                   | block              | allow              | FAIL
+RLVB10-unable-to-confirm                                 | control                | block              | block              | pass
+RLR01-receipt-word-is-the-unverified-thing               | RL-6                   | block              | allow              | FAIL
+RLR02-migration-ran                                      | RL-6                   | block              | allow              | FAIL
+RLR03-permission-is-the-object                           | RL-6                   | block              | allow              | FAIL
+RLR04-blocked-is-the-object                              | RL-6                   | block              | allow              | FAIL
+RLR05-timeout-is-the-object                              | RL-6                   | block              | allow              | FAIL
+RLR06-rate-limit-is-the-object                           | RL-6                   | block              | allow              | FAIL
+RLR07-404-is-the-object                                  | RL-6                   | block              | allow              | FAIL
+RLR08-did-not-check-about-another-item                   | RL-6                   | block              | allow              | FAIL
+RLR09-founding-incident-plus-one-true-sentence           | RL-6                   | block              | allow              | FAIL
+RLR10-the-hook-ran-then-bare-claim                       | RL-6                   | block              | allow              | FAIL
+RLR11-bare-claim-then-unrelated-sentence                 | RL-6                   | block              | allow              | FAIL
+RLR12-progress-line-is-no-receipt-for-the-answer         | RL-6                   | block              | allow              | FAIL
+RLVE1-whether-the-nightly-job-ran                        | RL-6                   | block              | allow              | FAIL
+RLVE2-has-the-right-permission                           | RL-6                   | block              | allow              | FAIL
+RLVE3-unrelated-near-word                                | RL-6                   | block              | allow              | FAIL
+RLVE4-receipt-about-other-items                          | RL-6                   | block              | allow              | FAIL
+RLVE5-timeout-value-in-the-config                        | RL-6                   | block              | allow              | FAIL
+RLVE6-ran-it-on-staging-then-bare-claim                  | RL-6                   | block              | allow              | FAIL
+RLF00-ran-and-returned                                   | control                | allow              | allow              | pass
+RLF01-command-and-error-in-a-fenced-block                | RL-4                   | allow              | block              | FAIL
+RLF02-command-and-error-in-inline-code                   | RL-4                   | allow              | block              | FAIL
+RLF03-failed-with-connection-refused                     | RL-4                   | allow              | block              | FAIL
+RLF04-no-tool-reads-account-settings                     | RL-4                   | allow              | block              | FAIL
+RLF05-server-answered-http-500                           | RL-4                   | allow              | block              | FAIL
+RLF06-opening-it-failed-with                             | RL-4                   | allow              | block              | FAIL
+RLF07-tried-and-got-http-401                             | RL-4                   | allow              | block              | FAIL
+RLF08-attempted-and-access-was-denied                    | RL-4                   | allow              | block              | FAIL
+RLF09-grepped-and-found-nothing                          | RL-4                   | allow              | block              | FAIL
+RLF10-receipt-far-away-in-the-same-sentence              | RL-4                   | allow              | block              | FAIL
+RLF11-failure-code-in-inline-code                        | RL-4                   | allow              | block              | FAIL
+RLVC0-ran-and-timed-out                                  | control                | allow              | allow              | pass
+RLVC1-inline-command-failed-with                         | RL-4                   | allow              | block              | FAIL
+RLVC2-the-command-and-its-error-fenced                   | RL-4                   | allow              | block              | FAIL
+RLVC3-refused-the-connection                             | RL-4                   | allow              | block              | FAIL
+RLVC4-denied-with-a-401                                  | RL-4                   | allow              | block              | FAIL
+RLVC5-opened-and-not-found                               | RL-4                   | allow              | block              | FAIL
+RLVC6-grepped-and-zero-hits                              | RL-4                   | allow              | block              | FAIL
+RLVC7-the-login-failed                                   | RL-4                   | allow              | block              | FAIL
+RLH01-nothing-i-couldnt-verify                           | RL-5                   | allow              | block              | FAIL
+RLH02-phrase-inside-double-quotes                        | RL-5                   | allow              | block              | FAIL
+RLH03-question-to-the-owner                              | RL-5                   | allow              | block              | FAIL
+RLH04-conditional-promise                                | RL-5                   | allow              | block              | FAIL
+RLH05-none-is-unverified                                 | RL-5                   | allow              | block              | FAIL
+RLH06-no-items-are-unverified                            | RL-5                   | allow              | block              | FAIL
+RLH07-sentence-about-the-rule-unquoted                   | RL-5                   | allow              | block              | FAIL
+RLH08-heading-about-the-rule                             | RL-5                   | allow              | block              | FAIL
+RLH09-table-of-test-cases                                | RL-5                   | allow              | block              | FAIL
+RLH10-reported-earlier-answer-now-resolved               | RL-5                   | allow              | block              | FAIL
+RLH11-third-partys-inability                             | RL-5                   | allow              | block              | FAIL
+RLH12-resolved-inside-the-sentence                       | RL-5                   | allow              | block              | FAIL
+RLH13-curly-double-quotes                                | RL-5                   | allow              | block              | FAIL
+RLH14-tools-error-text-quoted                            | RL-5                   | allow              | block              | FAIL
+RLH15-tools-error-text-after-a-colon                     | RL-5                   | allow              | block              | FAIL
+RLH16-tools-inability-explained                          | RL-5                   | allow              | block              | FAIL
+RLVD1-nothing-i-couldnt-verify                           | RL-5                   | allow              | block              | FAIL
+RLVD2-phrases-in-double-quotes                           | RL-5                   | allow              | block              | FAIL
+RLVD3-question-after-a-colon                             | RL-5                   | allow              | block              | FAIL
+RLVD4-installer-printed-the-message                      | RL-5                   | allow              | block              | FAIL
+RLVD5-table-of-test-cases                                | RL-5                   | allow              | block              | FAIL
+RLVD6-not-the-case-that-unverified                       | RL-5                   | allow              | block              | FAIL
+RLQ01-claim-in-a-block-quote                             | quote rule             | allow              | allow              | pass
+RLQ02-claim-in-inline-code                               | quote rule             | allow              | allow              | pass
+RLT01-note-names-what-it-read-then-resolved              | RL-5                   | allow              | block              | FAIL
+RLT02-claim-then-repeated-skill-load                     | RL-7 TB-5              | block              | allow              | FAIL
+RLT03a-legacy-claim-then-notification-row                | RL-7 TB-5              | block              | allow              | FAIL
+RLT03b-claim-judged-at-its-own-completed-stop            | stretch                | allow              | allow              | pass
+RLT04-new-owner-message-starts-a-new-stretch             | control                | allow              | allow              | pass
+RLT05a-owner-message-recorded-as-a-list                  | RL-7 TB-5              | allow              | block              | FAIL
+RLT05b-legacy-owner-message-recorded-as-a-list           | RL-7 TB-5              | allow              | block              | FAIL
+RLT06a-no-text-in-record-or-input                        | control                | allow              | allow              | pass
+RLT06b-answer-only-in-the-input                          | FU2-9                  | block              | allow              | FAIL
+RLT07-harness-row-after-the-answer                       | RL-7 TB-5              | block              | allow              | FAIL
+RLTB1-report-then-card-then-skill-reload                 | TB-5                   | block              | allow              | FAIL
+RLTB2-receipt-word-of-the-previous-turn                  | TB-5                   | block              | allow              | FAIL
+RLTB3-legacy-receipt-word-of-the-previous-turn           | TB-5                   | block              | allow              | FAIL
+RLTB4-old-claim-not-judged-again                         | TB-5                   | allow              | block              | FAIL
+RLTB5-legacy-old-claim-not-judged-again                  | TB-5                   | allow              | block              | FAIL
+RLTB6-claim-then-first-skill-load                        | control                | block              | block              | pass
+RLTB7-new-bare-claim-in-the-next-turn                    | TB-5 RL-2              | block,block        | block,allow        | FAIL
+RLS04-scheduled-run-makes-its-own-bare-claim             | RL-7                   | block,block        | block,allow        | FAIL
+RLS04b-scheduled-run-after-a-wake-row                    | control                | block              | block              | pass
+RLS05a-clean-run-after-a-turn-that-held-the-phrase       | RL-7                   | allow              | block              | FAIL
+RLS05b-the-same-with-the-wake-row                        | control                | allow              | allow              | pass
+RLS05c-legacy-file-without-stop-rows-is-one-stretch      | stretch                | block              | block              | pass
+RLL01-reason-does-not-miscount-lookups                   | RL-7                   | block              | block, and the reason says no lookup ran | FAIL
+RLX01-retry-forced-by-the-other-hook                     | RL-2 FU2-1             | block              | allow              | FAIL
+RLX02-the-same-with-the-flag-off                         | control                | block              | block              | pass
+RLX03-flag-set-after-the-other-hooks-block-and-work      | FU2-1                  | block              | allow              | FAIL
+RLX04-own-block-then-the-claim-again                     | control                | allow              | allow              | pass
+RLX05-own-block-counted-from-the-record-flag-off         | RL-2 FU2-1             | allow              | block              | FAIL
+RLX06-flag-set-and-no-block-on-record                    | control                | allow              | allow              | pass
+RLX07-two-blocks-of-the-other-hook-then-bare-claim       | RL-2 FU2-1             | block              | allow              | FAIL
+RLX08-own-block-of-an-earlier-stretch-does-not-count     | control                | block              | block              | pass
+RLX09-own-block-of-an-earlier-stretch-flag-on            | RL-2 FU2-1             | block              | allow              | FAIL
+RLX10-own-block-then-a-receipt                           | control                | allow              | allow              | pass
+RLX11-same-answer-judged-twice-with-no-block-on-record   | RL-2                   | block,block        | block,allow        | FAIL
+RLX12-the-count-is-not-kept-in-a-file                    | RL-2 TB-5              | block, no file left | block, and it left a file: receipt-law-gate-058d52857a674a8eb0b5a23807791ad8-0023453d-4407-5686-8dd7-9412c79aba6b | FAIL
+RLX13-temp-dir-does-not-exist                            | RL-2                   | block              | allow              | FAIL
+RLY01-answer-missing-from-the-record                     | FU2-9                  | block              | allow              | FAIL
+RLY02-answer-in-the-record                               | control                | block              | block              | pass
+RLY03-progress-line-recorded-answer-only-in-the-input    | FU2-9                  | block              | allow              | FAIL
+RLY04-answer-in-the-input-names-its-attempt              | control                | allow              | allow              | pass
+RLY05-input-carries-no-answer-field                      | control                | block              | block              | pass
+RLY06-answer-field-is-not-a-text                         | robust                 | block              | block              | pass
+RLO01-incident-shape                                     | control                | block              | block              | pass
+RLO02-receipt-present                                    | control                | allow              | allow              | pass
+RLO03-tools-ran-but-the-claim-cites-none                 | control                | block              | block              | pass
+RLO03b-tools-ran-and-the-claim-carries-its-receipt       | control                | allow              | allow              | pass
+RLO04-phrase-only-in-code-and-block-quote                | control                | allow              | allow              | pass
+RLO06-plain-answer                                       | control                | allow              | allow              | pass
+RLO07-could-not-determine                                | control                | block              | block              | pass
+RLO08-record-missing                                     | control                | allow              | allow              | pass
+RLO09-curly-apostrophe                                   | control                | block              | block              | pass
+RLO10-wasnt-able-and-no-way                              | control                | block              | block              | pass
+RLO11-receipt-word-inside-another-word                   | control                | block              | block              | pass
+RLO12-receipt-word-far-from-the-claim                    | control                | block              | block              | pass
+RLO13-receipt-beside-the-claim                           | control                | allow              | allow              | pass
+RLD01-can-not-two-words                                  | control                | block              | block              | pass
+RLD02-upper-case                                         | control                | block              | block              | pass
+RLD03-sentence-starts-with-the-claim                     | control                | block              | block              | pass
+RLD04-cant-with-a-typewriter-apostrophe-variant          | RL-1                   | block              | allow              | FAIL
+RLD05-we-couldnt-reach                                   | RL-3                   | block              | allow              | FAIL
+RLD06-couldnt-obtain                                     | RL-3                   | block              | allow              | FAIL
+RLD07-this-session-cannot-reach                          | RL-3                   | block              | allow              | FAIL
+RLD08-has-not-been-confirmed                             | policy default         | allow              | allow              | pass
+RLD09-unconfirmed-predicate                              | RL-3                   | block              | allow              | FAIL
+RLD10-list-item-could-not-verify                         | control                | block              | block              | pass
+RLD11-status-value-unverified                            | RL-3                   | block              | allow              | FAIL
+RLD12-no-data-is-available                               | control                | block              | block              | pass
+RLD13-not-possible-to-verify                             | control                | block              | block              | pass
+RLD14-unable-to-determine                                | control                | block              | block              | pass
+RLD15-records-are-unavailable                            | RL-3                   | block              | allow              | FAIL
+RLD20-receipt-in-the-sentence-before                     | RL-6                   | block              | allow              | FAIL
+RLD21-receipt-in-the-sentence-after                      | RL-6                   | block              | allow              | FAIL
+RLD22-one-receipted-claim-one-bare-claim                 | RL-6 RL-8              | block              | allow              | FAIL
+RLD23-two-claims-one-receipt-one-sentence                | new rule               | allow              | allow              | pass
+RLD24-code-span-inside-what-was-not-verified             | RL-6                   | block              | allow              | FAIL
+RLD25-receipt-in-parentheses                             | new rule               | allow              | allow              | pass
+RLD26-receipt-after-a-dash                               | control                | allow              | allow              | pass
+RLD27-fenced-block-directly-under-the-claim              | RL-4                   | allow              | block              | FAIL
+RLD28-fenced-block-after-another-sentence                | new rule               | block              | block              | pass
+RLD29-fenced-block-after-a-label-that-names-no-attempt   | new rule               | block              | block              | pass
+RLD30-because-clause-names-the-failure                   | RL-4                   | allow              | block              | FAIL
+RLD31-attempt-before-the-claim                           | control                | allow              | allow              | pass
+RLD32-status-row-with-its-receipt                        | new rule               | allow              | allow              | pass
+RLD33-status-row-without-a-receipt                       | RL-3                   | block              | allow              | FAIL
+RLD34-label-then-list-each-item-with-its-receipt         | new rule               | allow              | allow              | pass
+RLD35-label-then-list-one-item-bare                      | RL-3                   | block              | allow              | FAIL
+RLD44-lead-in-blank-line-then-items-with-receipts        | new rule               | allow              | allow              | pass
+RLD45-lead-in-blank-line-then-one-item-bare              | RL-3                   | block              | allow              | FAIL
+RLD46-lead-in-then-table-rows-with-receipts              | new rule               | allow              | allow              | pass
+RLD47-lead-in-then-table-one-row-bare                    | RL-6                   | block              | allow              | FAIL
+RLD48-lead-in-with-nothing-under-it                      | control                | block              | block              | pass
+RLD49a-lead-in-continues-in-the-next-paragraph           | new rule               | allow              | allow              | pass
+RLD49b-lead-in-then-a-sentence-without-a-receipt         | control                | block              | block              | pass
+RLD36-without-credentials                                | new rule               | allow              | allow              | pass
+RLD37-training-cut-off                                   | new rule               | allow              | allow              | pass
+RLD38-not-installed                                      | new rule               | allow              | allow              | pass
+RLD39-exit-status                                        | new rule               | allow              | allow              | pass
+RLD40-did-not-check                                      | control                | allow              | allow              | pass
+RLD41-not-checked-by-choice                              | control                | allow              | allow              | pass
+RLD42-claim-and-the-choice-in-one-sentence               | new rule               | allow              | allow              | pass
+RLD43-i-have-not-verified                                | control                | allow              | allow              | pass
+RLD50-third-party-noun-subject                           | RL-5                   | allow              | block              | FAIL
+RLD51-general-you                                        | control                | allow              | allow              | pass
+RLD52-product-fact-not-available                         | control                | allow              | allow              | pass
+RLD53-product-fact-isnt-available                        | control                | allow              | allow              | pass
+RLD54-conditional-whatever                               | RL-5                   | allow              | block              | FAIL
+RLD55-conditional-if-contraction                         | control                | allow              | allow              | pass
+RLD56-negated-nothing-left-unverified                    | RL-5                   | allow              | block              | FAIL
+RLD57-negated-no-item-i-couldnt-confirm                  | RL-5                   | allow              | block              | FAIL
+RLD58-reported-log-line                                  | RL-5                   | allow              | block              | FAIL
+RLD59-sentence-about-the-wording                         | RL-5                   | allow              | block              | FAIL
+RLD60-superseded-initially                               | new rule               | allow              | allow              | pass
+RLD61-found-nothing-wrong                                | new rule               | allow              | allow              | pass
+RLD62-couldnt-find-any-issues                            | new rule               | allow              | allow              | pass
+RLD63-attributive-unverified                             | new rule               | allow              | allow              | pass
+RLD64-heading-only                                       | new rule               | allow              | allow              | pass
+RLD65-claim-inside-a-fenced-block-only                   | control                | allow              | allow              | pass
+RLD66-check-in-is-not-a-check                            | control                | allow              | allow              | pass
+RLD67-couldnt-reach-a-conclusion                         | new rule               | allow              | allow              | pass
+RLD68-question-with-first-person                         | RL-5                   | allow              | block              | FAIL
+RLD100-section-title-then-items-with-provenance          | house form             | allow              | allow              | pass
+RLD101-section-label-with-provenance                     | house form             | allow              | allow              | pass
+RLD102-gap-tally-line                                    | house form             | allow              | allow              | pass
+RLD103-assumption-register-status                        | house form             | allow              | allow              | pass
+RLD104-assumptions-table                                 | house form             | allow              | allow              | pass
+RLD105-assumption-in-parentheses                         | house form             | allow              | allow              | pass
+RLD106-per-the-readme-unverified                         | house form             | allow              | allow              | pass
+RLD107-labelled-as-unverified                            | house form             | allow              | allow              | pass
+RLD108-section-name-as-a-compound                        | house form             | allow              | allow              | pass
+RLD109-not-verified-this-session                         | policy default         | allow              | allow              | pass
+RLD110-other-subject-before-a-joining-word               | new rule               | allow              | allow              | pass
+RLD111-first-person-left-out-before-a-joining-word       | control                | block              | block              | pass
+RLD112-general-statement-in-the-passive                  | new rule               | allow              | allow              | pass
+RLD113-the-directory-is-empty                            | new rule               | allow              | allow              | pass
+RLD114-no-cli-or-credentials-on-this-machine             | new rule               | allow              | block              | FAIL
+RLD115-nothing-in-this-environment                       | new rule               | allow              | allow              | pass
+RLD116-bold-outcome-line-is-a-claim                      | RL-3                   | block              | allow              | FAIL
+RLD117-bare-unconfirmed-in-a-report                      | RL-3                   | block              | allow              | FAIL
+RLD118-unverifiable-with-its-reason                      | new rule               | allow              | allow              | pass
+RLD119-bare-unverifiable-label                           | RL-3                   | block              | allow              | FAIL
+RLD120-plan-register-table-content-basis-status          | house form             | allow              | allow              | pass
+RLD121-quoted-phrases-wrapped-over-a-line                | RL-5                   | allow              | block              | FAIL
+RLD122-attributive-before-a-comma                        | new rule               | allow              | allow              | pass
+RLD123-phrase-in-curly-single-quotes                     | RL-5                   | allow              | block              | FAIL
+RLD124-code-spans-are-the-only-receipt                   | RL-4                   | allow              | block              | FAIL
+RLD125-words-in-quotation-marks-are-no-receipt           | new rule               | block              | block              | pass
+RLD126-text-after-a-one-line-fence-is-read               | control                | block              | block              | pass
+RLD127-phrase-in-single-quotes                           | control                | allow              | allow              | pass
+RLD128-each-table-row-is-a-sentence                      | RL-6                   | block              | allow              | FAIL
+RLD136-status-word-inside-inline-code                    | control                | allow              | allow              | pass
+RLD137-passive-phrase-in-curly-single-quotes             | control                | allow              | allow              | pass
+RLD138-passive-phrase-in-curly-double-quotes             | control                | allow              | allow              | pass
+RLD130-there-is-no-way-to                                | control                | block              | block              | pass
+RLD134-not-yet-available                                 | RL-3                   | block              | allow              | FAIL
+RLD135-figures-for-a-year-are-not-available              | RL-3                   | block              | allow              | FAIL
+RLD131-first-person-inside-the-joined-clause             | RL-3                   | block              | allow              | FAIL
+RLD132-label-form-what-was-not-verified-follows-the-colon | RL-3                   | block              | allow              | FAIL
+RLD133-a-claim-is-never-a-label-for-the-block-under-it   | new rule               | block              | block              | pass
+RLD81-reason-quotes-the-start-of-the-sentence            | new rule               | block              | block, the start of the sentence is missing | FAIL
+RLD140-general-passive-about-code                        | new rule               | allow              | allow              | pass
+RLD141-general-passive-cant-be-checked                   | new rule               | allow              | allow              | pass
+RLD142-past-passive-could-not-be-reached                 | RL-3                   | block              | allow              | FAIL
+RLD143-past-passive-could-not-be-determined              | RL-3                   | block              | allow              | FAIL
+RLD144-couldnt-find-a-simpler-way                        | new rule               | allow              | allow              | pass
+RLD145-general-we-cant-access                            | new rule               | allow              | allow              | pass
+RLD146-we-couldnt-access                                 | RL-3                   | block              | allow              | FAIL
+RLD147-general-passive-cannot-be-determined              | new rule               | allow              | allow              | pass
+RLD150-condition-whenever-could-not-be-reached           | prose scan             | allow              | allow              | pass
+RLD151-a-bug-where-could-not-be-found                    | prose scan             | allow              | allow              | pass
+RLD152-when-the-checksum-cannot-be-verified              | prose scan             | allow              | allow              | pass
+RLD153-if-the-migration-could-not-be-verified            | prose scan             | allow              | allow              | pass
+RLD154-null-if-information-is-not-available              | prose scan             | allow              | allow              | pass
+RLD155-no-more-data-to-be-read                           | prose scan             | allow              | allow              | pass
+RLD156-no-data-loss                                      | prose scan             | allow              | allow              | pass
+RLD157-no-record-type                                    | prose scan             | allow              | allow              | pass
+RLD158-not-available-at-compile-time                     | prose scan             | allow              | allow              | pass
+RLD159-no-way-to-know-what-the-caller-intended           | prose scan             | allow              | allow              | pass
+RLD160-not-possible-to-tell-without-the-type             | prose scan             | allow              | allow              | pass
+RLD161-impossible-to-determine-without-consuming         | prose scan             | allow              | allow              | pass
+RLD162-a-regression-made-it-impossible-to-obtain         | prose scan             | allow              | allow              | pass
+RLD163-we-cant-verify-without-the-raw-body               | prose scan             | allow              | allow              | pass
+RLD164-could-not-find-a-single-failing-test              | prose scan             | allow              | allow              | pass
+RLD165-couldnt-reproduce-in-fifty-runs                   | prose scan             | allow              | allow              | pass
+RLD166-cant-check-this-in                                | prose scan             | allow              | allow              | pass
+RLD167-couldnt-reach-a-different-conclusion              | prose scan             | allow              | allow              | pass
+RLD168-couldnt-find-it-at-first                          | prose scan             | allow              | allow              | pass
+RLD169-a-list-of-tiers                                   | prose scan             | allow              | allow              | pass
+RLD170-reported-in-parentheses                           | prose scan             | allow              | block              | FAIL
+RLD171-an-assumption-named-by-its-number                 | prose scan             | allow              | block              | FAIL
+RLD172-no-live-path-names-the-missing-means              | prose scan             | allow              | allow              | pass
+RLD173-the-re-run-gives-another-number                   | prose scan             | allow              | allow              | pass
+RLD174-a-tally-of-statuses                               | prose scan             | allow              | allow              | pass
+RLD175-wasnt-possible-to-obtain                          | RL-3                   | block              | allow              | FAIL
+RLD176-a-comma-ends-the-condition                        | prose scan pin         | block              | allow              | FAIL
+RLD177-there-was-no-way-to-tell                          | prose scan pin         | block              | allow              | FAIL
+RLD178-i-have-no-way-to-know                             | prose scan pin         | block              | allow              | FAIL
+RLD179-no-data-for-a-year                                | prose scan pin         | block              | allow              | FAIL
+RLD180-verified-then-a-claim                             | prose scan pin         | block              | block              | pass
+RLD181-check-the-settings-in                             | prose scan pin         | block              | allow              | FAIL
+RLD182-not-available-at-the-moment                       | prose scan pin         | block              | allow              | FAIL
+RLD183-without-in-the-next-sentence                      | prose scan pin         | block              | block              | pass
+RLD184-couldnt-reach-the-server                          | prose scan pin         | block              | allow              | FAIL
+RLD185-couldnt-find-the-test-file                        | prose scan pin         | block              | allow              | FAIL
+RLD186-a-player-whose-team-could-not-be-found            | prose scan             | allow              | allow              | pass
+RLD187-impossible-to-tell-from-the-box-score             | prose scan             | allow              | allow              | pass
+RLD188-couldnt-find-a-better-trade                       | prose scan             | allow              | allow              | pass
+RLD189-no-record-which-i-searched                        | prose scan             | allow              | allow              | pass
+RLD190-he-wrote-that-the-figures-were-not-available      | prose scan             | allow              | allow              | pass
+RLD191-it-was-impossible-to-tell                         | prose scan pin         | block              | allow              | FAIL
+RLD192-no-record-which-is-odd                            | prose scan pin         | block              | allow              | FAIL
+RLD193-could-not-be-reached-while                        | prose scan             | allow              | allow              | pass
+RLD194-it-would-be-impossible-to-verify-every-row        | prose scan             | allow              | allow              | pass
+RLD195-couldnt-find-anything-in-the-diff                 | prose scan             | allow              | allow              | pass
+RLD196-could-not-find-any-difference                     | prose scan             | allow              | allow              | pass
+RLD197-couldnt-locate-a-single-call-site                 | prose scan             | allow              | allow              | pass
+RLD198-the-old-claim-that-is-withdrawn                   | prose scan             | allow              | allow              | pass
+RLD199-it-isnt-that-the-data-is-not-available            | prose scan             | allow              | allow              | pass
+RLD200-couldnt-find-it-in-the-repo                       | prose scan             | allow              | allow              | pass
+RLD201-it-was-impossible-to-verify                       | prose scan pin         | block              | allow              | FAIL
+RLD202-could-not-be-reached-full-stop                    | prose scan pin         | block              | allow              | FAIL
+RLD203-couldnt-verify-it-in-the-repo                     | prose scan pin         | block              | block              | pass
+RLD204-the-model-card-says-the-data-is-not-available     | prose scan             | allow              | allow              | pass
+RLD205-a-semicolon-ends-what-was-said                    | prose scan pin         | block              | allow              | FAIL
+RLD206-general-statement-with-a-verb-of-verifying        | new rule               | allow              | allow              | pass
+RLD207-no-more-data-to-read                              | prose scan             | allow              | allow              | pass
+RLD208-it-would-be-impossible                            | prose scan             | allow              | allow              | pass
+RLD209-sampled-names-the-attempt                         | prose scan             | allow              | block              | FAIL
+RLD210-no-way-for-me-to-know                             | prose scan pin         | block              | allow              | FAIL
+RLD211-it-is-not-that                                    | prose scan             | allow              | allow              | pass
+RLD212-couldnt-find-any-failing-tests                    | prose scan             | allow              | allow              | pass
+RLD213-the-record-shows-none                             | prose scan             | allow              | allow              | pass
+RLD214-the-re-run-names-the-attempt                      | prose scan             | allow              | allow              | pass
+RLD70-bare-claim-in-an-earlier-text-of-the-stretch       | RL-7 RL-8              | block              | allow              | FAIL
+RLD71-receipted-claim-in-an-earlier-text                 | control                | allow              | allow              | pass
+RLD72-receipt-in-another-message-is-no-receipt           | new rule               | block              | block              | pass
+RLD73-claim-of-an-earlier-turn-only                      | control                | allow              | allow              | pass
+RLD74-three-bare-claims-in-three-turns                   | new rule               | block              | block              | pass
+RLD80-reason-quotes-the-claim-and-gives-three-ways-out   | RL-1 RL-7              | block              | allow, reason lacks "can't confirm" | FAIL
+RLD90-other-scope-receipt-in-the-sentence-before         | policy switch          | allow              | no receiptlaw.py   | FAIL
+RLD91-other-scope-receipt-two-sentences-away             | policy switch          | block              | no receiptlaw.py   | FAIL
+RLD92-other-scope-bare-claim                             | policy switch          | block              | no receiptlaw.py   | FAIL
+RLD93-other-reading-was-not-verified-is-a-claim          | policy switch          | block              | no receiptlaw.py   | FAIL
+RLD94-other-reading-status-row-not-verified              | policy switch          | block              | no receiptlaw.py   | FAIL
+RLD95-other-reading-not-verified-with-its-choice         | policy switch          | allow              | no receiptlaw.py   | FAIL
+RLD96-other-reading-i-have-not-verified-is-still-honest  | policy switch          | allow              | no receiptlaw.py   | FAIL
+RLZ01-input-empty                                        | fail-open              | allow              | allow              | pass
+RLZ02-input-not-json                                     | fail-open              | allow              | allow              | pass
+RLZ03-input-json-but-no-object                           | fail-open              | allow              | allow              | pass
+RLZ04-input-a-6-mb-line                                  | fail-open              | allow              | allow              | pass
+RLZ05-record-is-a-directory                              | fail-open              | allow              | allow              | pass
+RLZ06-no-record-path                                     | fail-open              | allow              | allow              | pass
+RLZ07-record-of-random-bytes                             | fail-open              | allow              | allow              | pass
+RLZ08-record-is-one-6-mb-line                            | fail-open              | allow              | allow              | pass
+RLZ09-6-mb-line-then-a-bare-claim                        | control                | block              | block              | pass
+RLZ10-invalid-byte-in-an-earlier-row                     | robust                 | block              | allow              | FAIL
+RLZ11-input-fields-of-the-wrong-type                     | fail-open              | allow              | allow              | pass
+RLZ12-module-missing-beside-the-wired-script             | fail-open              | allow              | block              | FAIL
+RLZ13-no-python3-on-path                                 | fail-open              | allow              | allow              | pass
+RLZ14-shared-module-missing                              | fail-open              | allow              | block              | FAIL
+RLZ15-internal-error                                     | fail-open              | allow              | block              | FAIL
+RLZ16-deadline                                           | fail-open H4           | allow              | block              | FAIL
+RLZ19-one-very-long-sentence-does-not-run-into-the-deadline | robust                 | block              | block              | pass
+RLZ17-module-by-itself-internal-error                    | fail-open              | allow              | no receiptlaw.py   | FAIL
+RLZ18-module-by-itself-input-not-json                    | fail-open              | allow              | no receiptlaw.py   | FAIL
+== 386 cases: 177 pass, 209 fail ==
+
+# check (every finding case red, every control green):
+{'finding-fail': 176, 'control-pass': 66, 'other-pass': 111, 'other-fail': 33} problems: 0

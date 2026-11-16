@@ -1,0 +1,88 @@
+{
+ "verdicts": [
+  {
+   "id": "DS-1",
+   "verdict": "CONFIRMED",
+   "reproduced": true,
+   "command_run": "finder's four commands as given; then PYTHONDONTWRITEBYTECODE=1 TMPDIR=WORK2/verify-fd-stop/tmp python3 WORK2/verify-fd-stop/v1.py FIXED2/hooks ; same with FIXED/hooks (c3c8615)",
+   "observed": "finder: fixed 'empty f1' stop1..stop8 all block:F1 {'block:F1': 8} (never let go within 8 stops); c3c8615 {'block:F1': 1}; MU01 copy {'block:F1': 2}; record/input modes on fixed give 2. Own fixture (ungoverned commit, each F1 block's reply leaves no assistant row): fixed 'emptylast stop1:block stop2:block stop3:block stop4:block stop5:block stop6:block', 'nolast' same; control with reply in record 'stop1:block stop2:block stop3:allow'; c3c8615 'stop1:block stop2:allow'. Own mutation run: MU01-retry-counts-every-block == 950 cases: 950 pass, 0 fail ==",
+   "rule_check": "README.md:272-273 quote is verbatim ('At most twice in one stretch: again when its first block was not answered, then the stop is let go'). decisions.md:64 Q3 'Yes, twice at most' -> F1_MAX_BLOCKS = 2 is verbatim and binding. Code (turngate.py feedback, ~line 2513) counts an unanswered block only when it is the record's LAST block on a retry. Earlier unanswered blocks are never counted, so the count stays 1.",
+   "reason": "Reproduced with an independent fixture. When the replies to the F1 blocks leave no assistant row in the record, the gate blocks at every stop with no bound. That contradicts the owner's binding 'twice at most'. The table cannot tell the shipped count from one that terminates (MU01 passes all 950 cases). Realism caveat: it needs the model to answer each block with an empty reply (no assistant row). Any reply that lands in the record brings the bound back to 2.",
+   "severity": "medium",
+   "realistic": "needs_unusual_but_plausible_input"
+  },
+  {
+   "id": "DS-2",
+   "verdict": "CONFIRMED",
+   "reproduced": true,
+   "command_run": "PYTHONDONTWRITEBYTECODE=1 TMPDIR=WORK2/fd-stop/tmp python3 WORK2/fd-stop/lcases.py L1 ; PYTHONDONTWRITEBYTECODE=1 TMPDIR=WORK2/verify-fd-stop/tmp python3 WORK2/verify-fd-stop/v2.py FIXED2/hooks shipped",
+   "observed": "finder: 'MISMATCH L1 gate: allow rule: block:F1 | helper commits while the session is idle'; 'MISMATCH L1b gate: allow'; controls L1c/L1d block:F1. Own fixture (ungoverned turn starts a background Task; ledger note stamped between turn 1's stop row and the owner's 'thanks'): 'turn1 stop (no note yet): allow', 'turn2 stop, helper commit noted while idle: allow', 'turn2 stop, helper commit noted after 'thanks': block', 'turn2 stop, idle note, wake inside turn 2: allow', 'wake stretch, note stamped before the wake: block'",
+   "rule_check": "README.md:369-375 quotes are verbatim. The code does what the README's placement rule says ('later than the stretch's own first row (the owner's message or the stop it starts at)'). That rule itself puts an act stamped between a completed stop and the owner's next message in no stretch. Two statements imply late acts are caught: 'A helper's act is charged to the stretch in which it happens', and the stated cost ('the owner's next turn (\"thanks\") can be blocked once for a background helper's late commit'). The idle-window case is not among the listed limits (README:377-379).",
+   "reason": "Reproduced independently. Take an ungoverned turn whose background helper commits while the session is idle, with the owner's next message arriving before the helper's completion wake. No stop ever judges that commit. The documents say late helper acts are charged to the next turn. decisions.md:37-40 asks for fail-closed on outward actions where the rule is silent. This gap is neither closed nor stated. Severity is medium because the Stop gate cannot prevent the commit in any case (it only demands governor loads afterwards) and the timing window is narrow.",
+   "severity": "medium",
+   "realistic": "needs_unusual_but_plausible_input"
+  },
+  {
+   "id": "DS-3",
+   "verdict": "CONFIRMED",
+   "reproduced": true,
+   "command_run": "PYTHONDONTWRITEBYTECODE=1 TMPDIR=WORK2/fd-stop/tmp python3 -I WORK2/fd-stop/survey_denials.py | tail -3; python3 WORK2/fd-stop/bbx.py R1c R1k ; PYTHONDONTWRITEBYTECODE=1 TMPDIR=WORK2/verify-fd-stop/tmp python3 -I WORK2/verify-fd-stop/v3.py",
+   "observed": "finder: '== 189 recorded denials in 108 files; 10 taken for a denial without the flag, 179 not'; 'MISMATCH R1c gate: block:F1 rule: allow', 'MISMATCH R1k gate: block:F1 rule: allow', 'ok R1c2 gate: allow (with the flag)'. Own: \"non_execution_kind values: {'user-rejected': 189}\"; \"rows with toolDenialKind in results/: 0\"; \"(was_denied without flag, is_error): {(False, True): 179, (True, True): 10}\". Own fixture, chain 'git add -A && git commit -m wip && git push origin claude/x' denied, no flag: 'multi-ops block', 'claude-requested block', 'cd-before block', 'control-perm-to-use allow', 'multi-ops+flag allow'. grep for non_execution_kind|tool_result_meta in fixed/hooks: 0 matches.",
+   "rule_check": "README.md:243-253 quotes are verbatim: 'Not an action at all: ... a call that was denied or rejected', plus the definition by toolDenialKind or DENIAL_LEADS at the start of the error text. decisions.md:41-42 'A false block is a defect too' is verbatim. The wordings 'This Bash command contains multiple operations. The following parts require approval: ...' and 'Claude requested permissions to use ...' do not start with any lead. The denied chain is therefore judged a failed and-chain, and its earlier commit step counts.",
+   "reason": "Reproduced independently. A denied commit-then-push chain with a recorded headless denial wording and no toolDenialKind flag is counted as a commit. It blocks an ungoverned turn that did nothing outward. Realism caveat (check of the checker): all 189 recorded rows are stream-json output rows (out.jsonl and similar, with tool_result_meta), not the session-transcript rows the hook reads. Whether a current transcript row for such a denial carries toolDenialKind is not established; the README says the flag was observed on 2026-11-16 for a hook denial only. The consequence is one block that loading the governors answers, in a turn that did attempt an outward action.",
+   "severity": "low",
+   "realistic": "needs_unusual_but_plausible_input"
+  },
+  {
+   "id": "DS-4",
+   "verdict": "CONFIRMED",
+   "reproduced": true,
+   "command_run": "The finder's command as given fails: 'python3 .../fd-stop/mut.py MU05 MU04' -> \"KeyError: 'MU05'\" (the script takes full ids). Repaired once and run in my own worktree (copy of mut.py with W=verify-fd-stop, wt at 7a5f978): PYTHONDONTWRITEBYTECODE=1 TMPDIR=WORK2/verify-fd-stop/tmp python3 WORK2/verify-fd-stop/mut.py MU03-no-lstrip MU04-lead-permission-to-use MU05-lead-requires-approval MU06-lead-hook-denied MU07-lead-turn-gate",
+   "observed": "baseline: '== 950 cases: 950 pass, 0 fail =='; 'MU03-no-lstrip == 950 cases: 950 pass, 0 fail =='; 'MU04-lead-permission-to-use == 950 cases: 950 pass, 0 fail =='; 'MU05-lead-requires-approval == 950 cases: 950 pass, 0 fail =='; 'MU06-lead-hook-denied == 950 cases: 950 pass, 0 fail =='; control 'MU07-lead-turn-gate == 950 cases: 949 pass, 1 fail == | failing: am_c_shell-call-denied-then-other-repo'",
+   "rule_check": "README.md:250-253 verbatim: the text STARTS, after leading blanks and an optional 'Error: ', with one of DENIAL_LEADS, which lists 'Permission to use ...', 'requires approval', 'Hook denied / blocked'. COMMON.md method: a behaviour change that leaves every case passing is a test_gap.",
+   "reason": "Removing any one of the four leads, or the lstrip, leaves the full table passing, while the control mutation is caught. The stated leads are not pinned. The finder's literal command does not run because of the short ids, but that is an obvious slip, and with full ids the claim reproduces.",
+   "severity": "low",
+   "realistic": "happens_in_normal_use"
+  },
+  {
+   "id": "DS-5",
+   "verdict": "CONFIRMED",
+   "reproduced": true,
+   "command_run": "PYTHONDONTWRITEBYTECODE=1 TMPDIR=WORK2/verify-fd-stop/tmp python3 WORK2/verify-fd-stop/mut.py MU18-receipt-count-no-retry MU19-pc-count-no-retry ; finder's sim.py on h-mu1819 and on fixed/hooks (input pc, input rc) ; own: python3 WORK2/verify-fd-stop/v5.py FIXED2/hooks ; python3 WORK2/verify-fd-stop/v5.py WORK2/verify-fd-stop/h-m19 (own copy, MU19 applied)",
+   "observed": "'MU18-receipt-count-no-retry == 950 cases: 950 pass, 0 fail =='; 'MU19-pc-count-no-retry == 950 cases: 950 pass, 0 fail =='. sim on mutated: 'input pc stop1:block:prompt-class+allow stop2:block:prompt-class+allow stop3:allow+allow {'block:prompt-class': 2}', 'input rc ... {'block:receipt': 2}'; on fixed: pc {'block:prompt-class': 1}, rc {'block:receipt': 1}. Own fixture (build prompt, a write, no governor; block; reply only in the Stop input): shipped 'stop2 (reply only in input, retry): allow'; own MU19 copy 'stop2 (reply only in input, retry): block GOV-ENFORCE: this is governed work (plan-gate)...'",
+   "rule_check": "README.md:292-295 verbatim ('Its blocks are counted as the outward rule counts them (answered, or the last one on a retry)', 'It blocks once in a stretch'). README.md:663-669 states RECEIPT_MAX_BLOCKS (1) and 'it is the record's last block and the flag is set'. decisions.md:64 sets PROMPT_CLASS_MAX_BLOCKS = 1.",
+   "reason": "The shipped hooks behave as stated. But if either rule's own count drops the retry argument, that rule blocks twice, and the 950-case table still passes. This is a test gap on a limit the owner decided, reproduced with my own fixture and my own mutated copy.",
+   "severity": "medium",
+   "realistic": "happens_in_normal_use"
+  },
+  {
+   "id": "DS-6",
+   "verdict": "CONFIRMED",
+   "reproduced": true,
+   "command_run": "finder's commands as given (r1/ledger.py with FASTOP_HOOKS=h-helperF; lcases.py L1c with HOOKS=h-helperF); own: PYTHONDONTWRITEBYTECODE=1 TMPDIR=WORK2/verify-fd-stop/tmp python3 WORK2/verify-fd-stop/v2.py WORK2/verify-fd-stop/h-F helperF (own copy, HELPER_ACT_PLACED_BY_TIME = False)",
+   "observed": "finder: 'MISMATCH G04b gate: allow rule: block:F1 | wake after the helper finished: the ungoverned commit+push is caught here (at the latest)'; 'MISMATCH L1c gate: allow'; G01, G02, G03a, G03b, G04a, G05 ok. diff of h-helperF vs fixed: only line 228 'HELPER_ACT_PLACED_BY_TIME = False'. Own with False: 'turn1 stop (no note yet): allow', 'turn2 ... noted while idle: allow', '... noted after 'thanks': allow', 'idle note, wake inside turn 2: allow', 'wake stretch, note stamped before the wake: allow' (shipped True blocks the after-thanks and wake-first cases).",
+   "rule_check": "README.md:375-377 verbatim: 'Its cost: the owner's next turn (\"thanks\") can be blocked once ... False: such an act is charged only to a stretch whose main thread started a helper (HELPER_TOOLS) before it.' README.md:398-405 and registry D-TG-2 list it as an open default for the owner to confirm or overrule. COMMON.md: report what a default costs only when the README understates it.",
+   "reason": "With False, a background helper's act after the launching turn's stop is charged to no stretch. The launching stretch has already been judged, and later stretches did not start a helper. The README's description of False is literally true but leaves that out, while it does state the cost of True. An owner choosing from that text is not told that False drops late ungoverned commits and pushes entirely. This is an understated cost for a switch offered to the owner.",
+   "severity": "low",
+   "realistic": "needs_unusual_but_plausible_input"
+  },
+  {
+   "id": "DS-7",
+   "verdict": "CONFIRMED",
+   "reproduced": true,
+   "command_run": "finder's command as given (pccases.py with HOOKS=h-pcF, PCVALUE=False); own: PYTHONDONTWRITEBYTECODE=1 TMPDIR=WORK2/verify-fd-stop/tmp python3 WORK2/verify-fd-stop/v7.py WORK2/verify-fd-stop/h-pcF ; python3 WORK2/verify-fd-stop/v7.py FIXED2/hooks ; python3 WORK2/verify-fd-stop/mut.py MU09-helperF-window MU10-wrote-sidechain MU11-wrote-any-row MU12-write-class",
+   "observed": "finder: 'MISMATCH P7 gate: block:prompt-class rule: allow | no owner message, the one write was DENIED'; 'note P4 gate: block:prompt-class rule: ? | scheduled run in a record that DOES hold an owner message'. Own (record starts at a compaction, switch False): 'write-ran block', 'write-rejected-at-prompt block', 'write-denied-with-flag block', 'read-only allow'; shipped True: all allow. Mutations in own wt: MU09, MU10, MU11, MU12 each '== 950 cases: 950 pass, 0 fail =='. governance-enforce.py wrote(): 'any(i > after and not side and turngate.is_write(b) ...)' reads no result.",
+   "rule_check": "README.md:290-291 verbatim: '(PROMPT_CLASS_SILENT_WITHOUT_OWNER_MESSAGE = True, a default; False: such a stretch that made a real write is judged as work that needs plan-gate)'. The docstring at governance-enforce.py:13-16 says the same. A write rejected at the prompt, or one carrying toolDenialKind, made no write. The P4 sub-claim (under False, a scheduled run in a record that holds an owner message is judged) is not settled by the text: the README's 'silent in a scheduled run, when the record holds no owner message' can be read either way. That part is an ambiguity, not a confirmed defect. selftest-mutations AS17 only flips the switch; nothing pins the internals of the False path (MU09-12 survive).",
+   "reason": "Main claim reproduced independently: under False, a denied or rejected write triggers the prompt-class block, even when it carries the denial flag. That contradicts 'made a real write'. The test-gap part also reproduces. The sub-claim about a scheduled run in a record with an owner message is ambiguous. All of this matters only if the owner clicks False on this open default.",
+   "severity": "low",
+   "realistic": "needs_unusual_but_plausible_input"
+  }
+ ],
+ "new_leads": [
+  "DS-4's repro command as written ('mut.py MU05 MU04') raises KeyError, because mut.py looks up MUTS by full id. The finder's reported output must come from a run with full ids.",
+  "All 189 'recorded denials' that DS-3 counts are stream-json output rows (tool_result_meta / non_execution_kind), not session-transcript rows. Nobody has shown whether a transcript row for a headless or prompt denial carries toolDenialKind in the current harness version. That fact decides whether DS-3 happens in normal use.",
+  "governance-enforce.py wrote() (the False path of PROMPT_CLASS_SILENT_WITHOUT_OWNER_MESSAGE) ignores the denial flag entirely, while Model.outward uses was_denied. The two tests of whether a call counts as done do not agree.",
+  "DS-1's unbounded loop probably applies to the receipt gate too, since receiptlaw.decide uses the same feedback() count. The finder's 'empty all' run reported 4 receipt blocks; I did not re-run it.",
+  "With HELPER_ACT_PLACED_BY_TIME = False, MU09 (a helper started AFTER the act also makes it count) survives the table. No case pins the '<= at' window of the False path."
+ ]
+}

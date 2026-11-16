@@ -1,0 +1,19 @@
+python3 <audit pack>/pack/tools/replay_real.py --hooks <tree>/hooks --what all      # before (c3c8615) and after this unit; the tool prints verdicts only
+
+== diff before -> after (unified)
+@@ -31,10 +31,10 @@
+   turn from 2026-10-22T16:01: write:allow x3, outward:allow x8, merge:allow x4
+   turn from 2026-10-22T16:10: write:allow x1
+   turn from 2026-10-28T22:56: write:ADVISE:plan-shown x3, outward:ADVISE:plan-shown x7, merge:ADVISE:plan-shown x3
+-  turn from 2026-10-28T23:16: write:ADVISE:plan-shown x24, outward:ADVISE:plan-shown x14, merge:ADVISE:plan-shown x3
++  turn from 2026-10-28T23:16: write:ADVISE:plan-shown x25, outward:ADVISE:plan-shown x14, merge:ADVISE:plan-shown x3
+   turn from 2026-11-02T21:59: outward:ADVISE:plan-shown x8, write:ADVISE:plan-shown x2, merge:ADVISE:plan-shown x3
+   turn from 2026-11-12T21:23: write:ADVISE:plan-shown x16, outward:ADVISE:plan-shown x7, merge:DENY:merge-word x1, merge:ADVISE:plan-shown x2
+-  totals: {'outward:ADVISE:plan-shown': 38, 'merge:DENY:merge-word': 3, 'write:allow': 4, 'outward:allow': 8, 'merge:allow': 4, 'write:ADVISE:plan-shown': 45, 'merge:ADVISE:plan-shown': 11}
++  totals: {'outward:ADVISE:plan-shown': 38, 'merge:DENY:merge-word': 3, 'write:allow': 4, 'outward:allow': 8, 'merge:allow': 4, 'write:ADVISE:plan-shown': 46, 'merge:ADVISE:plan-shown': 11}
+ == PROMPT: every real owner message (ts | chars | classes | cue? | what the trigger injects now)
+   2026-10-21T23:25 |    67 | -                            | True  | cue
+   2026-10-22T16:01 |   291 | analysis                     | True  | auto-trigger
+
+== where the difference comes from
+One more real call of the turn from 2026-10-28T23:16 is now a write-class call (write:ADVISE:plan-shown 24 -> 25 in that turn, 45 -> 46 in total). Found by running the replay on copies of the hooks with one new rule broken at a time: only the break AM31 (rule D2, a file the same command text writes and then runs is read as written) brings the count back to 45; AM27, AM28, AM29, AM30, AM34, AM35, AM36, AM37 leave it at 46. Inference (the record itself was not opened): that call writes a script and runs it in the same command, and the script holds a command of the write class (a file written outside scratch, or a git write verb); before, the script was not read because it did not exist on disk when the hook ran. The verdict is the plan-shown advisory (it never blocks). Every merge verdict and every Stop verdict is unchanged (merge:DENY:merge-word 3, merge:allow 4, merge:ADVISE 11; STOP and PROMPT sections identical).

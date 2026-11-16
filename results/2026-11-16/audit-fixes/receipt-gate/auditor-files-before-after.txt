@@ -1,0 +1,193 @@
+RG_HOOKS=<the tree's hooks/> python3 <the auditor's file>.py   (fa-receipt: receipt_eaten, narration, shapes, proxy, sentences ALL, sentences FR, turns)
+# run on copies of the auditor's files (lib.py's fixture and temp folders moved to a scratch folder, its row builders taken from
+# the hooks under test), before (the hooks as this unit found them, 7a5f978) and after this unit.
+# Each line that changed: before -> after. Then every mismatch that remains, with one line of why.
+
+== receipt_eaten.py
+   before: == RE: 5/23 judged as the rule requires; mismatches: RE01 RE02 RE03 RE04 RE05 RE06 RE07 RE08 RE09 RE10 RE11 RE12 RE13 RE14 RE16 RE17 RE18 RE19
+   after:  == RE: 23/23 judged as the rule requires; mismatches: none
+  - MISMATCH RE01   want=allow got=block I couldn't verify the port with ss, which returned permission denied.
+  + ok       RE01   want=allow got=allow I couldn't verify the port with ss, which returned permission denied.
+  - MISMATCH RE02   want=allow got=block I couldn't verify the deploy, the health endpoint returned 503.
+  + ok       RE02   want=allow got=allow I couldn't verify the deploy, the health endpoint returned 503.
+  - MISMATCH RE03   want=allow got=block I couldn't confirm the upload, the API returned 500 on all three tries.
+  + ok       RE03   want=allow got=allow I couldn't confirm the upload, the API returned 500 on all three tries.
+  - MISMATCH RE04   want=allow got=block I couldn't confirm the upload, a 500 came back each time I called the API.
+  + ok       RE04   want=allow got=allow I couldn't confirm the upload, a 500 came back each time I called the API.
+  - MISMATCH RE05   want=allow got=block I couldn't verify the plugin version, 3 attempts to read the account page timed out.
+  + ok       RE05   want=allow got=allow I couldn't verify the plugin version, 3 attempts to read the account page timed out.
+  - MISMATCH RE06   want=allow got=block I couldn't reach the server, which refused the connection.
+  + ok       RE06   want=allow got=allow I couldn't reach the server, which refused the connection.
+  - MISMATCH RE07   want=allow got=block I couldn't reproduce the crash in 50 runs.
+  + ok       RE07   want=allow got=allow I couldn't reproduce the crash in 50 runs.
+  - MISMATCH RE08   want=allow got=block I couldn't reproduce the crash with 20 retries of the failing test.
+  + ok       RE08   want=allow got=allow I couldn't reproduce the crash with 20 retries of the failing test.
+  - MISMATCH RE09   want=allow got=block I couldn't confirm the release date from the changelog.
+  + ok       RE09   want=allow got=allow I couldn't confirm the release date from the changelog.
+  - MISMATCH RE10   want=allow got=block I couldn't confirm the release date per the README.
+  + ok       RE10   want=allow got=allow I couldn't confirm the release date per the README.
+  - MISMATCH RE11   want=allow got=block The deploy couldn't be verified, the health check timed out.
+  + ok       RE11   want=allow got=allow The deploy couldn't be verified, the health check timed out.
+  - MISMATCH RE12   want=allow got=block I couldn't verify the cron job, the scheduler API denied the request.
+  + ok       RE12   want=allow got=allow I couldn't verify the cron job, the scheduler API denied the request.
+  - MISMATCH RE13   want=allow got=block I couldn't access the logs, the bucket policy denied my token.
+  + ok       RE13   want=allow got=allow I couldn't access the logs, the bucket policy denied my token.
+  - MISMATCH RE14   want=allow got=block I was unable to confirm the version, the server's status page returned an error.
+  + ok       RE14   want=allow got=allow I was unable to confirm the version, the server's status page returned an error.
+  - MISMATCH RE16   want=allow got=block I couldn't confirm the totals against the source, which returned no rows for November.
+  + ok       RE16   want=allow got=allow I couldn't confirm the totals against the source, which returned no rows for November.
+  - MISMATCH RE17   want=allow got=block I couldn't verify the checksum on the mirror, which returned 404 for the signature file.
+  + ok       RE17   want=allow got=allow I couldn't verify the checksum on the mirror, which returned 404 for the signature file.
+  - MISMATCH RE18   want=allow got=block I couldn't validate the schema against production, the connection was refused.
+  + ok       RE18   want=allow got=allow I couldn't validate the schema against production, the connection was refused.
+  - MISMATCH RE19   want=allow got=block I couldn't verify the deploy, the curl to the health endpoint failed with connection refused.
+  + ok       RE19   want=allow got=allow I couldn't verify the deploy, the curl to the health endpoint failed with connection refused.
+  - == RE: 5/23 judged as the rule requires; mismatches: RE01 RE02 RE03 RE04 RE05 RE06 RE07 RE08 RE09 RE10 RE11 RE12 RE13 RE14 RE16 RE17 RE18 RE19
+  + == RE: 23/23 judged as the rule requires; mismatches: none
+
+== narration.py
+   before: == 10 of 10 ordinary turns blocked for a working note the next tool call settled
+   after:  == 0 of 10 ordinary turns blocked for a working note the next tool call settled
+  - block N01 note: I couldn't find the config where I expected it. Let me search the whole repository.
+  + allow N01 note: I couldn't find the config where I expected it. Let me search the whole repository.
+  - block N02 note: Couldn't find it there. Trying the other directory.
+  + allow N02 note: Couldn't find it there. Trying the other directory.
+  - block N03 note: That didn't work: I couldn't reach the server. Trying the VPN host instead.
+  + allow N03 note: That didn't work: I couldn't reach the server. Trying the VPN host instead.
+  - block N04 note: I can't determine the version from the lockfile alone, so I'll check the installed package.
+  + allow N04 note: I can't determine the version from the lockfile alone, so I'll check the installed package.
+  - block N05 note: I wasn't able to confirm the port from the docs. Checking the running process instead.
+  + allow N05 note: I wasn't able to confirm the port from the docs. Checking the running process instead.
+  - block N06 note: The test couldn't be reproduced on the first try. Running it a few more times.
+  + allow N06 note: The test couldn't be reproduced on the first try. Running it a few more times.
+  - block N07 note: I couldn't locate the hook in hooks/. Looking in the plugin folder next.
+  + allow N07 note: I couldn't locate the hook in hooks/. Looking in the plugin folder next.
+  - block N08 note: Hmm, I can't access that path. Let me list the parent directory.
+  + allow N08 note: Hmm, I can't access that path. Let me list the parent directory.
+  - block N09 note: I couldn't confirm that from the summary, so let me open the full log.
+  + allow N09 note: I couldn't confirm that from the summary, so let me open the full log.
+  - block N10 note: The logs are not available yet. I'll wait for the job to finish and read them.
+  + allow N10 note: The logs are not available yet. I'll wait for the job to finish and read them.
+  - == 10 of 10 ordinary turns blocked for a working note the next tool call settled
+  + == 0 of 10 ordinary turns blocked for a working note the next tool call settled
+
+== shapes.py
+   before: == SH: 11/16 judged as the rule requires; mismatches: SH01 SH03 SH04 SH05 SH11
+   after:  == SH: 15/16 judged as the rule requires; mismatches: SH11
+  - MISMATCH SH01   want=block got=allow | Test | Status |
+  + ok       SH01   want=block got=block | Test | Status |
+  - MISMATCH SH03   want=block got=allow | Test | Result |
+  + ok       SH03   want=block got=block | Test | Result |
+  - MISMATCH SH04   want=block got=allow Results:
+  + ok       SH04   want=block got=block Results:
+  - MISMATCH SH05   want=block got=allow | Input file | Status |
+  + ok       SH05   want=block got=block | Input file | Status |
+  - == SH: 11/16 judged as the rule requires; mismatches: SH01 SH03 SH04 SH05 SH11
+  + == SH: 15/16 judged as the rule requires; mismatches: SH11
+  remaining:
+    MISMATCH SH11   want=block got=allow ## Couldn't verify
+      why: a claim under a heading with a bare list under it: stated limit
+
+== proxy.py
+   before: == PX: 2/12 judged as the rule requires; mismatches: PX01 PX02 PX03 PX04 PX05 PX06 PX07 PX08 PX09 PX10
+   after:  == PX: 7/12 judged as the rule requires; mismatches: PX03 PX05 PX06 PX07 PX09
+  - MISMATCH PX01   want=block got=allow This run couldn't confirm the corrections rate.
+  + ok       PX01   want=block got=block This run couldn't confirm the corrections rate.
+  - MISMATCH PX02   want=block got=allow The weekly review couldn't verify the plugin version.
+  + ok       PX02   want=block got=block The weekly review couldn't verify the plugin version.
+  - MISMATCH PX04   want=block got=allow This audit could not verify the live settings box.
+  + ok       PX04   want=block got=block This audit could not verify the live settings box.
+  - MISMATCH PX08   want=block got=allow This report cannot confirm the figures for November.
+  + ok       PX08   want=block got=block This report cannot confirm the figures for November.
+  - MISMATCH PX10   want=block got=allow The scheduled task couldn't confirm the corrections rate this week.
+  + ok       PX10   want=block got=block The scheduled task couldn't confirm the corrections rate this week.
+  - == PX: 2/12 judged as the rule requires; mismatches: PX01 PX02 PX03 PX04 PX05 PX06 PX07 PX08 PX09 PX10
+  + == PX: 7/12 judged as the rule requires; mismatches: PX03 PX05 PX06 PX07 PX09
+  remaining:
+    MISMATCH PX03   want=block got=allow My search couldn't find the config.
+      why: an attempt noun as subject ("my search") names what was attempted: let through by design (R4)
+    MISMATCH PX05   want=block got=allow Today's check couldn't confirm the deploy.
+      why: "today's check": no this/my/our and no time word before an attempt noun; outside R4 (stated limit)
+    MISMATCH PX06   want=block got=allow The review was unable to confirm the release date.
+      why: "the review" alone: could be anybody's review; outside R4 (stated limit)
+    MISMATCH PX07   want=block got=allow My checks couldn't confirm the cron job ran.
+      why: the same ("my checks")
+    MISMATCH PX09   want=block got=allow <the assistant's name> couldn't verify the deploy.
+      why: the assistant's name as subject: outside R4 (stated limit)
+
+== sentences.py
+   before: == FB: 62/65 judged as the rule requires; mismatches: FB08 FB26 FB48
+   before: == FBE: 1/5 judged as the rule requires; mismatches: FBE01 FBE02 FBE03 FBE05
+   before: == FA: 47/50 judged as the rule requires; mismatches: FA41 FA43 FA50
+   before: == FK: 21/25 judged as the rule requires; mismatches: FK11 FK12 FK21 FK23
+   after:  == FB: 64/65 judged as the rule requires; mismatches: FB26
+   after:  == FBE: 1/5 judged as the rule requires; mismatches: FBE01 FBE02 FBE03 FBE05
+   after:  == FA: 49/50 judged as the rule requires; mismatches: FA50
+   after:  == FK: 22/25 judged as the rule requires; mismatches: FK12 FK21 FK23
+  - MISMATCH FB08   want=allow got=block I was unable to reproduce the flakiness in 50 runs, so the fix targets the race the logs show.
+  + ok       FB08   want=allow got=allow I was unable to reproduce the flakiness in 50 runs, so the fix targets the race the logs show.
+  - MISMATCH FB48   want=allow got=block The certificate could not be verified by older Android clients, which lack the new root.
+  + ok       FB48   want=allow got=allow The certificate could not be verified by older Android clients, which lack the new root.
+  - == FB: 62/65 judged as the rule requires; mismatches: FB08 FB26 FB48
+  + == FB: 64/65 judged as the rule requires; mismatches: FB26
+  - MISMATCH FA41   want=block got=allow Verifying the upload wasn't possible.
+  + ok       FA41   want=block got=block Verifying the upload wasn't possible.
+  - MISMATCH FA43   want=block got=allow Verification of the cron schedule was not possible.
+  + ok       FA43   want=block got=block Verification of the cron schedule was not possible.
+  - == FA: 47/50 judged as the rule requires; mismatches: FA41 FA43 FA50
+  + == FA: 49/50 judged as the rule requires; mismatches: FA50
+  - MISMATCH FK11   want=block got=allow I tried, but I couldn't verify the deploy.
+  + ok       FK11   want=block got=block I tried, but I couldn't verify the deploy.
+  - == FK: 21/25 judged as the rule requires; mismatches: FK11 FK12 FK21 FK23
+  + == FK: 22/25 judged as the rule requires; mismatches: FK12 FK21 FK23
+  remaining:
+    MISMATCH FB26   want=allow got=block The logs are unavailable for jobs that ran on spot instances, because those instances are deleted.
+      why: a fact about a system with its reason in free words ("because those instances are deleted"): stated limit
+    MISMATCH FBE01  want=allow got=block No data exists for the 2019 season because the league started in 2020.
+      why: a fact about data in the rule's own words with its reason in free words: stated limit (the auditor lists it as edge)
+    MISMATCH FBE02  want=allow got=block Weather data for that arena is unavailable because it has a roof, so the model treats it as neutral.
+      why: the same
+    MISMATCH FBE03  want=allow got=block No records exist for players who never appeared in a game, which is why the join drops them.
+      why: the same
+    MISMATCH FBE05  want=allow got=block There is no data for rookies before their first game, so the projection uses the draft-slot prior.
+      why: the same
+    MISMATCH FA50   want=block got=allow I couldn't get the logs.
+      why: "couldn't get": a paraphrase outside the families (stated limit)
+    MISMATCH FK12   want=block got=allow I couldn't verify the deploy using the information I have.
+      why: "using the information I have": a receipt word about something else (stated limit)
+    MISMATCH FK21   want=block got=allow I couldn't verify the deploy, so I tried to be careful in the summary.
+      why: "so I tried to be careful": "tried to X" stays a receipt by R5; a receipt word about something else (stated limit)
+    MISMATCH FK23   want=block got=allow I couldn't verify the deploy without a doubt.
+      why: "without a doubt": named verbatim as a limit in the README
+
+== sentences.py FR
+   before: == FR: 15/20 judged as the rule requires; mismatches: FR01 FR02 FR07 FR17 FR20
+   after:  == FR: 20/20 judged as the rule requires; mismatches: none
+  - MISMATCH FR01   want=allow got=block I couldn't reproduce it in 50 runs.
+  + ok       FR01   want=allow got=allow I couldn't reproduce it in 50 runs.
+  - MISMATCH FR02   want=allow got=block I was unable to reproduce the flakiness in 50 runs of the suite.
+  + ok       FR02   want=allow got=allow I was unable to reproduce the flakiness in 50 runs of the suite.
+  - MISMATCH FR07   want=allow got=block I couldn't find the config after searching the whole repository.
+  + ok       FR07   want=allow got=allow I couldn't find the config after searching the whole repository.
+  - MISMATCH FR17   want=allow got=block Data for last week is not available: the export query returned zero rows.
+  + ok       FR17   want=allow got=allow Data for last week is not available: the export query returned zero rows.
+  - MISMATCH FR20   want=allow got=block Running the migration in a dry run, I couldn't confirm the row counts because the dry run prints none.
+  + ok       FR20   want=allow got=allow Running the migration in a dry run, I couldn't confirm the row counts because the dry run prints none.
+  - == FR: 15/20 judged as the rule requires; mismatches: FR01 FR02 FR07 FR17 FR20
+  + == FR: 20/20 judged as the rule requires; mismatches: none
+
+== turns.py
+   before: == turns: 21/21 judged as the rule requires
+   after:  == turns: 19/21 judged as the rule requires
+  - ok       T01  want=block got=block active=False bare claim in an earlier text of the stretch, settled later (README: counts)
+  + MISMATCH T01  want=block got=allow active=False bare claim in an earlier text of the stretch, settled later (README: counts)
+  - ok       T10  want=block got=block active=False record's text holds the claim, the Stop input's final answer is clean
+  + MISMATCH T10  want=block got=allow active=False record's text holds the claim, the Stop input's final answer is clean
+  - == turns: 21/21 judged as the rule requires
+  + == turns: 19/21 judged as the rule requires
+  remaining:
+    MISMATCH T01  want=block got=allow active=False bare claim in an earlier text of the stretch, settled later (README: counts)
+      why: a working note settled by the next tool call, clean final answer: let go by design (R2, RECEIPT_JUDGES)
+    MISMATCH T10  want=block got=allow active=False record's text holds the claim, the Stop input's final answer is clean
+      why: the bare claim is a working note (a tool call follows it) and the final answer in the Stop input is clean: let go by design (R2)
+

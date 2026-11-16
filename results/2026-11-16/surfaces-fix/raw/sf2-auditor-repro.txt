@@ -1,0 +1,80 @@
+$ bash runbook4_literal.sh   # the auditor script; LIB and its scratch dir rewritten to the fixed tree
+== the runbook text (lib/.claude/skills/install-and-surfaces/SKILL.md)
+96:1. **Copy the hooks.** Run `bash hooks/sync-copies.sh <target repo root>` from this
+97-   library: it copies every file below into the target's `hooks/` and prints
+98-   "added", "updated" or "same" for each. By hand, copy exactly these files from
+99-   this library's `hooks/` (generated 2026-11-16 by
+100-   `python3 hooks/selftest-turn-gates.py --needs`: the scripts the settings wire,
+101-   what those import or run, and the self-tests of them):
+127:2. **Copy `.claude/settings.json`** from this library (it references the hooks
+138:4. **Self-test before committing:** `python3 hooks/selftest-turn-gates.py W` (the
+139-   wiring cases: they fail when a file of the list is missing, an event lost a
+
+== step 4, the runbook's own check
+ModuleNotFoundError: No module named 'turngate'
+== 8 passed, 7 failed ==
+
+== hook files the copied settings.json wires that the project does not have
+   PreToolUse (matcher ^mcp__.*__(merge_pull_request|enable_pr_auto_merge)$): hooks/turn-gates-pretool.py  MISSING
+   PreToolUse (matcher ^(Edit|Write|NotebookEdit|Bash|Monitor|CronCreate|CronDelete|ScheduleWakeup|mcp__.*__(disable_pr_auto_merge|create_pull_request|update_pull_request|update_pull_request_branch|push_files|create_or_update_file|delete_file|actions_run_trigger|create_trigger|update_trigger|delete_trigger|fire_trigger|send_later))$): hooks/turn-gates-pretool.py  MISSING
+
+== every Bash / Edit / Write call in that project: the wired PreToolUse command, as settings.json words it
+   command: python3 "$CLAUDE_PROJECT_DIR"/hooks/turn-gates-pretool.py
+python3: can't open file '<S>/fix/impl/unit-ship/auditor/scr/proj-runbook4/hooks/turn-gates-pretool.py': [Errno 2] No such file or directory
+   exit code: 2
+   the harness on this machine, about a PreToolUse hook that exits 2:
+      Exit code 2 - show stderr to model and block tool call
+
+== Stop gate F1 on a turn that committed with no governor loaded
+   runbook project : silent (allow)
+   library (control): {"decision": "block", "reason": "GOV-ENFORCE: this turn took an outward action (commit) wi
+
+$ python3 wrapper_cases.py   # the auditor script; LIB, PLUGIN and its scratch dir rewritten to the fixed tree
+== wrapper black-box cases (plugin: <S>/wt-fix/plugin/core-governance) ==
+ok   W1   want=silent   got=silent   local, project wires the hook -> plugin yields
+ok   W2   want=context  got=context  local, bare project -> plugin runs
+ok   W3   want=context  got=context  local, hook named only in permissions.allow -> plugin runs
+ok   W4   want=context  got=context  cloud, project wires the hook -> plugin runs
+ok   W5   want=context  got=context  cloud, bare project -> plugin runs
+ok   W6   want=deny     got=deny     local, project wires ONLY the trigger; merge gate asked -> plugin runs it (deny)
+ok   W7   want=silent   got=silent   local, project wires the merge gate -> plugin yields
+ok   W8   want=silent   got=silent   local, CLAUDE_PROJECT_DIR unset, cwd = wired project -> plugin yields
+ok   W9   want=context  got=context  local, unparseable settings -> plugin runs
+ok   W10  want=block    got=block    cloud, Stop payload reaches the gate through the wrapper -> block
+DIFF W11  want=deny     got=silent   local, settings wire the merge gate but the project has NO such file (Runbook 4 to the letter) -> repository hook cannot run, so the plugin must run it (deny)
+DIFF W12  want=deny     got=silent   local, file name appears under hooks only in an unrelated PostToolUse echo -> plugin runs (deny)
+DIFF W13  want=silent   got=deny     local, wiring is in .claude/settings.local.json (repo hooks DO run) -> plugin yields
+DIFF W14  want=context  got=silent   cloud flag spelled CLAUDE_CODE_REMOTE=1, project wired -> plugin runs
+DIFF W15  want=silent   got=context  local, CLAUDE_PROJECT_DIR unset, cwd = SUBDIRECTORY of the wired project -> plugin yields
+== 10/15 as the rule requires ==
+
+== copies answering ONE event: project command + plugin wrapper ==
+-- CLOUD one-repo session, project carries the pack
+   UserPromptSubmit trigger         project=context                plugin=context  copies answering: 2
+   Stop F1 block                    project=block                  plugin=block    copies answering: 2
+   Stop receipt law                 project=block                  plugin=block    copies answering: 2
+   PreToolUse merge deny (F2)       project=deny                   plugin=deny     copies answering: 2
+   PreToolUse plan advisory (F3)    project=context                plugin=silent   copies answering: 1
+   PreToolUse plan-gate reminder    project=context                plugin=silent   copies answering: 1
+   PreToolUse scope-fence reminder  project=context                plugin=silent   copies answering: 1
+   SessionStart compact protocol    project=context                plugin=context  copies answering: 2
+-- LOCAL session, project carries the pack
+   UserPromptSubmit trigger         project=context                plugin=silent   copies answering: 1
+   Stop F1 block                    project=block                  plugin=silent   copies answering: 1
+   Stop receipt law                 project=block                  plugin=silent   copies answering: 1
+   PreToolUse merge deny (F2)       project=deny                   plugin=silent   copies answering: 1
+   PreToolUse plan advisory (F3)    project=context                plugin=silent   copies answering: 1
+   PreToolUse plan-gate reminder    project=context                plugin=silent   copies answering: 1
+   PreToolUse scope-fence reminder  project=context                plugin=silent   copies answering: 1
+   SessionStart compact protocol    project=context                plugin=silent   copies answering: 1
+-- LOCAL session, Runbook-4-literal project
+   UserPromptSubmit trigger         project=silent                 plugin=silent   copies answering: 0
+   Stop F1 block                    project=silent                 plugin=silent   copies answering: 0
+   Stop receipt law                 project=silent                 plugin=silent   copies answering: 0
+   PreToolUse merge deny (F2)       project=exit2 silent           plugin=silent   copies answering: 0
+        project stderr: python3: can't open file '<S>/fix/impl/unit-ship/auditor/scr/proj/runbook4/hooks/turn-gates-pretool.py': [Errno 2] No such file or 
+   PreToolUse plan advisory (F3)    project=exit2 silent           plugin=silent   copies answering: 0
+        project stderr: python3: can't open file '<S>/fix/impl/unit-ship/auditor/scr/proj/runbook4/hooks/turn-gates-pretool.py': [Errno 2] No such file or 
+   PreToolUse plan-gate reminder    project=context                plugin=silent   copies answering: 1
+   PreToolUse scope-fence reminder  project=context                plugin=silent   copies answering: 1
+   SessionStart compact protocol    project=context                plugin=silent   copies answering: 1

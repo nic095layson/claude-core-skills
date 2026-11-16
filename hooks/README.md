@@ -1,23 +1,81 @@
+> **Status 2026-11-16 — the receipt gate after the outside audit.** The outside audit of the rebuilt gate found
+> it blocking honest work: a receipt written after the unverified thing ("I couldn't verify the deploy, the
+> health endpoint returned 503", "... from the changelog", "... in 50 runs") was read as part of it (AR-1), and a
+> working note between tool calls blocked the stop (AR-2); it also let through a status table headed "Test"
+> (AR-3), the assistant's own work as subject ("This run couldn't confirm ...", AR-4) and two wordings of
+> "verification was not possible" (AR-8). Now: a comma and a phrase of means or source end what was not
+> verified; only what the owner is asked to read is judged (the final answer and what precedes a card:
+> `RECEIPT_JUDGES`, an open policy default); a table is a table of examples only when a header cell names
+> language samples, and a tally row is a count; "this run", "my report", "the weekly review" are the assistant.
+> Read again against prose (AR-5; `results/2026-11-16/audit-fixes/receipt-gate/prose-scans.md`): on the four
+> bodies the first build measured, the blocked sentences are the same (9 of 11,008 sentences of this
+> repository's Markdown, 17 of 19,145 of the audit's reports, 0 of 86,733 of tool documentation; 7 of 199
+> hand-written ordinary sentences, the first build's stated limits). On two bodies nobody had tuned against, the
+> domain kit's Markdown (39,164 sentences) and the season deck's (7,809), it blocks 22 and 0: by my reading 11
+> of the 22 are bare claims, 8 are false blocks and 3 are borderline; the classes are under "Limits" below. On
+> the real record 2 of 26 stops would be blocked (3 before; the one released was a working note). Table "V"
+> (112 cases), 28 new breaks. Evidence: `results/2026-11-16/audit-fixes/receipt-gate/`.
+
+> **Status 2026-11-16 — the wiring, the plugin and the copies.** The two wiring files (`.claude/settings.json`,
+> `plugin/core-governance/hooks/hooks.json`) now run each script only when its file is there, except one group
+> for the merge tools alone, where a missing script denies the merge (finding SF-2: a project installed by the
+> runbook to the letter lacked a file its settings called, and every Bash, Edit and Write call was denied). Table
+> "W" of `selftest-turn-gates.py` reads and runs both files (SF-4: the guard passed with the merge gate cut off
+> from the PR tools); the guard's parity list is computed (SF-6). Plugin version 0.1.6, not yet uploaded. Which
+> copy judges which session, and what holds until the upload: "Wiring, copies, and which copy judges a session"
+> below. Evidence: `results/2026-11-16/surfaces-fix/`.
+
+> **Status 2026-11-15 — the receipt gate rebuilt.** The same audit recorded eleven findings on
+> `receipt-law-stop-gate.sh` (RL-1 to RL-8, TB-5, FU2-1, FU2-9). The rule now lives in `receiptlaw.py`, which
+> the wired script runs: claims by family, contractions included; a receipt in the claim's own sentence and
+> outside the unverified thing; the same stretch as the other Stop gate; the final answer from the Stop input;
+> blocks counted from the record, no sentinel file. Rule, policy defaults and limits: "The receipt gate" below.
+> `selftest-turn-gates.py` gains table "R" (386 cases; the table now holds 735) and `selftest-mutations.py`
+> 174 breaks (now 330); the 102 hand-set values of `receiptlaw.py` are in the registry. Because this gate
+> blocks a stop, it was then read against ordinary prose (this repository's Markdown, the audit's reports,
+> four hand-written lists of technical sentences): statements about code, conditions, reported speech and
+> search results that claim no inability are let through, and what was still blocked wrongly in those bodies is
+> listed as a limit (`results/2026-11-15/receipt-gate-fix/prose-scan.md`). That held for the bodies it was
+> tuned on; on a body it had not read it did not (finding AR-5; the status of 2026-11-16 above gives the count). On the real record replayed that day 3 of 26
+> stops would have been blocked (the old gate: none); the three answers were not read for the fix. Not
+> measured: a live session.
+
+> **Status 2026-11-15 — the turn gates rebuilt.** An outside audit of the hooks as merged on 2026-11-12
+> recorded 128 findings. The three files behind the merge gate and the Stop gate (`turngate.py`,
+> `turn-gates-pretool.py`, `governance-enforce.py`) are rewritten from one specification
+> (`results/2026-11-15/turn-gates-fix/CORE-SPEC.md` and its addendum), on the owner's decisions of 2026-11-13
+> and 2026-11-15. The rules as they stand are in "The turn gates" below; the older status blocks are history
+> and say so where a rule changed. `selftest-turn-gates.py` was then a table of 349 cases (204 of them fail on the
+> hooks before the rebuild: `results/2026-11-15/turn-gates-fix/red-on-merged.txt`), and
+> `selftest-mutations.py` a standing list of 156 deliberate breaks that the guard runs, so a rule that no
+> case tests fails the guard. Every upper-case constant of the three files is in the registry. Not measured:
+> a live session.
+
 > **Status 2026-11-12 — scheduled runs, standing registry.** `turngate.py` gains `turn_start()`: a scheduled
-> run is a turn of its own, and never merges (built in the kit 2026-11-04, upstreamed here unchanged; fixture
-> cases S1, S2, S5 fail on the 2026-11-02 hooks). Every hand-set value in this directory is now registered
+> run is a turn of its own, and never merges (for the routes the gate reads: see "What the gates cannot see"
+> below; built in the kit 2026-11-04, upstreamed here unchanged; cases
+> S1, S2, S5 of that day's fixture fail on the 2026-11-02 hooks; since 2026-11-15 the rule is carried by the
+> test table and stated in "The turn gates" below). Every hand-set value in this directory is now registered
 > in `redteam/constants_registry.json` and the guard fails on drift (ledger INC-2026-11-12-01).
 
 > **Status 2026-11-02 — decision-cards reminder.** `governance-trigger.py` adds one advisory line on the
 > owner's next message when the previous reply posed a decision as a "(Recommended)" list line without an
 > AskUserQuestion call (Solo-Leveling-System after-report: 5 of 13 decisions went out as text lists). Pinned
-> by `selftest-turn-gates.py` cases D1–D6 (red on the old trigger, green now). Never blocks.
+> by `selftest-turn-gates.py` cases O15 to O20 (D1–D6 of the fixture of that day; red on the old trigger,
+> green now). Never blocks.
 
-> **Status 2026-10-29 — turn gates.** The 2026-10-28 compliance audit of a two-week session found
-> every governor miss in a short follow-up turn the prompt classifier does not match. New:
-> `turngate.py` (shared), `governance-enforce.py` **F1** (a turn that committed, pushed, or created,
-> updated or merged a PR must have loaded plan-gate before the first such action and
-> adversarial-verify in the turn), `turn-gates-pretool.py` **F2** (a PR merge is denied without the
-> owner's word) and **F3** (advisory: after a plan-gate load, the first write is preceded by a
-> reminder unless a "Goal" text appears — advisory because a long cloud session's transcript did not
-> record 7 of 13 of its texts). Pinned by `selftest-turn-gates.py` (33 cases, 9/33 on the old hooks).
-> Replay over the whole real session: F1 blocks exactly the 7 audited turns and no other. Records:
-> `results/2026-10-29/turn-gates/`; ledger INC-2026-10-29-01.
+> **Status 2026-10-29 — turn gates, the first build** (rebuilt 2026-11-15; the rules as they stand are in
+> "The turn gates" below). The 2026-10-28 compliance audit of a two-week session found every governor miss in
+> a short follow-up turn the prompt classifier does not match. New that day: `turngate.py` (shared), the
+> outward-action rule of `governance-enforce.py` (then called **F1**: what a turn that commits, pushes or
+> changes a pull request must have loaded), the merge gate of `turn-gates-pretool.py` (then **F2**: a merge
+> is denied without the owner's word; since 2026-11-15 that word must name the pull request) and the
+> plan-shown advisory (then **F3**; advisory because a long cloud session's transcript did not record 7 of
+> 13 of its texts). Pinned that day by 33 fixture cases (9/33 on the hooks before it); every case of that
+> fixture is carried by the test table of 2026-11-15 or listed with the decision that changed it
+> (`results/2026-11-15/turn-gates-fix/old-selftest-mapping.md`). Replay over the whole real session that
+> day: F1 blocks exactly the 7 audited turns and no other. Records: `results/2026-10-29/turn-gates/`; ledger
+> INC-2026-10-29-01.
 
 # Hooks — mechanical trigger aids
 
@@ -34,14 +92,19 @@
 >   skill's frontmatter", is 4 words and under the cue's word floor) and also cues on 25/36
 >   negatives, the accepted cost of an advisory line that licenses skipping; the blocking
 >   classifier is unchanged.
+>   (2026-11-16: no longer true. The turn-gate rebuild, commit `c224c94`, changed `govclass.py`: a harness
+>   marker now counts only at the start of a text, so an owner prompt that quotes one is classified. The outside
+>   audit of the fix found that this change was not stated, finding AC-3.)
 > - `governance-enforce.py` matches the loaded Skill's NAME exactly (an unrelated skill whose
 >   arguments mentioned a governor used to count — attack G3), requires each enforced class's
 >   PRIMARY governor (a dispute passed on scope-fence alone — G4), ignores slash-command echoes
->   (G5), and allows a review-only turn that ran no tool and answered under 400 characters
+>   (G5; since 2026-11-15 only the echo of a command the program ran itself is ignored, and the arguments of
+>   any other slash command are the owner's prompt), and allows a review-only turn that ran no tool and answered under 400 characters
 >   (D-SV-5: "2+2=4, right?" was blocked 2/2).
 > - `receipt-law-stop-gate.sh` normalizes curly quotes ("couldn’t verify" passed 2/2 live — R2),
 >   adds paraphrases (R3-R4), uses word boundaries ("veteran" no longer contains the receipt
->   "ran " — R6), and requires the receipt within 400 characters of the claim (R5).
+>   "ran " — R6), and requires the receipt within 400 characters of the claim (R5). (Rebuilt 2026-11-15: the
+>   window is gone, the receipt sits in the claim's own sentence. See "The receipt gate" below.)
 > - the two first-write reminders and `session-doctrine.sh` read JSON with python3, not jq
 >   (D-GF-8: the hard-coded `/usr/bin/jq` made a jq-elsewhere machine share one sentinel per
 >   machine; no jq on PATH silenced the compaction protocol entirely). Pinned by the new
@@ -50,7 +113,8 @@
 > chars) are hand-set, uncalibrated; live acceptance 8/8 pre-registered in
 > `experiments/hypothesis-2026-10-19-redteam-fixes.md`. Known residuals, deliberately not fixed
 > here: the receipt gate's turn boundary (attacks R7-R9) and an unrelated-but-near receipt word
-> (R5's cousin inside the window); the band hook's B3-B5; the classifier's sealed-set recall
+> (R5's cousin inside the window; the first closed on 2026-11-15, the second narrowed to the claim's own
+> sentence); the band hook's B3-B5; the classifier's sealed-set recall
 > (D-SV-3 options a/b stand).
 
 > **Status 2026-10-13 — wired at project scope.** `.claude/settings.json` in this
@@ -72,6 +136,473 @@
 > rather than from repo settings — the settings keys do not load in cloud sessions; see
 > install-and-surfaces Runbook 4, steps 6–7). The plugin's `scripts/` are byte-identical
 > copies of this directory; the guard fails on drift. Ledger: INC-2026-10-13-01.
+
+## The turn gates: turngate.py, turn-gates-pretool.py, governance-enforce.py (rebuilt 2026-11-15)
+
+Three files. `turngate.py` reads the session record once and answers two questions: what each row IS (the
+owner typing, a wake-up, a tool result, a stop) and what a tool call DOES (a shell command is parsed: a word in
+command position is an act, anything else is data). The two hooks decide on that: `turn-gates-pretool.py`
+before a tool call (the merge gate and the plan-shown advisory), `governance-enforce.py` when the assistant
+stops (the Stop gate). The specification and its addendum are in `results/2026-11-15/turn-gates-fix/`
+(`CORE-SPEC.md`, `CORE-SPEC-ADDENDUM.md`). The wanted verdicts of the 314 cases of the first design were fixed in
+`experiments/hypothesis-2026-11-15-turn-gates-cases.md` before any change to the shipped hooks; that file was
+committed after two prototypes had been built and run against the merged hooks, as it says itself. The cases added
+since (the receipt gate, the wiring, the fixes after the outside reads) were written red first but not
+pre-registered, and one pre-registered verdict was changed by the owner's decision D4
+(`results/2026-11-16/audit-fixes/second-read/verdicts-changed-by-d4.md`). This sentence said "the wanted verdict
+of every test case was fixed before any run" until the outside audit found it overstated (finding AC-1). Where an older status block of this file states one
+of these rules differently, this section is the rule.
+
+### The merge word (merge gate, before a tool call)
+
+What the owner decided (three card answers, 2026-11-13):
+
+- **D1.** A merge is authorized only by the owner's click on a card (AskUserQuestion) that names the pull
+  request, or by a message the owner typed that orders the merge and names its number. A bare "yes",
+  "proceed", "go ahead" or "merge it" authorizes nothing: the denial tells the assistant to ask with a card
+  that names the pull request.
+- **D2.** The word covers only the pull requests it names, and it ends when the assistant stops. Work started
+  by a later notification or wake-up starts with no word.
+- **D3.** Switching auto-merge on, and a direct push to a default branch, need the same word. In a scheduled
+  run all of them are always denied, for the routes the gate reads ("What the gates cannot see", below, lists
+  the routes it does not).
+
+What is gated. The merge and auto-merge tools of any connector (the part of the tool's name after the last
+`__` is matched); the command-line merge, with or without `--auto`, and the merge routes of the REST and
+GraphQL API through the command line or an HTTP program; a push to `main`, `master` or the default branch
+the checkout records; a push of every branch (`--all`, `--mirror`, `--branches`, a wildcard refspec); a file
+pushed to a default branch through a tool or the API. A command is read through `bash -c`, `eval`, command
+substitution, a pipe or here-document into a shell, wrappers such as `sudo`, `env`, `timeout` and `xargs`, the
+command `find -exec` (`-execdir`, `-ok`, `-okdir`) runs, and these script files (a shell word that starts with `-`
+or `+` is an option, not the script: `bash +x FILE` and `bash +n FILE` run FILE, finding DM-8):
+
+| the file | how it is read |
+|---|---|
+| one handed to a shell (`bash FILE`, `sh FILE`) or to `source` / `.` | as a shell script; `bash -n FILE` (also `-en`) only checks syntax and reads nothing |
+| one fed to a shell on its standard input: `bash < FILE`, `sh < FILE`, `bash -s ARGS < FILE`, `bash /dev/stdin < FILE`, `bash - < FILE`, `cat FILE \| bash` (a shell option after the pipe changes nothing) | as a shell script, the same as `bash FILE` (since 2026-11-16, finding DM-1) |
+| one run directly: a command word that holds a `/` (`./land`, `/opt/x/ship`) or ends in `.sh` | as a shell script when it is a regular file of at most 256 KB that holds no NUL byte (a program, such as `/bin/ls`, is not read) and its first line is not the `#!` line of another program; a file whose `#!` line names another program (`#!/usr/bin/env python3`) is not read at all, as `python3 FILE` is not (since 2026-11-16, rule M1: its text on the text screens denied honest runs such as `./hooks/selftest-turn-gates.py --list`) |
+| one the same command text writes and then runs | what the text wrote: a here-document given to `cat > F`, `cat <<EOF > F` or `tee F`, the words of `echo` / `printf` with a redirection, `cat A > F` (the text of A), and `cp A F` / `mv A F` (F then holds the text of A: what the text wrote into A, else A on disk) are remembered and read when F runs later in the text (by a shell, on standard input, by `source` / `.`, or directly). `$PWD/F`, `${PWD}/F` and `$(pwd)/F` name F in the command's directory (since 2026-11-16, finding DM-7). A file the text writes in any other way (a download, another program's output, a copy of a file that cannot be read) and then runs sends the whole command text to the text screens |
+
+A command word the parser cannot resolve (`$(which gh) pr merge 40`, `$GH ...`, a backtick word) is judged
+once as `gh` and once as `git`; a merge or a push to a default branch under either reading counts. A request
+body read from a file (`gh api -F key=@FILE`, `gh api --input FILE`, curl's `-d @FILE`, `--data @FILE`,
+`--data-binary @FILE`, wget's `--post-file FILE` and `--body-file FILE`) is read as the same command text left it
+(since 2026-11-16, finding DM-6: a body the text wrote before the call is read as written, one it wrote in a way
+the parser cannot follow cannot be read), else from the file (relative to the command's directory; a regular file
+of at most 256 KB), and judged as if it were inline; a file that cannot be read keeps the verdict of a body the
+gate cannot see (a GraphQL call is denied as a merge whose target is unknown, `target-unknown`). A command that only
+mentions the words (a search, an echo, a commit message, a script that is written and not run) is not gated.
+
+What makes the word: the owner's decision D4 (card answer of 2026-11-16, "Plain orders only"; it refines D1). **A
+typed message counts only when its order is plain and comes last; anything wordier gets a card; any message the
+owner types while the assistant is working ends the word unless it is itself such an order.** Its principle is
+default deny: every word list below lets an order through, and none of them is what stops a merge. A list that
+misses an honest order costs one card; no list that misses a condition can let a merge through.
+
+How a typed message is read (`typed_ops` in `turngate.py`; texts after `normalize`, with code fences and quoted
+lines dropped):
+
+1. A message longer than `ORDER_MESSAGE_MAX_CHARS` (4,000 characters) is not read for an order: it grants
+   nothing. Reading is one pass over the text, so a long paste costs no more than its length (finding DM-9).
+2. A line break ends a sentence only when the line before it ends with `.`, `!` or `?`; otherwise the two lines
+   are one sentence. The sentences are then split at `.`, `!`, `?`, `;`, "but" and "however".
+3. Only the LAST sentence can grant. Closing sentences after it are passed over: closing words only
+   (`CLOSING_WORDS`: thanks, thank you, cheers, please, go ahead, do it, that's all ...) or a refusal that names
+   only other pull requests ("Leave 141 alone."). Any other sentence after the order means no grant. The
+   sentences before it are context: they grant nothing, and what they refuse is taken back first, in order.
+4. The last sentence is a plain order when its clauses (split at commas, colons, " - ", "then", and "and" before
+   the verb; a bracket is not split) are, in order: lead-in clauses (`ORDER_LEADIN_WORDS` and "first", or one of
+   `AFFIRMATIVE_PHRASES`: "yes", "ok", "looks good", "no objections", "why not", "don't wait" ...) or refusals of
+   other pull requests ("don't merge #26"); then the order clause: lead-in words, the verb used as a verb, the
+   pull requests, then only tail words (`ORDER_TAIL_WORDS`: now, today, asap, please, too, first, after all, with
+   squash, for me ...; "into / to / onto (the) main / master / default branch"; a bracket that only labels: every
+   word in it a pull request reference or number, a repository name (a word with "/", or one of
+   `BRACKET_LABEL_WORDS`: library, lib, deck, kit, docs, plugin, core, the), "recommended" or a list mark, so
+   "Merge #34 (after the audit)" and "Merge #34 (draft)" are no plain order, 2026-11-16); then only further
+   orders, lists of numbers ("34 first", "then #141"), tail words, affirmative phrases, or refusals of other pull
+   requests ("not #141"). Words before the first number are allowed only when the numbers stand in a bracket
+   ("merge the QA-loop PRs (#34 library, #141 deck)", "merge library only (#34)"); otherwise the list holds only
+   numbers and `ORDER_LIST_WORDS` (and, PR, the, both ...). A refusal word inside the list ("except") makes it no
+   order. A sentence that ends with "?" is an order only in the polite form ("Can you merge #34?").
+5. The branch word works the same way: the last sentence is a plain push order (lead-in words, the push verb,
+   at most three words of object, a default branch as the destination, then only tail words; no pull request).
+6. A message typed while the assistant works (`MIDTURN_MESSAGE_ENDS_WORD = True`, the owner's decision): one that
+   is not itself such an order empties the grant and the branch word. One that is such an order is applied as
+   any message: what it refuses, then what it grants; what was granted before it stays.
+
+| the owner typed (an owner turn; the merge of #34 unless said) | grants |
+|---|---|
+| "Merge #34.", "merge 34", "Please merge #34 now.", "Let's merge #34.", "Ok, let's merge #34 now.", "Looks good, merge #34.", "Yes, why not, merge #34.", "No objections, merge #34.", "First, merge #34.", "Merge #34, no rush", "Can you merge #34?", "Merge #34 into main.", "Merge #34 with squash.", "Merge #34 today.", "Merge #34 after all.", "The audit is done. Merge #34.", "Looks good\nMerge #34", "Merge #34. Thanks!", "Merge https://github.com/acme/lib/pull/34" | #34 |
+| "Merge #34 and #141.", "Merge #34 (library) and #141 (deck).", "Merge #34 and #141, 34 first.", "Merge #34 first, then #141." | both |
+| "Merge #34, not #141.", "Merge 34. Leave 141 alone" | #34, and #141 leaves the grant |
+| "Do not merge #34. Merge #35."; "don't merge #26, merge #27" | #35; #27 |
+| "Push this to main." | the branch word |
+| "Merge #34 once CI is green.", "Once CI is green, merge #34.", "Once CI is green,\nmerge #34.", "If the guard passes\nmerge #34", "Merge #34 in an hour.", "Merge #34 at noon.", "Merge #34 by end of day.", "Merge #34 this weekend.", "Merge #34 following the audit.", "Merge #34 eventually." | nothing |
+| "When the audit is back:\n- merge #34\n- then sync the kit", "Next steps:\n- merge #34\n- upload the plugin", "1. Merge #34\n2. Upload the plugin" | nothing (#2 neither) |
+| "Merge #34 and let me know when it's done.", "Merge #34. Then sync the kit.", "Merge #34. Nope.", "Merge #34. On second thought, let's wait for the audit." | nothing |
+| "Merge #34 conflicts with #35.", "Merge #34 touches the hooks, review it again.", "Merge #34 has failing checks, look at it.", "Your plan says\nmerge #34\nIs that right?", "Yesterday you said: merge #34. Explain why." | nothing |
+| "CI is green, merge #34.", "Don't wait for CI, merge #34 now.", "Wait for CI, then merge #34.", "Merge #34?", "Should we merge #34?", "I might merge #34 myself.", a message of 5,000 characters that ends with "Merge #34." | nothing |
+| "Push to main by end of day." | no branch word |
+| the verb with no number: "merge it", "yes", "proceed and merge" | nothing |
+| the assistant's own text; a tool's output, whatever it quotes; a notification body; a stored prompt; a compaction summary; a helper agent's row; any row the program wrote | nothing. Only the result of the card's own call, paired with it by id, is a click |
+
+Typed while the assistant works, after "Merge #34.": "Nope.", "Forget it.", "Ignore that.", "I take that back.",
+"Let me think about it.", "Let me review #34 first.", "Actually, I'll do it myself.", "Keep #34 open.", "Hang
+tight.", "one sec", "And fix the typo in the README while you're there.", "Thanks, I am here now.", "Don't wait
+for me.": the word is gone (after "Push this to main.", "Nope." ends the branch word too). "Merge #141 too.": #141,
+and #34 stays. In a scheduled run, a typed "Merge #40." makes the rest of the run attended and grants #40.
+
+Cards (rule A5):
+
+- A chosen option grants only when its label is a plain order clause: an optional "yes", the verb, the list (or
+  none: then the question's pull request when it names exactly one, or all of them when the option says both /
+  all, also by count: "Merge all three", "Merge both PRs"), then only tail words or a bracket that only labels
+  (point 4). "Merge #34", "Merge both (Recommended)", "Merge library only (#34)", "Merge (Recommended)", "Yes, merge
+  #34" grant; "Merge #34 by end of day", "Merge after the audit", "Merge #34 (after the audit)" do not, nor does a
+  yes on the question "Merge #34 (after the audit)?".
+- A "yes" label grants only when the question's LAST sentence is a plain order question: question lead-ins
+  (`QUESTION_LEADIN_WORDS`: shall I, should we, do you want me to, ok to ...), the verb, the list, only tail
+  words. Sentences before it are context: a yes on "PR 34 is green. Merge it now?" grants #34; a yes on "Merge #34
+  in an hour?", "Wait for the outside audit before I merge #34?", "Is #34 safe to merge?" or "Merge #34 or wait?"
+  grants nothing. A yes label itself is followed only by "both" / "all" or tail words ("Yes, after the audit"
+  grants nothing). The same for the branch word on a plain push question ("Push this to main?").
+- Any other option of a merge card, and an option that refuses ("Wait", "Not yet", "Merge neither"), takes the
+  question's pull requests out of the grant; a refusal that names no pull request but mentions a merge empties it.
+- Free text typed into a card is read as a typed message, with the question's pull request as the object of an
+  order that names none ("merge it, squash please"). Text that is not itself a plain order ends the word, as a
+  message typed mid-turn does.
+
+Taking back (unchanged by D4; revoking too much costs one card): a refusal (`REFUSAL_CUE`), a hold (`HALT_CUE`,
+un-negated: no "no", "not", "never", "without" or "n't" before it in its clause), a short refusal after soft words
+(`SOFT_LEADIN`, `REFUSAL_START`, six words at most: "Actually no.", "Nope."), a negation before its verb ("Don't,
+under any circumstances, merge #34"), and a statement about a pull request that refuses or holds it ("Merge #34
+can wait.") take the pull requests they name out of the grant, or empty it when they name none. "No rush", "no
+objections", "why not", "don't forget to", "don't wait" and their like refuse nothing. These are read in every
+sentence of a message, before its grant; they decide only where a message that is itself a plain order follows an
+earlier word, or a card follows a typed order.
+
+The cost of D4, stated: a wordier order ("Merge #34 and let me know when it's done", "Next steps: - merge #34")
+costs one card; so does any message the owner types while the assistant works that is not itself a plain order,
+also an unrelated remark ("And fix the typo while you're there"). The card is the unambiguous form.
+
+Rule C. A word that names a number without a repository is good for that number in ONE repository
+(`BARE_NUMBER_ONE_REPOSITORY = True`, a default): once a merge of #n was called in this window and the record does
+not show it denied or failed, a later merge of #n passes only when both calls name the same repository
+(owner/name, any case). A call whose repository the gate cannot read (`gh pr merge 34` without `-R`) counts as
+another repository. Denied with `merge-word`. A word that names the repository (`owner/repo#34`, an address) is
+unchanged. False: a bare number covers the number in every repository. The gate cannot know which repository the
+owner meant when the FIRST merge goes to another one: "Merge #34." then acme/deck#34 first passes.
+
+What ends the word, and what does not.
+
+| event | effect |
+|---|---|
+| a message the owner types while the assistant is idle (a typed slash command and a message with only an image included) | a new window: the earlier word is gone |
+| a completed stop; an interrupt; a wake row (a notification, a task or a peer message that only an idle session receives) | the word is gone |
+| the restart notice of the worker process | the word is gone (`RESTART_ENDS_WORD`, a default the owner was not asked about) |
+| a scheduled notification read in the middle of the owner's turn | the word given before it is gone; a card the owner answers after it grants again (the owner's answer of 2026-11-15: "No, ask me again") |
+| a blocked stop; a notification queued mid-turn; a GitHub notification read mid-turn; a skill load; a compaction | nothing: the word stands |
+| a message the owner types while the assistant works that is not itself a plain order | the word and the branch word are gone (D4, `MIDTURN_MESSAGE_ENDS_WORD`) |
+| a message typed mid-turn that is itself a plain order; a clicked option that refuses or is no plain order | what it refuses (or the question's pull requests) leaves the grant; a bare refusal empties it; what it orders is added |
+| a later merge of the same bare number in another repository | denied (rule C, `BARE_NUMBER_ONE_REPOSITORY`) |
+
+A card counts by where its ANSWER sits: a card shown before a restart notice and answered after it is answered
+in the current window. In a scheduled run nothing merges unless the owner types the order while it runs (a
+message the owner types during the run makes the rest of it attended: `QUEUED_OWNER_ATTENDS_RUN`, a default the
+owner was not asked about); a card answered inside the run grants nothing, also after the owner writes. A helper agent's call is judged like
+any call, on the main session's record (`DELEGATE_MAY_MERGE`, a default the owner was not asked about).
+
+A push whose branch the gate cannot read (a bare push from a directory it cannot read, a branch held in a
+variable it cannot resolve) is denied only where the owner is not present in the window (the owner's answer:
+"An order naming the branch"; `PUSH_UNKNOWN_BRANCH_POLICY`). The branch of a bare push is read from the
+checkout's `HEAD` file; no program is started.
+
+Every denial reads `TURN-GATE (merge word) [code]: ...`. Codes: `no-record`, `branch-unknown`, `scheduled`,
+`delegate`, `no-owner-word`, `target-unknown` (the pull request cannot be read from the call), `merge-word`,
+`default-branch`, `gate-error`.
+
+### The Stop gate (when the assistant stops)
+
+**Outward actions.** What counts (the owner's answer: "Commits, pushes, PRs, scheduling"): a commit (also by
+revert, cherry-pick or am), a push, creating, changing, merging or auto-merging a pull request, updating its
+branch, a workflow run, a file pushed through a tool or the API, and every change to a scheduled task, the
+session's own wake-ups included. Not counted: comments, reviews, issues, creating a branch or a repository,
+mail, drive, messages to other sessions. Not an action at all: a command that only mentions the words, a dry
+run, a help page, a call that was denied or rejected, and the last step of an and-chain that failed.
+
+Whether a call was denied is read from the record's own flags, never from what its output says (since
+2026-11-16, finding AS-1: a successful commit echoes its branch, subject and new file paths, which the session
+chose, so a branch named `claude/turn-gates-fix` used to make its own commit uncounted). A call was denied when
+its result row carries `toolDenialKind` (observed 2026-11-16 for a hook's denial: `"permission-rule"`), or when
+its result is an error whose text STARTS, after leading blanks and an optional `Error: `, with one of
+`DENIAL_LEADS`: `PreToolUse:<Tool> hook error:` (the observed form of a hook's denial), `TURN-GATE`, "The user
+doesn't want to proceed" (rejected at the permission prompt), "Permission to use ...", "requires approval",
+"Hook denied / blocked". A result that is not an error is never a denial, whatever it says. Observed (records of
+program 2.1.325, 2026-11-16): 14 of 14 denied calls carried `toolDenialKind`, 7 hook denials and 7 "auto mode
+classifier gave no verdict"; none lacked the flag. The leads are for rows that lack it: a denial worded outside
+them AND without the flag (the headless wordings "This Bash command contains multiple operations ...", "Claude
+requested permissions to use ...", recorded in stream output in this repository's results/) counts as an act;
+its cost is one block (finding DS-3, a stated limit; no lead was added). A failed call whose
+error text holds such words in its middle (a push "was rejected" by the remote) is judged as a failure, not a
+denial: the last step of its and-chain is dropped, the earlier steps count. The merge gate uses the same test
+when it counts an earlier merge of a bare number (rule C).
+
+- **What one stop judges: the stretch.** The rows since the owner's latest message or the latest completed
+  stop, whichever is later. A blocked stop is not a completed stop. A miss that was let go at its own stop is
+  not raised again at a later one.
+- **What must be loaded.** plan-gate before each outward action and adversarial-verify anywhere, both inside
+  the governance turn: since the owner's message, or since a scheduled run began. A load is a Skill call whose
+  name, after any scope prefix, is the governor's and whose result is not an error. Work woken by a
+  notification after a completed stop keeps the loads made since the owner's message. A scheduled run is judged
+  on its own loads; when a run begins inside the stretch, the part before it is judged on the owner turn's loads
+  and the part after it on the run's.
+- **After a compaction** (the owner's answer: "Yes after compaction") the governors must be loaded again
+  before the next outward action: plan-gate after the latest compaction that precedes the action, and
+  adversarial-verify after the latest compaction that precedes the last action of the part judged. A compaction
+  that comes after the last action voids nothing. The rule is judged per action. The block says so in plain
+  words when this is the miss.
+- **How often it blocks** (the owner's answer: "Yes, twice at most"). At most twice in one stretch: again when
+  its first block was not answered, then the stop is let go. After its own block, a plan-gate load made since
+  answers the acts made BEFORE that block, although it can no longer come first; an outward act made AFTER the
+  block needs plan-gate before it, as any act does (specification row S8, finding AS-5): "block, push, then
+  both governors" blocks again; "block, both governors, then push" is allowed. The retry flag
+  (`stop_hook_active`) is set after ANY Stop hook blocked. The rule counts its own earlier blocks from the
+  record. Without the flag, a block counts when work follows it in the record. With the flag, EVERY block of the
+  stretch counts, answered in the record or not (since 2026-11-16, finding DS-1): the session went on after each
+  of them, or it would not be stopping again, and its replies may never reach the record (an empty reply, a
+  record that is behind; counting only the last one blocked without end when two replies left no row). So the
+  rule blocks at most twice and the third stop is let go whatever the record holds, and the prompt-class rule
+  and the receipt gate, which count the same way, block at most once. Only when the flag is set and the record
+  shows no block at all is the stop let go at once.
+
+**Prompt class.** The owner's prompts of the turn are what the owner types (the owner's answer: "No, only what
+you type"): the message that starts the turn, a slash command's arguments, and every message sent while the
+assistant worked. A clicked card label is not a prompt; a row the program wrote is not; a message that merely
+quotes a harness marker is the owner's and is classified. When the prompts match an enforced class of
+`govclass.py`, the primary governor of every matched class must have been loaded in the governance turn (for
+this rule a load made before a compaction counts; a load made before the turn does not; its block reason says
+so). The rule is judged only at the first stop after the owner's message: it is silent in a scheduled run, when
+the record holds no owner message (`PROMPT_CLASS_SILENT_WITHOUT_OWNER_MESSAGE = True`, a default; False: such a
+stretch that made a real write is judged as work that needs plan-gate), and after a completed stop or a wake
+row. What each value costs: True lets a stretch with no owner message on record (a file that starts at a
+compaction, a scheduled run) write without plan-gate, unjudged by this rule (the outward-action rule still judges
+its commits and pushes); False judges such a stretch as build work whenever its main thread made a real write (a
+write call the record does not show denied, `was_denied`, the same test as the outward-action rule; a helper's
+write and a write before the run began do not count), which covers scheduled runs too, and costs one block for a
+run that writes a file without loading plan-gate. Its blocks are counted as the outward rule counts them (every
+block of the stretch on a retry). Allowance: the classes are review only, no tool other
+than Skill ran, and the answer is shorter than 400 characters (the final answer the program hands the hook is
+read when the record does not hold it). It blocks once in a stretch; a block by the other rule or by another
+Stop hook does not use that up.
+
+### The plan-shown advisory (before a tool call)
+
+After a plan-gate load, the first real write (a file outside scratch, a shell command that writes, an outward
+action, a scheduled-task change) is preceded by one reminder when the record holds no text of the assistant
+with the word "Goal" since the load. Once per load. It never blocks. **Its stated limit:** the record does not
+keep every message, so the reminder can be a false alarm, and its text says so. A command that only mentions
+write words, or writes only to scratch (`/tmp`, `/var/tmp`, the hook's `$TMPDIR`, and a redirection to a path
+written `$TMPDIR/...` or `${TMPDIR}/...` that does not climb out with `..`), does not spend it. Limit: a write
+command's argument written with the variable (`cp x "$TMPDIR/y"`) is still taken for a real write, because the
+parser keeps a variable's name only in a redirection; nor does it see a `TMPDIR=...` set in the same command.
+A helper agent's call gets none:
+the helper's own load and plan are not in the record the hook reads.
+
+### Which way each failure goes
+
+| failure | a merge, an auto-merge, a push to a default branch | any other call | the Stop gate |
+|---|---|---|---|
+| the hook's input is not JSON | DENY `gate-error` when the raw text crudely looks like one | allow | allow |
+| `turngate.py` is missing or cannot be loaded | DENY `gate-error` when the tool name or the command crudely looks like one | allow | allow |
+| the record's path is empty or missing, or the file holds no readable row | DENY `no-record` | allow | allow |
+| an error while judging | DENY `gate-error` (by the call's classification once there is one, else by the crude screen) | allow | allow |
+| a shell command the parser cannot read (also: a script whose `#!` line names another program; a file the text wrote another way and then ran) | a crude screen of its words decides: merge words make it a merge, and the words `git`, `push` and `main`, `master`, `all`, `mirror` or `branches` in one command make it a push to a default branch (since 2026-11-16, finding OW-1), judged like one | commit and push words make it an outward action for the Stop gate; otherwise nothing | - |
+| the hook is still running after 8 seconds | DENY `gate-error`, as for an error | allow | allow |
+
+Every path of both hooks ends with exit status 0 and prints one JSON object or nothing: the program lets a
+call through when a hook exits with an error or is cut off, so neither may happen. The crude screens are one
+pass over the words of the text, so no text can keep them busy. They are crude on purpose: on a failure path
+`git push origin main-fix` is taken for a push to main and denied. No environment variable and no key of a
+hook's input switches a rule off.
+
+### Wiring, copies, and which copy judges a session (2026-11-16)
+
+The program runs a hook's command through a shell. python3 exits 2 on a script that is not there, and before a
+tool call status 2 denies the call (bash exits 127, which lets it go). So every command of both wiring files
+runs its script only when the file is there (`if [ -f ... ]; then python3 ...; fi`), except the PreToolUse group
+for the merge tools alone (`^mcp__.*__(merge_pull_request|enable_pr_auto_merge)$`), which keeps the bare
+command: a missing `turn-gates-pretool.py` denies a merge tool. Every other gated name (Bash, Edit, Write,
+Monitor, the scheduling and PR tools: the matcher of the second group) goes to the same hook behind the file
+test, so a half-copied hooks folder no longer denies every call. The plugin's commands go through
+`run-unless-project-wired.sh` as before; each checks that the wrapper is there, and the merge group's command
+exits 2 with a message when the wrapper or the hook is missing from the plugin.
+
+| a missing file | merge tools | Bash, Edit, Write and the other gated tools | Stop, prompt, session start |
+|---|---|---|---|
+| `turn-gates-pretool.py` (or the whole hooks folder) | denied (status 2) | let through, **not judged** | let through |
+| `turngate.py` only | denied (`gate-error`) | let through; a shell command that crudely looks like a merge is denied (`gate-error`) | let through, not judged |
+
+Limit: with `turn-gates-pretool.py` missing, a merge made by a shell command is not judged at all in that
+project, and in a local session the plugin does not stand in, because the project's settings still name the
+hook (the wrapper's rule, unchanged here). Case W05 and the install runbook's self-test step fail on such a
+project; nothing stops a session from running in it.
+
+Which copy judges which session:
+
+| session | hooks that run | the scheduled-run rule |
+|---|---|---|
+| started inside this repository (local, or cloud with this one repository) | this repository's `hooks/`, wired by `.claude/settings.json` | holds |
+| started inside the kit or the deck (`fantasy-basketball-2026-27`, `yahoo-fantasy-basketball`) | that repository's own copy of these hooks | holds only once that repository's sync pull request is merged (until then its copies are the hooks of 2026-11-12) |
+| a cloud session with several repositories attached (the weekly task's session) | the account's plugin, `core-governance`, and only that | holds only once the owner uploads plugin 0.1.6; until then that session is judged by the version the account serves (0.1.4 on 2026-11-13), in which a scheduled run inherits the owner's last turn and may merge on an earlier "merge" word (findings F2-6, WR-1, SF-1) |
+
+The copies: `plugin/core-governance/scripts/` holds byte-identical copies; the guard compares every file there
+that has a twin here, and fails when a file the wiring runs, imports or tests is missing there. The other
+repositories carry their own copies, brought to this directory's by `bash hooks/sync-copies.sh <their root>`
+(it copies the files and prints the settings change as a diff, which it never applies) and a pull request the
+owner merges. What a project needs is computed, not typed: `python3 hooks/selftest-turn-gates.py --needs`
+prints the wired scripts, what they import or run, and the self-tests of them (16 files on 2026-11-16).
+
+### Helper agents
+
+A helper agent's rows are not in the record the hooks are handed. So when a call that carries `agent_id` holds
+an action the Stop gate counts and is not denied, the pre-tool hook notes it in a small ledger
+(`delegate-<hash of the record's path>.jsonl` in `$TURNGATE_STATE_DIR`, else `$TMPDIR/turn-gates`, else
+`/tmp/turn-gates`), and the Stop gate counts the note as an outward action of the stretch. A note is placed by
+its time stamp, so it stays usable after the record was rewritten at a compaction: it belongs to the stretch
+when it is later than the stretch's own first row (the owner's message or the stop it starts at), and it sits
+at the row the record had reached when it was written, so a helper that commits after plan-gate was loaded is
+judged as acting after it (finding AS-6). A helper's act is charged to the stretch in which it happens, also
+when the helper was started in an earlier turn (`HELPER_ACT_PLACED_BY_TIME = True`, a default taken without a
+question, finding AS-3). A note stamped while the session was idle (after a completed stop, before the owner's
+next message) is charged to the stretch that the owner's message starts: for such a stretch, notes later than the
+last completed stop before it count (since 2026-11-16, finding DS-2; no note is counted twice, because no other
+stretch counts that interval). What each value costs: True: the owner's next turn ("thanks") can be blocked once
+for a background helper's commit, and loading the governors answers it. False: such an act is charged only to a
+stretch whose main thread started a helper (`HELPER_TOOLS`) before the act, so the act of a helper started in an
+earlier turn is not counted at all (the launching turn's stop has already passed): a background helper of an
+ungoverned turn can then commit and push with no block at any stop. Limits: a helper's call that was let through
+and then failed still counts; when the ledger cannot be written nothing is counted and nothing is blocked; the
+ledger is lost with the container.
+
+### The owner's answers, one constant each
+
+Each answer is one upper-case name in `turngate.py`, so another answer changes one line. Every upper-case
+module-level name of the three files is registered in `redteam/constants_registry.json` with what it decides
+and what vouches for it; `registry_check.py` (run by the guard) fails on a value that is added or changed and
+not registered.
+
+| question | the owner's answer | constant |
+|---|---|---|
+| a scheduled notification lands between the order and the merge | "No, ask me again" (2026-11-15) | `SCHEDULED_READ_ENDS_WORD = True` |
+| what authorizes a direct push to main | "An order naming the branch" (2026-11-15) | `PUSH_ORDER`, `PUSH_DESTINATION`; `PUSH_UNKNOWN_BRANCH_POLICY = "deny-unattended"` |
+| how a typed order is read | "Plain orders only" (2026-11-16, D4) | `MIDTURN_MESSAGE_ENDS_WORD = True`, `ORDER_MESSAGE_MAX_CHARS = 4000`, the allowlists `CLOSING_WORDS`, `ORDER_TAIL_WORDS`, `ORDER_LIST_WORDS`, `ORDER_OBJECT_WORDS`, `REFUSAL_OTHER_WORDS` |
+| block again after a Stop block that was not answered | "Yes, twice at most" (2026-11-15) | `F1_MAX_BLOCKS = 2`, `PROMPT_CLASS_MAX_BLOCKS = 1` |
+| governor loads after a compaction inside the turn | "Yes after compaction" (2026-11-15) | `COMPACTION_VOIDS_LOADS = True`, `WAKE_TURN_INHERITS_LOADS = True` |
+| is a clicked card label the owner's prompt | "No, only what you type" (2026-11-15) | `CLASSIFY_CARD_ANSWERS = False` |
+| which actions the Stop gate counts | "Commits, pushes, PRs, scheduling" (2026-11-15) | `F1_COUNTED_KINDS` |
+| which calls need the merge word | D1 to D3 (2026-11-13) | `MERGE_GATED_KINDS`, `MERGE_TOOL_LEAVES` |
+
+Six defaults were taken without a question and are open for the owner (registry decision D-TG-2):
+`RESTART_ENDS_WORD = True`, `DELEGATE_MAY_MERGE = True`, `QUEUED_OWNER_ATTENDS_RUN = True` (a message the owner
+types during a scheduled run makes the rest of it attended, so a typed order then may merge; False: a scheduled
+run stays unattended to its end), and, from the audit of 2026-11-16, `BARE_NUMBER_ONE_REPOSITORY = True` (rule C; the stricter choice the owner may want instead: a word must name
+the repository whenever the session has several). Two more from the outside audit of the Stop gate (2026-11-16):
+`HELPER_ACT_PLACED_BY_TIME = True` in `turngate.py` (finding AS-3, "Helper agents" above) and
+`PROMPT_CLASS_SILENT_WITHOUT_OWNER_MESSAGE = True` in `governance-enforce.py` (finding AS-7, "Prompt class"
+above). `F1_COUNTED_KINDS` (what the Stop gate counts) can
+be changed without touching the merge gate: what needs the owner's word is `MERGE_GATED_KINDS`, and the pre-tool
+hook looks at every call that holds a gated act, a write, or a push whose branch it cannot read (cases `X06a`
+and `X06b` run the hooks with a shorter Stop list and still expect the denials).
+
+### Tests
+
+    python3 hooks/selftest-turn-gates.py              # the table: 1304 cases, one line each; exit 0 only when all pass
+    python3 hooks/selftest-turn-gates.py --only-failing J04 X05     # by the start of a name
+    python3 hooks/selftest-turn-gates.py --hooks DIR  # another copy of the hooks
+    python3 hooks/selftest-turn-gates.py W            # table "W": both wiring files, read and run
+    python3 hooks/selftest-turn-gates.py --needs      # the files a project carries beside its hooks
+    python3 hooks/selftest-mutations.py               # the break list: 514 deliberate breaks, each must be caught
+    python3 hooks/selftest-mutations.py --list        # what each break removes, and the cases named for it
+
+`selftest-turn-gates.py` builds a session record in the real row shapes for every case (`selftest_rows.py` is
+its row builder), runs a hook as the program would, and compares the verdict with the wanted one. The wanted
+verdicts of the pre-registered cases are never changed to make a case pass; cases added later carry new names.
+`selftest-mutations.py` proves the table can fail: it applies one text replacement at a time to a copy of the
+hooks and expects at least one case to fail; a break that survives, or whose text is no longer found, fails the
+run. The guard runs both. Evidence of 2026-11-15, in `results/2026-11-15/turn-gates-fix/`: the table on the
+hooks before the rebuild (`red-on-merged.txt`), on the rebuilt hooks (`pass-on-fixed.txt`), the break list
+(`mutations.txt`), the replay of a real session record against its baseline (`replay-vs-baseline.md`), the run
+time (`timing.txt`), the guard (`guard-after.txt`). Evidence of the merge-gate findings of the outside audit (2026-11-16), in
+`results/2026-11-16/audit-fixes/merge-gate/`: the new cases on the hooks as they stood (`red-on-start.txt`), the
+table and the break list after (`table-after.txt`, `mutations-after.txt`), each finding's reproduction on the
+fixed tree (`repro-on-fixed.txt`), the replay totals before and after (`replay-before-after.txt`), the guard
+(`guard-after.txt`). Evidence of the Stop-gate findings of the same audit and of the follow-ups to the merge
+gate, the same files in `results/2026-11-16/audit-fixes/stop-gate/` (table "U" of the test table). Evidence of the
+owner's decision D4 and of the second outside read (findings DM-1 to DM-10, DS-1 to DS-7), the same files in
+`results/2026-11-16/audit-fixes/second-read/` (table "D"), with `verdicts-changed-by-d4.md`: the 13 existing
+cases whose wanted verdict the decision changed, one of them pre-registered. A case about speed judges the CPU
+time the hook used (measured by a small wrapper around the hook), never the wall clock, so that a loaded machine
+cannot decide it; the deadline cases (`J04`) test the wall-clock deadline itself and stay on the clock.
+
+### Limits, stated as limits
+
+#### What the gates cannot see
+
+"A scheduled run never merges" and "always denied" hold for the routes the gate reads (above). It does not see:
+
+- a program in another language (inline, as in `python3 -c ...`, a file run by its interpreter, as in
+  `python3 land.py`, or a file run directly whose `#!` line names such a program, as in `./land.py`) that
+  merges or pushes through a library or a subprocess. Such a file is not read at all (since 2026-11-16, rule
+  M1; before, its text went to the text screens, which denied a file that only mentions the words);
+- a program found through `PATH` (a command word without a `/`, such as `land`, is not looked up);
+- a file written by a program the parser cannot follow and then run by a later command, or by another call;
+  a file run directly that holds a NUL byte (it is taken for a program; bash itself refuses one whose first
+  line holds a NUL byte);
+- aliases and shell functions defined outside the command text; `make`, `watch`, `ssh`, `docker exec`,
+  `git` aliases that run a shell, and their like;
+- a program text built by the shell at run time: `sh -c "$(printf ...)"`, a process substitution fed to a shell,
+  encoded text decoded into a shell, a branch held in a default expansion (`HEAD:${B:-main}`; a push whose branch
+  cannot be read is denied only where the owner is absent, `PUSH_UNKNOWN_BRANCH_POLICY`);
+- a script file as it is not when the hook runs: one that is missing, larger than 256 KB, or named relative to
+  a directory the gate does not know contributes nothing; a file replaced between the hook's check and the run
+  (by another call, or by a process the command starts) is judged as it was at the check. A loop over
+  directories is not unrolled, so a push inside it has no readable branch;
+- `find ... -exec bash {} \;` and its like: the script's name is filled in by find, so the gate cannot read
+  it (since 2026-11-16, a stated limit).
+
+The auditor's case `python-c` (a merge through `python3 -c` and a subprocess, in a scheduled run) is therefore
+still allowed: a stated limit, not fixed.
+
+#### Other limits
+
+- Rule C: when the FIRST merge of a bare number goes to another repository than the one the owner meant, the
+  gate cannot know; a call whose repository it cannot read counts as another repository, so a second merge of a
+  bare number through `gh pr merge N` without `-R` is denied.
+- D4 ends the word on any remark typed while the assistant works ("And fix the typo while you're there"): one
+  card more, by the owner's decision. A message typed mid-turn that is itself a plain order keeps what was
+  granted before it, and a refusal in its earlier sentences worded with none of the listed words ("Forget it.
+  Merge #35.") does not take the earlier word back.
+- Words before the numbers of an order are not read when the numbers stand in a bracket ("merge the QA-loop
+  PRs (#34 library, #141 deck)"): a refusal word there ("except") still voids the order, any other word does not.
+- A notification body that imitates exactly the next expected header line of its batch takes that header's
+  place. It can make a GitHub batch look scheduled (the word ends: the gate fails closed) or hide a scheduled
+  header that is not the first of its batch.
+- The word lists and patterns that read the owner's messages are hand-set and were not measured against real
+  messages (registry status `uncalibrated`, decision D-TG-1, open). Since D4 they are allowlists: a word missing
+  from one costs one card; none of them is what stops a merge. The card is the unambiguous form.
+- The deadline inside the hooks relies on the alarm signal (Linux and macOS; a pattern match that runs long is
+  interrupted there: checked 2026-11-15, the denial came at 8.0 s). On a system without that signal the
+  fallback timer cannot interrupt a single long call.
+- A record without stop rows is judged as never judged before: every real record has a stop row at every stop.
+- A failed and-chain (finding AS-4, the documents do not decide; behaviour unchanged): only its last step is
+  dropped. When an earlier step is the one that failed (`git commit -m x && git push` with nothing to commit),
+  the stretch is still counted as having committed, which costs one block; loading the governors answers it.
+- The replay tool judges a recorded push that names no branch against the checkout as it is at replay time,
+  not as it was when the push was made (`replay-vs-baseline.md` shows one denial that comes from this).
+- These gates run where hooks run: Claude Code. On claude.ai nothing here is enforced.
+- Not measured: behaviour in a live session; a blocked stop followed by a merge, a message sent mid-turn, a
+  scheduled delivery and a helper agent's outward call are tested on built records only, because the real
+  record holds none of them.
 
 ## session-doctrine.sh (shipped 2026-10-13)
 
@@ -194,72 +725,246 @@ Pipe-tested all three paths PASS 2026-08-03 (repo copy, this session,
 including the "spent all afternoon" variant). Live-fire and A/B owed, same
 experiment file.
 
-## receipt-law-stop-gate.sh (proposed 2026-08-12; installed and live-verified 2026-08-26)
+## The receipt gate: receipt-law-stop-gate.sh and receiptlaw.py (rebuilt 2026-11-15)
 
-The lever for INC-9. A **Stop** hook — the first in this pack that may *block*
-rather than remind, and the reason it may is worth stating: the house rule
-against blocking exists because a hook cannot judge triviality. This one never
-has to. It asks a textual question with a factual answer — *does this claim of
-inability name an attempt and a failure mode?* — and blocks only when the answer
-is no. Once per turn, never on a continuation it caused, fail-open on any error.
+The lever for INC-9. A **Stop** hook that may *block*: it asks a question about words that has a factual
+answer, *does this claim of inability name an attempt or a failure in its own sentence?*, and blocks the stop
+when the answer is no. `receipt-law-stop-gate.sh` is the wired entry point and only runs `receiptlaw.py`, which
+holds the rule and every hand-set value of it (133 since the second outside read of 2026-11-16, all in the registry
+as `receiptlaw.py:<NAME>`).
 
-**The design correction that matters.** The first version passed any turn in
-which some verification tool had run. Tested against the real incident, that
-**allowed it**: the founding session ran three searches, stopped, and then wrote
-"couldn't verify" about eight items it had never touched. *Some tool ran* proves
-nothing about a *specific* claim. The receipt is owed per claim, not per turn —
-so the tool count now only enriches the block message and never grants a pass.
-The regression is pinned as selftest case `t3-tools-ran-no-receipt`.
+**The rule it enforces** (adversarial-verify rule 6; the custom-instructions block): "couldn't verify", "unable
+to confirm", "not available", "no data exists" and their variants, contractions included, may be written only
+when the same sentence names what was attempted and how it failed. With no attempt to cite, the honest wording
+is "did not check".
 
-Install (user scope):
-1. `cp hooks/receipt-law-stop-gate.sh ~/.claude/hooks/` and `chmod +x` it.
-2. Merge into `~/.claude/settings.json`:
-   `{"hooks":{"Stop":[{"hooks":[{"type":"command","command":"bash ~/.claude/hooks/receipt-law-stop-gate.sh","timeout":10}]}]}}`
-3. Verify: `bash hooks/selftest-receipt-law.sh` (expects 10/10 PASS), then
-   observe a real turn that claims an unreceipted inability.
+**Rebuilt on 2026-11-15** after the audit of 2026-11-12 (findings RL-1 to RL-8, TB-5, FU2-1, FU2-9). What was
+wrong, in one line each: the contraction "can't" was never matched; 37 of 37 ordinary bare claims passed,
+"not available" among them; any of about 25 words within 400 characters counted as the receipt, the unverified
+thing itself included; a receipt that quoted its command and error was invisible; a quoted phrase, a negation,
+a question and a table of test cases were blocked; after ANY Stop hook's block the gate skipped every later
+answer of the turn; it started its turn at harness rows and disagreed with the other Stop gate at 18 of 26 real
+stops; it never read the final answer the program hands over; and 11 of 13 deliberate breaks passed its tests.
 
-Pipe-tested 10/10 PASS 2026-08-12, twice consecutively (repo copy), plus a
-fixture built from the **verbatim INC-9 report text** including its three real
-`WebSearch` calls: v1 → BLOCK, corrected v2 → ALLOW.
+### What is judged
 
-**Live-fired 2026-08-12** in an isolated `CLAUDE_CONFIG_DIR` with the hook wired
-as a real Stop hook, `claude-sonnet-5`, 3 sessions:
+What the owner is asked to read in the **stretch** this stop answers for: the rows since the owner's latest
+message or the latest completed stop (`turngate.stop_span`: the same rows `governance-enforce.py` judges). Since
+2026-11-16 (findings AR-2, DR-1, DR-7) that is, with `RECEIPT_JUDGES = "answers"`, **every text of the stretch
+except a working note**, and a working note is only a text whose next tool call is a **look-up**:
 
-- Ordinary turn ("default PostgreSQL port") — **not interrupted**, 6s, one-line
-  answer. The deployment risk for a blocking Stop hook is that it degrades every
-  turn it touches; it did not.
-- INC-9-shaped turn (classify 10 packages by licence, tally, ship/no-ship, web
-  tools disallowed) — run twice. **Gate stayed silent both times, correctly**:
-  the model volunteered its own receipt ("from training knowledge, not verified
-  live", "no web access", "run `license-checker` for a verified report"), which
-  is precisely the ATTEMPTED-FAILED shape the rule asks for.
-- **Zero false fires** across all live runs, verified against a clean `TMPDIR`
-  (0 sentinels written), not against leftover state from the fixture tests.
+- the look-ups (`NOTE_TOOLS`): Bash, Read, Grep, Glob, WebFetch, WebSearch, ToolSearch, Monitor, NotebookRead, and a
+  tool of an MCP server (`MCP_PREFIX`, `mcp__`) whose own name holds get, list, read, search, query, fetch or view
+  as a word (`MCP_LOOKUP_WORDS`; `get_issue` and `fetchStatus` are look-ups, `send_message` and `forget_cache` are
+  not);
+- any other call after a text leaves the text judged: a card (`AskUserQuestion`), ExitPlanMode, a task list
+  (TodoWrite, TaskCreate, TaskUpdate ...), a file sent (SendUserFile), a write or an edit, a helper agent, a Skill
+  call, a notification read. So the summary the owner reads stays judged when the file it announces is sent
+  after it, when the task list is marked done after it, or when notes are saved after it (DR-1);
+- the texts after the last tool call (the final answer), the answer of a stop another Stop hook blocked
+  (`BLOCKED_STOP_ENDS_ANSWER`), and, in a record without stop rows, the texts before a scheduled run or a wake (the
+  session had stopped there);
+- the final answer the program hands over in the Stop input (`last_assistant_message`), unless a text judged by
+  the rules above holds it word for word. Words that stand only inside a working note do not count as held (DR-7).
 
-Honest limit on this evidence: **no live BLOCK was observed**, because no live
-run produced an unreceipted inability claim — two attempts, both self-corrected.
-So the no-false-positive property is EVIDENCE from live sessions; the blocking
-path remains proven by fixture only, including against the verbatim incident
-text. A/B still owed (`experiments/hypothesis-2026-08-11-gap-provenance.md`, H8).
+A working note is not judged. What this lets go: a bare claim in a text that a look-up follows, when the final
+answer does not repeat it ("I couldn't find the config. Let me search the whole repository." then a grep, then a
+clean answer); and a claim in the last text of a turn that ended on a look-up call, when the Stop input does not
+hand that text over. Before 2026-11-16 every text of the stretch was judged and the note blocked the stop;
+`RECEIPT_JUDGES = "every-text"` is that reading (case `RLD70` runs under it).
 
-**Update 2026-08-26 — installed, and the first live BLOCK observed.** The hook
-is installed at user scope on the primary machine and registered as a Stop hook
-in `~/.claude/settings.json` (settings mtime 2026-08-19, observed 2026-08-26).
-In a real session on 2026-08-26 it blocked a turn that wrote "couldn't check"
-about the claude.ai settings box with no attempt named: the block message cited
-the turn's 9 lookups, the corrected turn shipped a proper receipt (what was
-available and why none of it could reach the box), and the gate passed it. The
-blocking path is now live-proven, not fixture-only; the paragraph above stands
-as the honest record of what was known before this firing. Selftest re-run
-2026-08-26: 10/10, twice. Evidence: `results/2026-08-26/system-integrity/`.
-The A/B (H8) remains owed — one live block is an existence proof, not a rate.
+### How a text is read
 
-**Surface limit, stated plainly:** Claude Code only. claude.ai has no hook
-layer, and INC-9 happened on claude.ai — so on that surface the receipt law is
-carried by the custom-instructions block alone
-(`instructions/claude-ai-custom-instructions.md`, standing principles). This
-hook hardens the surface where the incident did *not* happen. That is worth
-having and is not a substitute for the paste.
+| step | rule |
+|---|---|
+| not the assistant's claim | words inside a fenced block, a block quote, inline code, or quotation marks (double, single, curly) |
+| a sentence | ends at `.`, `!`, `?` before a capital, a digit or a quote, and at a paragraph break. It goes on after a colon, a semicolon, a dash and in parentheses. A table row is a sentence; so is a list item. A line that ends with a colon goes on in every list item under it, in every row of the table under it, or in the first sentence of the paragraph after it. A heading is a title, never a claim |
+| a fenced block | belongs to the sentence above it, also across one short label line that speaks of an attempt, an error or an output ("Attempt and failure:") |
+| whose claim | the assistant: I, we, "this session" (and the session's own nouns: session, container, sandbox, environment, assistant, agent), or no subject at all, with any verb. **A piece of work as subject is the assistant only with a verb of verifying** (`EPISTEMIC_VERBS`: verify, confirm, check, validate, establish, determine, prove, reproduce; DR-3, DR-4): its first `WORK_SUBJECT_WORDS` (5) words, counted from the start of the clause, hold a noun of `WORK_NOUNS` (run, session, report, audit, review, pass, task, job, analysis, check) and, before it, an owner (`WORK_OWNERS`: this, my, our, today's, tonight's) or a time or mode word (`WORK_TIMES`: weekly, daily, nightly, morning, afternoon, scheduled, automated, unattended), and no word names another owner (`OTHER_OWNERS`: your, their, his, her, its; or a possessive such as "the client's" that is not a time, `TIME_POSSESSIVES`). So "This week's run couldn't confirm the rate" and "The scheduled weekly task couldn't verify ..." are the assistant's; "The weekly job couldn't find the export", "Our nightly job couldn't access the bucket" (a verb of finding or reaching: a system's failure) and "Your nightly job couldn't verify the backup" are not |
+| a claim | the assistant (above) could not verify, confirm, validate, reproduce, establish (the verbs of verifying, `VERIFY_VERBS`) or check, determine, find, reach, access, obtain, locate (the verbs of finding and reaching, `ACCESS_VERBS`) something; was unable or not able to; failed to; has no way to or of; has no access to; "impossible to verify", "it wasn't possible to", "verification (of X) was not possible", "verifying / confirming X wasn't possible"; "could not be verified"; "X is unverified / unconfirmed / unverifiable" as a predicate, a label or a table cell; data, records, figures or logs "are not available" or "unavailable"; "no data exists", "there is no data for"; an elliptical inability at the end of a clause, the verb standing earlier with "to" ("I wanted to verify the deploy but couldn't.", "... but could not / wasn't able to / was unable to.", `ELLIPTICAL_END`; DR lead): what was not verified stands before it, so its receipt must stand after it or before the verb ("... but couldn't: the endpoint returned 503.") |
+| a statement about code or a product, not a claim | the verbs of finding and reaching also describe systems, so with "we" and in the passive they are claims in the past tense only: "we can't access the DOM from a worker" and "the type cannot be determined at compile time" pass, "we couldn't access the dashboard" and "the status page could not be reached" are claims. "No way to know / tell" and "impossible to tell" are claims of "I" ("I have no way of knowing", "no way for me to know") or in the past tense ("there was no way to tell"). "Not available at compile time / in version 2 / until Friday" says where or when a thing is offered; "not available at the moment / in this session" stays a claim. "There is no more data to read", "no data loss", "no record type" are not about missing facts |
+| a clause that claims nothing | a condition or a description with a subject of its own, to the next comma: "the client retries when the server could not be reached", "a bug where the file could not be found", "any player whose team could not be found", "if this information is not available"; an event told with its period: "the dashboard could not be reached while the certificate was rotated"; "a bug made it impossible to ..."; "it would be impossible to ..." |
+| not a claim | a question; a negation ("nothing I couldn't verify", "none is unverified", "it isn't that the data is not available"); a condition ("if I can't verify it ..."); what a tool or a person said ("git says it cannot ...", "stopped with: Could not ...", "he wrote that the figures were not available", "the model card says the data is not available", "it says so (can't confirm ...)", "the claim that X could not be verified"); somebody else's inability ("the vendor could not ...", a passive with another agent: "could not be verified by older Android clients": the phrase after "by", up to a mark or a clause word (`AGENT_END_WORDS`), ends in a plural noun of three letters or more, not one that ends in ss, us or is and not in `NOT_AGENTS`. "By the assistant", "by midnight", "by any means", "by other ways", "by the usual methods", "by us", "by the process" and "by the vendor" (singular) stay claims; DR-5); a subject that names one attempt ("my search, my grep, my checks, my query, my lookup, my probe, my tests, my scan couldn't find ...") already names what was attempted and passes; a state that ended ("at first I couldn't ...", "couldn't find it at first"); a sentence about wording (it says phrase, pattern, wording, label ...); a general statement ("a rule cannot be checked ..."); a row of a table of examples (a header cell names language samples only through example(s), sentence(s), phrase(s), text(s), fixture(s), `EXAMPLE_TABLE_WORDS`; a table headed Claim, Quote or Wording check is a status table and its rows are judged, DR-2; so is one headed Test, Case, Input, Expected or Verdict); a row that counts ("\| Unconfirmed \| 0 \|", "\| Unverified \| 3 of 12 \|", "\| 3 \| unconfirmed \|": one cell only a status word, every other cell a count, `TALLY_NUMBER`: a whole number, "N of M", "N / M" or a share such as 12%; a date or a version is no count, so "\| Unverified \| 2026-11-16 \|" and "\| Unverified \| v2 \|" are claims; a table header that holds a number, a date or a version, `DATA_CELL`, is a row of data and is judged like the rows); a result, not an inability: "couldn't find anything wrong / any difference / a single failing test / a better way", "couldn't reach a different conclusion", "can't check this in"; the honest alternative itself ("did not check", "I have not verified") |
+| the house's own forms | not claims: the status of an assumption ("Status: unconfirmed", a table with a Basis or Assumption column, "assumption A2, unconfirmed", "A1 (...) is unconfirmed"), the section name "In scope and unverified", "labelled as unverified", "an unverified, old assertion", a list of labels or a tally ("verified, likely, and unverified", "12 verified, 3 unverified") |
+| what was not verified | the words after the claim, up to a comma, a colon, a semicolon, a bracket, a dash, a clause word (because, since, after, but, so, using, via, by + -ing ...) or, after at least one word, a phrase of means or source (with, from, per, in / over / across + a number in figures or words). A clause ("whether the job ran", "that the tests passed", "which runs timed out") runs on past a phrase of means, to a comma or a clause word. In the families whose subject stands first ("X could not be verified", "X is unverifiable") the words after the claim are no object, and a phrase of means there ends at once |
+| a receipt | in the claim's own sentence and **outside the words that say what was not verified**: an attempt (ran, "tried" + what was tried: an article, a number, a tool or a noun ("tried curl", "tried the API", "tried 3 times", "tried two mirrors", "tried my health script"); "tried" before a comma, the end, an -ly word, my / our + best (`TRIED_OWN_NOTHING`) or one of `TRIED_NAMES_NOTHING` (hard, everything, again, twice, to, but, and, it ...) names nothing, so "I tried hard but couldn't ...", "I tried again and couldn't ...", "I tried to verify X but couldn't" have no receipt (DR-6), while a failure word in the sentence still is one ("I tried to curl it but it timed out"); searched, searching, queried, fetched, opened, read, grepped, checked, sampled, "the re-run", "50 runs", "20 local runs", a count in words (`NUMBER_WORDS`: one to twenty, a dozen: "despite three retries", "in two runs"), "from the docs", "from the kit's records", "per the README", "using X"), a failure mode (returned, timed out, denied, refused, failed, error, a 4xx or 5xx code, not found, not installed, no network, "no tool ...", "no live path to ...", "requires a login", "without X" (the missing means), "after my training cut-off", "found nothing", "didn't find", "none of them lists ...", "the record shows none", "the dry run prints none"), a stated choice ("did not check, to save time", "by choice", `NOT-ATTEMPTED`), or a code span, a fenced block or a block quote. A search that names its place carries its receipt: "I couldn't find the config in the repository" (not "I couldn't find the config"). In "X cannot be reproduced: the re-run gives 13" the colon opens the explanation; in "Unverified: X" it opens the list of what was not verified |
+
+So "I couldn't verify whether the cron job ran" has no receipt (the word is the unverified thing), and "I
+couldn't verify the port: `ss -ltnp` returned permission denied" has one.
+
+### How often, and the retry flag
+
+At most `RECEIPT_MAX_BLOCKS` (1) block in a stretch. The count is read from the record: the feedback rows a
+blocked stop leaves, those whose reason carries this gate's mark ("Receipt law"). There is no state file. The
+retry flag (`stop_hook_active`) is true after ANY Stop hook's block, for the rest of the turn, so it decides
+nothing by itself. A block is counted when it was answered: work follows it in the record, or it is the
+record's last block and the flag is set (this stop answers it; the reply may be only in the Stop input, as in
+finding AR-6, where the other gate's block and a retried bare claim that the record did not hold yet were let
+go). Only when the flag is set and no block is counted at all is the stop let go. The block
+reason starts with "Receipt law", quotes the claim and its sentence, and gives the three ways out: run the
+check; write "did not check" and why; say in that sentence what was tried and how it failed.
+
+### Which way a failure goes
+
+Every one lets the stop go, with exit status 0 and nothing printed: python3 missing, `receiptlaw.py` or
+`turngate.py` missing, an input that is not a JSON object, a record that is missing, unreadable or empty (also
+the empty path of a session without a record), an error inside, and the gate's own deadline
+(`HOOK_DEADLINE_SECONDS`, 8, under the wired timeout of 10 s). No environment variable and no key of the input
+switches the rule off. Run time on a record of 48 MB: 0.69 s. One sentence of 200 KB that holds thousands of
+claims takes 2 to 6 s; past the deadline the stop is let go.
+
+### Policy defaults, one constant each (open for the owner; registry decision D-RG-2)
+
+| constant | default | the other reading |
+|---|---|---|
+| `RECEIPT_SCOPE` | `"sentence"`: the receipt sits in the claim's own sentence (the rule's words) | `"neighbours"`: the sentence before and the one after count too. Tested as cases `RLD90` to `RLD92`. On the real record replayed on 2026-11-15, two of the three stops this gate would have blocked hold a receipt word in a neighbouring sentence |
+| `NOT_VERIFIED_IS_A_CLAIM` | `False`: "X was not verified", "has not been confirmed" (no "could not") reads as "did not verify", the honest alternative. The rule does not name it and the house's own reports use it as a plain label | `True`: it needs a receipt like "unverified" does (the second auditor's reading). Tested as cases `RLD93` to `RLD96` |
+| `RECEIPT_MAX_BLOCKS` | 1 | 2, as the outward-action rule has: the answer after the block is then judged once more |
+| `RECEIPT_JUDGES` | `"answers"`: every text is judged except a working note, and a text is a working note only when its next tool call is a look-up (`NOTE_TOOLS`: Bash, Read, Grep, Glob, WebFetch, WebSearch, ToolSearch, Monitor, NotebookRead; and an MCP tool whose name holds get, list, read, search, query, fetch or view, `MCP_LOOKUP_WORDS`). Any other call after a text (a card, ExitPlanMode, a task-list call, SendUserFile, Write, Edit, a helper agent, Skill, a notification read) leaves it judged (findings AR-2, DR-1; the documents disagree on what is judged, this is the default the owner can overrule). It lets go a bare claim in a text a look-up follows, when the final answer does not repeat it, and a claim in the last text of a turn that ended on a look-up call when the Stop input does not hand that text over | `"every-text"`: every text of the stretch (the reading of 2026-11-15; a settled working note blocks the stop, 10 of 10 in the audit's list `narration.py`). Tested as cases `RLD70`, `ar_r2_every-text-*` |
+| `BLOCKED_STOP_ENDS_ANSWER` | `True`: the text the assistant stopped on is an answer also when another Stop hook blocked that stop, and is judged though work followed (the rule is silent; the safer reading) | `False`: only the final answer and what precedes a card. Case `ar_r2_answer-of-a-stop-another-gate-blocked` |
+| `CONDITION_WORDS`, `PERIOD_WORDS` | a clause opened by if, when, where, whose, once, until, while (to the next comma) and an event told with "while / during / until ..." claim nothing: they are how answers describe code and incidents | empty lists: every such sentence needs its receipt, and explanations of code are blocked ("the client retries when the server could not be reached") |
+| `SEARCHED_PLACE` | "couldn't find X in the repository" carries its receipt: the search and its place are named | no such reading: the sentence must also say how the search was made |
+| `FAILURE` ("without X") | "can't verify the signature without the raw body" names the missing means and passes | only the listed means count (credentials, a token, network, access) |
+| `ENUMERATION_BEFORE` | "12 verified, 3 unverified" is a tally: the items stand elsewhere and are judged there | a tally needs a receipt too |
+
+### Tests
+
+    python3 hooks/selftest-turn-gates.py RL ar_ dr_   # table "R" (386 cases) and table "V" (112 ar_ of the outside
+                                                      # audit, 127 dr_ of its second read, 2026-11-16)
+    bash hooks/selftest-receipt-law.sh                # the gate's first 15 cases, as a quick check
+    python3 hooks/selftest-mutations.py RC RD RE AR DR   # 259 deliberate breaks (DR52 to DR57: the merge gate's brackets)
+
+Table "R" holds every sentence of the audit's lists under its number (P, R, F, H, Q, T and the second auditor's
+V lists), the record shapes of RL-2, RL-7, TB-5, FU2-1 and FU2-9 built with `selftest_rows.py`, the failure
+paths, the 65 cases of the prose scan (`RLD150` to `RLD214`: each false block it found, and what must still
+block), and one case for every rule the break list needs. The break list holds the 13 mutations the audit
+recorded (RL-8), re-targeted, one break for every hand-set value and one for every rule that is not a value;
+the guard runs the table, the 15 cases and the break list. Evidence of 2026-11-15, in
+`results/2026-11-15/receipt-gate-fix/`: the cases on the gate as it was (`red-on-start.txt`: 176 cases that
+name a finding fail, 66 controls pass), the cases of the prose scan on the gate as it stood before the scan
+(`red-before-prose-scan.txt`), all cases on the rebuilt gate (`pass-on-fixed.txt`), the break list
+(`mutations.txt`), the audit's own reproductions (`audit-reproductions.txt`), the replay of the real record
+(`replay-vs-baseline.md`), run time and broken inputs (`timing-and-broken-inputs.txt`), the registry proof
+(`registry-proof.txt`), the prose scan with its two tools (`prose-scan.md`, `prose_scan.py`,
+`prose_probe.py`), the guard (`guard-after.txt`). Evidence of the second outside read (2026-11-16, DR-1 to DR-8):
+`results/2026-11-16/audit-fixes/second-read-receipt/`.
+
+### Limits, stated as limits
+
+- It reads words, not meaning. A paraphrase outside the families passes ("I had trouble confirming", "it is
+  unclear whether", "couldn't open / load / fetch / read / see X", "the projections are not available": not a
+  noun of `DATA_NOUNS`). A reason given in free words is not seen as a receipt: "cannot be verified from this
+  session, which has one repository attached" and "I cannot confirm the order for you: only the account holder
+  can" block once.
+- **It blocks a stop, so a doubt goes to the answer.** Where the words can be read both as the assistant's
+  inability and as a statement about a system, the sentence passes. That lets some true claims through: an
+  inability said of "we" or in the passive in the present tense with a verb of finding or reaching ("the logs
+  cannot be accessed"), "there is no way to know ..." in the present tense, a claim inside a clause opened by
+  if, when, where, whose, once, until, while ("I skipped the rows where the date could not be confirmed"), a
+  claim told with a period ("the figures could not be confirmed during this session"), an impersonal claim
+  after a verb of saying in the same clause ("I reported the outage and the status page could not be
+  reached"), and any "without ..." beside the claim ("couldn't verify the port without a doubt").
+- Still blocked wrongly, known: a general statement in the present passive with a verb of verifying ("the
+  constraint cannot be validated online on a table this large", "licence terms cannot be verified by a
+  machine"); a statement about a system in the past tense ("in the old schema there was no way to tell a refund
+  from a chargeback"); a claim in a clause opened by a word outside `CONDITION_WORDS` ("gives up after the
+  broker could not be reached"); a verb of saying outside `REPORTED_VERBS` ("their docs admit that ...");
+  idioms ("I can't confirm or deny a rumor"); "no data exists" said of a place inside a description of a
+  system ("no data exists in the table until the first import runs": the orchestrator's own probe, 2026-11-16,
+  31 of 32 sentences judged as wanted). The block reason says how to mark such a sentence: quotation
+  marks, or the receipt.
+- A receipt word that sits outside the unverified thing but is about something else still counts ("I couldn't
+  verify the port, but the build failed"). Since a comma ends the unverified thing (2026-11-16), that includes
+  the items of a list after a comma: "I couldn't verify the error rate, the timeout or the 404 page" passes
+  (case `ar_r1_limit-receipt-words-listed-after-a-comma`), as do "using the information I have" and "so I tried
+  to be careful" (the audit's FK12, FK21). A phrase of means right after the verb, before the object ("I couldn't
+  confirm from the changelog the release date"), is read as part of the object and blocks.
+- Not the assistant, by the subject's words: "the review" (no owner and no time word), the assistant's name,
+  any noun outside `WORK_NOUNS` (plurals included: "my checks"), a work noun past the subject's fifth word counted
+  from the start of its clause ("Because of the outage last night this run couldn't confirm ..."), and any piece of work with a verb
+  that is not one of verifying ("This run couldn't reach the API"). The audit's PX06 and PX09 pass; "today's
+  check" (PX05) is the assistant's since the second read.
+- Which text is a working note is decided by the name of the next tool call only: a Bash call that sends or
+  writes something is still a look-up, and an MCP tool's name is read word by word. A restart row between a text
+  and its tool call makes the text an answer (the audit's K04 blocks).
+- "Verification of A and B and C was not possible": more than `NOMINAL_REACH` (6) words between "verification
+  (of)" and "was not possible" are not read (the second read's W05 passes; case
+  `dr_e7_limit-nominal-past-its-reach`).
+- A passive's agent is read by its last word: "could not be verified by older clients in the field" ends in
+  "field" and stays a claim; "by its users" passes. A singular agent ("by the vendor") is never another.
+- An elliptical claim is read only with "to" + a verb of the families before "but" ("I wanted to verify X but
+  couldn't."); what stands between the verb and "but" is what was not verified, so a source named there ("from
+  the logs") is no receipt.
+- Tables headed Claim, Quote or Wording are status tables since the second read (DR-2): a table of claim
+  sentences under such a header, listed as examples, blocks; head it Example or Sentence. On the real record this
+  rule turns one stop of 2026-11-02 from allow to block (the replay prints verdicts only; whether that table lists
+  verdicts or examples was not read).
+- Still blocked wrongly on the domain kit's Markdown, a body nobody tuned against (2026-11-16, 22 blocked of
+  39,164 sentences, `prose-scans.md`; the same 22 of 39,555 after the second read, which reads more table rows): a reason or a result in free words (6: "appears only as ... with no
+  article behind it", "don't exist yet", "with this file, which holds one team's totals with no weekly rosters",
+  "with the simulator as it is"); a search table whose attempt stands only in its header ("query run") and a
+  quoted query (1, new with the narrower table rule); a quotation that is not closed in its sentence (1).
+  Borderline there: "unverifiable until <a time or an event>" (2) and an idiom of doubt about a source (1).
+  Facts about data said in the rule's own words with their reason ("No data exists for the 2019 season because
+  the league started in 2020", the audit's FBE list) still block. So does any code span in the claim's sentence, and any fenced block
+  or block quote directly under it.
+- A claim inside a block quote or inline code is exempt on purpose (the audit's cases Q01 and Q02 stay
+  allowed): a caveat written as a markdown callout is not judged.
+- A claim under a heading passes when the lines under it do not repeat the words ("## Could not verify" and a
+  bare list). A sentence that uses a word of `MENTION_WORDS` (phrase, pattern, wording, label ...) before the
+  claim is read as a sentence about wording. A question is never a claim, also "want me to retry what I
+  couldn't verify?".
+- A claim whose subject is left out after "and" or "but" is the assistant's unless the clause before starts
+  with "the", "a", "it" and the like; a tool's error text pasted with no quotation marks and no reporting verb
+  ("Could not determine the dependencies.") is read as the assistant's claim.
+- "Not available" is a claim only when said of data, records, figures, logs and the like (`DATA_NOUNS`), or
+  with "to me / here / in this session": "the flag is not available in version 2" is a fact about a product.
+- A sentence that starts in lower case after a full stop is not split off; a quotation that is never closed is
+  not seen as one.
+- When the answer is in neither the record nor the Stop input there is nothing to judge (the audit's case T06).
+  A record without stop rows is one stretch from the owner's latest message on (the audit's fixture S05 blocks;
+  the same record with its stop row is allowed, case `RLS05a`).
+- After its one block the gate is silent for the rest of the stretch, also when the next answer repeats the
+  claim (the audit's case Y01).
+- Every word list and pattern is hand-set (registry status `uncalibrated`, decision D-RG-1). Re-measured on
+  2026-11-16 with the same tools (`results/2026-11-16/audit-fixes/receipt-gate/prose-scans.md`): the bodies
+  below block the same sentences as on 2026-11-15 (the ordinary lists 7 of 199, one fewer); the two bodies
+  nobody had tuned against block 22 (the domain kit; 8 false, 3 borderline by the implementer's reading) and 0
+  (the season deck). After the second read (`results/2026-11-16/audit-fixes/second-read-receipt/`): the same 22
+  sentences of 39,555 and 0 of 7,811. Measured on 2026-11-15: the audit's lists (bare claims 40 of 40 blocked, false receipts 12 of 12 blocked, true receipts
+  12 of 12 allowed, non-claims 16 of 16 allowed). Ordinary prose (`prose-scan.md`): this repository's Markdown
+  at the commit before this fix, 10,384 sentences in 209 files, 9 blocked, each a bare claim by the rule's
+  words (before the scan's changes 11, two of them false blocks); the audit's briefs and reports, 18,975
+  sentences, 17 blocked, none a false block (before: 23, six false blocks); documentation of tools installed
+  on the machine, 86,715 sentences, none blocked; four hand-written lists of 199 ordinary sentences that hold
+  the gate's words: 74 blocked before the scan's changes, 8 after. The last list was not tuned against: 3 of
+  its 40 ordinary sentences are blocked and 1 of its 25 bare claims passes. So of ordinary sentences that hold
+  these words, roughly one in thirteen is still blocked wrongly, once per stretch. The real record: 3 of 26
+  stops would have been blocked where the old gate blocked none. The implementers did not read those three
+  answers (the record is closed to them). The orchestrator, who holds the record, read them on 2026-11-16: each
+  holds a first-person "can't confirm" or "can't reach" with no attempt and no failure named in its sentence;
+  in two of them a reason follows in the next line. By the rule's words all three are bare claims; whether a
+  reason in the neighbouring line should count is the owner's decision (`RECEIPT_SCOPE`). After the first outside
+  audit 2 of the 26 were blocked; after its second read 3 again: the third (2026-11-02) comes from the table rule
+  (DR-2) and has not been read by anyone.
+  `replay-vs-baseline.md` gives each stop without its text.
+- Claude Code only. claude.ai has no hook layer, and INC-9 happened there: on that surface the receipt law is
+  carried by the custom-instructions block (`instructions/claude-ai-custom-instructions.md`).
+- Not measured: a live session with the rebuilt gate.
+
+### History
+
+- 2026-08-12, proposed. The first version passed any turn in which some verification tool had run; tested
+  against the real incident that **allowed it** (three searches, then "couldn't verify" about eight items never
+  touched). *Some tool ran* proves nothing about a *specific* claim: the receipt is owed per claim. Live-fired
+  that day in three sessions with an isolated configuration: an ordinary turn was not interrupted; two
+  INC-9-shaped turns volunteered their own receipts and the gate stayed silent.
+- 2026-08-26, installed at user scope on the primary machine; first live block observed (a turn that wrote
+  "couldn't check" about the claude.ai settings box; the corrected turn named what was available and why none
+  of it could reach the box). Evidence: `results/2026-08-26/system-integrity/`.
+- 2026-10-13, wired at project scope (the plugin runs its own copy). 2026-10-19, red team: curly quotes, paraphrases, word
+  boundaries, a 400-character window (R2 to R6); the turn boundary and the near word were left as residuals.
+- 2026-11-15, rebuilt as described above. The window, the sentinel file and the two patterns are gone.
 
 ## governance-trigger.py + governance-enforce.py (RESCUED 2026-08-12, validated 2026-07-15, NOT installed)
 
@@ -287,6 +992,10 @@ Both compile clean (`python3 -m py_compile`, 2026-08-12). **Not installed and no
 re-validated against the current CLI** — the A/B is 4 weeks old and `claude` has
 moved (v2.1.228 here). Re-run `results/2026-07-15/phase2b_enforce_ab/` before
 trusting the 3/3 on today's version.
+
+**Since 2026-11-15** the Stop half is two rules on one turn model. What it reads as the owner's prompt, when it
+judges, what counts as loaded and how often it blocks are stated in "The turn gates" above; the paragraphs of
+this section are the history of the pair.
 
 Relationship to `receipt-law-stop-gate.sh`: complementary, not competing. This
 pair enforces **that a governor loads**; that one enforces **that a claim of

@@ -1,0 +1,34 @@
+inside the kit clone, after the sync
+$ python3 hooks/selftest-turn-gates.py
+== 740 cases: 740 pass, 0 fail ==
+exit 0
+$ python3 hooks/selftest-mutations.py
+== 352 breaks: 343 caught, 0 survived, 0 stale, 9 not run (their wiring file is not in this layout); control: 0 failing of 740 cases ==
+exit 0
+$ bash hooks/selftest-receipt-law.sh
+== 15 passed, 0 failed ==
+exit 0
+$ python3 hooks/selftest-governance-classify.py
+== 45 passed, 0 failed ==
+exit 0
+$ bash hooks/selftest-reminders.sh
+== 8 passed, 0 failed ==
+exit 0
+$ python3 hooks/selftest-turn-gates.py --needs
+govclass.py                          | imported by governance-enforce.py
+governance-enforce.py                | wired
+governance-trigger.py                | wired
+plan-gate-first-write-reminder.sh    | wired
+receipt-law-stop-gate.sh             | wired
+receiptlaw.py                        | run by receipt-law-stop-gate.sh
+scope-fence-reminder.sh              | wired
+selftest-governance-classify.py      | tests governance-enforce.py
+selftest-mutations.py                | tests governance-enforce.py
+selftest-receipt-law.sh              | tests receipt-law-stop-gate.sh
+selftest-reminders.sh                | tests plan-gate-first-write-reminder.sh
+selftest-turn-gates.py               | tests governance-enforce.py
+selftest_rows.py                     | imported by selftest-turn-gates.py
+session-doctrine.sh                  | wired
+turn-gates-pretool.py                | wired
+turngate.py                          | imported by governance-enforce.py
+exit 0

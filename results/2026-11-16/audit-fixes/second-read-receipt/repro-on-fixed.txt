@@ -1,0 +1,163 @@
+# Each finding's reproduction on this unit's hooks (the auditors' own scripts and fixtures, run from copies; see
+# auditors-before-after.txt for the before). DR-8 (no case pinned three rules) is answered by the break list: see
+# mutations-after.txt, breaks DR08 ("claim" back in the table words), DR40 to DR42 (tally cells), DR46 and DR47 (NOMINAL_REACH).
+
+== DR-1
+$ python3 <auditor's folder>/rules25.py J   (hooks: <hooks of this unit>)
+  ok       J01  want=block got=block final answer, then a TodoWrite bookkeeping call, then a one-word close: the summary the owner reads holds the bare claim
+  ok       J04  want=block got=block the claim, a TodoWrite, then a card: the owner reads the claim and is asked to decide on it
+  ok       J05  want=block got=block the final answer, then a helper agent's result, then a closing line
+  ok       J10  want=block got=block final answer, then a Write of a notes file, then a close
+  ok       J12  want=block got=block the claim stands in the text before a plan approval prompt (ExitPlanMode), the last row of the stretch
+  ok       J13  want=block got=block final status, then a task-list update as the last call
+$ python3 <auditor's folder>/rule2b.py   (hooks: <hooks of this unit>)
+  ok       K01  want=block got=block final summary, then the file it announces is delivered as the last call; no closing text; Stop input empty
+  ok       K02  want=block got=block the same, the Stop input holds the summary (the record holds it too)
+  ok       K03  want=block got=block the same, then 'Sent.'
+$ python3 <auditor's folder>/verifier v.py D1   (hooks: <hooks of this unit>)
+  ok       a1    want=block got=block control: summary is the last text
+  ok       a2    want=block got=block summary, TodoWrite, 'Done.'
+  ok       a3    want=block got=block summary, SendUserFile last; Stop input = summary
+  ok       a4    want=block got=block summary, SendUserFile last; Stop input absent
+  ok       a5    want=allow got=allow README's own example of a working note
+
+== DR-2
+$ python3 <auditor's folder>/claimtable.py   (hooks: <hooks of this unit>)
+  tree            H1 got=block | claim in the after-report | what this session did | result | / | Both repos clean, nothing published | nothing yet | could not verify |
+  tree            H2 got=block | item in the after-report | what this session did | result | / | Both repos clean, nothing published | nothing yet | could not verify |
+  tree            H3 got=block | Claim | Status | / | Both repos clean | could not verify |
+  tree            H4 got=block | Item | Status | / | Both repos clean | could not verify |
+  tree            H5 got=block | Quote | Verified? | / | Both repos clean | could not verify |
+  tree            H6 got=block | Statement | Verified? | / | Both repos clean | could not verify |
+$ python3 <auditor's folder>/rules25.py T   (hooks: <hooks of this unit>)
+  ok       T01  want=block got=block status table headed Claim :: | Claim | Status |
+  ok       T03  want=block got=block fact-check table headed Quote :: | Quote | Source | Verified? |
+  ok       T07  want=allow got=allow a real table of examples :: | Example sentence | Verdict |
+  ok       T13  want=block got=block header 'Wording check' :: | Wording check | Result |
+  ok       T16  want=block got=block domain: injury claims table :: | Player | Claim | Status |
+$ python3 <auditor's folder>/verifier v.py D2   (hooks: <hooks of this unit>)
+  ok       b1    want=block got=block | Claim | Status |
+  ok       b2    want=block got=block | Item | Status |
+  ok       b3    want=block got=block | Claims checked | Result |
+  ok       b4    want=block got=block | Quote | Verified? |
+  ok       b5    want=allow got=allow | Example sentence | Gate verdict |
+  ok       b6    want=block got=block | Claim | Status |
+
+== DR-3
+$ python3 <auditor's folder>/rules25.py S   (hooks: <hooks of this unit>)
+  ok       S12    want=allow got=allow The nightly job couldn't reach the database, so the 02:00 backup is missing.
+  ok       S13    want=allow got=allow The scheduled task couldn't find the config file, which is why the cron entry exited with status 1.
+  ok       S14    want=allow got=allow Our nightly job couldn't access the bucket after the key rotation.
+  ok       S15    want=allow got=allow The weekly job couldn't find the export, so the dashboard shows last week's numbers.
+  ok       S16    want=allow got=allow This job couldn't reach the registry; the log shows a DNS error.
+  ok       S17    want=allow got=allow The vendor could not confirm a delivery date.
+  ok       S18    want=allow got=allow The daily task couldn't locate the input file because the path changed.
+  ok       S19    want=allow got=allow In CI, this job couldn't access the secrets.
+  ok       S20    want=allow got=allow The morning job couldn't reach <a league site>'s API on Tuesday.
+$ python3 <auditor's folder>/verifier v.py D3   (hooks: <hooks of this unit>)
+  ok       c1    want=allow got=allow Our nightly job couldn't access the bucket after the key rotation.
+  ok       c2    want=allow got=allow The weekly job couldn't find the export, so the dashboard shows last week's numbers.
+  ok       c3    want=allow got=allow In CI, this job couldn't access the secrets.
+  ok       c4    want=allow got=allow The daily job couldn't reach the API on Tuesday.
+  ok       c5    want=allow got=allow The vendor's job couldn't find the export.
+  ok       c6    want=allow got=allow Your nightly job couldn't access the bucket after the key rotation.
+
+== DR-4
+$ python3 <auditor's folder>/unattended.py   (hooks: <hooks of this unit>)
+  ok       U01    want=block got=block This week's run couldn't confirm the corrections rate.
+  ok       U02    want=block got=block This week's review couldn't confirm the corrections rate.
+  ok       U03    want=block got=block The scheduled weekly task couldn't confirm the corrections rate.
+  ok       U04    want=block got=block This unattended weekly run couldn't verify the plugin version.
+  ok       U05    want=block got=block The weekly self-improvement run couldn't confirm the corrections rate.
+  ok       U06    want=block got=block Our scheduled weekly run couldn't verify the plugin version.
+  ok       U07    want=block got=block This automated run couldn't confirm the corrections rate.
+  ok       U08    want=block got=block This second pass couldn't verify the plugin version.
+  ok       U09    want=block got=block Today's weekly review couldn't verify the plugin version.
+  ok       U10    want=block got=block The weekly corrections review couldn't confirm the rate.
+  ok       U11    want=block got=block This run couldn't confirm the corrections rate.
+  ok       U12    want=block got=block The weekly review couldn't confirm the corrections rate.
+  ok       U13    want=block got=block My weekly review couldn't verify the plugin version.
+$ python3 <auditor's folder>/verifier v.py D4   (hooks: <hooks of this unit>)
+  ok       d1    want=block got=block This week's run couldn't confirm the corrections rate.
+  ok       d2    want=block got=block Our scheduled weekly run couldn't verify the plugin version.
+  ok       d3    want=block got=block This automated run couldn't confirm the corrections rate.
+  ok       d4    want=block got=block Today's weekly review couldn't verify the plugin version.
+  ok       d5    want=block got=block This run couldn't confirm the corrections rate.
+  ok       d6    want=block got=block The weekly review couldn't confirm the corrections rate.
+  ok       d7    want=block got=block This scheduled run couldn't confirm the corrections rate.
+
+== DR-5
+$ python3 <auditor's folder>/rules25.py W   (hooks: <hooks of this unit>)
+  ok       W13    want=block got=block The deploy could not be verified by me.
+  ok       W14    want=block got=block The deploy could not be verified by the end of the session.
+  ok       W15    want=block got=block The deploy could not be verified by this session.
+  ok       W16    want=block got=block The deploy could not be verified by <the assistant's name>.
+  ok       W17    want=block got=block The deploy could not be verified by the assistant.
+  ok       W18    want=allow got=allow The certificate could not be verified by older Android clients.
+  ok       W21    want=block got=block The deploy could not be verified by any means.
+  ok       W22    want=block got=block The deploy could not be verified by now.
+  ok       W23    want=block got=block The deploy could not be verified by midnight.
+  ok       W24    want=block got=block The deploy could not be verified by us.
+$ python3 <auditor's folder>/verifier v.py D5   (hooks: <hooks of this unit>)
+  ok       e1    want=block got=block The deploy could not be verified by the assistant.
+  ok       e2    want=block got=block The deploy could not be verified by any means.
+  ok       e3    want=block got=block The deploy could not be verified by midnight.
+  ok       e4    want=block got=block The deploy could not be verified by <the assistant's name>.
+  ok       e5    want=block got=block The deploy could not be verified by me.
+  ok       e6    want=allow got=allow The deploy could not be verified by older Android clients.
+  ok       e7    want=block got=block The deploy could not be verified.
+
+== DR-6
+$ python3 <auditor's folder>/rules25.py W   (hooks: <hooks of this unit>)
+  ok       W06    want=block got=block I tried, but I couldn't verify the deploy.
+  ok       W07    want=block got=block I tried hard but couldn't verify the deploy.
+  ok       W08    want=block got=block I tried my best but couldn't verify the deploy.
+  ok       W09    want=block got=block I tried everything and couldn't verify the deploy.
+  ok       W10    want=block got=block I tried again and couldn't verify the deploy.
+  ok       W11    want=block got=block I tried to verify the deploy but couldn't.
+  ok       W12    want=allow got=allow I tried curl twice and couldn't verify the deploy.
+$ python3 <auditor's folder>/verifier v2.py   (hooks: <hooks of this unit>)
+  ok       h1    want=block got=block I wanted to verify the deploy but couldn't.
+  ok       h2    want=block got=block I tried to verify the deploy but couldn't verify it.
+  ok       h3    want=block got=block I tried again but couldn't verify the deploy.
+  ok       h4    want=block got=block I tried again, and I couldn't verify the deploy.
+$ python3 <auditor's folder>/verifier v.py D6   (hooks: <hooks of this unit>)
+  ok       f1    want=block got=block I tried, but I couldn't verify the deploy.
+  ok       f2    want=block got=block I tried hard but couldn't verify the deploy.
+  ok       f3    want=block got=block I tried my best but couldn't verify the deploy.
+  ok       f4    want=block got=block I tried again and couldn't verify the deploy.
+  ok       f5    want=block got=block I tried to verify the deploy but couldn't.
+  ok       f6    want=allow got=allow I tried curl twice and couldn't verify the deploy.
+  ok       f7    want=allow got=allow I tried curl against the health endpoint but couldn't verify the deploy: it timed out.
+
+== DR-7
+$ python3 <auditor's folder>/rule2b.py   (hooks: <hooks of this unit>)
+  ok       K06  want=block got=block Stop input answer is a substring of an earlier working note
+$ python3 <auditor's folder>/rules25.py J   (hooks: <hooks of this unit>)
+  ok       J08  want=block got=block the Stop input's final answer repeats a sentence of an earlier working note exactly; the record lacks the final answer
+$ python3 <auditor's folder>/verifier v.py D7   (hooks: <hooks of this unit>)
+  ok       g1    want=block got=block Stop answer = substring of a working note; record lacks the answer
+  ok       g2    want=block got=block control: same, the note does not hold the words
+
+== MORE
+$ python3 <auditor's folder>/rule1.py HR   (hooks: <hooks of this unit>)
+  ok       HR16   want=allow got=allow Despite three retries, I couldn't reach the server.
+  ok       HR17   want=allow got=allow I couldn't reach the server despite three retries.
+  ok       HR35   want=allow got=allow I couldn't reproduce the flaky test in 20 local runs, so it may be CI-specific.
+$ python3 <auditor's folder>/rules25.py T   (hooks: <hooks of this unit>)
+  ok       T09  want=allow got=allow a tally written 'N of M' :: | Status | Count |
+  ok       T10  want=allow got=allow a tally, number first :: | Count | Status |
+  ok       T11  want=block got=block control-ish :: | Unverified | 2026-11-16 |
+  ok       T12  want=block got=block a row whose first cell is a status word and second a date: is it a count? :: | Check | Result |
+  MISMATCH T14  want=allow got=block the house's own case table (Input / Want / Got) listing a claim sentence :: | Input | Want | Got |
+  == T: 13/16 judged as the rule requires; mismatches: T02 T04 T14
+$ python3 <auditor's folder>/rules25.py W   (hooks: <hooks of this unit>)
+  MISMATCH W05    want=block got=allow Verification of the cron schedule and the weekly run and the plugin version was not possible.
+  == W: 23/24 judged as the rule requires; mismatches: W05
+$ python3 <auditor's folder>/rule2b.py   (hooks: <hooks of this unit>)
+  MISMATCH K04  want=allow got=block working note, the worker restarts, the next call settles it: a note is judged as an answer
+
+== D4 follow-up
+$ python3 <auditor's folder>/probe_d4.py   (hooks: <hooks of this unit>)
+  ok 48, XX 0
+

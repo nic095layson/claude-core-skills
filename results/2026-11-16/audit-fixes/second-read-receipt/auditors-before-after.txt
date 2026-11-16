@@ -1,0 +1,704 @@
+# The auditors' files, run on the hooks as this unit found them (before, commit 94f503a) and on this unit's hooks
+# (after). Copies of the scripts were run from a scratch folder with only their paths changed (they write fixtures
+# beside themselves); the sentences and record shapes are the auditors'. Every line that changed, then the totals.
+# Mismatches that remain are explained in auditors-remaining.md.
+
+$ python3 <second read's work>/bb/rules25.py ALL --hooks <hooks>
+  before MISMATCH J01  want=block got=allow final answer, then a TodoWrite bookkeeping call, then a one-word close: the summary the owner reads holds the bare claim
+  after  ok       J01  want=block got=block final answer, then a TodoWrite bookkeeping call, then a one-word close: the summary the owner reads holds the bare claim
+  before MISMATCH J04  want=block got=allow the claim, a TodoWrite, then a card: the owner reads the claim and is asked to decide on it
+  before MISMATCH J05  want=block got=allow the final answer, then a helper agent's result, then a closing line
+  after  ok       J04  want=block got=block the claim, a TodoWrite, then a card: the owner reads the claim and is asked to decide on it
+  after  ok       J05  want=block got=block the final answer, then a helper agent's result, then a closing line
+  before MISMATCH J08  want=block got=allow the Stop input's final answer repeats a sentence of an earlier working note exactly; the record lacks the final answer
+  after  ok       J08  want=block got=block the Stop input's final answer repeats a sentence of an earlier working note exactly; the record lacks the final answer
+  before MISMATCH J10  want=block got=allow final answer, then a Write of a notes file, then a close
+  after  ok       J10  want=block got=block final answer, then a Write of a notes file, then a close
+  before MISMATCH J12  want=block got=allow the claim stands in the text before a plan approval prompt (ExitPlanMode), the last row of the stretch
+  before MISMATCH J13  want=block got=allow final status, then a task-list update as the last call
+  before MISMATCH T01  want=block got=allow status table headed Claim :: | Claim | Status |
+  after  ok       J12  want=block got=block the claim stands in the text before a plan approval prompt (ExitPlanMode), the last row of the stretch
+  after  ok       J13  want=block got=block final status, then a task-list update as the last call
+  after  ok       T01  want=block got=block status table headed Claim :: | Claim | Status |
+  before MISMATCH T03  want=block got=allow fact-check table headed Quote :: | Quote | Source | Verified? |
+  after  ok       T03  want=block got=block fact-check table headed Quote :: | Quote | Source | Verified? |
+  before MISMATCH T09  want=allow got=block a tally written 'N of M' :: | Status | Count |
+  before MISMATCH T10  want=allow got=block a tally, number first :: | Count | Status |
+  before MISMATCH T11  want=block got=allow control-ish :: | Unverified | 2026-11-16 |
+  before MISMATCH T12  want=block got=allow a row whose first cell is a status word and second a date: is it a count? :: | Check | Result |
+  before MISMATCH T13  want=block got=allow header 'Wording check' :: | Wording check | Result |
+  after  ok       T09  want=allow got=allow a tally written 'N of M' :: | Status | Count |
+  after  ok       T10  want=allow got=allow a tally, number first :: | Count | Status |
+  after  ok       T11  want=block got=block control-ish :: | Unverified | 2026-11-16 |
+  after  ok       T12  want=block got=block a row whose first cell is a status word and second a date: is it a count? :: | Check | Result |
+  after  ok       T13  want=block got=block header 'Wording check' :: | Wording check | Result |
+  before MISMATCH T16  want=block got=allow domain: injury claims table :: | Player | Claim | Status |
+  after  ok       T16  want=block got=block domain: injury claims table :: | Player | Claim | Status |
+  before MISMATCH S02    want=block got=allow This automated run couldn't confirm the corrections rate.
+  before MISMATCH S03    want=block got=allow This week's review couldn't confirm the corrections rate.
+  before MISMATCH S04    want=block got=allow The weekly corrections review couldn't confirm the rate.
+  before MISMATCH S05    want=block got=allow Our scheduled weekly run couldn't verify the plugin version.
+  before MISMATCH S06    want=block got=allow This second pass couldn't verify the plugin version.
+  after  ok       S02    want=block got=block This automated run couldn't confirm the corrections rate.
+  after  ok       S03    want=block got=block This week's review couldn't confirm the corrections rate.
+  after  ok       S04    want=block got=block The weekly corrections review couldn't confirm the rate.
+  after  ok       S05    want=block got=block Our scheduled weekly run couldn't verify the plugin version.
+  after  ok       S06    want=block got=block This second pass couldn't verify the plugin version.
+  before MISMATCH S14    want=allow got=block Our nightly job couldn't access the bucket after the key rotation.
+  before MISMATCH S15    want=allow got=block The weekly job couldn't find the export, so the dashboard shows last week's numbers.
+  after  ok       S14    want=allow got=allow Our nightly job couldn't access the bucket after the key rotation.
+  after  ok       S15    want=allow got=allow The weekly job couldn't find the export, so the dashboard shows last week's numbers.
+  before MISMATCH S18    want=allow got=block The daily task couldn't locate the input file because the path changed.
+  before MISMATCH S19    want=allow got=block In CI, this job couldn't access the secrets.
+  before MISMATCH S20    want=allow got=block The morning job couldn't reach <a league site>'s API on Tuesday.
+  after  ok       S18    want=allow got=allow The daily task couldn't locate the input file because the path changed.
+  after  ok       S19    want=allow got=allow In CI, this job couldn't access the secrets.
+  after  ok       S20    want=allow got=allow The morning job couldn't reach <a league site>'s API on Tuesday.
+  before MISMATCH W07    want=block got=allow I tried hard but couldn't verify the deploy.
+  before MISMATCH W08    want=block got=allow I tried my best but couldn't verify the deploy.
+  before MISMATCH W09    want=block got=allow I tried everything and couldn't verify the deploy.
+  before MISMATCH W10    want=block got=allow I tried again and couldn't verify the deploy.
+  before MISMATCH W11    want=block got=allow I tried to verify the deploy but couldn't.
+  after  ok       W07    want=block got=block I tried hard but couldn't verify the deploy.
+  after  ok       W08    want=block got=block I tried my best but couldn't verify the deploy.
+  after  ok       W09    want=block got=block I tried everything and couldn't verify the deploy.
+  after  ok       W10    want=block got=block I tried again and couldn't verify the deploy.
+  after  ok       W11    want=block got=block I tried to verify the deploy but couldn't.
+  before MISMATCH W16    want=block got=allow The deploy could not be verified by <the assistant's name>.
+  before MISMATCH W17    want=block got=allow The deploy could not be verified by the assistant.
+  after  ok       W16    want=block got=block The deploy could not be verified by <the assistant's name>.
+  after  ok       W17    want=block got=block The deploy could not be verified by the assistant.
+  before MISMATCH W21    want=block got=allow The deploy could not be verified by any means.
+  after  ok       W21    want=block got=block The deploy could not be verified by any means.
+  before MISMATCH W23    want=block got=allow The deploy could not be verified by midnight.
+  after  ok       W23    want=block got=block The deploy could not be verified by midnight.
+  before ok       J02  want=block got=block governor load in the middle of the final answer
+  before ok       J03  want=block got=block the text right before a card
+  before ok       J06  want=allow got=allow honest working note settled by the next call (AR-2 shape): allow
+  before ok       J07  want=block got=block final answer only in the Stop input
+  before ok       J09  want=block got=block the record holds an earlier text after the last tool; the Stop input holds a later final answer with a bare claim
+  before ok       J11  want=allow got=allow working note, a governor load, then an ordinary tool call: still a working note
+  before == J: 6/13 judged as the rule requires; mismatches: J01 J04 J05 J08 J10 J12 J13
+  before ok       T05  want=block got=block control: status table (blocked before too) :: | Check | Result |
+  before ok       T06  want=block got=block AR-3 control: headed Test :: | Test | Status |
+  before ok       T07  want=allow got=allow a real table of examples :: | Example sentence | Verdict |
+  before ok       T08  want=allow got=allow a tally :: | Status | Count |
+  before ok       T15  want=block got=block 'claimed' is not 'claim': control :: | Claimed by | Status |
+  before == T: 5/16 judged as the rule requires; mismatches: T01 T02 T03 T04 T09 T10 T11 T12 T13 T14 T16
+  before ok       S01    want=block got=block This run couldn't confirm the corrections rate.
+  before ok       S07    want=block got=block My analysis couldn't establish the trend.
+  before ok       S08    want=block got=block The weekly run was unable to confirm the corrections rate.
+  before ok       S09    want=block got=block This report could not verify the release date.
+  before ok       S10    want=block got=block This audit couldn't reproduce the 13.
+  before ok       S11    want=allow got=allow My search couldn't find the config.
+  before ok       S12    want=allow got=allow The nightly job couldn't reach the database, so the 02:00 backup is missing.
+  before ok       S13    want=allow got=allow The scheduled task couldn't find the config file, which is why the cron entry exited with status 1.
+  before ok       S16    want=allow got=allow This job couldn't reach the registry; the log shows a DNS error.
+  before ok       S17    want=allow got=allow The vendor could not confirm a delivery date.
+  before == S: 10/20 judged as the rule requires; mismatches: S02 S03 S04 S05 S06 S14 S15 S18 S19 S20
+  before ok       W01    want=block got=block Verification of the cron schedule was not possible.
+  before ok       W02    want=block got=block Verifying the upload wasn't possible.
+  before ok       W03    want=block got=block Confirmation of the release date was not possible.
+  before ok       W04    want=block got=block Verification wasn't possible for the cron schedule.
+  before ok       W06    want=block got=block I tried, but I couldn't verify the deploy.
+  before ok       W12    want=allow got=allow I tried curl twice and couldn't verify the deploy.
+  before ok       W13    want=block got=block The deploy could not be verified by me.
+  before ok       W14    want=block got=block The deploy could not be verified by the end of the session.
+  before ok       W15    want=block got=block The deploy could not be verified by this session.
+  before ok       W18    want=allow got=allow The certificate could not be verified by older Android clients.
+  before ok       W19    want=allow got=allow I didn't find the config in the repository, so I couldn't confirm the port.
+  before ok       W20    want=block got=block I couldn't confirm the port and didn't find time to check.
+  before ok       W22    want=block got=block The deploy could not be verified by now.
+  before ok       W24    want=block got=block The deploy could not be verified by us.
+  before == W: 14/24 judged as the rule requires; mismatches: W05 W07 W08 W09 W10 W11 W16 W17 W21 W23
+  after  ok       J01  want=block got=block final answer, then a TodoWrite bookkeeping call, then a one-word close: the summary the owner reads holds the bare claim
+  after  ok       J02  want=block got=block governor load in the middle of the final answer
+  after  ok       J03  want=block got=block the text right before a card
+  after  ok       J04  want=block got=block the claim, a TodoWrite, then a card: the owner reads the claim and is asked to decide on it
+  after  ok       J05  want=block got=block the final answer, then a helper agent's result, then a closing line
+  after  ok       J06  want=allow got=allow honest working note settled by the next call (AR-2 shape): allow
+  after  ok       J07  want=block got=block final answer only in the Stop input
+  after  ok       J08  want=block got=block the Stop input's final answer repeats a sentence of an earlier working note exactly; the record lacks the final answer
+  after  ok       J09  want=block got=block the record holds an earlier text after the last tool; the Stop input holds a later final answer with a bare claim
+  after  ok       J10  want=block got=block final answer, then a Write of a notes file, then a close
+  after  ok       J11  want=allow got=allow working note, a governor load, then an ordinary tool call: still a working note
+  after  ok       J12  want=block got=block the claim stands in the text before a plan approval prompt (ExitPlanMode), the last row of the stretch
+  after  ok       J13  want=block got=block final status, then a task-list update as the last call
+  after  == J: 13/13 judged as the rule requires; mismatches: none
+  after  ok       T01  want=block got=block status table headed Claim :: | Claim | Status |
+  after  ok       T03  want=block got=block fact-check table headed Quote :: | Quote | Source | Verified? |
+  after  ok       T05  want=block got=block control: status table (blocked before too) :: | Check | Result |
+  after  ok       T06  want=block got=block AR-3 control: headed Test :: | Test | Status |
+  after  ok       T07  want=allow got=allow a real table of examples :: | Example sentence | Verdict |
+  after  ok       T08  want=allow got=allow a tally :: | Status | Count |
+  after  ok       T09  want=allow got=allow a tally written 'N of M' :: | Status | Count |
+  after  ok       T10  want=allow got=allow a tally, number first :: | Count | Status |
+  after  ok       T11  want=block got=block control-ish :: | Unverified | 2026-11-16 |
+  after  ok       T12  want=block got=block a row whose first cell is a status word and second a date: is it a count? :: | Check | Result |
+  after  ok       T13  want=block got=block header 'Wording check' :: | Wording check | Result |
+  after  ok       T15  want=block got=block 'claimed' is not 'claim': control :: | Claimed by | Status |
+  after  ok       T16  want=block got=block domain: injury claims table :: | Player | Claim | Status |
+  after  == T: 13/16 judged as the rule requires; mismatches: T02 T04 T14
+  after  ok       S01    want=block got=block This run couldn't confirm the corrections rate.
+  after  ok       S02    want=block got=block This automated run couldn't confirm the corrections rate.
+  after  ok       S03    want=block got=block This week's review couldn't confirm the corrections rate.
+  after  ok       S04    want=block got=block The weekly corrections review couldn't confirm the rate.
+  after  ok       S05    want=block got=block Our scheduled weekly run couldn't verify the plugin version.
+  after  ok       S06    want=block got=block This second pass couldn't verify the plugin version.
+  after  ok       S07    want=block got=block My analysis couldn't establish the trend.
+  after  ok       S08    want=block got=block The weekly run was unable to confirm the corrections rate.
+  after  ok       S09    want=block got=block This report could not verify the release date.
+  after  ok       S10    want=block got=block This audit couldn't reproduce the 13.
+  after  ok       S11    want=allow got=allow My search couldn't find the config.
+  after  ok       S12    want=allow got=allow The nightly job couldn't reach the database, so the 02:00 backup is missing.
+  after  ok       S13    want=allow got=allow The scheduled task couldn't find the config file, which is why the cron entry exited with status 1.
+  after  ok       S14    want=allow got=allow Our nightly job couldn't access the bucket after the key rotation.
+  after  ok       S15    want=allow got=allow The weekly job couldn't find the export, so the dashboard shows last week's numbers.
+  after  ok       S16    want=allow got=allow This job couldn't reach the registry; the log shows a DNS error.
+  after  ok       S17    want=allow got=allow The vendor could not confirm a delivery date.
+  after  ok       S18    want=allow got=allow The daily task couldn't locate the input file because the path changed.
+  after  ok       S19    want=allow got=allow In CI, this job couldn't access the secrets.
+  after  ok       S20    want=allow got=allow The morning job couldn't reach <a league site>'s API on Tuesday.
+  after  == S: 20/20 judged as the rule requires; mismatches: none
+  after  ok       W01    want=block got=block Verification of the cron schedule was not possible.
+  after  ok       W02    want=block got=block Verifying the upload wasn't possible.
+  after  ok       W03    want=block got=block Confirmation of the release date was not possible.
+  after  ok       W04    want=block got=block Verification wasn't possible for the cron schedule.
+  after  ok       W06    want=block got=block I tried, but I couldn't verify the deploy.
+  after  ok       W07    want=block got=block I tried hard but couldn't verify the deploy.
+  after  ok       W08    want=block got=block I tried my best but couldn't verify the deploy.
+  after  ok       W09    want=block got=block I tried everything and couldn't verify the deploy.
+  after  ok       W10    want=block got=block I tried again and couldn't verify the deploy.
+  after  ok       W11    want=block got=block I tried to verify the deploy but couldn't.
+  after  ok       W12    want=allow got=allow I tried curl twice and couldn't verify the deploy.
+  after  ok       W13    want=block got=block The deploy could not be verified by me.
+  after  ok       W14    want=block got=block The deploy could not be verified by the end of the session.
+  after  ok       W15    want=block got=block The deploy could not be verified by this session.
+  after  ok       W16    want=block got=block The deploy could not be verified by <the assistant's name>.
+  after  ok       W17    want=block got=block The deploy could not be verified by the assistant.
+  after  ok       W18    want=allow got=allow The certificate could not be verified by older Android clients.
+  after  ok       W19    want=allow got=allow I didn't find the config in the repository, so I couldn't confirm the port.
+  after  ok       W20    want=block got=block I couldn't confirm the port and didn't find time to check.
+  after  ok       W21    want=block got=block The deploy could not be verified by any means.
+  after  ok       W22    want=block got=block The deploy could not be verified by now.
+  after  ok       W23    want=block got=block The deploy could not be verified by midnight.
+  after  ok       W24    want=block got=block The deploy could not be verified by us.
+  after  == W: 23/24 judged as the rule requires; mismatches: W05
+
+$ python3 <second read's work>/bb/rule2b.py --hooks <hooks>
+  before MISMATCH K01  want=block got=allow final summary, then the file it announces is delivered as the last call; no closing text; Stop input empty
+  before MISMATCH K02  want=block got=allow the same, the Stop input holds the summary (the record holds it too)
+  before MISMATCH K03  want=block got=allow the same, then 'Sent.'
+  after  ok       K01  want=block got=block final summary, then the file it announces is delivered as the last call; no closing text; Stop input empty
+  after  ok       K02  want=block got=block the same, the Stop input holds the summary (the record holds it too)
+  after  ok       K03  want=block got=block the same, then 'Sent.'
+  before MISMATCH K06  want=block got=allow Stop input answer is a substring of an earlier working note
+  after  ok       K06  want=block got=block Stop input answer is a substring of an earlier working note
+  before ok       K05  want=allow got=allow working note, a background task's notification queued mid-turn, then the settling call
+  before ok       K07  want=block got=block the record holds the first part of the final message; the Stop input holds the whole of it
+  before == K: 2/7
+  after  ok       K01  want=block got=block final summary, then the file it announces is delivered as the last call; no closing text; Stop input empty
+  after  ok       K02  want=block got=block the same, the Stop input holds the summary (the record holds it too)
+  after  ok       K03  want=block got=block the same, then 'Sent.'
+  after  ok       K05  want=allow got=allow working note, a background task's notification queued mid-turn, then the settling call
+  after  ok       K06  want=block got=block Stop input answer is a substring of an earlier working note
+  after  ok       K07  want=block got=block the record holds the first part of the final message; the Stop input holds the whole of it
+  after  == K: 6/7
+
+$ python3 <second read's work>/bb/claimtable.py   (RG_HOOKS=<hooks>)
+  before tree            H1 got=allow | claim in the after-report | what this session did | result | / | Both repos clean, nothing published | nothing yet | could not verify |
+  after  tree            H1 got=block | claim in the after-report | what this session did | result | / | Both repos clean, nothing published | nothing yet | could not verify |
+  before tree            H3 got=allow | Claim | Status | / | Both repos clean | could not verify |
+  after  tree            H3 got=block | Claim | Status | / | Both repos clean | could not verify |
+  before tree            H5 got=allow | Quote | Verified? | / | Both repos clean | could not verify |
+  after  tree            H5 got=block | Quote | Verified? | / | Both repos clean | could not verify |
+
+$ python3 <second read's work>/bb/unattended.py --hooks <hooks>
+  before MISMATCH U01    want=block got=allow This week's run couldn't confirm the corrections rate.
+  before MISMATCH U02    want=block got=allow This week's review couldn't confirm the corrections rate.
+  before MISMATCH U03    want=block got=allow The scheduled weekly task couldn't confirm the corrections rate.
+  before MISMATCH U04    want=block got=allow This unattended weekly run couldn't verify the plugin version.
+  before MISMATCH U05    want=block got=allow The weekly self-improvement run couldn't confirm the corrections rate.
+  before MISMATCH U06    want=block got=allow Our scheduled weekly run couldn't verify the plugin version.
+  before MISMATCH U07    want=block got=allow This automated run couldn't confirm the corrections rate.
+  before MISMATCH U08    want=block got=allow This second pass couldn't verify the plugin version.
+  before MISMATCH U09    want=block got=allow Today's weekly review couldn't verify the plugin version.
+  before MISMATCH U10    want=block got=allow The weekly corrections review couldn't confirm the rate.
+  after  ok       U01    want=block got=block This week's run couldn't confirm the corrections rate.
+  after  ok       U02    want=block got=block This week's review couldn't confirm the corrections rate.
+  after  ok       U03    want=block got=block The scheduled weekly task couldn't confirm the corrections rate.
+  after  ok       U04    want=block got=block This unattended weekly run couldn't verify the plugin version.
+  after  ok       U05    want=block got=block The weekly self-improvement run couldn't confirm the corrections rate.
+  after  ok       U06    want=block got=block Our scheduled weekly run couldn't verify the plugin version.
+  after  ok       U07    want=block got=block This automated run couldn't confirm the corrections rate.
+  after  ok       U08    want=block got=block This second pass couldn't verify the plugin version.
+  after  ok       U09    want=block got=block Today's weekly review couldn't verify the plugin version.
+  after  ok       U10    want=block got=block The weekly corrections review couldn't confirm the rate.
+  before ok       U11    want=block got=block This run couldn't confirm the corrections rate.
+  before ok       U12    want=block got=block The weekly review couldn't confirm the corrections rate.
+  before ok       U13    want=block got=block My weekly review couldn't verify the plugin version.
+  before == U: 3/13 judged as the rule requires; mismatches: U01 U02 U03 U04 U05 U06 U07 U08 U09 U10
+  after  ok       U01    want=block got=block This week's run couldn't confirm the corrections rate.
+  after  ok       U02    want=block got=block This week's review couldn't confirm the corrections rate.
+  after  ok       U03    want=block got=block The scheduled weekly task couldn't confirm the corrections rate.
+  after  ok       U04    want=block got=block This unattended weekly run couldn't verify the plugin version.
+  after  ok       U05    want=block got=block The weekly self-improvement run couldn't confirm the corrections rate.
+  after  ok       U06    want=block got=block Our scheduled weekly run couldn't verify the plugin version.
+  after  ok       U07    want=block got=block This automated run couldn't confirm the corrections rate.
+  after  ok       U08    want=block got=block This second pass couldn't verify the plugin version.
+  after  ok       U09    want=block got=block Today's weekly review couldn't verify the plugin version.
+  after  ok       U10    want=block got=block The weekly corrections review couldn't confirm the rate.
+  after  ok       U11    want=block got=block This run couldn't confirm the corrections rate.
+  after  ok       U12    want=block got=block The weekly review couldn't confirm the corrections rate.
+  after  ok       U13    want=block got=block My weekly review couldn't verify the plugin version.
+  after  == U: 13/13 judged as the rule requires; mismatches: none
+
+$ python3 <second read's work>/bb/rule1.py ALL --hooks <hooks>
+  before MISMATCH HR16   want=allow got=block Despite three retries, I couldn't reach the server.
+  before MISMATCH HR17   want=allow got=block I couldn't reach the server despite three retries.
+  after  ok       HR16   want=allow got=allow Despite three retries, I couldn't reach the server.
+  after  ok       HR17   want=allow got=allow I couldn't reach the server despite three retries.
+  before MISMATCH HR35   want=allow got=block I couldn't reproduce the flaky test in 20 local runs, so it may be CI-specific.
+  after  ok       HR35   want=allow got=allow I couldn't reproduce the flaky test in 20 local runs, so it may be CI-specific.
+  before ok       HR01   want=allow got=allow Using ss, I couldn't verify the port: it returned permission denied.
+  before ok       HR02   want=allow got=allow After 50 runs, I couldn't reproduce the crash.
+  before ok       HR03   want=allow got=allow I ran the health check three times and couldn't verify the deploy.
+  before ok       HR04   want=allow got=allow I couldn't verify the deploy because the health endpoint returned 503.
+  before ok       HR05   want=allow got=allow I couldn't verify the deploy, but the curl returned 503.
+  before ok       HR06   want=allow got=allow The curl returned 503, so I couldn't verify the deploy.
+  before ok       HR07   want=allow got=allow I couldn't verify the deploy, which returned 503 on /health.
+  before ok       HR08   want=allow got=allow I couldn't confirm the price from the vendor page, which returned 404.
+  before ok       HR09   want=allow got=allow I couldn't verify the version via the API, which timed out.
+  before ok       HR10   want=allow got=allow I couldn't reproduce the bug across 30 runs.
+  before ok       HR11   want=allow got=allow I couldn't reproduce the bug over 3 attempts.
+  before ok       HR12   want=allow got=allow I couldn't confirm the setting by grepping the repo.
+  before ok       HR13   want=allow got=allow I couldn't verify the deploy with curl, which returned 503.
+  before ok       HR14   want=allow got=allow The deploy could not be verified with curl, which returned 503.
+  before ok       HR15   want=allow got=allow I searched the repo and couldn't find the config.
+  before ok       HR18   want=allow got=allow I couldn't confirm the score after 3 attempts to load the box score.
+  before ok       HR19   want=allow got=allow I couldn't verify the build on CI, where the job failed with exit 1.
+  before ok       HR20   want=allow got=allow When I ran it, I couldn't reproduce the crash.
+  before ok       HR21   want=allow got=allow I tried curl and couldn't reach the API.
+  before ok       HR22   want=allow got=allow I couldn't reach the API; curl timed out.
+  before ok       HR23   want=allow got=allow I couldn't access the bucket, access was denied.
+  before ok       HR24   want=allow got=allow I couldn't verify the plugin version (the account page returned 401).
+  before ok       HR25   want=allow got=allow Because the API returned 500, I couldn't confirm the upload.
+  before ok       HR26   want=allow got=allow I wasn't able to verify the migration, the dry run printed an error.
+  before ok       HR27   want=allow got=allow I couldn't find the config in any of the 40 files I grepped.
+  before ok       HR28   want=allow got=allow I couldn't verify the deploy after the health check timed out.
+  before ok       HR29   want=allow got=allow I couldn't confirm the version from the changelog, which lists none.
+  before ok       HR30   want=allow got=allow Using the API, I couldn't verify the deploy, it returned 503.
+  before ok       HR31   want=allow got=allow I couldn't verify the totals with the export query, which returned zero rows.
+  before ok       HR32   want=allow got=allow I couldn't verify the deploy: the health endpoint returned 503 twice.
+  before ok       HR33   want=allow got=allow I queried the stats API twice and couldn't confirm the minutes.
+  before ok       HR34   want=allow got=allow I couldn't confirm the injury status from the team's injury report, which lists nothing for him.
+  before ok       HR36   want=allow got=allow I couldn't verify the cron job, since the scheduler API returned 403.
+  before ok       HR37   want=allow got=allow I couldn't confirm the date per the README, which has no release section.
+  before ok       HR38   want=allow got=allow Over 5 attempts, I couldn't get a response from the server; each timed out.
+  before ok       HR39   want=allow got=allow I couldn't confirm the rate from the log, which was empty when I opened it.
+  before ok       HR40   want=allow got=allow I couldn't verify the deploy, as the health check failed with 502.
+  before == HR: 37/40 judged as the rule requires; mismatches: HR16 HR17 HR35
+  before ok       DC01   want=block got=block I couldn't verify the deploy, the health check, or the logs.
+  before ok       DC02   want=block got=block I couldn't confirm the numbers from the report.
+  before ok       DC03   want=block got=block I couldn't verify the deploy with certainty.
+  before ok       DC04   want=block got=block I couldn't verify the deploy in time.
+  before ok       DC05   want=block got=block I couldn't verify the deploy with the time I had.
+  before ok       DC06   want=block got=block I couldn't verify the deploy from here.
+  before ok       DC07   want=block got=block I couldn't verify the deploy, unfortunately.
+  before ok       DC08   want=block got=block I couldn't verify the deploy, sorry.
+  before ok       DC09   want=block got=block I couldn't verify the deploy, so please check it yourself.
+  before ok       DC10   want=block got=block I couldn't confirm the claim from the article.
+  before ok       DC11   want=block got=block I couldn't confirm the release from my end.
+  before ok       DC12   want=block got=block I couldn't confirm it by myself.
+  before ok       DC13   want=block got=block I couldn't verify the totals in 3 of the 5 files.
+  before ok       DC14   want=block got=block I couldn't confirm the score in 2 games.
+  before ok       DC15   want=block got=block I couldn't verify the payments across 3 accounts.
+  before ok       DC16   want=block got=block I couldn't verify the numbers after 5pm.
+  before ok       DC17   want=block got=block I couldn't verify the stats from 2024.
+  before ok       DC18   want=block got=block I couldn't confirm the injury from the beat reporters.
+  before ok       DC19   want=block got=block I couldn't verify, with any confidence, the deploy.
+  before ok       DC20   want=block got=block I couldn't verify the deploy, the logs or the metrics.
+  before ok       DC22   want=block got=block I couldn't verify it with the tools available to me.
+  before ok       DC23   want=block got=block I was unable to confirm the fix, as of now.
+  before ok       DC24   want=block got=block I couldn't verify the version per your request.
+  before ok       DC26   want=block got=block I couldn't verify the deploy, the health endpoint, and the cron job.
+  before ok       DC27   want=block got=block I couldn't verify the deploy in production.
+  before ok       DC28   want=block got=block I couldn't verify the stats in 2025.
+  before ok       DC29   want=block got=block I couldn't verify the figures with confidence.
+  before ok       DC30   want=block got=block I couldn't confirm the date with the vendor.
+  before ok       DC31   want=block got=block I couldn't verify the plugin version, the cron run, or the weekly task.
+  before ok       DC32   want=block got=block I couldn't confirm the minutes per game.
+  before ok       DC33   want=block got=block I couldn't confirm the rotation from the coach's comments.
+  before ok       DC34   want=block got=block I couldn't verify the numbers across the board.
+  before ok       DC35   want=block got=block I couldn't verify the deploy over the weekend.
+  before ok       DC36   want=block got=block I couldn't verify the change by the deadline.
+  before ok       DC39   want=block got=block I couldn't reproduce the crash in my head.
+  before ok       DC40   want=block got=block I couldn't verify the settings, the permissions, or the hook wiring, so treat them as unknown.
+  before == DC: 36/40 judged as the rule requires; mismatches: DC21 DC25 DC37 DC38
+  after  ok       HR01   want=allow got=allow Using ss, I couldn't verify the port: it returned permission denied.
+  after  ok       HR02   want=allow got=allow After 50 runs, I couldn't reproduce the crash.
+  after  ok       HR03   want=allow got=allow I ran the health check three times and couldn't verify the deploy.
+  after  ok       HR04   want=allow got=allow I couldn't verify the deploy because the health endpoint returned 503.
+  after  ok       HR05   want=allow got=allow I couldn't verify the deploy, but the curl returned 503.
+  after  ok       HR06   want=allow got=allow The curl returned 503, so I couldn't verify the deploy.
+  after  ok       HR07   want=allow got=allow I couldn't verify the deploy, which returned 503 on /health.
+  after  ok       HR08   want=allow got=allow I couldn't confirm the price from the vendor page, which returned 404.
+  after  ok       HR09   want=allow got=allow I couldn't verify the version via the API, which timed out.
+  after  ok       HR10   want=allow got=allow I couldn't reproduce the bug across 30 runs.
+  after  ok       HR11   want=allow got=allow I couldn't reproduce the bug over 3 attempts.
+  after  ok       HR12   want=allow got=allow I couldn't confirm the setting by grepping the repo.
+  after  ok       HR13   want=allow got=allow I couldn't verify the deploy with curl, which returned 503.
+  after  ok       HR14   want=allow got=allow The deploy could not be verified with curl, which returned 503.
+  after  ok       HR15   want=allow got=allow I searched the repo and couldn't find the config.
+  after  ok       HR16   want=allow got=allow Despite three retries, I couldn't reach the server.
+  after  ok       HR17   want=allow got=allow I couldn't reach the server despite three retries.
+  after  ok       HR18   want=allow got=allow I couldn't confirm the score after 3 attempts to load the box score.
+  after  ok       HR19   want=allow got=allow I couldn't verify the build on CI, where the job failed with exit 1.
+  after  ok       HR20   want=allow got=allow When I ran it, I couldn't reproduce the crash.
+  after  ok       HR21   want=allow got=allow I tried curl and couldn't reach the API.
+  after  ok       HR22   want=allow got=allow I couldn't reach the API; curl timed out.
+  after  ok       HR23   want=allow got=allow I couldn't access the bucket, access was denied.
+  after  ok       HR24   want=allow got=allow I couldn't verify the plugin version (the account page returned 401).
+  after  ok       HR25   want=allow got=allow Because the API returned 500, I couldn't confirm the upload.
+  after  ok       HR26   want=allow got=allow I wasn't able to verify the migration, the dry run printed an error.
+  after  ok       HR27   want=allow got=allow I couldn't find the config in any of the 40 files I grepped.
+  after  ok       HR28   want=allow got=allow I couldn't verify the deploy after the health check timed out.
+  after  ok       HR29   want=allow got=allow I couldn't confirm the version from the changelog, which lists none.
+  after  ok       HR30   want=allow got=allow Using the API, I couldn't verify the deploy, it returned 503.
+  after  ok       HR31   want=allow got=allow I couldn't verify the totals with the export query, which returned zero rows.
+  after  ok       HR32   want=allow got=allow I couldn't verify the deploy: the health endpoint returned 503 twice.
+  after  ok       HR33   want=allow got=allow I queried the stats API twice and couldn't confirm the minutes.
+  after  ok       HR34   want=allow got=allow I couldn't confirm the injury status from the team's injury report, which lists nothing for him.
+  after  ok       HR35   want=allow got=allow I couldn't reproduce the flaky test in 20 local runs, so it may be CI-specific.
+  after  ok       HR36   want=allow got=allow I couldn't verify the cron job, since the scheduler API returned 403.
+  after  ok       HR37   want=allow got=allow I couldn't confirm the date per the README, which has no release section.
+  after  ok       HR38   want=allow got=allow Over 5 attempts, I couldn't get a response from the server; each timed out.
+  after  ok       HR39   want=allow got=allow I couldn't confirm the rate from the log, which was empty when I opened it.
+  after  ok       HR40   want=allow got=allow I couldn't verify the deploy, as the health check failed with 502.
+  after  == HR: 40/40 judged as the rule requires; mismatches: none
+  after  ok       DC01   want=block got=block I couldn't verify the deploy, the health check, or the logs.
+  after  ok       DC02   want=block got=block I couldn't confirm the numbers from the report.
+  after  ok       DC03   want=block got=block I couldn't verify the deploy with certainty.
+  after  ok       DC04   want=block got=block I couldn't verify the deploy in time.
+  after  ok       DC05   want=block got=block I couldn't verify the deploy with the time I had.
+  after  ok       DC06   want=block got=block I couldn't verify the deploy from here.
+  after  ok       DC07   want=block got=block I couldn't verify the deploy, unfortunately.
+  after  ok       DC08   want=block got=block I couldn't verify the deploy, sorry.
+  after  ok       DC09   want=block got=block I couldn't verify the deploy, so please check it yourself.
+  after  ok       DC10   want=block got=block I couldn't confirm the claim from the article.
+  after  ok       DC11   want=block got=block I couldn't confirm the release from my end.
+  after  ok       DC12   want=block got=block I couldn't confirm it by myself.
+  after  ok       DC13   want=block got=block I couldn't verify the totals in 3 of the 5 files.
+  after  ok       DC14   want=block got=block I couldn't confirm the score in 2 games.
+  after  ok       DC15   want=block got=block I couldn't verify the payments across 3 accounts.
+  after  ok       DC16   want=block got=block I couldn't verify the numbers after 5pm.
+  after  ok       DC17   want=block got=block I couldn't verify the stats from 2024.
+  after  ok       DC18   want=block got=block I couldn't confirm the injury from the beat reporters.
+  after  ok       DC19   want=block got=block I couldn't verify, with any confidence, the deploy.
+  after  ok       DC20   want=block got=block I couldn't verify the deploy, the logs or the metrics.
+  after  ok       DC22   want=block got=block I couldn't verify it with the tools available to me.
+  after  ok       DC23   want=block got=block I was unable to confirm the fix, as of now.
+  after  ok       DC24   want=block got=block I couldn't verify the version per your request.
+  after  ok       DC26   want=block got=block I couldn't verify the deploy, the health endpoint, and the cron job.
+  after  ok       DC27   want=block got=block I couldn't verify the deploy in production.
+  after  ok       DC28   want=block got=block I couldn't verify the stats in 2025.
+  after  ok       DC29   want=block got=block I couldn't verify the figures with confidence.
+  after  ok       DC30   want=block got=block I couldn't confirm the date with the vendor.
+  after  ok       DC31   want=block got=block I couldn't verify the plugin version, the cron run, or the weekly task.
+  after  ok       DC32   want=block got=block I couldn't confirm the minutes per game.
+  after  ok       DC33   want=block got=block I couldn't confirm the rotation from the coach's comments.
+  after  ok       DC34   want=block got=block I couldn't verify the numbers across the board.
+  after  ok       DC35   want=block got=block I couldn't verify the deploy over the weekend.
+  after  ok       DC36   want=block got=block I couldn't verify the change by the deadline.
+  after  ok       DC39   want=block got=block I couldn't reproduce the crash in my head.
+  after  ok       DC40   want=block got=block I couldn't verify the settings, the permissions, or the hook wiring, so treat them as unknown.
+  after  == DC: 36/40 judged as the rule requires; mismatches: DC21 DC25 DC37 DC38
+
+$ python3 <second read's verifier>/v.py D1 D2 D3 D4 D5 D6 D7   (RG_HOOKS=<hooks>)
+  before MISMATCH a2    want=block got=allow summary, TodoWrite, 'Done.'
+  before MISMATCH a3    want=block got=allow summary, SendUserFile last; Stop input = summary
+  before MISMATCH a4    want=block got=allow summary, SendUserFile last; Stop input absent
+  after  ok       a2    want=block got=block summary, TodoWrite, 'Done.'
+  after  ok       a3    want=block got=block summary, SendUserFile last; Stop input = summary
+  after  ok       a4    want=block got=block summary, SendUserFile last; Stop input absent
+  before MISMATCH b1    want=block got=allow | Claim | Status |
+  after  ok       b1    want=block got=block | Claim | Status |
+  before MISMATCH b3    want=block got=allow | Claims checked | Result |
+  after  ok       b3    want=block got=block | Claims checked | Result |
+  before MISMATCH b4    want=block got=allow | Quote | Verified? |
+  after  ok       b4    want=block got=block | Quote | Verified? |
+  before MISMATCH b6    want=block got=allow | Claim | Status |
+  after  ok       b6    want=block got=block | Claim | Status |
+  before MISMATCH c1    want=allow got=block Our nightly job couldn't access the bucket after the key rotation.
+  before MISMATCH c2    want=allow got=block The weekly job couldn't find the export, so the dashboard shows last week's numbers.
+  before MISMATCH c3    want=allow got=block In CI, this job couldn't access the secrets.
+  before MISMATCH c4    want=allow got=block The daily job couldn't reach the API on Tuesday.
+  after  ok       c1    want=allow got=allow Our nightly job couldn't access the bucket after the key rotation.
+  after  ok       c2    want=allow got=allow The weekly job couldn't find the export, so the dashboard shows last week's numbers.
+  after  ok       c3    want=allow got=allow In CI, this job couldn't access the secrets.
+  after  ok       c4    want=allow got=allow The daily job couldn't reach the API on Tuesday.
+  before MISMATCH d1    want=block got=allow This week's run couldn't confirm the corrections rate.
+  before MISMATCH d2    want=block got=allow Our scheduled weekly run couldn't verify the plugin version.
+  before MISMATCH d3    want=block got=allow This automated run couldn't confirm the corrections rate.
+  before MISMATCH d4    want=block got=allow Today's weekly review couldn't verify the plugin version.
+  after  ok       d1    want=block got=block This week's run couldn't confirm the corrections rate.
+  after  ok       d2    want=block got=block Our scheduled weekly run couldn't verify the plugin version.
+  after  ok       d3    want=block got=block This automated run couldn't confirm the corrections rate.
+  after  ok       d4    want=block got=block Today's weekly review couldn't verify the plugin version.
+  before MISMATCH e1    want=block got=allow The deploy could not be verified by the assistant.
+  before MISMATCH e2    want=block got=allow The deploy could not be verified by any means.
+  before MISMATCH e3    want=block got=allow The deploy could not be verified by midnight.
+  before MISMATCH e4    want=block got=allow The deploy could not be verified by <the assistant's name>.
+  after  ok       e1    want=block got=block The deploy could not be verified by the assistant.
+  after  ok       e2    want=block got=block The deploy could not be verified by any means.
+  after  ok       e3    want=block got=block The deploy could not be verified by midnight.
+  after  ok       e4    want=block got=block The deploy could not be verified by <the assistant's name>.
+  before MISMATCH f2    want=block got=allow I tried hard but couldn't verify the deploy.
+  before MISMATCH f3    want=block got=allow I tried my best but couldn't verify the deploy.
+  before MISMATCH f4    want=block got=allow I tried again and couldn't verify the deploy.
+  before MISMATCH f5    want=block got=allow I tried to verify the deploy but couldn't.
+  after  ok       f2    want=block got=block I tried hard but couldn't verify the deploy.
+  after  ok       f3    want=block got=block I tried my best but couldn't verify the deploy.
+  after  ok       f4    want=block got=block I tried again and couldn't verify the deploy.
+  after  ok       f5    want=block got=block I tried to verify the deploy but couldn't.
+  before MISMATCH g1    want=block got=allow Stop answer = substring of a working note; record lacks the answer
+  after  ok       g1    want=block got=block Stop answer = substring of a working note; record lacks the answer
+  before ok       a1    want=block got=block control: summary is the last text
+  before ok       a5    want=allow got=allow README's own example of a working note
+  before ok       b2    want=block got=block | Item | Status |
+  before ok       b5    want=allow got=allow | Example sentence | Gate verdict |
+  before ok       c5    want=allow got=allow The vendor's job couldn't find the export.
+  before ok       c6    want=allow got=allow Your nightly job couldn't access the bucket after the key rotation.
+  before ok       d5    want=block got=block This run couldn't confirm the corrections rate.
+  before ok       d6    want=block got=block The weekly review couldn't confirm the corrections rate.
+  before ok       d7    want=block got=block This scheduled run couldn't confirm the corrections rate.
+  before ok       e5    want=block got=block The deploy could not be verified by me.
+  before ok       e6    want=allow got=allow The deploy could not be verified by older Android clients.
+  before ok       e7    want=block got=block The deploy could not be verified.
+  before ok       f1    want=block got=block I tried, but I couldn't verify the deploy.
+  before ok       f6    want=allow got=allow I tried curl twice and couldn't verify the deploy.
+  before ok       f7    want=allow got=allow I tried curl against the health endpoint but couldn't verify the deploy: it timed out.
+  before ok       g2    want=block got=block control: same, the note does not hold the words
+  after  ok       a1    want=block got=block control: summary is the last text
+  after  ok       a2    want=block got=block summary, TodoWrite, 'Done.'
+  after  ok       a3    want=block got=block summary, SendUserFile last; Stop input = summary
+  after  ok       a4    want=block got=block summary, SendUserFile last; Stop input absent
+  after  ok       a5    want=allow got=allow README's own example of a working note
+  after  ok       b1    want=block got=block | Claim | Status |
+  after  ok       b2    want=block got=block | Item | Status |
+  after  ok       b3    want=block got=block | Claims checked | Result |
+  after  ok       b4    want=block got=block | Quote | Verified? |
+  after  ok       b5    want=allow got=allow | Example sentence | Gate verdict |
+  after  ok       b6    want=block got=block | Claim | Status |
+  after  ok       c1    want=allow got=allow Our nightly job couldn't access the bucket after the key rotation.
+  after  ok       c2    want=allow got=allow The weekly job couldn't find the export, so the dashboard shows last week's numbers.
+  after  ok       c3    want=allow got=allow In CI, this job couldn't access the secrets.
+  after  ok       c4    want=allow got=allow The daily job couldn't reach the API on Tuesday.
+  after  ok       c5    want=allow got=allow The vendor's job couldn't find the export.
+  after  ok       c6    want=allow got=allow Your nightly job couldn't access the bucket after the key rotation.
+  after  ok       d1    want=block got=block This week's run couldn't confirm the corrections rate.
+  after  ok       d2    want=block got=block Our scheduled weekly run couldn't verify the plugin version.
+  after  ok       d3    want=block got=block This automated run couldn't confirm the corrections rate.
+  after  ok       d4    want=block got=block Today's weekly review couldn't verify the plugin version.
+  after  ok       d5    want=block got=block This run couldn't confirm the corrections rate.
+  after  ok       d6    want=block got=block The weekly review couldn't confirm the corrections rate.
+  after  ok       d7    want=block got=block This scheduled run couldn't confirm the corrections rate.
+  after  ok       e1    want=block got=block The deploy could not be verified by the assistant.
+  after  ok       e2    want=block got=block The deploy could not be verified by any means.
+  after  ok       e3    want=block got=block The deploy could not be verified by midnight.
+  after  ok       e4    want=block got=block The deploy could not be verified by <the assistant's name>.
+  after  ok       e5    want=block got=block The deploy could not be verified by me.
+  after  ok       e6    want=allow got=allow The deploy could not be verified by older Android clients.
+  after  ok       e7    want=block got=block The deploy could not be verified.
+  after  ok       f1    want=block got=block I tried, but I couldn't verify the deploy.
+  after  ok       f2    want=block got=block I tried hard but couldn't verify the deploy.
+  after  ok       f3    want=block got=block I tried my best but couldn't verify the deploy.
+  after  ok       f4    want=block got=block I tried again and couldn't verify the deploy.
+  after  ok       f5    want=block got=block I tried to verify the deploy but couldn't.
+  after  ok       f6    want=allow got=allow I tried curl twice and couldn't verify the deploy.
+  after  ok       f7    want=allow got=allow I tried curl against the health endpoint but couldn't verify the deploy: it timed out.
+  after  ok       g1    want=block got=block Stop answer = substring of a working note; record lacks the answer
+  after  ok       g2    want=block got=block control: same, the note does not hold the words
+
+$ python3 <second read's verifier>/v2.py   (RG_HOOKS=<hooks>)
+  before MISMATCH h1    want=block got=allow I wanted to verify the deploy but couldn't.
+  before MISMATCH h2    want=block got=allow I tried to verify the deploy but couldn't verify it.
+  before MISMATCH h3    want=block got=allow I tried again but couldn't verify the deploy.
+  before MISMATCH h4    want=block got=allow I tried again, and I couldn't verify the deploy.
+  after  ok       h1    want=block got=block I wanted to verify the deploy but couldn't.
+  after  ok       h2    want=block got=block I tried to verify the deploy but couldn't verify it.
+  after  ok       h3    want=block got=block I tried again but couldn't verify the deploy.
+  after  ok       h4    want=block got=block I tried again, and I couldn't verify the deploy.
+  after  ok       h1    want=block got=block I wanted to verify the deploy but couldn't.
+  after  ok       h2    want=block got=block I tried to verify the deploy but couldn't verify it.
+  after  ok       h3    want=block got=block I tried again but couldn't verify the deploy.
+  after  ok       h4    want=block got=block I tried again, and I couldn't verify the deploy.
+
+$ python3 <first audit's work>/bb/receipt_eaten.py   (RG_HOOKS=<hooks>)
+  (no line changed)
+  before ok       RE01   want=allow got=allow I couldn't verify the port with ss, which returned permission denied.
+  before ok       RE02   want=allow got=allow I couldn't verify the deploy, the health endpoint returned 503.
+  before ok       RE03   want=allow got=allow I couldn't confirm the upload, the API returned 500 on all three tries.
+  before ok       RE04   want=allow got=allow I couldn't confirm the upload, a 500 came back each time I called the API.
+  before ok       RE05   want=allow got=allow I couldn't verify the plugin version, 3 attempts to read the account page timed out.
+  before ok       RE06   want=allow got=allow I couldn't reach the server, which refused the connection.
+  before ok       RE07   want=allow got=allow I couldn't reproduce the crash in 50 runs.
+  before ok       RE08   want=allow got=allow I couldn't reproduce the crash with 20 retries of the failing test.
+  before ok       RE09   want=allow got=allow I couldn't confirm the release date from the changelog.
+  before ok       RE10   want=allow got=allow I couldn't confirm the release date per the README.
+  before ok       RE11   want=allow got=allow The deploy couldn't be verified, the health check timed out.
+  before ok       RE12   want=allow got=allow I couldn't verify the cron job, the scheduler API denied the request.
+  before ok       RE13   want=allow got=allow I couldn't access the logs, the bucket policy denied my token.
+  before ok       RE14   want=allow got=allow I was unable to confirm the version, the server's status page returned an error.
+  before ok       RE15   want=allow got=allow I couldn't find the setting in any file I grepped.
+  before ok       RE16   want=allow got=allow I couldn't confirm the totals against the source, which returned no rows for November.
+  before ok       RE17   want=allow got=allow I couldn't verify the checksum on the mirror, which returned 404 for the signature file.
+  before ok       RE18   want=allow got=allow I couldn't validate the schema against production, the connection was refused.
+  before ok       RE19   want=allow got=allow I couldn't verify the deploy, the curl to the health endpoint failed with connection refused.
+  before ok       RE20   want=allow got=allow I couldn't reproduce the bug on the CI runner after 10 re-runs.
+  before ok       RE21   want=allow got=allow C1: I couldn't verify the deploy; the health endpoint returned 503.
+  before ok       RE22   want=allow got=allow C2: I couldn't verify the deploy because the health endpoint returned 503.
+  before ok       RE23   want=block got=block C3: I couldn't verify the deploy.
+  before == RE: 23/23 judged as the rule requires; mismatches: none
+  after  ok       RE01   want=allow got=allow I couldn't verify the port with ss, which returned permission denied.
+  after  ok       RE02   want=allow got=allow I couldn't verify the deploy, the health endpoint returned 503.
+  after  ok       RE03   want=allow got=allow I couldn't confirm the upload, the API returned 500 on all three tries.
+  after  ok       RE04   want=allow got=allow I couldn't confirm the upload, a 500 came back each time I called the API.
+  after  ok       RE05   want=allow got=allow I couldn't verify the plugin version, 3 attempts to read the account page timed out.
+  after  ok       RE06   want=allow got=allow I couldn't reach the server, which refused the connection.
+  after  ok       RE07   want=allow got=allow I couldn't reproduce the crash in 50 runs.
+  after  ok       RE08   want=allow got=allow I couldn't reproduce the crash with 20 retries of the failing test.
+  after  ok       RE09   want=allow got=allow I couldn't confirm the release date from the changelog.
+  after  ok       RE10   want=allow got=allow I couldn't confirm the release date per the README.
+  after  ok       RE11   want=allow got=allow The deploy couldn't be verified, the health check timed out.
+  after  ok       RE12   want=allow got=allow I couldn't verify the cron job, the scheduler API denied the request.
+  after  ok       RE13   want=allow got=allow I couldn't access the logs, the bucket policy denied my token.
+  after  ok       RE14   want=allow got=allow I was unable to confirm the version, the server's status page returned an error.
+  after  ok       RE15   want=allow got=allow I couldn't find the setting in any file I grepped.
+  after  ok       RE16   want=allow got=allow I couldn't confirm the totals against the source, which returned no rows for November.
+  after  ok       RE17   want=allow got=allow I couldn't verify the checksum on the mirror, which returned 404 for the signature file.
+  after  ok       RE18   want=allow got=allow I couldn't validate the schema against production, the connection was refused.
+  after  ok       RE19   want=allow got=allow I couldn't verify the deploy, the curl to the health endpoint failed with connection refused.
+  after  ok       RE20   want=allow got=allow I couldn't reproduce the bug on the CI runner after 10 re-runs.
+  after  ok       RE21   want=allow got=allow C1: I couldn't verify the deploy; the health endpoint returned 503.
+  after  ok       RE22   want=allow got=allow C2: I couldn't verify the deploy because the health endpoint returned 503.
+  after  ok       RE23   want=block got=block C3: I couldn't verify the deploy.
+  after  == RE: 23/23 judged as the rule requires; mismatches: none
+
+$ python3 <first audit's work>/bb/narration.py   (RG_HOOKS=<hooks>)
+  (no line changed)
+  before == 0 of 10 ordinary turns blocked for a working note the next tool call settled
+  after  == 0 of 10 ordinary turns blocked for a working note the next tool call settled
+
+$ python3 <first audit's work>/bb/shapes.py   (RG_HOOKS=<hooks>)
+  (no line changed)
+  before ok       SH01   want=block got=block | Test | Status |
+  before ok       SH02   want=block got=block | Check | Result |
+  before ok       SH03   want=block got=block | Test | Result |
+  before ok       SH04   want=block got=block Results:
+  before ok       SH05   want=block got=block | Input file | Status |
+  before ok       SH06   want=block got=block | Item | Status |
+  before ok       SH07   want=block got=block - Plugin version: unverified
+  before ok       SH08   want=block got=block **Couldn't verify:** the plugin version and the cron run.
+  before ok       SH09   want=block got=block Unable to verify the deploy. Everything else passed.
+  before ok       SH10   want=block got=block ## Status
+  before ok       SH12   want=block got=block Done. Note: couldn't verify the deploy.
+  before ok       SH13   want=block got=block Summary
+  before ok       SH14   want=block got=block Two things I couldn't verify: the plugin version and the cron run.
+  before ok       SH15   want=block got=block The plugin version I was unable to confirm.
+  before ok       SH16   want=allow got=allow | Test | Status |
+  before == SH: 15/16 judged as the rule requires; mismatches: SH11
+  after  ok       SH01   want=block got=block | Test | Status |
+  after  ok       SH02   want=block got=block | Check | Result |
+  after  ok       SH03   want=block got=block | Test | Result |
+  after  ok       SH04   want=block got=block Results:
+  after  ok       SH05   want=block got=block | Input file | Status |
+  after  ok       SH06   want=block got=block | Item | Status |
+  after  ok       SH07   want=block got=block - Plugin version: unverified
+  after  ok       SH08   want=block got=block **Couldn't verify:** the plugin version and the cron run.
+  after  ok       SH09   want=block got=block Unable to verify the deploy. Everything else passed.
+  after  ok       SH10   want=block got=block ## Status
+  after  ok       SH12   want=block got=block Done. Note: couldn't verify the deploy.
+  after  ok       SH13   want=block got=block Summary
+  after  ok       SH14   want=block got=block Two things I couldn't verify: the plugin version and the cron run.
+  after  ok       SH15   want=block got=block The plugin version I was unable to confirm.
+  after  ok       SH16   want=allow got=allow | Test | Status |
+  after  == SH: 15/16 judged as the rule requires; mismatches: SH11
+
+$ python3 <first audit's work>/bb/proxy.py   (RG_HOOKS=<hooks>)
+  before MISMATCH PX05   want=block got=allow Today's check couldn't confirm the deploy.
+  after  ok       PX05   want=block got=block Today's check couldn't confirm the deploy.
+  before ok       PX01   want=block got=block This run couldn't confirm the corrections rate.
+  before ok       PX02   want=block got=block The weekly review couldn't verify the plugin version.
+  before ok       PX04   want=block got=block This audit could not verify the live settings box.
+  before ok       PX08   want=block got=block This report cannot confirm the figures for November.
+  before ok       PX10   want=block got=block The scheduled task couldn't confirm the corrections rate this week.
+  before ok       PX11   want=allow got=allow The vendor could not confirm a delivery date.
+  before ok       PX12   want=block got=block I couldn't confirm the corrections rate.
+  before == PX: 7/12 judged as the rule requires; mismatches: PX03 PX05 PX06 PX07 PX09
+  after  ok       PX01   want=block got=block This run couldn't confirm the corrections rate.
+  after  ok       PX02   want=block got=block The weekly review couldn't verify the plugin version.
+  after  ok       PX04   want=block got=block This audit could not verify the live settings box.
+  after  ok       PX05   want=block got=block Today's check couldn't confirm the deploy.
+  after  ok       PX08   want=block got=block This report cannot confirm the figures for November.
+  after  ok       PX10   want=block got=block The scheduled task couldn't confirm the corrections rate this week.
+  after  ok       PX11   want=allow got=allow The vendor could not confirm a delivery date.
+  after  ok       PX12   want=block got=block I couldn't confirm the corrections rate.
+  after  == PX: 8/12 judged as the rule requires; mismatches: PX03 PX06 PX07 PX09
+
+$ python3 <first audit's work>/bb/turns.py   (RG_HOOKS=<hooks>)
+  (no line changed)
+  before ok       T02  want=allow got=allow active=False claim in the previous owner turn, a completed stop, then a clean answer
+  before ok       T03  want=block got=block active=True  governance-enforce blocked; the retried answer makes a bare claim
+  before ok       T04  want=allow got=allow active=True  after this gate's own block the answer repeats the claim: RECEIPT_MAX_BLOCKS=1 lets it go (builder default)
+  before ok       T05  want=allow got=allow active=True  own block, then the other gate's block, then the claim again: count is 1, let go
+  before ok       T06  want=allow got=allow active=False scheduled run after a completed owner turn; the run's own report is clean
+  before ok       T07  want=block got=block active=False scheduled run's own report makes a bare claim
+  before ok       T08  want=block got=block active=False scheduled run after a turn in which this gate blocked once
+  before ok       T09  want=block got=block active=False the final answer is not in the record; the Stop input holds it
+  before ok       T11  want=allow got=allow active=True  own block; retried final answer only in the Stop input, repeating the claim (count 1)
+  before ok       T12  want=block got=block active=True  other gate's block; retried final answer only in the Stop input with a bare claim
+  before ok       T13  want=block got=block active=True  other gate's block; retry is text only and the record does not hold it
+  before ok       T14  want=allow got=allow active=False interrupt then a new owner message
+  before ok       T15  want=block got=block active=False claim then the owner interrupts... (stop after interrupt does not fire; control only)
+  before ok       T16  want=block got=block active=False claim, compaction inside the turn, then a clean answer
+  before ok       T17  want=block got=block active=False a notification wake inside the owner's turn (before any stop), then a bare claim
+  before ok       T18  want=block got=block active=False a GitHub notification after a completed stop; the woken work's answer makes a bare claim
+  before ok       T19  want=block got=block active=True  two blocks of the other gate, then a bare claim (this gate never spoke)
+  before ok       T20  want=block got=block active=False previous stop row carries a hookErrors entry; new owner message; new bare claim
+  before ok       T21  want=block got=block active=False a stop row with hookErrors (no feedback rows) before a scheduled run; the run makes a bare claim
+  before == turns: 19/21 judged as the rule requires
+  after  ok       T02  want=allow got=allow active=False claim in the previous owner turn, a completed stop, then a clean answer
+  after  ok       T03  want=block got=block active=True  governance-enforce blocked; the retried answer makes a bare claim
+  after  ok       T04  want=allow got=allow active=True  after this gate's own block the answer repeats the claim: RECEIPT_MAX_BLOCKS=1 lets it go (builder default)
+  after  ok       T05  want=allow got=allow active=True  own block, then the other gate's block, then the claim again: count is 1, let go
+  after  ok       T06  want=allow got=allow active=False scheduled run after a completed owner turn; the run's own report is clean
+  after  ok       T07  want=block got=block active=False scheduled run's own report makes a bare claim
+  after  ok       T08  want=block got=block active=False scheduled run after a turn in which this gate blocked once
+  after  ok       T09  want=block got=block active=False the final answer is not in the record; the Stop input holds it
+  after  ok       T11  want=allow got=allow active=True  own block; retried final answer only in the Stop input, repeating the claim (count 1)
+  after  ok       T12  want=block got=block active=True  other gate's block; retried final answer only in the Stop input with a bare claim
+  after  ok       T13  want=block got=block active=True  other gate's block; retry is text only and the record does not hold it
+  after  ok       T14  want=allow got=allow active=False interrupt then a new owner message
+  after  ok       T15  want=block got=block active=False claim then the owner interrupts... (stop after interrupt does not fire; control only)
+  after  ok       T16  want=block got=block active=False claim, compaction inside the turn, then a clean answer
+  after  ok       T17  want=block got=block active=False a notification wake inside the owner's turn (before any stop), then a bare claim
+  after  ok       T18  want=block got=block active=False a GitHub notification after a completed stop; the woken work's answer makes a bare claim
+  after  ok       T19  want=block got=block active=True  two blocks of the other gate, then a bare claim (this gate never spoke)
+  after  ok       T20  want=block got=block active=False previous stop row carries a hookErrors entry; new owner message; new bare claim
+  after  ok       T21  want=block got=block active=False a stop row with hookErrors (no feedback rows) before a scheduled run; the run makes a bare claim
+  after  == turns: 19/21 judged as the rule requires
+
+$ python3 <orchestrator's d4 probe>/probe_d4.py   (HOOKS=<hooks>)
+  before XX want=deny  got=allow            typed: Merge #34 (after the audit).
+  before XX want=deny  got=allow            typed: Merge #34 (once CI is green).
+  before XX want=deny  got=allow            typed: Yes. Merge #34 (if CI passes).
+  before XX want=deny  got=allow            typed: Merge #34 (pending review)
+  before XX want=deny  got=allow            typed: Merge #34 (draft)
+  before XX want=deny  got=allow            card: Merge #34? / Merge #34 (after the audit)
+  before XX want=deny  got=allow            card: Merge #34 (after the audit)? / Yes (Recommended)
+  before ok 41, XX 7
+  after  ok 48, XX 0
+  before ok 41, XX 7
+  after  ok 48, XX 0
+

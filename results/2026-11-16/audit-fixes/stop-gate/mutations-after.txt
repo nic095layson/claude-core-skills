@@ -1,0 +1,436 @@
+python3 hooks/selftest-mutations.py
+RW01  | turngate.py           | caught by P08-compact-summary-is-not-the-prompt | a compaction summary is not the owner's message
+RW02  | turngate.py           | caught by T26-meta-row-is-not-owner | a row the program marks isMeta is not the owner's message
+RW03  | turngate.py           | caught by G03-sidechain-prompt-is-not-owner | a helper agent's row is never the owner's
+RW04  | turngate.py           | caught by M20-card-click-inside-scheduled-run | a row whose origin is not the owner's is a wake, not the owner
+RW05  | turngate.py           | caught by T37-row-without-origin-in-a-file-that-has-origin | a row without origin grants nothing in a record whose rows carry origin
+RW06  | turngate.py           | caught by F21-owner-quotes-marker-previous-turn-loaded | a harness lead counts only at the START of a row's text (rows)
+RW07  | turngate.py           | caught by P02a-build-prompt-quotes-notification-banner | a harness lead counts only at the START of a prompt (classifier)
+RW08  | turngate.py           | caught by M27-blocked-stop-is-not-a-stop | a blocked stop (a stop row with hook errors) is not a completed stop
+RW09  | turngate.py           | caught by T19-queued-owner-message-orders | a message the owner sends while the assistant works is read
+RW10  | turngate.py           | caught by J03a-meta-slash-command-starts-turn-write | a slash command recorded as a harness row starts a turn when the session was idle
+RW11  | turngate.py           | caught by p_ctl_assistant_skill_args_are_not_a_prompt | the arguments of a skill the assistant launched mid-turn are not the owner's prompt
+RW12  | turngate.py           | caught by F34-miss-let-go-at-its-own-stop-is-not-raised-later | a stop judges only the rows since the latest completed stop
+RW13  | turngate.py           | caught by J02-midturn-delivery-with-idle-nudge | the stretch starts at the owner's message or the last stop, not at the governance turn
+RW14  | turngate.py           | caught by M16-click-then-stop-then-wake | the owner's word ends at a completed stop and at a wake
+RW15  | turngate.py           | caught by G02-helper-merge-after-main-stopped | the owner's word ends when the assistant stops
+RW16  | turngate.py           | caught by T30b-order-then-wake-with-no-stop-row | a wake row ends the owner's word
+RW17  | turngate.py           | caught by T33-interrupt-after-order | an interrupt ends the owner's word
+RW18  | turngate.py           | caught by F16a-scheduled-run-ungoverned-commit | a scheduled run is a governance turn of its own
+RW19  | turngate.py           | caught by P17-owner-prompt-after-a-scheduled-run | the owner's message after a scheduled run starts the owner's turn
+RW20  | turngate.py           | caught by S11-owner-types-after-scheduled-run | a past scheduled run does not mark the owner's later turn as scheduled
+RW21  | turngate.py           | caught by F19b-midturn-read-does-not-cut-governed-turn | a delivery read in the middle of an owner turn starts no scheduled run
+RW22  | turngate.py           | caught by F28-two-scheduled-runs-latest-governs | a scheduled run is judged on its own loads: the LATEST run governs, not an earlier turn
+RW23  | turngate.py           | caught by F22-loads-of-previous-turn-do-not-count | governor loads made before the governance turn do not count (outward rule)
+SC01  | turngate.py           | caught by S09-github-body-quotes-scheduled-header | a scheduled delivery is known by its header line, not by the words anywhere
+SC02  | turngate.py           | caught by S09-github-body-quotes-scheduled-header | a header line quoted inside a notification body is body text
+SC03  | turngate.py           | caught by S08-bash-prints-old-scheduled-header | only the result of a notification read can deliver a scheduled run
+SC04  | turngate.py           | caught by M20-card-click-inside-scheduled-run | in a scheduled run a merge is always denied, with the scheduled-run reason
+SC05  | turngate.py           | caught by S17-card-inside-run-then-owner-message | a card answered inside a scheduled run grants nothing, also after the owner writes
+WD01  | turngate.py           | caught by T05e-dont-under-any-circumstances-merge-34 (not one of the named cases) | a refusal takes its pull requests out of the grant
+WD02  | turngate.py           | caught by T15-merge-everything-except-141 | a refusal inside an order ("merge everything except #141") is read
+WD03  | turngate.py           | caught by M24-click-wait-revokes-typed-order | a later refusal of a named pull request takes its grant back
+WD04  | turngate.py           | caught by m_queued_stop_revokes_all | a bare refusal empties the grant
+WD05  | turngate.py           | caught by J06-order-then-refusal | a short refusal with no verb ("No wait.", "Actually no.") empties the grant
+WD06  | turngate.py           | caught by M26-click-merged-already | "merged" and "merging" are not the order to merge
+WD07  | turngate.py           | caught by T20c-queued-curly-refusal-revokes | a curly apostrophe is read as an apostrophe
+WD08  | turngate.py           | caught by T05a-do-not-merge-34-merge-35-call-34 | an order starts its clause: the verb somewhere in a clause is not an order
+WD09  | turngate.py           | caught by M08-number-without-hash-in-question | "PR 34" names a pull request without the hash sign
+WD10  | turngate.py           | caught by T16d-merge-34-and-close-35 | an order names only the list that follows its verb, not every number in the clause
+WD11  | turngate.py           | caught by M02-card-for-34-141-call-35 | the word covers only the pull requests it names
+WD12  | turngate.py           | caught by T35-url-of-other-repo | a word that names a repository covers that repository only
+WD13  | turngate.py           | caught by T16b-merge-34-after-you-fix-35-call-34 | an order for later or under a condition is no order for now (the whole sentence is read, A1)
+WD14  | turngate.py           | caught by am_a5_pin-typed-question-is-no-order | a question is not an order
+WD15  | turngate.py           | caught by T05e-dont-under-any-circumstances-merge-34 | a negation whose verb comes in a later clause still negates it
+WD16  | turngate.py           | caught by J06-order-then-refusal | the operations of one message apply in the order they were said
+WD17  | turngate.py           | caught by J07-affirmative-no | "no rush", "no objections" and their like refuse nothing
+WD18  | turngate.py           | caught by T03-yes-after-offer | the assistant's own text grants nothing
+WD19  | turngate.py           | caught by T21c-legacy-local-command-echo-only | a merge with no owner word in the window is denied
+WD20  | turngate.py           | caught by T23a-empty-transcript | a merge with no readable record is denied
+WD21  | turngate.py           | caught by R09g-pr-word-does-not-cover-push-to-main | a word for a pull request does not cover a push to a default branch
+WD22  | turngate.py           | caught by R12-gh-merge-without-number | a merge whose pull request cannot be read from the call is denied
+CD01  | turngate.py           | caught by M01-card-names-prs-merge-both | a click on a card is the owner's word
+CD02  | turngate.py           | caught by M09-bash-output-forges-click | only the result of a card's own call is a click, whatever another tool's output quotes
+CD03  | turngate.py           | caught by M18-answer-row-with-foreign-id | an answer is paired with its card by id only, never by position
+CD04  | turngate.py           | caught by m_card_result_is_error | a card whose result is an error grants nothing
+CD05  | turngate.py           | caught by M19b-structured-answer-to-question-never-asked | an answer to a question the card did not ask is dropped
+CD06  | turngate.py           | caught by M25-click-merge-after-the-audit | "Merge after the audit" on a card is not the word to merge now
+CD07  | turngate.py           | caught by M03c-library-only-without-number-call-141 | an option that names no number on a card with several pull requests grants none of them
+CD08  | turngate.py           | caught by M03a-library-only-call-141 | a chosen option that names a number grants that number only
+CD09  | turngate.py           | caught by M14-free-text-answer-merge-it | free text typed into a card is read as a typed message
+CD10  | turngate.py           | caught by J12-free-text-answer-second-form | the second form of a card's answer text is read
+CD11  | turngate.py           | caught by M06b-click-merge-nothing-on-one-pr-card | a chosen option that refuses ("Merge neither", "Wait") grants nothing and takes the grant back
+CL01  | turngate.py           | caught by R10a-push-files-to-main | the file-push tools are outward acts
+CL02  | turngate.py           | caught by F05-send-later | the scheduled-task tools are outward acts
+CL03  | turngate.py           | caught by F05-cron-create | the built-in scheduling tools are outward acts
+CL04  | turngate.py           | caught by F05-update-pr-branch | updating a pull request is an outward act
+CL05  | turngate.py           | caught by F06a-gh-pr-edit | creating or editing a pull request from the command line is an outward act
+CL06  | turngate.py           | caught by F02-commit-with-identity-flags | git's own options before the verb do not hide the verb
+CL07  | turngate.py           | caught by F01-ungoverned-commit | a commit is an outward act
+CL08  | turngate.py           | caught by F04-revert-makes-a-commit | revert and cherry-pick make commits
+CL09  | turngate.py           | caught by R01a-auto-merge-tool-no-word | switching auto-merge on needs the same word as a merge
+CL10  | turngate.py           | caught by R04b-gh-number-last-with-word | a shell command is parsed: a word in command position is an act, anything else is data
+CL11  | turngate.py           | caught by N01-grep-for-the-words | a command that only mentions the merge words is no merge
+CL12  | turngate.py           | caught by F07a-grep-git-commit | a command that only mentions commit or push is no outward act
+CL13  | turngate.py           | caught by N09-api-get-merged-state | reading the merge state through the API is no merge
+CL14  | turngate.py           | caught by R08-script-file | a script file a command runs is read for its acts
+CL15  | turngate.py           | caught by R03-gh-flag-before-pr | an option with a value between the command-line words does not hide the merge
+CL16  | turngate.py           | caught by R05-gh-api-put-merge | the merge route of the REST API is a merge
+CL17  | turngate.py           | caught by F07d-commit-dry-run | a dry run is no commit
+CL18  | turngate.py           | caught by F07e-commit-help | a help page is no act
+CL19  | turngate.py           | caught by A04-tmp-dotdot-path-is-a-repo-file | a path is normalised before it is called scratch (/tmp/../repo is not scratch)
+CL20  | turngate.py           | caught by R09a-git-push-origin-main | main is a default branch
+CL21  | turngate.py           | caught by m_cli_merge_through_monitor_tool | every tool that runs a shell command is read as one
+CL22  | turngate.py           | caught by N05-script-written-not-run | a here-document is data unless a shell reads it
+CL23  | turngate.py           | caught by F08b-commit-failed-nothing-to-commit | the last step of an and-chain that failed was not taken
+CL24  | turngate.py           | caught by F08a-merge-call-denied-by-gate | a call that was denied or rejected was not taken
+CL25  | turngate.py           | caught by F14-skill-call-errored | a Skill call that failed loaded nothing
+CL26  | turngate.py           | caught by F25-skill-args-mention-governor | a governor is loaded by a Skill call of that name, not by one that mentions it
+CL27  | turngate.py           | caught by O03-synced-copy-skill-names-count | a scope prefix before a skill's name is dropped
+ST01  | turngate.py           | caught by F12-retry-after-other-hooks-block | the rule holds for any number of outward acts
+ST02  | turngate.py           | caught by F31-plan-gate-after-first-act | plan-gate is loaded BEFORE the outward act
+ST03  | turngate.py           | caught by F30-verify-then-commit-and-push | adversarial-verify counts anywhere in the turn, before or after the act
+ST04  | turngate.py           | caught by O01-plan-gate-without-adversarial-verify | adversarial-verify is required
+ST05  | turngate.py           | caught by F12-retry-after-other-hooks-block | the retry flag alone does not switch the outward rule off
+ST06  | turngate.py           | caught by F13b-third-stop-is-let-go | the outward rule blocks a bounded number of times in one stretch
+ST07  | governance-enforce.py | caught by X05c-internal-error-stop-is-allowed | an error in the Stop hook ends it quietly with status 0
+ST08  | governance-enforce.py | caught by F26-block-reason-carries-the-remedy | the block reason names the remedy
+ST09  | governance-enforce.py | caught by F09-delegate-pushes-main-turn-loads-nothing | a helper agent's noted outward calls are counted
+ST10  | turngate.py           | caught by F19c-legacy-owner-push-then-scheduled-run-loads-both | the part of a stretch before a scheduled run began is judged too
+ST11  | turngate.py           | caught by J16b-stale-ledger-note-is-not-counted | a helper's note is placed by its time stamp, not by a row count that restarts when the record is rewritten
+ST12  | turngate.py           | caught by J16-ledger-after-rewrite | a helper's note still counts after the record was rewritten and holds fewer rows
+ST13  | turngate.py           | caught by F11b-chain-stop2-remedied | after this rule's own block, a plan-gate load made since answers it
+PC01  | governance-enforce.py | caught by P10a-allowance-is-review-only | the short-answer allowance is for review-only prompts
+PC02  | governance-enforce.py | caught by P11-loads-before-the-prompt-do-not-count | governor loads made before the prompt do not count (prompt class)
+PC03  | governance-enforce.py | caught by P09-every-class-needs-its-governor | every matched class needs its governor
+PC04  | governance-enforce.py | caught by p_ctl_review_with_tool_is_not_trivia | the short-answer allowance needs a turn with no tool call
+PC05  | governance-enforce.py | caught by P05-github-wake-after-review-remark | the owner's prompt is judged at its own stop only, not again after a completed stop or a wake
+PC06  | turngate.py           | caught by p_queued_message_is_classified | a prompt the owner sends while the assistant works is classified
+PC07  | governance-enforce.py | caught by P07-retry-after-receipt-block-rearms | the retry flag alone does not switch the prompt-class rule off
+PC08  | governance-enforce.py | caught by P14-long-answer-not-in-record | the final answer the program hands the hook is read when the record lacks it
+AD01  | turn-gates-pretool.py | caught by A02a-readonly-grep-mention | a shell command that writes nothing does not spend the advisory
+AD02  | turn-gates-pretool.py | caught by a_adv1_advisory_states_its_limit | the advisory states its limit: the record does not keep every message
+AD03  | turn-gates-pretool.py | caught by J14-helper-advisory-silent | a helper agent's call gets no advisory
+AD04  | turn-gates-pretool.py | caught by O13-advisory-once-per-load | the advisory is given once per plan-gate load
+AD05  | turn-gates-pretool.py | caught by A07-plan-shown | no advisory when the plan text is on record after the load
+AD06  | turn-gates-pretool.py | caught by F09-delegate-pushes-main-turn-loads-nothing | a helper agent's outward call is noted for the Stop gate
+FP01  | turn-gates-pretool.py | caught by X05a-internal-error-merge-is-denied | an error while judging a merge denies it
+FP02  | turn-gates-pretool.py | caught by X04a-shared-module-missing-merge | a merge is denied when the shared module cannot be loaded
+FP03  | turn-gates-pretool.py | caught by X01a-payload-not-json-names-merge-tool | an input that is not JSON and names a merge route is denied
+FP04  | turn-gates-pretool.py | caught by J04a-deadline-merge-tool | the pre-tool hook answers before the program cuts it off
+FP05  | governance-enforce.py | caught by J04c-deadline-stop | the Stop hook ends itself before the program cuts it off
+FP06  | turn-gates-pretool.py | caught by J04a-deadline-merge-tool | at its deadline the pre-tool hook denies a merge
+FP07  | turn-gates-pretool.py | caught by J04b-deadline-edit | at its deadline the pre-tool hook lets every other call through
+FP08  | turn-gates-pretool.py | caught by X05b-internal-error-edit-is-allowed | an error while judging any other call lets it through
+FP09  | turn-gates-pretool.py | caught by X04c-shared-module-missing-push-main | the failure paths know a push to a default branch as they know a merge
+FP10  | turn-gates-pretool.py | caught by X04d-shared-module-missing-push-branch | the failure paths let a push to another branch through
+FP11  | turn-gates-pretool.py | caught by X04e-shared-module-missing-push-all | the failure paths know a push of every branch
+FP12  | turn-gates-pretool.py | caught by X04f-shared-module-missing-push-mirror | the failure paths know a mirror push
+FP13  | turn-gates-pretool.py | caught by X01a-payload-not-json-names-merge-tool | the failure paths know the merge tool by its name
+FP14  | turn-gates-pretool.py | caught by J04a-deadline-merge-tool | the pre-tool hook's own deadline is shorter than the wired timeout
+FP15  | turn-gates-pretool.py | caught by X06a-merge-gate-keeps-its-own-list-merge | the merge gate looks at its own list of gated acts, not at the Stop gate's list of counted ones
+PS01  | turngate.py           | caught by S10a-midturn-scheduled-read-ends-earlier-word | a scheduled notification read mid-turn ends the word given before it
+PS02  | turngate.py           | caught by T32-worker-restart-after-order | the restart notice of the worker process ends the word
+PS03  | turngate.py           | caught by J09-unresolved-push-unattended | a push whose branch cannot be read is denied where the owner is absent
+PS04  | turngate.py           | caught by R09h-bare-push-branch-unreadable | a push whose branch cannot be read is let through where the owner is present
+PS05  | turngate.py           | caught by G01a-helper-merge-with-live-word | a helper agent may merge what the owner's standing word names
+PS06  | turngate.py           | caught by F13a-second-block-when-nothing-loaded | an unanswered block of the outward rule is repeated once
+PS07  | turngate.py           | caught by F13b-third-stop-is-let-go | the outward rule blocks twice at most in one stretch
+PS08  | turngate.py           | caught by P01-build-no-governor | the prompt-class rule blocks
+PS09  | turngate.py           | caught by P06-single-retry-understood | the prompt-class rule blocks once in one stretch
+PS10  | turngate.py           | caught by F33-wake-turn-inherits-owner-turn-loads | work woken after a completed stop keeps the turn's governor loads
+PS11  | turngate.py           | caught by F15-loads-before-compaction-do-not-count | an outward act after a compaction needs the governors loaded again
+PS12  | turngate.py           | caught by P13-build-ordered-by-click | a clicked card label is not a prompt for the prompt-class rule
+PS13  | turngate.py           | caught by R09a-git-push-origin-main | a push to a default branch needs the same word as a merge
+PS14  | turngate.py           | caught by M02-card-for-34-141-call-35 | a merge needs the owner's word
+PS15  | turngate.py           | caught by F05-send-later | the Stop gate counts a change to a scheduled task
+PS16  | turngate.py           | caught by F01-ungoverned-commit | the Stop gate counts a commit
+PS17  | turngate.py           | caught by F03b-push-quoted-dir | the Stop gate counts a push
+PS18  | turngate.py           | caught by F24b-gh-pr-create | the Stop gate counts a pull-request change
+PS19  | turngate.py           | caught by F05-auto-merge | the Stop gate counts a merge
+PS20  | turngate.py           | caught by F24c-push-files | the Stop gate counts a file pushed through a tool
+PS21  | governance-enforce.py | caught by P10b-review-only-short-answer | a short review answer with no tool call passes without a governor
+PS22  | governance-enforce.py | caught by P14-long-answer-not-in-record | a long answer is not a short answer
+WI01  | wiring                | caught by W01-matcher | the matcher is anchored at its end: a name that only starts like a gated one is not sent
+WI02  | wiring                | caught by W01-matcher | every name the code classifies is sent to the pre-tool hook (a name dropped from the matcher)
+WI03  | turngate.py           | caught by W01-matcher | every name the code classifies is sent to the pre-tool hook (a name added to the code only)
+WI04  | wiring                | caught by W01-matcher | the matcher is anchored at its start: a name that only ends like a gated one is not sent
+WI05  | wiring                | caught by W03-wiring-merge-tools-have-a-group-of-their-own | the merge tools' group is anchored at its end
+WI06  | wiring                | caught by W03-wiring-merge-tools-have-a-group-of-their-own | the merge tools' group is anchored at its start
+WI07  | wiring                | caught by W01-matcher | the merge tools' group selects every merge tool (auto-merge dropped)
+WI08  | wiring                | caught by W04-wiring-missing-script-denies-only-the-merge-tools | a missing pre-tool script denies a merge (the merge group's command keeps no file test)
+WI09  | wiring                | caught by W04-wiring-missing-script-denies-only-the-merge-tools | a missing pre-tool script does not deny every Bash, Edit and Write call (the file test of the other group)
+WI10  | wiring                | caught by W06-wiring-commands-run-the-hooks | the file test runs the script when it is there (a test of the wrong file runs nothing)
+WI11  | wiring                | caught by W02-wiring-every-event-runs-its-scripts | the project's Stop event runs the receipt gate
+WI12  | wiring                | caught by W01-matcher | the project's pre-tool hook is sent the PR and scheduling tools
+WI13  | wiring                | caught by W03-wiring-merge-tools-have-a-group-of-their-own | the project's pre-tool hook is sent the merge tools
+WI14  | plugin-wiring         | caught by W01-matcher | the plugin's pre-tool hook is sent the PR and scheduling tools
+WI15  | plugin-wiring         | caught by W03-wiring-merge-tools-have-a-group-of-their-own | the plugin's pre-tool hook is sent the merge tools
+WI16  | wiring                | caught by W03-wiring-merge-tools-have-a-group-of-their-own | the project's merge group reaches a tool that exists
+WI17  | plugin-wiring         | caught by W01-matcher | the plugin's other gated names reach the pre-tool hook
+WI18  | wiring                | caught by W02-wiring-every-event-runs-its-scripts | the project's first write runs the plan-gate reminder
+WI19  | plugin-wiring         | caught by W02-wiring-every-event-runs-its-scripts | the plugin's Stop event runs the receipt gate
+WI20  | plugin-wiring         | caught by W04-wiring-missing-script-denies-only-the-merge-tools | a plugin missing its pre-tool script denies a merge
+WI21  | plugin-wiring         | caught by W04-wiring-missing-script-denies-only-the-merge-tools | a plugin command whose wrapper is missing ends with status 0
+WI22  | plugin-wiring         | caught by W05-wiring-scripts-beside-the-hooks | every script the plugin's wiring names is beside the hooks
+WI23  | wiring                | caught by W02-wiring-every-event-runs-its-scripts | the session hook runs on a resume as well as after a compaction
+WI24  | wiring                | caught by W05-wiring-scripts-beside-the-hooks | every script the project's wiring runs is beside the hooks
+WI25  | plugin-wiring         | caught by W01-matcher | the plugin's matcher is anchored at its end
+WI26  | plugin-wiring         | caught by W03-wiring-merge-tools-have-a-group-of-their-own | the plugin's merge group is anchored at its end
+RC01  | receiptlaw.py         | caught by RLX06-flag-set-and-no-block-on-record | the retry flag with no block on record lets the stop go (the one retry)
+RC02  | receiptlaw.py         | caught by RLT04-new-owner-message-starts-a-new-stretch | the gate judges the stretch, not the whole session
+RC03  | receiptlaw.py         | caught by RLT02-claim-then-repeated-skill-load | every text of the stretch is read, not only the last
+RC04  | receiptlaw.py         | caught by RLP00-couldnt-verify | "could not / cannot / can't" with a verb of verifying is a claim
+RC05  | receiptlaw.py         | caught by RLD31-attempt-before-the-claim | a named attempt is a receipt
+RC06  | receiptlaw.py         | caught by RLVC3-refused-the-connection | a named failure mode is a receipt
+RC07  | receiptlaw.py         | caught by RLD42-claim-and-the-choice-in-one-sentence | a stated choice in the claim's sentence is a receipt
+RC08  | receiptlaw.py         | caught by RLD27-fenced-block-directly-under-the-claim | a code span or a fenced block in the claim's sentence is a receipt
+RC09  | receiptlaw.py         | caught by RLD136-status-word-inside-inline-code | words inside inline code are not the assistant's claim
+RC10  | receiptlaw.py         | caught by RLVE4-receipt-about-other-items | one sentence's receipt does not excuse a claim in another sentence
+RC11  | receiptlaw.py         | caught by RLD02-upper-case | a claim is matched whatever its letter case
+RC12  | receiptlaw.py         | caught by RLX08-own-block-of-an-earlier-stretch-does-not-count | the gate's earlier blocks are counted in the stretch, not in the session
+RC13  | receiptlaw.py         | caught by RLD34-label-then-list-each-item-with-its-receipt | a line that ends with a colon goes on in the list items under it
+RC14  | receiptlaw.py         | caught by RLD20-receipt-in-the-sentence-before | a receipt counts only in the claim's own sentence
+RC15  | receiptlaw.py         | caught by RLD137-passive-phrase-in-curly-single-quotes | a left curly single quote is read as a quotation mark
+RC16  | receiptlaw.py         | caught by RLQ01-claim-in-a-block-quote | a block quote is not the assistant's claim
+RC17  | receiptlaw.py         | caught by RLX01-retry-forced-by-the-other-hook | the retry flag alone does not switch the gate off
+RC18  | receiptlaw.py         | caught by RLX01-retry-forced-by-the-other-hook | only this gate's own blocks count against it
+RC19  | receiptlaw.py         | caught by RLX04-own-block-then-the-claim-again | at most one block of this gate in a stretch
+RC20  | receiptlaw.py         | caught by RLP00-couldnt-verify | the gate blocks a bare claim at all
+RC21  | receiptlaw.py         | caught by RLT06b-answer-only-in-the-input | the final answer is read from the input when the record lacks it
+RC22  | receiptlaw.py         | caught by RLZ06-no-record-path | with no record to count blocks from, the stop is let go
+RC23  | receiptlaw.py         | caught by RLZ16-deadline | the gate ends itself before the program cuts it off
+RC24  | receiptlaw.py         | caught by RLZ16-deadline | the gate has a deadline of its own
+RC25  | receiptlaw.py         | caught by RLZ17-module-by-itself-internal-error | an error inside the module lets the stop go with exit status 0
+RC26  | receipt-law-stop-gate.sh | caught by RLZ12-module-missing-beside-the-wired-script | the wired script ends with exit status 0 whatever the module did
+RC27  | receipt-law-stop-gate.sh | caught by RLP00-couldnt-verify | the wired script runs the module that lies beside it
+RC28  | receiptlaw.py         | caught by RLD20-receipt-in-the-sentence-before | the wider scope is applied only when it is chosen
+RC29  | receiptlaw.py         | caught by RLVB04-was-not-verified | "was not verified" with no "could not" is no claim by default
+RC30  | receiptlaw.py         | caught by RLD93-other-reading-was-not-verified-is-a-claim | with the other reading chosen, "was not verified" is a claim
+RC31  | receiptlaw.py         | caught by RLD81-reason-quotes-the-start-of-the-sentence | the block reason quotes the start of the sentence, not all of it
+RC32  | receiptlaw.py         | caught by RLP00-couldnt-verify | the block reason starts with the gate's mark
+RC33  | receiptlaw.py         | caught by RLD80-reason-quotes-the-claim-and-gives-three-ways-out | the block reason gives the three ways out
+RC34  | receiptlaw.py         | caught by RLD125-words-in-quotation-marks-are-no-receipt | words in quotation marks are no receipt
+RC35  | receiptlaw.py         | caught by RLD125-words-in-quotation-marks-are-no-receipt (not one of the named cases) | an inline code span is evidence
+RC36  | receiptlaw.py         | caught by RLD125-words-in-quotation-marks-are-no-receipt | the mark of a fenced block is not the mark of quoted words
+RC37  | receiptlaw.py         | caught by RL1C4-we-cant-curly-apostrophe | a curly apostrophe is read as an apostrophe
+RC38  | receiptlaw.py         | caught by RLD138-passive-phrase-in-curly-double-quotes | curly double quotes are quotation marks
+RC39  | receiptlaw.py         | caught by RLD26-receipt-after-a-dash | a dash continues the sentence and ends what was not verified
+RC40  | receiptlaw.py         | caught by RLD126-text-after-a-one-line-fence-is-read | a fence that opens and closes on one line hides only itself
+RC41  | receiptlaw.py         | caught by RLD65-claim-inside-a-fenced-block-only | words inside a fenced block are not the assistant's claim
+RC42  | receiptlaw.py         | caught by RLD121-quoted-phrases-wrapped-over-a-line (not one of the named cases) | words in double quotation marks are not the assistant's claim
+RC43  | receiptlaw.py         | caught by RLD127-phrase-in-single-quotes | words in single quotation marks are not the assistant's claim
+RC44  | receiptlaw.py         | caught by RLP06-bold-not | bold or italic marks inside a claim do not hide it
+RC45  | receiptlaw.py         | caught by RLD64-heading-only | a heading is a title, not a claim
+RC46  | receiptlaw.py         | caught by RLD35-label-then-list-one-item-bare | a list item is a sentence of its own
+RC47  | receiptlaw.py         | caught by RLD128-each-table-row-is-a-sentence | a table row is a sentence of its own
+RC48  | receiptlaw.py         | caught by RLH09-table-of-test-cases | a table's header is found by the rule line under it
+RC49  | receiptlaw.py         | caught by RLH09-table-of-test-cases | a row of a table of examples is not a claim
+RC50  | receiptlaw.py         | caught by RLD120-plan-register-table-content-basis-status | a row of a register of assumptions is not an inability claim
+RC51  | receiptlaw.py         | caught by RLR10-the-hook-ran-then-bare-claim | a paragraph is cut into sentences
+RC52  | receiptlaw.py         | caught by RLF01-command-and-error-in-a-fenced-block | a short label line may introduce the block under a claim
+RC53  | receiptlaw.py         | caught by RLD29-fenced-block-after-a-label-that-names-no-attempt | only a label that speaks of an attempt, an error or an output joins the block to the claim
+RC54  | receiptlaw.py         | caught by RLF01-command-and-error-in-a-fenced-block | "Attempt and failure:" joins the block under it to the claim before it
+RC55  | receiptlaw.py         | caught by RLD133-a-claim-is-never-a-label-for-the-block-under-it | a sentence that makes a claim is never a label
+RC56  | receiptlaw.py         | caught by RLD27-fenced-block-directly-under-the-claim | a fenced block belongs to the sentence above it
+RC57  | receiptlaw.py         | caught by RLD46-lead-in-then-table-rows-with-receipts | a line that ends with a colon goes on in the rows of the table under it
+RC58  | receiptlaw.py         | caught by RLD49a-lead-in-continues-in-the-next-paragraph | a line that ends with a colon goes on in the paragraph after it
+RC59  | receiptlaw.py         | caught by RLP08-adverb-between | an adverb between "could not" and the verb does not hide the claim
+RC60  | receiptlaw.py         | caught by RLP01-cant-verify | the contraction "can't" is matched
+RC61  | receiptlaw.py         | caught by RLP18-couldnt-validate | the verbs of verifying are a list, and "validate" is on it
+RC62  | receiptlaw.py         | caught by RLP11-passive-could-not-be-verified | "could not be verified" is a claim
+RC63  | receiptlaw.py         | caught by RLVB08-no-way-of-confirming | "no way of confirming" is a claim
+RC64  | receiptlaw.py         | caught by RLP04-not-available | "not available" is a claim when it is said of data
+RC65  | receiptlaw.py         | caught by RLP14-were-unverified | "unverified at the end" is a predicate, not a description
+RC66  | receiptlaw.py         | caught by RLD134-not-yet-available | "not yet available" is a claim
+RC67  | receiptlaw.py         | caught by RLD135-figures-for-a-year-are-not-available | "the figures for 2024 are not available" is a claim
+RC68  | receiptlaw.py         | caught by RLP11-passive-could-not-be-verified | family: could not be verified
+RC69  | receiptlaw.py         | caught by RLP09-unable-to-fully-confirm | family: unable to verify
+RC70  | receiptlaw.py         | caught by RLP26-im-not-able-to | family: not able to verify
+RC71  | receiptlaw.py         | caught by RLP31-failed-to-confirm | family: failed to confirm
+RC72  | receiptlaw.py         | caught by RLVB08-no-way-of-confirming | family: no way to verify
+RC73  | receiptlaw.py         | caught by RLP25-dont-have-access | family: no access to
+RC74  | receiptlaw.py         | caught by RLP24-impossible-to-verify | family: impossible to verify
+RC75  | receiptlaw.py         | caught by RLP32-verification-was-not-possible | family: verification was not possible
+RC76  | receiptlaw.py         | caught by RLP13-remains-unverified | family: unverified, unconfirmed
+RC77  | receiptlaw.py         | caught by RLP04-not-available | family: not available
+RC78  | receiptlaw.py         | caught by RLP30-no-records-exist | family: no data exists
+RC79  | receiptlaw.py         | caught by RLD108-section-name-as-a-compound | a compound that ends in -unverified is a name, not a claim
+RC80  | receiptlaw.py         | caught by RLD50-third-party-noun-subject | somebody else's inability is not the assistant's claim
+RC81  | receiptlaw.py         | caught by RLP27-we-werent-able-to | "we" is the assistant
+RC82  | receiptlaw.py         | caught by RLD07-this-session-cannot-reach | "this session cannot ..." is the assistant's claim
+RC83  | receiptlaw.py         | caught by RLD130-there-is-no-way-to | "there is no way to ..." is the assistant's claim
+RC84  | receiptlaw.py         | caught by RLD111-first-person-left-out-before-a-joining-word | a claim joined by "and" with its subject left out is the assistant's
+RC85  | receiptlaw.py         | caught by RLD131-first-person-inside-the-joined-clause | "I" in the joined clause makes the claim the assistant's
+RC86  | receiptlaw.py         | caught by RLD110-other-subject-before-a-joining-word | a joined clause about something else is not the assistant's claim
+RC87  | receiptlaw.py         | caught by RLP09-unable-to-fully-confirm | auxiliaries between the subject and the claim are passed over
+RC88  | receiptlaw.py         | caught by RLP00-couldnt-verify | the subject is looked for before the claim
+RD10  | receiptlaw.py         | caught by RLD50-third-party-noun-subject | the words before a claim are read
+RD11  | receiptlaw.py         | caught by RLZ19-one-very-long-sentence-does-not-run-into-the-deadline | a very long sentence is read in time
+RC89  | receiptlaw.py         | caught by RLD10-list-item-could-not-verify | a claim right after a colon has no subject and is the assistant's
+RC90  | receiptlaw.py         | caught by RLH04-conditional-promise | "if I cannot ...": the pronoun between the condition and the claim
+RC91  | receiptlaw.py         | caught by RLD68-question-with-first-person | a question makes no claim
+RC92  | receiptlaw.py         | caught by RLD57-negated-no-item-i-couldnt-confirm (not one of the named cases) | "nothing I couldn't verify" is no claim
+RC93  | receiptlaw.py         | caught by RLH04-conditional-promise | "if I cannot verify ..." is no claim
+RC94  | receiptlaw.py         | caught by RLH15-tools-error-text-after-a-colon | what a tool or a person said is not the assistant's claim
+RC95  | receiptlaw.py         | caught by RLH12-resolved-inside-the-sentence | "at first I could not ..." is about a state that ended
+RC96  | receiptlaw.py         | caught by RLH12-resolved-inside-the-sentence | "at first" marks a state that ended
+RC97  | receiptlaw.py         | caught by RLH07-sentence-about-the-rule-unquoted | a sentence about wording is no claim
+RC98  | receiptlaw.py         | caught by RLH07-sentence-about-the-rule-unquoted | "phrase" marks a sentence about wording
+RC99  | receiptlaw.py         | caught by RLD206-general-statement-with-a-verb-of-verifying | a general statement in the passive is no claim
+RD01  | receiptlaw.py         | caught by RLD56-negated-nothing-left-unverified (not one of the named cases) | "none is unverified" is no claim
+RD02  | receiptlaw.py         | caught by RLD105-assumption-in-parentheses | the status of an assumption is no inability claim
+RD03  | receiptlaw.py         | caught by RLD100-section-title-then-items-with-provenance (not one of the named cases) | the section name "In scope and unverified" is no claim
+RD04  | receiptlaw.py         | caught by RLD107-labelled-as-unverified | "labelled as unverified" names a label
+RD05  | receiptlaw.py         | caught by RLD122-attributive-before-a-comma | "an unverified, old assertion" is a description
+RD06  | receiptlaw.py         | caught by RLD103-assumption-register-status | "Status: unconfirmed" is a field of the plan's register
+RD07  | receiptlaw.py         | caught by RLD132-label-form-what-was-not-verified-follows-the-colon | in "Unverified: X" the words after the colon say what was not verified
+RD08  | receiptlaw.py         | caught by RLR01-receipt-word-is-the-unverified-thing | a receipt word inside what was not verified is no receipt
+RD09  | receiptlaw.py         | caught by RLF00-ran-and-returned | what was not verified ends at a colon, a dash, a bracket or a clause word
+RE01  | receiptlaw.py         | caught by RLD06-couldnt-obtain | "could not obtain" is a claim
+RE02  | receiptlaw.py         | caught by RLD142-past-passive-could-not-be-reached | "could not be reached" is a claim
+RE03  | receiptlaw.py         | caught by RLD142-past-passive-could-not-be-reached | family: could not be reached (the past passive of the verbs of reaching)
+RE04  | receiptlaw.py         | caught by RLD140-general-passive-about-code | "cannot be determined at compile time" describes code: only the past form is a report
+RE05  | receiptlaw.py         | caught by RLP20-couldnt-access | family: could not access, find, reach
+RE06  | receiptlaw.py         | caught by RLD145-general-we-cant-access | "we can't access X from a worker" describes code
+RE07  | receiptlaw.py         | caught by RLD146-we-couldnt-access | "we couldn't access X" reports what happened
+RE08  | receiptlaw.py         | caught by RLD145-general-we-cant-access | the subject that also speaks for code is "we", not "I"
+RE09  | receiptlaw.py         | caught by RLD166-cant-check-this-in | "check this in" is not a check
+RE10  | receiptlaw.py         | caught by RLD196-could-not-find-any-difference | "could not find any difference" reports a result
+RE11  | receiptlaw.py         | caught by RLD164-could-not-find-a-single-failing-test | "could not find a single ..." reports a result
+RE12  | receiptlaw.py         | caught by RLD212-couldnt-find-any-failing-tests | "could not find any failing tests" reports a result
+RE13  | receiptlaw.py         | caught by RLD188-couldnt-find-a-better-trade | "could not find a better X" reports a result
+RE14  | receiptlaw.py         | caught by RLD167-couldnt-reach-a-different-conclusion | "could not reach a different conclusion" is not about reaching a place
+RE15  | receiptlaw.py         | caught by RLD197-couldnt-locate-a-single-call-site | "could not locate a single ..." reports a result
+RE16  | receiptlaw.py         | caught by RLP23-no-way-of-knowing | family: no way to know, no way of knowing
+RE17  | receiptlaw.py         | caught by RLD191-it-was-impossible-to-tell | family: impossible to tell
+RE18  | receiptlaw.py         | caught by RLP23-no-way-of-knowing | "no way of knowing" is a claim
+RE19  | receiptlaw.py         | caught by RLD178-i-have-no-way-to-know | "no way to know" is judged as a statement that may be general
+RE20  | receiptlaw.py         | caught by RLD187-impossible-to-tell-from-the-box-score | "impossible to tell from ..." is judged with "know", not with "verify"
+RE21  | receiptlaw.py         | caught by RLD175-wasnt-possible-to-obtain | "wasn't possible to ..." is a claim
+RE22  | receiptlaw.py         | caught by RLD210-no-way-for-me-to-know | "no way for me to know" is the assistant's claim
+RE23  | receiptlaw.py         | caught by RLP23-no-way-of-knowing | "I have no way to know" is the assistant's claim
+RE24  | receiptlaw.py         | caught by RLD177-there-was-no-way-to-tell | "there was no way to tell" reports what happened
+RE25  | receiptlaw.py         | caught by RLD177-there-was-no-way-to-tell | the word that makes it a report is looked for before the claim
+RE26  | receiptlaw.py         | caught by RLD162-a-regression-made-it-impossible-to-obtain | "a bug made it impossible to ..." is about the bug
+RE27  | receiptlaw.py         | caught by RLD208-it-would-be-impossible | "it would be impossible to ..." claims nothing that happened
+RE28  | receiptlaw.py         | caught by RLD207-no-more-data-to-read | "there is no more data to read" is about a stream
+RE29  | receiptlaw.py         | caught by RLD156-no-data-loss | "no data loss", "no record type": the noun is part of a name
+RE30  | receiptlaw.py         | caught by RLP29-there-is-no-data-for | "there is no data for 2019" is a claim
+RE31  | receiptlaw.py         | caught by RLD158-not-available-at-compile-time | "not available at compile time" says where a thing is offered
+RE32  | receiptlaw.py         | caught by RLD182-not-available-at-the-moment | "not available at the moment" is a claim
+RE33  | receiptlaw.py         | caught by RLD150-condition-whenever-could-not-be-reached | a clause that states a condition claims nothing
+RE34  | receiptlaw.py         | caught by RLD186-a-player-whose-team-could-not-be-found | "a player whose team could not be found": a clause that describes
+RE35  | receiptlaw.py         | caught by RLD176-a-comma-ends-the-condition | a comma ends the condition: what follows is a claim again
+RE36  | receiptlaw.py         | caught by RLD190-he-wrote-that-the-figures-were-not-available | "he wrote that the figures were not available" is what he wrote
+RE37  | receiptlaw.py         | caught by RLD204-the-model-card-says-the-data-is-not-available | reported speech needs no "that"
+RE38  | receiptlaw.py         | caught by RLD205-a-semicolon-ends-what-was-said | a semicolon ends what was said
+RE39  | receiptlaw.py         | caught by RLD198-the-old-claim-that-is-withdrawn | "the claim that X could not be verified" names a claim
+RE40  | receiptlaw.py         | caught by RLD199-it-isnt-that-the-data-is-not-available | "it isn't that the data is not available" denies it
+RE41  | receiptlaw.py         | caught by RLD211-it-is-not-that | "it is not that the data is unavailable" denies it
+RE42  | receiptlaw.py         | caught by RLD170-reported-in-parentheses | "it says so (can't confirm ...)": the parenthesis holds what was said
+RE43  | receiptlaw.py         | caught by RLD170-reported-in-parentheses | "says" is a verb of saying
+RE44  | receiptlaw.py         | caught by RLD168-couldnt-find-it-at-first | "couldn't find it at first; ..." is about a state that ended
+RE45  | receiptlaw.py         | caught by RLD168-couldnt-find-it-at-first | "at first" after the claim marks a state that ended
+RE46  | receiptlaw.py         | caught by RLD193-could-not-be-reached-while | "could not be reached while ..." tells of an event and its period
+RE47  | receiptlaw.py         | caught by RLD193-could-not-be-reached-while | "while" opens the period of an event
+RE48  | receiptlaw.py         | caught by RLD193-could-not-be-reached-while | the period is read for the past passive too
+RE49  | receiptlaw.py         | caught by RLD169-a-list-of-tiers | "verified, likely, and unverified" is a list of labels; "12 verified, 3 unverified" a tally
+RE50  | receiptlaw.py         | caught by RLD171-an-assumption-named-by-its-number | an assumption named by its number ("A1 ... is unconfirmed") carries a status, not a claim
+RE51  | receiptlaw.py         | caught by RLD173-the-re-run-gives-another-number | "X cannot be reproduced: ...": the colon opens the explanation
+RE52  | receiptlaw.py         | caught by RLD132-label-form-what-was-not-verified-follows-the-colon | "Unverified: X" at the start of a sentence still lists what was not verified
+RE53  | receiptlaw.py         | caught by RLD213-the-record-shows-none | the passive is one of the families whose subject stands first
+RE54  | receiptlaw.py         | caught by RLD195-couldnt-find-anything-in-the-diff | "couldn't find X in the repository" names what was searched
+RE55  | receiptlaw.py         | caught by RLD203-couldnt-verify-it-in-the-repo | only a search names its place: "couldn't verify X in the config" stays bare
+RE56  | receiptlaw.py         | caught by RLD200-couldnt-find-it-in-the-repo | "in the ..." names the place that was searched
+RE57  | receiptlaw.py         | caught by RLD172-no-live-path-names-the-missing-means | "there is no live path to prod" names the missing means
+RE58  | receiptlaw.py         | caught by RLD161-impossible-to-determine-without-consuming | "without the raw body" names the missing means
+RE59  | receiptlaw.py         | caught by RLD213-the-record-shows-none | "the record shows none" is a failure mode
+RE60  | receiptlaw.py         | caught by RLD209-sampled-names-the-attempt | "sampled 200" names an attempt
+RE61  | receiptlaw.py         | caught by RLD214-the-re-run-names-the-attempt | "the re-run gives 13" names an attempt
+RE62  | receiptlaw.py         | caught by RLD165-couldnt-reproduce-in-fifty-runs | "50 runs" names an attempt
+RE64  | receiptlaw.py         | caught by RLD168-couldnt-find-it-at-first | the words after a claim are read
+RE63  | receiptlaw.py         | caught by RLD189-no-record-which-i-searched | ", which I searched": what the assistant did is outside what was not verified
+AM01  | turngate.py           | caught by am_a1_provided | "provided" puts an order under a condition
+AM02  | turngate.py           | caught by am_a1_unless-first | "unless" puts an order under a condition
+AM03  | turngate.py           | caught by am_a1_weekday | a weekday puts an order off
+AM04  | turngate.py           | caught by am_a1_push-if-first | a push order under a condition sets no branch word
+AM05  | turngate.py           | caught by am_a2_wait-then-merge | an order after a clause that holds the work back or reports speech grants nothing
+AM06  | turngate.py           | caught by am_a3_you-said | an order after reported speech ("you said: merge #34") grants nothing
+AM07  | turngate.py           | caught by am_a2_wait-then-merge | an order after a clause that holds the work back ("Wait for CI, then merge #34") grants nothing
+AM08  | turngate.py           | caught by am_a5_ctl-no-reason-to-hold | a negated hold ("there is no reason to hold this back") holds nothing back
+AM09  | turngate.py           | caught by am_a4_has-failing-checks | the verb followed by a statement ("Merge #34 has failing checks") is no order
+AM10  | turngate.py           | caught by am_a4_failed-again | "Merge #34 failed again." is a statement
+AM11  | turngate.py           | caught by am_a5_same-message-scratch-that | a clause that holds the work back with no refusal word ("Scratch that.") empties the grant
+AM12  | turngate.py           | caught by am_a5_same-message-better-to-wait | a longer clause that holds the work back ("Better to wait for the outside audit.") empties the grant
+AM13  | turngate.py           | caught by am_a5_same-message-actually-no | soft words before a short refusal ("Actually no.") are dropped before it is read
+AM14  | turngate.py           | caught by am_a6_mid-dont-think-so | a mid-turn message that orders nothing but doubts ends the word
+AM15  | turngate.py           | caught by am_a7_dont-forget-to-merge | "Don't forget to merge #34" is an order
+AM16  | turngate.py           | caught by am_a8_long-leadin-is-judged-fast | the lead-in of an order is read in one way only: a long run of it is judged at once
+AM17  | turngate.py           | caught by am_b1_yes-hold-and-not-merge | a yes grants a merge only on a plain merge question
+AM18  | turngate.py           | caught by am_b1_yes-or-close | a yes on a question that offers a choice ("Merge #34 or close it?") grants nothing
+AM19  | turngate.py           | caught by am_b1_yes-after-audit | a yes on a question that holds a condition grants nothing
+AM20  | turngate.py           | caught by am_b1_yes-shall-i | "Shall I merge #34 now?" is a plain merge question
+AM21  | turngate.py           | caught by am_b1_yes-not-a-statement | a question whose verb is followed by a statement asks for no merge
+AM22  | turngate.py           | caught by am_b1_yes-hold-after-typed-order | a yes to holding a pull request takes the earlier word for it back
+AM23  | turngate.py           | caught by am_b2_yes-push-once-green | a yes sets the branch word only on a plain push question
+AM24  | turngate.py           | caught by am_c_bare-number-other-repo-after-merge | a word that names only a number covers it in one repository
+AM25  | turngate.py           | caught by am_c_shell-call-denied-then-other-repo | an earlier merge call that was denied did not use the word
+AM26  | turngate.py           | caught by am_c_two-unreadable-repos-count-as-two | a call whose repository the gate cannot read counts as another repository
+AM27  | turngate.py           | caught by am_d1_script-without-suffix-scheduled | a file a command runs directly is read whatever its name
+AM28  | turngate.py           | caught by am_d1_python-shebang-is-a-stated-limit-owner-ok | a file run directly whose first line names a program other than a shell is not read (rewritten 2026-11-16 for rule M1: it used to pin that such a file goes to the text screens)
+AM29  | turngate.py           | caught by am_d1_binary-is-not-read | a program (a file that holds a NUL byte) is not read as a script
+AM30  | turngate.py           | caught by am_d2_other-writer-goes-to-screens-scheduled | a file the text wrote in a way the parser does not follow, then ran: the whole text goes to the text screens
+AM31  | turngate.py           | caught by am_d2_heredoc-written-then-run-scheduled | a file the same command text writes and then runs is read as written
+AM32  | turngate.py           | caught by am_d2_ctl-echo-script-then-mention | what echo and printf write into a file is known (not sent to the text screens)
+AM33  | turngate.py           | caught by am_d2_tee-heredoc-then-run-directly-scheduled | what tee writes from a here-document is known
+AM34  | turngate.py           | caught by am_d3_command-word-substituted-scheduled | a command word the parser cannot resolve is judged as gh and as git
+AM35  | turngate.py           | caught by am_d4_find-exec-scheduled | the command find -exec runs is read
+AM36  | turngate.py           | caught by am_d5_unbalanced-push-main-scheduled | the text screens know a push to a default branch
+AM37  | turngate.py           | caught by am_d6_bash-n-checks-syntax-only | `bash -n FILE` checks syntax only: the file is not read as run
+AM39  | turngate.py           | caught by am_e_graphql-file-plain-query | `gh api -F key=@FILE` sends the text of FILE
+AM40  | turngate.py           | caught by am_e_graphql-input-file-plain-query | `gh api --input FILE` sends the text of FILE
+AM41  | turngate.py           | caught by am_e_curl-data-file-plain-query | curl's `-d @FILE` sends the text of FILE
+AM43  | turngate.py           | caught by am_f_source-script-pushes-main | a script run with source or . is read
+AM44  | turngate.py           | caught by am_f_dot-script-pushes-main | a script run with . is read
+AM45  | turngate.py           | caught by am_f_push-master | master is a default branch
+AM46  | turngate.py           | caught by am_f_push-mirror | a mirror push and a push of --branches push every branch
+AM47  | turngate.py           | caught by am_f_push-wildcard-refspec | a wildcard refspec pushes every branch
+AM48  | turngate.py           | caught by S15-owner-queued-message-in-scheduled-run | a message the owner types during a scheduled run makes the rest of it attended
+AM49  | turngate.py           | caught by S15-owner-queued-message-in-scheduled-run | a message the owner types during a scheduled run makes the rest of it attended (the switch)
+AM50  | turn-gates-pretool.py | caught by am_c_record-holds-the-call-itself | the call being judged is not counted as an earlier merge of its own pull request
+AS01  | turngate.py           | caught by as_s1_output-not-an-error-is-no-denial | a result that is not an error is never a denial, whatever it says
+AS02  | turngate.py           | caught by as_s1_failed-push-says-was-rejected-midway | a denial lead counts only at the start of the error text
+AS03  | turngate.py           | caught by as_s1_denied-by-a-hook-older-shape | an "Error: " before the denial lead is dropped
+AS04  | turngate.py           | caught by as_s1_flag-alone-is-a-denial | a result row that carries the denial flag is a denial, whatever its text
+AS05  | turngate.py           | caught by as_s1_rejected-at-the-prompt-older-shape | a call rejected at the permission prompt is not counted
+AS06  | turngate.py           | caught by as_s1_denied-by-a-hook-older-shape | a pre-tool hook's denial is not counted
+AS07  | turngate.py           | caught by as_s2_x01-reply-only-in-the-input | the record's last block counts when the Stop input says this stop answers it
+AS08  | turngate.py           | caught by as_s2_pin-trailing-block-without-the-flag | a block counts only when it was answered: work followed it, or this stop is the retry
+AS09  | turngate.py           | caught by as_s2_a2c-second-reply-only-in-the-input | the outward rule counts its own last block when this stop answers it
+AS10  | turngate.py           | caught by as_s2_x01-reply-only-in-the-input | the outward rule's retry shortcut counts the last block when this stop answers it
+AS11  | governance-enforce.py | caught by as_s2_prompt-class-after-other-block-reply-only-in-input | the prompt-class rule's retry shortcut counts the last block when this stop answers it
+AS12  | receiptlaw.py         | caught by as_s2_t13-receipt-retry-only-in-the-input | the receipt gate's retry shortcut counts the last block when this stop answers it
+AS13  | turngate.py           | caught by as_s3_x03-new-push-after-the-block-then-governors | a plan-gate load after the block answers only the acts made before the block (S8)
+AS14  | turngate.py           | caught by as_s4_g05-helper-commits-after-plan-gate | a helper's act sits where it was made, not at the start of the stretch
+AS15  | turngate.py           | caught by as_s4_note-between-owner-row-and-next-row | a note is placed against the stretch's own first row, not the row after it
+AS16  | turngate.py           | caught by as_s5_helper-of-an-earlier-turn-is-charged-by-time | a helper's act is charged to the stretch in which it happens (the switch)
+AS17  | governance-enforce.py | caught by P12-no-owner-row-two-writes | a stretch with no owner message on record is not judged by the prompt-class rule (the switch)
+AS18  | turngate.py           | caught by as_s8_tmpdir-variable-is-scratch | a path that starts with $TMPDIR is scratch
+AS19  | turngate.py           | caught by as_s8_ctl-tmpdir-dotdot-is-a-real-write | $TMPDIR/../ climbs out of scratch
+AS20  | governance-enforce.py | caught by as_s8_prompt-class-reason-states-the-rule | the prompt-class reason says what the rule counts
+AS21  | governance-enforce.py | caught by as_s8_prompt-class-silent-after-an-idle-wake | the prompt-class rule is silent after an idle wake as after a completed stop
+AS22  | governance-enforce.py | caught by as_s8_prompt-class-retry-flag-no-block-on-record | the prompt-class rule lets the one retry go when the record shows no block
+AM51  | turngate.py           | caught by am2_m2_lets-not-wait | a negated hold ("Let's not wait", "Don't wait for CI") is a go-ahead
+AM52  | turngate.py           | caught by am2_m3_comma-line | a line that ends with a comma or a colon goes on into the next
+AM53  | turngate.py           | caught by am2_m3_condition-line-no-mark | a line with no end mark that holds a condition goes on into the next
+AM54  | turngate.py           | caught by am2_m3_colon-list-order-second | each item of a list after a line that ends with a colon is read with that line
+AM55  | turngate.py           | caught by am2_m4_eventually | "eventually", "afterwards", "soon" put an order off
+AM56  | turngate.py           | caught by am2_m4_in-the-morning | a part of the day puts an order off
+AM57  | turngate.py           | caught by am2_m4_clock-time | a clock time puts an order off
+AM58  | turngate.py           | caught by am2_m4_mid-one-sec | "one sec" holds the work back
+AM59  | turngate.py           | caught by am2_m5_first-the-audit | a clause that puts something first holds back the order after it
+AM60  | turngate.py           | caught by am2_m5_ctl-first-comma-merge | "First, merge #34" is a lead-in, not a sequence
+AM61  | turngate.py           | caught by am2_m6_can-wait | a statement that refuses or holds ("Merge #34 can wait.") takes its pull requests out of the grant
+AM62  | turngate.py           | caught by am2_m7_merge-result-echoes-requires-approval-then-other-repo | the merge gate reads a denial from the record's flags, as the Stop gate does (one test)
+== 434 breaks: 434 caught, 0 survived, 0 stale; control: 0 failing of 950 cases ==

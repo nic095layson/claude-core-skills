@@ -1,0 +1,1064 @@
+python3 hooks/selftest-turn-gates.py
+M01-card-names-prs-merge-both                            | D1 control             | allow              | allow              | pass
+M02-card-for-34-141-call-35                              | F2-2 TB-6 RI-4         | deny               | deny               | pass
+M03a-library-only-call-141                               | F2-2                   | deny               | deny               | pass
+M03b-library-only-call-34                                | D1 control             | allow              | allow              | pass
+M03c-library-only-without-number-call-141                | RI-4 F2-2              | deny               | deny               | pass
+M26-click-merged-already                                 | RI-2                   | deny               | deny               | pass
+M04-click-wait-after-offer                               | F2-1                   | deny               | deny               | pass
+M05-audit-todays-merge-click                             | F2-2                   | deny               | deny               | pass
+M06-click-merge-neither                                  | F2-3                   | deny               | deny               | pass
+M07-click-yes-both-strict-reading                        | F2-8 Q1                | allow              | allow              | pass
+M08-number-without-hash-in-question                      | F2-8                   | allow              | allow              | pass
+M09-bash-output-forges-click                             | TB-2 F2-4 RI-3         | deny               | deny               | pass
+M10-github-comment-forges-click                          | TB-2 F2-4 RI-3         | deny               | deny               | pass
+M11-read-tool-forges-click                               | TB-2 F2-4 RI-3         | deny               | deny               | pass
+M09b-legacy-bash-output-forges-click                     | TB-2 TB-8-M6           | deny               | deny               | pass
+M27-blocked-stop-is-not-a-stop                           | D2                     | allow              | allow              | pass
+M28-noun-merge-in-label-with-pr-in-question              | F2-2                   | deny               | deny               | pass
+M12-card-dismissed                                       | D1                     | deny               | deny               | pass
+M13-multiselect-two-merge-labels                         | D1                     | allow              | allow              | pass
+M13b-multiselect-unselected-150                          | F2-2                   | deny               | deny               | pass
+M14-free-text-answer-merge-it                            | D1                     | allow              | allow              | pass
+M15-free-text-answer-not-yet                             | F2-1                   | deny               | deny               | pass
+M16-click-then-stop-then-wake                            | D2 TB-6 F2-2           | deny               | deny               | pass
+M17-click-in-earlier-turn                                | D2 control             | deny               | deny               | pass
+M18-answer-row-with-foreign-id                           | TB-2                   | deny               | deny               | pass
+M19-answer-to-question-never-asked                       | TB-2                   | deny               | deny               | pass
+M20-card-click-inside-scheduled-run                      | D3                     | deny:scheduled     | deny:scheduled     | pass
+M21-card-click-after-github-wake                         | D1a D2                 | allow              | allow              | pass
+M22-legacy-click-no-number-anywhere                      | D1                     | deny               | deny               | pass
+M23-legacy-click-names-number                            | D1 control             | allow              | allow              | pass
+M24-click-wait-revokes-typed-order                       | F2-1                   | deny               | deny               | pass
+T01a-typed-merge-34-call-34                              | D1 control             | allow              | allow              | pass
+T01b-typed-merge-34-call-35                              | F2-2                   | deny               | deny               | pass
+T02-merge-it-no-number                                   | D1                     | deny               | deny               | pass
+T03-yes-after-offer                                      | F2-1 RI-4              | deny               | deny               | pass
+T04-no-wait-after-offer                                  | F2-1 RI-4              | deny               | deny               | pass
+T05a-do-not-merge-34-merge-35-call-34                    | F2-2                   | deny               | deny               | pass
+T05b-do-not-merge-34-merge-35-call-35                    | D1 control             | allow              | allow              | pass
+T05c-dont-merge-26-comma-merge-27                        | selftest F2            | allow              | allow              | pass
+T05d-dont-merge-26-comma-merge-27-call-26                | F2-2                   | deny               | deny               | pass
+T05e-dont-under-any-circumstances-merge-34               | RI-1                   | deny               | deny               | pass
+T06-curly-dont-merge                                     | F2-3 RI-1              | deny               | deny               | pass
+T07-do-not-merge-until-i-say-merge                       | F2-3                   | deny               | deny               | pass
+T08-you-cant-merge-yet                                   | F2-3 RI-1              | deny               | deny               | pass
+T09-is-34-merged-yet                                     | RI-2                   | deny               | deny               | pass
+T10-is-34-safe-to-merge                                  | F2-3                   | deny               | deny               | pass
+T11a-merge-34-leave-141-call-141                         | RI-4                   | deny               | deny               | pass
+T11b-merge-34-leave-141-call-34                          | D1 control             | allow              | allow              | pass
+T12-looks-good-merge-34                                  | D1 control             | allow              | allow              | pass
+T13-please-merge-pr-34-and-pr-141                        | F2-8                   | allow              | allow              | pass
+T14-can-you-merge-34                                     | D1                     | allow              | allow              | pass
+T15-merge-everything-except-141                          | F2-2                   | deny               | deny               | pass
+T16a-merge-34-after-you-fix-35-call-35                   | F2-2                   | deny               | deny               | pass
+T16b-merge-34-after-you-fix-35-call-34                   | F2-3 deferral          | deny               | deny               | pass
+T16c-merge-34-before-141-names-both                      | D1                     | allow              | allow              | pass
+M25-click-merge-after-the-audit                          | F2-3                   | deny               | deny               | pass
+T16d-merge-34-and-close-35                               | F2-2                   | deny               | deny               | pass
+T16e-merge-34-library-and-141-deck                       | D1                     | allow              | allow              | pass
+T37-row-without-origin-in-a-file-that-has-origin         | strict                 | deny               | deny               | pass
+T17-legacy-owner-quotes-marker                           | TB-4 RI-5 PC-1         | deny               | deny               | pass
+T18-legacy-owner-starts-with-hook-words                  | TB-4                   | deny               | deny               | pass
+T19-queued-owner-message-orders                          | queued-row             | allow              | allow              | pass
+T20-queued-owner-message-refuses                         | queued-row F2-1        | deny               | deny               | pass
+T20c-queued-curly-refusal-revokes                        | RI-1 F2-3              | deny               | deny               | pass
+T20b-queued-notification-is-not-owner                    | queued-row             | deny               | deny               | pass
+T21a-slash-command-args-order                            | slash-row              | allow              | allow              | pass
+T21b-only-owner-input-is-slash-command                   | F2-7 RI-5              | deny               | deny               | pass
+T21c-legacy-local-command-echo-only                      | F2-7                   | deny               | deny               | pass
+T22-file-starts-at-compaction                            | TB-1 F2-7              | deny               | deny               | pass
+T23a-empty-transcript                                    | F2-7                   | deny               | deny               | pass
+T23b-bad-json-line-plus-ok                               | F2-7                   | deny               | deny               | pass
+T23c-transcript-missing                                  | F2-7 fail-safe         | deny               | deny               | pass
+T24-compaction-midturn-keeps-order                       | design                 | allow              | allow              | pass
+T25-compact-summary-is-not-owner                         | TB-8-M2 PC-7           | deny               | deny               | pass
+T26-meta-row-is-not-owner                                | TB-8-M2                | deny               | deny               | pass
+T27-task-notification-is-not-owner                       | TB-8-C2                | deny               | deny               | pass
+T28-peer-session-message-is-not-owner                    | design                 | deny               | deny               | pass
+T29-order-then-later-owner-message                       | D2 control             | deny               | deny               | pass
+T30-order-then-stop-then-wake                            | D2 TB-6                | deny               | deny               | pass
+T31-legacy-typed-order                                   | D1 control             | allow              | allow              | pass
+T32-worker-restart-after-order                           | D2 Q3                  | deny               | deny               | pass
+T33-interrupt-after-order                                | D2                     | deny               | deny               | pass
+T34-url-names-the-pr                                     | F2-8                   | allow              | allow              | pass
+T35-url-of-other-repo                                    | F2-2                   | deny               | deny               | pass
+T36-image-only-owner-message-ends-order                  | design                 | deny               | deny               | pass
+R01a-auto-merge-tool-no-word                             | F2-5 RI-7 SF-3 WR-2    | deny               | deny               | pass
+R01b-auto-merge-tool-with-word                           | D3 control             | allow              | allow              | pass
+R02-gh-flag-between-pr-and-verb                          | F2-5 RI-7 CB-1         | deny               | deny               | pass
+R03-gh-flag-before-pr                                    | F2-5                   | deny               | deny               | pass
+R04a-gh-number-last                                      | F2-5                   | deny               | deny               | pass
+R04b-gh-number-last-with-word                            | D1 control             | allow              | allow              | pass
+R05-gh-api-put-merge                                     | F2-5 RI-7 WR-2         | deny               | deny               | pass
+R06-curl-put-merge                                       | WR-2 CB-1              | deny               | deny               | pass
+R07-line-continuation                                    | F2-5                   | deny               | deny               | pass
+R08-script-file                                          | F2-5 F1-4              | deny               | deny               | pass
+R09a-git-push-origin-main                                | F2-5 WR-2 D3           | deny               | deny               | pass
+R09b-git-push-head-to-main                               | F2-5 D3                | deny               | deny               | pass
+R09c-git-push-feature-branch                             | control                | allow              | allow              | pass
+R09d-git-push-main-with-word                             | D3 Q4                  | allow              | allow              | pass
+R09e-bare-push-on-main                                   | D3                     | deny               | deny               | pass
+R09f-bare-push-on-feature                                | control                | allow              | allow              | pass
+R09h-bare-push-branch-unreadable                         | D3 Q4                  | allow              | allow              | pass
+R09g-pr-word-does-not-cover-push-to-main                 | D3                     | deny               | deny               | pass
+R10a-push-files-to-main                                  | F2-5 WR-2              | deny               | deny               | pass
+R10b-push-files-to-feature                               | control                | allow              | allow              | pass
+R10c-create-or-update-file-no-branch                     | F2-5                   | deny               | deny               | pass
+R11-gh-merge-auto                                        | D3                     | deny               | deny               | pass
+R12-gh-merge-without-number                              | D1                     | deny               | deny               | pass
+R13-graphql-merge-mutation                               | F2-5                   | deny               | deny               | pass
+R14a-bash-c                                              | F2-5                   | deny               | deny               | pass
+R14b-eval                                                | F2-5                   | deny               | deny               | pass
+R14c-command-substitution                                | F2-5                   | deny               | deny               | pass
+R14d-echo-piped-to-shell                                 | F2-5                   | deny               | deny               | pass
+R14e-heredoc-to-shell                                    | F2-5                   | deny               | deny               | pass
+R15a-wrappers                                            | F2-5                   | deny               | deny               | pass
+R15b-and-chain-subshell                                  | F2-5                   | deny               | deny               | pass
+R16-variable-in-command-position                         | F2-5                   | deny               | deny               | pass
+R17-unparseable-with-route-words                         | fail-safe              | deny               | deny               | pass
+N01-grep-for-the-words                                   | F2-8 RI-8              | allow              | allow              | pass
+N02-echo-into-notes                                      | RI-8                   | allow              | allow              | pass
+N03-commit-message-mentions                              | RI-8                   | allow              | allow              | pass
+N04-heredoc-to-python                                    | RI-8                   | allow              | allow              | pass
+N05-script-written-not-run                               | F1-6 RI-8              | allow              | allow              | pass
+N06-help-page                                            | RI-8                   | allow              | allow              | pass
+N07-view-json-mergeable                                  | RI-8                   | allow              | allow              | pass
+N08-git-merge-origin-main                                | control                | allow              | allow              | pass
+N09-api-get-merged-state                                 | RI-8                   | allow              | allow              | pass
+N10-long-cd-grep-python                                  | RI-8                   | allow              | allow              | pass
+N11-unparseable-without-route-words                      | fail-safe              | allow              | allow              | pass
+S01-scheduled-merge-tool                                 | D3 control             | deny:scheduled     | deny:scheduled     | pass
+S02-scheduled-auto-merge-tool                            | RI-7 WR-2 CB-1 F2-5    | deny:scheduled     | deny:scheduled     | pass
+S03-scheduled-gh-api-put                                 | RI-7 WR-2 CB-1         | deny:scheduled     | deny:scheduled     | pass
+S04-scheduled-curl-put                                   | WR-2 CB-1              | deny:scheduled     | deny:scheduled     | pass
+S05-scheduled-push-main                                  | WR-2                   | deny:scheduled     | deny:scheduled     | pass
+S06-scheduled-push-files-main                            | WR-2                   | deny:scheduled     | deny:scheduled     | pass
+S07-scheduled-gh-flag-between                            | RI-7 CB-1              | deny:scheduled     | deny:scheduled     | pass
+S08-bash-prints-old-scheduled-header                     | TB-3                   | allow              | allow              | pass
+S09-github-body-quotes-scheduled-header                  | TB-3                   | allow              | allow              | pass
+S10a-midturn-scheduled-read-ends-earlier-word            | TB-3 Q2                | deny               | deny               | pass
+S10b-midturn-scheduled-read-then-click                   | TB-3 Q2                | allow              | allow              | pass
+S11-owner-types-after-scheduled-run                      | TB-8-M5                | allow              | allow              | pass
+S13-legacy-scheduled-fixture                             | D3 control             | deny:scheduled     | deny:scheduled     | pass
+S14-origin-words-in-body-not-header                      | TB-8-M4                | allow              | allow              | pass
+S15-owner-queued-message-in-scheduled-run                | Q2                     | allow              | allow              | pass
+G01a-helper-merge-with-live-word                         | helper-row Q7          | allow              | allow              | pass
+G01b-helper-merge-without-word                           | helper-row             | deny               | deny               | pass
+G02-helper-merge-after-main-stopped                      | helper-row D2          | deny               | deny               | pass
+G03-sidechain-prompt-is-not-owner                        | helper-row             | deny               | deny               | pass
+X01a-payload-not-json-names-merge-tool                   | fail-safe              | deny               | deny               | pass
+X01b-payload-not-json-plain                              | fail-safe              | allow              | allow              | pass
+X02a-transcript-is-a-directory-merge                     | fail-safe              | deny               | deny               | pass
+X02b-transcript-is-a-directory-edit                      | fail-safe              | allow              | allow              | pass
+X04a-shared-module-missing-merge                         | fail-safe              | deny               | deny               | pass
+X04b-shared-module-missing-bash-ls                       | fail-safe              | allow              | allow              | pass
+X05a-internal-error-merge-is-denied                      | fail-safe              | deny               | deny               | pass
+X05b-internal-error-edit-is-allowed                      | fail-safe              | allow              | allow              | pass
+X05c-internal-error-stop-is-allowed                      | fail-safe F1-7-M5      | allow              | allow              | pass
+X05d-internal-error-commit-is-allowed                    | fail-safe              | allow              | allow              | pass
+F01-ungoverned-commit                                    | F1 control             | block:F1           | block:F1           | pass
+F02-commit-with-identity-flags                           | RI-6 F1-4              | block:F1           | block:F1           | pass
+F03a-commit-no-pager                                     | RI-6 F1-4              | block:F1           | block:F1           | pass
+F03b-push-quoted-dir                                     | RI-6 F1-4              | block:F1           | block:F1           | pass
+F04-revert-makes-a-commit                                | F1-4                   | block:F1           | block:F1           | pass
+F05-send-later                                           | F1-3 SF-3 RI-6         | block:F1           | block:F1           | pass
+F05-cron-create                                          | F1-3 SF-3 RI-6         | block:F1           | block:F1           | pass
+F05-cron-delete                                          | F1-3 SF-3 RI-6         | block:F1           | block:F1           | pass
+F05-auto-merge                                           | F1-3 SF-3 RI-6         | block:F1           | block:F1           | pass
+F05-update-pr-branch                                     | F1-3 SF-3 RI-6         | block:F1           | block:F1           | pass
+F05-fire-trigger                                         | F1-3 SF-3 RI-6         | block:F1           | block:F1           | pass
+F06a-gh-pr-edit                                          | F1-4                   | block:F1           | block:F1           | pass
+F06b-gh-api-patch-pull                                   | F1-4                   | block:F1           | block:F1           | pass
+F07a-grep-git-commit                                     | F1-6 RI-8              | allow              | allow              | pass
+F07b-echo-git-push                                       | F1-6 RI-8              | allow              | allow              | pass
+F07c-script-written-not-run                              | F1-6                   | allow              | allow              | pass
+F07d-commit-dry-run                                      | F1-6                   | allow              | allow              | pass
+F07e-commit-help                                         | F1-6                   | allow              | allow              | pass
+F08a-merge-call-denied-by-gate                           | F1-6                   | allow              | allow              | pass
+F08b-commit-failed-nothing-to-commit                     | F1-6                   | allow              | allow              | pass
+F08c-commit-ok-push-failed                               | F1 control             | block:F1           | block:F1           | pass
+F09-delegate-pushes-main-turn-loads-nothing              | F1-1 helper-row        | block:F1           | block:F1           | pass
+F10-sidechain-rows-in-main-file                          | F1-1                   | block:F1           | block:F1           | pass
+F11a-chain-stop1                                         | F1-5 control           | block:F1           | block:F1           | pass
+F11b-chain-stop2-remedied                                | F1-5                   | allow              | allow              | pass
+F11c-chain-stop3-after-wake                              | F1-5                   | allow              | allow              | pass
+F11d-chain-stop5-after-second-wake                       | F1-5                   | allow              | allow              | pass
+F12-retry-after-other-hooks-block                        | F1-2 PC-4              | block:F1           | block:F1           | pass
+F13a-second-block-when-nothing-loaded                    | F1-2                   | block:F1           | block:F1           | pass
+F13b-third-stop-is-let-go                                | F1-2 loop-safety       | allow              | allow              | pass
+F13c-retry-flag-without-any-block-on-record              | loop-safety            | allow              | allow              | pass
+F14-skill-call-errored                                   | F1-8                   | block:F1           | block:F1           | pass
+F15-loads-before-compaction-do-not-count                 | F1-8 Q5                | block:F1           | block:F1           | pass
+F16a-scheduled-run-ungoverned-commit                     | S1 control             | block:F1           | block:F1           | pass
+F16b-scheduled-run-governed                              | S2 control             | allow              | allow              | pass
+F16c-legacy-scheduled-run-ungoverned                     | S1 control             | block:F1           | block:F1           | pass
+F17-bash-header-after-ungoverned-commit                  | TB-3                   | block:F1           | block:F1           | pass
+F18-github-body-header-after-ungoverned-commit           | TB-3                   | block:F1           | block:F1           | pass
+F19a-midturn-genuine-read-after-ungoverned-commit        | TB-3                   | block:F1           | block:F1           | pass
+F19c-legacy-owner-push-then-scheduled-run-loads-both     | S1 2026-11-04 rule     | block:F1           | block:F1           | pass
+F19b-midturn-read-does-not-cut-governed-turn             | TB-3 Q2                | allow              | allow              | pass
+F20-no-owner-row-commit-push                             | TB-1 PC-6              | block:F1           | block:F1           | pass
+F21-owner-quotes-marker-previous-turn-loaded             | TB-4 RI-5              | block:F1           | block:F1           | pass
+F22-loads-of-previous-turn-do-not-count                  | PC-7-M3                | block:F1           | block:F1           | pass
+F23-commit-and-push                                      | F1-7-M7                | block:F1           | block:F1           | pass
+F24a-git-C-commit                                        | F1-7-M3                | block:F1           | block:F1           | pass
+F24b-gh-pr-create                                        | F1-7-M2                | block:F1           | block:F1           | pass
+F24c-push-files                                          | F1-7-M1                | block:F1           | block:F1           | pass
+F24c-create-or-update-file                               | F1-7-M1                | block:F1           | block:F1           | pass
+F24c-delete-file                                         | F1-7-M1                | block:F1           | block:F1           | pass
+F24c-create-trigger                                      | F1-7-M1                | block:F1           | block:F1           | pass
+F24c-update-trigger                                      | F1-7-M1                | block:F1           | block:F1           | pass
+F24c-delete-trigger                                      | F1-7-M1                | block:F1           | block:F1           | pass
+F24c-update-pull-request                                 | F1-7-M1                | block:F1           | block:F1           | pass
+F24c-create-pull-request                                 | F1-7-M1                | block:F1           | block:F1           | pass
+F24c-merge-pull-request                                  | F1-7-M1                | block:F1           | block:F1           | pass
+F25-skill-args-mention-governor                          | F1-7-M4                | block:F1           | block:F1           | pass
+F34-miss-let-go-at-its-own-stop-is-not-raised-later      | F1-5                   | allow              | allow              | pass
+F26-block-reason-carries-the-remedy                      | F1-7-M6                | remedy             | remedy             | pass
+F27-garbage-transcript-allows                            | F1-7-M5 fail-safe      | allow              | allow              | pass
+F28-two-scheduled-runs-latest-governs                    | TB-8-M3                | block:F1           | block:F1           | pass
+F29-owner-message-after-scheduled-run                    | TB-8-M5                | allow              | allow              | pass
+F30-verify-then-commit-and-push                          | C4 control             | allow              | allow              | pass
+F31-plan-gate-after-first-act                            | F1 control             | block:F1           | block:F1           | pass
+F32-edit-only-turn                                       | control                | allow              | allow              | pass
+F33-wake-turn-inherits-owner-turn-loads                  | no-new-block           | allow              | allow              | pass
+P01-build-no-governor                                    | control                | block:prompt-class | block:prompt-class | pass
+P02a-build-prompt-quotes-notification-banner             | PC-1                   | block:prompt-class | block:prompt-class | pass
+P02b-legacy-build-prompt-contains-marker                 | PC-1 TB-4              | block:prompt-class | block:prompt-class | pass
+P03-legacy-prompt-starts-with-gate-text                  | PC-1                   | block:prompt-class | block:prompt-class | pass
+P04a-scheduled-run-after-review-remark                   | TB-7 PC-5              | allow              | allow              | pass
+P04b-legacy-scheduled-run-after-review-remark            | TB-7 PC-5              | allow              | allow              | pass
+P05-github-wake-after-review-remark                      | PC-5                   | allow              | allow              | pass
+P06-single-retry-understood                              | PC-4 intended          | allow              | allow              | pass
+P07-retry-after-receipt-block-rearms                     | PC-4                   | block:prompt-class | block:prompt-class | pass
+P08-compact-summary-is-not-the-prompt                    | PC-7-M4                | allow              | allow              | pass
+P09-every-class-needs-its-governor                       | PC-7-M5                | block:prompt-class | block:prompt-class | pass
+P10a-allowance-is-review-only                            | PC-7-M1                | block:prompt-class | block:prompt-class | pass
+P10b-review-only-short-answer                            | control                | allow              | allow              | pass
+P11-loads-before-the-prompt-do-not-count                 | PC-7-M3                | block:prompt-class | block:prompt-class | pass
+P12-no-owner-row-two-writes                              | PC-6 Q8                | allow              | allow              | pass
+P13-build-ordered-by-click                               | PC-8 Q9                | allow              | allow              | pass
+P14-long-answer-not-in-record                            | PC-4 allowance         | block:prompt-class | block:prompt-class | pass
+P15-slash-command-args-are-the-prompt                    | slash-row              | block:prompt-class | block:prompt-class | pass
+P17-owner-prompt-after-a-scheduled-run                   | TB-8-M5                | block:prompt-class | block:prompt-class | pass
+P16-task-notification-midturn-does-not-hide-prompt       | 2026-10-13 control     | block:prompt-class | block:prompt-class | pass
+A01-edit-after-load-no-plan                              | F3 control             | advise             | advise             | pass
+A02a-readonly-grep-mention                               | ADV-4                  | allow              | allow              | pass
+A02b-echo-mention                                        | ADV-4                  | allow              | allow              | pass
+A03a-commit-with-c-option                                | ADV-4                  | advise             | advise             | pass
+A03b-gh-pr-edit                                          | ADV-4                  | advise             | advise             | pass
+A04-tmp-dotdot-path-is-a-repo-file                       | ADV-4                  | advise             | advise             | pass
+A05-sed-i-on-scratch-file                                | ADV-4                  | allow              | allow              | pass
+A06-redirect-into-repo-file                              | ADV-4 gap              | advise             | advise             | pass
+A07-plan-shown                                           | F3 control             | allow              | allow              | pass
+A08-no-load-no-ceremony                                  | F3 control             | allow              | allow              | pass
+m_f2_8d_no_objections_merge                              | F2-8                   | allow              | allow              | pass
+m_f2_8f_yes_why_not_merge                                | F2-8                   | allow              | allow              | pass
+m_f2_8g_card_yes_both                                    | F2-8 D1a               | allow              | allow              | pass
+m_d1_card_free_text_order                                | D1b G11                | allow              | allow              | pass
+m_d1_card_free_text_refusal                              | D1 G11                 | deny[merge-word]   | deny[merge-word]   | pass
+m_same_clause_not_141                                    | RI-4                   | deny[merge-word]   | deny[merge-word]   | pass
+m_ri1_far_negation                                       | RI-1                   | deny[merge-word]   | deny[merge-word]   | pass
+m_conditional_order_is_not_for_now                       | D1 G5                  | deny[merge-word]   | deny[merge-word]   | pass
+m_bare_number_quantity_is_no_pr                          | D1b                    | deny[merge-word]   | deny[merge-word]   | pass
+m_question_form_is_no_order                              | D1b G3                 | deny[merge-word]   | deny[merge-word]   | pass
+m_ready_statement_is_no_order                            | D1 G3                  | deny[merge-word]   | deny[merge-word]   | pass
+m_card_several_prs_label_names_none                      | D1a G8                 | deny[merge-word]   | deny[merge-word]   | pass
+m_card_result_is_error                                   | D1a                    | deny[merge-word]   | deny[merge-word]   | pass
+m_queued_stop_revokes_all                                | FU2-4                  | deny[merge-word]   | deny[merge-word]   | pass
+m_queued_second_message_keeps_word                       | D2 FU2-4               | allow              | allow              | pass
+m_d2_midturn_notification_keeps_word                     | D2                     | allow              | allow              | pass
+m_d3_local_merge_then_push_main                          | F2-5 WR-2 D3           | deny[default-branch] | deny[default-branch] | pass
+m_d3_cli_global_repo_flag                                | F1-4 F2-5              | deny[merge-word]   | deny[merge-word]   | pass
+m_cli_merge_through_monitor_tool                         | F1-4                   | deny[merge-word]   | deny[merge-word]   | pass
+s_f1_4_monitor_tool_push                                 | F1-4                   | block:F1           | block:F1           | pass
+s_f1_4_release_script                                    | F1-4                   | block:F1           | block:F1           | pass
+s_f1_4_cherry_pick                                       | F1-4                   | block:F1           | block:F1           | pass
+s_f1_3_tool_actions_run_trigger                          | F1-3 SF-3 RI-6         | block:F1           | block:F1           | pass
+s_f1_3_tool_disable_pr_auto_merge                        | F1-3 SF-3 RI-6         | block:F1           | block:F1           | pass
+s_f1_6_single_push_failed                                | F1-6                   | allow              | allow              | pass
+s_f1_6_commit_rejected_at_prompt                         | F1-6                   | allow              | allow              | pass
+p_queued_message_is_classified                           | FU2-4 P8               | block:prompt-class | block:prompt-class | pass
+p_ctl_assistant_skill_args_are_not_a_prompt              | P8 control             | allow              | allow              | pass
+p_ctl_review_with_tool_is_not_trivia                     | PC-7 K1                | block:prompt-class | block:prompt-class | pass
+a_adv1_advisory_states_its_limit                         | ADV-1                  | the advisory's text says the record does not keep every message | the advisory's text says the record does not keep every message | pass
+J01a-blocked-stop-real-order-merge                       | FU2-1 D2               | allow              | allow              | pass
+J01b-blocked-stop-real-order-stop                        | FU2-1 F1-2 PC-4        | block:F1           | block:F1           | pass
+J02-midturn-delivery-with-idle-nudge                     | FU2-3 TB-3             | block:F1           | block:F1           | pass
+J03a-meta-slash-command-starts-turn-write                | FU2-5                  | block:prompt-class | block:prompt-class | pass
+J03b-meta-slash-command-starts-turn-commit               | FU2-5                  | block:F1           | block:F1           | pass
+J04a-deadline-merge-tool                                 | H4                     | deny [gate-error] within 9 seconds | deny[gate-error] in 8.0 seconds | pass
+J04b-deadline-edit                                       | H4                     | allow, exit status 0 | allow              | pass
+J04c-deadline-stop                                       | H4                     | allow, exit status 0 | allow              | pass
+J05-open-negation                                        | RI-1                   | deny               | deny               | pass
+J06-order-then-refusal                                   | F2-1                   | deny               | deny               | pass
+J07-affirmative-no                                       | F2-8                   | allow              | allow              | pass
+J08-yes-on-card-with-two-prs                             | F2-2 RI-4              | deny               | deny               | pass
+J09-unresolved-push-unattended                           | D3 Q2                  | deny [branch-unknown] | deny[branch-unknown] | pass
+J10-push-main-needs-branch-word                          | D3 Q2                  | deny [default-branch] | deny[default-branch] | pass
+J11a-run-after-owner-miss-with-stop-row                  | FU2-3 S5               | allow              | allow              | pass
+J11b-run-after-owner-miss-no-stop-row                    | FU2-3 S5               | block:F1           | block:F1           | pass
+J12-free-text-answer-second-form                         | D1 G11                 | allow              | allow              | pass
+J13-queued-prompt-is-classified                          | FU2-4                  | block:prompt-class | block:prompt-class | pass
+J14-helper-advisory-silent                               | FU2-2                  | allow, no advisory | allow, no advisory | pass
+J15a-diskless-merge                                      | F2-7                   | deny [no-record]   | deny[no-record]    | pass
+J15b-diskless-edit                                       | F2-7                   | allow              | allow              | pass
+J16-ledger-after-rewrite                                 | F1-1 FU2-2             | block:F1           | block:F1           | pass
+J16b-stale-ledger-note-is-not-counted                    | F1-1 FU2-2             | allow              | allow              | pass
+J17-span-equals-stretch                                  | TB-5                   | equal in every fixture | equal in every fixture | pass
+J18-imitation-of-the-next-header                         | TB-3 limit             | read as scheduled (pins the stated limit: the gate fails closed) | read as scheduled (pins the stated limit: the gate fails closed) | pass
+J19-reload-after-compaction-allows                       | Q4                     | allow              | allow              | pass
+J20-compaction-after-last-act                            | Q4                     | allow              | allow              | pass
+J21-verify-before-compaction-only                        | Q4                     | block:F1, naming adversarial-verify | block:F1, naming adversarial-verify | pass
+J22-act-before-and-after-compaction                      | Q4                     | block:F1           | block:F1           | pass
+S16-check-in                                             | FU2-8                  | deny:scheduled     | deny:scheduled     | pass
+W01-matcher                                              | SF-3 F1-3              | all selected, no read-only name selected | all selected, no read-only name selected | pass
+X01c-payload-not-json-push-main                          | fail-safe D3           | deny [gate-error]  | deny[gate-error]   | pass
+X04c-shared-module-missing-push-main                     | fail-safe D3           | deny [gate-error]  | deny[gate-error]   | pass
+X04d-shared-module-missing-push-branch                   | fail-safe D3           | allow              | allow              | pass
+X04e-shared-module-missing-push-all                      | fail-safe D3           | deny [gate-error]  | deny[gate-error]   | pass
+X04f-shared-module-missing-push-mirror                   | fail-safe D3           | deny [gate-error]  | deny[gate-error]   | pass
+X05e-error-while-classifying-push-main                   | fail-safe D3           | deny [gate-error]  | deny[gate-error]   | pass
+X05f-error-while-classifying-push-branch                 | fail-safe D3           | allow              | allow              | pass
+J04d-deadline-while-classifying-push-main                | H4 D3                  | deny [gate-error] within 9 seconds | deny[gate-error] in 8.0 seconds | pass
+S17-card-inside-run-then-owner-message                   | D3 G14                 | deny [merge-word]  | deny[merge-word]   | pass
+M06b-click-merge-nothing-on-one-pr-card                  | F2-3 G9                | deny [merge-word]  | deny[merge-word]   | pass
+M19b-structured-answer-to-question-never-asked           | TB-2                   | deny [merge-word]  | deny[merge-word]   | pass
+T30b-order-then-wake-with-no-stop-row                    | D2                     | deny [no-owner-word] | deny[no-owner-word] | pass
+X06a-merge-gate-keeps-its-own-list-merge                 | fail-safe D1           | deny [merge-word]  | deny[merge-word]   | pass
+X06b-merge-gate-keeps-its-own-list-push-main             | fail-safe D3           | deny [default-branch] | deny[default-branch] | pass
+am_a1_once-first                                         | AM-1                   | deny [merge-word]  | deny[merge-word]   | pass
+am_a1_if-first                                           | AM-1                   | deny [merge-word]  | deny[merge-word]   | pass
+am_a1_after-first                                        | AM-1                   | deny [merge-word]  | deny[merge-word]   | pass
+am_a1_when-first                                         | AM-1                   | deny [merge-word]  | deny[merge-word]   | pass
+am_a1_unless-first                                       | AM-1                   | deny [merge-word]  | deny[merge-word]   | pass
+am_a1_unless-after                                       | AM-1                   | deny [merge-word]  | deny[merge-word]   | pass
+am_a1_if-after-comma                                     | AM-1                   | deny [merge-word]  | deny[merge-word]   | pass
+am_a1_weekday                                            | AM-1                   | deny [merge-word]  | deny[merge-word]   | pass
+am_a1_provided                                           | AM-1                   | deny [merge-word]  | deny[merge-word]   | pass
+am_a1_push-if-first                                      | AM-1                   | deny [default-branch] | deny[default-branch] | pass
+am_a1_push-once-first                                    | AM-1                   | deny [default-branch] | deny[default-branch] | pass
+am_a1_ctl-once-after                                     | AM-1 control           | deny [merge-word]  | deny[merge-word]   | pass
+am_a1_ctl-plain-order                                    | AM-1 control           | allow              | allow              | pass
+am_a1_ctl-push-to-main                                   | AM-1 control           | allow              | allow              | pass
+am_a2_wait-then-merge                                    | AM-5 A2                | deny [merge-word]  | deny[merge-word]   | pass
+am_a2_hold-on-then-merge                                 | AM-5 A2 pin            | deny [merge-word]  | deny[merge-word]   | pass
+am_a2_ctl-dont-26-merge-27                               | A2 control             | allow              | allow              | pass
+am_a2_ctl-merge-then-wait-other-34                       | A2 control             | allow              | allow              | pass
+am_a2_ctl-merge-then-wait-other-141                      | A2 control             | deny [merge-word]  | deny[merge-word]   | pass
+am_a3_you-said                                           | MORE-statement A3      | deny [merge-word]  | deny[merge-word]   | pass
+am_a3_the-note-says                                      | MORE-statement A3      | deny [merge-word]  | deny[merge-word]   | pass
+am_a3_ctl-looks-good                                     | A3 control             | allow              | allow              | pass
+am_a4_has-failing-checks                                 | MORE-statement         | deny [merge-word]  | deny[merge-word]   | pass
+am_a4_no-is-not-approved                                 | MORE-statement         | deny [merge-word]  | deny[merge-word]   | pass
+am_a4_failed-again                                       | MORE-statement         | deny [merge-word]  | deny[merge-word]   | pass
+am_a4_ctl-now                                            | A4 control             | allow              | allow              | pass
+am_a4_ctl-not-141-call-34                                | A4 control             | allow              | allow              | pass
+am_a4_ctl-not-141-call-141                               | A4 control             | deny [merge-word]  | deny[merge-word]   | pass
+am_a5_mid-lets-wait                                      | AM-5                   | deny [merge-word]  | deny[merge-word]   | pass
+am_a5_mid-on-second-thought                              | AM-5                   | deny [merge-word]  | deny[merge-word]   | pass
+am_a5_mid-actually-no                                    | AM-5                   | deny [merge-word]  | deny[merge-word]   | pass
+am_a5_mid-please-wait-tonight                            | AM-5                   | deny [merge-word]  | deny[merge-word]   | pass
+am_a5_mid-lets-not                                       | AM-5                   | deny [merge-word]  | deny[merge-word]   | pass
+am_a5_mid-scratch-that                                   | AM-5                   | deny [merge-word]  | deny[merge-word]   | pass
+am_a5_mid-better-to-wait                                 | AM-5                   | deny [merge-word]  | deny[merge-word]   | pass
+am_a5_mid-hmm-hold-off                                   | AM-5                   | deny [merge-word]  | deny[merge-word]   | pass
+am_a5_same-message-second-thought                        | AM-5                   | deny [merge-word]  | deny[merge-word]   | pass
+am_a5_same-message-actually-no                           | AM-5                   | deny [merge-word]  | deny[merge-word]   | pass
+am_a5_same-message-better-to-wait                        | AM-5                   | deny [merge-word]  | deny[merge-word]   | pass
+am_a5_same-message-scratch-that                          | AM-5                   | deny [merge-word]  | deny[merge-word]   | pass
+am_a5_pin-typed-question-is-no-order                     | A5 pin                 | deny [merge-word]  | deny[merge-word]   | pass
+am_a5_ctl-mid-fix-the-typo                               | AM-5 control           | allow              | allow              | pass
+am_a5_ctl-no-rush                                        | AM-5 control           | allow              | allow              | pass
+am_a5_ctl-no-reason-to-hold                              | AM-5 control           | allow              | allow              | pass
+am_a6_mid-dont-think-so                                  | AM-5 A6                | deny [merge-word]  | deny[merge-word]   | pass
+am_a6_mid-only-after-the-audit                           | AM-5 A6                | deny [merge-word]  | deny[merge-word]   | pass
+am_a6_mid-not-comfortable                                | AM-5 A6                | deny [merge-word]  | deny[merge-word]   | pass
+am_a6_ctl-mid-here-now                                   | A6 control             | allow              | allow              | pass
+am_a7_dont-forget-to-merge                               | MORE-dont-forget       | allow              | allow              | pass
+am_a8_long-leadin-is-judged-fast                         | MORE-backtrack         | allow, under 1 s more than a plain order | allow, -0.00 s     | pass
+am_b1_yes-merge-now                                      | AM-2 control           | allow              | allow              | pass
+am_b1_yes-shall-i                                        | AM-2 control           | allow              | allow              | pass
+am_b1_yes-should-i-pr                                    | AM-2 control           | allow              | allow              | pass
+am_b1_yes-both-on-two-prs                                | AM-2 control           | allow              | allow              | pass
+am_b1_yes-hold-and-not-merge                             | AM-2                   | deny [merge-word]  | deny[merge-word]   | pass
+am_b1_yes-dont-merge-until                               | AM-2                   | deny [merge-word]  | deny[merge-word]   | pass
+am_b1_yes-wait-before                                    | AM-2                   | deny [merge-word]  | deny[merge-word]   | pass
+am_b1_yes-wait-then-merge                                | AM-2                   | deny [merge-word]  | deny[merge-word]   | pass
+am_b1_yes-after-audit                                    | AM-2                   | deny [merge-word]  | deny[merge-word]   | pass
+am_b1_yes-once-green                                     | AM-2                   | deny [merge-word]  | deny[merge-word]   | pass
+am_b1_yes-tomorrow                                       | AM-2                   | deny [merge-word]  | deny[merge-word]   | pass
+am_b1_yes-leave-open                                     | AM-2                   | deny [merge-word]  | deny[merge-word]   | pass
+am_b1_yes-safe-to-merge                                  | AM-2                   | deny [merge-word]  | deny[merge-word]   | pass
+am_b1_yes-ready-to-merge                                 | AM-2                   | deny [merge-word]  | deny[merge-word]   | pass
+am_b1_yes-or-wait                                        | AM-2                   | deny [merge-word]  | deny[merge-word]   | pass
+am_b1_yes-or-close                                       | AM-2                   | deny [merge-word]  | deny[merge-word]   | pass
+am_b1_yes-hold-off-until                                 | AM-2                   | deny [merge-word]  | deny[merge-word]   | pass
+am_b1_yes-not-a-statement                                | AM-2 A4                | deny [merge-word]  | deny[merge-word]   | pass
+am_b1_yes-hold-after-typed-order                         | AM-2                   | deny [merge-word]  | deny[merge-word]   | pass
+am_b2_yes-push-to-main                                   | AM-2 control           | allow              | allow              | pass
+am_b2_yes-push-once-green                                | AM-2 B2                | deny [default-branch] | deny[default-branch] | pass
+am_b2_yes-wait-before-push                               | AM-2 B2                | deny [default-branch] | deny[default-branch] | pass
+am_b3_ctl-option-is-the-order                            | B3 control             | allow              | allow              | pass
+am_b3_ctl-free-text-order                                | B3 control             | allow              | allow              | pass
+am_c_bare-number-other-repo-after-merge                  | AM-7                   | deny [merge-word]  | deny[merge-word]   | pass
+am_c_bare-number-same-repo-again                         | AM-7 control           | allow              | allow              | pass
+am_c_bare-number-first-call-other-repo                   | AM-7 control           | allow              | allow              | pass
+am_c_repo-named-other-repo                               | AM-7 control           | deny [merge-word]  | deny[merge-word]   | pass
+am_c_first-call-denied-then-other-repo                   | AM-7 pin               | allow              | allow              | pass
+am_c_first-call-failed-then-other-repo                   | AM-7 pin               | allow              | allow              | pass
+am_c_unreadable-repo-counts-as-other                     | AM-7                   | deny [merge-word]  | deny[merge-word]   | pass
+am_c_card-bare-number-other-repo                         | AM-7                   | deny [merge-word]  | deny[merge-word]   | pass
+am_c_shell-call-denied-then-other-repo                   | AM-7 pin               | allow              | allow              | pass
+am_c_two-unreadable-repos-count-as-two                   | AM-7                   | deny [merge-word]  | deny[merge-word]   | pass
+am_c_record-holds-the-call-itself                        | AM-7 control           | allow              | allow              | pass
+am_d1_script-without-suffix-scheduled                    | AM-3 D1                | deny:scheduled     | deny:scheduled     | pass
+am_d1_script-without-suffix-owner-ok                     | AM-3 D1                | deny               | deny               | pass
+am_d2_heredoc-written-then-run-scheduled                 | AM-3 D2                | deny:scheduled     | deny:scheduled     | pass
+am_d2_heredoc-written-then-run-owner-ok                  | AM-3 D2                | deny               | deny               | pass
+am_d2_heredoc-other-form-then-source-scheduled           | AM-3 D2                | deny:scheduled     | deny:scheduled     | pass
+am_d2_heredoc-other-form-then-source-owner-ok            | AM-3 D2                | deny               | deny               | pass
+am_d2_echo-written-then-run-scheduled                    | AM-3 D2                | deny:scheduled     | deny:scheduled     | pass
+am_d2_echo-written-then-run-owner-ok                     | AM-3 D2                | deny               | deny               | pass
+am_d2_printf-written-then-run-scheduled                  | AM-3 D2                | deny:scheduled     | deny:scheduled     | pass
+am_d2_printf-written-then-run-owner-ok                   | AM-3 D2                | deny               | deny               | pass
+am_d2_tee-heredoc-then-run-directly-scheduled            | AM-3 D2                | deny:scheduled     | deny:scheduled     | pass
+am_d2_tee-heredoc-then-run-directly-owner-ok             | AM-3 D2                | deny               | deny               | pass
+am_d2_other-writer-goes-to-screens-scheduled             | AM-3 D2                | deny:scheduled     | deny:scheduled     | pass
+am_d2_other-writer-goes-to-screens-owner-ok              | AM-3 D2                | deny               | deny               | pass
+am_d3_command-word-substituted-scheduled                 | AM-3 D3                | deny:scheduled     | deny:scheduled     | pass
+am_d3_command-word-substituted-owner-ok                  | AM-3 D3                | deny               | deny               | pass
+am_d3_command-word-backticks-scheduled                   | AM-3 D3                | deny:scheduled     | deny:scheduled     | pass
+am_d3_command-word-backticks-owner-ok                    | AM-3 D3                | deny               | deny               | pass
+am_d3_command-word-variable-scheduled                    | AM-3 D3                | deny:scheduled     | deny:scheduled     | pass
+am_d3_command-word-variable-owner-ok                     | AM-3 D3                | deny               | deny               | pass
+am_d4_find-exec-scheduled                                | AM-3 D4                | deny:scheduled     | deny:scheduled     | pass
+am_d4_find-exec-owner-ok                                 | AM-3 D4                | deny               | deny               | pass
+am_d5_unbalanced-push-main-scheduled                     | OW-1 D5                | deny:scheduled     | deny:scheduled     | pass
+am_d5_unbalanced-push-main-owner-ok                      | OW-1 D5                | deny               | deny               | pass
+am_d1_python-shebang-is-a-stated-limit-scheduled         | AM-3 D1 M1 limit       | allow              | allow              | pass
+am_d1_python-shebang-is-a-stated-limit-owner-ok          | AM-3 D1 M1 limit       | allow              | allow              | pass
+am_d1_ctl-script-says-hi                                 | D1 control             | allow              | allow              | pass
+am_d1_ctl-bin-ls                                         | D1 control             | allow              | allow              | pass
+am_d1_ctl-python-script-plain                            | D1 control             | allow              | allow              | pass
+am_d1_binary-is-not-read                                 | D1 pin                 | allow              | allow              | pass
+am_d2_ctl-heredoc-says-hi-then-run                       | D2 control             | allow              | allow              | pass
+am_d2_ctl-echo-script-then-mention                       | D2 control             | allow              | allow              | pass
+am_d2_ctl-written-not-run                                | D2 control             | allow              | allow              | pass
+am_d3_ctl-variable-version                               | D3 control             | allow              | allow              | pass
+am_d3_ctl-substituted-python                             | D3 control             | allow              | allow              | pass
+am_d4_ctl-find-exec-wc                                   | D4 control             | allow              | allow              | pass
+am_d5_ctl-unbalanced-push-feature                        | OW-1 control           | allow              | allow              | pass
+am_d6_bash-n-checks-syntax-only                          | MORE-bash-n            | allow              | allow              | pass
+am_d6_sh-cluster-n-checks-syntax-only                    | MORE-bash-n            | allow              | allow              | pass
+am_d6_ctl-bash-runs-it                                   | D6 control             | deny [merge-word]  | deny[merge-word]   | pass
+am_e_graphql-file-plain-query                            | AM-6                   | allow              | allow              | pass
+am_e_graphql-file-merge-mutation                         | AM-6 pin               | deny [target-unknown] | deny[target-unknown] | pass
+am_e_graphql-file-missing                                | AM-6 control           | deny [target-unknown] | deny[target-unknown] | pass
+am_e_graphql-inline-plain-query                          | AM-6 control           | allow              | allow              | pass
+am_e_graphql-input-file-plain-query                      | AM-6                   | allow              | allow              | pass
+am_e_curl-data-file-plain-query                          | AM-6                   | allow              | allow              | pass
+am_e_curl-data-file-merge-mutation                       | AM-6 pin               | deny [target-unknown] | deny[target-unknown] | pass
+am_f_source-script-pushes-main                           | AM-4 pin               | deny [default-branch] | deny[default-branch] | pass
+am_f_dot-script-pushes-main                              | AM-4 pin               | deny [default-branch] | deny[default-branch] | pass
+am_f_push-master                                         | AM-4 pin               | deny [default-branch] | deny[default-branch] | pass
+am_f_push-mirror                                         | AM-4 pin               | deny [default-branch] | deny[default-branch] | pass
+am_f_push-branches                                       | AM-4 pin               | deny [default-branch] | deny[default-branch] | pass
+am_f_push-wildcard-refspec                               | AM-4 pin               | deny [default-branch] | deny[default-branch] | pass
+O01-plan-gate-without-adversarial-verify                 | F1 2026-10-29          | block:F1           | block:F1           | pass
+O02-plan-gate-before-verify-after                        | F1 2026-10-29          | allow              | allow              | pass
+O03-synced-copy-skill-names-count                        | F1 2026-10-29          | allow              | allow              | pass
+O04-trivia-no-tools                                      | F1 2026-10-29          | allow              | allow              | pass
+O05-read-only-git                                        | F1 2026-10-29          | allow              | allow              | pass
+O06-outward-act-before-the-owners-latest-message         | F1 2026-10-29          | allow              | allow              | pass
+O07-task-notification-row-is-not-the-owner               | F1 2026-10-29          | block:F1           | block:F1           | pass
+O08-github-notification-is-no-boundary                   | S3 2026-11-04          | block:F1           | block:F1           | pass
+O09-read-without-a-header-is-no-boundary                 | S4 2026-11-04          | block:F1           | block:F1           | pass
+O10-branch-creation-after-load-no-plan                   | F3 2026-10-29          | advise             | advise             | pass
+O11-plan-shown-before-a-later-load                       | F3 2026-10-29          | advise             | advise             | pass
+O12-scratch-write-after-load                             | F3 2026-10-29          | allow              | allow              | pass
+O13-advisory-once-per-load                               | F3 2026-10-29          | advise,allow       | advise,allow       | pass
+O14-stop-payload-not-json                                | fail-safe 2026-10-29   | allow              | allow              | pass
+O15-recommended-list-without-a-card                      | rule 4 2026-11-02      | reminder           | reminder           | pass
+O16-recommended-list-with-a-card                         | rule 4 2026-11-02      | silent             | silent             | pass
+O17-recommended-only-in-prose                            | rule 4 2026-11-02      | silent             | silent             | pass
+O18-list-without-recommended                             | rule 4 2026-11-02      | silent             | silent             | pass
+O19-recommended-bullet-without-a-card                    | rule 4 2026-11-02      | reminder           | reminder           | pass
+O20-reminder-beside-the-governance-cue                   | rule 4 2026-11-02      | reminder with the governance cue | reminder with the governance cue | pass
+RLP00-couldnt-verify                                     | control                | block              | block              | pass
+RLP01-cant-verify                                        | RL-1 RL-3              | block              | block              | pass
+RLP02-cant-confirm                                       | RL-1 RL-3              | block              | block              | pass
+RLP03-cant-determine                                     | RL-1 RL-3              | block              | block              | pass
+RLP04-not-available                                      | RL-3                   | block              | block              | pass
+RLP05-isnt-available                                     | RL-3                   | block              | block              | pass
+RLP06-bold-not                                           | RL-3                   | block              | block              | pass
+RLP07-italic-not                                         | RL-3                   | block              | block              | pass
+RLP08-adverb-between                                     | RL-3                   | block              | block              | pass
+RLP09-unable-to-fully-confirm                            | RL-3                   | block              | block              | pass
+RLP10-could-not-yet-verify                               | RL-3                   | block              | block              | pass
+RLP11-passive-could-not-be-verified                      | RL-3                   | block              | block              | pass
+RLP12-passive-cannot-be-confirmed                        | RL-3                   | block              | block              | pass
+RLP13-remains-unverified                                 | RL-3                   | block              | block              | pass
+RLP14-were-unverified                                    | RL-3                   | block              | block              | pass
+RLP15-cant-check                                         | RL-1 RL-3              | block              | block              | pass
+RLP16-cannot-check                                       | RL-3                   | block              | block              | pass
+RLP17-unable-to-check                                    | RL-3                   | block              | block              | pass
+RLP18-couldnt-validate                                   | RL-3                   | block              | block              | pass
+RLP19-couldnt-reproduce                                  | RL-3                   | block              | block              | pass
+RLP20-couldnt-access                                     | RL-3                   | block              | block              | pass
+RLP21-couldnt-find-any-record                            | RL-3                   | block              | block              | pass
+RLP22-couldnt-tell-whether                               | RL-3                   | block              | block              | pass
+RLP23-no-way-of-knowing                                  | RL-3                   | block              | block              | pass
+RLP24-impossible-to-verify                               | RL-3                   | block              | block              | pass
+RLP25-dont-have-access                                   | RL-3                   | block              | block              | pass
+RLP26-im-not-able-to                                     | RL-3                   | block              | block              | pass
+RLP27-we-werent-able-to                                  | RL-3                   | block              | block              | pass
+RLP28-havent-been-able-to                                | RL-3                   | block              | block              | pass
+RLP29-there-is-no-data-for                               | RL-3                   | block              | block              | pass
+RLP30-no-records-exist                                   | RL-3                   | block              | block              | pass
+RLP31-failed-to-confirm                                  | RL-3                   | block              | block              | pass
+RLP32-verification-was-not-possible                      | RL-3                   | block              | block              | pass
+RLP33-line-break-inside-the-phrase                       | RL-3                   | block              | block              | pass
+RLP34-table-cells                                        | RL-3                   | block              | block              | pass
+RLP35-label-form                                         | RL-3                   | block              | block              | pass
+RLP36-unverifiable                                       | RL-3                   | block              | block              | pass
+RLP37-couldnt-get-confirmation                           | RL-3                   | block              | block              | pass
+RLP38-unable-to-verify-alone                             | control                | block              | block              | pass
+RLP39-no-data-exists                                     | control                | block              | block              | pass
+RL1C4-we-cant-curly-apostrophe                           | RL-1                   | block              | block              | pass
+RL1C5-cant-verify-then-a-list                            | RL-1                   | block              | block              | pass
+RL1K1-cannot-verify                                      | control                | block              | block              | pass
+RLVA1-cannot-confirm                                     | control                | block              | block              | pass
+RLVA2-cant-confirm                                       | RL-1                   | block              | block              | pass
+RLVA3-cant-verify-that                                   | RL-1                   | block              | block              | pass
+RLVA4-honestly-i-cant-determine                          | RL-1                   | block              | block              | pass
+RLVA5-cant-verify-curly                                  | RL-1                   | block              | block              | pass
+RLVK1-could-not-confirm                                  | control                | block              | block              | pass
+RLVK2-plain-fact                                         | control                | allow              | allow              | pass
+RLVB01-log-is-not-available                              | RL-3                   | block              | block              | pass
+RLVB02-figure-not-available-to-me                        | RL-3                   | block              | block              | pass
+RLVB03-could-not-independently-verify                    | RL-3                   | block              | block              | pass
+RLVB04-was-not-verified                                  | policy default         | allow              | allow              | pass
+RLVB05-owner-remains-unverified                          | RL-3                   | block              | block              | pass
+RLVB06-was-unable-to-check                               | RL-3                   | block              | block              | pass
+RLVB07-couldnt-validate                                  | RL-3                   | block              | block              | pass
+RLVB08-no-way-of-confirming                              | RL-3                   | block              | block              | pass
+RLVB09-could-bold-not-verify                             | RL-3                   | block              | block              | pass
+RLVB10-unable-to-confirm                                 | control                | block              | block              | pass
+RLR01-receipt-word-is-the-unverified-thing               | RL-6                   | block              | block              | pass
+RLR02-migration-ran                                      | RL-6                   | block              | block              | pass
+RLR03-permission-is-the-object                           | RL-6                   | block              | block              | pass
+RLR04-blocked-is-the-object                              | RL-6                   | block              | block              | pass
+RLR05-timeout-is-the-object                              | RL-6                   | block              | block              | pass
+RLR06-rate-limit-is-the-object                           | RL-6                   | block              | block              | pass
+RLR07-404-is-the-object                                  | RL-6                   | block              | block              | pass
+RLR08-did-not-check-about-another-item                   | RL-6                   | block              | block              | pass
+RLR09-founding-incident-plus-one-true-sentence           | RL-6                   | block              | block              | pass
+RLR10-the-hook-ran-then-bare-claim                       | RL-6                   | block              | block              | pass
+RLR11-bare-claim-then-unrelated-sentence                 | RL-6                   | block              | block              | pass
+RLR12-progress-line-is-no-receipt-for-the-answer         | RL-6                   | block              | block              | pass
+RLVE1-whether-the-nightly-job-ran                        | RL-6                   | block              | block              | pass
+RLVE2-has-the-right-permission                           | RL-6                   | block              | block              | pass
+RLVE3-unrelated-near-word                                | RL-6                   | block              | block              | pass
+RLVE4-receipt-about-other-items                          | RL-6                   | block              | block              | pass
+RLVE5-timeout-value-in-the-config                        | RL-6                   | block              | block              | pass
+RLVE6-ran-it-on-staging-then-bare-claim                  | RL-6                   | block              | block              | pass
+RLF00-ran-and-returned                                   | control                | allow              | allow              | pass
+RLF01-command-and-error-in-a-fenced-block                | RL-4                   | allow              | allow              | pass
+RLF02-command-and-error-in-inline-code                   | RL-4                   | allow              | allow              | pass
+RLF03-failed-with-connection-refused                     | RL-4                   | allow              | allow              | pass
+RLF04-no-tool-reads-account-settings                     | RL-4                   | allow              | allow              | pass
+RLF05-server-answered-http-500                           | RL-4                   | allow              | allow              | pass
+RLF06-opening-it-failed-with                             | RL-4                   | allow              | allow              | pass
+RLF07-tried-and-got-http-401                             | RL-4                   | allow              | allow              | pass
+RLF08-attempted-and-access-was-denied                    | RL-4                   | allow              | allow              | pass
+RLF09-grepped-and-found-nothing                          | RL-4                   | allow              | allow              | pass
+RLF10-receipt-far-away-in-the-same-sentence              | RL-4                   | allow              | allow              | pass
+RLF11-failure-code-in-inline-code                        | RL-4                   | allow              | allow              | pass
+RLVC0-ran-and-timed-out                                  | control                | allow              | allow              | pass
+RLVC1-inline-command-failed-with                         | RL-4                   | allow              | allow              | pass
+RLVC2-the-command-and-its-error-fenced                   | RL-4                   | allow              | allow              | pass
+RLVC3-refused-the-connection                             | RL-4                   | allow              | allow              | pass
+RLVC4-denied-with-a-401                                  | RL-4                   | allow              | allow              | pass
+RLVC5-opened-and-not-found                               | RL-4                   | allow              | allow              | pass
+RLVC6-grepped-and-zero-hits                              | RL-4                   | allow              | allow              | pass
+RLVC7-the-login-failed                                   | RL-4                   | allow              | allow              | pass
+RLH01-nothing-i-couldnt-verify                           | RL-5                   | allow              | allow              | pass
+RLH02-phrase-inside-double-quotes                        | RL-5                   | allow              | allow              | pass
+RLH03-question-to-the-owner                              | RL-5                   | allow              | allow              | pass
+RLH04-conditional-promise                                | RL-5                   | allow              | allow              | pass
+RLH05-none-is-unverified                                 | RL-5                   | allow              | allow              | pass
+RLH06-no-items-are-unverified                            | RL-5                   | allow              | allow              | pass
+RLH07-sentence-about-the-rule-unquoted                   | RL-5                   | allow              | allow              | pass
+RLH08-heading-about-the-rule                             | RL-5                   | allow              | allow              | pass
+RLH09-table-of-test-cases                                | RL-5                   | allow              | allow              | pass
+RLH10-reported-earlier-answer-now-resolved               | RL-5                   | allow              | allow              | pass
+RLH11-third-partys-inability                             | RL-5                   | allow              | allow              | pass
+RLH12-resolved-inside-the-sentence                       | RL-5                   | allow              | allow              | pass
+RLH13-curly-double-quotes                                | RL-5                   | allow              | allow              | pass
+RLH14-tools-error-text-quoted                            | RL-5                   | allow              | allow              | pass
+RLH15-tools-error-text-after-a-colon                     | RL-5                   | allow              | allow              | pass
+RLH16-tools-inability-explained                          | RL-5                   | allow              | allow              | pass
+RLVD1-nothing-i-couldnt-verify                           | RL-5                   | allow              | allow              | pass
+RLVD2-phrases-in-double-quotes                           | RL-5                   | allow              | allow              | pass
+RLVD3-question-after-a-colon                             | RL-5                   | allow              | allow              | pass
+RLVD4-installer-printed-the-message                      | RL-5                   | allow              | allow              | pass
+RLVD5-table-of-test-cases                                | RL-5                   | allow              | allow              | pass
+RLVD6-not-the-case-that-unverified                       | RL-5                   | allow              | allow              | pass
+RLQ01-claim-in-a-block-quote                             | quote rule             | allow              | allow              | pass
+RLQ02-claim-in-inline-code                               | quote rule             | allow              | allow              | pass
+RLT01-note-names-what-it-read-then-resolved              | RL-5                   | allow              | allow              | pass
+RLT02-claim-then-repeated-skill-load                     | RL-7 TB-5              | block              | block              | pass
+RLT03a-legacy-claim-then-notification-row                | RL-7 TB-5              | block              | block              | pass
+RLT03b-claim-judged-at-its-own-completed-stop            | stretch                | allow              | allow              | pass
+RLT04-new-owner-message-starts-a-new-stretch             | control                | allow              | allow              | pass
+RLT05a-owner-message-recorded-as-a-list                  | RL-7 TB-5              | allow              | allow              | pass
+RLT05b-legacy-owner-message-recorded-as-a-list           | RL-7 TB-5              | allow              | allow              | pass
+RLT06a-no-text-in-record-or-input                        | control                | allow              | allow              | pass
+RLT06b-answer-only-in-the-input                          | FU2-9                  | block              | block              | pass
+RLT07-harness-row-after-the-answer                       | RL-7 TB-5              | block              | block              | pass
+RLTB1-report-then-card-then-skill-reload                 | TB-5                   | block              | block              | pass
+RLTB2-receipt-word-of-the-previous-turn                  | TB-5                   | block              | block              | pass
+RLTB3-legacy-receipt-word-of-the-previous-turn           | TB-5                   | block              | block              | pass
+RLTB4-old-claim-not-judged-again                         | TB-5                   | allow              | allow              | pass
+RLTB5-legacy-old-claim-not-judged-again                  | TB-5                   | allow              | allow              | pass
+RLTB6-claim-then-first-skill-load                        | control                | block              | block              | pass
+RLTB7-new-bare-claim-in-the-next-turn                    | TB-5 RL-2              | block,block        | block,block        | pass
+RLS04-scheduled-run-makes-its-own-bare-claim             | RL-7                   | block,block        | block,block        | pass
+RLS04b-scheduled-run-after-a-wake-row                    | control                | block              | block              | pass
+RLS05a-clean-run-after-a-turn-that-held-the-phrase       | RL-7                   | allow              | allow              | pass
+RLS05b-the-same-with-the-wake-row                        | control                | allow              | allow              | pass
+RLS05c-legacy-file-without-stop-rows-is-one-stretch      | stretch                | block              | block              | pass
+RLL01-reason-does-not-miscount-lookups                   | RL-7                   | block              | block              | pass
+RLX01-retry-forced-by-the-other-hook                     | RL-2 FU2-1             | block              | block              | pass
+RLX02-the-same-with-the-flag-off                         | control                | block              | block              | pass
+RLX03-flag-set-after-the-other-hooks-block-and-work      | FU2-1                  | block              | block              | pass
+RLX04-own-block-then-the-claim-again                     | control                | allow              | allow              | pass
+RLX05-own-block-counted-from-the-record-flag-off         | RL-2 FU2-1             | allow              | allow              | pass
+RLX06-flag-set-and-no-block-on-record                    | control                | allow              | allow              | pass
+RLX07-two-blocks-of-the-other-hook-then-bare-claim       | RL-2 FU2-1             | block              | block              | pass
+RLX08-own-block-of-an-earlier-stretch-does-not-count     | control                | block              | block              | pass
+RLX09-own-block-of-an-earlier-stretch-flag-on            | RL-2 FU2-1             | block              | block              | pass
+RLX10-own-block-then-a-receipt                           | control                | allow              | allow              | pass
+RLX11-same-answer-judged-twice-with-no-block-on-record   | RL-2                   | block,block        | block,block        | pass
+RLX12-the-count-is-not-kept-in-a-file                    | RL-2 TB-5              | block, no file left | block, no file left | pass
+RLX13-temp-dir-does-not-exist                            | RL-2                   | block              | block              | pass
+RLY01-answer-missing-from-the-record                     | FU2-9                  | block              | block              | pass
+RLY02-answer-in-the-record                               | control                | block              | block              | pass
+RLY03-progress-line-recorded-answer-only-in-the-input    | FU2-9                  | block              | block              | pass
+RLY04-answer-in-the-input-names-its-attempt              | control                | allow              | allow              | pass
+RLY05-input-carries-no-answer-field                      | control                | block              | block              | pass
+RLY06-answer-field-is-not-a-text                         | robust                 | block              | block              | pass
+RLO01-incident-shape                                     | control                | block              | block              | pass
+RLO02-receipt-present                                    | control                | allow              | allow              | pass
+RLO03-tools-ran-but-the-claim-cites-none                 | control                | block              | block              | pass
+RLO03b-tools-ran-and-the-claim-carries-its-receipt       | control                | allow              | allow              | pass
+RLO04-phrase-only-in-code-and-block-quote                | control                | allow              | allow              | pass
+RLO06-plain-answer                                       | control                | allow              | allow              | pass
+RLO07-could-not-determine                                | control                | block              | block              | pass
+RLO08-record-missing                                     | control                | allow              | allow              | pass
+RLO09-curly-apostrophe                                   | control                | block              | block              | pass
+RLO10-wasnt-able-and-no-way                              | control                | block              | block              | pass
+RLO11-receipt-word-inside-another-word                   | control                | block              | block              | pass
+RLO12-receipt-word-far-from-the-claim                    | control                | block              | block              | pass
+RLO13-receipt-beside-the-claim                           | control                | allow              | allow              | pass
+RLD01-can-not-two-words                                  | control                | block              | block              | pass
+RLD02-upper-case                                         | control                | block              | block              | pass
+RLD03-sentence-starts-with-the-claim                     | control                | block              | block              | pass
+RLD04-cant-with-a-typewriter-apostrophe-variant          | RL-1                   | block              | block              | pass
+RLD05-we-couldnt-reach                                   | RL-3                   | block              | block              | pass
+RLD06-couldnt-obtain                                     | RL-3                   | block              | block              | pass
+RLD07-this-session-cannot-reach                          | RL-3                   | block              | block              | pass
+RLD08-has-not-been-confirmed                             | policy default         | allow              | allow              | pass
+RLD09-unconfirmed-predicate                              | RL-3                   | block              | block              | pass
+RLD10-list-item-could-not-verify                         | control                | block              | block              | pass
+RLD11-status-value-unverified                            | RL-3                   | block              | block              | pass
+RLD12-no-data-is-available                               | control                | block              | block              | pass
+RLD13-not-possible-to-verify                             | control                | block              | block              | pass
+RLD14-unable-to-determine                                | control                | block              | block              | pass
+RLD15-records-are-unavailable                            | RL-3                   | block              | block              | pass
+RLD20-receipt-in-the-sentence-before                     | RL-6                   | block              | block              | pass
+RLD21-receipt-in-the-sentence-after                      | RL-6                   | block              | block              | pass
+RLD22-one-receipted-claim-one-bare-claim                 | RL-6 RL-8              | block              | block              | pass
+RLD23-two-claims-one-receipt-one-sentence                | new rule               | allow              | allow              | pass
+RLD24-code-span-inside-what-was-not-verified             | RL-6                   | block              | block              | pass
+RLD25-receipt-in-parentheses                             | new rule               | allow              | allow              | pass
+RLD26-receipt-after-a-dash                               | control                | allow              | allow              | pass
+RLD27-fenced-block-directly-under-the-claim              | RL-4                   | allow              | allow              | pass
+RLD28-fenced-block-after-another-sentence                | new rule               | block              | block              | pass
+RLD29-fenced-block-after-a-label-that-names-no-attempt   | new rule               | block              | block              | pass
+RLD30-because-clause-names-the-failure                   | RL-4                   | allow              | allow              | pass
+RLD31-attempt-before-the-claim                           | control                | allow              | allow              | pass
+RLD32-status-row-with-its-receipt                        | new rule               | allow              | allow              | pass
+RLD33-status-row-without-a-receipt                       | RL-3                   | block              | block              | pass
+RLD34-label-then-list-each-item-with-its-receipt         | new rule               | allow              | allow              | pass
+RLD35-label-then-list-one-item-bare                      | RL-3                   | block              | block              | pass
+RLD44-lead-in-blank-line-then-items-with-receipts        | new rule               | allow              | allow              | pass
+RLD45-lead-in-blank-line-then-one-item-bare              | RL-3                   | block              | block              | pass
+RLD46-lead-in-then-table-rows-with-receipts              | new rule               | allow              | allow              | pass
+RLD47-lead-in-then-table-one-row-bare                    | RL-6                   | block              | block              | pass
+RLD48-lead-in-with-nothing-under-it                      | control                | block              | block              | pass
+RLD49a-lead-in-continues-in-the-next-paragraph           | new rule               | allow              | allow              | pass
+RLD49b-lead-in-then-a-sentence-without-a-receipt         | control                | block              | block              | pass
+RLD36-without-credentials                                | new rule               | allow              | allow              | pass
+RLD37-training-cut-off                                   | new rule               | allow              | allow              | pass
+RLD38-not-installed                                      | new rule               | allow              | allow              | pass
+RLD39-exit-status                                        | new rule               | allow              | allow              | pass
+RLD40-did-not-check                                      | control                | allow              | allow              | pass
+RLD41-not-checked-by-choice                              | control                | allow              | allow              | pass
+RLD42-claim-and-the-choice-in-one-sentence               | new rule               | allow              | allow              | pass
+RLD43-i-have-not-verified                                | control                | allow              | allow              | pass
+RLD50-third-party-noun-subject                           | RL-5                   | allow              | allow              | pass
+RLD51-general-you                                        | control                | allow              | allow              | pass
+RLD52-product-fact-not-available                         | control                | allow              | allow              | pass
+RLD53-product-fact-isnt-available                        | control                | allow              | allow              | pass
+RLD54-conditional-whatever                               | RL-5                   | allow              | allow              | pass
+RLD55-conditional-if-contraction                         | control                | allow              | allow              | pass
+RLD56-negated-nothing-left-unverified                    | RL-5                   | allow              | allow              | pass
+RLD57-negated-no-item-i-couldnt-confirm                  | RL-5                   | allow              | allow              | pass
+RLD58-reported-log-line                                  | RL-5                   | allow              | allow              | pass
+RLD59-sentence-about-the-wording                         | RL-5                   | allow              | allow              | pass
+RLD60-superseded-initially                               | new rule               | allow              | allow              | pass
+RLD61-found-nothing-wrong                                | new rule               | allow              | allow              | pass
+RLD62-couldnt-find-any-issues                            | new rule               | allow              | allow              | pass
+RLD63-attributive-unverified                             | new rule               | allow              | allow              | pass
+RLD64-heading-only                                       | new rule               | allow              | allow              | pass
+RLD65-claim-inside-a-fenced-block-only                   | control                | allow              | allow              | pass
+RLD66-check-in-is-not-a-check                            | control                | allow              | allow              | pass
+RLD67-couldnt-reach-a-conclusion                         | new rule               | allow              | allow              | pass
+RLD68-question-with-first-person                         | RL-5                   | allow              | allow              | pass
+RLD100-section-title-then-items-with-provenance          | house form             | allow              | allow              | pass
+RLD101-section-label-with-provenance                     | house form             | allow              | allow              | pass
+RLD102-gap-tally-line                                    | house form             | allow              | allow              | pass
+RLD103-assumption-register-status                        | house form             | allow              | allow              | pass
+RLD104-assumptions-table                                 | house form             | allow              | allow              | pass
+RLD105-assumption-in-parentheses                         | house form             | allow              | allow              | pass
+RLD106-per-the-readme-unverified                         | house form             | allow              | allow              | pass
+RLD107-labelled-as-unverified                            | house form             | allow              | allow              | pass
+RLD108-section-name-as-a-compound                        | house form             | allow              | allow              | pass
+RLD109-not-verified-this-session                         | policy default         | allow              | allow              | pass
+RLD110-other-subject-before-a-joining-word               | new rule               | allow              | allow              | pass
+RLD111-first-person-left-out-before-a-joining-word       | control                | block              | block              | pass
+RLD112-general-statement-in-the-passive                  | new rule               | allow              | allow              | pass
+RLD113-the-directory-is-empty                            | new rule               | allow              | allow              | pass
+RLD114-no-cli-or-credentials-on-this-machine             | new rule               | allow              | allow              | pass
+RLD115-nothing-in-this-environment                       | new rule               | allow              | allow              | pass
+RLD116-bold-outcome-line-is-a-claim                      | RL-3                   | block              | block              | pass
+RLD117-bare-unconfirmed-in-a-report                      | RL-3                   | block              | block              | pass
+RLD118-unverifiable-with-its-reason                      | new rule               | allow              | allow              | pass
+RLD119-bare-unverifiable-label                           | RL-3                   | block              | block              | pass
+RLD120-plan-register-table-content-basis-status          | house form             | allow              | allow              | pass
+RLD121-quoted-phrases-wrapped-over-a-line                | RL-5                   | allow              | allow              | pass
+RLD122-attributive-before-a-comma                        | new rule               | allow              | allow              | pass
+RLD123-phrase-in-curly-single-quotes                     | RL-5                   | allow              | allow              | pass
+RLD124-code-spans-are-the-only-receipt                   | RL-4                   | allow              | allow              | pass
+RLD125-words-in-quotation-marks-are-no-receipt           | new rule               | block              | block              | pass
+RLD126-text-after-a-one-line-fence-is-read               | control                | block              | block              | pass
+RLD127-phrase-in-single-quotes                           | control                | allow              | allow              | pass
+RLD128-each-table-row-is-a-sentence                      | RL-6                   | block              | block              | pass
+RLD136-status-word-inside-inline-code                    | control                | allow              | allow              | pass
+RLD137-passive-phrase-in-curly-single-quotes             | control                | allow              | allow              | pass
+RLD138-passive-phrase-in-curly-double-quotes             | control                | allow              | allow              | pass
+RLD130-there-is-no-way-to                                | control                | block              | block              | pass
+RLD134-not-yet-available                                 | RL-3                   | block              | block              | pass
+RLD135-figures-for-a-year-are-not-available              | RL-3                   | block              | block              | pass
+RLD131-first-person-inside-the-joined-clause             | RL-3                   | block              | block              | pass
+RLD132-label-form-what-was-not-verified-follows-the-colon | RL-3                   | block              | block              | pass
+RLD133-a-claim-is-never-a-label-for-the-block-under-it   | new rule               | block              | block              | pass
+RLD81-reason-quotes-the-start-of-the-sentence            | new rule               | block              | block              | pass
+RLD140-general-passive-about-code                        | new rule               | allow              | allow              | pass
+RLD141-general-passive-cant-be-checked                   | new rule               | allow              | allow              | pass
+RLD142-past-passive-could-not-be-reached                 | RL-3                   | block              | block              | pass
+RLD143-past-passive-could-not-be-determined              | RL-3                   | block              | block              | pass
+RLD144-couldnt-find-a-simpler-way                        | new rule               | allow              | allow              | pass
+RLD145-general-we-cant-access                            | new rule               | allow              | allow              | pass
+RLD146-we-couldnt-access                                 | RL-3                   | block              | block              | pass
+RLD147-general-passive-cannot-be-determined              | new rule               | allow              | allow              | pass
+RLD150-condition-whenever-could-not-be-reached           | prose scan             | allow              | allow              | pass
+RLD151-a-bug-where-could-not-be-found                    | prose scan             | allow              | allow              | pass
+RLD152-when-the-checksum-cannot-be-verified              | prose scan             | allow              | allow              | pass
+RLD153-if-the-migration-could-not-be-verified            | prose scan             | allow              | allow              | pass
+RLD154-null-if-information-is-not-available              | prose scan             | allow              | allow              | pass
+RLD155-no-more-data-to-be-read                           | prose scan             | allow              | allow              | pass
+RLD156-no-data-loss                                      | prose scan             | allow              | allow              | pass
+RLD157-no-record-type                                    | prose scan             | allow              | allow              | pass
+RLD158-not-available-at-compile-time                     | prose scan             | allow              | allow              | pass
+RLD159-no-way-to-know-what-the-caller-intended           | prose scan             | allow              | allow              | pass
+RLD160-not-possible-to-tell-without-the-type             | prose scan             | allow              | allow              | pass
+RLD161-impossible-to-determine-without-consuming         | prose scan             | allow              | allow              | pass
+RLD162-a-regression-made-it-impossible-to-obtain         | prose scan             | allow              | allow              | pass
+RLD163-we-cant-verify-without-the-raw-body               | prose scan             | allow              | allow              | pass
+RLD164-could-not-find-a-single-failing-test              | prose scan             | allow              | allow              | pass
+RLD165-couldnt-reproduce-in-fifty-runs                   | prose scan             | allow              | allow              | pass
+RLD166-cant-check-this-in                                | prose scan             | allow              | allow              | pass
+RLD167-couldnt-reach-a-different-conclusion              | prose scan             | allow              | allow              | pass
+RLD168-couldnt-find-it-at-first                          | prose scan             | allow              | allow              | pass
+RLD169-a-list-of-tiers                                   | prose scan             | allow              | allow              | pass
+RLD170-reported-in-parentheses                           | prose scan             | allow              | allow              | pass
+RLD171-an-assumption-named-by-its-number                 | prose scan             | allow              | allow              | pass
+RLD172-no-live-path-names-the-missing-means              | prose scan             | allow              | allow              | pass
+RLD173-the-re-run-gives-another-number                   | prose scan             | allow              | allow              | pass
+RLD174-a-tally-of-statuses                               | prose scan             | allow              | allow              | pass
+RLD175-wasnt-possible-to-obtain                          | RL-3                   | block              | block              | pass
+RLD176-a-comma-ends-the-condition                        | prose scan pin         | block              | block              | pass
+RLD177-there-was-no-way-to-tell                          | prose scan pin         | block              | block              | pass
+RLD178-i-have-no-way-to-know                             | prose scan pin         | block              | block              | pass
+RLD179-no-data-for-a-year                                | prose scan pin         | block              | block              | pass
+RLD180-verified-then-a-claim                             | prose scan pin         | block              | block              | pass
+RLD181-check-the-settings-in                             | prose scan pin         | block              | block              | pass
+RLD182-not-available-at-the-moment                       | prose scan pin         | block              | block              | pass
+RLD183-without-in-the-next-sentence                      | prose scan pin         | block              | block              | pass
+RLD184-couldnt-reach-the-server                          | prose scan pin         | block              | block              | pass
+RLD185-couldnt-find-the-test-file                        | prose scan pin         | block              | block              | pass
+RLD186-a-player-whose-team-could-not-be-found            | prose scan             | allow              | allow              | pass
+RLD187-impossible-to-tell-from-the-box-score             | prose scan             | allow              | allow              | pass
+RLD188-couldnt-find-a-better-trade                       | prose scan             | allow              | allow              | pass
+RLD189-no-record-which-i-searched                        | prose scan             | allow              | allow              | pass
+RLD190-he-wrote-that-the-figures-were-not-available      | prose scan             | allow              | allow              | pass
+RLD191-it-was-impossible-to-tell                         | prose scan pin         | block              | block              | pass
+RLD192-no-record-which-is-odd                            | prose scan pin         | block              | block              | pass
+RLD193-could-not-be-reached-while                        | prose scan             | allow              | allow              | pass
+RLD194-it-would-be-impossible-to-verify-every-row        | prose scan             | allow              | allow              | pass
+RLD195-couldnt-find-anything-in-the-diff                 | prose scan             | allow              | allow              | pass
+RLD196-could-not-find-any-difference                     | prose scan             | allow              | allow              | pass
+RLD197-couldnt-locate-a-single-call-site                 | prose scan             | allow              | allow              | pass
+RLD198-the-old-claim-that-is-withdrawn                   | prose scan             | allow              | allow              | pass
+RLD199-it-isnt-that-the-data-is-not-available            | prose scan             | allow              | allow              | pass
+RLD200-couldnt-find-it-in-the-repo                       | prose scan             | allow              | allow              | pass
+RLD201-it-was-impossible-to-verify                       | prose scan pin         | block              | block              | pass
+RLD202-could-not-be-reached-full-stop                    | prose scan pin         | block              | block              | pass
+RLD203-couldnt-verify-it-in-the-repo                     | prose scan pin         | block              | block              | pass
+RLD204-the-model-card-says-the-data-is-not-available     | prose scan             | allow              | allow              | pass
+RLD205-a-semicolon-ends-what-was-said                    | prose scan pin         | block              | block              | pass
+RLD206-general-statement-with-a-verb-of-verifying        | new rule               | allow              | allow              | pass
+RLD207-no-more-data-to-read                              | prose scan             | allow              | allow              | pass
+RLD208-it-would-be-impossible                            | prose scan             | allow              | allow              | pass
+RLD209-sampled-names-the-attempt                         | prose scan             | allow              | allow              | pass
+RLD210-no-way-for-me-to-know                             | prose scan pin         | block              | block              | pass
+RLD211-it-is-not-that                                    | prose scan             | allow              | allow              | pass
+RLD212-couldnt-find-any-failing-tests                    | prose scan             | allow              | allow              | pass
+RLD213-the-record-shows-none                             | prose scan             | allow              | allow              | pass
+RLD214-the-re-run-names-the-attempt                      | prose scan             | allow              | allow              | pass
+RLD70-bare-claim-in-an-earlier-text-of-the-stretch       | RL-7 RL-8              | block              | block              | pass
+RLD71-receipted-claim-in-an-earlier-text                 | control                | allow              | allow              | pass
+RLD72-receipt-in-another-message-is-no-receipt           | new rule               | block              | block              | pass
+RLD73-claim-of-an-earlier-turn-only                      | control                | allow              | allow              | pass
+RLD74-three-bare-claims-in-three-turns                   | new rule               | block              | block              | pass
+RLD80-reason-quotes-the-claim-and-gives-three-ways-out   | RL-1 RL-7              | block              | block              | pass
+RLD90-other-scope-receipt-in-the-sentence-before         | policy switch          | allow              | allow              | pass
+RLD91-other-scope-receipt-two-sentences-away             | policy switch          | block              | block              | pass
+RLD92-other-scope-bare-claim                             | policy switch          | block              | block              | pass
+RLD93-other-reading-was-not-verified-is-a-claim          | policy switch          | block              | block              | pass
+RLD94-other-reading-status-row-not-verified              | policy switch          | block              | block              | pass
+RLD95-other-reading-not-verified-with-its-choice         | policy switch          | allow              | allow              | pass
+RLD96-other-reading-i-have-not-verified-is-still-honest  | policy switch          | allow              | allow              | pass
+RLZ01-input-empty                                        | fail-open              | allow              | allow              | pass
+RLZ02-input-not-json                                     | fail-open              | allow              | allow              | pass
+RLZ03-input-json-but-no-object                           | fail-open              | allow              | allow              | pass
+RLZ04-input-a-6-mb-line                                  | fail-open              | allow              | allow              | pass
+RLZ05-record-is-a-directory                              | fail-open              | allow              | allow              | pass
+RLZ06-no-record-path                                     | fail-open              | allow              | allow              | pass
+RLZ07-record-of-random-bytes                             | fail-open              | allow              | allow              | pass
+RLZ08-record-is-one-6-mb-line                            | fail-open              | allow              | allow              | pass
+RLZ09-6-mb-line-then-a-bare-claim                        | control                | block              | block              | pass
+RLZ10-invalid-byte-in-an-earlier-row                     | robust                 | block              | block              | pass
+RLZ11-input-fields-of-the-wrong-type                     | fail-open              | allow              | allow              | pass
+RLZ12-module-missing-beside-the-wired-script             | fail-open              | allow              | allow              | pass
+RLZ13-no-python3-on-path                                 | fail-open              | allow              | allow              | pass
+RLZ14-shared-module-missing                              | fail-open              | allow              | allow              | pass
+RLZ15-internal-error                                     | fail-open              | allow              | allow              | pass
+RLZ16-deadline                                           | fail-open H4           | allow              | allow              | pass
+RLZ19-one-very-long-sentence-does-not-run-into-the-deadline | robust                 | block              | block              | pass
+RLZ17-module-by-itself-internal-error                    | fail-open              | allow              | allow              | pass
+RLZ18-module-by-itself-input-not-json                    | fail-open              | allow              | allow              | pass
+as_s1_d00-ctl-ordinary-subject                           | AS-1 control           | block:F1           | block:F1           | pass
+as_s1_d01-subject-names-the-gate                         | AS-1                   | block:F1           | block:F1           | pass
+as_s1_d02-subject-says-requires-approval                 | AS-1                   | block:F1           | block:F1           | pass
+as_s1_d03-subject-says-was-rejected                      | AS-1                   | block:F1           | block:F1           | pass
+as_s1_d04-new-file-path-names-the-gate                   | AS-1                   | block:F1           | block:F1           | pass
+as_s1_d05-push-files-echoes-hook-blocked                 | AS-1                   | block:F1           | block:F1           | pass
+as_s1_d06-branch-named-for-the-gate                      | AS-1                   | block:F1           | block:F1           | pass
+as_s1_d07-lone-push-of-that-branch                       | AS-1                   | block:F1           | block:F1           | pass
+as_s1_pr-create-echoes-requires-approval                 | AS-1 lead-3            | block:F1           | block:F1           | pass
+as_s1_output-not-an-error-is-no-denial                   | AS-1                   | block:F1           | block:F1           | pass
+as_s1_denied-by-a-hook-real-shape                        | AS-1 control           | allow              | allow              | pass
+as_s1_denied-by-a-hook-older-shape                       | AS-1 control           | allow              | allow              | pass
+as_s1_rejected-at-the-prompt-older-shape                 | AS-1 control           | allow              | allow              | pass
+as_s1_flag-alone-is-a-denial                             | AS-1 control           | allow              | allow              | pass
+as_s1_failed-push-says-was-rejected-midway               | AS-1                   | block:F1           | block:F1           | pass
+as_s2_x01-reply-only-in-the-input                        | AS-2                   | block:F1           | block:F1           | pass
+as_s2_x02-ctl-reply-in-the-record                        | AS-2 control           | block:F1           | block:F1           | pass
+as_s2_a2c-second-reply-only-in-the-input                 | AS-2 lead-1            | allow              | allow              | pass
+as_s2_pin-trailing-block-without-the-flag                | AR-7 pin               | block:F1           | block:F1           | pass
+as_s2_prompt-class-after-other-block-reply-only-in-input | AS-2 AR-6              | block:prompt-class | block:prompt-class | pass
+as_s2_t13-receipt-retry-only-in-the-input                | AR-6 AR-7              | block              | block              | pass
+as_s3_x03-new-push-after-the-block-then-governors        | AS-5                   | block:F1           | block:F1           | pass
+as_s3_ctl-governors-then-new-push                        | AS-5 control           | allow              | allow              | pass
+as_s3_ctl-plan-before-block-new-push-then-verify         | AS-5 control           | allow              | allow              | pass
+as_s4_g05-helper-commits-after-plan-gate                 | AS-6 pin               | allow              | allow              | pass
+as_s4_note-between-owner-row-and-next-row                | AS-6 lead-2            | block:F1           | block:F1           | pass
+as_s5_helper-of-an-earlier-turn-is-charged-by-time       | AS-3 lead-2            | block:F1           | block:F1           | pass
+as_s8_tmpdir-variable-is-scratch                         | AS-8                   | allow,advise       | allow,advise       | pass
+as_s8_tmpdir-braces-is-scratch                           | AS-8                   | allow,advise       | allow,advise       | pass
+as_s8_ctl-tmpdir-dotdot-is-a-real-write                  | AS-8 control           | advise             | advise             | pass
+as_s8_ctl-other-variable-is-a-real-write                 | AS-8 control           | advise             | advise             | pass
+as_s8_prompt-class-reason-states-the-rule                | MORE-reason            | block:prompt-class, reason as the rule | block:prompt-class, reason as the rule | pass
+as_s8_prompt-class-silent-after-an-idle-wake             | MORE-M4 pin            | allow              | allow              | pass
+as_s8_prompt-class-retry-flag-no-block-on-record         | MORE-M5 pin            | allow              | allow              | pass
+am2_m1_python-tool-mentions-the-words-scheduled          | M1                     | allow              | allow              | pass
+am2_m1_python-tool-mentions-the-words-owner-ok           | M1                     | allow              | allow              | pass
+am2_m1_ctl-bash-land-owner-ok                            | M1 control             | deny               | deny               | pass
+am2_m2_lets-not-wait                                     | M2                     | allow              | allow              | pass
+am2_m2_dont-wait-first                                   | M2                     | allow              | allow              | pass
+am2_m2_dont-wait-after                                   | M2                     | allow              | allow              | pass
+am2_m2_mid-dont-wait-for-me                              | M2                     | allow              | allow              | pass
+am2_m2_ctl-no-wait                                       | M2 control             | deny [merge-word]  | deny[merge-word]   | pass
+am2_m2_ctl-mid-wait                                      | M2 control             | deny [merge-word]  | deny[merge-word]   | pass
+am2_m3_comma-line                                        | M3                     | deny [merge-word]  | deny[merge-word]   | pass
+am2_m3_colon-dash-list                                   | M3                     | deny [merge-word]  | deny[merge-word]   | pass
+am2_m3_colon-numbered-list                               | M3                     | deny [merge-word]  | deny[merge-word]   | pass
+am2_m3_condition-line-no-mark                            | M3                     | deny [merge-word]  | deny[merge-word]   | pass
+am2_m3_colon-list-order-second                           | M3                     | deny [merge-word]  | deny[merge-word]   | pass
+am2_m3_ctl-order-then-line                               | M3 control             | allow              | allow              | pass
+am2_m3_ctl-numbered-orders                               | M3 control             | allow              | allow              | pass
+am2_m3_ctl-numbered-orders-2-not-granted                 | M3 control             | deny [merge-word]  | deny[merge-word]   | pass
+am2_m3_ctl-looks-good-line                               | M3 control             | allow              | allow              | pass
+am2_m3_ctl-colon-list-of-orders                          | M3 control             | allow              | allow              | pass
+am2_m4_eventually                                        | M4                     | deny [merge-word]  | deny[merge-word]   | pass
+am2_m4_in-the-morning                                    | M4                     | deny [merge-word]  | deny[merge-word]   | pass
+am2_m4_clock-time                                        | M4                     | deny [merge-word]  | deny[merge-word]   | pass
+am2_m4_clock-time-24h                                    | M4                     | deny [merge-word]  | deny[merge-word]   | pass
+am2_m4_afterwards                                        | M4                     | deny [merge-word]  | deny[merge-word]   | pass
+am2_m4_soon                                              | M4                     | deny [merge-word]  | deny[merge-word]   | pass
+am2_m4_mid-one-sec                                       | M4                     | deny [merge-word]  | deny[merge-word]   | pass
+am2_m4_ctl-now                                           | M4 control             | allow              | allow              | pass
+am2_m4_ctl-today                                         | M4 control             | allow              | allow              | pass
+am2_m5_first-the-audit                                   | M5                     | deny [merge-word]  | deny[merge-word]   | pass
+am2_m5_audit-first-merge-second                          | M5                     | deny [merge-word]  | deny[merge-word]   | pass
+am2_m5_before-that                                       | M5                     | deny [merge-word]  | deny[merge-word]   | pass
+am2_m5_ctl-first-comma-merge                             | M5 control             | allow              | allow              | pass
+am2_m5_ctl-merge-first-then-other-34                     | M5 control             | allow              | allow              | pass
+am2_m5_ctl-merge-first-then-other-141                    | M5 control             | allow              | allow              | pass
+am2_m6_can-wait                                          | M6                     | deny [merge-word]  | deny[merge-word]   | pass
+am2_m6_is-not-ready                                      | M6                     | deny [merge-word]  | deny[merge-word]   | pass
+am2_m6_ctl-has-two-commits                               | M6 control             | allow              | allow              | pass
+am2_m7_merge-result-echoes-requires-approval-then-other-repo | M7                     | deny [merge-word]  | deny[merge-word]   | pass
+ar_r1_re01-receipt-after-the-object                      | AR-1                   | allow              | allow              | pass
+ar_r1_re02-receipt-after-the-object                      | AR-1                   | allow              | allow              | pass
+ar_r1_re03-receipt-after-the-object                      | AR-1                   | allow              | allow              | pass
+ar_r1_re04-receipt-after-the-object                      | AR-1                   | allow              | allow              | pass
+ar_r1_re05-receipt-after-the-object                      | AR-1                   | allow              | allow              | pass
+ar_r1_re06-receipt-after-the-object                      | AR-1                   | allow              | allow              | pass
+ar_r1_re07-receipt-after-the-object                      | AR-1                   | allow              | allow              | pass
+ar_r1_re08-receipt-after-the-object                      | AR-1                   | allow              | allow              | pass
+ar_r1_re09-receipt-after-the-object                      | AR-1                   | allow              | allow              | pass
+ar_r1_re10-receipt-after-the-object                      | AR-1                   | allow              | allow              | pass
+ar_r1_re11-receipt-after-the-object                      | AR-1                   | allow              | allow              | pass
+ar_r1_re12-receipt-after-the-object                      | AR-1                   | allow              | allow              | pass
+ar_r1_re13-receipt-after-the-object                      | AR-1                   | allow              | allow              | pass
+ar_r1_re14-receipt-after-the-object                      | AR-1                   | allow              | allow              | pass
+ar_r1_re15-receipt-after-the-object                      | AR-1 control           | allow              | allow              | pass
+ar_r1_re16-receipt-after-the-object                      | AR-1                   | allow              | allow              | pass
+ar_r1_re17-receipt-after-the-object                      | AR-1                   | allow              | allow              | pass
+ar_r1_re18-receipt-after-the-object                      | AR-1                   | allow              | allow              | pass
+ar_r1_re19-receipt-after-the-object                      | AR-1                   | allow              | allow              | pass
+ar_r1_re20-receipt-after-the-object                      | AR-1 control           | allow              | allow              | pass
+ar_r1_re21-control-semicolon                             | AR-1 control           | allow              | allow              | pass
+ar_r1_re22-control-because                               | AR-1 control           | allow              | allow              | pass
+ar_r1_re23-control-bare                                  | AR-1 control           | block              | block              | pass
+ar_r1_fr01-free-receipt                                  | AR-1                   | allow              | allow              | pass
+ar_r1_fr02-free-receipt                                  | AR-1                   | allow              | allow              | pass
+ar_r1_fr03-free-receipt                                  | AR-1 control           | allow              | allow              | pass
+ar_r1_fr04-free-receipt                                  | AR-1 control           | allow              | allow              | pass
+ar_r1_fr05-free-receipt                                  | AR-1 control           | allow              | allow              | pass
+ar_r1_fr06-free-receipt                                  | AR-1 control           | allow              | allow              | pass
+ar_r1_fr07-free-receipt                                  | AR-1                   | allow              | allow              | pass
+ar_r1_fr08-free-receipt                                  | AR-1 control           | allow              | allow              | pass
+ar_r1_fr09-free-receipt                                  | AR-1 control           | allow              | allow              | pass
+ar_r1_fr10-free-receipt                                  | AR-1 control           | allow              | allow              | pass
+ar_r1_fr11-free-receipt                                  | AR-1 control           | allow              | allow              | pass
+ar_r1_fr12-free-receipt                                  | AR-1 control           | allow              | allow              | pass
+ar_r1_fr13-free-receipt                                  | AR-1 control           | allow              | allow              | pass
+ar_r1_fr14-free-receipt                                  | AR-1 control           | allow              | allow              | pass
+ar_r1_fr15-free-receipt                                  | AR-1 control           | allow              | allow              | pass
+ar_r1_fr16-free-receipt                                  | AR-1 control           | allow              | allow              | pass
+ar_r1_fr17-free-receipt                                  | AR-1                   | allow              | allow              | pass
+ar_r1_fr18-free-receipt                                  | AR-1 control           | allow              | allow              | pass
+ar_r1_fr19-free-receipt                                  | AR-1 control           | allow              | allow              | pass
+ar_r1_fr20-free-receipt                                  | AR-1                   | allow              | allow              | pass
+ar_r1_fb08-in-50-runs-then-so                            | AR-1 MORE              | allow              | allow              | pass
+ar_r1_from-the-kits-records                              | AR-1 AR-5 lead         | allow              | allow              | pass
+ar_r1_from-the-state-file                                | AR-1 lead              | allow              | allow              | pass
+ar_r1_didnt-find-names-the-failed-attempt                | AR-5 lead              | allow              | allow              | pass
+ar_r1_did-not-find                                       | AR-5 lead              | allow              | allow              | pass
+ar_r1_found-nothing                                      | AR-5 lead control      | allow              | allow              | pass
+ar_r1_pin-clause-object-runs-on                          | AR-1 pin               | block              | block              | pass
+ar_r1_pin-that-clause-with-a-number                      | AR-1 pin               | block              | block              | pass
+ar_r1_pin-preposition-without-a-number                   | AR-1 pin               | block              | block              | pass
+ar_r1_pin-source-word-without-the                        | AR-1 pin               | block              | block              | pass
+ar_r1_limit-receipt-words-listed-after-a-comma           | AR-1 limit             | allow              | allow              | pass
+ar_r2_n01-working-note-then-the-attempt                  | AR-2                   | allow              | allow              | pass
+ar_r2_n02-working-note-then-the-attempt                  | AR-2                   | allow              | allow              | pass
+ar_r2_n03-working-note-then-the-attempt                  | AR-2                   | allow              | allow              | pass
+ar_r2_n04-working-note-then-the-attempt                  | AR-2                   | allow              | allow              | pass
+ar_r2_n05-working-note-then-the-attempt                  | AR-2                   | allow              | allow              | pass
+ar_r2_n06-working-note-then-the-attempt                  | AR-2                   | allow              | allow              | pass
+ar_r2_n07-working-note-then-the-attempt                  | AR-2                   | allow              | allow              | pass
+ar_r2_n08-working-note-then-the-attempt                  | AR-2                   | allow              | allow              | pass
+ar_r2_n09-working-note-then-the-attempt                  | AR-2                   | allow              | allow              | pass
+ar_r2_n10-working-note-then-the-attempt                  | AR-2                   | allow              | allow              | pass
+ar_r2_note-repeated-in-the-final-answer                  | AR-2 pin               | block              | block              | pass
+ar_r2_bare-claim-after-a-governor-load                   | AR-2 pin               | block              | block              | pass
+ar_r2_bare-claim-then-the-stop                           | AR-2 pin               | block              | block              | pass
+ar_r2_bare-claim-before-a-card                           | AR-2 pin               | block              | block              | pass
+ar_r2_note-before-a-card-after-work                      | AR-2                   | allow              | allow              | pass
+ar_r2_answer-of-a-stop-another-gate-blocked              | AR-2 pin               | block              | block              | pass
+ar_r2_answer-before-a-scheduled-run-in-a-file-without-stop-rows | AR-2 pin               | block              | block              | pass
+ar_r2_answer-before-a-wake-in-a-file-without-stop-rows   | AR-2 pin               | block              | block              | pass
+ar_r2_rld70-shape-under-the-default                      | AR-2                   | allow              | allow              | pass
+ar_r2_every-text-judges-a-working-note                   | AR-2 policy switch     | block              | block              | pass
+ar_r2_every-text-clean-turn                              | AR-2 policy switch     | allow              | allow              | pass
+ar_r3_sh01-test-status-table                             | AR-3                   | block              | block              | pass
+ar_r3_sh02-check-result-table                            | AR-3 control           | block              | block              | pass
+ar_r3_sh03-test-result-table                             | AR-3                   | block              | block              | pass
+ar_r3_sh04-case-outcome-table-under-a-label              | AR-3                   | block              | block              | pass
+ar_r3_sh05-input-file-status-table                       | AR-3                   | block              | block              | pass
+ar_r3_sh16-test-table-with-its-receipt                   | AR-3 control           | allow              | allow              | pass
+ar_r3_expected-verdict-table                             | AR-3                   | block              | block              | pass
+ar_r3_sentence-verdict-table-of-examples                 | AR-3 control           | allow              | allow              | pass
+ar_r3_tally-table                                        | AR-3 AR-5 lead         | allow              | allow              | pass
+ar_r3_tally-row-without-a-header                         | AR-3 AR-5 lead         | allow              | allow              | pass
+ar_r3_pin-status-word-then-a-thing                       | AR-3 pin               | block              | block              | pass
+ar_r4_px01-whose-work                                    | AR-4                   | block              | block              | pass
+ar_r4_px02-whose-work                                    | AR-4                   | block              | block              | pass
+ar_r4_px03-whose-work                                    | AR-4 control           | allow              | allow              | pass
+ar_r4_px04-whose-work                                    | AR-4                   | block              | block              | pass
+ar_r4_px05-whose-work                                    | AR-4                   | block              | block              | pass
+ar_r4_px06-whose-work                                    | AR-4 control           | allow              | allow              | pass
+ar_r4_px07-whose-work                                    | AR-4                   | block              | block              | pass
+ar_r4_px08-whose-work                                    | AR-4 control           | allow              | allow              | pass
+ar_r4_px09-whose-work                                    | AR-4 control           | block              | block              | pass
+ar_r4_px10-whose-work                                    | AR-4                   | block              | block              | pass
+ar_r4_px11-whose-work                                    | AR-4                   | block              | block              | pass
+ar_r4_px12-whose-work                                    | AR-4 control           | allow              | allow              | pass
+ar_r4_px13-whose-work                                    | AR-4 control           | allow              | allow              | pass
+ar_r4_pin-the-current-session-as-subject                 | AR-4 pin               | block              | block              | pass
+ar_r5_fa41-verifying-x-wasnt-possible                    | AR-8                   | block              | block              | pass
+ar_r5_fa43-verification-of-x-was-not-possible            | AR-8                   | block              | block              | pass
+ar_r5_confirmation-of-x-was-not-possible                 | AR-8                   | block              | block              | pass
+ar_r5_confirming-x-isnt-possible                         | AR-8                   | block              | block              | pass
+ar_r5_verification-was-not-possible                      | AR-8 control           | block              | block              | pass
+ar_r5_fk11-bare-tried-then-but                           | AR-8                   | block              | block              | pass
+ar_r5_bare-tried-then-and                                | AR-8                   | block              | block              | pass
+ar_r5_tried-a-thing                                      | AR-8 control           | allow              | allow              | pass
+ar_r5_tried-n-times                                      | AR-8 control           | allow              | allow              | pass
+ar_r5_fb48-passive-with-another-agent                    | AR-8 MORE              | allow              | allow              | pass
+ar_r5_pin-passive-by-a-time                              | AR-8 pin               | block              | block              | pass
+ar_r5_pin-passive-by-me                                  | AR-8 pin               | block              | block              | pass
+W02-wiring-every-event-runs-its-scripts                  | SF-4                   | every event runs its scripts | every event runs its scripts | pass
+W03-wiring-merge-tools-have-a-group-of-their-own         | SF-2 SF-4              | one anchored group for the merge tools | one anchored group for the merge tools | pass
+W04-wiring-missing-script-denies-only-the-merge-tools    | SF-2 H4                | a missing script denies only the merge tools | a missing script denies only the merge tools | pass
+W05-wiring-scripts-beside-the-hooks                      | SF-2                   | every wired script and what it needs is beside the hooks | every wired script and what it needs is beside the hooks | pass
+W06-wiring-commands-run-the-hooks                        | SF-4                   | every wired command runs its hook | every wired command runs its hook | pass
+== 1062 cases: 1062 pass, 0 fail ==

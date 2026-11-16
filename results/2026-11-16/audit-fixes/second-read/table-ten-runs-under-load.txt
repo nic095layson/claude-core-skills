@@ -1,0 +1,12 @@
+$ python3 ten_runs.py (a small driver kept outside the tree)   # B6: hooks/selftest-turn-gates.py ten times in a row, while a second copy of it runs beside it (restarted whenever it ends)
+run  1: == 1304 cases: 1304 pass, 0 fail == in 65 s, with another copy of the table running beside it
+run  2: == 1304 cases: 1304 pass, 0 fail == in 64 s, with another copy of the table running beside it
+run  3: == 1304 cases: 1304 pass, 0 fail == in 65 s, with another copy of the table running beside it
+run  4: == 1304 cases: 1304 pass, 0 fail == in 65 s, with another copy of the table running beside it
+run  5: == 1304 cases: 1304 pass, 0 fail == in 67 s, with another copy of the table running beside it
+run  6: == 1304 cases: 1304 pass, 0 fail == in 65 s, with another copy of the table running beside it
+run  7: == 1304 cases: 1304 pass, 0 fail == in 64 s, with another copy of the table running beside it
+run  8: == 1304 cases: 1304 pass, 0 fail == in 64 s, with another copy of the table running beside it
+run  9: == 1304 cases: 1304 pass, 0 fail == in 65 s, with another copy of the table running beside it
+run 10: == 1304 cases: 1304 pass, 0 fail == in 65 s, with another copy of the table running beside it
+the copy beside it was started 10 times

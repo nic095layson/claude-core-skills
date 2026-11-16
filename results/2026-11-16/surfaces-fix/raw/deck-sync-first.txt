@@ -1,0 +1,91 @@
+$ bash hooks/sync-copies.sh <deck root> --proposed-settings <scratch>/deck-settings.json
+updated  hooks/govclass.py
+updated  hooks/governance-enforce.py
+same     hooks/governance-trigger.py
+same     hooks/plan-gate-first-write-reminder.sh
+updated  hooks/receipt-law-stop-gate.sh
+added    hooks/receiptlaw.py
+same     hooks/scope-fence-reminder.sh
+same     hooks/selftest-governance-classify.py
+added    hooks/selftest-mutations.py
+updated  hooks/selftest-receipt-law.sh
+same     hooks/selftest-reminders.sh
+updated  hooks/selftest-turn-gates.py
+added    hooks/selftest_rows.py
+same     hooks/session-doctrine.sh
+updated  hooks/turn-gates-pretool.py
+updated  hooks/turngate.py
+--- settings: proposed change (not applied):
+--- a/.claude/settings.json
++++ b/.claude/settings.json (proposed)
+@@ -7,7 +7,7 @@
+         "hooks": [
+           {
+             "type": "command",
+-            "command": "bash \"$CLAUDE_PROJECT_DIR\"/hooks/session-doctrine.sh",
++            "command": "if [ -f \"$CLAUDE_PROJECT_DIR\"/hooks/session-doctrine.sh ]; then bash \"$CLAUDE_PROJECT_DIR\"/hooks/session-doctrine.sh; fi",
+             "timeout": 10
+           }
+         ]
+@@ -18,7 +18,7 @@
+         "hooks": [
+           {
+             "type": "command",
+-            "command": "python3 \"$CLAUDE_PROJECT_DIR\"/hooks/governance-trigger.py",
++            "command": "if [ -f \"$CLAUDE_PROJECT_DIR\"/hooks/governance-trigger.py ]; then python3 \"$CLAUDE_PROJECT_DIR\"/hooks/governance-trigger.py; fi",
+             "timeout": 10
+           }
+         ]
+@@ -30,22 +30,32 @@
+         "hooks": [
+           {
+             "type": "command",
+-            "command": "bash \"$CLAUDE_PROJECT_DIR\"/hooks/plan-gate-first-write-reminder.sh",
++            "command": "if [ -f \"$CLAUDE_PROJECT_DIR\"/hooks/plan-gate-first-write-reminder.sh ]; then bash \"$CLAUDE_PROJECT_DIR\"/hooks/plan-gate-first-write-reminder.sh; fi",
+             "timeout": 10
+           },
+           {
+             "type": "command",
+-            "command": "bash \"$CLAUDE_PROJECT_DIR\"/hooks/scope-fence-reminder.sh",
++            "command": "if [ -f \"$CLAUDE_PROJECT_DIR\"/hooks/scope-fence-reminder.sh ]; then bash \"$CLAUDE_PROJECT_DIR\"/hooks/scope-fence-reminder.sh; fi",
+             "timeout": 10
+           }
+         ]
+       },
+       {
+-        "matcher": "Edit|Write|NotebookEdit|Bash|mcp__.*__(merge_pull_request|create_pull_request|update_pull_request|push_files|create_or_update_file|delete_file)",
++        "matcher": "^mcp__.*__(merge_pull_request|enable_pr_auto_merge)$",
+         "hooks": [
+           {
+             "type": "command",
+             "command": "python3 \"$CLAUDE_PROJECT_DIR\"/hooks/turn-gates-pretool.py",
++            "timeout": 10
++          }
++        ]
++      },
++      {
++        "matcher": "^(Edit|Write|NotebookEdit|Bash|Monitor|CronCreate|CronDelete|ScheduleWakeup|mcp__.*__(disable_pr_auto_merge|create_pull_request|update_pull_request|update_pull_request_branch|push_files|create_or_update_file|delete_file|actions_run_trigger|create_trigger|update_trigger|delete_trigger|fire_trigger|send_later))$",
++        "hooks": [
++          {
++            "type": "command",
++            "command": "if [ -f \"$CLAUDE_PROJECT_DIR\"/hooks/turn-gates-pretool.py ]; then python3 \"$CLAUDE_PROJECT_DIR\"/hooks/turn-gates-pretool.py; fi",
+             "timeout": 10
+           }
+         ]
+@@ -56,12 +66,12 @@
+         "hooks": [
+           {
+             "type": "command",
+-            "command": "python3 \"$CLAUDE_PROJECT_DIR\"/hooks/governance-enforce.py",
++            "command": "if [ -f \"$CLAUDE_PROJECT_DIR\"/hooks/governance-enforce.py ]; then python3 \"$CLAUDE_PROJECT_DIR\"/hooks/governance-enforce.py; fi",
+             "timeout": 15
+           },
+           {
+             "type": "command",
+-            "command": "bash \"$CLAUDE_PROJECT_DIR\"/hooks/receipt-law-stop-gate.sh",
++            "command": "if [ -f \"$CLAUDE_PROJECT_DIR\"/hooks/receipt-law-stop-gate.sh ]; then bash \"$CLAUDE_PROJECT_DIR\"/hooks/receipt-law-stop-gate.sh; fi",
+             "timeout": 10
+           }
+         ]
+--- proposal written to <work>/clones/deck-settings.json
+exit 0

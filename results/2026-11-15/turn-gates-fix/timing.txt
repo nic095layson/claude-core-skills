@@ -1,0 +1,24 @@
+# Run time of each gated call on a large record (pre-registered prediction 4: under 1 second)
+# Run by the orchestrator on 2026-11-15, after implementer 2's work, on the 4-CPU machine of this session, Python 3.13.
+# Record: synthetic, built with hooks/selftest_rows.py: 3,200 rounds of an owner message, two governor loads,
+# a read-only shell call, a file read, a commit-and-push call, an answer and a completed stop; then one more owner
+# message that orders a merge. Best of 3 runs. The verdict and exit status of each call are in brackets.
+
+## the merged hooks (commit 1ce99d5), for scale
+synthetic record: 38.4 MB, 41606 rows
+  Stop                   0.55 s  (allow(silent) exit 0)
+  pre merge tool         0.55 s  (allow(silent) exit 0)
+  pre Bash commit+push   0.52 s  (allow(silent) exit 0)
+  pre Bash ls            0.03 s  (allow(silent) exit 0)
+  pre Edit               0.54 s  (allow(silent) exit 0)
+
+## the rebuilt hooks
+synthetic record: 38.4 MB, 41606 rows
+  Stop                   0.57 s  (allow(silent) exit 0)
+  pre merge tool         0.53 s  (allow(silent) exit 0)
+  pre Bash commit+push   0.51 s  (allow(silent) exit 0)
+  pre Bash ls            0.06 s  (allow(silent) exit 0)
+  pre Edit               0.51 s  (allow(silent) exit 0)
+
+Result: every gated call on the rebuilt hooks takes under 1 second on a record of 38.4 MB and 41,606 rows
+(the prediction named 37 MB and 25,003 rows). A call that holds no act (the plain `ls`) does not read the record.
