@@ -7,10 +7,11 @@ and how it failed. With no attempt to cite, the honest wording is "did not check
 
 What is judged: the texts the owner is asked to read in the stretch this stop answers for (the rows since the
 owner's latest message or the latest completed stop: turngate.stop_span, the same rows the other Stop gate judges):
-the final answer (every text after the last tool call that is not a Skill call), the texts directly before a card
-(AskUserQuestion), the answer of a stop another Stop hook blocked (BLOCKED_STOP_ENDS_ANSWER), and the final answer
-the program hands over in the input (`last_assistant_message`) when the record does not hold it. A working note
-(a text an ordinary tool call follows) is not judged (RECEIPT_JUDGES; the other reading judges every text).
+every text except a working note, and the final answer the program hands over in the input
+(`last_assistant_message`) unless a judged text holds it. A working note is a text whose next tool call is a
+look-up (NOTE_TOOLS, or an MCP tool whose name holds a word of MCP_LOOKUP_WORDS); any other call after a text (a
+card, a task list, a file sent, a write, a helper, a Skill call) leaves it judged (RECEIPT_JUDGES; the other
+reading judges every text).
 
 How a text is read:
   1. Fenced code, block quotes, inline code and words inside quotation marks are not the assistant's claim.
@@ -23,8 +24,10 @@ How a text is read:
      ("git says it cannot ...", "he wrote that the figures were not available"), not about somebody else ("the
      vendor could not ...", "could not be verified by older clients"), not superseded ("at first I couldn't
      ..."), not a sentence about wording, not a row of a table of examples (a header cell names sentences,
-     phrases, quotes ...), not a count ("| Unconfirmed | 0 |"). The assistant's whole work as subject ("this
-     run", "my report", "the weekly review") is the assistant. A statement about code or a product is not a
+     phrases ...), not a count ("| Unconfirmed | 0 |"). The assistant's whole work as subject ("this run", "my
+     report", "the scheduled weekly task") is the assistant with a verb of verifying (EPISTEMIC_VERBS) only;
+     "the nightly job couldn't reach X" is a system's. "I wanted to verify X but couldn't." is a claim
+     (the elliptical family). A statement about code or a product is not a
      claim either: the verbs of finding and reaching (ACCESS_VERBS) with "we" or in the passive are claims in
      the past tense only ("we can't access the DOM from a worker" against "we couldn't access the dashboard");
      "no way to know" is a claim of "I" or in the past tense; a clause that states a condition or describes
@@ -68,6 +71,10 @@ RECEIPT_SCOPE = "sentence"          # where a claim's receipt may sit: its own s
 NOT_VERIFIED_IS_A_CLAIM = False     # whether "X was not verified / has not been confirmed" (no "could not") needs a receipt
 JUDGES_EVERY_TEXT = "every-text"    # the other value RECEIPT_JUDGES may take: every text of the stretch is judged
 RECEIPT_JUDGES = "answers"          # which texts are judged: what the owner is asked to read ("answers"), or JUDGES_EVERY_TEXT
+NOTE_TOOLS = ("Bash", "Read", "Grep", "Glob", "WebFetch", "WebSearch", "ToolSearch", "Monitor",
+              "NotebookRead")       # under "answers", a text is a working note only when the next tool call is a look-up: one of these ...
+MCP_PREFIX = "mcp__"                # ... or a tool of an MCP server (a name that starts with this) ...
+MCP_LOOKUP_WORDS = ("get", "list", "read", "search", "query", "fetch", "view")   # ... whose own name holds one of these words
 BLOCKED_STOP_ENDS_ANSWER = True     # a text the assistant stopped on is an answer, also when another Stop hook blocked that stop
 REASON_EXCERPT_CHARS = 160          # how much of the sentence the block reason quotes
 REASON = ('Receipt law: this answer says "%s" and the same sentence names no attempt and no failure (the sentence: '
@@ -99,11 +106,12 @@ HEADING = re.compile(r"^[ \t]{0,3}#{1,6}\s")
 LIST_ITEM = re.compile(r"^[ \t]*(?:[-*+]|\d{1,3}[.)])\s+")
 TABLE_ROW = re.compile(r"^[ \t]*\|.*\|[ \t]*$")
 TABLE_RULE = re.compile(r"^[ \t]*\|?[ \t:|-]*-[ \t:|-]*\|?[ \t]*$")              # the line under a table's header
-EXAMPLE_TABLE_WORDS = ("example", "examples", "sentence", "sentences", "phrase", "phrases", "wording", "wordings",
-                       "quote", "quotes", "text", "texts", "fixture", "fixtures", "claim",
-                       "claims")                # a header cell that names language samples: a table of examples
+EXAMPLE_TABLE_WORDS = ("example", "examples", "sentence", "sentences", "phrase", "phrases", "text", "texts", "fixture",
+                       "fixtures")              # a header cell that names language samples: a table of examples
 TALLY_LABEL = re.compile(r"^(?:unverified|unconfirmed|unverifiable|unconfirmable)$", re.I)   # "| Unconfirmed | 0 |": a count ...
-TALLY_NUMBER = re.compile(r"^[\d\s.,/%+-]*\d[\d\s.,/%+-]*$")                 # ... when every other cell is a number
+TALLY_NUMBER = re.compile(r"^(?:\d{1,3}(?:,\d{3})+|\d+)(?:\s*(?:of|/)\s*(?:\d{1,3}(?:,\d{3})+|\d+))?$|^\d+(?:\.\d+)?\s*%$",
+                          re.I)               # ... when every other cell is a count: a whole number, "N of M", "N / M" or a share
+DATA_CELL = re.compile(r"^v?\d[\w.:/-]*$", re.I)   # a header cell that is a number, a date or a version: the header is a row of data
 ASSUMPTION_TABLE_WORDS = ("assumption", "assumptions", "basis")                 # ... and of a register of assumptions
 SENTENCE_END = re.compile(r"(?:(?<=[.!?])|(?<=[.!?][)\]'\"]))(?<!\be\.g\.)(?<!\bi\.e\.)(?<!\bvs\.)(?<!\bcf\.)\s+"
                           r"(?=[A-Z0-9\"'(\[\ue001\ue002])")
@@ -172,6 +180,8 @@ _scoped = r"(?!\s+(?:%s)\b(?!\s+(?:%s)))" % ("|".join(SCOPE_WORDS), "|".join(HER
 _data_end = r"(?=\s*(?:$|[.,;:!?)\]]|(?:%s)\b))" % "|".join(DATA_FOLLOWERS)
 _no_stream = r"(?!(?:%s)\b)" % "|".join(STREAM_WORDS)
 # (family, pattern, whose claim must be settled): the families of inability claims
+ELLIPTICAL_END = (r"(?:couldn't|could\s+not|couldnt|(?:wasn't|was\s+not|weren't|were\s+not)\s+able\s+to|"
+                  r"(?:was|were)\s+unable\s+to)")   # "I wanted to verify the deploy but COULDN'T.": the verb stands earlier
 CLAIM_FAMILIES = (
     ("passive", re.compile(r"\b%s%s\s+be%s\s+%s\b" % (MODAL_NOT, _advs, _advs, _vpart), re.I), False),
     ("passive-past", re.compile(r"\b%s%s\s+be%s\s+%s\b" % (MODAL_NOT_PAST, _advs, _advs, _apart), re.I), False),
@@ -201,6 +211,8 @@ CLAIM_FAMILIES = (
                                  r"(?:\bnot|n't)\s+%s(?:available|accessible)\s+(?:to\s+(?:me|us)\b|here\b|from\s+here\b|"
                                  r"in\s+this\s+(?:session|environment|sandbox|container)\b|to\s+this\s+session\b)"
                                  % (_noun, _of, _degree, _degree, _scoped, _noun, _of, _degree, _scoped, _degree), re.I), False),
+    ("elliptical", re.compile(r"\bto%s\s+%s[^.;:!?]*?\bbut\s+(?:(?:i|we)\s+)?(?P<claim>%s)(?=\s*(?:$|[.;:!?,)\]]))"
+                              % (_advs, _verb, ELLIPTICAL_END), re.I), True),
     ("no-data", re.compile(r"\bno\s+%s\s+(?:exists?|existed|(?:is|are|was|were)\s+(?:available|recorded|kept|published|accessible))\b|"
                            r"\bthere\s*(?:\s+(?:is|are|was|were)|'s)\s+no\s+%s(?:\w+\s+){0,2}?%s\b%s"
                            % (_noun, _no_stream, _noun, _data_end), re.I), False),
@@ -211,9 +223,16 @@ SELF_SUBJECTS = ("i", "we")
 GENERAL_SUBJECT = "we"              # "we can't access X from a worker" describes code; "we couldn't access X" reports
 PAST_MODAL = re.compile(MODAL_NOT_PAST, re.I)
 SELF_NOUNS = ("session", "container", "sandbox", "environment", "assistant", "agent")   # "this session cannot reach ..."
-WORK_NOUNS = ("run", "session", "report", "audit", "review", "pass", "task", "job", "analysis")   # "THIS RUN couldn't confirm ..."
-WORK_OWNERS = ("this", "my", "our")         # ... the assistant's whole work when one of these stands before the noun
-WORK_TIMES = ("weekly", "scheduled", "daily", "nightly", "morning", "afternoon", "unattended")   # ... or "the" and one of these
+EPISTEMIC_VERBS = ("verify", "confirm", "check", "validate", "establish", "determine", "prove",
+                   "reproduce")             # only with one of these verbs can a subject that names a piece of work be the assistant
+WORK_NOUNS = ("run", "session", "report", "audit", "review", "pass", "task", "job", "analysis",
+              "check")                      # "THIS RUN couldn't confirm ...": the assistant's whole work when, in the subject's ...
+WORK_SUBJECT_WORDS = 5                      # ... first this many words, such a noun stands with an owner or a time word:
+WORK_OWNERS = ("this", "my", "our", "today's", "tonight's")
+WORK_TIMES = ("weekly", "daily", "nightly", "morning", "afternoon", "scheduled", "automated", "unattended")
+OTHER_OWNERS = ("your", "their", "his", "her", "its")   # a subject that names somebody else's work is not the assistant's ...
+TIME_POSSESSIVES = ("today's", "tonight's", "week's", "month's", "night's", "morning's",
+                    "yesterday's")          # ... nor is one with a possessive ("the client's job"), unless it is one of these
 IMPERSONAL_SUBJECTS = ("there",)
 JOINING_WORDS = ("and", "but", "so", "then", "or", "yet", "nor", "plus")       # the subject is left out after these
 SELF_WORD = re.compile(r"(?<![\w'-])(?:i|we)(?![\w-])", re.I)                  # ... and is the assistant when the clause before says "I"
@@ -262,9 +281,14 @@ PERIOD_WORDS = ("while", "during", "whenever", "when", "until")
 # "the dashboard could not be reached WHILE the certificate was rotated": an event in the world, with its period
 PERIOD_AFTER = re.compile(r"[^,;:.!?()]*?\b(?:%s)\b" % "|".join(PERIOD_WORDS), re.I)
 EVENT_FAMILIES = ("passive", "passive-past")                                    # the families PERIOD_AFTER is read for
-NOT_AGENTS = ("me", "us", "myself", "ourselves", "this", "the time", "the end", "then", "now", "today", "tomorrow",
-              "hand")                   # after "could not be verified by": the assistant, a time or a means, not another agent
-PASSIVE_AGENT = re.compile(r"\s+by\s+(?!(?:%s)\b)(?![a-z]+ing\b)[a-z]" % "|".join(NOT_AGENTS).replace(" ", r"\s+"), re.I)
+NOT_AGENTS = ("me", "us", "myself", "ourselves", "yourselves", "this", "the time", "the end", "then", "now", "today",
+              "tomorrow", "hand", "means", "ways", "methods")   # after "could not be verified by": the assistant, a time or a means
+AGENT_END_WORDS = ("which", "who", "whom", "whose", "that", "because", "since", "so", "but", "and", "or", "when", "while",
+                   "as", "after", "before", "until", "if", "though", "although")   # where the "by" phrase ends, besides a mark
+PASSIVE_AGENT = re.compile(r"\s+by\s+(?!(?:%s)\b)(?![a-z]+ing\b)(?P<agent>[a-z][^,;:.!?()]*?)(?=\s*(?:[,;:.!?()]|$)|\s+(?:%s)\b)"
+                           % ("|".join(NOT_AGENTS).replace(" ", r"\s+"), "|".join(AGENT_END_WORDS)), re.I)
+AGENT_PLURAL_MIN = 3                # ... it is another agent only when it ends in a plural noun: this many letters or more, ending in "s",
+AGENT_NOT_PLURAL_ENDS = ("ss", "us", "is")   # ... but not in one of these ("the process", "the status"), and not in NOT_AGENTS
 HYPOTHETICAL_BEFORE = re.compile(r"\b(?:would|might|may)\s+(?:be|prove|become)\s+(?:\w+ly\s+)?$", re.I)   # "it WOULD BE impossible to ..."
 CAUSATIVE_BEFORE = re.compile(r"\b(?:made|makes|make|making|renders?|rendered|rendering)\s+it\s+(?:\w+ly\s+)?$", re.I)   # "a bug MADE IT impossible to ..."
 PAST_STATE = re.compile(r"\b(?:was|were|had|been)(?:n't)?(?![\w])", re.I)       # "there WAS no way to know": a report of what happened
@@ -287,27 +311,40 @@ QUESTION_END = re.compile(r"\?[\s)\]\"'" + MARK_QUOTE + MARK_CODE + r"]*$")
 
 # ------------------------------------------------------------------------------------------------- receipts
 LABEL_COLON = re.compile(r"\s*:\s*")    # "Unverified: X": what was not verified starts after the colon
+# "X cannot be reproduced: ...": in these families what was not verified stands BEFORE the claim
 SUBJECT_FIRST = ("passive", "passive-past", "unverified", "not-verified", "not-available",
-                 "no-data")             # "X cannot be reproduced: ...": in these families what was not verified stands BEFORE the claim
+                 "no-data", "elliptical")
 OWN_SUBJECT_FAMILIES = ("not-available", "no-data")     # their match holds the subject: a colon after it opens the explanation
 OBJECT_END = re.compile(                # where the words that say WHAT was not verified end
     r"[:;(),|" + MARK_BLOCK + r"]|\s-{1,2}\s|(?<=[.!?])\s|"
     r"\b(?:because|since|after|despite|although|though|whereas|while|via|using|without|due\s+to|owing\s+to|given\s+that|"
     r"so|but|when\s+(?:i|we)|as\s+(?:the|it|i|we|there|no|none|neither)|and\s+(?:i|we|it|they|that|this|then|so)|"
     r"by\s+\w+ing)\b", re.I)
-MEANS_END = re.compile(r"\b(?:with|from|per)\b|\b(?:in|over|across)\s+(?=\d)", re.I)   # ... also a phrase that names the
+NUMBER_WORDS = ("one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen",
+                "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen", "twenty", "a dozen",
+                "dozens of")            # a count in a receipt may be written in words ("despite three retries", "in two runs")
+_numword = r"(?:%s)" % "|".join(NUMBER_WORDS).replace(" ", r"\s+")
+MEANS_END = re.compile(r"\b(?:with|from|per)\b|\b(?:in|over|across)\s+(?=\d|%s\b)" % _numword, re.I)   # ... also a phrase that names the
                                         # means or the source ("in 50 runs", "from the changelog"), after at least one word
 CLAUSE_OBJECT = re.compile(r"\s*(?:that|whether|if|which|what|who|whom|whose|how|when|where|why)\b", re.I)   # ... but not
                                         # in a clause ("whether the job ran per the schedule"): it runs to OBJECT_END
 FIRST_WORD = re.compile(r"\s*\S+")    # the first word of what was not verified: a means after it ends it
+TRIED_NAMES_NOTHING = ("hard", "harder", "hardest", "everything", "anything", "again", "twice", "once", "to", "but", "and",
+                       "or", "so", "then", "it", "this", "that", "them", "really", "very", "too", "also", "still", "yet",
+                       "repeatedly")            # "tried" before one of these (or a comma, an end, an -ly word) names no attempt
+TRIED_OWN_NOTHING = ("best", "hardest", "utmost", "level", "luck")      # nor does "tried my BEST"
+_tried = (r"tried(?=\s+(?!(?:%s)\b)(?!(?:my|our|your|their)\s+(?:%s)\b)(?![a-z]+ly\b)[\w#\"'%s%s])"
+          % ("|".join(TRIED_NAMES_NOTHING), "|".join(TRIED_OWN_NOTHING), MARK_CODE, MARK_QUOTE))
 ATTEMPT = re.compile(                   # an attempt: a verb of trying, or the source or the means that was used
-    r"(?<![\w-])(?:ran|re-?ran|tried(?!\s*(?:[,.!?;:]|but\b|and\b|$))|attempted|attempts?|searched|searching|"
+    r"(?<![\w-])(?:ran|re-?ran|" + _tried + r"|attempted|attempts?|searched|searching|"
     r"search(?:ed|ing|es)?\s+(?:for|of|on|in|through)|"
     r"looked\s+(?:up|for|at|in|into|through|on)|looking\s+(?:up|for|at|in|into|through)|queried|querying|fetched|fetching|"
     r"called|calling|opened|opening|(?:i|we)\s+asked|read|reading|re-?read|grepped|grepping|inspected|inspecting|checked|"
     r"checking|requested|requesting|pinged|curled|downloaded|downloading|executed|executing|invoked|invoking|tested|"
     r"testing|probed|scanned|browsed|visited|pulled|cloned|logged\s+in|consulted|reviewed|examined|compared|diffed|"
-    r"re-?computed|replayed|sampled|sampling|spot-check(?:s|ed|ing)?|re-?runs?|\d+\s+(?:runs|attempts|tries|trials|iterations|passes|requests|searches|queries|retries)|"
+    r"re-?computed|replayed|sampled|sampling|spot-check(?:s|ed|ing)?|"
+    r"re-?runs?|(?:\d+|" + _numword + r")\s+(?:[\w-]+\s+)?(?:runs|attempts|tries|trials|iterations|passes|requests|searches|"
+    r"queries|retries)|"
     r"attempted-failed|according\s+to|per\s+(?:the|its|their|this|that)\s+[\w./-]+|"
     r"from\s+the\s+(?:[\w'-]+\s+){0,2}?(?:docs?|documentation|page|site|logs?|output|files?|repo|repository|code|source|config|"
     r"readme|changelog|api|response|records?|transcript|diff)|(?:using|via)\s+(?:the\s+)?[\w./" + MARK_CODE + r"-]+)(?![\w-])", re.I)
@@ -344,6 +381,7 @@ SEARCH_CLAIM = re.compile(r"(?:find|locate)$", re.I)        # a claim whose verb
 SEARCHED_PLACE = re.compile(r"[^;:.!?()]*?\s(?:in|on|under|across|within|among)\s+(?:the|this|that|these|those|either|any|both|all|"
                             r"my|our|your|its|" + MARK_CODE + r")", re.I)   # ... names what was searched: "couldn't find X IN THE repository"
 
+_epistemic = re.compile(r"\b(?:%s)\b" % "|".join(EPISTEMIC_VERBS), re.I)
 _answered = threading.Lock()                # taken by whoever ends the hook
 
 
@@ -372,10 +410,16 @@ def _is_label(sentence):
     return any(w in words for w in LABEL_WORDS)
 
 
+def _cells(row):
+    return [c.strip() for c in row.strip().strip("|").split("|")]
+
+
 def _tally(row):
-    """A row that counts ("| Unconfirmed | 0 |"): its first cell is only a status word, every other cell a number."""
-    cells = [c.strip() for c in row.strip().strip("|").split("|")]
-    return len(cells) >= 2 and bool(TALLY_LABEL.match(cells[0])) and all(TALLY_NUMBER.match(c) for c in cells[1:])
+    """A row that counts ("| Unconfirmed | 0 |", "| 3 | unconfirmed |"): one cell is only a status word, every other
+    cell a count (TALLY_NUMBER: not a date, not a version)."""
+    cells = _cells(row)
+    labels = [c for c in cells if TALLY_LABEL.match(c)]
+    return len(cells) >= 2 and len(labels) == 1 and all(TALLY_NUMBER.match(c) for c in cells if not TALLY_LABEL.match(c))
 
 
 def _blocks(text):
@@ -397,7 +441,9 @@ def _blocks(text):
     def flush_table():
         rows = table[:]
         del table[:]
-        if len(rows) >= 2 and TABLE_RULE.match(rows[1]):
+        if len(rows) >= 2 and TABLE_RULE.match(rows[1]) and any(DATA_CELL.match(c) for c in _cells(rows[0])):
+            rows = rows[:1] + rows[2:]              # a header that holds a number, a date or a version is a row of data
+        elif len(rows) >= 2 and TABLE_RULE.match(rows[1]):
             cells = set(re.findall(r"[a-z]+", rows[0].lower()))
             if any(w in cells for w in EXAMPLE_TABLE_WORDS + ASSUMPTION_TABLE_WORDS):
                 blocks.append(("title", 0, []))     # examples, or a register of assumptions: no row is an inability claim
@@ -478,8 +524,9 @@ def _word_start(text, i):
     return i
 
 
-def _whose(before):
-    """Whose claim it is, from the words before it: "self", "we", "other", or "none" (no subject: the assistant's)."""
+def _whose(before, claim=""):
+    """Whose claim it is, from the words before it: "self", "we", "other", or "none" (no subject: the assistant's).
+    `claim`: the claim's own words; a piece of work as subject is the assistant only with a verb of verifying."""
     rest = before.rstrip()
     for _ in range(SUBJECT_REACH):
         if not rest or rest[-1] in CLAUSE_OPENERS or rest[-1] in ".!?":
@@ -489,7 +536,7 @@ def _whose(before):
         base = word.split("'")[0] if "'" in word else word
         if base in SELF_SUBJECTS or base in SELF_NOUNS:
             return "we" if base == GENERAL_SUBJECT else "self"
-        if base in WORK_NOUNS and _own_work(rest[:m.start()]):
+        if base in WORK_NOUNS and _epistemic.search(claim) and _own_work(rest[:m.start()], base):
             return "self"
         if base in IMPERSONAL_SUBJECTS:
             return "none"
@@ -505,12 +552,28 @@ def _whose(before):
     return "other"
 
 
-def _own_work(before):
-    """The words before a noun of WORK_NOUNS make it the assistant's whole work: "this run", "the weekly review"."""
-    words = [w.lower().strip("\"')]*_") for w in before.split()[-2:]]
-    if words and words[-1] in WORK_OWNERS:
-        return True
-    return len(words) == 2 and words[-1] in WORK_TIMES and words[0] in ("the",) + WORK_OWNERS
+def _own_work(before, noun):
+    """The subject that ends in `noun` (a noun of WORK_NOUNS) is the assistant's whole work: the noun stands in the
+    subject's first WORK_SUBJECT_WORDS words with an owner (WORK_OWNERS) or a time word (WORK_TIMES) before it, and no
+    word names another owner ("this week's run", "the scheduled weekly task"; not "your nightly job")."""
+    head = re.split(r"[.;:!?(),|" + MARK_BLOCK + MARK_CODE + MARK_QUOTE + "]", before)[-1]
+    words = [w.lower().strip("\"'*_") for w in head.split()] + [noun]
+    if len(words) > WORK_SUBJECT_WORDS:
+        return False
+    if any(w in OTHER_OWNERS or (w.endswith("'s") and w not in TIME_POSSESSIVES) for w in words):
+        return False
+    return any(w in WORK_OWNERS or w in WORK_TIMES for w in words[:-1])
+
+
+def _other_agent(sentence, at):
+    """ "could not be verified by older Android clients": the phrase after "by" ends in a plural noun, so it names
+    other agents. A time ("by midnight"), a means ("by any means") or the assistant ("by the assistant") does not."""
+    m = PASSIVE_AGENT.match(sentence, at)
+    if not m:
+        return False
+    last = m.group("agent").split()[-1].lower().strip("\"'*_")
+    return (len(last) >= AGENT_PLURAL_MIN and last.endswith("s") and not last.endswith(AGENT_NOT_PLURAL_ENDS)
+            and last not in NOT_AGENTS)
 
 
 def find_claims(sentence):
@@ -522,7 +585,8 @@ def find_claims(sentence):
         for m in pattern.finditer(sentence):
             start = _word_start(sentence, m.start())
             before = sentence[max(0, start - BEFORE_REACH):start]
-            who = _whose(before) if personal else "self"
+            said = _word_start(sentence, m.start("claim")) if "claim" in pattern.groupindex else start   # "... but COULDN'T"
+            who = _whose(sentence[max(0, said - BEFORE_REACH):said], m.group(0)) if personal else "self"
             if who == "other":
                 continue
             if (not personal or who == "none") and (CONDITION_BEFORE.search(before) or REPORTED_THAT.search(before)):
@@ -531,7 +595,7 @@ def find_claims(sentence):
                 continue
             if family in EVENT_FAMILIES and PERIOD_AFTER.match(sentence[m.end():m.end() + AFTER_REACH]):
                 continue
-            if family in EVENT_FAMILIES and PASSIVE_AGENT.match(sentence, m.end()):
+            if family in EVENT_FAMILIES and _other_agent(sentence, m.end()):
                 continue                            # "could not be verified by older clients": somebody else's inability
             if family == "know" and not (OWN_IN_CLAIM.search(m.group(0)) or (personal and who != "none")
                                          or PAST_STATE.search(sentence[max(0, start - PAST_REACH):m.end()])):
@@ -644,13 +708,24 @@ def arm_deadline():
         timer.start()
 
 
+def _look_up(name):
+    """A tool call that only looks something up (NOTE_TOOLS, or an MCP tool whose name holds MCP_LOOKUP_WORDS)."""
+    name = str(name or "")
+    if name in NOTE_TOOLS:
+        return True
+    if not name.startswith(MCP_PREFIX):
+        return False
+    own = name.split("__")[-1]
+    words = re.findall(r"[a-z]+", re.sub(r"([a-z])([A-Z])", r"\1 \2", own).lower())
+    return any(w in MCP_LOOKUP_WORDS for w in words)
+
+
 def judged_texts(model, after, last_message):
     """The texts after row `after` that the owner is asked to read, in order: the final answer (every text after the
     last tool call that is not a Skill call) and the texts before a card (back to the last tool call that is neither
     a Skill call nor a card), plus `last_message` when the record does not hold it. A text followed by an ordinary
     tool call is a working note and is not judged. With BLOCKED_STOP_ENDS_ANSWER, a text the assistant stopped on is
     an answer also when another Stop hook blocked that stop. RECEIPT_JUDGES = JUDGES_EVERY_TEXT judges every text."""
-    import turngate
     if RECEIPT_JUDGES == JUDGES_EVERY_TEXT:
         return model.prose(after, last_message)
     judged, pending = [], []
@@ -670,15 +745,14 @@ def judged_texts(model, after, last_message):
                 continue
             if block.get("type") == "text" and str(block.get("text") or "").strip():
                 pending.append(str(block["text"]))
-            elif block.get("type") == "tool_use" and block.get("name") not in (turngate.SKILL_TOOL,) + turngate.NOTIF_READ_TOOLS:
-                if block.get("name") == turngate.CARD_TOOL:
-                    judged += pending           # what directly precedes a card
-                pending = []                    # a working note: an ordinary tool call follows it
+            elif block.get("type") == "tool_use":
+                if not _look_up(block.get("name")):
+                    judged += pending           # no look-up follows it: a card, a task list, a file sent, a write ...
+                pending = []                    # a working note: a look-up follows it
     judged += pending                           # the final answer
-    said = model.prose(after)
     last = last_message.strip() if isinstance(last_message, str) else ""
-    if last and not any(last in t for t in said):
-        judged.append(last_message)
+    if last and not any(last in t for t in judged):
+        judged.append(last_message)             # held by the record only when a judged text holds it
     return judged
 
 

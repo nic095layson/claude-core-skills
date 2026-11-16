@@ -1,0 +1,150 @@
+$ python3 hooks/selftest-turn-gates.py dr_ d4b_
+dr_e1_j01-summary-then-todowrite-then-done               | DR-1                   | block              | allow              | FAIL
+dr_e1_j05-report-then-a-helper-agent                     | DR-1                   | block              | allow              | FAIL
+dr_e1_j10-summary-then-a-notes-write                     | DR-1                   | block              | allow              | FAIL
+dr_e1_j13-status-then-a-task-update-last                 | DR-1                   | block              | allow              | FAIL
+dr_e1_k01-summary-then-the-file-delivered-no-input       | DR-1                   | block              | allow              | FAIL
+dr_e1_k02-summary-then-the-file-delivered-input-holds-it | DR-1                   | block              | allow              | FAIL
+dr_e1_k03-summary-then-the-file-then-sent                | DR-1                   | block              | allow              | FAIL
+dr_e1_j04-claim-then-todowrite-then-a-card               | DR-1 MORE              | block              | allow              | FAIL
+dr_e1_j12-claim-before-a-plan-approval                   | DR-1 MORE              | block              | allow              | FAIL
+dr_e1_k06-input-answer-inside-a-working-note             | DR-7                   | block              | allow              | FAIL
+dr_e1_j08-input-answer-repeats-a-note-sentence           | DR-7                   | block              | allow              | FAIL
+dr_e1_input-answer-inside-a-judged-text                  | DR-7 control           | allow              | allow              | pass
+dr_e1_note-before-a-look-up-bash                         | DR-1 control           | allow              | allow              | pass
+dr_e1_note-before-a-look-up-read                         | DR-1 control           | allow              | allow              | pass
+dr_e1_note-before-a-look-up-grep                         | DR-1 control           | allow              | allow              | pass
+dr_e1_note-before-a-look-up-glob                         | DR-1 control           | allow              | allow              | pass
+dr_e1_note-before-a-look-up-webfetch                     | DR-1 control           | allow              | allow              | pass
+dr_e1_note-before-a-look-up-websearch                    | DR-1 control           | allow              | allow              | pass
+dr_e1_note-before-a-look-up-toolsearch                   | DR-1 control           | allow              | allow              | pass
+dr_e1_note-before-a-look-up-monitor                      | DR-1 control           | allow              | allow              | pass
+dr_e1_note-before-a-look-up-notebookread                 | DR-1 control           | allow              | allow              | pass
+dr_e1_note-before-a-look-up-mcp--acme--get-deploy        | DR-1 control           | allow              | allow              | pass
+dr_e1_note-before-a-look-up-mcp--acme--list-runs         | DR-1 control           | allow              | allow              | pass
+dr_e1_note-before-a-look-up-mcp--acme--search-logs       | DR-1 control           | allow              | allow              | pass
+dr_e1_note-before-a-look-up-mcp--acme--fetchstatus       | DR-1 control           | allow              | allow              | pass
+dr_e1_text-before-todowrite-is-judged                    | DR-1                   | block              | allow              | FAIL
+dr_e1_text-before-taskcreate-is-judged                   | DR-1                   | block              | allow              | FAIL
+dr_e1_text-before-edit-is-judged                         | DR-1                   | block              | allow              | FAIL
+dr_e1_text-before-skill-is-judged                        | DR-1                   | block              | block              | pass
+dr_e1_text-before-readnotifications-is-judged            | DR-1                   | block              | block              | pass
+dr_e1_text-before-mcp--acme--send-message-is-judged      | DR-1                   | block              | allow              | FAIL
+dr_e1_text-before-mcp--acme--forget-cache-is-judged      | DR-1                   | block              | allow              | FAIL
+dr_e2_h1-claim-in-the-after-report                       | DR-2                   | block              | allow              | FAIL
+dr_e2_h3-claim-status                                    | DR-2                   | block              | allow              | FAIL
+dr_e2_h5-quote-verified                                  | DR-2                   | block              | allow              | FAIL
+dr_e2_t01-claim-status                                   | DR-2                   | block              | allow              | FAIL
+dr_e2_t03-quote-source-verified                          | DR-2                   | block              | allow              | FAIL
+dr_e2_t13-wording-check                                  | DR-2                   | block              | allow              | FAIL
+dr_e2_t16-player-claim-status                            | DR-2                   | block              | allow              | FAIL
+dr_e2_example-verdict-is-a-table-of-examples             | DR-2 DR-8 pin          | allow              | allow              | pass
+dr_e2_examples-verdict-is-a-table-of-examples            | DR-2 DR-8 pin          | allow              | allow              | pass
+dr_e2_sentence-verdict-is-a-table-of-examples            | DR-2 DR-8 pin          | allow              | allow              | pass
+dr_e2_phrase-verdict-is-a-table-of-examples              | DR-2 DR-8 pin          | allow              | allow              | pass
+dr_e2_phrases-verdict-is-a-table-of-examples             | DR-2 DR-8 pin          | allow              | allow              | pass
+dr_e2_text-verdict-is-a-table-of-examples                | DR-2 DR-8 pin          | allow              | allow              | pass
+dr_e2_texts-verdict-is-a-table-of-examples               | DR-2 DR-8 pin          | allow              | allow              | pass
+dr_e2_fixture-verdict-is-a-table-of-examples             | DR-2 DR-8 pin          | allow              | allow              | pass
+dr_e2_fixtures-verdict-is-a-table-of-examples            | DR-2 DR-8 pin          | allow              | allow              | pass
+dr_e3_u01-own-work-with-a-verb-of-verifying              | DR-4                   | block              | allow              | FAIL
+dr_e3_u02-own-work-with-a-verb-of-verifying              | DR-4                   | block              | allow              | FAIL
+dr_e3_u03-own-work-with-a-verb-of-verifying              | DR-4                   | block              | allow              | FAIL
+dr_e3_u04-own-work-with-a-verb-of-verifying              | DR-4                   | block              | allow              | FAIL
+dr_e3_u05-own-work-with-a-verb-of-verifying              | DR-4                   | block              | allow              | FAIL
+dr_e3_u06-own-work-with-a-verb-of-verifying              | DR-4                   | block              | allow              | FAIL
+dr_e3_u07-own-work-with-a-verb-of-verifying              | DR-4                   | block              | allow              | FAIL
+dr_e3_u08-own-work-with-a-verb-of-verifying              | DR-4                   | block              | allow              | FAIL
+dr_e3_u09-own-work-with-a-verb-of-verifying              | DR-4                   | block              | allow              | FAIL
+dr_e3_u10-own-work-with-a-verb-of-verifying              | DR-4                   | block              | allow              | FAIL
+dr_e3_u11-own-work-with-a-verb-of-verifying              | DR-4 control           | block              | block              | pass
+dr_e3_u12-own-work-with-a-verb-of-verifying              | DR-4 control           | block              | block              | pass
+dr_e3_s14-a-job-that-could-not-reach                     | DR-3                   | allow              | block              | FAIL
+dr_e3_s15-a-job-that-could-not-reach                     | DR-3                   | allow              | block              | FAIL
+dr_e3_s18-a-job-that-could-not-reach                     | DR-3                   | allow              | block              | FAIL
+dr_e3_s19-a-job-that-could-not-reach                     | DR-3                   | allow              | block              | FAIL
+dr_e3_s20-a-job-that-could-not-reach                     | DR-3                   | allow              | block              | FAIL
+dr_e3_vendor-could-not-confirm                           | DR-3 control           | allow              | allow              | pass
+dr_e3_your-nightly-job-couldnt-access                    | DR-3 lead              | allow              | allow              | pass
+dr_e3_your-nightly-job-couldnt-verify                    | DR-3 pin               | allow              | allow              | pass
+dr_e3_the-clients-daily-job-couldnt-confirm              | DR-3 pin               | allow              | allow              | pass
+dr_e3_this-session-couldnt-reach                         | DR-3 pin               | block              | block              | pass
+dr_e3_this-job-couldnt-validate                          | DR-4 pin               | block              | block              | pass
+dr_e3_this-check-couldnt-establish                       | DR-4 pin               | block              | allow              | FAIL
+dr_e3_tonights-run-couldnt-determine                     | DR-4 pin               | block              | allow              | FAIL
+dr_e3_noun-past-the-fifth-word                           | DR-4 pin               | allow              | allow              | pass
+dr_e4_w16-by-no-other-agent                              | DR-5                   | block              | allow              | FAIL
+dr_e4_w17-by-no-other-agent                              | DR-5                   | block              | allow              | FAIL
+dr_e4_w21-by-no-other-agent                              | DR-5                   | block              | allow              | FAIL
+dr_e4_w23-by-no-other-agent                              | DR-5                   | block              | allow              | FAIL
+dr_e4_w14-by-no-other-agent                              | DR-5 control           | block              | block              | pass
+dr_e4_w15-by-no-other-agent                              | DR-5 control           | block              | block              | pass
+dr_e4_w22-by-no-other-agent                              | DR-5 control           | block              | block              | pass
+dr_e4_w24-by-no-other-agent                              | DR-5 control           | block              | block              | pass
+dr_e4_by-other-ways                                      | DR-5 pin               | block              | allow              | FAIL
+dr_e4_by-the-usual-methods                               | DR-5 pin               | block              | allow              | FAIL
+dr_e4_by-yourselves                                      | DR-5 pin               | block              | allow              | FAIL
+dr_e4_by-the-process                                     | DR-5 pin               | block              | allow              | FAIL
+dr_e4_by-its-users                                       | DR-5 control           | allow              | allow              | pass
+dr_e5_w07-tried-names-nothing                            | DR-6                   | block              | allow              | FAIL
+dr_e5_w08-tried-names-nothing                            | DR-6                   | block              | allow              | FAIL
+dr_e5_w09-tried-names-nothing                            | DR-6                   | block              | allow              | FAIL
+dr_e5_w10-tried-names-nothing                            | DR-6                   | block              | allow              | FAIL
+dr_e5_w11-tried-names-nothing                            | DR-6                   | block              | allow              | FAIL
+dr_e5_tried-twice-names-nothing                          | DR-6 pin               | block              | allow              | FAIL
+dr_e5_tried-to-verify-it-but-couldnt-verify-it           | DR-6 lead              | block              | allow              | FAIL
+dr_e5_w12-tried-curl-twice                               | DR-6 control           | allow              | allow              | pass
+dr_e5_tried-the-api                                      | DR-6 control           | allow              | allow              | pass
+dr_e5_tried-two-mirrors                                  | DR-6 control           | allow              | allow              | pass
+dr_e5_tried-my-script                                    | DR-6 control           | allow              | allow              | pass
+dr_e5_tried-to-curl-but-it-timed-out                     | DR-6 control           | allow              | allow              | pass
+dr_e5_tried-to-then-a-failure                            | DR-6 control           | allow              | allow              | pass
+dr_e6_hr16-despite-three-retries                         | DR MORE                | allow              | block              | FAIL
+dr_e6_hr17-despite-three-retries-after                   | DR MORE                | allow              | block              | FAIL
+dr_e6_hr35-in-20-local-runs                              | DR MORE                | allow              | block              | FAIL
+dr_e6_in-two-runs                                        | DR MORE                | allow              | block              | FAIL
+dr_e6_a-dozen-attempts                                   | DR MORE                | allow              | allow              | pass
+dr_e6_t09-tally-n-of-m                                   | DR MORE                | allow              | block              | FAIL
+dr_e6_t10-tally-number-first                             | DR MORE                | allow              | block              | FAIL
+dr_e6_t11-header-row-with-a-date                         | DR MORE                | block              | allow              | FAIL
+dr_e6_t12-a-date-is-no-count                             | DR MORE                | block              | allow              | FAIL
+dr_e6_tally-3-of-12                                      | DR-8 pin               | allow              | block              | FAIL
+dr_e6_tally-cell-with-letters                            | DR-8 pin               | block              | block              | pass
+dr_e6_tally-percent                                      | DR MORE control        | allow              | allow              | pass
+dr_e7_nominal-six-words                                  | DR-8 pin               | block              | block              | pass
+dr_e7_limit-nominal-past-its-reach                       | DR-8 limit             | allow              | allow              | pass
+dr_e8_wanted-to-verify-but-couldnt                       | DR lead                | block              | allow              | FAIL
+dr_e8_meant-to-check-but-could-not                       | DR lead                | block              | allow              | FAIL
+dr_e8_but-wasnt-able-to                                  | DR lead                | block              | allow              | FAIL
+dr_e8_but-was-unable-to                                  | DR lead                | block              | allow              | FAIL
+dr_e8_but-couldnt-with-its-receipt                       | DR lead control        | allow              | allow              | pass
+dr_e8_the-vendor-tried-but-couldnt                       | DR lead control        | allow              | allow              | pass
+dr_e8_but-couldnt-go-on                                  | DR lead control        | allow              | allow              | pass
+d4b_t1-bracket-with-a-condition-merge-after-the-audit    | D4 follow-up           | deny [merge-word]  | allow              | FAIL
+d4b_t2-bracket-with-a-condition-merge-once-ci-is-green   | D4 follow-up           | deny [merge-word]  | allow              | FAIL
+d4b_t3-bracket-with-a-condition-yes-merge-if-ci-passes   | D4 follow-up           | deny [merge-word]  | allow              | FAIL
+d4b_t4-bracket-with-a-condition-merge-pending-review     | D4 follow-up           | deny [merge-word]  | allow              | FAIL
+d4b_t5-bracket-with-a-condition-merge-draft              | D4 follow-up           | deny [merge-word]  | allow              | FAIL
+d4b_c1-option-with-a-condition-in-a-bracket              | D4 follow-up           | deny [merge-word]  | allow              | FAIL
+d4b_c2-yes-on-a-question-with-a-condition-in-a-bracket   | D4 follow-up           | deny [merge-word]  | allow              | FAIL
+d4b_ctl-labels-in-brackets                               | D4 follow-up control   | allow              | allow              | pass
+d4b_ctl-option-merge-both-recommended                    | D4 follow-up control   | allow              | allow              | pass
+d4b_ctl-option-merge-library-only                        | D4 follow-up control   | allow              | allow              | pass
+d4b_ctl-repository-path-in-a-bracket                     | D4 follow-up control   | allow              | allow              | pass
+d4b_ctl-pr-word-in-a-bracket                             | D4 follow-up control   | allow              | allow              | pass
+d4b_pin-other-word-in-a-label-bracket                    | D4 follow-up pin       | deny [merge-word]  | allow              | FAIL
+== 134 cases: 58 pass, 76 fail ==
+
+# four pin cases added after the red run above (the break list needed them); run on the hooks as this unit found them:
+$ python3 hooks/selftest-turn-gates.py --hooks <the hooks at the start> dr_e3_subject-after dr_e4_by-clients dr_e5_tried-manually d4b_c3
+dr_e3_subject-after-a-comma                              | DR-4 pin               | block              | block              | pass
+dr_e4_by-clients-which-lack                              | DR-5 control           | allow              | allow              | pass
+dr_e5_tried-manually-names-nothing                       | DR-6 pin               | block              | allow              | FAIL
+d4b_c3-option-object-word-then-a-condition               | D4 follow-up pin       | deny [merge-word]  | allow              | FAIL
+== 4 cases: 2 pass, 2 fail ==
+
+# dr_e6_a-dozen-attempts (above) was replaced by these two ("attempts" alone is a receipt word, so it did not test the number); on the hooks as this unit found them:
+$ python3 hooks/selftest-turn-gates.py --hooks <the hooks at the start> dr_e6_a-dozen dr_e6_in-a-dozen
+dr_e6_a-dozen-runs                                       | DR MORE                | allow              | block              | FAIL
+dr_e6_in-a-dozen-runs                                    | DR MORE                | allow              | block              | FAIL
+== 2 cases: 0 pass, 2 fail ==

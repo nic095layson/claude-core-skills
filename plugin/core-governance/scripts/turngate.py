@@ -205,6 +205,11 @@ OBJECT_TAIL_WORDS = ("now", "please", "pls", "asap", "today", "too", "thanks", "
                      "squash", "squashed")
 OBJECT_GAP = re.compile(r"\s*,?\s*")
 OBJECT_PAREN = re.compile(r"\([^)]*\)")
+# a bracket in an order clause (typed, a card's option or its question) is a label only when every word in it is one of
+# these, a pull request reference or number, a repository name (a word that holds "/") or a list mark; any other word
+# ("(after the audit)", "(draft)") makes the clause no plain order
+BRACKET_LABEL_WORDS = ("library", "lib", "deck", "kit", "docs", "plugin", "core", "the", "recommended", "and")
+BRACKET_WORD = re.compile(r"[^\s,&()]+")
 OBJECT_LIST_WORD = re.compile(r"(?:and\b|&|\+)")
 OBJECT_LIST_MORE = re.compile(r"(?:and\b|&|\+)(?=\s*(?:(?:prs?|pull requests?)\s*)?#?\d)")
 OBJECT_NUMBER_END = ",.;!?)("
@@ -869,6 +874,8 @@ def _object_scan(rest):
     while pos < len(rest):
         pos = OBJECT_GAP.match(rest, pos).end()
         m = OBJECT_PAREN.match(rest, pos)
+        if m and not _bracket_label(m.group(0)):
+            break                                   # "#34 (after the audit)": no label, so no plain order
         if m and out:
             pos = end = m.end()                     # "#34 (library) and #141 (deck)"
             continue
@@ -903,6 +910,13 @@ def _object_scan(rest):
         filler += 1
         pos = m.end()
     return out, end
+
+
+def _bracket_label(bracket):
+    """A bracket that only labels: every word in it is a pull request reference or number, a repository name (a word
+    holding "/"), one of BRACKET_LABEL_WORDS or a list mark ("(#34 library, #141 deck)", "(Recommended)")."""
+    words = BRACKET_WORD.findall(BARE_NUMBERS.sub(" ", PR_REF.sub(" ", bracket.lower())))
+    return all("/" in w or w.lstrip("#").isdigit() or w in BRACKET_LABEL_WORDS for w in words)
 
 
 def _object_refs(rest):
@@ -1034,7 +1048,7 @@ def _tail_only(text):
     pos = 0
     while True:
         m = ORDER_TAIL.match(text, pos)
-        if not m or m.end() == pos:
+        if not m or m.end() == pos or ("(" in m.group(0) and not _bracket_label(m.group(0))):
             break
         pos = m.end()
     return bool(ORDER_TAIL_END.match(text, pos))

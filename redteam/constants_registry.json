@@ -3504,18 +3504,12 @@
     "sentences",
     "phrase",
     "phrases",
-    "wording",
-    "wordings",
-    "quote",
-    "quotes",
     "text",
     "texts",
     "fixture",
-    "fixtures",
-    "claim",
-    "claims"
+    "fixtures"
    ],
-   "role": "header cells that name language samples and make a table a table of examples (no row of it is a claim); a status table headed Test, Case, Input or Verdict is none (AR-3)",
+   "role": "header cells that name language samples and make a table a table of examples (no row of it is a claim): example(s), sentence(s), phrase(s), text(s), fixture(s); not claim, quote or wording (DR-2); a status table headed Test, Case, Input or Verdict is none (AR-3)",
    "status": "uncalibrated",
    "record": "",
    "decision": "D-RG-1"
@@ -3987,6 +3981,11 @@
      "not-available",
      "df595c0d",
      false
+    ],
+    [
+     "elliptical",
+     "fc083539",
+     true
     ],
     [
      "no-data",
@@ -4511,7 +4510,8 @@
     "unverified",
     "not-verified",
     "not-available",
-    "no-data"
+    "no-data",
+    "elliptical"
    ],
    "role": "the families in which what was not verified stands before the claim (\"X cannot be reproduced: ...\"), so a colon after the claim opens the explanation",
    "status": "uncalibrated",
@@ -4528,8 +4528,8 @@
   },
   {
    "name": "receiptlaw.py:ATTEMPT",
-   "value": "bf2c9c0c",
-   "role": "what counts as a named attempt (ran, tried, searched, from the docs ...)",
+   "value": "bfc5a1b5",
+   "role": "what counts as a named attempt (ran, tried + what was tried, searched, from the docs, a count of runs in figures or words ...; DR-6, DR MORE)",
    "status": "uncalibrated",
    "record": "",
    "decision": "D-RG-1"
@@ -5228,7 +5228,7 @@
   },
   {
    "name": "receiptlaw.py:MEANS_END",
-   "value": "cd9fb15c",
+   "value": "d539d2a3",
    "role": "a phrase that names the means or the source (with, from, per, in/over/across + a number) ends what was not verified (AR-1)",
    "status": "uncalibrated",
    "record": "",
@@ -5261,6 +5261,7 @@
     "us",
     "myself",
     "ourselves",
+    "yourselves",
     "this",
     "the time",
     "the end",
@@ -5268,9 +5269,12 @@
     "now",
     "today",
     "tomorrow",
-    "hand"
+    "hand",
+    "means",
+    "ways",
+    "methods"
    ],
-   "role": "after \"could not be verified by\": the assistant, a time or a means, so the passive stays the assistant's claim (AR-8)",
+   "role": "after \"could not be verified by\": the assistant, a time or a means, never another agent (\"by me\", \"by the end\", \"by any means\"; DR-5)",
    "status": "uncalibrated",
    "record": "",
    "decision": "D-RG-1"
@@ -5288,8 +5292,8 @@
   },
   {
    "name": "receiptlaw.py:PASSIVE_AGENT",
-   "value": "9d47a62b",
-   "role": "\"could not be verified by older clients\": a passive whose agent is somebody else is not the assistant's claim (AR-8 MORE)",
+   "value": "8deb620e",
+   "role": "the phrase after \"could not be verified by\", up to a mark or a clause word (AGENT_END_WORDS); it names another agent only when it ends in a plural noun (DR-5)",
    "status": "uncalibrated",
    "record": "",
    "decision": "D-RG-1"
@@ -5312,8 +5316,8 @@
   },
   {
    "name": "receiptlaw.py:TALLY_NUMBER",
-   "value": "002a6611",
-   "role": "a table cell that is a number (a tally row's other cells)",
+   "value": "98128056",
+   "role": "a count in a tally row: a whole number, \"N of M\", \"N / M\" or a share; not a date, not a version (DR MORE, DR-8)",
    "status": "uncalibrated",
    "record": "",
    "decision": "D-RG-1"
@@ -5329,9 +5333,10 @@
     "pass",
     "task",
     "job",
-    "analysis"
+    "analysis",
+    "check"
    ],
-   "role": "nouns of the assistant's whole work: with this/my/our (or the + WORK_TIMES) as subject the claim is the assistant's (AR-4)",
+   "role": "nouns of the assistant's whole work: with an owner or a time word in the subject's first WORK_SUBJECT_WORDS words, and a verb of EPISTEMIC_VERBS, the claim is the assistant's (AR-4, DR-3, DR-4)",
    "status": "uncalibrated",
    "record": "",
    "decision": "D-RG-1"
@@ -5341,9 +5346,11 @@
    "value": [
     "this",
     "my",
-    "our"
+    "our",
+    "today's",
+    "tonight's"
    ],
-   "role": "words before a noun of WORK_NOUNS that make it the assistant's work (AR-4)",
+   "role": "owner words that make a work noun the assistant's (this, my, our, today's, tonight's; DR-4)",
    "status": "uncalibrated",
    "record": "",
    "decision": "D-RG-1"
@@ -5352,14 +5359,15 @@
    "name": "receiptlaw.py:WORK_TIMES",
    "value": [
     "weekly",
-    "scheduled",
     "daily",
     "nightly",
     "morning",
     "afternoon",
+    "scheduled",
+    "automated",
     "unattended"
    ],
-   "role": "\"the weekly / scheduled / nightly ...\" before a noun of WORK_NOUNS: the assistant's work (AR-4)",
+   "role": "time and mode words that make a work noun the assistant's (weekly, scheduled, automated, unattended ...; DR-4)",
    "status": "uncalibrated",
    "record": "",
    "decision": "D-RG-1"
@@ -5740,6 +5748,274 @@
    "name": "turngate.py:SHELL_STDIN_REDIRECT",
    "value": "<",
    "role": "the redirection that feeds a file to a shell as its program (`bash < FILE`; finding DM-1)",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "receiptlaw.py:AGENT_END_WORDS",
+   "value": [
+    "which",
+    "who",
+    "whom",
+    "whose",
+    "that",
+    "because",
+    "since",
+    "so",
+    "but",
+    "and",
+    "or",
+    "when",
+    "while",
+    "as",
+    "after",
+    "before",
+    "until",
+    "if",
+    "though",
+    "although"
+   ],
+   "role": "clause words that end the phrase after \"could not be verified by\" (DR-5)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:AGENT_NOT_PLURAL_ENDS",
+   "value": [
+    "ss",
+    "us",
+    "is"
+   ],
+   "role": "word ends that are not a plural (\"the process\", \"the status\") in the passive's agent (DR-5)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:AGENT_PLURAL_MIN",
+   "value": 3,
+   "role": "letters a plural noun must have for the passive's agent to be another (DR-5)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:DATA_CELL",
+   "value": "f2028cf4",
+   "role": "a header cell that is a number, a date or a version: such a header is a row of data and is judged (DR MORE)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:ELLIPTICAL_END",
+   "value": "(?:couldn't|could\\s+not|couldnt|(?:wasn't|was\\s+not|weren't|were\\s+not)\\s+able\\s+to|(?:was|were)\\s+unable\\s+to)",
+   "role": "the last words of an elliptical inability (\"... but couldn't.\", \"... but wasn't able to.\"; DR lead)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:EPISTEMIC_VERBS",
+   "value": [
+    "verify",
+    "confirm",
+    "check",
+    "validate",
+    "establish",
+    "determine",
+    "prove",
+    "reproduce"
+   ],
+   "role": "verbs with which a piece of work as subject is the assistant (verify, confirm, check ...); with any other verb only I, we and the session's own nouns are (DR-3, DR-4)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:MCP_LOOKUP_WORDS",
+   "value": [
+    "get",
+    "list",
+    "read",
+    "search",
+    "query",
+    "fetch",
+    "view"
+   ],
+   "role": "words of an MCP tool's own name that make it a look-up: a text before it is a working note (DR-1)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-2"
+  },
+  {
+   "name": "receiptlaw.py:MCP_PREFIX",
+   "value": "mcp__",
+   "role": "the start of an MCP tool's name (DR-1)",
+   "status": "structural",
+   "record": "",
+   "decision": ""
+  },
+  {
+   "name": "receiptlaw.py:NOTE_TOOLS",
+   "value": [
+    "Bash",
+    "Read",
+    "Grep",
+    "Glob",
+    "WebFetch",
+    "WebSearch",
+    "ToolSearch",
+    "Monitor",
+    "NotebookRead"
+   ],
+   "role": "under RECEIPT_JUDGES = \"answers\", the look-up tools: a text whose next tool call is one of these is a working note and is not judged; any other call leaves it judged (DR-1)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-2"
+  },
+  {
+   "name": "receiptlaw.py:NUMBER_WORDS",
+   "value": [
+    "one",
+    "two",
+    "three",
+    "four",
+    "five",
+    "six",
+    "seven",
+    "eight",
+    "nine",
+    "ten",
+    "eleven",
+    "twelve",
+    "thirteen",
+    "fourteen",
+    "fifteen",
+    "sixteen",
+    "seventeen",
+    "eighteen",
+    "nineteen",
+    "twenty",
+    "a dozen",
+    "dozens of"
+   ],
+   "role": "numbers written in words that count attempts in a receipt (\"despite three retries\", \"in two runs\"; DR MORE)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:OTHER_OWNERS",
+   "value": [
+    "your",
+    "their",
+    "his",
+    "her",
+    "its"
+   ],
+   "role": "possessives that make a work noun somebody else's (\"your nightly job\"; DR-3)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:TIME_POSSESSIVES",
+   "value": [
+    "today's",
+    "tonight's",
+    "week's",
+    "month's",
+    "night's",
+    "morning's",
+    "yesterday's"
+   ],
+   "role": "possessives of a time that do not name another owner (\"this week's run\"; DR-4)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:TRIED_NAMES_NOTHING",
+   "value": [
+    "hard",
+    "harder",
+    "hardest",
+    "everything",
+    "anything",
+    "again",
+    "twice",
+    "once",
+    "to",
+    "but",
+    "and",
+    "or",
+    "so",
+    "then",
+    "it",
+    "this",
+    "that",
+    "them",
+    "really",
+    "very",
+    "too",
+    "also",
+    "still",
+    "yet",
+    "repeatedly"
+   ],
+   "role": "words after \"tried\" that name no attempt (hard, everything, again, twice, to ...; DR-6)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:TRIED_OWN_NOTHING",
+   "value": [
+    "best",
+    "hardest",
+    "utmost",
+    "level",
+    "luck"
+   ],
+   "role": "\"tried my best\": words after my/our that name no attempt (DR-6)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "receiptlaw.py:WORK_SUBJECT_WORDS",
+   "value": 5,
+   "role": "how many first words of a subject may hold the work noun and its owner or time word (DR-4)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-RG-1"
+  },
+  {
+   "name": "turngate.py:BRACKET_LABEL_WORDS",
+   "value": [
+    "library",
+    "lib",
+    "deck",
+    "kit",
+    "docs",
+    "plugin",
+    "core",
+    "the",
+    "recommended",
+    "and"
+   ],
+   "role": "the words besides pull request references, repository names and list marks a bracket in an order clause may hold and still be a label (D4 follow-up; an allowlist: a miss costs one card)",
+   "status": "uncalibrated",
+   "record": "",
+   "decision": "D-TG-1"
+  },
+  {
+   "name": "turngate.py:BRACKET_WORD",
+   "value": "5db2fe2b",
+   "role": "a word of a bracket in an order clause, for the label test (D4 follow-up)",
    "status": "structural",
    "record": "",
    "decision": ""
