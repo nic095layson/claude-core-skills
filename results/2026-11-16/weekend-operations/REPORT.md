@@ -24,8 +24,9 @@ says so.
 say-so. They were audited, rebuilt, checked twice by outside reviewers, and merged on Monday. The new version now
 runs in new cloud sessions.** About half of what the audit found is fixed or decided. The rest (61 of 128) waits
 for a second pull request, which starts after 2026-11-20 14:00 UTC with a plan and a cost shown to you first.
-**One loss to know about:** the detailed records of 80 of the 128 findings were never saved to the repository. They
-lived only in the old session, which was archived today.
+**One loss, mostly recovered:** the detailed records of 80 of the 128 findings were never saved to the repository.
+They lived only in the old session, which was archived today. A recovery from its transcript the same evening brought
+back more than the title for 76 of them; no reproduction script survives (update below, section 7).
 
 ---
 
@@ -153,7 +154,9 @@ fails today). In plain words:
 
 | When | What was said | What was true |
 |---|---|---|
-| 2026-11-16, about 20:50 UTC | Archiving the old session lost "nothing known" | Full records are saved only for the 48 findings in PR #35's areas. The other 80 findings exist on main only as id, title, area and state. Their reproductions most likely went with the archived container. I raised the risk but did not check before you clicked. |
+| 2026-11-16, about 20:50 UTC | Archiving the old session lost "nothing known" | Full records were saved only for the 48 findings in PR #35's areas. The other 80 existed on main only as id, title, area and state, and their reproduction scripts went with the archived container. I raised the risk but did not check before you clicked. |
+| 2026-11-16, 21:00 UTC (`ecdb35a`) | This report: the 80 records "most likely went with the archived container" | The transcript held summary lines or records for 76 of the 80 (recovery below). Only the reproduction scripts are gone. |
+| 2026-11-16, 21:36 UTC | The recovery's first commit (`7c1f12f` on PR #35's branch): "no command recovered", "27 with nothing" | The extractor read whole JSON objects only. A second pass over cut-off previews and summary tables found commands for 10 and left 4 with nothing (`3b0e43c`). Caught by my own check of the most-mentioned ids before reporting. |
 
 **Cost** (EVIDENCE: the archived session's own record): the old session's meter showed **1,641.89 USD over its whole
 life (2026-10-09 to 2026-11-16)**. The weekend's share cannot be separated from these records: did not check the
@@ -166,8 +169,16 @@ per-day breakdown.
 - PRs of other sessions (deck #143, kit #279).
 
 **In scope and unverified:**
-- **The 80 findings' detailed records** — `ATTEMPTED-FAILED`: searched main, PR #35's branch and every remote branch
-  for their ids. Only the status table has them. The old transcript may still hold them (not re-read).
+- **The 80 findings' detailed records** — recovered in part on 2026-11-16 from the old transcript (136 pages, 11-13
+  04:28 to 11-16 20:51 UTC). Records are on PR #35's branch at
+  `results/2026-11-13/merge-audit/recovered-2026-11-16/`:
+  - 9 have the finder's record and the verifier's command;
+  - 57 have the verifier's summary line;
+  - 10 have an index row or fix notes;
+  - 4 have nothing beyond the title (PC-4, PC-5, PC-7, SF-3).
+
+  All 48 left for the second PR have at least a summary line. No reproduction script survives: `ATTEMPTED-FAILED`,
+  because the commands name files in the released scratch folder.
 - Whether the archived container's scratch files can be recovered — did not check. The archive tool says
   unarchiving starts a fresh container.
 - None for the guard: it ran today on main plus this report and printed `== RESULT: PASS ==` (about 21:00 UTC).
@@ -177,7 +188,7 @@ per-day breakdown.
 
 | # | Decision | Options (recommended first) |
 |---|---|---|
-| 1 | **The 80 findings without records** | **(Recommended)** Have the second PR's first step rebuild them from the old session's transcript (still readable) before any fix. / Re-audit those areas fresh. / Fix from the titles alone (weakest). |
+| 1 | **The 80 findings** | Done on your card (2026-11-16): recovered in part, see section 7. The second PR rebuilds each reproduction from the recovered text as a test that fails first. |
 | 2 | Audit report PR #35 (open draft since 11-13; its description lists 48 findings, not 128) | **(Recommended)** Update it with the 128-row status and merge it, so the audit is on main. / Leave it open until the second PR. / Close it. |
 | 3 | Deck #142 (kit #277 merged 20:53 UTC) | Merge it through the Fantasy Basketball session's card. |
 | 4 | Second PR scope and cost | Shown to you after 2026-11-20 14:00 UTC; nothing starts before your pick. |
