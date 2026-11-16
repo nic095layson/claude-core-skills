@@ -1,0 +1,1 @@
+{"tool_name": "Bash", "tool_input": {"command": "gh pr -R nic095layson/claude-core-skills merge 34 --squash"}, "want": "deny", "label": "2 CLI, repo flag before the verb | owner typed 'ok'", "show": false, "hooks": "lib/hooks", "seq": 7}

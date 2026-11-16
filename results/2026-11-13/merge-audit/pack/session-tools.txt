@@ -1,0 +1,53 @@
+# Every tool and skill name the owner's session has (read from the session on 2026-11-12; names only)
+
+## Built-in tools
+Agent, Artifact, AskUserQuestion, Bash, Edit, Glob, Grep, ListAgents, Read, ReadNotifications, ReportFindings,
+ScheduleWakeup, SearchPlugins, SendUserFile, ShowOnboardingRolePicker, Skill, SuggestPluginInstall,
+SuggestSkills, ToolSearch, Workflow, Write
+Loaded on demand: ArtifactComments, ArtifactData, CronCreate, CronDelete, CronList, DesignSync, EnterPlanMode,
+EnterWorktree, ExitPlanMode, ExitWorktree, ListConnectors, ListMcpResourcesTool, ListPlugins, ListSkills,
+Monitor, NotebookEdit, PushNotification, ReadMcpResourceDirTool, ReadMcpResourceTool, SearchMcpRegistry,
+SearchSkills, SendMessage, SuggestConnectors, TaskCreate, TaskGet, TaskList, TaskStop, TaskUpdate, WebFetch,
+WebSearch
+
+## Session and scheduling tools (prefix mcp__claude-code-remote__)
+add_repo, archive_session, confirm_repository_trust, create_environment, create_session, create_trigger,
+delete_trigger, fire_trigger, get_environment, get_event, get_session, get_trigger, interrupt_session,
+list_computer_folders, list_environments, list_events, list_repos, list_sessions, list_triggers,
+read_documentation, register_repo_root, report_preview_port, request_computer_folder, request_credential,
+send_later, send_message, set_session_tags, set_session_title, subscribe_pr_activity, switch_environment,
+unarchive_session, unsubscribe_pr_activity, unwatch_url, update_environment, update_trigger, watch_url
+
+## GitHub tools. The session has TWO GitHub servers; every name below exists under prefix mcp__github__,
+## and those marked * also under prefix mcp__GH__
+actions_get, actions_list, actions_run_trigger, add_comment_to_pending_review*, add_issue_comment*,
+add_reply_to_pull_request_comment*, create_branch*, create_or_update_file*, create_pull_request*,
+create_repository*, delete_file*, disable_pr_auto_merge, enable_pr_auto_merge, fork_repository*,
+get_check_run, get_commit*, get_file_contents*, get_job_logs, get_label*, get_latest_release*, get_me*,
+get_release_by_tag*, get_tag*, get_team_members*, get_teams*, issue_read*, issue_write*, list_branches*,
+list_commits*, list_issue_fields*, list_issue_types*, list_issues*, list_pull_requests*, list_releases*,
+list_repository_collaborators*, list_tags*, merge_pull_request*, pull_request_read*,
+pull_request_review_write*, push_files*, request_copilot_review*, resolve_review_thread,
+run_secret_scanning*, sub_issue_write*, unresolve_review_thread, update_issue_comment*,
+update_pull_request*, update_pull_request_branch*
+Only under mcp__GH__: delete_repository, search_code, search_commits, search_issues, search_pull_requests,
+search_repositories, search_users
+
+## Mail, file and other connector tool names are left out of the published copy (they describe the owner's
+## account, and no finding cites them).
+
+## The git command line is available in the shell. CORRECTED 2026-11-13: the GitHub command line (gh) IS on
+## this machine's PATH (/usr/local/bin/gh). An earlier version of this file said it was not installed; that
+## was wrong (found by an auditor). Whether it is signed in was not checked.
+
+## Skills the session lists (a skill can appear twice: once from the project, once from the owner's account,
+## where the account copy carries the prefix "anthropic-skills:")
+Project (library checkout): aba-stimulus-deck, adversarial-verify, after-report, application-tailor,
+architecture-contract, brand-standard, correspondence, council, debugging-playbook, delegation-discipline,
+diagnostics-and-tooling, domain-reference, gauntlet, governance-adoption-campaign, independent-audit,
+install-and-surfaces, lessons-ledger, live-state-truth, plan-gate, product-output, red-team,
+research-methodology, scope-fence, skill-authoring; from the two projects: draft-arena, fantasy-basketball
+Account (prefix anthropic-skills:): aba-stimulus-deck, adversarial-verify, after-report, application-tailor,
+brand-standard, built-in-browser, chrome-browser, computer-use, council, deep-research, docs, docx,
+frontend-design, gauntlet, google-workspace, import-memory, morning, pdf, pdf-extract, plan-gate, pptx,
+red-team, scope-fence, skill-creator, xlsx

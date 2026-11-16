@@ -1,0 +1,1 @@
+{"tool_name": "Bash", "tool_input": {"command": "git checkout main && git merge --ff-only claude/weekly-review-2026-11-16 && git push origin main"}, "want": "deny", "label": "6 local merge, then push main | inside a scheduled run", "show": false, "hooks": "lib/hooks", "seq": 16}

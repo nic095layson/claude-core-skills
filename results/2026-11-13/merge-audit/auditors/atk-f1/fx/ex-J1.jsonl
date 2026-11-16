@@ -1,0 +1,9 @@
+{"type": "user", "message": {"role": "user", "content": "Continue"}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "tool_use", "id": "toolu_25b60eecf1b2", "name": "Skill", "input": {"skill": "plan-gate"}}]}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "tool_use", "id": "toolu_6315452774d7", "name": "Skill", "input": {"skill": "adversarial-verify"}}]}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "text", "text": "| Goal | x |"}]}}
+{"type": "system", "subtype": "compact_boundary"}
+{"type": "user", "isCompactSummary": true, "message": {"role": "user", "content": "Summary of the conversation so far ..."}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "tool_use", "id": "toolu_e0822495aa46", "name": "Bash", "input": {"command": "git add -A && git commit -qm x"}}]}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "tool_use", "id": "toolu_d42084a236cf", "name": "Bash", "input": {"command": "git push -u origin feat"}}]}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "text", "text": "done"}]}}

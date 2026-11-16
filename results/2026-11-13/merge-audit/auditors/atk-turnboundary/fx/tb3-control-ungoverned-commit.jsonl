@@ -1,0 +1,6 @@
+{"type": "user", "message": {"role": "user", "content": "Continue"}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "tool_use", "id": "toolu_cbd358bb5774", "name": "Bash", "input": {"command": "git add -A && git commit -qm x && git push"}}]}}
+{"type": "user", "message": {"role": "user", "content": [{"type": "tool_result", "tool_use_id": "toolu_x", "content": "ok"}]}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "tool_use", "id": "toolu_638c59c91d71", "name": "Bash", "input": {"command": "cat notes.txt"}}]}}
+{"type": "user", "message": {"role": "user", "content": [{"type": "tool_result", "tool_use_id": "toolu_x", "content": "old log line"}]}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "text", "text": "done"}]}}

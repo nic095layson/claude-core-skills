@@ -1,0 +1,915 @@
+# compare.py  orig hooks: (not run)   mine: /tmp/claude-0/-home-user/ff01f16c-7b3f-5ea5-8051-7a95ac7cd1d1/scratchpad/merge-audit/work/reimpl/mine
+# cases: 910   agree: 910   differ: 0
+# stop: 416 cases, 416 agree   pre: 494 cases, 494 agree
+# hand-written known answers: 26   mine wrong: 0   original wrong: -
+# line: case id | original verdict | my verdict | AGREE/DIFFER | note
+H-01                                                       | orig=-                  | mine=block:F1           | AGREE  | hand=block:F1 mine:ok orig:- | commit, no governor
+H-02                                                       | orig=-                  | mine=allow              | AGREE  | hand=allow mine:ok orig:- | governed commit
+H-03                                                       | orig=-                  | mine=allow              | AGREE  | hand=allow mine:ok orig:- | verify, then commit and push
+H-04                                                       | orig=-                  | mine=block:F1           | AGREE  | hand=block:F1 mine:ok orig:- | plan-gate after the first action
+H-05                                                       | orig=-                  | mine=block:F1           | AGREE  | hand=block:F1 mine:ok orig:- | no adversarial-verify
+H-06                                                       | orig=-                  | mine=allow              | AGREE  | hand=allow mine:ok orig:- | edit only
+H-07                                                       | orig=-                  | mine=allow              | AGREE  | hand=allow mine:ok orig:- | trivia
+H-08                                                       | orig=-                  | mine=block:F1           | AGREE  | hand=block:F1 mine:ok orig:- | loads of the previous turn do not count
+H-09                                                       | orig=-                  | mine=block:F1           | AGREE  | hand=block:F1 mine:ok orig:- | scheduled run commits with no governor
+H-10                                                       | orig=-                  | mine=allow              | AGREE  | hand=allow mine:ok orig:- | scheduled run is governed; the owner's earlier turn is not its business
+H-11                                                       | orig=-                  | mine=allow              | AGREE  | hand=allow mine:ok orig:- | stop_hook_active
+H-12                                                       | orig=-                  | mine=allow              | AGREE  | hand=allow mine:ok orig:- | prefixed loads
+H-13                                                       | orig=-                  | mine=block:F1           | AGREE  | hand=block:F1 mine:ok orig:- | scheduled-task create, no governor
+H-14                                                       | orig=-                  | mine=block:F1           | AGREE  | hand=block:F1 mine:ok orig:- | file push, no governor
+H-15                                                       | orig=-                  | mine=deny:merge-word    | AGREE  | hand=deny:merge-word mine:ok orig:- | no word
+H-16                                                       | orig=-                  | mine=allow              | AGREE  | hand=allow mine:ok orig:- | word
+H-17                                                       | orig=-                  | mine=deny:merge-word    | AGREE  | hand=deny:merge-word mine:ok orig:- | negated word
+H-18                                                       | orig=-                  | mine=allow              | AGREE  | hand=allow mine:ok orig:- | click with the word
+H-19                                                       | orig=-                  | mine=deny:merge-word    | AGREE  | hand=deny:merge-word mine:ok orig:- | word only in the question
+H-20a                                                      | orig=-                  | mine=allow              | AGREE  | hand=allow mine:ok orig:- | assistant text with the number
+H-20b                                                      | orig=-                  | mine=deny:merge-word    | AGREE  | hand=deny:merge-word mine:ok orig:- | another PR number
+H-21                                                       | orig=-                  | mine=deny:scheduled     | AGREE  | hand=deny:scheduled mine:ok orig:- | scheduled run never merges
+H-22                                                       | orig=-                  | mine=allow              | AGREE  | hand=allow mine:ok orig:- | branch sync is not a PR merge
+H-23                                                       | orig=-                  | mine=deny:merge-word    | AGREE  | hand=deny:merge-word mine:ok orig:- | older word does not carry over
+H-24                                                       | orig=-                  | mine=deny:merge-word    | AGREE  | hand=deny:merge-word mine:ok orig:- | shell merge, no word
+H-25                                                       | orig=-                  | mine=allow              | AGREE  | hand=allow mine:ok orig:- | a GitHub notification is not a scheduled run
+stop-act-commit-add-none                                   | orig=-                  | mine=block:F1           | AGREE  | action commit-add, governors none
+stop-act-commit-add-pg_act_av                              | orig=-                  | mine=allow              | AGREE  | action commit-add, governors pg_act_av
+stop-act-commit-m-none                                     | orig=-                  | mine=block:F1           | AGREE  | action commit-m, governors none
+stop-act-commit-m-pg_act_av                                | orig=-                  | mine=allow              | AGREE  | action commit-m, governors pg_act_av
+stop-act-push-u-none                                       | orig=-                  | mine=block:F1           | AGREE  | action push-u, governors none
+stop-act-push-u-pg_act_av                                  | orig=-                  | mine=allow              | AGREE  | action push-u, governors pg_act_av
+stop-act-commit-dashC-none                                 | orig=-                  | mine=block:F1           | AGREE  | action commit-dashC, governors none
+stop-act-commit-dashC-pg_act_av                            | orig=-                  | mine=allow              | AGREE  | action commit-dashC, governors pg_act_av
+stop-act-push-dashC-none                                   | orig=-                  | mine=block:F1           | AGREE  | action push-dashC, governors none
+stop-act-push-dashC-pg_act_av                              | orig=-                  | mine=allow              | AGREE  | action push-dashC, governors pg_act_av
+stop-act-cd-commit-push-none                               | orig=-                  | mine=block:F1           | AGREE  | action cd-commit-push, governors none
+stop-act-cd-commit-push-pg_act_av                          | orig=-                  | mine=allow              | AGREE  | action cd-commit-push, governors pg_act_av
+stop-act-commit-dashc-config-none                          | orig=-                  | mine=block:F1           | AGREE  | action commit-dashc-config, governors none
+stop-act-commit-dashc-config-pg_act_av                     | orig=-                  | mine=allow              | AGREE  | action commit-dashc-config, governors pg_act_av
+stop-act-timeout-push-none                                 | orig=-                  | mine=block:F1           | AGREE  | action timeout-push, governors none
+stop-act-timeout-push-pg_act_av                            | orig=-                  | mine=allow              | AGREE  | action timeout-push, governors pg_act_av
+stop-act-env-push-none                                     | orig=-                  | mine=block:F1           | AGREE  | action env-push, governors none
+stop-act-env-push-pg_act_av                                | orig=-                  | mine=allow              | AGREE  | action env-push, governors pg_act_av
+stop-act-gh-pr-create-none                                 | orig=-                  | mine=block:F1           | AGREE  | action gh-pr-create, governors none
+stop-act-gh-pr-create-pg_act_av                            | orig=-                  | mine=allow              | AGREE  | action gh-pr-create, governors pg_act_av
+stop-act-gh-pr-merge-none                                  | orig=-                  | mine=block:F1           | AGREE  | action gh-pr-merge, governors none
+stop-act-gh-pr-merge-pg_act_av                             | orig=-                  | mine=allow              | AGREE  | action gh-pr-merge, governors pg_act_av
+stop-act-gh-pr-edit-none                                   | orig=-                  | mine=block:F1           | AGREE  | action gh-pr-edit, governors none
+stop-act-gh-pr-edit-pg_act_av                              | orig=-                  | mine=allow              | AGREE  | action gh-pr-edit, governors pg_act_av
+stop-act-commit-amend-none                                 | orig=-                  | mine=block:F1           | AGREE  | action commit-amend, governors none
+stop-act-commit-amend-pg_act_av                            | orig=-                  | mine=allow              | AGREE  | action commit-amend, governors pg_act_av
+stop-act-push-force-lease-none                             | orig=-                  | mine=block:F1           | AGREE  | action push-force-lease, governors none
+stop-act-push-force-lease-pg_act_av                        | orig=-                  | mine=allow              | AGREE  | action push-force-lease, governors pg_act_av
+stop-act-bash-c-push-none                                  | orig=-                  | mine=block:F1           | AGREE  | action bash-c-push, governors none
+stop-act-bash-c-push-pg_act_av                             | orig=-                  | mine=allow              | AGREE  | action bash-c-push, governors pg_act_av
+stop-act-newline-commit-push-none                          | orig=-                  | mine=block:F1           | AGREE  | action newline-commit-push, governors none
+stop-act-newline-commit-push-pg_act_av                     | orig=-                  | mine=allow              | AGREE  | action newline-commit-push, governors pg_act_av
+stop-act-abs-git-push-none                                 | orig=-                  | mine=block:F1           | AGREE  | action abs-git-push, governors none
+stop-act-abs-git-push-pg_act_av                            | orig=-                  | mine=allow              | AGREE  | action abs-git-push, governors pg_act_av
+stop-act-double-space-push-none                            | orig=-                  | mine=block:F1           | AGREE  | action double-space-push, governors none
+stop-act-double-space-push-pg_act_av                       | orig=-                  | mine=allow              | AGREE  | action double-space-push, governors pg_act_av
+stop-act-subshell-push-none                                | orig=-                  | mine=block:F1           | AGREE  | action subshell-push, governors none
+stop-act-subshell-push-pg_act_av                           | orig=-                  | mine=allow              | AGREE  | action subshell-push, governors pg_act_av
+stop-act-push-tags-none                                    | orig=-                  | mine=block:F1           | AGREE  | action push-tags, governors none
+stop-act-push-tags-pg_act_av                               | orig=-                  | mine=allow              | AGREE  | action push-tags, governors pg_act_av
+stop-act-gh-api-put-merge-none                             | orig=-                  | mine=block:F1           | AGREE  | action gh-api-put-merge, governors none
+stop-act-gh-api-put-merge-pg_act_av                        | orig=-                  | mine=allow              | AGREE  | action gh-api-put-merge, governors pg_act_av
+stop-act-curl-put-merge-none                               | orig=-                  | mine=block:F1           | AGREE  | action curl-put-merge, governors none
+stop-act-curl-put-merge-pg_act_av                          | orig=-                  | mine=allow              | AGREE  | action curl-put-merge, governors pg_act_av
+stop-act-no-pager-commit-none                              | orig=-                  | mine=block:F1           | AGREE  | action no-pager-commit, governors none
+stop-act-no-pager-commit-pg_act_av                         | orig=-                  | mine=allow              | AGREE  | action no-pager-commit, governors pg_act_av
+stop-act-commit-heredoc-msg-none                           | orig=-                  | mine=block:F1           | AGREE  | action commit-heredoc-msg, governors none
+stop-act-commit-heredoc-msg-pg_act_av                      | orig=-                  | mine=allow              | AGREE  | action commit-heredoc-msg, governors pg_act_av
+stop-act-nm-status-none                                    | orig=-                  | mine=allow              | AGREE  | action nm-status, governors none
+stop-act-nm-status-pg_act_av                               | orig=-                  | mine=allow              | AGREE  | action nm-status, governors pg_act_av
+stop-act-nm-stash-push-none                                | orig=-                  | mine=allow              | AGREE  | action nm-stash-push, governors none
+stop-act-nm-stash-push-pg_act_av                           | orig=-                  | mine=allow              | AGREE  | action nm-stash-push, governors pg_act_av
+stop-act-nm-config-push-default-none                       | orig=-                  | mine=allow              | AGREE  | action nm-config-push-default, governors none
+stop-act-nm-config-push-default-pg_act_av                  | orig=-                  | mine=allow              | AGREE  | action nm-config-push-default, governors pg_act_av
+stop-act-nm-log-grep-commit-none                           | orig=-                  | mine=allow              | AGREE  | action nm-log-grep-commit, governors none
+stop-act-nm-log-grep-commit-pg_act_av                      | orig=-                  | mine=allow              | AGREE  | action nm-log-grep-commit, governors pg_act_av
+stop-act-nm-grep-git-commit-none                           | orig=-                  | mine=allow              | AGREE  | action nm-grep-git-commit, governors none
+stop-act-nm-grep-git-commit-pg_act_av                      | orig=-                  | mine=allow              | AGREE  | action nm-grep-git-commit, governors pg_act_av
+stop-act-nm-echo-git-push-none                             | orig=-                  | mine=allow              | AGREE  | action nm-echo-git-push, governors none
+stop-act-nm-echo-git-push-pg_act_av                        | orig=-                  | mine=allow              | AGREE  | action nm-echo-git-push, governors pg_act_av
+stop-act-nm-commit-dry-run-none                            | orig=-                  | mine=allow              | AGREE  | action nm-commit-dry-run, governors none
+stop-act-nm-commit-dry-run-pg_act_av                       | orig=-                  | mine=allow              | AGREE  | action nm-commit-dry-run, governors pg_act_av
+stop-act-nm-push-dry-run-none                              | orig=-                  | mine=allow              | AGREE  | action nm-push-dry-run, governors none
+stop-act-nm-push-dry-run-pg_act_av                         | orig=-                  | mine=allow              | AGREE  | action nm-push-dry-run, governors pg_act_av
+stop-act-nm-commit-graph-none                              | orig=-                  | mine=allow              | AGREE  | action nm-commit-graph, governors none
+stop-act-nm-commit-graph-pg_act_av                         | orig=-                  | mine=allow              | AGREE  | action nm-commit-graph, governors pg_act_av
+stop-act-nm-heredoc-file-none                              | orig=-                  | mine=allow              | AGREE  | action nm-heredoc-file, governors none
+stop-act-nm-heredoc-file-pg_act_av                         | orig=-                  | mine=allow              | AGREE  | action nm-heredoc-file, governors pg_act_av
+stop-act-nm-git-merge-none                                 | orig=-                  | mine=allow              | AGREE  | action nm-git-merge, governors none
+stop-act-nm-git-merge-pg_act_av                            | orig=-                  | mine=allow              | AGREE  | action nm-git-merge, governors pg_act_av
+stop-act-nm-checkout-b-none                                | orig=-                  | mine=allow              | AGREE  | action nm-checkout-b, governors none
+stop-act-nm-checkout-b-pg_act_av                           | orig=-                  | mine=allow              | AGREE  | action nm-checkout-b, governors pg_act_av
+stop-act-nm-comment-commit-none                            | orig=-                  | mine=allow              | AGREE  | action nm-comment-commit, governors none
+stop-act-nm-comment-commit-pg_act_av                       | orig=-                  | mine=allow              | AGREE  | action nm-comment-commit, governors pg_act_av
+stop-act-nm-log-pipe-grep-push-none                        | orig=-                  | mine=allow              | AGREE  | action nm-log-pipe-grep-push, governors none
+stop-act-nm-log-pipe-grep-push-pg_act_av                   | orig=-                  | mine=allow              | AGREE  | action nm-log-pipe-grep-push, governors pg_act_av
+stop-act-nm-git-help-push-none                             | orig=-                  | mine=allow              | AGREE  | action nm-git-help-push, governors none
+stop-act-nm-git-help-push-pg_act_av                        | orig=-                  | mine=allow              | AGREE  | action nm-git-help-push, governors pg_act_av
+stop-act-nm-ls-words-none                                  | orig=-                  | mine=allow              | AGREE  | action nm-ls-words, governors none
+stop-act-nm-ls-words-pg_act_av                             | orig=-                  | mine=allow              | AGREE  | action nm-ls-words, governors pg_act_av
+stop-act-nm-show-path-none                                 | orig=-                  | mine=allow              | AGREE  | action nm-show-path, governors none
+stop-act-nm-show-path-pg_act_av                            | orig=-                  | mine=allow              | AGREE  | action nm-show-path, governors pg_act_av
+stop-act-nm-python-script-none                             | orig=-                  | mine=allow              | AGREE  | action nm-python-script, governors none
+stop-act-nm-python-script-pg_act_av                        | orig=-                  | mine=allow              | AGREE  | action nm-python-script, governors pg_act_av
+stop-act-nm-gh-pr-view-none                                | orig=-                  | mine=allow              | AGREE  | action nm-gh-pr-view, governors none
+stop-act-nm-gh-pr-view-pg_act_av                           | orig=-                  | mine=allow              | AGREE  | action nm-gh-pr-view, governors pg_act_av
+stop-act-nm-gh-pr-list-none                                | orig=-                  | mine=allow              | AGREE  | action nm-gh-pr-list, governors none
+stop-act-nm-gh-pr-list-pg_act_av                           | orig=-                  | mine=allow              | AGREE  | action nm-gh-pr-list, governors pg_act_av
+stop-act-nm-gh-pr-checks-none                              | orig=-                  | mine=allow              | AGREE  | action nm-gh-pr-checks, governors none
+stop-act-nm-gh-pr-checks-pg_act_av                         | orig=-                  | mine=allow              | AGREE  | action nm-gh-pr-checks, governors pg_act_av
+stop-act-nm-fetch-rebase-none                              | orig=-                  | mine=allow              | AGREE  | action nm-fetch-rebase, governors none
+stop-act-nm-fetch-rebase-pg_act_av                         | orig=-                  | mine=allow              | AGREE  | action nm-fetch-rebase, governors pg_act_av
+stop-act-nm-tag-none                                       | orig=-                  | mine=allow              | AGREE  | action nm-tag, governors none
+stop-act-nm-tag-pg_act_av                                  | orig=-                  | mine=allow              | AGREE  | action nm-tag, governors pg_act_av
+stop-act-nm-add-none                                       | orig=-                  | mine=allow              | AGREE  | action nm-add, governors none
+stop-act-nm-add-pg_act_av                                  | orig=-                  | mine=allow              | AGREE  | action nm-add, governors pg_act_av
+stop-act-nm-commit-msg-file-cat-none                       | orig=-                  | mine=allow              | AGREE  | action nm-commit-msg-file-cat, governors none
+stop-act-nm-commit-msg-file-cat-pg_act_av                  | orig=-                  | mine=allow              | AGREE  | action nm-commit-msg-file-cat, governors pg_act_av
+stop-act-nm-git-log-push-branch-none                       | orig=-                  | mine=allow              | AGREE  | action nm-git-log-push-branch, governors none
+stop-act-nm-git-log-push-branch-pg_act_av                  | orig=-                  | mine=allow              | AGREE  | action nm-git-log-push-branch, governors pg_act_av
+stop-act-nm-rev-parse-none                                 | orig=-                  | mine=allow              | AGREE  | action nm-rev-parse, governors none
+stop-act-nm-rev-parse-pg_act_av                            | orig=-                  | mine=allow              | AGREE  | action nm-rev-parse, governors pg_act_av
+stop-act-nm-grep-commit-word-none                          | orig=-                  | mine=allow              | AGREE  | action nm-grep-commit-word, governors none
+stop-act-nm-grep-commit-word-pg_act_av                     | orig=-                  | mine=allow              | AGREE  | action nm-grep-commit-word, governors pg_act_av
+stop-act-mcp-create-pr-none                                | orig=-                  | mine=block:F1           | AGREE  | action mcp-create-pr, governors none
+stop-act-mcp-create-pr-pg_act_av                           | orig=-                  | mine=allow              | AGREE  | action mcp-create-pr, governors pg_act_av
+stop-act-mcp-update-pr-none                                | orig=-                  | mine=block:F1           | AGREE  | action mcp-update-pr, governors none
+stop-act-mcp-update-pr-pg_act_av                           | orig=-                  | mine=allow              | AGREE  | action mcp-update-pr, governors pg_act_av
+stop-act-mcp-merge-pr-none                                 | orig=-                  | mine=block:F1           | AGREE  | action mcp-merge-pr, governors none
+stop-act-mcp-merge-pr-pg_act_av                            | orig=-                  | mine=allow              | AGREE  | action mcp-merge-pr, governors pg_act_av
+stop-act-mcp-GH-merge-pr-none                              | orig=-                  | mine=block:F1           | AGREE  | action mcp-GH-merge-pr, governors none
+stop-act-mcp-GH-merge-pr-pg_act_av                         | orig=-                  | mine=allow              | AGREE  | action mcp-GH-merge-pr, governors pg_act_av
+stop-act-mcp-push-files-none                               | orig=-                  | mine=block:F1           | AGREE  | action mcp-push-files, governors none
+stop-act-mcp-push-files-pg_act_av                          | orig=-                  | mine=allow              | AGREE  | action mcp-push-files, governors pg_act_av
+stop-act-mcp-create-or-update-file-none                    | orig=-                  | mine=block:F1           | AGREE  | action mcp-create-or-update-file, governors none
+stop-act-mcp-create-or-update-file-pg_act_av               | orig=-                  | mine=allow              | AGREE  | action mcp-create-or-update-file, governors pg_act_av
+stop-act-mcp-delete-file-none                              | orig=-                  | mine=block:F1           | AGREE  | action mcp-delete-file, governors none
+stop-act-mcp-delete-file-pg_act_av                         | orig=-                  | mine=allow              | AGREE  | action mcp-delete-file, governors pg_act_av
+stop-act-trigger-create-none                               | orig=-                  | mine=block:F1           | AGREE  | action trigger-create, governors none
+stop-act-trigger-create-pg_act_av                          | orig=-                  | mine=allow              | AGREE  | action trigger-create, governors pg_act_av
+stop-act-trigger-update-none                               | orig=-                  | mine=block:F1           | AGREE  | action trigger-update, governors none
+stop-act-trigger-update-pg_act_av                          | orig=-                  | mine=allow              | AGREE  | action trigger-update, governors pg_act_av
+stop-act-trigger-delete-none                               | orig=-                  | mine=block:F1           | AGREE  | action trigger-delete, governors none
+stop-act-trigger-delete-pg_act_av                          | orig=-                  | mine=allow              | AGREE  | action trigger-delete, governors pg_act_av
+stop-act-cron-create-none                                  | orig=-                  | mine=block:F1           | AGREE  | action cron-create, governors none
+stop-act-cron-create-pg_act_av                             | orig=-                  | mine=allow              | AGREE  | action cron-create, governors pg_act_av
+stop-act-cron-delete-none                                  | orig=-                  | mine=block:F1           | AGREE  | action cron-delete, governors none
+stop-act-cron-delete-pg_act_av                             | orig=-                  | mine=allow              | AGREE  | action cron-delete, governors pg_act_av
+stop-act-send-later-none                                   | orig=-                  | mine=block:F1           | AGREE  | action send-later, governors none
+stop-act-send-later-pg_act_av                              | orig=-                  | mine=allow              | AGREE  | action send-later, governors pg_act_av
+stop-act-mcp-update-pr-branch-none                         | orig=-                  | mine=block:F1           | AGREE  | action mcp-update-pr-branch, governors none
+stop-act-mcp-update-pr-branch-pg_act_av                    | orig=-                  | mine=allow              | AGREE  | action mcp-update-pr-branch, governors pg_act_av
+stop-act-mcp-enable-auto-merge-none                        | orig=-                  | mine=block:F1           | AGREE  | action mcp-enable-auto-merge, governors none
+stop-act-mcp-enable-auto-merge-pg_act_av                   | orig=-                  | mine=allow              | AGREE  | action mcp-enable-auto-merge, governors pg_act_av
+stop-act-no-create-branch-none                             | orig=-                  | mine=allow              | AGREE  | action no-create-branch, governors none
+stop-act-no-create-branch-pg_act_av                        | orig=-                  | mine=allow              | AGREE  | action no-create-branch, governors pg_act_av
+stop-act-no-issue-comment-none                             | orig=-                  | mine=allow              | AGREE  | action no-issue-comment, governors none
+stop-act-no-issue-comment-pg_act_av                        | orig=-                  | mine=allow              | AGREE  | action no-issue-comment, governors pg_act_av
+stop-act-no-pr-read-none                                   | orig=-                  | mine=allow              | AGREE  | action no-pr-read, governors none
+stop-act-no-pr-read-pg_act_av                              | orig=-                  | mine=allow              | AGREE  | action no-pr-read, governors pg_act_av
+stop-act-no-list-prs-none                                  | orig=-                  | mine=allow              | AGREE  | action no-list-prs, governors none
+stop-act-no-list-prs-pg_act_av                             | orig=-                  | mine=allow              | AGREE  | action no-list-prs, governors pg_act_av
+stop-act-no-list-triggers-none                             | orig=-                  | mine=allow              | AGREE  | action no-list-triggers, governors none
+stop-act-no-list-triggers-pg_act_av                        | orig=-                  | mine=allow              | AGREE  | action no-list-triggers, governors pg_act_av
+stop-act-no-fire-trigger-none                              | orig=-                  | mine=allow              | AGREE  | action no-fire-trigger, governors none
+stop-act-no-fire-trigger-pg_act_av                         | orig=-                  | mine=allow              | AGREE  | action no-fire-trigger, governors pg_act_av
+stop-act-no-gmail-send-none                                | orig=-                  | mine=allow              | AGREE  | action no-gmail-send, governors none
+stop-act-no-gmail-send-pg_act_av                           | orig=-                  | mine=allow              | AGREE  | action no-gmail-send, governors pg_act_av
+stop-act-no-edit-none                                      | orig=-                  | mine=allow              | AGREE  | action no-edit, governors none
+stop-act-no-edit-pg_act_av                                 | orig=-                  | mine=allow              | AGREE  | action no-edit, governors pg_act_av
+stop-act-no-write-none                                     | orig=-                  | mine=allow              | AGREE  | action no-write, governors none
+stop-act-no-write-pg_act_av                                | orig=-                  | mine=allow              | AGREE  | action no-write, governors pg_act_av
+stop-act-no-read-none                                      | orig=-                  | mine=allow              | AGREE  | action no-read, governors none
+stop-act-no-read-pg_act_av                                 | orig=-                  | mine=allow              | AGREE  | action no-read, governors pg_act_av
+stop-act-no-schedule-wakeup-none                           | orig=-                  | mine=allow              | AGREE  | action no-schedule-wakeup, governors none
+stop-act-no-schedule-wakeup-pg_act_av                      | orig=-                  | mine=allow              | AGREE  | action no-schedule-wakeup, governors pg_act_av
+stop-act-no-create-session-none                            | orig=-                  | mine=allow              | AGREE  | action no-create-session, governors none
+stop-act-no-create-session-pg_act_av                       | orig=-                  | mine=allow              | AGREE  | action no-create-session, governors pg_act_av
+stop-act-no-delete-repository-none                         | orig=-                  | mine=allow              | AGREE  | action no-delete-repository, governors none
+stop-act-no-delete-repository-pg_act_av                    | orig=-                  | mine=allow              | AGREE  | action no-delete-repository, governors pg_act_av
+stop-act-no-pr-review-write-none                           | orig=-                  | mine=allow              | AGREE  | action no-pr-review-write, governors none
+stop-act-no-pr-review-write-pg_act_av                      | orig=-                  | mine=allow              | AGREE  | action no-pr-review-write, governors pg_act_av
+stop-act-no-cron-list-none                                 | orig=-                  | mine=allow              | AGREE  | action no-cron-list, governors none
+stop-act-no-cron-list-pg_act_av                            | orig=-                  | mine=allow              | AGREE  | action no-cron-list, governors pg_act_av
+stop-act-no-actions-run-trigger-none                       | orig=-                  | mine=allow              | AGREE  | action no-actions-run-trigger, governors none
+stop-act-no-actions-run-trigger-pg_act_av                  | orig=-                  | mine=allow              | AGREE  | action no-actions-run-trigger, governors pg_act_av
+stop-act-no-get-trigger-none                               | orig=-                  | mine=allow              | AGREE  | action no-get-trigger, governors none
+stop-act-no-get-trigger-pg_act_av                          | orig=-                  | mine=allow              | AGREE  | action no-get-trigger, governors pg_act_av
+stop-act-no-drive-create-file-none                         | orig=-                  | mine=allow              | AGREE  | action no-drive-create-file, governors none
+stop-act-no-drive-create-file-pg_act_av                    | orig=-                  | mine=allow              | AGREE  | action no-drive-create-file, governors pg_act_av
+stop-act-no-issue-write-none                               | orig=-                  | mine=allow              | AGREE  | action no-issue-write, governors none
+stop-act-no-issue-write-pg_act_av                          | orig=-                  | mine=allow              | AGREE  | action no-issue-write, governors pg_act_av
+stop-gov-commit-add-av_pg_act                              | orig=-                  | mine=allow              | AGREE  | action commit-add, governors av_pg_act
+stop-gov-commit-add-pg_av_act                              | orig=-                  | mine=allow              | AGREE  | action commit-add, governors pg_av_act
+stop-gov-commit-add-act_pg_av                              | orig=-                  | mine=block:F1           | AGREE  | action commit-add, governors act_pg_av
+stop-gov-commit-add-pg_act                                 | orig=-                  | mine=block:F1           | AGREE  | action commit-add, governors pg_act
+stop-gov-commit-add-av_act                                 | orig=-                  | mine=block:F1           | AGREE  | action commit-add, governors av_act
+stop-gov-commit-add-act_av                                 | orig=-                  | mine=block:F1           | AGREE  | action commit-add, governors act_av
+stop-gov-commit-add-prefixed                               | orig=-                  | mine=allow              | AGREE  | action commit-add, governors prefixed
+stop-gov-commit-add-plugin_prefixed                        | orig=-                  | mine=allow              | AGREE  | action commit-add, governors plugin_prefixed
+stop-gov-commit-add-gauntlet_only                          | orig=-                  | mine=block:F1           | AGREE  | action commit-add, governors gauntlet_only
+stop-gov-commit-add-lookalike                              | orig=-                  | mine=block:F1           | AGREE  | action commit-add, governors lookalike
+stop-gov-commit-add-args_mention                           | orig=-                  | mine=block:F1           | AGREE  | action commit-add, governors args_mention
+stop-gov-commit-add-scope_only                             | orig=-                  | mine=block:F1           | AGREE  | action commit-add, governors scope_only
+stop-gov-commit-add-upper                                  | orig=-                  | mine=block:F1           | AGREE  | action commit-add, governors upper
+stop-gov-push-u-av_pg_act                                  | orig=-                  | mine=allow              | AGREE  | action push-u, governors av_pg_act
+stop-gov-push-u-pg_av_act                                  | orig=-                  | mine=allow              | AGREE  | action push-u, governors pg_av_act
+stop-gov-push-u-act_pg_av                                  | orig=-                  | mine=block:F1           | AGREE  | action push-u, governors act_pg_av
+stop-gov-push-u-pg_act                                     | orig=-                  | mine=block:F1           | AGREE  | action push-u, governors pg_act
+stop-gov-push-u-av_act                                     | orig=-                  | mine=block:F1           | AGREE  | action push-u, governors av_act
+stop-gov-push-u-act_av                                     | orig=-                  | mine=block:F1           | AGREE  | action push-u, governors act_av
+stop-gov-push-u-prefixed                                   | orig=-                  | mine=allow              | AGREE  | action push-u, governors prefixed
+stop-gov-push-u-plugin_prefixed                            | orig=-                  | mine=allow              | AGREE  | action push-u, governors plugin_prefixed
+stop-gov-push-u-gauntlet_only                              | orig=-                  | mine=block:F1           | AGREE  | action push-u, governors gauntlet_only
+stop-gov-push-u-lookalike                                  | orig=-                  | mine=block:F1           | AGREE  | action push-u, governors lookalike
+stop-gov-push-u-args_mention                               | orig=-                  | mine=block:F1           | AGREE  | action push-u, governors args_mention
+stop-gov-push-u-scope_only                                 | orig=-                  | mine=block:F1           | AGREE  | action push-u, governors scope_only
+stop-gov-push-u-upper                                      | orig=-                  | mine=block:F1           | AGREE  | action push-u, governors upper
+stop-gov-gh-pr-create-av_pg_act                            | orig=-                  | mine=allow              | AGREE  | action gh-pr-create, governors av_pg_act
+stop-gov-gh-pr-create-pg_av_act                            | orig=-                  | mine=allow              | AGREE  | action gh-pr-create, governors pg_av_act
+stop-gov-gh-pr-create-act_pg_av                            | orig=-                  | mine=block:F1           | AGREE  | action gh-pr-create, governors act_pg_av
+stop-gov-gh-pr-create-pg_act                               | orig=-                  | mine=block:F1           | AGREE  | action gh-pr-create, governors pg_act
+stop-gov-gh-pr-create-av_act                               | orig=-                  | mine=block:F1           | AGREE  | action gh-pr-create, governors av_act
+stop-gov-gh-pr-create-act_av                               | orig=-                  | mine=block:F1           | AGREE  | action gh-pr-create, governors act_av
+stop-gov-gh-pr-create-prefixed                             | orig=-                  | mine=allow              | AGREE  | action gh-pr-create, governors prefixed
+stop-gov-gh-pr-create-plugin_prefixed                      | orig=-                  | mine=allow              | AGREE  | action gh-pr-create, governors plugin_prefixed
+stop-gov-gh-pr-create-gauntlet_only                        | orig=-                  | mine=block:F1           | AGREE  | action gh-pr-create, governors gauntlet_only
+stop-gov-gh-pr-create-lookalike                            | orig=-                  | mine=block:F1           | AGREE  | action gh-pr-create, governors lookalike
+stop-gov-gh-pr-create-args_mention                         | orig=-                  | mine=block:F1           | AGREE  | action gh-pr-create, governors args_mention
+stop-gov-gh-pr-create-scope_only                           | orig=-                  | mine=block:F1           | AGREE  | action gh-pr-create, governors scope_only
+stop-gov-gh-pr-create-upper                                | orig=-                  | mine=block:F1           | AGREE  | action gh-pr-create, governors upper
+stop-gov-mcp-create-pr-av_pg_act                           | orig=-                  | mine=allow              | AGREE  | action mcp-create-pr, governors av_pg_act
+stop-gov-mcp-create-pr-pg_av_act                           | orig=-                  | mine=allow              | AGREE  | action mcp-create-pr, governors pg_av_act
+stop-gov-mcp-create-pr-act_pg_av                           | orig=-                  | mine=block:F1           | AGREE  | action mcp-create-pr, governors act_pg_av
+stop-gov-mcp-create-pr-pg_act                              | orig=-                  | mine=block:F1           | AGREE  | action mcp-create-pr, governors pg_act
+stop-gov-mcp-create-pr-av_act                              | orig=-                  | mine=block:F1           | AGREE  | action mcp-create-pr, governors av_act
+stop-gov-mcp-create-pr-act_av                              | orig=-                  | mine=block:F1           | AGREE  | action mcp-create-pr, governors act_av
+stop-gov-mcp-create-pr-prefixed                            | orig=-                  | mine=allow              | AGREE  | action mcp-create-pr, governors prefixed
+stop-gov-mcp-create-pr-plugin_prefixed                     | orig=-                  | mine=allow              | AGREE  | action mcp-create-pr, governors plugin_prefixed
+stop-gov-mcp-create-pr-gauntlet_only                       | orig=-                  | mine=block:F1           | AGREE  | action mcp-create-pr, governors gauntlet_only
+stop-gov-mcp-create-pr-lookalike                           | orig=-                  | mine=block:F1           | AGREE  | action mcp-create-pr, governors lookalike
+stop-gov-mcp-create-pr-args_mention                        | orig=-                  | mine=block:F1           | AGREE  | action mcp-create-pr, governors args_mention
+stop-gov-mcp-create-pr-scope_only                          | orig=-                  | mine=block:F1           | AGREE  | action mcp-create-pr, governors scope_only
+stop-gov-mcp-create-pr-upper                               | orig=-                  | mine=block:F1           | AGREE  | action mcp-create-pr, governors upper
+stop-gov-mcp-merge-pr-av_pg_act                            | orig=-                  | mine=allow              | AGREE  | action mcp-merge-pr, governors av_pg_act
+stop-gov-mcp-merge-pr-pg_av_act                            | orig=-                  | mine=allow              | AGREE  | action mcp-merge-pr, governors pg_av_act
+stop-gov-mcp-merge-pr-act_pg_av                            | orig=-                  | mine=block:F1           | AGREE  | action mcp-merge-pr, governors act_pg_av
+stop-gov-mcp-merge-pr-pg_act                               | orig=-                  | mine=block:F1           | AGREE  | action mcp-merge-pr, governors pg_act
+stop-gov-mcp-merge-pr-av_act                               | orig=-                  | mine=block:F1           | AGREE  | action mcp-merge-pr, governors av_act
+stop-gov-mcp-merge-pr-act_av                               | orig=-                  | mine=block:F1           | AGREE  | action mcp-merge-pr, governors act_av
+stop-gov-mcp-merge-pr-prefixed                             | orig=-                  | mine=allow              | AGREE  | action mcp-merge-pr, governors prefixed
+stop-gov-mcp-merge-pr-plugin_prefixed                      | orig=-                  | mine=allow              | AGREE  | action mcp-merge-pr, governors plugin_prefixed
+stop-gov-mcp-merge-pr-gauntlet_only                        | orig=-                  | mine=block:F1           | AGREE  | action mcp-merge-pr, governors gauntlet_only
+stop-gov-mcp-merge-pr-lookalike                            | orig=-                  | mine=block:F1           | AGREE  | action mcp-merge-pr, governors lookalike
+stop-gov-mcp-merge-pr-args_mention                         | orig=-                  | mine=block:F1           | AGREE  | action mcp-merge-pr, governors args_mention
+stop-gov-mcp-merge-pr-scope_only                           | orig=-                  | mine=block:F1           | AGREE  | action mcp-merge-pr, governors scope_only
+stop-gov-mcp-merge-pr-upper                                | orig=-                  | mine=block:F1           | AGREE  | action mcp-merge-pr, governors upper
+stop-gov-trigger-create-av_pg_act                          | orig=-                  | mine=allow              | AGREE  | action trigger-create, governors av_pg_act
+stop-gov-trigger-create-pg_av_act                          | orig=-                  | mine=allow              | AGREE  | action trigger-create, governors pg_av_act
+stop-gov-trigger-create-act_pg_av                          | orig=-                  | mine=block:F1           | AGREE  | action trigger-create, governors act_pg_av
+stop-gov-trigger-create-pg_act                             | orig=-                  | mine=block:F1           | AGREE  | action trigger-create, governors pg_act
+stop-gov-trigger-create-av_act                             | orig=-                  | mine=block:F1           | AGREE  | action trigger-create, governors av_act
+stop-gov-trigger-create-act_av                             | orig=-                  | mine=block:F1           | AGREE  | action trigger-create, governors act_av
+stop-gov-trigger-create-prefixed                           | orig=-                  | mine=allow              | AGREE  | action trigger-create, governors prefixed
+stop-gov-trigger-create-plugin_prefixed                    | orig=-                  | mine=allow              | AGREE  | action trigger-create, governors plugin_prefixed
+stop-gov-trigger-create-gauntlet_only                      | orig=-                  | mine=block:F1           | AGREE  | action trigger-create, governors gauntlet_only
+stop-gov-trigger-create-lookalike                          | orig=-                  | mine=block:F1           | AGREE  | action trigger-create, governors lookalike
+stop-gov-trigger-create-args_mention                       | orig=-                  | mine=block:F1           | AGREE  | action trigger-create, governors args_mention
+stop-gov-trigger-create-scope_only                         | orig=-                  | mine=block:F1           | AGREE  | action trigger-create, governors scope_only
+stop-gov-trigger-create-upper                              | orig=-                  | mine=block:F1           | AGREE  | action trigger-create, governors upper
+stop-noise-thinking-mid-governed                           | orig=-                  | mine=allow              | AGREE  | noise row thinking between governed steps: must stay allow
+stop-noise-thinking-after-ungoverned                       | orig=-                  | mine=block:F1           | AGREE  | noise row thinking after an ungoverned commit: must stay block
+stop-noise-thinking-split                                  | orig=-                  | mine=allow              | AGREE  | noise row thinking must not start a new turn (allow unless it is taken for an owner message)
+pre-noise-thinking-after-ok                                | orig=-                  | mine=deny:merge-word    | AGREE  | noise row thinking carrying 'merge it' is not the owner's word
+pre-noise-thinking-after-merge                             | orig=-                  | mine=allow              | AGREE  | noise row thinking is not a newer owner message
+stop-noise-att-total_tokens_reminder-mid-governed          | orig=-                  | mine=allow              | AGREE  | noise row att-total_tokens_reminder between governed steps: must stay allow
+stop-noise-att-total_tokens_reminder-after-ungoverned      | orig=-                  | mine=block:F1           | AGREE  | noise row att-total_tokens_reminder after an ungoverned commit: must stay block
+stop-noise-att-total_tokens_reminder-split                 | orig=-                  | mine=allow              | AGREE  | noise row att-total_tokens_reminder must not start a new turn (allow unless it is taken for an owner message)
+pre-noise-att-total_tokens_reminder-after-ok               | orig=-                  | mine=deny:merge-word    | AGREE  | noise row att-total_tokens_reminder carrying 'merge it' is not the owner's word
+pre-noise-att-total_tokens_reminder-after-merge            | orig=-                  | mine=allow              | AGREE  | noise row att-total_tokens_reminder is not a newer owner message
+stop-noise-att-hook_additional_context-mid-governed        | orig=-                  | mine=allow              | AGREE  | noise row att-hook_additional_context between governed steps: must stay allow
+stop-noise-att-hook_additional_context-after-ungoverned    | orig=-                  | mine=block:F1           | AGREE  | noise row att-hook_additional_context after an ungoverned commit: must stay block
+stop-noise-att-hook_additional_context-split               | orig=-                  | mine=allow              | AGREE  | noise row att-hook_additional_context must not start a new turn (allow unless it is taken for an owner message)
+pre-noise-att-hook_additional_context-after-ok             | orig=-                  | mine=deny:merge-word    | AGREE  | noise row att-hook_additional_context carrying 'merge it' is not the owner's word
+pre-noise-att-hook_additional_context-after-merge          | orig=-                  | mine=allow              | AGREE  | noise row att-hook_additional_context is not a newer owner message
+stop-noise-att-task_reminder-mid-governed                  | orig=-                  | mine=allow              | AGREE  | noise row att-task_reminder between governed steps: must stay allow
+stop-noise-att-task_reminder-after-ungoverned              | orig=-                  | mine=block:F1           | AGREE  | noise row att-task_reminder after an ungoverned commit: must stay block
+stop-noise-att-task_reminder-split                         | orig=-                  | mine=allow              | AGREE  | noise row att-task_reminder must not start a new turn (allow unless it is taken for an owner message)
+pre-noise-att-task_reminder-after-ok                       | orig=-                  | mine=deny:merge-word    | AGREE  | noise row att-task_reminder carrying 'merge it' is not the owner's word
+pre-noise-att-task_reminder-after-merge                    | orig=-                  | mine=allow              | AGREE  | noise row att-task_reminder is not a newer owner message
+stop-noise-att-edited_text_file-mid-governed               | orig=-                  | mine=allow              | AGREE  | noise row att-edited_text_file between governed steps: must stay allow
+stop-noise-att-edited_text_file-after-ungoverned           | orig=-                  | mine=block:F1           | AGREE  | noise row att-edited_text_file after an ungoverned commit: must stay block
+stop-noise-att-edited_text_file-split                      | orig=-                  | mine=allow              | AGREE  | noise row att-edited_text_file must not start a new turn (allow unless it is taken for an owner message)
+pre-noise-att-edited_text_file-after-ok                    | orig=-                  | mine=deny:merge-word    | AGREE  | noise row att-edited_text_file carrying 'merge it' is not the owner's word
+pre-noise-att-edited_text_file-after-merge                 | orig=-                  | mine=allow              | AGREE  | noise row att-edited_text_file is not a newer owner message
+stop-noise-att-hook_success-mid-governed                   | orig=-                  | mine=allow              | AGREE  | noise row att-hook_success between governed steps: must stay allow
+stop-noise-att-hook_success-after-ungoverned               | orig=-                  | mine=block:F1           | AGREE  | noise row att-hook_success after an ungoverned commit: must stay block
+stop-noise-att-hook_success-split                          | orig=-                  | mine=allow              | AGREE  | noise row att-hook_success must not start a new turn (allow unless it is taken for an owner message)
+pre-noise-att-hook_success-after-ok                        | orig=-                  | mine=deny:merge-word    | AGREE  | noise row att-hook_success carrying 'merge it' is not the owner's word
+pre-noise-att-hook_success-after-merge                     | orig=-                  | mine=allow              | AGREE  | noise row att-hook_success is not a newer owner message
+stop-noise-att-hook_blocking_error-mid-governed            | orig=-                  | mine=allow              | AGREE  | noise row att-hook_blocking_error between governed steps: must stay allow
+stop-noise-att-hook_blocking_error-after-ungoverned        | orig=-                  | mine=block:F1           | AGREE  | noise row att-hook_blocking_error after an ungoverned commit: must stay block
+stop-noise-att-hook_blocking_error-split                   | orig=-                  | mine=allow              | AGREE  | noise row att-hook_blocking_error must not start a new turn (allow unless it is taken for an owner message)
+pre-noise-att-hook_blocking_error-after-ok                 | orig=-                  | mine=deny:merge-word    | AGREE  | noise row att-hook_blocking_error carrying 'merge it' is not the owner's word
+pre-noise-att-hook_blocking_error-after-merge              | orig=-                  | mine=allow              | AGREE  | noise row att-hook_blocking_error is not a newer owner message
+stop-noise-att-queued_command-tasknotif-mid-governed       | orig=-                  | mine=allow              | AGREE  | noise row att-queued_command-tasknotif between governed steps: must stay allow
+stop-noise-att-queued_command-tasknotif-after-ungoverned   | orig=-                  | mine=block:F1           | AGREE  | noise row att-queued_command-tasknotif after an ungoverned commit: must stay block
+stop-noise-att-queued_command-tasknotif-split              | orig=-                  | mine=allow              | AGREE  | noise row att-queued_command-tasknotif must not start a new turn (allow unless it is taken for an owner message)
+pre-noise-att-queued_command-tasknotif-after-ok            | orig=-                  | mine=deny:merge-word    | AGREE  | noise row att-queued_command-tasknotif carrying 'merge it' is not the owner's word
+pre-noise-att-queued_command-tasknotif-after-merge         | orig=-                  | mine=allow              | AGREE  | noise row att-queued_command-tasknotif is not a newer owner message
+stop-noise-att-invoked_skills-mid-governed                 | orig=-                  | mine=allow              | AGREE  | noise row att-invoked_skills between governed steps: must stay allow
+stop-noise-att-invoked_skills-after-ungoverned             | orig=-                  | mine=block:F1           | AGREE  | noise row att-invoked_skills after an ungoverned commit: must stay block
+stop-noise-att-invoked_skills-split                        | orig=-                  | mine=allow              | AGREE  | noise row att-invoked_skills must not start a new turn (allow unless it is taken for an owner message)
+pre-noise-att-invoked_skills-after-ok                      | orig=-                  | mine=deny:merge-word    | AGREE  | noise row att-invoked_skills carrying 'merge it' is not the owner's word
+pre-noise-att-invoked_skills-after-merge                   | orig=-                  | mine=allow              | AGREE  | noise row att-invoked_skills is not a newer owner message
+stop-noise-att-skill_listing-mid-governed                  | orig=-                  | mine=allow              | AGREE  | noise row att-skill_listing between governed steps: must stay allow
+stop-noise-att-skill_listing-after-ungoverned              | orig=-                  | mine=block:F1           | AGREE  | noise row att-skill_listing after an ungoverned commit: must stay block
+stop-noise-att-skill_listing-split                         | orig=-                  | mine=allow              | AGREE  | noise row att-skill_listing must not start a new turn (allow unless it is taken for an owner message)
+pre-noise-att-skill_listing-after-ok                       | orig=-                  | mine=deny:merge-word    | AGREE  | noise row att-skill_listing carrying 'merge it' is not the owner's word
+pre-noise-att-skill_listing-after-merge                    | orig=-                  | mine=allow              | AGREE  | noise row att-skill_listing is not a newer owner message
+stop-noise-att-file-mid-governed                           | orig=-                  | mine=allow              | AGREE  | noise row att-file between governed steps: must stay allow
+stop-noise-att-file-after-ungoverned                       | orig=-                  | mine=block:F1           | AGREE  | noise row att-file after an ungoverned commit: must stay block
+stop-noise-att-file-split                                  | orig=-                  | mine=allow              | AGREE  | noise row att-file must not start a new turn (allow unless it is taken for an owner message)
+pre-noise-att-file-after-ok                                | orig=-                  | mine=deny:merge-word    | AGREE  | noise row att-file carrying 'merge it' is not the owner's word
+pre-noise-att-file-after-merge                             | orig=-                  | mine=allow              | AGREE  | noise row att-file is not a newer owner message
+stop-noise-att-instructions-mid-governed                   | orig=-                  | mine=allow              | AGREE  | noise row att-instructions between governed steps: must stay allow
+stop-noise-att-instructions-after-ungoverned               | orig=-                  | mine=block:F1           | AGREE  | noise row att-instructions after an ungoverned commit: must stay block
+stop-noise-att-instructions-split                          | orig=-                  | mine=allow              | AGREE  | noise row att-instructions must not start a new turn (allow unless it is taken for an owner message)
+pre-noise-att-instructions-after-ok                        | orig=-                  | mine=deny:merge-word    | AGREE  | noise row att-instructions carrying 'merge it' is not the owner's word
+pre-noise-att-instructions-after-merge                     | orig=-                  | mine=allow              | AGREE  | noise row att-instructions is not a newer owner message
+stop-noise-sys-stop_hook_summary-mid-governed              | orig=-                  | mine=allow              | AGREE  | noise row sys-stop_hook_summary between governed steps: must stay allow
+stop-noise-sys-stop_hook_summary-after-ungoverned          | orig=-                  | mine=block:F1           | AGREE  | noise row sys-stop_hook_summary after an ungoverned commit: must stay block
+stop-noise-sys-stop_hook_summary-split                     | orig=-                  | mine=allow              | AGREE  | noise row sys-stop_hook_summary must not start a new turn (allow unless it is taken for an owner message)
+pre-noise-sys-stop_hook_summary-after-ok                   | orig=-                  | mine=deny:merge-word    | AGREE  | noise row sys-stop_hook_summary carrying 'merge it' is not the owner's word
+pre-noise-sys-stop_hook_summary-after-merge                | orig=-                  | mine=allow              | AGREE  | noise row sys-stop_hook_summary is not a newer owner message
+stop-noise-sys-compact_boundary-mid-governed               | orig=-                  | mine=allow              | AGREE  | noise row sys-compact_boundary between governed steps: must stay allow
+stop-noise-sys-compact_boundary-after-ungoverned           | orig=-                  | mine=block:F1           | AGREE  | noise row sys-compact_boundary after an ungoverned commit: must stay block
+stop-noise-sys-compact_boundary-split                      | orig=-                  | mine=allow              | AGREE  | noise row sys-compact_boundary must not start a new turn (allow unless it is taken for an owner message)
+pre-noise-sys-compact_boundary-after-ok                    | orig=-                  | mine=deny:merge-word    | AGREE  | noise row sys-compact_boundary carrying 'merge it' is not the owner's word
+pre-noise-sys-compact_boundary-after-merge                 | orig=-                  | mine=allow              | AGREE  | noise row sys-compact_boundary is not a newer owner message
+stop-noise-atis-latch-mid-governed                         | orig=-                  | mine=allow              | AGREE  | noise row atis-latch between governed steps: must stay allow
+stop-noise-atis-latch-after-ungoverned                     | orig=-                  | mine=block:F1           | AGREE  | noise row atis-latch after an ungoverned commit: must stay block
+stop-noise-atis-latch-split                                | orig=-                  | mine=allow              | AGREE  | noise row atis-latch must not start a new turn (allow unless it is taken for an owner message)
+pre-noise-atis-latch-after-ok                              | orig=-                  | mine=deny:merge-word    | AGREE  | noise row atis-latch carrying 'merge it' is not the owner's word
+pre-noise-atis-latch-after-merge                           | orig=-                  | mine=allow              | AGREE  | noise row atis-latch is not a newer owner message
+stop-noise-last-prompt-mid-governed                        | orig=-                  | mine=allow              | AGREE  | noise row last-prompt between governed steps: must stay allow
+stop-noise-last-prompt-after-ungoverned                    | orig=-                  | mine=block:F1           | AGREE  | noise row last-prompt after an ungoverned commit: must stay block
+stop-noise-last-prompt-split                               | orig=-                  | mine=allow              | AGREE  | noise row last-prompt must not start a new turn (allow unless it is taken for an owner message)
+pre-noise-last-prompt-after-ok                             | orig=-                  | mine=deny:merge-word    | AGREE  | noise row last-prompt carrying 'merge it' is not the owner's word
+pre-noise-last-prompt-after-merge                          | orig=-                  | mine=allow              | AGREE  | noise row last-prompt is not a newer owner message
+stop-noise-mode-mid-governed                               | orig=-                  | mine=allow              | AGREE  | noise row mode between governed steps: must stay allow
+stop-noise-mode-after-ungoverned                           | orig=-                  | mine=block:F1           | AGREE  | noise row mode after an ungoverned commit: must stay block
+stop-noise-mode-split                                      | orig=-                  | mine=allow              | AGREE  | noise row mode must not start a new turn (allow unless it is taken for an owner message)
+pre-noise-mode-after-ok                                    | orig=-                  | mine=deny:merge-word    | AGREE  | noise row mode carrying 'merge it' is not the owner's word
+pre-noise-mode-after-merge                                 | orig=-                  | mine=allow              | AGREE  | noise row mode is not a newer owner message
+stop-noise-queue-op-content-mid-governed                   | orig=-                  | mine=allow              | AGREE  | noise row queue-op-content between governed steps: must stay allow
+stop-noise-queue-op-content-after-ungoverned               | orig=-                  | mine=block:F1           | AGREE  | noise row queue-op-content after an ungoverned commit: must stay block
+stop-noise-queue-op-content-split                          | orig=-                  | mine=allow              | AGREE  | noise row queue-op-content must not start a new turn (allow unless it is taken for an owner message)
+pre-noise-queue-op-content-after-ok                        | orig=-                  | mine=deny:merge-word    | AGREE  | noise row queue-op-content carrying 'merge it' is not the owner's word
+pre-noise-queue-op-content-after-merge                     | orig=-                  | mine=allow              | AGREE  | noise row queue-op-content is not a newer owner message
+stop-noise-queue-op-mid-governed                           | orig=-                  | mine=allow              | AGREE  | noise row queue-op between governed steps: must stay allow
+stop-noise-queue-op-after-ungoverned                       | orig=-                  | mine=block:F1           | AGREE  | noise row queue-op after an ungoverned commit: must stay block
+stop-noise-queue-op-split                                  | orig=-                  | mine=allow              | AGREE  | noise row queue-op must not start a new turn (allow unless it is taken for an owner message)
+pre-noise-queue-op-after-ok                                | orig=-                  | mine=deny:merge-word    | AGREE  | noise row queue-op carrying 'merge it' is not the owner's word
+pre-noise-queue-op-after-merge                             | orig=-                  | mine=allow              | AGREE  | noise row queue-op is not a newer owner message
+stop-noise-tools-used-mid-governed                         | orig=-                  | mine=allow              | AGREE  | noise row tools-used between governed steps: must stay allow
+stop-noise-tools-used-after-ungoverned                     | orig=-                  | mine=block:F1           | AGREE  | noise row tools-used after an ungoverned commit: must stay block
+stop-noise-tools-used-split                                | orig=-                  | mine=allow              | AGREE  | noise row tools-used must not start a new turn (allow unless it is taken for an owner message)
+pre-noise-tools-used-after-ok                              | orig=-                  | mine=deny:merge-word    | AGREE  | noise row tools-used carrying 'merge it' is not the owner's word
+pre-noise-tools-used-after-merge                           | orig=-                  | mine=allow              | AGREE  | noise row tools-used is not a newer owner message
+stop-noise-compact-summary-mid-governed                    | orig=-                  | mine=allow              | AGREE  | noise row compact-summary between governed steps: must stay allow
+stop-noise-compact-summary-after-ungoverned                | orig=-                  | mine=block:F1           | AGREE  | noise row compact-summary after an ungoverned commit: must stay block
+stop-noise-compact-summary-split                           | orig=-                  | mine=allow              | AGREE  | noise row compact-summary must not start a new turn (allow unless it is taken for an owner message)
+pre-noise-compact-summary-after-ok                         | orig=-                  | mine=deny:merge-word    | AGREE  | noise row compact-summary carrying 'merge it' is not the owner's word
+pre-noise-compact-summary-after-merge                      | orig=-                  | mine=allow              | AGREE  | noise row compact-summary is not a newer owner message
+stop-noise-meta-str-mid-governed                           | orig=-                  | mine=allow              | AGREE  | noise row meta-str between governed steps: must stay allow
+stop-noise-meta-str-after-ungoverned                       | orig=-                  | mine=block:F1           | AGREE  | noise row meta-str after an ungoverned commit: must stay block
+stop-noise-meta-str-split                                  | orig=-                  | mine=allow              | AGREE  | noise row meta-str must not start a new turn (allow unless it is taken for an owner message)
+pre-noise-meta-str-after-ok                                | orig=-                  | mine=deny:merge-word    | AGREE  | noise row meta-str carrying 'merge it' is not the owner's word
+pre-noise-meta-str-after-merge                             | orig=-                  | mine=allow              | AGREE  | noise row meta-str is not a newer owner message
+stop-noise-meta-list-mid-governed                          | orig=-                  | mine=allow              | AGREE  | noise row meta-list between governed steps: must stay allow
+stop-noise-meta-list-after-ungoverned                      | orig=-                  | mine=block:F1           | AGREE  | noise row meta-list after an ungoverned commit: must stay block
+stop-noise-meta-list-split                                 | orig=-                  | mine=allow              | AGREE  | noise row meta-list must not start a new turn (allow unless it is taken for an owner message)
+pre-noise-meta-list-after-ok                               | orig=-                  | mine=deny:merge-word    | AGREE  | noise row meta-list carrying 'merge it' is not the owner's word
+pre-noise-meta-list-after-merge                            | orig=-                  | mine=allow              | AGREE  | noise row meta-list is not a newer owner message
+stop-noise-meta-stop-feedback-mid-governed                 | orig=-                  | mine=allow              | AGREE  | noise row meta-stop-feedback between governed steps: must stay allow
+stop-noise-meta-stop-feedback-after-ungoverned             | orig=-                  | mine=block:F1           | AGREE  | noise row meta-stop-feedback after an ungoverned commit: must stay block
+stop-noise-meta-stop-feedback-split                        | orig=-                  | mine=allow              | AGREE  | noise row meta-stop-feedback must not start a new turn (allow unless it is taken for an owner message)
+pre-noise-meta-stop-feedback-after-ok                      | orig=-                  | mine=deny:merge-word    | AGREE  | noise row meta-stop-feedback carrying 'merge it' is not the owner's word
+pre-noise-meta-stop-feedback-after-merge                   | orig=-                  | mine=allow              | AGREE  | noise row meta-stop-feedback is not a newer owner message
+stop-noise-harness-tasknotif-mid-governed                  | orig=-                  | mine=allow              | AGREE  | noise row harness-tasknotif between governed steps: must stay allow
+stop-noise-harness-tasknotif-after-ungoverned              | orig=-                  | mine=block:F1           | AGREE  | noise row harness-tasknotif after an ungoverned commit: must stay block
+stop-noise-harness-tasknotif-split                         | orig=-                  | mine=allow              | AGREE  | noise row harness-tasknotif must not start a new turn (allow unless it is taken for an owner message)
+pre-noise-harness-tasknotif-after-ok                       | orig=-                  | mine=deny:merge-word    | AGREE  | noise row harness-tasknotif carrying 'merge it' is not the owner's word
+pre-noise-harness-tasknotif-after-merge                    | orig=-                  | mine=allow              | AGREE  | noise row harness-tasknotif is not a newer owner message
+stop-noise-harness-command-name-mid-governed               | orig=-                  | mine=allow              | AGREE  | noise row harness-command-name between governed steps: must stay allow
+stop-noise-harness-command-name-after-ungoverned           | orig=-                  | mine=block:F1           | AGREE  | noise row harness-command-name after an ungoverned commit: must stay block
+stop-noise-harness-command-name-split                      | orig=-                  | mine=allow              | AGREE  | noise row harness-command-name must not start a new turn (allow unless it is taken for an owner message)
+pre-noise-harness-command-name-after-ok                    | orig=-                  | mine=deny:merge-word    | AGREE  | noise row harness-command-name carrying 'merge it' is not the owner's word
+pre-noise-harness-command-name-after-merge                 | orig=-                  | mine=allow              | AGREE  | noise row harness-command-name is not a newer owner message
+stop-noise-harness-local-stdout-mid-governed               | orig=-                  | mine=allow              | AGREE  | noise row harness-local-stdout between governed steps: must stay allow
+stop-noise-harness-local-stdout-after-ungoverned           | orig=-                  | mine=block:F1           | AGREE  | noise row harness-local-stdout after an ungoverned commit: must stay block
+stop-noise-harness-local-stdout-split                      | orig=-                  | mine=allow              | AGREE  | noise row harness-local-stdout must not start a new turn (allow unless it is taken for an owner message)
+pre-noise-harness-local-stdout-after-ok                    | orig=-                  | mine=deny:merge-word    | AGREE  | noise row harness-local-stdout carrying 'merge it' is not the owner's word
+pre-noise-harness-local-stdout-after-merge                 | orig=-                  | mine=allow              | AGREE  | noise row harness-local-stdout is not a newer owner message
+stop-own-str-i                                             | orig=-                  | mine=block:F1           | AGREE  | block iff shape 'str' is an owner message
+stop-own-str-ii                                            | orig=-                  | mine=allow              | AGREE  | allow iff shape 'str' is an owner message
+pre-own-str-word                                           | orig=-                  | mine=allow              | AGREE  | allow iff shape 'str' is an owner message
+pre-own-str-noword                                         | orig=-                  | mine=deny:merge-word    | AGREE  | deny iff shape 'str' is an owner message
+stop-own-blocks-i                                          | orig=-                  | mine=block:F1           | AGREE  | block iff shape 'blocks' is an owner message
+stop-own-blocks-ii                                         | orig=-                  | mine=allow              | AGREE  | allow iff shape 'blocks' is an owner message
+pre-own-blocks-word                                        | orig=-                  | mine=allow              | AGREE  | allow iff shape 'blocks' is an owner message
+pre-own-blocks-noword                                      | orig=-                  | mine=deny:merge-word    | AGREE  | deny iff shape 'blocks' is an owner message
+stop-own-queued-human-i                                    | orig=-                  | mine=block:F1           | AGREE  | block iff shape 'queued-human' is an owner message
+stop-own-queued-human-ii                                   | orig=-                  | mine=allow              | AGREE  | allow iff shape 'queued-human' is an owner message
+pre-own-queued-human-word                                  | orig=-                  | mine=allow              | AGREE  | allow iff shape 'queued-human' is an owner message
+pre-own-queued-human-noword                                | orig=-                  | mine=deny:merge-word    | AGREE  | deny iff shape 'queued-human' is an owner message
+stop-own-marker-mid-text-i                                 | orig=-                  | mine=block:F1           | AGREE  | block iff shape 'marker-mid-text' is an owner message
+stop-own-marker-mid-text-ii                                | orig=-                  | mine=allow              | AGREE  | allow iff shape 'marker-mid-text' is an owner message
+pre-own-marker-mid-text-word                               | orig=-                  | mine=allow              | AGREE  | allow iff shape 'marker-mid-text' is an owner message
+pre-own-marker-mid-text-noword                             | orig=-                  | mine=deny:merge-word    | AGREE  | deny iff shape 'marker-mid-text' is an owner message
+stop-own-leading-space-i                                   | orig=-                  | mine=block:F1           | AGREE  | block iff shape 'leading-space' is an owner message
+stop-own-leading-space-ii                                  | orig=-                  | mine=allow              | AGREE  | allow iff shape 'leading-space' is an owner message
+pre-own-leading-space-word                                 | orig=-                  | mine=allow              | AGREE  | allow iff shape 'leading-space' is an owner message
+pre-own-leading-space-noword                               | orig=-                  | mine=deny:merge-word    | AGREE  | deny iff shape 'leading-space' is an owner message
+stop-own-image-and-text-i                                  | orig=-                  | mine=block:F1           | AGREE  | block iff shape 'image-and-text' is an owner message
+stop-own-image-and-text-ii                                 | orig=-                  | mine=allow              | AGREE  | allow iff shape 'image-and-text' is an owner message
+pre-own-image-and-text-word                                | orig=-                  | mine=allow              | AGREE  | allow iff shape 'image-and-text' is an owner message
+pre-own-image-and-text-noword                              | orig=-                  | mine=deny:merge-word    | AGREE  | deny iff shape 'image-and-text' is an owner message
+stop-own-image-only-i                                      | orig=-                  | mine=allow              | AGREE  | block iff shape 'image-only' is an owner message
+stop-own-image-only-ii                                     | orig=-                  | mine=block:F1           | AGREE  | allow iff shape 'image-only' is an owner message
+pre-own-image-only-word                                    | orig=-                  | mine=deny:merge-word    | AGREE  | allow iff shape 'image-only' is an owner message
+pre-own-image-only-noword                                  | orig=-                  | mine=allow              | AGREE  | deny iff shape 'image-only' is an owner message
+stop-own-blank-i                                           | orig=-                  | mine=allow              | AGREE  | block iff shape 'blank' is an owner message
+stop-own-blank-ii                                          | orig=-                  | mine=block:F1           | AGREE  | allow iff shape 'blank' is an owner message
+pre-own-blank-word                                         | orig=-                  | mine=deny:merge-word    | AGREE  | allow iff shape 'blank' is an owner message
+pre-own-blank-noword                                       | orig=-                  | mine=allow              | AGREE  | deny iff shape 'blank' is an owner message
+stop-own-interrupt-i                                       | orig=-                  | mine=allow              | AGREE  | block iff shape 'interrupt' is an owner message
+stop-own-interrupt-ii                                      | orig=-                  | mine=block:F1           | AGREE  | allow iff shape 'interrupt' is an owner message
+pre-own-interrupt-word                                     | orig=-                  | mine=deny:merge-word    | AGREE  | allow iff shape 'interrupt' is an owner message
+pre-own-interrupt-noword                                   | orig=-                  | mine=allow              | AGREE  | deny iff shape 'interrupt' is an owner message
+stop-own-sidechain-i                                       | orig=-                  | mine=allow              | AGREE  | block iff shape 'sidechain' is an owner message
+stop-own-sidechain-ii                                      | orig=-                  | mine=block:F1           | AGREE  | allow iff shape 'sidechain' is an owner message
+pre-own-sidechain-word                                     | orig=-                  | mine=deny:merge-word    | AGREE  | allow iff shape 'sidechain' is an owner message
+pre-own-sidechain-noword                                   | orig=-                  | mine=allow              | AGREE  | deny iff shape 'sidechain' is an owner message
+stop-own-slash-meta-i                                      | orig=-                  | mine=allow              | AGREE  | block iff shape 'slash-meta' is an owner message
+stop-own-slash-meta-ii                                     | orig=-                  | mine=block:F1           | AGREE  | allow iff shape 'slash-meta' is an owner message
+pre-own-slash-meta-word                                    | orig=-                  | mine=deny:merge-word    | AGREE  | allow iff shape 'slash-meta' is an owner message
+pre-own-slash-meta-noword                                  | orig=-                  | mine=allow              | AGREE  | deny iff shape 'slash-meta' is an owner message
+stop-own-result-plus-text-i                                | orig=-                  | mine=allow              | AGREE  | block iff shape 'result-plus-text' is an owner message
+stop-own-result-plus-text-ii                               | orig=-                  | mine=block:F1           | AGREE  | allow iff shape 'result-plus-text' is an owner message
+pre-own-result-plus-text-word                              | orig=-                  | mine=deny:merge-word    | AGREE  | allow iff shape 'result-plus-text' is an owner message
+pre-own-result-plus-text-noword                            | orig=-                  | mine=allow              | AGREE  | deny iff shape 'result-plus-text' is an owner message
+stop-own-sysreminder-str-i                                 | orig=-                  | mine=allow              | AGREE  | block iff shape 'sysreminder-str' is an owner message
+stop-own-sysreminder-str-ii                                | orig=-                  | mine=block:F1           | AGREE  | allow iff shape 'sysreminder-str' is an owner message
+pre-own-sysreminder-str-word                               | orig=-                  | mine=deny:merge-word    | AGREE  | allow iff shape 'sysreminder-str' is an owner message
+pre-own-sysreminder-str-noword                             | orig=-                  | mine=allow              | AGREE  | deny iff shape 'sysreminder-str' is an owner message
+stop-sched-sched-linked-i                                  | orig=-                  | mine=allow              | AGREE  | allow iff 'sched-linked' starts a scheduled run
+stop-sched-sched-linked-ii                                 | orig=-                  | mine=block:F1           | AGREE  | block iff 'sched-linked' starts a scheduled run
+pre-sched-sched-linked-after-merge-word                    | orig=-                  | mine=deny:scheduled     | AGREE  | deny:scheduled iff 'sched-linked' starts a scheduled run, else allow
+pre-sched-sched-linked-after-ok                            | orig=-                  | mine=deny:scheduled     | AGREE  | deny:scheduled iff 'sched-linked' starts a scheduled run, else deny:merge-word
+pre-sched-sched-linked-then-owner-merge                    | orig=-                  | mine=allow              | AGREE  | owner message after the notification: allow
+pre-sched-sched-linked-then-owner-ok                       | orig=-                  | mine=deny:merge-word    | AGREE  | owner message after the notification: deny:merge-word
+stop-sched-sched-orphan-i                                  | orig=-                  | mine=allow              | AGREE  | allow iff 'sched-orphan' starts a scheduled run
+stop-sched-sched-orphan-ii                                 | orig=-                  | mine=block:F1           | AGREE  | block iff 'sched-orphan' starts a scheduled run
+pre-sched-sched-orphan-after-merge-word                    | orig=-                  | mine=deny:scheduled     | AGREE  | deny:scheduled iff 'sched-orphan' starts a scheduled run, else allow
+pre-sched-sched-orphan-after-ok                            | orig=-                  | mine=deny:scheduled     | AGREE  | deny:scheduled iff 'sched-orphan' starts a scheduled run, else deny:merge-word
+pre-sched-sched-orphan-then-owner-merge                    | orig=-                  | mine=allow              | AGREE  | owner message after the notification: allow
+pre-sched-sched-orphan-then-owner-ok                       | orig=-                  | mine=deny:merge-word    | AGREE  | owner message after the notification: deny:merge-word
+stop-sched-github-linked-i                                 | orig=-                  | mine=block:F1           | AGREE  | allow iff 'github-linked' starts a scheduled run
+stop-sched-github-linked-ii                                | orig=-                  | mine=allow              | AGREE  | block iff 'github-linked' starts a scheduled run
+pre-sched-github-linked-after-merge-word                   | orig=-                  | mine=allow              | AGREE  | deny:scheduled iff 'github-linked' starts a scheduled run, else allow
+pre-sched-github-linked-after-ok                           | orig=-                  | mine=deny:merge-word    | AGREE  | deny:scheduled iff 'github-linked' starts a scheduled run, else deny:merge-word
+pre-sched-github-linked-then-owner-merge                   | orig=-                  | mine=allow              | AGREE  | owner message after the notification: allow
+pre-sched-github-linked-then-owner-ok                      | orig=-                  | mine=deny:merge-word    | AGREE  | owner message after the notification: deny:merge-word
+stop-sched-no-header-i                                     | orig=-                  | mine=block:F1           | AGREE  | allow iff 'no-header' starts a scheduled run
+stop-sched-no-header-ii                                    | orig=-                  | mine=allow              | AGREE  | block iff 'no-header' starts a scheduled run
+pre-sched-no-header-after-merge-word                       | orig=-                  | mine=allow              | AGREE  | deny:scheduled iff 'no-header' starts a scheduled run, else allow
+pre-sched-no-header-after-ok                               | orig=-                  | mine=deny:merge-word    | AGREE  | deny:scheduled iff 'no-header' starts a scheduled run, else deny:merge-word
+pre-sched-no-header-then-owner-merge                       | orig=-                  | mine=allow              | AGREE  | owner message after the notification: allow
+pre-sched-no-header-then-owner-ok                          | orig=-                  | mine=deny:merge-word    | AGREE  | owner message after the notification: deny:merge-word
+stop-sched-sched-text-via-bash-i                           | orig=-                  | mine=block:F1           | AGREE  | allow iff 'sched-text-via-bash' starts a scheduled run
+stop-sched-sched-text-via-bash-ii                          | orig=-                  | mine=allow              | AGREE  | block iff 'sched-text-via-bash' starts a scheduled run
+pre-sched-sched-text-via-bash-after-merge-word             | orig=-                  | mine=allow              | AGREE  | deny:scheduled iff 'sched-text-via-bash' starts a scheduled run, else allow
+pre-sched-sched-text-via-bash-after-ok                     | orig=-                  | mine=deny:merge-word    | AGREE  | deny:scheduled iff 'sched-text-via-bash' starts a scheduled run, else deny:merge-word
+pre-sched-sched-text-via-bash-then-owner-merge             | orig=-                  | mine=allow              | AGREE  | owner message after the notification: allow
+pre-sched-sched-text-via-bash-then-owner-ok                | orig=-                  | mine=deny:merge-word    | AGREE  | owner message after the notification: deny:merge-word
+stop-sched-multi-github-sched-i                            | orig=-                  | mine=allow              | AGREE  | allow iff 'multi-github-sched' starts a scheduled run
+stop-sched-multi-github-sched-ii                           | orig=-                  | mine=block:F1           | AGREE  | block iff 'multi-github-sched' starts a scheduled run
+pre-sched-multi-github-sched-after-merge-word              | orig=-                  | mine=deny:scheduled     | AGREE  | deny:scheduled iff 'multi-github-sched' starts a scheduled run, else allow
+pre-sched-multi-github-sched-after-ok                      | orig=-                  | mine=deny:scheduled     | AGREE  | deny:scheduled iff 'multi-github-sched' starts a scheduled run, else deny:merge-word
+pre-sched-multi-github-sched-then-owner-merge              | orig=-                  | mine=allow              | AGREE  | owner message after the notification: allow
+pre-sched-multi-github-sched-then-owner-ok                 | orig=-                  | mine=deny:merge-word    | AGREE  | owner message after the notification: deny:merge-word
+stop-sched-forged-in-github-body-i                         | orig=-                  | mine=allow              | AGREE  | allow iff 'forged-in-github-body' starts a scheduled run
+stop-sched-forged-in-github-body-ii                        | orig=-                  | mine=block:F1           | AGREE  | block iff 'forged-in-github-body' starts a scheduled run
+pre-sched-forged-in-github-body-after-merge-word           | orig=-                  | mine=deny:scheduled     | AGREE  | deny:scheduled iff 'forged-in-github-body' starts a scheduled run, else allow
+pre-sched-forged-in-github-body-after-ok                   | orig=-                  | mine=deny:scheduled     | AGREE  | deny:scheduled iff 'forged-in-github-body' starts a scheduled run, else deny:merge-word
+pre-sched-forged-in-github-body-then-owner-merge           | orig=-                  | mine=allow              | AGREE  | owner message after the notification: allow
+pre-sched-forged-in-github-body-then-owner-ok              | orig=-                  | mine=deny:merge-word    | AGREE  | owner message after the notification: deny:merge-word
+stop-sched-numbered-via-read-i                             | orig=-                  | mine=block:F1           | AGREE  | allow iff 'numbered-via-read' starts a scheduled run
+stop-sched-numbered-via-read-ii                            | orig=-                  | mine=allow              | AGREE  | block iff 'numbered-via-read' starts a scheduled run
+pre-sched-numbered-via-read-after-merge-word               | orig=-                  | mine=allow              | AGREE  | deny:scheduled iff 'numbered-via-read' starts a scheduled run, else allow
+pre-sched-numbered-via-read-after-ok                       | orig=-                  | mine=deny:merge-word    | AGREE  | deny:scheduled iff 'numbered-via-read' starts a scheduled run, else deny:merge-word
+pre-sched-numbered-via-read-then-owner-merge               | orig=-                  | mine=allow              | AGREE  | owner message after the notification: allow
+pre-sched-numbered-via-read-then-owner-ok                  | orig=-                  | mine=deny:merge-word    | AGREE  | owner message after the notification: deny:merge-word
+stop-sched-sched-list-content-i                            | orig=-                  | mine=allow              | AGREE  | allow iff 'sched-list-content' starts a scheduled run
+stop-sched-sched-list-content-ii                           | orig=-                  | mine=block:F1           | AGREE  | block iff 'sched-list-content' starts a scheduled run
+pre-sched-sched-list-content-after-merge-word              | orig=-                  | mine=deny:scheduled     | AGREE  | deny:scheduled iff 'sched-list-content' starts a scheduled run, else allow
+pre-sched-sched-list-content-after-ok                      | orig=-                  | mine=deny:scheduled     | AGREE  | deny:scheduled iff 'sched-list-content' starts a scheduled run, else deny:merge-word
+pre-sched-sched-list-content-then-owner-merge              | orig=-                  | mine=allow              | AGREE  | owner message after the notification: allow
+pre-sched-sched-list-content-then-owner-ok                 | orig=-                  | mine=deny:merge-word    | AGREE  | owner message after the notification: deny:merge-word
+stop-sched-indented-header-i                               | orig=-                  | mine=block:F1           | AGREE  | allow iff 'indented-header' starts a scheduled run
+stop-sched-indented-header-ii                              | orig=-                  | mine=allow              | AGREE  | block iff 'indented-header' starts a scheduled run
+pre-sched-indented-header-after-merge-word                 | orig=-                  | mine=allow              | AGREE  | deny:scheduled iff 'indented-header' starts a scheduled run, else allow
+pre-sched-indented-header-after-ok                         | orig=-                  | mine=deny:merge-word    | AGREE  | deny:scheduled iff 'indented-header' starts a scheduled run, else deny:merge-word
+pre-sched-indented-header-then-owner-merge                 | orig=-                  | mine=allow              | AGREE  | owner message after the notification: allow
+pre-sched-indented-header-then-owner-ok                    | orig=-                  | mine=deny:merge-word    | AGREE  | owner message after the notification: deny:merge-word
+stop-sched-header-without-dashes-i                         | orig=-                  | mine=block:F1           | AGREE  | allow iff 'header-without-dashes' starts a scheduled run
+stop-sched-header-without-dashes-ii                        | orig=-                  | mine=allow              | AGREE  | block iff 'header-without-dashes' starts a scheduled run
+pre-sched-header-without-dashes-after-merge-word           | orig=-                  | mine=allow              | AGREE  | deny:scheduled iff 'header-without-dashes' starts a scheduled run, else allow
+pre-sched-header-without-dashes-after-ok                   | orig=-                  | mine=deny:merge-word    | AGREE  | deny:scheduled iff 'header-without-dashes' starts a scheduled run, else deny:merge-word
+pre-sched-header-without-dashes-then-owner-merge           | orig=-                  | mine=allow              | AGREE  | owner message after the notification: allow
+pre-sched-header-without-dashes-then-owner-ok              | orig=-                  | mine=deny:merge-word    | AGREE  | owner message after the notification: deny:merge-word
+stop-sched-bare-header-orphan-i                            | orig=-                  | mine=block:F1           | AGREE  | allow iff 'bare-header-orphan' starts a scheduled run
+stop-sched-bare-header-orphan-ii                           | orig=-                  | mine=allow              | AGREE  | block iff 'bare-header-orphan' starts a scheduled run
+pre-sched-bare-header-orphan-after-merge-word              | orig=-                  | mine=allow              | AGREE  | deny:scheduled iff 'bare-header-orphan' starts a scheduled run, else allow
+pre-sched-bare-header-orphan-after-ok                      | orig=-                  | mine=deny:merge-word    | AGREE  | deny:scheduled iff 'bare-header-orphan' starts a scheduled run, else deny:merge-word
+pre-sched-bare-header-orphan-then-owner-merge              | orig=-                  | mine=allow              | AGREE  | owner message after the notification: allow
+pre-sched-bare-header-orphan-then-owner-ok                 | orig=-                  | mine=deny:merge-word    | AGREE  | owner message after the notification: deny:merge-word
+pre-sched-click-inside-run                                 | orig=-                  | mine=deny:scheduled     | AGREE  | click inside a scheduled run
+pre-sched-gh-form                                          | orig=-                  | mine=deny:scheduled     | AGREE  | scheduled run, shell merge
+pre-sched-not-a-merge                                      | orig=-                  | mine=allow              | AGREE  | scheduled run, a non-merge tool passes
+stop-misc-active-ungoverned-commit                         | orig=-                  | mine=allow              | AGREE  | stop_hook_active true => allow
+stop-misc-active-ungoverned-merge                          | orig=-                  | mine=allow              | AGREE  | stop_hook_active true => allow
+stop-misc-denied-merge-only                                | orig=-                  | mine=allow              | AGREE  | the only outward call was DENIED (is_error): the turn took no outward action
+stop-misc-failed-create-pr                                 | orig=-                  | mine=allow              | AGREE  | the only outward call FAILED (is_error)
+stop-misc-failed-push                                      | orig=-                  | mine=block:F1           | AGREE  | a Bash push that exited non-zero (I still count Bash)
+stop-misc-multiblock-plan-then-commit                      | orig=-                  | mine=allow              | AGREE  | one assistant row, blocks [Skill plan-gate, Bash commit]
+stop-misc-multiblock-commit-then-plan                      | orig=-                  | mine=block:F1           | AGREE  | one assistant row, blocks [Bash commit, Skill plan-gate]
+stop-misc-empty-transcript                                 | orig=-                  | mine=allow              | AGREE  | empty transcript
+stop-misc-no-owner-commit                                  | orig=-                  | mine=block:F1           | AGREE  | no owner message at all, an ungoverned commit
+stop-misc-missing-file                                     | orig=-                  | mine=allow              | AGREE  | transcript path does not exist => fail open
+stop-misc-garbage-line-first                               | orig=-                  | mine=block:F1           | AGREE  | a malformed first line, then an ungoverned commit
+stop-misc-truncated-last-line                              | orig=-                  | mine=block:F1           | AGREE  | ungoverned commit, then a half-written last line (a row caught mid-append)
+stop-misc-nondict-line                                     | orig=-                  | mine=block:F1           | AGREE  | a JSON line that is a list, then an ungoverned commit
+stop-misc-prev-governed-now-not                            | orig=-                  | mine=block:F1           | AGREE  | the previous turn's loads do not carry over
+stop-misc-prev-ungoverned-now-trivia                       | orig=-                  | mine=allow              | AGREE  | an ungoverned commit in an EARLIER turn is not this turn's
+stop-misc-compaction-between-load-and-action               | orig=-                  | mine=allow              | AGREE  | plan-gate loaded, then a compaction, then the commit (hook docstring: still counts; doctrine: reload)
+stop-misc-skill-key-command                                | orig=-                  | mine=allow              | AGREE  | Skill input under key 'command' instead of 'skill'
+stop-misc-skill-slash-name                                 | orig=-                  | mine=allow              | AGREE  | Skill input with a leading slash
+stop-misc-governed-wording-ungoverned-commit               | orig=-                  | mine=block:F1           | AGREE  | governed-class wording AND an ungoverned commit: which block reason does the original give?
+stop-misc-two-outward-plan-between                         | orig=-                  | mine=block:F1           | AGREE  | plan-gate between the first and the second outward action => block (before the FIRST)
+stop-misc-text-only                                        | orig=-                  | mine=allow              | AGREE  | trivia
+pre-word-000                                               | orig=-                  | mine=allow              | AGREE  | owner says 'merge it'
+pre-word-001                                               | orig=-                  | mine=allow              | AGREE  | owner says 'Merge PR #34'
+pre-word-002                                               | orig=-                  | mine=deny:merge-word    | AGREE  | owner says 'ok'
+pre-word-003                                               | orig=-                  | mine=deny:merge-word    | AGREE  | owner says 'proceed'
+pre-word-004                                               | orig=-                  | mine=deny:merge-word    | AGREE  | owner says "I've uploaded, proceed"
+pre-word-005                                               | orig=-                  | mine=deny:merge-word    | AGREE  | owner says 'Do not merge yet'
+pre-word-006                                               | orig=-                  | mine=deny:merge-word    | AGREE  | owner says "don't merge"
+pre-word-007                                               | orig=-                  | mine=deny:merge-word    | AGREE  | owner says 'please do NOT merge this'
+pre-word-008                                               | orig=-                  | mine=deny:merge-word    | AGREE  | owner says 'never merge without my word'
+pre-word-009                                               | orig=-                  | mine=allow              | AGREE  | owner says 'MERGE'
+pre-word-010                                               | orig=-                  | mine=allow              | AGREE  | owner says 'merge.'
+pre-word-011                                               | orig=-                  | mine=allow              | AGREE  | owner says 'merge-and-report'
+pre-word-012                                               | orig=-                  | mine=deny:merge-word    | AGREE  | owner says 'merged?'
+pre-word-013                                               | orig=-                  | mine=deny:merge-word    | AGREE  | owner says 'is it mergeable'
+pre-word-014                                               | orig=-                  | mine=deny:merge-word    | AGREE  | owner says 'merging is fine'
+pre-word-015                                               | orig=-                  | mine=deny:merge-word    | AGREE  | owner says 'emerge'
+pre-word-016                                               | orig=-                  | mine=deny:merge-word    | AGREE  | owner says 'merge_pull_request'
+pre-word-017                                               | orig=-                  | mine=deny:merge-word    | AGREE  | owner says 'No. Merge it.'
+pre-word-018                                               | orig=-                  | mine=allow              | AGREE  | owner says 'I do not care about CI, merge it'
+pre-word-019                                               | orig=-                  | mine=allow              | AGREE  | owner says 'merge? no'
+pre-word-020                                               | orig=-                  | mine=allow              | AGREE  | owner says 'Merge? Not yet — wait for CI.'
+pre-word-021                                               | orig=-                  | mine=allow              | AGREE  | owner says 'should we merge or wait?'
+pre-word-022                                               | orig=-                  | mine=allow              | AGREE  | owner says 'hold off on the merge'
+pre-word-023                                               | orig=-                  | mine=allow              | AGREE  | owner says 'wait before you merge'
+pre-word-024                                               | orig=-                  | mine=allow              | AGREE  | owner says 'go ahead and merge both'
+pre-word-025                                               | orig=-                  | mine=allow              | AGREE  | owner says 'yes, merge #34 and #141'
+pre-word-026                                               | orig=-                  | mine=deny:merge-word    | AGREE  | owner says "can't merge yet"
+pre-word-027                                               | orig=-                  | mine=deny:merge-word    | AGREE  | owner says 'we can not merge until CI passes'
+pre-word-028                                               | orig=-                  | mine=deny:merge-word    | AGREE  | owner says "won't merge"
+pre-word-029                                               | orig=-                  | mine=deny:merge-word    | AGREE  | owner says "shouldn't merge"
+pre-word-030                                               | orig=-                  | mine=deny:merge-word    | AGREE  | owner says 'no merge'
+pre-word-031                                               | orig=-                  | mine=deny:merge-word    | AGREE  | owner says 'ship it without a merge commit'
+pre-word-032                                               | orig=-                  | mine=deny:merge-word    | AGREE  | owner says 'nothing merged without my word'
+pre-word-033                                               | orig=-                  | mine=allow              | AGREE  | owner says 'Merge\nplease'
+pre-word-034                                               | orig=-                  | mine=allow              | AGREE  | owner says '  merge  '
+pre-word-035                                               | orig=-                  | mine=allow              | AGREE  | owner says 'mErGe'
+pre-word-036                                               | orig=-                  | mine=allow              | AGREE  | owner says "let's merge!"
+pre-word-037                                               | orig=-                  | mine=allow              | AGREE  | owner says 'the merge can go ahead'
+pre-word-038                                               | orig=-                  | mine=allow              | AGREE  | owner says 'run the pre-merge checks only'
+pre-word-039                                               | orig=-                  | mine=deny:merge-word    | AGREE  | owner says 'unmerge'
+pre-word-040                                               | orig=-                  | mine=allow              | AGREE  | owner says 'CI log says: Merge pull request #12 from x/y. What does that mean?'
+pre-word-041                                               | orig=-                  | mine=deny:merge-word    | AGREE  | owner says 'dont merge'
+pre-word-042                                               | orig=-                  | mine=deny:merge-word    | AGREE  | owner says 'Don’t merge yet'
+pre-word-043                                               | orig=-                  | mine=deny:merge-word    | AGREE  | owner says 'don’t merge'
+pre-word-044                                               | orig=-                  | mine=deny:merge-word    | AGREE  | owner says 'Can’t merge yet'
+pre-word-045                                               | orig=-                  | mine=deny:merge-word    | AGREE  | owner says 'do not\nmerge'
+pre-word-046                                               | orig=-                  | mine=deny:merge-word    | AGREE  | owner says "DON'T MERGE"
+pre-word-047                                               | orig=-                  | mine=deny:merge-word    | AGREE  | owner says 'Do NOT merge.'
+pre-word-048                                               | orig=-                  | mine=deny:merge-word    | AGREE  | owner says 'No merge yet.'
+pre-word-049                                               | orig=-                  | mine=deny:merge-word    | AGREE  | owner says 'never, ever merge on your own'
+pre-word-050                                               | orig=-                  | mine=allow              | AGREE  | owner says 'do not under any circumstances merge this'
+pre-word-051                                               | orig=-                  | mine=allow              | AGREE  | owner says "I don't think we should merge"
+pre-word-052                                               | orig=-                  | mine=allow              | AGREE  | owner says "I don't think we should merge this yet"
+pre-word-053                                               | orig=-                  | mine=allow              | AGREE  | owner says "Please don't go ahead and merge it"
+pre-word-054                                               | orig=-                  | mine=deny:merge-word    | AGREE  | owner says 'not ready, so do not go and merge'
+pre-word-055                                               | orig=-                  | mine=deny:merge-word    | AGREE  | owner says 'yes'
+pre-word-056                                               | orig=-                  | mine=deny:merge-word    | AGREE  | owner says 'go'
+pre-word-057                                               | orig=-                  | mine=deny:merge-word    | AGREE  | owner says 'ship it'
+pre-word-058                                               | orig=-                  | mine=deny:merge-word    | AGREE  | owner says 'do it'
+pre-word-059                                               | orig=-                  | mine=deny:merge-word    | AGREE  | owner says 'approved'
+pre-word-060                                               | orig=-                  | mine=deny:merge-word    | AGREE  | owner says 'LGTM'
+pre-word-061                                               | orig=-                  | mine=allow              | AGREE  | owner says 'squash and merge'
+pre-word-062                                               | orig=-                  | mine=allow              | AGREE  | owner says 'merge when CI is green'
+pre-word-063                                               | orig=-                  | mine=deny:merge-word    | AGREE  | owner says 'Stop. Do not merge.'
+pre-word-064                                               | orig=-                  | mine=allow              | AGREE  | owner says "merge it, don't wait"
+pre-word-065                                               | orig=-                  | mine=deny:merge-word    | AGREE  | owner says "don't wait, merge it"
+pre-word-066                                               | orig=-                  | mine=deny:merge-word    | AGREE  | owner says 'I would rather you did not merge'
+pre-word-067                                               | orig=-                  | mine=deny:merge-word    | AGREE  | owner says 'we never merge on Fridays'
+pre-word-068                                               | orig=-                  | mine=allow              | AGREE  | owner says 'no need to wait, merge'
+pre-word-069                                               | orig=-                  | mine=deny:merge-word    | AGREE  | owner says 'not now. merge tomorrow'
+pre-word-070                                               | orig=-                  | mine=allow              | AGREE  | owner says 'MERGE IT NOW'
+pre-word-071                                               | orig=-                  | mine=allow              | AGREE  | owner says 'Merge!'
+pre-word-072                                               | orig=-                  | mine=allow              | AGREE  | owner says '(merge)'
+pre-word-073                                               | orig=-                  | mine=allow              | AGREE  | owner says '"merge"'
+pre-word-074                                               | orig=-                  | mine=allow              | AGREE  | owner says 'merge/squash'
+pre-word-075                                               | orig=-                  | mine=allow              | AGREE  | owner says 're-merge'
+pre-word-076                                               | orig=-                  | mine=deny:merge-word    | AGREE  | owner says 'merge2'
+pre-word-077                                               | orig=-                  | mine=deny:merge-word    | AGREE  | owner says '2merge'
+pre-word-078                                               | orig=-                  | mine=allow              | AGREE  | owner says 'merge—now'
+pre-word-079                                               | orig=-                  | mine=deny:merge-word    | AGREE  | owner says 'm e r g e'
+pre-word-080                                               | orig=-                  | mine=deny:merge-word    | AGREE  | owner says 'merg'
+pre-word-081                                               | orig=-                  | mine=allow              | AGREE  | owner says 'the word is: merge'
+pre-word-082                                               | orig=-                  | mine=deny:merge-word    | AGREE  | owner says 'nope'
+pre-word-083                                               | orig=-                  | mine=deny:merge-word    | AGREE  | owner says 'mergeit'
+pre-word-084                                               | orig=-                  | mine=allow              | AGREE  | owner says 'Merge-freeze is on'
+pre-word-085                                               | orig=-                  | mine=allow              | AGREE  | owner says 'auto-merge it'
+pre-word-086                                               | orig=-                  | mine=allow              | AGREE  | owner says "isn't it time to merge?"
+pre-word-087                                               | orig=-                  | mine=deny:merge-word    | AGREE  | owner says 'why not merge?'
+pre-word-088                                               | orig=-                  | mine=deny:merge-word    | AGREE  | owner says 'there is no reason not to merge'
+pre-word-GH-merge-it                                       | orig=-                  | mine=allow              | AGREE  | owner says 'merge it', mcp__GH server
+pre-word-gh-merge-it                                       | orig=-                  | mine=allow              | AGREE  | owner says 'merge it', shell form
+pre-word-blocks-merge-it                                   | orig=-                  | mine=allow              | AGREE  | owner says 'merge it' (list-of-blocks content)
+pre-word-GH-ok                                             | orig=-                  | mine=deny:merge-word    | AGREE  | owner says 'ok', mcp__GH server
+pre-word-gh-ok                                             | orig=-                  | mine=deny:merge-word    | AGREE  | owner says 'ok', shell form
+pre-word-blocks-ok                                         | orig=-                  | mine=deny:merge-word    | AGREE  | owner says 'ok' (list-of-blocks content)
+pre-word-GH-Do-not-merge-yet                               | orig=-                  | mine=deny:merge-word    | AGREE  | owner says 'Do not merge yet', mcp__GH server
+pre-word-gh-Do-not-merge-yet                               | orig=-                  | mine=deny:merge-word    | AGREE  | owner says 'Do not merge yet', shell form
+pre-word-blocks-Do-not-merge-yet                           | orig=-                  | mine=deny:merge-word    | AGREE  | owner says 'Do not merge yet' (list-of-blocks content)
+pre-word-GH-Don-t-merge-yet                                | orig=-                  | mine=deny:merge-word    | AGREE  | owner says 'Don’t merge yet', mcp__GH server
+pre-word-gh-Don-t-merge-yet                                | orig=-                  | mine=deny:merge-word    | AGREE  | owner says 'Don’t merge yet', shell form
+pre-word-blocks-Don-t-merge-yet                            | orig=-                  | mine=deny:merge-word    | AGREE  | owner says 'Don’t merge yet' (list-of-blocks content)
+pre-word-GH-merged-                                        | orig=-                  | mine=deny:merge-word    | AGREE  | owner says 'merged?', mcp__GH server
+pre-word-gh-merged-                                        | orig=-                  | mine=deny:merge-word    | AGREE  | owner says 'merged?', shell form
+pre-word-blocks-merged-                                    | orig=-                  | mine=deny:merge-word    | AGREE  | owner says 'merged?' (list-of-blocks content)
+pre-word-GH-yes                                            | orig=-                  | mine=deny:merge-word    | AGREE  | owner says 'yes', mcp__GH server
+pre-word-gh-yes                                            | orig=-                  | mine=deny:merge-word    | AGREE  | owner says 'yes', shell form
+pre-word-blocks-yes                                        | orig=-                  | mine=deny:merge-word    | AGREE  | owner says 'yes' (list-of-blocks content)
+pre-neg-00                                                 | orig=-                  | mine=deny:merge-word    | AGREE  | negation list probe: 'no' directly before the word
+pre-neg-01                                                 | orig=-                  | mine=deny:merge-word    | AGREE  | negation list probe: 'not' directly before the word
+pre-neg-02                                                 | orig=-                  | mine=deny:merge-word    | AGREE  | negation list probe: 'never' directly before the word
+pre-neg-03                                                 | orig=-                  | mine=deny:merge-word    | AGREE  | negation list probe: "don't" directly before the word
+pre-neg-04                                                 | orig=-                  | mine=deny:merge-word    | AGREE  | negation list probe: 'dont' directly before the word
+pre-neg-05                                                 | orig=-                  | mine=deny:merge-word    | AGREE  | negation list probe: 'don’t' directly before the word
+pre-neg-06                                                 | orig=-                  | mine=deny:merge-word    | AGREE  | negation list probe: "doesn't" directly before the word
+pre-neg-07                                                 | orig=-                  | mine=deny:merge-word    | AGREE  | negation list probe: "won't" directly before the word
+pre-neg-08                                                 | orig=-                  | mine=deny:merge-word    | AGREE  | negation list probe: "can't" directly before the word
+pre-neg-09                                                 | orig=-                  | mine=deny:merge-word    | AGREE  | negation list probe: 'cannot' directly before the word
+pre-neg-10                                                 | orig=-                  | mine=deny:merge-word    | AGREE  | negation list probe: "shouldn't" directly before the word
+pre-neg-11                                                 | orig=-                  | mine=deny:merge-word    | AGREE  | negation list probe: "wouldn't" directly before the word
+pre-neg-12                                                 | orig=-                  | mine=deny:merge-word    | AGREE  | negation list probe: 'without' directly before the word
+pre-neg-13                                                 | orig=-                  | mine=deny:merge-word    | AGREE  | negation list probe: 'neither' directly before the word
+pre-neg-14                                                 | orig=-                  | mine=deny:merge-word    | AGREE  | negation list probe: 'nor' directly before the word
+pre-neg-15                                                 | orig=-                  | mine=allow              | AGREE  | negation list probe: 'hold' directly before the word
+pre-neg-16                                                 | orig=-                  | mine=allow              | AGREE  | negation list probe: 'wait' directly before the word
+pre-neg-17                                                 | orig=-                  | mine=allow              | AGREE  | negation list probe: 'stop' directly before the word
+pre-neg-18                                                 | orig=-                  | mine=deny:merge-word    | AGREE  | negation list probe: "isn't" directly before the word
+pre-neg-19                                                 | orig=-                  | mine=deny:merge-word    | AGREE  | negation list probe: "didn't" directly before the word
+pre-neg-20                                                 | orig=-                  | mine=deny:merge-word    | AGREE  | negation list probe: "mustn't" directly before the word
+pre-neg-21                                                 | orig=-                  | mine=allow              | AGREE  | negation list probe: 'nothing' directly before the word
+pre-neg-22                                                 | orig=-                  | mine=allow              | AGREE  | negation list probe: 'none' directly before the word
+pre-neg-23                                                 | orig=-                  | mine=allow              | AGREE  | negation list probe: 'nobody' directly before the word
+pre-neg-24                                                 | orig=-                  | mine=allow              | AGREE  | negation list probe: 'hardly' directly before the word
+pre-neg-25                                                 | orig=-                  | mine=allow              | AGREE  | negation list probe: 'avoid' directly before the word
+pre-neg-26                                                 | orig=-                  | mine=allow              | AGREE  | negation list probe: 'refuse' directly before the word
+pre-neg-27                                                 | orig=-                  | mine=allow              | AGREE  | negation list probe: 'nt' directly before the word
+pre-neg-28                                                 | orig=-                  | mine=deny:merge-word    | AGREE  | negation list probe: 'didn’t' directly before the word
+pre-neg-29                                                 | orig=-                  | mine=deny:merge-word    | AGREE  | negation list probe: 'NOT' directly before the word
+pre-neg-30                                                 | orig=-                  | mine=deny:merge-word    | AGREE  | negation list probe: 'No' directly before the word
+pre-neg-31                                                 | orig=-                  | mine=deny:merge-word    | AGREE  | negation list probe: "couldn't" directly before the word
+pre-neg-32                                                 | orig=-                  | mine=deny:merge-word    | AGREE  | negation list probe: "aren't" directly before the word
+pre-neg-33                                                 | orig=-                  | mine=deny:merge-word    | AGREE  | negation list probe: "wasn't" directly before the word
+pre-neg-34                                                 | orig=-                  | mine=deny:merge-word    | AGREE  | negation list probe: "haven't" directly before the word
+pre-neg-35                                                 | orig=-                  | mine=deny:merge-word    | AGREE  | negation list probe: "shan't" directly before the word
+pre-neg-36                                                 | orig=-                  | mine=deny:merge-word    | AGREE  | negation list probe: "ain't" directly before the word
+pre-neg-37                                                 | orig=-                  | mine=allow              | AGREE  | negation list probe: 'skip' directly before the word
+pre-neg-38                                                 | orig=-                  | mine=allow              | AGREE  | negation list probe: 'cancel' directly before the word
+pre-neg-39                                                 | orig=-                  | mine=allow              | AGREE  | negation list probe: 'abort' directly before the word
+pre-neg-40                                                 | orig=-                  | mine=allow              | AGREE  | negation list probe: 'before' directly before the word
+pre-neg-41                                                 | orig=-                  | mine=allow              | AGREE  | negation list probe: 'unless' directly before the word
+pre-neg-42                                                 | orig=-                  | mine=allow              | AGREE  | negation list probe: 'until' directly before the word
+pre-window-not-0                                           | orig=-                  | mine=deny:merge-word    | AGREE  | window probe: 'not' with 0 words between it and the word
+pre-window-dont-0                                          | orig=-                  | mine=deny:merge-word    | AGREE  | window probe: "don't" with 0 words between it and the word
+pre-window-not-1                                           | orig=-                  | mine=deny:merge-word    | AGREE  | window probe: 'not' with 1 words between it and the word
+pre-window-dont-1                                          | orig=-                  | mine=deny:merge-word    | AGREE  | window probe: "don't" with 1 words between it and the word
+pre-window-not-2                                           | orig=-                  | mine=deny:merge-word    | AGREE  | window probe: 'not' with 2 words between it and the word
+pre-window-dont-2                                          | orig=-                  | mine=deny:merge-word    | AGREE  | window probe: "don't" with 2 words between it and the word
+pre-window-not-3                                           | orig=-                  | mine=allow              | AGREE  | window probe: 'not' with 3 words between it and the word
+pre-window-dont-3                                          | orig=-                  | mine=allow              | AGREE  | window probe: "don't" with 3 words between it and the word
+pre-window-not-4                                           | orig=-                  | mine=allow              | AGREE  | window probe: 'not' with 4 words between it and the word
+pre-window-dont-4                                          | orig=-                  | mine=allow              | AGREE  | window probe: "don't" with 4 words between it and the word
+pre-window-not-5                                           | orig=-                  | mine=allow              | AGREE  | window probe: 'not' with 5 words between it and the word
+pre-window-dont-5                                          | orig=-                  | mine=allow              | AGREE  | window probe: "don't" with 5 words between it and the word
+pre-window-not-6                                           | orig=-                  | mine=allow              | AGREE  | window probe: 'not' with 6 words between it and the word
+pre-window-dont-6                                          | orig=-                  | mine=allow              | AGREE  | window probe: "don't" with 6 words between it and the word
+pre-window-not-7                                           | orig=-                  | mine=allow              | AGREE  | window probe: 'not' with 7 words between it and the word
+pre-window-dont-7                                          | orig=-                  | mine=allow              | AGREE  | window probe: "don't" with 7 words between it and the word
+pre-window-not-8                                           | orig=-                  | mine=allow              | AGREE  | window probe: 'not' with 8 words between it and the word
+pre-window-dont-8                                          | orig=-                  | mine=allow              | AGREE  | window probe: "don't" with 8 words between it and the word
+pre-window-sep-0                                           | orig=-                  | mine=deny:merge-word    | AGREE  | negation and word separated by '. '
+pre-window-sep-1                                           | orig=-                  | mine=deny:merge-word    | AGREE  | negation and word separated by '! '
+pre-window-sep-2                                           | orig=-                  | mine=deny:merge-word    | AGREE  | negation and word separated by '? '
+pre-window-sep-3                                           | orig=-                  | mine=deny:merge-word    | AGREE  | negation and word separated by '; '
+pre-window-sep-4                                           | orig=-                  | mine=deny:merge-word    | AGREE  | negation and word separated by ', '
+pre-window-sep-5                                           | orig=-                  | mine=deny:merge-word    | AGREE  | negation and word separated by '\n'
+pre-window-sep-6                                           | orig=-                  | mine=deny:merge-word    | AGREE  | negation and word separated by '\n\n'
+pre-window-sep-7                                           | orig=-                  | mine=deny:merge-word    | AGREE  | negation and word separated by ' — '
+pre-window-sep-8                                           | orig=-                  | mine=deny:merge-word    | AGREE  | negation and word separated by ': '
+pre-word-older-merge-newer-ok                              | orig=-                  | mine=deny:merge-word    | AGREE  | only the LATEST message counts
+pre-word-neg-then-pos                                      | orig=-                  | mine=allow              | AGREE  | one negated and one plain occurrence
+pre-word-pos-then-neg                                      | orig=-                  | mine=allow              | AGREE  | plain occurrence for another PR, negated for this one (rule has no per-PR logic)
+pre-form-gh-plain-ok                                       | orig=-                  | mine=deny:merge-word    | AGREE  | form gh-plain, owner 'ok'
+pre-form-gh-plain-word                                     | orig=-                  | mine=allow              | AGREE  | form gh-plain, owner 'merge it'
+pre-form-gh-no-number-ok                                   | orig=-                  | mine=deny:merge-word    | AGREE  | form gh-no-number, owner 'ok'
+pre-form-gh-no-number-word                                 | orig=-                  | mine=allow              | AGREE  | form gh-no-number, owner 'merge it'
+pre-form-gh-auto-ok                                        | orig=-                  | mine=deny:merge-word    | AGREE  | form gh-auto, owner 'ok'
+pre-form-gh-auto-word                                      | orig=-                  | mine=allow              | AGREE  | form gh-auto, owner 'merge it'
+pre-form-gh-cd-ok                                          | orig=-                  | mine=deny:merge-word    | AGREE  | form gh-cd, owner 'ok'
+pre-form-gh-cd-word                                        | orig=-                  | mine=allow              | AGREE  | form gh-cd, owner 'merge it'
+pre-form-gh-spacing-ok                                     | orig=-                  | mine=deny:merge-word    | AGREE  | form gh-spacing, owner 'ok'
+pre-form-gh-spacing-word                                   | orig=-                  | mine=allow              | AGREE  | form gh-spacing, owner 'merge it'
+pre-form-gh-tab-ok                                         | orig=-                  | mine=deny:merge-word    | AGREE  | form gh-tab, owner 'ok'
+pre-form-gh-tab-word                                       | orig=-                  | mine=allow              | AGREE  | form gh-tab, owner 'merge it'
+pre-form-gh-repo-flag-between-ok                           | orig=-                  | mine=deny:merge-word    | AGREE  | form gh-repo-flag-between, owner 'ok'
+pre-form-gh-repo-flag-between-word                         | orig=-                  | mine=allow              | AGREE  | form gh-repo-flag-between, owner 'merge it'
+pre-form-gh-repo-long-flag-between-ok                      | orig=-                  | mine=deny:merge-word    | AGREE  | form gh-repo-long-flag-between, owner 'ok'
+pre-form-gh-repo-long-flag-between-word                    | orig=-                  | mine=allow              | AGREE  | form gh-repo-long-flag-between, owner 'merge it'
+pre-form-gh-env-prefix-ok                                  | orig=-                  | mine=deny:merge-word    | AGREE  | form gh-env-prefix, owner 'ok'
+pre-form-gh-env-prefix-word                                | orig=-                  | mine=allow              | AGREE  | form gh-env-prefix, owner 'merge it'
+pre-form-gh-abs-path-ok                                    | orig=-                  | mine=deny:merge-word    | AGREE  | form gh-abs-path, owner 'ok'
+pre-form-gh-abs-path-word                                  | orig=-                  | mine=allow              | AGREE  | form gh-abs-path, owner 'merge it'
+pre-form-gh-url-ok                                         | orig=-                  | mine=deny:merge-word    | AGREE  | form gh-url, owner 'ok'
+pre-form-gh-url-word                                       | orig=-                  | mine=allow              | AGREE  | form gh-url, owner 'merge it'
+pre-form-gh-bash-c-ok                                      | orig=-                  | mine=deny:merge-word    | AGREE  | form gh-bash-c, owner 'ok'
+pre-form-gh-bash-c-word                                    | orig=-                  | mine=allow              | AGREE  | form gh-bash-c, owner 'merge it'
+pre-form-gh-help-ok                                        | orig=-                  | mine=allow              | AGREE  | form gh-help, owner 'ok'
+pre-form-gh-help-word                                      | orig=-                  | mine=allow              | AGREE  | form gh-help, owner 'merge it'
+pre-form-gh-api-put-ok                                     | orig=-                  | mine=deny:merge-word    | AGREE  | form gh-api-put, owner 'ok'
+pre-form-gh-api-put-word                                   | orig=-                  | mine=allow              | AGREE  | form gh-api-put, owner 'merge it'
+pre-form-gh-api-method-put-ok                              | orig=-                  | mine=deny:merge-word    | AGREE  | form gh-api-method-put, owner 'ok'
+pre-form-gh-api-method-put-word                            | orig=-                  | mine=allow              | AGREE  | form gh-api-method-put, owner 'merge it'
+pre-form-gh-api-graphql-ok                                 | orig=-                  | mine=deny:merge-word    | AGREE  | form gh-api-graphql, owner 'ok'
+pre-form-gh-api-graphql-word                               | orig=-                  | mine=allow              | AGREE  | form gh-api-graphql, owner 'merge it'
+pre-form-curl-put-ok                                       | orig=-                  | mine=deny:merge-word    | AGREE  | form curl-put, owner 'ok'
+pre-form-curl-put-word                                     | orig=-                  | mine=allow              | AGREE  | form curl-put, owner 'merge it'
+pre-form-git-merge-sync-ok                                 | orig=-                  | mine=allow              | AGREE  | form git-merge-sync, owner 'ok'
+pre-form-git-merge-sync-word                               | orig=-                  | mine=allow              | AGREE  | form git-merge-sync, owner 'merge it'
+pre-form-git-merge-push-main-ok                            | orig=-                  | mine=allow              | AGREE  | form git-merge-push-main, owner 'ok'
+pre-form-git-merge-push-main-word                          | orig=-                  | mine=allow              | AGREE  | form git-merge-push-main, owner 'merge it'
+pre-form-echo-mention-ok                                   | orig=-                  | mine=allow              | AGREE  | form echo-mention, owner 'ok'
+pre-form-echo-mention-word                                 | orig=-                  | mine=allow              | AGREE  | form echo-mention, owner 'merge it'
+pre-form-grep-mention-ok                                   | orig=-                  | mine=allow              | AGREE  | form grep-mention, owner 'ok'
+pre-form-grep-mention-word                                 | orig=-                  | mine=allow              | AGREE  | form grep-mention, owner 'merge it'
+pre-form-commit-msg-mention-ok                             | orig=-                  | mine=allow              | AGREE  | form commit-msg-mention, owner 'ok'
+pre-form-commit-msg-mention-word                           | orig=-                  | mine=allow              | AGREE  | form commit-msg-mention, owner 'merge it'
+pre-form-gh-pr-view-ok                                     | orig=-                  | mine=allow              | AGREE  | form gh-pr-view, owner 'ok'
+pre-form-gh-pr-view-word                                   | orig=-                  | mine=allow              | AGREE  | form gh-pr-view, owner 'merge it'
+pre-form-gh-trailing-comment-ok                            | orig=-                  | mine=deny:merge-word    | AGREE  | form gh-trailing-comment, owner 'ok'
+pre-form-gh-trailing-comment-word                          | orig=-                  | mine=allow              | AGREE  | form gh-trailing-comment, owner 'merge it'
+pre-form-comment-only-mention-ok                           | orig=-                  | mine=allow              | AGREE  | form comment-only-mention, owner 'ok'
+pre-form-comment-only-mention-word                         | orig=-                  | mine=allow              | AGREE  | form comment-only-mention, owner 'merge it'
+pre-form-heredoc-file-mention-ok                           | orig=-                  | mine=allow              | AGREE  | form heredoc-file-mention, owner 'ok'
+pre-form-heredoc-file-mention-word                         | orig=-                  | mine=allow              | AGREE  | form heredoc-file-mention, owner 'merge it'
+pre-form-gh-line-continuation-ok                           | orig=-                  | mine=deny:merge-word    | AGREE  | form gh-line-continuation, owner 'ok'
+pre-form-gh-line-continuation-word                         | orig=-                  | mine=allow              | AGREE  | form gh-line-continuation, owner 'merge it'
+pre-form-gh-or-true-ok                                     | orig=-                  | mine=deny:merge-word    | AGREE  | form gh-or-true, owner 'ok'
+pre-form-gh-or-true-word                                   | orig=-                  | mine=allow              | AGREE  | form gh-or-true, owner 'merge it'
+pre-form-gh-ready-then-merge-ok                            | orig=-                  | mine=deny:merge-word    | AGREE  | form gh-ready-then-merge, owner 'ok'
+pre-form-gh-ready-then-merge-word                          | orig=-                  | mine=allow              | AGREE  | form gh-ready-then-merge, owner 'merge it'
+pre-form-gh-checkout-git-merge-ok                          | orig=-                  | mine=allow              | AGREE  | form gh-checkout-git-merge, owner 'ok'
+pre-form-gh-checkout-git-merge-word                        | orig=-                  | mine=allow              | AGREE  | form gh-checkout-git-merge, owner 'merge it'
+pre-form-gh-workflow-merge-yml-ok                          | orig=-                  | mine=allow              | AGREE  | form gh-workflow-merge-yml, owner 'ok'
+pre-form-gh-workflow-merge-yml-word                        | orig=-                  | mine=allow              | AGREE  | form gh-workflow-merge-yml, owner 'merge it'
+pre-form-not-gh-binary-ok                                  | orig=-                  | mine=allow              | AGREE  | form not-gh-binary, owner 'ok'
+pre-form-not-gh-binary-word                                | orig=-                  | mine=allow              | AGREE  | form not-gh-binary, owner 'merge it'
+pre-form-gh-in-substitution-ok                             | orig=-                  | mine=deny:merge-word    | AGREE  | form gh-in-substitution, owner 'ok'
+pre-form-gh-in-substitution-word                           | orig=-                  | mine=allow              | AGREE  | form gh-in-substitution, owner 'merge it'
+pre-form-sudo-gh-ok                                        | orig=-                  | mine=deny:merge-word    | AGREE  | form sudo-gh, owner 'ok'
+pre-form-sudo-gh-word                                      | orig=-                  | mine=allow              | AGREE  | form sudo-gh, owner 'merge it'
+pre-form-command-gh-ok                                     | orig=-                  | mine=deny:merge-word    | AGREE  | form command-gh, owner 'ok'
+pre-form-command-gh-word                                   | orig=-                  | mine=allow              | AGREE  | form command-gh, owner 'merge it'
+pre-form-timeout-gh-ok                                     | orig=-                  | mine=deny:merge-word    | AGREE  | form timeout-gh, owner 'ok'
+pre-form-timeout-gh-word                                   | orig=-                  | mine=allow              | AGREE  | form timeout-gh, owner 'merge it'
+pre-form-gh-pr-comment-ready-to-merge-ok                   | orig=-                  | mine=allow              | AGREE  | form gh-pr-comment-ready-to-merge, owner 'ok'
+pre-form-gh-pr-comment-ready-to-merge-word                 | orig=-                  | mine=allow              | AGREE  | form gh-pr-comment-ready-to-merge, owner 'merge it'
+pre-form-gh-uppercase-sub-ok                               | orig=-                  | mine=allow              | AGREE  | form gh-uppercase-sub, owner 'ok'
+pre-form-gh-uppercase-sub-word                             | orig=-                  | mine=allow              | AGREE  | form gh-uppercase-sub, owner 'merge it'
+pre-form-gh-disable-auto-ok                                | orig=-                  | mine=deny:merge-word    | AGREE  | form gh-disable-auto, owner 'ok'
+pre-form-gh-disable-auto-word                              | orig=-                  | mine=allow              | AGREE  | form gh-disable-auto, owner 'merge it'
+pre-form-gh-two-merges-ok                                  | orig=-                  | mine=deny:merge-word    | AGREE  | form gh-two-merges, owner 'ok'
+pre-form-gh-two-merges-word                                | orig=-                  | mine=allow              | AGREE  | form gh-two-merges, owner 'merge it'
+pre-form-var-indirection-ok                                | orig=-                  | mine=allow              | AGREE  | form var-indirection, owner 'ok'
+pre-form-var-indirection-word                              | orig=-                  | mine=allow              | AGREE  | form var-indirection, owner 'merge it'
+pre-form-script-file-ok                                    | orig=-                  | mine=allow              | AGREE  | form script-file, owner 'ok'
+pre-form-script-file-word                                  | orig=-                  | mine=allow              | AGREE  | form script-file, owner 'merge it'
+pre-form-mcp-github-ok                                     | orig=-                  | mine=deny:merge-word    | AGREE  | form mcp-github, owner 'ok'
+pre-form-mcp-github-word                                   | orig=-                  | mine=allow              | AGREE  | form mcp-github, owner 'merge it'
+pre-form-mcp-GH-ok                                         | orig=-                  | mine=deny:merge-word    | AGREE  | form mcp-GH, owner 'ok'
+pre-form-mcp-GH-word                                       | orig=-                  | mine=allow              | AGREE  | form mcp-GH, owner 'merge it'
+pre-form-mcp-other-server-ok                               | orig=-                  | mine=deny:merge-word    | AGREE  | form mcp-other-server, owner 'ok'
+pre-form-mcp-other-server-word                             | orig=-                  | mine=allow              | AGREE  | form mcp-other-server, owner 'merge it'
+pre-form-bare-merge-tool-ok                                | orig=-                  | mine=deny:merge-word    | AGREE  | form bare-merge-tool, owner 'ok'
+pre-form-bare-merge-tool-word                              | orig=-                  | mine=allow              | AGREE  | form bare-merge-tool, owner 'merge it'
+pre-form-mcp-enable-auto-merge-ok                          | orig=-                  | mine=deny:merge-word    | AGREE  | form mcp-enable-auto-merge, owner 'ok'
+pre-form-mcp-enable-auto-merge-word                        | orig=-                  | mine=allow              | AGREE  | form mcp-enable-auto-merge, owner 'merge it'
+pre-form-mcp-update-pr-ok                                  | orig=-                  | mine=allow              | AGREE  | form mcp-update-pr, owner 'ok'
+pre-form-mcp-update-pr-word                                | orig=-                  | mine=allow              | AGREE  | form mcp-update-pr, owner 'merge it'
+pre-form-mcp-create-pr-ok                                  | orig=-                  | mine=allow              | AGREE  | form mcp-create-pr, owner 'ok'
+pre-form-mcp-create-pr-word                                | orig=-                  | mine=allow              | AGREE  | form mcp-create-pr, owner 'merge it'
+pre-form-mcp-push-files-ok                                 | orig=-                  | mine=allow              | AGREE  | form mcp-push-files, owner 'ok'
+pre-form-mcp-push-files-word                               | orig=-                  | mine=allow              | AGREE  | form mcp-push-files, owner 'merge it'
+pre-form-mcp-update-pr-branch-ok                           | orig=-                  | mine=allow              | AGREE  | form mcp-update-pr-branch, owner 'ok'
+pre-form-mcp-update-pr-branch-word                         | orig=-                  | mine=allow              | AGREE  | form mcp-update-pr-branch, owner 'merge it'
+pre-form-edit-mention-ok                                   | orig=-                  | mine=allow              | AGREE  | form edit-mention, owner 'ok'
+pre-form-edit-mention-word                                 | orig=-                  | mine=allow              | AGREE  | form edit-mention, owner 'merge it'
+pre-form-write-mention-ok                                  | orig=-                  | mine=allow              | AGREE  | form write-mention, owner 'ok'
+pre-form-write-mention-word                                | orig=-                  | mine=allow              | AGREE  | form write-mention, owner 'merge it'
+pre-form-mcp-review-approve-ok                             | orig=-                  | mine=allow              | AGREE  | form mcp-review-approve, owner 'ok'
+pre-form-mcp-review-approve-word                           | orig=-                  | mine=allow              | AGREE  | form mcp-review-approve, owner 'merge it'
+pre-form-empty-transcript                                  | orig=-                  | mine=deny:merge-word    | AGREE  | empty transcript: no owner message, no owner word
+pre-form-assistant-only                                    | orig=-                  | mine=deny:merge-word    | AGREE  | no owner message at all
+pre-form-missing-file                                      | orig=-                  | mine=allow              | AGREE  | transcript path does not exist => fail open
+pre-form-truncated-last-line                               | orig=-                  | mine=deny:merge-word    | AGREE  | owner 'ok', then a half-written last line
+pre-form-garbage-first-line                                | orig=-                  | mine=deny:merge-word    | AGREE  | a malformed first line, then owner 'ok'
+pre-click-merge-all-linked                                 | orig=-                  | mine=allow              | AGREE  | choice carries the word
+pre-click-merge-all-orphan                                 | orig=-                  | mine=allow              | AGREE  | mk.answer shape (orphan id)
+pre-click-question-only-wait                               | orig=-                  | mine=deny:merge-word    | AGREE  | word only in the question; choice 'Wait'
+pre-click-question-only-yes                                | orig=-                  | mine=deny:merge-word    | AGREE  | word only in the question; choice 'Yes' (rule: never the question text)
+pre-click-choice-negated                                   | orig=-                  | mine=deny:merge-word    | AGREE  | negated choice
+pre-click-choice-negated-curly                             | orig=-                  | mine=deny:merge-word    | AGREE  | negated choice, curly apostrophe
+pre-click-two-questions-second                             | orig=-                  | mine=allow              | AGREE  | second answer carries the word
+pre-click-real-format-two                                  | orig=-                  | mine=allow              | AGREE  | the real example from the catalog
+pre-click-multiselect                                      | orig=-                  | mine=allow              | AGREE  | multi-select, comma-joined
+pre-click-stale-click-before-owner                         | orig=-                  | mine=deny:merge-word    | AGREE  | a click BEFORE the owner's latest message does not count
+pre-click-answer-text-via-bash                             | orig=-                  | mine=deny:merge-word    | AGREE  | a Bash result that prints the answer format is not a click
+pre-click-answer-text-mid-bash-output                      | orig=-                  | mine=deny:merge-word    | AGREE  | grep output quoting the answer format
+pre-click-answer-text-catalog-via-bash                     | orig=-                  | mine=deny:merge-word    | AGREE  | cat of pack/real-row-shapes.md (the real file text)
+pre-click-choice-lowercase                                 | orig=-                  | mine=allow              | AGREE  | choice 'merge'
+pre-click-choice-merged                                    | orig=-                  | mine=deny:merge-word    | AGREE  | choice 'Merged already' (inflection)
+pre-click-choice-no-dont-merge                             | orig=-                  | mine=deny:merge-word    | AGREE  | choice "No, don't merge"
+pre-click-choice-other-free-text                           | orig=-                  | mine=allow              | AGREE  | free-text answer
+pre-click-choice-squash-and-merge                          | orig=-                  | mine=allow              | AGREE  | choice names a strategy
+pre-click-two-clicks-second-reverses                       | orig=-                  | mine=allow              | AGREE  | a later click reverses an earlier one (rule states no such case)
+pre-click-declined-card                                    | orig=-                  | mine=deny:merge-word    | AGREE  | the owner dismissed the card
+pre-click-question-with-pair-inside                        | orig=-                  | mine=deny:merge-word    | AGREE  | escaped quotes in the question
+pre-click-click-then-owner-ok                              | orig=-                  | mine=deny:merge-word    | AGREE  | the click belongs to the previous turn
+pre-click-click-word-in-key-only                           | orig=-                  | mine=deny:merge-word    | AGREE  | word only in the question, choice '#34'
+pre-click-no-pairs                                         | orig=-                  | mine=deny:merge-word    | AGREE  | no pairs
+pre-text-ask-yes-34                                        | orig=-                  | mine=allow              | AGREE  | assistant asked with the number; owner 'yes'
+pre-text-ask-yes-35                                        | orig=-                  | mine=deny:merge-word    | AGREE  | same, but the tool merges #35
+pre-text-ask-no-number                                     | orig=-                  | mine=deny:merge-word    | AGREE  | word without the number
+pre-text-ask-negated                                       | orig=-                  | mine=deny:merge-word    | AGREE  | the assistant's text is negated
+pre-text-ask-awaiting-call                                 | orig=-                  | mine=allow              | AGREE  | the audit's incident shape: note says awaiting the owner's call, owner talks about something else
+pre-text-ask-341                                           | orig=-                  | mine=deny:merge-word    | AGREE  | number is part of a longer number
+pre-text-ask-134                                           | orig=-                  | mine=deny:merge-word    | AGREE  | number is the tail of a longer number
+pre-text-ask-34-files                                      | orig=-                  | mine=allow              | AGREE  | the number appears, but not as a PR number
+pre-text-ask-then-other-text                               | orig=-                  | mine=deny:merge-word    | AGREE  | the LAST text has no word
+pre-text-text-in-current-turn                              | orig=-                  | mine=deny:merge-word    | AGREE  | assistant text AFTER the owner's message does not count
+pre-text-ask-owner-no                                      | orig=-                  | mine=allow              | AGREE  | owner answers 'no' (rule does not read the reply)
+pre-text-ask-owner-no-wait                                 | orig=-                  | mine=allow              | AGREE  | owner answers 'No, wait until tomorrow.'
+pre-text-ask-owner-stop                                    | orig=-                  | mine=allow              | AGREE  | owner answers 'Stop. Leave that PR alone.'
+pre-text-stale-text-across-turns                           | orig=-                  | mine=allow              | AGREE  | owner refused, an edit turn with no recorded text follows, then 'ok thanks, proceed'
+pre-text-gh-number                                         | orig=-                  | mine=allow              | AGREE  | shell form with the number
+pre-text-gh-no-number                                      | orig=-                  | mine=deny:merge-word    | AGREE  | shell form without a number
+pre-text-gh-url                                            | orig=-                  | mine=allow              | AGREE  | shell form with a URL
+pre-text-gh-other-number                                   | orig=-                  | mine=deny:merge-word    | AGREE  | shell form merging #35
+pre-text-gh-number-elsewhere                               | orig=-                  | mine=deny:merge-word    | AGREE  | shell form merging #35 with 34 elsewhere in the command
+pre-text-number-as-string                                  | orig=-                  | mine=allow              | AGREE  | pullNumber given as a string
+pre-text-number-key-snake                                  | orig=-                  | mine=allow              | AGREE  | pull_number key
+pre-text-no-number-in-input                                | orig=-                  | mine=deny:merge-word    | AGREE  | no number in the tool input
+pre-text-thinking-not-text                                 | orig=-                  | mine=deny:merge-word    | AGREE  | a thinking block is not text
+pre-text-number-formats-PR34                               | orig=-                  | mine=allow              | AGREE  | number written 'PR 34'
+pre-text-number-formats-url                                | orig=-                  | mine=allow              | AGREE  | number inside a URL
+pre-text-number-in-date                                    | orig=-                  | mine=allow              | AGREE  | number inside a date-like token
+pre-text-number-in-version                                 | orig=-                  | mine=deny:merge-word    | AGREE  | number inside a version
+pre-text-number-other-repo-same                            | orig=-                  | mine=allow              | AGREE  | same number, another repository
+pre-text-two-prs-both-listed                               | orig=-                  | mine=allow              | AGREE  | two PRs named, tool merges 141
+pre-text-merged-inflection-text                            | orig=-                  | mine=deny:merge-word    | AGREE  | only an inflection in the text
+pre-text-word-and-number-far-apart                         | orig=-                  | mine=allow              | AGREE  | word and number unrelated
+pre-text-text-two-blocks                                   | orig=-                  | mine=allow              | AGREE  | word and number in two text blocks of one row
+pre-text-text-then-tool-rows                               | orig=-                  | mine=allow              | AGREE  | tool rows between the text and the owner's message
+pre-text-sched-with-text                                   | orig=-                  | mine=deny:scheduled     | AGREE  | a scheduled run after the exchange

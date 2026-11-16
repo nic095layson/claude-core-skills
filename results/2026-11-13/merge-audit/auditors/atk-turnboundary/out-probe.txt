@@ -1,0 +1,55 @@
+== probe-log.tsv: one line per real stop point
+2026-10-21T23:24	37	owner_index=-1	scheduled_index=-1	turn_start=-1	receipt_start=35	receipt_start_row=isMeta:stop-hook-feedback	assistant_texts_between_turn_start_and_receipt_start=1	merge_of_unrelated_PR_99999=allow
+2026-10-21T23:25	66	owner_index=-1	scheduled_index=-1	turn_start=-1	receipt_start=40	receipt_start_row=isMeta:skill-reinvocation	assistant_texts_between_turn_start_and_receipt_start=1	merge_of_unrelated_PR_99999=allow
+2026-10-21T23:26	102	owner_index=67	scheduled_index=-1	turn_start=67	receipt_start=74	receipt_start_row=isMeta:skill-reinvocation	assistant_texts_between_turn_start_and_receipt_start=0	merge_of_unrelated_PR_99999=deny:merge-word
+2026-10-21T23:26	115	owner_index=67	scheduled_index=-1	turn_start=67	receipt_start=103	receipt_start_row=task-notification	assistant_texts_between_turn_start_and_receipt_start=2	merge_of_unrelated_PR_99999=deny:merge-word
+2026-10-22T16:08	274	owner_index=118	scheduled_index=-1	turn_start=118	receipt_start=228	receipt_start_row=isMeta:skill-reinvocation	assistant_texts_between_turn_start_and_receipt_start=7	merge_of_unrelated_PR_99999=allow
+2026-10-22T16:08	283	owner_index=118	scheduled_index=-1	turn_start=118	receipt_start=275	receipt_start_row=task-notification	assistant_texts_between_turn_start_and_receipt_start=10	merge_of_unrelated_PR_99999=allow
+2026-10-22T16:10	297	owner_index=284	scheduled_index=-1	turn_start=284	receipt_start=284	receipt_start_row=owner-message	assistant_texts_between_turn_start_and_receipt_start=0	merge_of_unrelated_PR_99999=deny:merge-word
+2026-10-22T20:17	332	owner_index=298	scheduled_index=-1	turn_start=298	receipt_start=298	receipt_start_row=owner-message	assistant_texts_between_turn_start_and_receipt_start=0	merge_of_unrelated_PR_99999=deny:merge-word
+2026-10-28T23:00	453	owner_index=337	scheduled_index=-1	turn_start=337	receipt_start=388	receipt_start_row=isMeta:skill-reinvocation	assistant_texts_between_turn_start_and_receipt_start=1	merge_of_unrelated_PR_99999=allow
+2026-10-28T23:00	464	owner_index=337	scheduled_index=-1	turn_start=337	receipt_start=454	receipt_start_row=task-notification	assistant_texts_between_turn_start_and_receipt_start=2	merge_of_unrelated_PR_99999=allow
+2026-10-28T23:02	477	owner_index=465	scheduled_index=-1	turn_start=465	receipt_start=472	receipt_start_row=isMeta:skill-reinvocation	assistant_texts_between_turn_start_and_receipt_start=0	merge_of_unrelated_PR_99999=deny:merge-word
+2026-10-28T23:04	482	owner_index=478	scheduled_index=-1	turn_start=478	receipt_start=478	receipt_start_row=owner-message	assistant_texts_between_turn_start_and_receipt_start=0	merge_of_unrelated_PR_99999=deny:merge-word
+2026-10-28T23:23	600	owner_index=487	scheduled_index=-1	turn_start=487	receipt_start=569	receipt_start_row=isMeta:skill-reinvocation	assistant_texts_between_turn_start_and_receipt_start=1	merge_of_unrelated_PR_99999=deny:merge-word
+2026-10-28T23:47	970	owner_index=487	scheduled_index=-1	turn_start=487	receipt_start=889	receipt_start_row=isMeta:skill-reinvocation	assistant_texts_between_turn_start_and_receipt_start=10	merge_of_unrelated_PR_99999=allow
+2026-10-28T23:47	979	owner_index=487	scheduled_index=-1	turn_start=487	receipt_start=971	receipt_start_row=task-notification	assistant_texts_between_turn_start_and_receipt_start=13	merge_of_unrelated_PR_99999=allow
+2026-10-28T23:53	1003	owner_index=980	scheduled_index=-1	turn_start=980	receipt_start=986	receipt_start_row=isMeta:skill-reinvocation	assistant_texts_between_turn_start_and_receipt_start=0	merge_of_unrelated_PR_99999=deny:merge-word
+2026-10-28T23:55	1010	owner_index=1004	scheduled_index=-1	turn_start=1004	receipt_start=1004	receipt_start_row=owner-message	assistant_texts_between_turn_start_and_receipt_start=0	merge_of_unrelated_PR_99999=deny:merge-word
+2026-10-28T23:56	1016	owner_index=1011	scheduled_index=-1	turn_start=1011	receipt_start=1011	receipt_start_row=owner-message	assistant_texts_between_turn_start_and_receipt_start=0	merge_of_unrelated_PR_99999=deny:merge-word
+2026-10-29T01:50	1027	owner_index=1017	scheduled_index=-1	turn_start=1017	receipt_start=1017	receipt_start_row=owner-message	assistant_texts_between_turn_start_and_receipt_start=0	merge_of_unrelated_PR_99999=deny:merge-word
+2026-10-29T01:55	1038	owner_index=1028	scheduled_index=-1	turn_start=1028	receipt_start=1028	receipt_start_row=owner-message	assistant_texts_between_turn_start_and_receipt_start=0	merge_of_unrelated_PR_99999=deny:merge-word
+2026-11-02T22:13	1153	owner_index=1039	scheduled_index=-1	turn_start=1039	receipt_start=1118	receipt_start_row=isMeta:skill-reinvocation	assistant_texts_between_turn_start_and_receipt_start=1	merge_of_unrelated_PR_99999=allow
+2026-11-02T22:13	1158	owner_index=1039	scheduled_index=-1	turn_start=1039	receipt_start=1154	receipt_start_row=task-notification	assistant_texts_between_turn_start_and_receipt_start=2	merge_of_unrelated_PR_99999=allow
+2026-11-02T22:41	1167	owner_index=1159	scheduled_index=-1	turn_start=1159	receipt_start=1159	receipt_start_row=owner-message	assistant_texts_between_turn_start_and_receipt_start=0	merge_of_unrelated_PR_99999=deny:merge-word
+2026-11-02T22:43	1173	owner_index=1168	scheduled_index=-1	turn_start=1168	receipt_start=1171	receipt_start_row=isMeta:stop-hook-feedback	assistant_texts_between_turn_start_and_receipt_start=1	merge_of_unrelated_PR_99999=deny:merge-word
+2026-11-02T22:43	1184	owner_index=1168	scheduled_index=-1	turn_start=1168	receipt_start=1176	receipt_start_row=isMeta:skill-reinvocation	assistant_texts_between_turn_start_and_receipt_start=1	merge_of_unrelated_PR_99999=deny:merge-word
+2026-11-12T21:36	1471	owner_index=1193	scheduled_index=-1	turn_start=1193	receipt_start=1403	receipt_start_row=isMeta:skill-reinvocation	assistant_texts_between_turn_start_and_receipt_start=6	merge_of_unrelated_PR_99999=allow
+== probe-answers.tsv: tool results the gate reads as the owner's click, by originating tool
+slice_rows=1471 owner_messages=17 real_merge_tool_calls=18
+row=240	tool=AskUserQuestion	is_AskUserQuestion=True	a_choice_says_merge=True	real_merge_calls_later_in_same_owner_turn=4
+row=350	tool=AskUserQuestion	is_AskUserQuestion=True	a_choice_says_merge=False	real_merge_calls_later_in_same_owner_turn=3
+row=420	tool=AskUserQuestion	is_AskUserQuestion=True	a_choice_says_merge=True	real_merge_calls_later_in_same_owner_turn=3
+row=581	tool=AskUserQuestion	is_AskUserQuestion=True	a_choice_says_merge=False	real_merge_calls_later_in_same_owner_turn=4
+row=625	tool=AskUserQuestion	is_AskUserQuestion=True	a_choice_says_merge=False	real_merge_calls_later_in_same_owner_turn=4
+row=941	tool=AskUserQuestion	is_AskUserQuestion=True	a_choice_says_merge=True	real_merge_calls_later_in_same_owner_turn=3
+row=1053	tool=Bash	is_AskUserQuestion=False	a_choice_says_merge=False	real_merge_calls_later_in_same_owner_turn=3
+row=1058	tool=AskUserQuestion	is_AskUserQuestion=True	a_choice_says_merge=False	real_merge_calls_later_in_same_owner_turn=3
+row=1125	tool=AskUserQuestion	is_AskUserQuestion=True	a_choice_says_merge=True	real_merge_calls_later_in_same_owner_turn=3
+row=1288	tool=AskUserQuestion	is_AskUserQuestion=True	a_choice_says_merge=False	real_merge_calls_later_in_same_owner_turn=2
+row=1434	tool=AskUserQuestion	is_AskUserQuestion=True	a_choice_says_merge=True	real_merge_calls_later_in_same_owner_turn=2
+== probe-notif.tsv: every real notification read
+slice_rows=1471 notification_reads=8
+row=106 owner_turn_start=67 outward_calls_before_in_turn=4 outward_calls_after_in_turn=0 scheduled_header=False
+row=277 owner_turn_start=118 outward_calls_before_in_turn=12 outward_calls_after_in_turn=0 scheduled_header=False
+row=280 owner_turn_start=118 outward_calls_before_in_turn=12 outward_calls_after_in_turn=0 scheduled_header=False
+row=456 owner_turn_start=337 outward_calls_before_in_turn=10 outward_calls_after_in_turn=0 scheduled_header=False
+row=460 owner_turn_start=337 outward_calls_before_in_turn=10 outward_calls_after_in_turn=0 scheduled_header=False
+row=973 owner_turn_start=487 outward_calls_before_in_turn=20 outward_calls_after_in_turn=0 scheduled_header=False
+row=976 owner_turn_start=487 outward_calls_before_in_turn=20 outward_calls_after_in_turn=0 scheduled_header=False
+row=1156 owner_turn_start=1039 outward_calls_before_in_turn=11 outward_calls_after_in_turn=0 scheduled_header=False
+== the receipt gate with the turn gates' owner filter as its boundary, replayed on the real stop points (totals line)
+  totals: {'allow': 23, 'receipt:allow': 26, 'BLOCK:F1': 2, 'BLOCK:prompt-class': 1}
+== the Stop gate as committed on 2026-10-20 (cad7aa7) replayed on today's file: first real stop point, then totals
+  2026-10-21T23:24 | then: GOV-ENFORCE: this is governed work (adversar   | now: allow              / allow
+  totals: {'allow': 25, 'receipt:allow': 26, 'BLOCK:prompt-class': 1}

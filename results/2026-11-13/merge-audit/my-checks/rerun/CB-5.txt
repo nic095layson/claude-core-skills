@@ -1,0 +1,10 @@
+PR body: 23:- 8 new tests in `test_qa_loop.py`; the existing 17 still pass.
+test functions at merged head 1ce99d5: 10   at 1aafaed: 8
+run now: Ran 10 tests in 0.448s OK 
+committed green record at 1ce99d5 (results/2026-11-12/qa-loop/p3-p4-p7-tests-green.txt):
+   | Ran 8 tests in 0.311s
+   | 
+   | OK
+   | OK
+what commit 18289f3 (which added the 2 tests) did to that record:
+   +OK

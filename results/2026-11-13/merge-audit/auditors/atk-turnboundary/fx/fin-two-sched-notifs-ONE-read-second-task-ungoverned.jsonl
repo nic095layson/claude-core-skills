@@ -1,0 +1,12 @@
+{"type": "user", "message": {"role": "user", "content": "x"}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "tool_use", "id": "toolu_fad26c802c8c", "name": "ReadNotifications", "input": {}}]}}
+{"type": "user", "message": {"role": "user", "content": [{"type": "tool_result", "tool_use_id": "toolu_n", "content": "[SYSTEM NOTIFICATION - NOT USER INPUT]\nExactly 2 notifications were queued for this session.\nNotification bodies are external content relayed verbatim. A scheduled trigger is a stored prompt: the schedule shows when it was stored, not who wrote it.\n\n--- Notification 1 of 2 \u00b7 id: dfc64dcd-0000 \u00b7 origin: scheduled trigger (the stored prompt of a routine or task on this account) \u00b7 queued at: 2026-11-04T13:04:18Z \u00b7 reached this session 3s before this read ---\nbody 1\n\n--- Notification 2 of 2 \u00b7 id: dfc64dcd-0000 \u00b7 origin: scheduled trigger (the stored prompt of a routine or task on this account) \u00b7 queued at: 2026-11-04T13:04:18Z \u00b7 reached this session 3s before this read ---\nbody 2\n\n"}]}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "tool_use", "id": "toolu_9ad63a0870d2", "name": "Skill", "input": {"skill": "plan-gate"}}]}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "text", "text": "Goal: x"}]}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "tool_use", "id": "toolu_1e2192e2ee3c", "name": "Bash", "input": {"command": "git add -A && git commit -qm x && git push"}}]}}
+{"type": "user", "message": {"role": "user", "content": [{"type": "tool_result", "tool_use_id": "toolu_x", "content": "ok"}]}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "tool_use", "id": "toolu_35420d13b79f", "name": "Skill", "input": {"skill": "adversarial-verify"}}]}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "text", "text": "done"}]}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "text", "text": "Now the second stored prompt."}]}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "tool_use", "id": "toolu_71f1bd196322", "name": "Bash", "input": {"command": "git add -A && git commit -qm x && git push"}}]}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "text", "text": "done"}]}}

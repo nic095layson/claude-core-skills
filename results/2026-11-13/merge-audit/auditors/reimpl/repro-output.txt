@@ -1,0 +1,115 @@
+RI-1  F2 negation: 'an occurrence counts only when no negation sits in the few words before it' (turngate.py:185-186)
+  ri1-control-do-not-merge-yet                 | rule: deny:merge-word  | original: deny:merge-word    | mine: deny:merge-word  
+  ri1-control-merge-it                         | rule: allow            | original: allow              | mine: allow            
+  ri1-curly-dont-merge-yet                     | rule: deny:merge-word  | original: allow              | mine: deny:merge-word  <<<
+  ri1-curly-dont-merge                         | rule: deny:merge-word  | original: allow              | mine: deny:merge-word  <<<
+  ri1-cant-merge-until-ci                      | rule: deny:merge-word  | original: allow              | mine: deny:merge-word  <<<
+  ri1-shouldnt-merge                           | rule: deny:merge-word  | original: allow              | mine: deny:merge-word  <<<
+  ri1-cannot-merge                             | rule: deny:merge-word  | original: allow              | mine: deny:merge-word  <<<
+  ri1-do-not-go-ahead-and-merge                | rule: deny:merge-word  | original: allow              | mine: allow            <<<
+  ri1-dont-want-you-to-merge                   | rule: deny:merge-word  | original: allow              | mine: allow            <<<
+  ri1-not-under-any-circumstances              | rule: deny:merge-word  | original: allow              | mine: allow            <<<
+  ri1-curly-shell-form                         | rule: deny:merge-word  | original: allow              | mine: deny:merge-word  <<<
+  ri1-curly-in-click                           | rule: deny:merge-word  | original: allow              | mine: deny:merge-word  <<<
+
+RI-2  F2 word: '"merge" (word)' (hypothesis-2026-10-29-turn-gates.md:22); the code also takes 'merged' and 'merging'
+  ri2-control-ok                               | rule: deny:merge-word  | original: deny:merge-word    | mine: deny:merge-word  
+  ri2-control-mergeable                        | rule: deny:merge-word  | original: deny:merge-word    | mine: deny:merge-word  
+  ri2-merged-question                          | rule: deny:merge-word  | original: allow              | mine: deny:merge-word  <<<
+  ri2-is-34-merged-yet                         | rule: deny:merge-word  | original: allow              | mine: deny:merge-word  <<<
+  ri2-you-merged-without-asking                | rule: deny:merge-word  | original: allow              | mine: deny:merge-word  <<<
+  ri2-nothing-gets-merged                      | rule: deny:merge-word  | original: allow              | mine: deny:merge-word  <<<
+  ri2-finished-merging                         | rule: deny:merge-word  | original: allow              | mine: deny:merge-word  <<<
+  ri2-click-merged-already                     | rule: deny:merge-word  | original: allow              | mine: deny:merge-word  <<<
+  ri2-assistant-text-was-merged                | rule: deny:merge-word  | original: allow              | mine: deny:merge-word  <<<
+
+RI-3  F2 click: 'in a clickable answer after it' / 'The chosen options of an AskUserQuestion answer' (turngate.py:198)
+  ri3-control-real-click                       | rule: allow            | original: allow              | mine: allow            
+  ri3-control-real-click-wait                  | rule: deny:merge-word  | original: deny:merge-word    | mine: deny:merge-word  
+  ri3-github-notification-body                 | rule: deny:merge-word  | original: allow              | mine: deny:merge-word  <<<
+  ri3-read-of-own-selftest                     | rule: deny:merge-word  | original: allow              | mine: deny:merge-word  <<<
+  ri3-webfetch-page                            | rule: deny:merge-word  | original: allow              | mine: deny:merge-word  <<<
+  ri3-bash-cat-of-catalog                      | rule: deny:merge-word  | original: allow              | mine: deny:merge-word  <<<
+  ri3-json-escaped-comment (not triggered)     | rule: deny:merge-word  | original: deny:merge-word    | mine: deny:merge-word  
+
+RI-4  F2 clause 3: 'a PR merge is denied without the owner's word' (hooks/README.md:15) vs 'or in the assistant's last text before that message together with the PR's number' (hypothesis:22)
+  ri4-control-yes-other-pr                     | rule: deny:merge-word  | original: deny:merge-word    | mine: deny:merge-word  
+  ri4-control-fixture-R5-wording               | rule: deny:merge-word  | original: deny:merge-word    | mine: deny:merge-word  
+  ri4-incident-shape-with-the-word             | rule: deny:merge-word  | original: allow              | mine: allow            <<<
+  ri4-owner-says-no                            | rule: deny:merge-word  | original: allow              | mine: allow            <<<
+  ri4-owner-says-no-wait                       | rule: deny:merge-word  | original: allow              | mine: allow            <<<
+  ri4-owner-says-stop                          | rule: deny:merge-word  | original: allow              | mine: allow            <<<
+  ri4-stale-text-two-turns-later               | rule: deny:merge-word  | original: allow              | mine: allow            <<<
+  ri4-control-fixture-merge-27                 | rule: allow            | original: allow              | mine: deny:merge-word  
+  ri4-same-sentence-merging-26                 | rule: deny:merge-word  | original: allow              | mine: deny:merge-word  <<<
+  ri4-merge-34-not-141                         | rule: deny:merge-word  | original: allow              | mine: allow            <<<
+  ri4-click-library-only-merging-141           | rule: deny:merge-word  | original: allow              | mine: allow            <<<
+
+RI-5  owner filter: 'Harness-written user rows are skipped' (turngate.py:66); the code skips any owner message that CONTAINS a marker, and with no owner message both gates switch off
+  ri5-control-newer-message-no-marker          | rule: deny:merge-word  | original: deny:merge-word    | mine: deny:merge-word  
+  ri5-newer-message-quotes-marker              | rule: deny:merge-word  | original: allow              | mine: deny:merge-word  <<<
+  ri5-newer-message-mentions-tag               | rule: deny:merge-word  | original: allow              | mine: deny:merge-word  <<<
+  ri5-only-message-quotes-marker               | rule: deny:merge-word  | original: allow              | mine: deny:merge-word  <<<
+  ri5-session-started-by-slash-command         | rule: deny:merge-word  | original: allow              | mine: deny:merge-word  <<<
+  ri5-empty-transcript                         | rule: deny:merge-word  | original: allow              | mine: deny:merge-word  <<<
+  ri5-stop-control-plain-message               | rule: block:F1         | original: block:F1           | mine: block:F1         
+  ri5-stop-only-message-quotes-marker          | rule: block:F1         | original: allow              | mine: block:F1         <<<
+  ri5-stop-session-started-by-slash            | rule: block:F1         | original: allow              | mine: block:F1         <<<
+
+RI-6  F1 outward list: 'git commit/push, `gh pr create/merge`, a PR create/update/merge, a file push, a scheduled-task create/update/delete' (hypothesis:21)
+  ri6-control-git-commit                       | rule: block:F1         | original: block:F1           | mine: block:F1         
+  ri6-control-git-status                       | rule: allow            | original: allow              | mine: allow            
+  ri6-commit-with-identity-flags               | rule: block:F1         | original: allow              | mine: block:F1         <<<
+  ri6-commit-gpgsign-off                       | rule: block:F1         | original: allow              | mine: block:F1         <<<
+  ri6-commit-no-pager                          | rule: block:F1         | original: allow              | mine: block:F1         <<<
+  ri6-push-with-config-flag                    | rule: block:F1         | original: allow              | mine: block:F1         <<<
+  ri6-push-quoted-dir-with-space               | rule: block:F1         | original: allow              | mine: block:F1         <<<
+  ri6-cron-create                              | rule: block:F1         | original: allow              | mine: block:F1         <<<
+  ri6-send-later                               | rule: block:F1         | original: allow              | mine: block:F1         <<<
+  ri6-gh-pr-edit                               | rule: block:F1         | original: allow              | mine: block:F1         <<<
+  ri6-update-pr-branch                         | rule: block:F1         | original: allow              | mine: block:F1         <<<
+  ri6-enable-auto-merge                        | rule: block:F1         | original: allow              | mine: block:F1         <<<
+
+RI-7  merge routes: 'a scheduled run is a turn of its own, and never merges' (hooks/README.md:1-2); 'a PR merge is denied without the owner's word' (hooks/README.md:15)
+  ri7-sched-control-merge-tool                 | rule: deny:scheduled   | original: deny:scheduled     | mine: deny:scheduled   
+  ri7-sched-control-gh-merge-auto              | rule: deny:scheduled   | original: deny:scheduled     | mine: deny:scheduled   
+  ri7-sched-enable-auto-merge-tool             | rule: deny:scheduled   | original: allow              | mine: deny:scheduled   <<<
+  ri7-sched-gh-repo-flag-first                 | rule: deny:scheduled   | original: allow              | mine: deny:scheduled   <<<
+  ri7-sched-gh-api-put                         | rule: deny:scheduled   | original: allow              | mine: deny:scheduled   <<<
+  ri7-sched-curl-put                           | rule: deny:scheduled   | original: allow              | mine: deny:scheduled   <<<
+  ri7-ok-control-merge-tool                    | rule: deny:merge-word  | original: deny:merge-word    | mine: deny:merge-word  
+  ri7-ok-enable-auto-merge-tool                | rule: deny:merge-word  | original: allow              | mine: deny:merge-word  <<<
+  ri7-ok-gh-repo-flag-first                    | rule: deny:merge-word  | original: allow              | mine: deny:merge-word  <<<
+  wiring (project settings): is mcp__github__merge_pull_request sent to turn-gates-pretool.py? yes
+  wiring (project settings): is mcp__github__enable_pr_auto_merge sent to turn-gates-pretool.py? NO
+  wiring (plugin hooks.json): is mcp__github__merge_pull_request sent to turn-gates-pretool.py? yes
+  wiring (plugin hooks.json): is mcp__github__enable_pr_auto_merge sent to turn-gates-pretool.py? NO
+  session-tools.txt lists enable_pr_auto_merge: True
+
+RI-8  words, not commands: 'A PR merge (`*merge_pull_request`, `gh pr merge`) is denied unless ...' (hypothesis:22); 'If the turn took an OUTWARD action' (hypothesis:21)
+  ri8-control-git-status                       | rule: allow            | original: allow              | mine: allow            
+  ri8-control-real-shell-merge                 | rule: deny:merge-word  | original: deny:merge-word    | mine: deny:merge-word  
+  ri8-grep-for-the-words                       | rule: allow            | original: deny:merge-word    | mine: allow            <<<
+  ri8-commit-message-mentions                  | rule: allow            | original: deny:merge-word    | mine: allow            <<<
+  ri8-heredoc-to-python                        | rule: allow            | original: deny:merge-word    | mine: allow            <<<
+  ri8-echo-into-notes                          | rule: allow            | original: deny:merge-word    | mine: allow            <<<
+  ri8-stop-control-status                      | rule: allow            | original: allow              | mine: allow            
+  ri8-stop-grep-git-commit                     | rule: allow            | original: block:F1           | mine: allow            <<<
+  ri8-stop-echo-git-push                       | rule: allow            | original: block:F1           | mine: allow            <<<
+  ri8-stop-push-dry-run                        | rule: allow            | original: block:F1           | mine: allow            <<<
+  ri8-stop-commit-graph                        | rule: allow            | original: block:F1           | mine: allow            <<<
+  ri8-stop-merge-denied-by-F2                  | rule: allow            | original: block:F1           | mine: allow            <<<
+  real record (diag2.log, categories only): the single call the original denies in pack/replay-baseline.txt:
+    {"command_chars": 986, "command_lines": 14, "mine_outward": null, "orig_outward": true, "orig_verdict": "deny:merge-word", "programs_my_parser_runs": ["cd", "grep", "python3"], "tool": "Bash", "word_hits": ["heredoc-body", "heredoc-body"]}
+
+EXTRA  smaller differences (notes)
+  x-header-printed-by-bash                     | rule: allow            | original: deny:scheduled     | mine: allow            <<<
+  x-header-inside-github-body                  | rule: allow            | original: deny:scheduled     | mine: deny:scheduled   <<<
+  x-stop-header-inside-github-body             | rule: block:F1         | original: allow              | mine: allow            <<<
+  x-number-without-hash                        | rule: allow            | original: deny:merge-word    | mine: allow            <<<
+  x-queued-owner-message-mid-turn              | rule: deny:merge-word  | original: allow              | mine: deny:merge-word  <<<
+  x-card-merge-34-answered-yes                 | rule: deny:merge-word  | original: deny:merge-word    | mine: deny:merge-word  
+  x-stop-control-ungoverned-push               | rule: block:F1         | original: block:F1           | mine: block:F1         
+  x-stop-push-after-an-earlier-stop-block      | rule: block:F1         | original: allow              | mine: allow            <<<
+  x-account-plugin-scheduled                   | rule: deny:scheduled   | account plugin 0.1.4: allow | merged library: deny:scheduled
+

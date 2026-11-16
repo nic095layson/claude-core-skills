@@ -1,0 +1,3 @@
+{"type": "user", "message": {"role": "user", "content": "what's next?"}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "tool_use", "id": "toolu_c1689b0ff87a408e", "name": "AskUserQuestion", "input": {"questions": [{"question": "Merge the QA-loop PRs (#34 library, #141 deck)?", "header": "Decision", "multiSelect": false, "options": [{"label": "Yes, both (Recommended)", "description": ""}, {"label": "Wait", "description": ""}]}]}}]}}
+{"type": "user", "message": {"role": "user", "content": [{"type": "tool_result", "tool_use_id": "toolu_c1689b0ff87a408e", "content": "Your questions have been answered: \"Merge the QA-loop PRs (#34 library, #141 deck)?\"=\"Yes, both (Recommended)\". You can now continue with these answers in mind."}]}}

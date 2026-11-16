@@ -1,0 +1,2 @@
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "text", "text": "Both are green. Shall I merge PR 34 and PR 141?"}]}}
+{"type": "user", "message": {"role": "user", "content": "yes, both"}}

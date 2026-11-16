@@ -1,0 +1,2 @@
+{"type": "user", "message": {"role": "user", "content": "fix the typo"}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "tool_use", "id": "toolu_40849232354f", "name": "Skill", "input": {"skill": "plan-gate"}}]}}

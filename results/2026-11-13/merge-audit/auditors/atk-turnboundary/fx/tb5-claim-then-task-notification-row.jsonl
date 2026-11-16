@@ -1,0 +1,4 @@
+{"type": "user", "message": {"role": "user", "content": "check the port"}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "text", "text": "I couldn't verify the port."}]}}
+{"type": "user", "message": {"role": "user", "content": "<task-notification>\n<status>completed</status>\n</task-notification>"}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "text", "text": "The background job finished."}]}}

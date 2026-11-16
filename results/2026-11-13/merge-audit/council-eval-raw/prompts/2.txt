@@ -1,0 +1,1 @@
+Convene the council on whether we should rewrite the billing service in Go or keep patching the Python one.

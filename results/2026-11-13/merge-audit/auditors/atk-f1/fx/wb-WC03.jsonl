@@ -1,0 +1,5 @@
+{"type": "user", "message": {"role": "user", "content": "Continue"}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "tool_use", "id": "toolu_8d3482843d69", "name": "Skill", "input": {"skill": "/plan-gate"}}]}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "tool_use", "id": "toolu_d1eb8c50ddbb", "name": "Bash", "input": {"command": "git add -A && git commit -qm x"}}]}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "tool_use", "id": "toolu_de56af3827e3", "name": "Skill", "input": {"skill": "/adversarial-verify"}}]}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "text", "text": "done"}]}}

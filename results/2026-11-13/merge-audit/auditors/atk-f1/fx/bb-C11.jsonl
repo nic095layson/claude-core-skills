@@ -1,0 +1,4 @@
+{"type": "user", "message": {"role": "user", "content": "Continue"}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "tool_use", "id": "toolu_d91550a5f403", "name": "Skill", "input": {"skill": "scope-fence"}}]}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "tool_use", "id": "toolu_e8ebe5aec1a1", "name": "Bash", "input": {"command": "git add -A && git commit -qm x"}}]}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "text", "text": "done"}]}}

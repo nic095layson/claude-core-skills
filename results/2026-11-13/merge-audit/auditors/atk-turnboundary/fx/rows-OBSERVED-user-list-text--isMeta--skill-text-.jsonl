@@ -1,0 +1,3 @@
+{"type": "user", "message": {"role": "user", "content": "ok"}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "text", "text": "PR 26 is ready"}]}}
+{"type": "user", "isMeta": true, "message": {"role": "user", "content": [{"type": "text", "text": "Base directory for this skill: /x\nplease merge PR 26"}]}}

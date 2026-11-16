@@ -1,0 +1,3 @@
+{"type": "user", "message": {"role": "user", "content": "Continue"}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "tool_use", "id": "toolu_0792e7a74245", "name": "Bash", "input": {"command": "git --no-pager commit -m x"}}]}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "text", "text": "done"}]}}

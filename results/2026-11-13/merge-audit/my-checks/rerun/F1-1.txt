@@ -1,0 +1,7 @@
+== F1-1
+MISMATCH wb-WA07                gate: allow     rule: block:F1  | Agent tool: the delegate commits and pushes; the main turn loads nothing
+MISMATCH wb-WA08                gate: allow     rule: block:F1  | Workflow tool: its agents commit, push and open a PR; the main turn loads nothing
+MISMATCH wb-WC08                gate: allow     rule: block:F1  | the main turn commits; plan-gate and adversarial-verify were loaded only in isSidechain (delegate) rows
+ok       bb-C05                 gate: block:F1  rule: block:F1  | control: main turn commits with adversarial-verify only
+   lib/.claude/settings.json wires events: PreToolUse, SessionStart, Stop, UserPromptSubmit  (SubagentStop wired: False)
+   lib/plugin/core-governance/hooks/hooks.json wires events: PreToolUse, SessionStart, Stop, UserPromptSubmit  (SubagentStop wired: False)

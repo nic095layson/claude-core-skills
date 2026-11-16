@@ -1,0 +1,4 @@
+{"type": "user", "message": {"role": "user", "content": "Continue"}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "tool_use", "id": "toolu_694ce528deb4", "name": "mcp__claude-code-remote__list_triggers", "input": {}}]}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "tool_use", "id": "toolu_59f8e0849ab6", "name": "mcp__claude-code-remote__get_trigger", "input": {"trigger_id": "trig_1"}}]}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "text", "text": "done"}]}}

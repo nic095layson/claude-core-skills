@@ -1,0 +1,2 @@
+{"type": "user", "message": {"role": "user", "content": "Continue"}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "text", "text": "I couldn't verify the port."}]}}

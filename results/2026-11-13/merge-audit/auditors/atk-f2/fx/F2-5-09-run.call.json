@@ -1,0 +1,1 @@
+{"tool_name": "mcp__GH__create_or_update_file", "tool_input": {"owner": "nic095layson", "repo": "claude-core-skills", "branch": "main", "path": "CLAUDE.md", "content": "...", "message": "x"}, "want": "deny", "label": "8 single-file commit on main (tool) | inside a scheduled run", "show": false, "hooks": "lib/hooks", "seq": 20}

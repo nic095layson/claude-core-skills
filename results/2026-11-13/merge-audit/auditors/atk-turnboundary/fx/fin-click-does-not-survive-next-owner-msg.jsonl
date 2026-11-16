@@ -1,0 +1,7 @@
+{"type": "user", "message": {"role": "user", "content": "x"}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "tool_use", "id": "toolu_f7a71128fc01", "name": "AskUserQuestion", "input": {"questions": []}}]}}
+{"type": "user", "message": {"role": "user", "content": [{"type": "tool_result", "tool_use_id": "toolu_x", "content": "Your questions have been answered: \"Merge PR 26?\"=\"Merge it\". You can now continue with these answers in mind."}]}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "tool_use", "id": "toolu_db761ae2d90a", "name": "mcp__github__merge_pull_request", "input": {"pullNumber": 26}}]}}
+{"type": "user", "message": {"role": "user", "content": [{"type": "tool_result", "tool_use_id": "toolu_x", "content": "merged"}]}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "text", "text": "done"}]}}
+{"type": "user", "message": {"role": "user", "content": "thanks, now look at PR 27"}}

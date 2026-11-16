@@ -1,0 +1,3 @@
+{"type": "user", "message": {"role": "user", "content": "Continue"}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "tool_use", "id": "toolu_a67c4db11ffa", "name": "Bash", "input": {"command": "cat > /tmp/s.sh <<'EOF'\ngit commit -m x\ngit push\nEOF"}}]}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "text", "text": "done"}]}}

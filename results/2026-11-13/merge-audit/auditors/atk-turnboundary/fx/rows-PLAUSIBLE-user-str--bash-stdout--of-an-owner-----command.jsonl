@@ -1,0 +1,3 @@
+{"type": "user", "message": {"role": "user", "content": "ok"}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "text", "text": "PR 26 is ready"}]}}
+{"type": "user", "message": {"role": "user", "content": "<bash-stdout>abc123 Merge pull request #25</bash-stdout><bash-stderr></bash-stderr>"}}

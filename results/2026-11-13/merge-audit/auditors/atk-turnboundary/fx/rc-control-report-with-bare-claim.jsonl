@@ -1,0 +1,2 @@
+{"type": "user", "message": {"role": "user", "content": "audit the merge and report"}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "text", "text": "Report: 3 checks pass. I couldn't verify the plugin upload."}]}}

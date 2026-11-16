@@ -1,0 +1,25 @@
+
+== RECEIPT  the receipt gate's turn (last string-content user row) against the owner's turn; TMPDIR is private
+ok rc-control-report-with-bare-claim | receipt | rule requires=block | hooks say=block | (control: the same report, stop right after it)
+DIFF rc-report-then-card-then-skill-reload | receipt | rule requires=block | hooks say=allow | <- real flow: report + card + governor re-load; the report is never judged
+ok rc-borrowed-receipt-owner-rows-str | receipt | rule requires=block | hooks say=block | (control: owner rows as strings)
+DIFF rc-borrowed-receipt-owner-rows-list | receipt | rule requires=block | hooks say=allow | <- owner rows as list[text]: 'ran' from the previous turn is taken as the receipt
+ok rc-str-turn1-bare-claim | receipt | rule requires=block | hooks say=block | (turn 1, session rc-sentinel-str-<run>)
+ok rc-str-turn2-new-bare-claim | receipt | rule requires=block | hooks say=block | (control)
+ok rc-list-turn1-bare-claim | receipt | rule requires=block | hooks say=block | (turn 1, session rc-sentinel-list-<run>)
+DIFF rc-list-turn2-new-bare-claim | receipt | rule requires=block | hooks say=allow | <- turn 2, same session: a NEW bare claim
+
+== TB5  the hooks do not agree on where the turn starts
+ok tb5-control-bare-claim | receipt | rule requires=block | hooks say=block | (control)
+ok tb5-control-claim-then-skill-first-load | receipt | rule requires=block | hooks say=block | (control: list-shaped isMeta row)
+DIFF tb5-claim-then-skill-reinvocation-row | receipt | rule requires=block | hooks say=allow | <- real row shape (string isMeta row mid-turn)
+DIFF tb5-claim-then-task-notification-row | receipt | rule requires=block | hooks say=allow | <- real row shape
+ok tb5-control-old-claim-owner-rows-str | receipt | rule requires=allow | hooks say=allow | (control: owner rows as strings; the claim sits in an EARLIER owner turn)
+DIFF tb5-old-claim-rejudged-owner-rows-list | receipt | rule requires=allow | hooks say=block | <- owner rows as list[text] (plausible; the shape governance-enforce.py:9-10 names)
+ok tb5-control-governed-prompt-unloaded | stop | rule requires=block:prompt-class | hooks say=block:prompt-class | (control)
+DIFF tb5-sched-run-inherits-owner-prompt-class | stop | rule requires=allow | hooks say=block:prompt-class | <- the scheduled run is 'a turn of its own', yet is blocked for the owner's earlier prompt
+ok tb5-sched-run-rides-on-owner-loads | stop | rule requires=allow | hooks say=allow | (informational: it passes only because the OWNER's turn loaded plan-gate)
+trigger: first owner prompt after a scheduled run whose report listed an open decision (as doctrine rule 4 tells an unattended run to): card-reminder injected
+real-record (probe-log.tsv): the receipt gate's turn start against turngate.turn_start at every real stop point
+real-record: differ at 18 of 26 stops; receipt gate starts at: {'isMeta:stop-hook-feedback': 2, 'isMeta:skill-reinvocation': 11, 'task-notification': 5}
+real-record: stops where assistant texts of the turn lie BEFORE the receipt gate's start: 15 (max 13 texts)

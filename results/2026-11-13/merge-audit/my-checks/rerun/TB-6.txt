@@ -1,0 +1,15 @@
+== owner messages that BEGIN with hook-feedback words (owner_index line 74: startswith GOV-ENFORCE / Stop hook feedback)
+ok fin-control-owner-says-no | merge | rule requires=deny:merge-word | hooks say=deny:merge-word | (control)
+DIFF fin-owner-msg-starts-GOV-ENFORCE | merge | rule requires=deny:merge-word | hooks say=allow | <- owner pasted the hook's first word
+DIFF fin-owner-msg-starts-Stop-hook-feedback | stop | rule requires=block:F1 | hooks say=allow | <- previous turn's governors count
+== known answers: approvals and loads must NOT survive an owner boundary
+ok fin-click-does-not-survive-next-owner-msg | merge | rule requires=deny:merge-word | hooks say=deny:merge-word
+ok fin-loads-do-not-survive-next-owner-msg | stop | rule requires=block:F1 | hooks say=block:F1
+ok fin-sched-run-then-owner-merge-word | merge | rule requires=allow | hooks say=allow | (a scheduled run followed by ordinary work)
+ok fin-two-sched-runs-second-ungoverned | stop | rule requires=block:F1 | hooks say=block:F1 | (second run does not inherit the first run's loads)
+DIFF fin-two-sched-notifs-ONE-read-second-task-ungoverned | stop | rule requires=AMBIGUOUS | hooks say=allow | <- two stored prompts delivered by one read are one turn: the second rides on the first's loads
+== a harness wake after the turn has stopped: is the owner's earlier click still their word? (documents silent)
+ok fin-control-next-owner-message-ends-approval | merge | rule requires=deny:merge-word | hooks say=deny:merge-word | (control)
+DIFF fin-wake-after-stop-approval-persists | merge | rule requires=AMBIGUOUS | hooks say=allow | <- unattended wake, PR 150 was never put to the owner
+real-record: 5 of 26 real stop points were reached through a task-notification wake after an earlier stop; merge of an unrelated PR 99999 there: {'deny:merge-word': 1, 'allow': 4}
+real-record: slice_rows=1471 notification_reads=8 (all inside an owner turn by turngate.owner_index; none with a scheduled header)

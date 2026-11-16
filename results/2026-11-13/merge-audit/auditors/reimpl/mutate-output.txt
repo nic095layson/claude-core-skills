@@ -1,0 +1,18 @@
+M0-none                          -         | == 44 passed, 0 failed ==              | still passes  | no change (control: fixture passes)
+M1-negation-off                  applied   | == 43 passed, 1 failed ==              | caught        | negation ignored entirely (control: fixture must FAIL)
+      FAIL F2 'Do not merge yet' contains the word but forbids it -> DENY (refutation 2026-10-29)  (got allow)
+M2-clicks-off                    applied   | == 43 passed, 1 failed ==              | caught        | no clickable answer ever recognised (control: fixture must FAIL)
+      FAIL F2 clickable answer 'Merge all three' -> ALLOW  (got deny)
+M3-word-only-merge               applied   | == 44 passed, 0 failed ==              | still passes  | 'merged' / 'merging' no longer count as the word (the stated rule)
+M4-window-zero                   applied   | == 44 passed, 0 failed ==              | still passes  | negation must sit DIRECTLY before the word
+M5-window-four                   applied   | == 43 passed, 1 failed ==              | caught        | negation may sit up to five words before the word
+      FAIL F2 "don't merge #26, merge #27" merging #27 -> ALLOW (a later un-negated merge)  (got deny)
+M6-curly-apostrophe              applied   | == 44 passed, 0 failed ==              | still passes  | curly apostrophe and can't / cannot / shouldn't / won't are negations
+M7-click-needs-lead              applied   | == 44 passed, 0 failed ==              | still passes  | an answer must START with the harness lead (a mid-text quote no longer counts)
+M8-sched-needs-lead              applied   | == 44 passed, 0 failed ==              | still passes  | a scheduled header counts only in a result that starts with the notification lead
+M9-marker-prefix-only            applied   | == 44 passed, 0 failed ==              | still passes  | a harness marker counts only at the START of a user row
+M10-no-owner-denies-merge        applied   | == 44 passed, 0 failed ==              | still passes  | a merge with no owner message in the transcript is denied
+M11-number-without-hash          applied   | == 44 passed, 0 failed ==              | still passes  | clause 3 accepts the PR number without '#'
+M12-clause3-reads-reply          applied   | == 44 passed, 0 failed ==              | still passes  | clause 3 refuses when the owner's reply starts with no / stop / wait / not yet
+M13-git-config-flag              applied   | == 44 passed, 0 failed ==              | still passes  | git -c key=value commit / push count as outward
+M14-commit-anything-outward-off  applied   | == 44 passed, 0 failed ==              | still passes  | update_pull_request, file pushes and scheduled-task tools no longer outward

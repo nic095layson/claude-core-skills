@@ -1,0 +1,39 @@
+### A. the live checkout BEFORE the Monday run (owner mid-work on a feature branch)
+  branch:            claude/owner-work-in-progress
+  uncommitted edit:   M hooks/gate.py;?? draft-notes.md;
+  hooks/gate.py:     TRIVIA_MAX_CHARS = 350   # owner's uncommitted edit
+  stashes:           0  
+  main is at:        353d9d7 local-only commit on main   (commit 353d9d7 on a branch: main )
+
+### B. step 1 as stored: fetch, name a stash for the leftovers, check out main at origin/main
+  branch:            main
+  uncommitted edit:  ?? draft-notes.md;
+  hooks/gate.py:     TRIVIA_MAX_CHARS = 400
+  stashes:           1  stash@{0}: On claude/owner-work-in-progress: weekly-review leftovers 2026-11-16
+  main is at:        e3287e8 main: base   (commit 353d9d7 on a branch: )
+  untracked draft still in the tree, now on main: draft-notes.md
+
+### C. three Mondays, the owner merges none of the draft PRs (steps 1, 4, 5, 6 each week)
+  after run 1, the checkout is left on: claude/weekly-review-2026-11-16
+  run 2, step 5 'compared with the previous weekly report if one exists' -> on main: 0 report(s); on unmerged branches: 1
+  worktrees registered:        4 (1 = the checkout itself)
+  local review branches:       3
+  remote review branches:      3
+  stashes:                     1  [stash@{0}: On claude/owner-work-in-progress: weekly-review leftovers 2026-11-16]   (never popped: no step restores it)
+  owner's branch still exists: claude/owner-work-in-progress ; checkout is on: claude/weekly-review-2026-11-30
+
+### D. the container's /tmp is cleared between runs (the worktree directories vanish)
+  <sandbox>/live                         46aa0c0 [claude/weekly-review-2026-11-30]
+  <sandbox>/tmp/weekly-audit-2026-11-16  e3287e8 (detached HEAD) prunable
+  <sandbox>/tmp/weekly-audit-2026-11-23  e3287e8 (detached HEAD) prunable
+  <sandbox>/tmp/weekly-audit-2026-11-30  e3287e8 (detached HEAD) prunable
+
+### E. the task fires twice on one day (a manual fire, or a retry after a failed run)
+  fatal: '<sandbox>/tmp/weekly-audit-2026-11-30' is a missing but already registered worktree;
+  use 'add -f' to override, or 'prune' or 'remove' to clear
+  fatal: a branch named 'claude/weekly-review-2026-11-30' already exists
+  exit of 'git checkout -b claude/weekly-review-2026-11-30': 128
+
+### F. the stored prompt and the real checkout (read-only on the pack)
+  words in the stored prompt that undo step 1 (pop, restore, switch back, return to, previous branch): 0
+  non-main branches the live library checkout carried on 2026-11-12 (lib/ was cloned from it): origin/claude/qa-loop-2026-11-12 origin/claude/trusting-curie-d2ft62 

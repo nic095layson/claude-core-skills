@@ -1,0 +1,1 @@
+{"tool_name": "mcp__github__merge_pull_request", "tool_input": {"owner": "nic095layson", "repo": "yahoo-fantasy-basketball", "pullNumber": 141}, "want": "deny", "label": "", "show": true, "hooks": "lib/hooks", "seq": 4}

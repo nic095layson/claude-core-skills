@@ -1,0 +1,33 @@
+UNMUTATED registry_check: CONSTANTS CHECK: PASS — 33 registered = 33 live on 1ce99d5; settings 3, structural 7, uncalibrated 23
+
+M0 control: REGISTERED value changed by one (TRIVIA_MAX_CHARS 400 -> 401)
+   registry_check: CONSTANTS CHECK: FAIL | TRIVIA_MAX_CHARS: registry 400 != live 401
+   guard: == RESULT: FAIL ==
+      FAIL  red team: hooks/ constants DRIFTED from redteam/constants_registry.json or are unregistered (run registr
+
+M1 unregistered path list SCRATCH: ('/tmp/',) -> ('/tmp/', '/home/')
+   registry_check: CONSTANTS CHECK: PASS — 33 registered = 33 live on 1ce99d5; 
+   guard: == RESULT: PASS ==
+
+M2 unregistered tool list WRITE_TOOLS: NotebookEdit dropped
+   registry_check: CONSTANTS CHECK: PASS — 33 registered = 33 live on 1ce99d5; 
+   guard: == RESULT: PASS ==
+
+M3 unregistered merge pattern MERGE_BASH: now needs '--admin' after the three words
+   registry_check: CONSTANTS CHECK: PASS — 33 registered = 33 live on 1ce99d5; 
+   guard: == RESULT: FAIL ==
+      FAIL  enforcement pack: turn-gates fixture FAILS (run hooks/selftest-turn-gates.py)
+
+M4 unregistered tool list VERIFY_TOOLS (receipt gate): 'Skill' added as a verifying tool
+   registry_check: CONSTANTS CHECK: PASS — 33 registered = 33 live on 1ce99d5; 
+   guard: == RESULT: PASS ==
+
+M5 NEW hand-set value added to a hook (never registered)
+   registry_check: CONSTANTS CHECK: PASS — 33 registered = 33 live on 1ce99d5; 
+   guard: == RESULT: PASS ==
+
+M6 unregistered governor list GOVERNORS: scope-fence dropped
+   registry_check: CONSTANTS CHECK: PASS — 33 registered = 33 live on 1ce99d5; 
+   guard: == RESULT: PASS ==
+
+restored; git status --porcelain -> ''

@@ -1,0 +1,10 @@
+[F2-7-ctl1] ok: rule requires DENY, gate says DENY:MERGE-WORD (an owner row without the word)
+[F2-7-ctl2] ok: rule requires DENY, gate says DENY:SCHEDULED (a scheduled run)
+[F2-7a] MISMATCH: rule requires DENY, gate says ALLOW (the file starts at a compaction boundary (system compact_boundary + isCompactSummary row), as the real record does)
+[F2-7b] MISMATCH: rule requires DENY, gate says ALLOW (the session's only owner input so far is a slash command (marker row))
+[F2-7c] MISMATCH: rule requires DENY, gate says ALLOW (empty transcript)
+[F2-7d] MISMATCH: rule requires DENY, gate says ALLOW (owner 'ok' + one line that is a JSON string, not an object (without that line: DENY, see ctl1))
+-> 6 case(s), 4 where the gate's answer differs from what the rule requires
+[F2-7x] transcript file does not exist: gate says ALLOW
+REAL: 26 real stop points; the first four: 2026-10-21T23:24=no-owner-row, 2026-10-21T23:25=no-owner-row, 2026-10-21T23:26=closed, 2026-10-21T23:26=closed
+REAL: the transcript held no owner row and no scheduled row at 2 of 26 (the hook exits before the merge check there)

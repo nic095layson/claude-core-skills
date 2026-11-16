@@ -1,0 +1,1 @@
+{"tool_name": "mcp__github__merge_pull_request", "tool_input": {"owner": "nic095layson", "repo": "claude-core-skills", "pullNumber": 34}, "want": "deny", "label": "control  merge tool | owner typed 'ok'", "show": false, "hooks": "lib/hooks", "seq": 1}

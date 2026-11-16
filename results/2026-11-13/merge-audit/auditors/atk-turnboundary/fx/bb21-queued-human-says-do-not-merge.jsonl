@@ -1,0 +1,4 @@
+{"type": "user", "message": {"role": "user", "content": "merge PR 26"}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "tool_use", "id": "toolu_6ce7c82e5f69", "name": "Bash", "input": {"command": "ls"}}]}}
+{"type": "user", "message": {"role": "user", "content": [{"type": "tool_result", "tool_use_id": "toolu_x", "content": "x"}]}}
+{"type": "attachment", "attachment": {"type": "queued_command", "prompt": "wait - do not merge PR 26 yet", "commandMode": "prompt", "origin": {"kind": "human"}}}

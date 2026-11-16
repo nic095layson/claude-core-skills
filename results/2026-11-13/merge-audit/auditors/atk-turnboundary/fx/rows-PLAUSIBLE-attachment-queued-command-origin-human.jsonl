@@ -1,0 +1,3 @@
+{"type": "user", "message": {"role": "user", "content": "ok"}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "text", "text": "PR 26 is ready"}]}}
+{"type": "attachment", "attachment": {"type": "queued_command", "prompt": "please merge PR 26", "commandMode": "prompt", "origin": {"kind": "human"}}}

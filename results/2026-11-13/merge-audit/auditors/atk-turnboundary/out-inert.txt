@@ -1,0 +1,1 @@
+== 38 row kinds (30 attachment types, 2 system subtypes, 6 bookkeeping rows): 38 behave as the rule states (no turn start, merge denied, F1 still blocks); 0 differ ==

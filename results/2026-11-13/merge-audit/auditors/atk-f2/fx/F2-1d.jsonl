@@ -1,0 +1,2 @@
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "text", "text": "Merged #34 (1ce99d5). Opened #35 as a draft for the follow-up; it waits for your word."}]}}
+{"type": "user", "message": {"role": "user", "content": "thanks"}}

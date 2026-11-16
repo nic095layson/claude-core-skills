@@ -1,0 +1,5 @@
+ok tb7-control-owner-trivia-question-alone | stop | rule requires=allow | hooks say=allow | (control: the owner's turn itself passes, trivia allowance)
+ok tb7-control-run-after-ungoverned-owner-msg | stop | rule requires=allow | hooks say=allow | (control: the same scheduled run after 'thanks')
+DIFF tb7-same-run-after-owner-trivia-question | stop | rule requires=allow | hooks say=block:prompt-class | <- the same scheduled run, blocked for the owner's earlier question
+reason: GOV-ENFORCE: this is governed work (adversarial-verify) and you finished WITHOUT loading it. Load adversarial-verify with the Skill tool now, follow its procedure, and re
+ok tb7-run-rides-on-owner-turn-plan-gate | stop | rule requires=allow | hooks say=allow | (informational: here the run passes only because the OWNER's turn loaded plan-gate)

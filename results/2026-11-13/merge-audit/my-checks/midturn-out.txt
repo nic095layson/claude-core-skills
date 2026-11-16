@@ -1,0 +1,4 @@
+case      | rule requires | merged hooks    | what happened
+control   | deny          | deny:merge-word | owner: 'Merge #34.' then, as an ordinary message: 'STOP. Do not merge #34'
+mid-turn  | deny          | allow           | the same STOP sent while the assistant was working (recorded as an attachment)
+mid-turn  | allow         | deny:merge-word | owner: 'ok, carry on'; then mid-turn: 'Yes, merge #34 now.'

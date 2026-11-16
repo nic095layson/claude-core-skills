@@ -1,0 +1,14 @@
+RI-6  F1 outward list: 'git commit/push, `gh pr create/merge`, a PR create/update/merge, a file push, a scheduled-task create/update/delete' (hypothesis:21)
+  ri6-control-git-commit                       | rule: block:F1         | original: block:F1           | mine: block:F1         
+  ri6-control-git-status                       | rule: allow            | original: allow              | mine: allow            
+  ri6-commit-with-identity-flags               | rule: block:F1         | original: allow              | mine: block:F1         <<<
+  ri6-commit-gpgsign-off                       | rule: block:F1         | original: allow              | mine: block:F1         <<<
+  ri6-commit-no-pager                          | rule: block:F1         | original: allow              | mine: block:F1         <<<
+  ri6-push-with-config-flag                    | rule: block:F1         | original: allow              | mine: block:F1         <<<
+  ri6-push-quoted-dir-with-space               | rule: block:F1         | original: allow              | mine: block:F1         <<<
+  ri6-cron-create                              | rule: block:F1         | original: allow              | mine: block:F1         <<<
+  ri6-send-later                               | rule: block:F1         | original: allow              | mine: block:F1         <<<
+  ri6-gh-pr-edit                               | rule: block:F1         | original: allow              | mine: block:F1         <<<
+  ri6-update-pr-branch                         | rule: block:F1         | original: allow              | mine: block:F1         <<<
+  ri6-enable-auto-merge                        | rule: block:F1         | original: allow              | mine: block:F1         <<<
+

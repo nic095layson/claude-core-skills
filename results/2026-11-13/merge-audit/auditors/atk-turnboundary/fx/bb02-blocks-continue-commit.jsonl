@@ -1,0 +1,3 @@
+{"type": "user", "message": {"role": "user", "content": [{"type": "text", "text": "Continue"}]}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "tool_use", "id": "toolu_d99416124563", "name": "Bash", "input": {"command": "git add -A && git commit -qm x && git push"}}]}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "text", "text": "done"}]}}

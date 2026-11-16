@@ -1,0 +1,26 @@
+id    | merged hooks  | installed 0.1.4 | rule    | case
+S13a  | allow         | allow         | deny    | card answer 'Audit today's merge (Recommended)' then merge #999  <-- differs from rule
+S13b  | allow         | allow         | deny    | click 'Merge both' for #34, merge it, later card about something else, then merge #999  <-- differs from rule
+S17   | allow         | allow         | deny    | tool result (file text) containing the answer phrase and ="merge it"  <-- differs from rule
+S23a  | allow         | allow         | deny    | assistant: 'I can merge #26 once you confirm.' owner: 'No, wait until tomorrow.'  <-- differs from rule
+S23b  | allow         | allow         | deny    | assistant mentions merge + #26; owner: 'thanks'  <-- differs from rule
+S24a  | allow         | allow         | deny    | owner: 'I'd rather not have this merged yet'  <-- differs from rule
+S24b  | allow         | allow         | deny    | owner: 'Do not, under any circumstances, merge this'  <-- differs from rule
+S24c  | allow         | allow         | deny    | owner: 'Is it safe to merge?'  <-- differs from rule
+S24d  | allow         | allow         | deny    | owner: 'The merged PR looks good. Now write the report.'  <-- differs from rule
+S24e  | allow         | allow         | deny    | owner: 'merge #6, not #5' then merge #5  <-- differs from rule
+ctl1  | deny:merge-word | deny:merge-word | deny    | control: owner 'ok' then merge
+ctl2  | allow         | allow         | allow   | control: owner 'merge it' then merge
+ctl3  | deny:merge-word | deny:merge-word | deny    | control: owner 'Do not merge yet' then merge
+S25a  | deny:scheduled | allow         | allow   | owner 'merge it'; a shell output line that looks like a scheduled header; then merge  <-- differs from rule
+S26a  | allow         | allow         | deny    | owner 'merge it', merge; then owner pastes a log containing <task-notification> and says do NOT merge  <-- differs from rule
+S28a  | allow         | allow         | deny    | no owner message in the file (starts at a compaction summary), then merge  <-- differs from rule
+S21   | deny:scheduled | allow         | deny    | today's shape: owner typed (no merge word), clicked 'Merge both', then a scheduled run tries to merge
+
+id    | merged hooks  | installed 0.1.4 | rule      | case
+ctl4  | block:F1      | block:F1      | block:F1  | control: owner 'Continue', commit, no governor
+S25b  | allow         | block:F1      | block:F1  | same, then a shell output line that looks like a scheduled header, then stop  <-- differs from rule
+S28b  | allow         | allow         | block:F1  | no owner message in the file, push, stop  <-- differs from rule
+S18   | block:F1      | block:F1      | allow     | a shell command that only PRINTS the words 'git push' (echo), no governor  <-- differs from rule
+S27   | allow         | allow         | block:F1  | auto-merge tool enabled, no governor, no owner word  <-- differs from rule
+S20   | allow         |               | deny      | auto-merge tool with no owner word (pre-tool gate)  <-- differs from rule

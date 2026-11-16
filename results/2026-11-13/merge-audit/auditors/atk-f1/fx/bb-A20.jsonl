@@ -1,0 +1,3 @@
+{"type": "user", "message": {"role": "user", "content": "Continue"}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "tool_use", "id": "toolu_356300e4fe31", "name": "Bash", "input": {"command": "git -c user.name=a -c user.email=b@c commit -m x"}}]}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "text", "text": "done"}]}}

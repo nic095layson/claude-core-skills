@@ -1,0 +1,36 @@
+
+== ROWS  every row kind of pack/real-row-shapes.md, appended after [owner('ok'), say('PR 26 is ready')]
+   starts_turn = turngate.turn_start moves to the row; word = a merge of PR 26 becomes allowed because of the row;
+   receipt_start = the receipt gate takes the row as its turn start. Text of each row: 'please merge PR 26'.
+   OBSERVED assistant tool_use                                              should be: part of turn                   | starts_turn=False merge=deny:merge-word receipt_start=False
+   OBSERVED assistant thinking                                              should be: part of turn                   | starts_turn=False merge=deny:merge-word receipt_start=False
+   OBSERVED assistant text                                                  should be: part of turn                   | starts_turn=False merge=deny:merge-word receipt_start=False
+   OBSERVED user list[tool_result] (plain)                                  should be: part of turn                   | starts_turn=False merge=deny:merge-word receipt_start=False
+   OBSERVED user list[tool_result] AskUserQuestion answer                   should be: owner's word                   | starts_turn=False merge=allow           receipt_start=False
+   OBSERVED user list[tool_result] notification, GitHub origin              should be: part of turn                   | starts_turn=False merge=deny:merge-word receipt_start=False
+   OBSERVED(kit) user list[tool_result] notification, scheduled origin      should be: starts a turn, not owner's word | starts_turn=True  merge=deny:scheduled  receipt_start=False
+   OBSERVED user str (owner prompt)                                         should be: starts a turn, owner's word    | starts_turn=True  merge=allow           receipt_start=True
+   OBSERVED user str <task-notification>                                    should be: part of turn                   | starts_turn=False merge=deny:merge-word receipt_start=True
+   OBSERVED user str <command-name>/model echo                              should be: part of turn                   | starts_turn=False merge=deny:merge-word receipt_start=True
+   OBSERVED user str <local-command-stdout>                                 should be: part of turn                   | starts_turn=False merge=deny:merge-word receipt_start=True
+   OBSERVED user str isMeta (skill re-invocation / stop hook feedback)      should be: part of turn                   | starts_turn=False merge=deny:merge-word receipt_start=True
+   OBSERVED user list[text] isMeta (skill text)                             should be: part of turn                   | starts_turn=False merge=deny:merge-word receipt_start=False
+   OBSERVED user str isCompactSummary                                       should be: part of turn                   | starts_turn=False merge=deny:merge-word receipt_start=True
+   OBSERVED system compact_boundary                                         should be: part of turn                   | starts_turn=False merge=deny:merge-word receipt_start=False
+   OBSERVED system stop_hook_summary                                        should be: part of no turn                | starts_turn=False merge=deny:merge-word receipt_start=False
+   OBSERVED attachment queued_command (task-notification)                   should be: part of turn                   | starts_turn=False merge=deny:merge-word receipt_start=False
+   OBSERVED attachment hook_additional_context                              should be: part of turn                   | starts_turn=False merge=deny:merge-word receipt_start=False
+   OBSERVED attachment invoked_skills (governor text re-attached)           should be: part of turn                   | starts_turn=False merge=deny:merge-word receipt_start=False
+   OBSERVED last-prompt                                                     should be: part of no turn                | starts_turn=False merge=deny:merge-word receipt_start=False
+   OBSERVED queue-operation (enqueue, content)                              should be: part of no turn                | starts_turn=False merge=deny:merge-word receipt_start=False
+   OBSERVED mode / atis-latch / tools-used                                  should be: part of no turn                | starts_turn=False merge=deny:merge-word receipt_start=False
+   PLAUSIBLE owner list[text] (cloud shape per enforce docstring)           should be: starts a turn, owner's word    | starts_turn=True  merge=allow           receipt_start=False
+   PLAUSIBLE owner list[text,image]                                         should be: starts a turn, owner's word    | starts_turn=True  merge=allow           receipt_start=False
+   PLAUSIBLE owner image only                                               should be: starts a turn                  | starts_turn=False merge=deny:merge-word receipt_start=False
+   PLAUSIBLE owner-typed /skill with args (<command-name> row)              should be: starts a turn, owner's word    | starts_turn=False merge=deny:merge-word receipt_start=True
+   PLAUSIBLE attachment queued_command origin human                         should be: owner's word                   | starts_turn=False merge=deny:merge-word receipt_start=False
+   PLAUSIBLE tool rejection with owner feedback (tool_result)               should be: owner's word                   | starts_turn=False merge=deny:merge-word receipt_start=False
+   PLAUSIBLE user list[text] '[Request interrupted by user]'                should be: part of turn (no word)         | starts_turn=True  merge=deny:merge-word receipt_start=False
+   PLAUSIBLE user str <bash-stdout> of an owner '!' command                 should be: not the owner's word           | starts_turn=True  merge=allow           receipt_start=True
+   PLAUSIBLE sidechain user row (helper agent's task text)                  should be: not the owner's word           | starts_turn=True  merge=allow           receipt_start=True
+   PLAUSIBLE <wake …> / <webhook-payload> / <agent-message row              should be: part of turn                   | starts_turn=False merge=deny:merge-word receipt_start=True

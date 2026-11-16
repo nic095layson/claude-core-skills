@@ -1,0 +1,2 @@
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "text", "text": "Next steps: 1. sync the kit 2. merge #29"}]}}
+{"type": "user", "message": {"role": "user", "content": "Proceed with 1 and 2"}}

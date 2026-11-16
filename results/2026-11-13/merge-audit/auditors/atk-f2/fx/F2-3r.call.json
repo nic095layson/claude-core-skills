@@ -1,0 +1,1 @@
+{"tool_name": "mcp__github__merge_pull_request", "tool_input": {"owner": "nic095layson", "repo": "claude-core-skills", "pullNumber": 34}, "want": "deny", "label": "click: Not yet (merge after I upload 0.1.5)", "show": false, "hooks": "lib/hooks", "seq": 22}

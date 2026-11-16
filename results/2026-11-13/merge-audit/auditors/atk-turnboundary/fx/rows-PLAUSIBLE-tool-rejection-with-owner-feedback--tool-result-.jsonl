@@ -1,0 +1,3 @@
+{"type": "user", "message": {"role": "user", "content": "ok"}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "text", "text": "PR 26 is ready"}]}}
+{"type": "user", "message": {"role": "user", "content": [{"type": "tool_result", "tool_use_id": "toolu_x", "content": "The user doesn't want to proceed with this tool use. To tell you how to proceed, the user said:\nplease merge PR 26"}]}}

@@ -1,0 +1,1 @@
+{"tool_name": "mcp__github__merge_pull_request", "tool_input": {"owner": "nic095layson", "repo": "claude-core-skills", "pullNumber": 238}, "want": "deny", "label": "the library's own fixture case S5, run on the account copy", "show": false, "hooks": "account/plugin/core-governance/scripts", "seq": 4}

@@ -1,0 +1,2958 @@
+{
+ "ADV-1": {
+  "status_on_main": {
+   "title_first_clause": "On the real session the plan-shown advisory fires on 6 of 7 plan-gate loads, among them turns where the records say a plan was shown",
+   "area": "atk-advisory",
+   "state_at_ed8ef13": "STATED LIMIT",
+   "basis": "CORE-SPEC section 5: the advisory states that the record does not keep every message (break AD02); the miss itself is not removed"
+  },
+  "best_recovered": "finder record + verifier command",
+  "records": [
+   {
+    "seen_page": "p114",
+    "seen_at": "2026-11-13T20:50:23.554477Z",
+    "record": {
+     "id": "ADV-1",
+     "title": "On the real session the plan-shown advisory fires on 6 of 7 plan-gate loads, among them turns where the records say a plan was shown: it reports what the transcript recor...",
+     "kind": "operability",
+     "guess": "medium"
+    }
+   }
+  ],
+  "table_rows": [
+   {
+    "seen_page": "p013",
+    "row": "| ADV-1 | On the real session the plan-shown advisory fires on 6 of 7 plan-gate loads, among them turns where the records say a plan was shown | atk-advisory | **STATED LIMIT** | CORE-SPEC section 5: the advisory states that the record does not keep every message (break AD02); the miss itself is not removed |"
+   },
+   {
+    "seen_page": "p079",
+    "row": "| ADV-1 | A2: the advisory says the record does not keep every message; it stays advisory, because PreToolUse has no copy of the unrecorded text (H7). The miss itself is not removed | `a_adv1_advisory_states_its_limit` |"
+   }
+  ],
+  "repo_traces": [
+   "hooks/selftest-mutations.py",
+   "hooks/selftest-turn-gates.py",
+   "results/2026-11-15/receipt-gate-fix/pass-on-fixed.txt",
+   "results/2026-11-15/turn-gates-fix/CORE-SPEC.md",
+   "results/2026-11-15/turn-gates-fix/mutations.txt",
+   "results/2026-11-15/turn-gates-fix/pass-on-fixed.txt",
+   "results/2026-11-15/turn-gates-fix/red-on-merged.txt",
+   "results/2026-11-16/audit-fixes/merge-gate/table-after.txt",
+   "results/2026-11-16/audit-fixes/receipt-gate/table-after.txt",
+   "results/2026-11-16/audit-fixes/second-read-receipt/table-after.txt",
+   "results/2026-11-16/audit-fixes/second-read/table-after.txt",
+   "results/2026-11-16/audit-fixes/stop-gate/table-after.txt"
+  ],
+  "finder_record_preview": [
+   {
+    "seen_page": "p114",
+    "seen_at": "2026-11-13T20:50:23.050736Z",
+    "record": {
+     "id": "ADV-1",
+     "title": "On the real session the plan-shown advisory fires on 6 of 7 plan-gate loads, among them turns where the records say a plan was shown: it reports what the transcript recorded, not whether a plan was shown.",
+     "component": "lib/hooks/turn-gates-pretool.py (F3) with lib/hooks/turngate.py PLAN_MARK",
+     "kind": "operability",
+     "rule_quoted": "**F3** (advisory: after a plan-gat…"
+    }
+   },
+   {
+    "seen_page": "p114",
+    "seen_at": "2026-11-13T20:50:23.050736Z",
+    "record": {
+     "id": "ADV-1",
+     "title": "On the real session the plan-shown advisory fires on 6 of 7 plan-gate loads, among them turns where the records say a plan was shown: it reports what the transcript recorded, not whether a plan was shown.",
+     "component": "lib/hooks/turn-gates-pretool.py (F3) with lib/hooks/turngate.py PLAN_MARK",
+     "kind": "operability",
+     "rule_quoted": "**F3** (advisory: after a plan-gat…"
+    }
+   },
+   {
+    "seen_page": "p114",
+    "seen_at": "2026-11-13T20:50:23.554477Z",
+    "record": {
+     "id": "ADV-1",
+     "title": "On the real session the plan-shown advisory fires on 6 of 7 plan-gate loads, among them turns where the records say a plan was shown: it reports what the transcript recorded, not whether a plan was shown.",
+     "component": "lib/hooks/turn-gates-pretool.py (F3) with lib/hooks/turngate.py PLAN_MARK",
+     "kind": "operability",
+     "rule_quoted": "**F3** (advisory: after a plan-gat…"
+    }
+   }
+  ],
+  "verifier_record_preview": [
+   {
+    "seen_page": "p101",
+    "seen_at": "2026-11-14T05:44:58.414761Z",
+    "record": {
+     "id": "ADV-1",
+     "verdict": "UNCLEAR",
+     "reproduced": true,
+     "command_run": "bash SCRATCH/merge-audit/work/verify-atk-advisory/repro_adv1.sh   (copy of the finder's script) ; second way: python3 SCRATCH/merge-audit/work/verify-atk-advisory/v_cases.py 1   (my own prob…"
+    }
+   }
+  ],
+  "summary_table_lines": [
+   {
+    "seen_page": "p057",
+    "seen_at": "2026-11-16T00:19:51.032760Z",
+    "line": "ADV-1   operability        low      UNCLEAR   On the real session the plan-shown advisory fires on 6 of 7 plan-gate loads, among them turns where the r"
+   }
+  ]
+ },
+ "ADV-2": {
+  "status_on_main": {
+   "title_first_clause": "The guard prints PASS when the compaction hook does nothing, when both first-write reminders never fire, when the plan-shown advisory fires once pe...",
+   "area": "atk-advisory",
+   "state_at_ed8ef13": "LEFT FOR THE SECOND PULL REQUEST",
+   "basis": "unit: registry rest, advisory hooks and guard gaps"
+  },
+  "best_recovered": "summary line (kind, severity, verdict, title)",
+  "records": [
+   {
+    "seen_page": "p114",
+    "seen_at": "2026-11-13T20:50:23.554477Z",
+    "record": {
+     "id": "ADV-2",
+     "title": "The guard prints PASS when the compaction hook does nothing, when both first-write reminders never fire, when the plan-shown advisory fires once per session and never aga...",
+     "kind": "test_gap",
+     "guess": "medium"
+    }
+   }
+  ],
+  "table_rows": [],
+  "repo_traces": [
+   "hooks/selftest-mutations.py",
+   "results/2026-11-15/turn-gates-fix/mutations.txt"
+  ],
+  "finder_record_preview": [],
+  "verifier_record_preview": [],
+  "summary_table_lines": [
+   {
+    "seen_page": "p057",
+    "seen_at": "2026-11-16T00:19:51.032760Z",
+    "line": "ADV-2   test_gap           medium   CONFIRMED The guard prints PASS when the compaction hook does nothing, when both first-write reminders never fire,"
+   }
+  ]
+ },
+ "ADV-3": {
+  "status_on_main": {
+   "title_first_clause": "The registry said to hold every hand-set value in hooks/ leaves out the advisory's exempt locations, its write-tool list and the ledger phrase list...",
+   "area": "atk-advisory",
+   "state_at_ed8ef13": "LEFT FOR THE SECOND PULL REQUEST",
+   "basis": "unit: registry rest, advisory hooks and guard gaps"
+  },
+  "best_recovered": "summary line (kind, severity, verdict, title)",
+  "records": [
+   {
+    "seen_page": "p114",
+    "seen_at": "2026-11-13T20:50:23.554477Z",
+    "record": {
+     "id": "ADV-3",
+     "title": "The registry said to hold every hand-set value in hooks/ leaves out the advisory's exempt locations, its write-tool list and the ledger phrase list, and reads its two rem...",
+     "kind": "overclaim",
+     "guess": "medium"
+    }
+   }
+  ],
+  "table_rows": [],
+  "repo_traces": [],
+  "finder_record_preview": [],
+  "verifier_record_preview": [],
+  "summary_table_lines": [
+   {
+    "seen_page": "p057",
+    "seen_at": "2026-11-16T00:19:51.032760Z",
+    "line": "ADV-3   overclaim          medium   CONFIRMED The registry said to hold every hand-set value in hooks/ leaves out the advisory's exempt locations, its"
+   }
+  ]
+ },
+ "ADV-4": {
+  "status_on_main": {
+   "title_first_clause": "The advisory takes a read-only shell command that only mentions `git commit`, `git push`, `sed -i` or `git checkout -b` for the first write and spe...",
+   "area": "atk-advisory",
+   "state_at_ed8ef13": "FIXED HERE",
+   "basis": "Stop-gate auditor: \"FIXED\""
+  },
+  "best_recovered": "index (kind, severity guess)",
+  "records": [
+   {
+    "seen_page": "p114",
+    "seen_at": "2026-11-13T20:50:23.554477Z",
+    "record": {
+     "id": "ADV-4",
+     "title": "The advisory takes a read-only shell command that only mentions `git commit`, `git push`, `sed -i` or `git checkout -b` for the first write and spends its one reminder th...",
+     "kind": "wrong_result",
+     "guess": "medium"
+    }
+   }
+  ],
+  "table_rows": [],
+  "repo_traces": [
+   "hooks/selftest-mutations.py",
+   "hooks/selftest-turn-gates.py",
+   "results/2026-11-15/receipt-gate-fix/pass-on-fixed.txt",
+   "results/2026-11-15/turn-gates-fix/CORE-SPEC.md",
+   "results/2026-11-15/turn-gates-fix/mutations.txt",
+   "results/2026-11-15/turn-gates-fix/pass-on-fixed.txt",
+   "results/2026-11-15/turn-gates-fix/red-on-merged.txt",
+   "results/2026-11-15/turn-gates-fix/replay-vs-baseline.md",
+   "results/2026-11-16/audit-fixes/merge-gate/table-after.txt",
+   "results/2026-11-16/audit-fixes/receipt-gate/table-after.txt",
+   "results/2026-11-16/audit-fixes/second-read-receipt/table-after.txt",
+   "results/2026-11-16/audit-fixes/second-read/table-after.txt",
+   "results/2026-11-16/audit-fixes/stop-gate/table-after.txt"
+  ],
+  "finder_record_preview": [],
+  "verifier_record_preview": [],
+  "summary_table_lines": []
+ },
+ "ADV-5": {
+  "status_on_main": {
+   "title_first_clause": "The two once-per-session reminders are spent on a scratch write under /tmp, or on a helper agent's write, and are then silent at the main session's...",
+   "area": "atk-advisory",
+   "state_at_ed8ef13": "LEFT FOR THE SECOND PULL REQUEST",
+   "basis": "unit: registry rest, advisory hooks and guard gaps"
+  },
+  "best_recovered": "summary line (kind, severity, verdict, title)",
+  "records": [
+   {
+    "seen_page": "p114",
+    "seen_at": "2026-11-13T20:50:23.554477Z",
+    "record": {
+     "id": "ADV-5",
+     "title": "The two once-per-session reminders are spent on a scratch write under /tmp, or on a helper agent's write, and are then silent at the main session's first repository edit;...",
+     "kind": "ambiguity",
+     "guess": "low"
+    }
+   }
+  ],
+  "table_rows": [],
+  "repo_traces": [],
+  "finder_record_preview": [],
+  "verifier_record_preview": [],
+  "summary_table_lines": [
+   {
+    "seen_page": "p057",
+    "seen_at": "2026-11-16T00:19:51.032760Z",
+    "line": "ADV-5   ambiguity          low      UNCLEAR   The two once-per-session reminders are spent on a scratch write under /tmp, or on a helper agent's write,"
+   }
+  ]
+ },
+ "ADV-6": {
+  "status_on_main": {
+   "title_first_clause": "Fifteen of sixteen behaviour changes to the advisory hooks pass all three shipped self-tests, among them an advisory that fires once per session an...",
+   "area": "atk-advisory",
+   "state_at_ed8ef13": "LEFT FOR THE SECOND PULL REQUEST",
+   "basis": "unit: registry rest, advisory hooks and guard gaps"
+  },
+  "best_recovered": "summary line (kind, severity, verdict, title)",
+  "records": [
+   {
+    "seen_page": "p114",
+    "seen_at": "2026-11-13T20:50:23.554477Z",
+    "record": {
+     "id": "ADV-6",
+     "title": "Fifteen of sixteen behaviour changes to the advisory hooks pass all three shipped self-tests, among them an advisory that fires once per session and never again, one that...",
+     "kind": "test_gap",
+     "guess": "low"
+    }
+   }
+  ],
+  "table_rows": [],
+  "repo_traces": [],
+  "finder_record_preview": [],
+  "verifier_record_preview": [],
+  "summary_table_lines": [
+   {
+    "seen_page": "p057",
+    "seen_at": "2026-11-16T00:19:51.032760Z",
+    "line": "ADV-6   test_gap           low      CONFIRMED Fifteen of sixteen behaviour changes to the advisory hooks pass all three shipped self-tests, among them"
+   }
+  ]
+ },
+ "ADV-7": {
+  "status_on_main": {
+   "title_first_clause": "With the temp directory missing or unwritable the plan-shown advisory never fires while the two reminders fire on every write",
+   "area": "atk-advisory",
+   "state_at_ed8ef13": "LEFT FOR THE SECOND PULL REQUEST",
+   "basis": "unit: registry rest, advisory hooks and guard gaps"
+  },
+  "best_recovered": "summary line (kind, severity, verdict, title)",
+  "records": [
+   {
+    "seen_page": "p114",
+    "seen_at": "2026-11-13T20:50:23.554477Z",
+    "record": {
+     "id": "ADV-7",
+     "title": "With the temp directory missing or unwritable the plan-shown advisory never fires while the two reminders fire on every write; where /usr/bin/jq is absent the ledger remi...",
+     "kind": "crash_or_fail_open",
+     "guess": "low"
+    }
+   }
+  ],
+  "table_rows": [],
+  "repo_traces": [],
+  "finder_record_preview": [],
+  "verifier_record_preview": [],
+  "summary_table_lines": [
+   {
+    "seen_page": "p057",
+    "seen_at": "2026-11-16T00:19:51.032760Z",
+    "line": "ADV-7   crash_or_fail_open low      CONFIRMED With the temp directory missing or unwritable the plan-shown advisory never fires while the two reminders"
+   }
+  ]
+ },
+ "ADV-8": {
+  "status_on_main": {
+   "title_first_clause": "In a one-repository cloud session that also has the account plugin the post-compaction protocol is injected twice every time, and the first-write r...",
+   "area": "atk-advisory",
+   "state_at_ed8ef13": "LEFT FOR THE SECOND PULL REQUEST",
+   "basis": "unit: registry rest, advisory hooks and guard gaps"
+  },
+  "best_recovered": "summary line (kind, severity, verdict, title)",
+  "records": [
+   {
+    "seen_page": "p114",
+    "seen_at": "2026-11-13T20:50:23.554477Z",
+    "record": {
+     "id": "ADV-8",
+     "title": "In a one-repository cloud session that also has the account plugin the post-compaction protocol is injected twice every time, and the first-write reminders fire twice in ...",
+     "kind": "overclaim",
+     "guess": "low"
+    }
+   }
+  ],
+  "table_rows": [],
+  "repo_traces": [],
+  "finder_record_preview": [],
+  "verifier_record_preview": [],
+  "summary_table_lines": [
+   {
+    "seen_page": "p057",
+    "seen_at": "2026-11-16T00:19:51.032760Z",
+    "line": "ADV-8   overclaim          low      CONFIRMED In a one-repository cloud session that also has the account plugin the post-compaction protocol is inject"
+   }
+  ]
+ },
+ "CA-1": {
+  "status_on_main": {
+   "title_first_clause": "The guard prints that every hand-set value in hooks/ is registered and unchanged, but the pattern that decides which Bash commands are a PR merge i...",
+   "area": "aud-claims-a",
+   "state_at_ed8ef13": "LEFT FOR THE SECOND PULL REQUEST",
+   "basis": "unit: registry rest, advisory hooks and guard gaps"
+  },
+  "best_recovered": "finder record + verifier command",
+  "records": [],
+  "table_rows": [],
+  "repo_traces": [],
+  "finder_record_preview": [
+   {
+    "seen_page": "p096",
+    "seen_at": "2026-11-14T06:31:23.409386Z",
+    "record": {
+     "id": "CA-1",
+     "title": "The guard prints that every hand-set value in hooks/ is registered and unchanged, but the pattern that decides which Bash commands are a PR merge is not in the registry: weakening it passes the fixture and the guard.",
+     "component": "redteam/live.py and redteam/constants_registry.json; guard_essentials.sh:149; recorded output results/2026-11-12/qa-loop/guard-after.t…"
+    }
+   }
+  ],
+  "verifier_record_preview": [
+   {
+    "seen_page": "p096",
+    "seen_at": "2026-11-14T06:38:36.751873Z",
+    "record": {
+     "id": "CA-1",
+     "verdict": "CONFIRMED",
+     "reproduced": true,
+     "command_run": "bash SCRATCH/merge-audit/work/verify-aud-claims-a/repro/ca1.sh (the finder's script, copied with its wt/, base/ and out/ paths redirected into my scratch directory, because the original writes into the finder's directory, which I may not change) ; second…"
+    }
+   },
+   {
+    "seen_page": "p096",
+    "seen_at": "2026-11-14T06:38:36.814487Z",
+    "record": {
+     "id": "CA-1",
+     "verdict": "CONFIRMED",
+     "reproduced": true,
+     "command_run": "bash SCRATCH/merge-audit/work/verify-aud-claims-a/repro/ca1.sh (the finder's script, copied with its wt/, base/ and out/ paths redirected into my scratch directory, because the original writes into the finder's directory, which I may not change) ; second…"
+    }
+   }
+  ],
+  "summary_table_lines": [
+   {
+    "seen_page": "p057",
+    "seen_at": "2026-11-16T00:19:51.032760Z",
+    "line": "CA-1    overclaim          medium   CONFIRMED The guard prints that every hand-set value in hooks/ is registered and unchanged, but the pattern that de"
+   }
+  ]
+ },
+ "CA-2": {
+  "status_on_main": {
+   "title_first_clause": "P5 as the owner approved it says 'Re-run Red Team on the hooks'",
+   "area": "aud-claims-a",
+   "state_at_ed8ef13": "LEFT FOR THE SECOND PULL REQUEST",
+   "basis": "unit: documents and claims"
+  },
+  "best_recovered": "summary line (kind, severity, verdict, title)",
+  "records": [],
+  "table_rows": [],
+  "repo_traces": [],
+  "finder_record_preview": [],
+  "verifier_record_preview": [],
+  "summary_table_lines": [
+   {
+    "seen_page": "p057",
+    "seen_at": "2026-11-16T00:19:51.032760Z",
+    "line": "CA-2    overclaim          medium   CONFIRMED P5 as the owner approved it says 'Re-run Red Team on the hooks'; no attack was re-run, the attack check f"
+   }
+  ]
+ },
+ "CA-3": {
+  "status_on_main": {
+   "title_first_clause": "corrections_rate.py counts cut-short dated rows as caught by the session, loses an owner catch when the last cell contains a pipe, and counts a wee...",
+   "area": "aud-claims-a",
+   "state_at_ed8ef13": "LEFT FOR THE SECOND PULL REQUEST",
+   "basis": "unit: outcome scripts"
+  },
+  "best_recovered": "summary line (kind, severity, verdict, title)",
+  "records": [],
+  "table_rows": [],
+  "repo_traces": [],
+  "finder_record_preview": [],
+  "verifier_record_preview": [],
+  "summary_table_lines": [
+   {
+    "seen_page": "p057",
+    "seen_at": "2026-11-16T00:19:51.032760Z",
+    "line": "CA-3    wrong_result       medium   CONFIRMED corrections_rate.py counts cut-short dated rows as caught by the session, loses an owner catch when the l"
+   }
+  ]
+ },
+ "CA-4": {
+  "status_on_main": {
+   "title_first_clause": "The outcome says the old registry had '15 unregistered' values",
+   "area": "aud-claims-a",
+   "state_at_ed8ef13": "LEFT FOR THE SECOND PULL REQUEST",
+   "basis": "unit: documents and claims"
+  },
+  "best_recovered": "summary line (kind, severity, verdict, title)",
+  "records": [],
+  "table_rows": [],
+  "repo_traces": [],
+  "finder_record_preview": [],
+  "verifier_record_preview": [],
+  "summary_table_lines": [
+   {
+    "seen_page": "p057",
+    "seen_at": "2026-11-16T00:19:51.032760Z",
+    "line": "CA-4    wrong_result       medium   CONFIRMED The outcome says the old registry had '15 unregistered' values; the repository's own check gives 13, and"
+   }
+  ]
+ },
+ "CA-5": {
+  "status_on_main": {
+   "title_first_clause": "stale_rules.py is described as listing every unmeasured marker older than 60 days",
+   "area": "aud-claims-a",
+   "state_at_ed8ef13": "LEFT FOR THE SECOND PULL REQUEST",
+   "basis": "unit: outcome scripts"
+  },
+  "best_recovered": "summary line (kind, severity, verdict, title)",
+  "records": [],
+  "table_rows": [],
+  "repo_traces": [],
+  "finder_record_preview": [],
+  "verifier_record_preview": [],
+  "summary_table_lines": [
+   {
+    "seen_page": "p057",
+    "seen_at": "2026-11-16T00:19:51.032760Z",
+    "line": "CA-5    overclaim          medium   CONFIRMED stale_rules.py is described as listing every unmeasured marker older than 60 days; on the tree it was mea"
+   }
+  ]
+ },
+ "CA-6": {
+  "status_on_main": {
+   "title_first_clause": "Three recorded outputs do not match their commands on the merged commit",
+   "area": "aud-claims-a",
+   "state_at_ed8ef13": "LEFT FOR THE SECOND PULL REQUEST",
+   "basis": "unit: documents and claims"
+  },
+  "best_recovered": "summary line (kind, severity, verdict, title)",
+  "records": [],
+  "table_rows": [],
+  "repo_traces": [],
+  "finder_record_preview": [],
+  "verifier_record_preview": [],
+  "summary_table_lines": [
+   {
+    "seen_page": "p057",
+    "seen_at": "2026-11-16T00:19:51.032760Z",
+    "line": "CA-6    wrong_result       low      CONFIRMED Three recorded outputs do not match their commands on the merged commit: the green test record shows 8 te"
+   }
+  ]
+ },
+ "CA-7": {
+  "status_on_main": {
+   "title_first_clause": "The audit report's registry row says 6 unregistered values and 'two items that were fixed'",
+   "area": "aud-claims-a",
+   "state_at_ed8ef13": "LEFT FOR THE SECOND PULL REQUEST",
+   "basis": "unit: documents and claims"
+  },
+  "best_recovered": "summary line (kind, severity, verdict, title)",
+  "records": [],
+  "table_rows": [],
+  "repo_traces": [],
+  "finder_record_preview": [],
+  "verifier_record_preview": [],
+  "summary_table_lines": [
+   {
+    "seen_page": "p057",
+    "seen_at": "2026-11-16T00:19:51.032760Z",
+    "line": "CA-7    wrong_result       low      CONFIRMED The audit report's registry row says 6 unregistered values and 'two items that were fixed'; the registry"
+   }
+  ]
+ },
+ "CA-8": {
+  "status_on_main": {
+   "title_first_clause": "The audit report dates kit commit b040962, and the kit's hook improvement, to 11-03",
+   "area": "aud-claims-a",
+   "state_at_ed8ef13": "LEFT FOR THE SECOND PULL REQUEST",
+   "basis": "unit: documents and claims"
+  },
+  "best_recovered": "summary line (kind, severity, verdict, title)",
+  "records": [],
+  "table_rows": [],
+  "repo_traces": [],
+  "finder_record_preview": [],
+  "verifier_record_preview": [],
+  "summary_table_lines": [
+   {
+    "seen_page": "p057",
+    "seen_at": "2026-11-16T00:19:51.032760Z",
+    "line": "CA-8    wrong_result       low      CONFIRMED The audit report dates kit commit b040962, and the kit's hook improvement, to 11-03; the commit is dated"
+   }
+  ]
+ },
+ "CN-1": {
+  "status_on_main": {
+   "title_first_clause": "The trigger eval's only record is a 16-line summary by its author",
+   "area": "rev-council",
+   "state_at_ed8ef13": "LEFT FOR THE SECOND PULL REQUEST",
+   "basis": "unit: none named (the council skill is in no unit of the 2026-11-16 card)"
+  },
+  "best_recovered": "finder record + verifier command",
+  "records": [],
+  "table_rows": [],
+  "repo_traces": [],
+  "finder_record_preview": [
+   {
+    "seen_page": "p096",
+    "seen_at": "2026-11-14T06:31:23.409386Z",
+    "record": {
+     "id": "CN-1",
+     "title": "The trigger eval's only record is a 16-line summary by its author: no raw output, prompt file, grader, driver call or run time was committed.",
+     "component": "lib/results/2026-11-12/qa-loop/council-trigger/GRADE.md",
+     "kind": "overclaim",
+     "rule_quoted": "**Evidence** → `results/<YYYY-MM-DD>/<topic>/`. Raw artifacts commit beside the report, never summarized away. || Reco…"
+    }
+   }
+  ],
+  "verifier_record_preview": [
+   {
+    "seen_page": "p096",
+    "seen_at": "2026-11-14T06:31:23.409386Z",
+    "record": {
+     "id": "CN-1",
+     "verdict": "CONFIRMED",
+     "reproduced": true,
+     "command_run": "bash SCRATCH/merge-audit/work/rev-council/repro/01_raw_evidence_absent.sh  (as given; output identical to the finder's out/01.txt). Second way, my own: cd lib && find results/2026-11-12 -type f ; git ls-files | grep -i council ; cat -n results/2026-11-12…"
+    }
+   }
+  ],
+  "summary_table_lines": [
+   {
+    "seen_page": "p057",
+    "seen_at": "2026-11-16T00:19:51.032760Z",
+    "line": "CN-1    overclaim          medium   CONFIRMED The trigger eval's only record is a 16-line summary by its author: no raw output, prompt file, grader, dr"
+   }
+  ]
+ },
+ "CN-2": {
+  "status_on_main": {
+   "title_first_clause": "The eval ran against the account copy, so the 36 lines the merge added, including the one new rule, were never loaded by any test, and no eval case...",
+   "area": "rev-council",
+   "state_at_ed8ef13": "LEFT FOR THE SECOND PULL REQUEST",
+   "basis": "unit: none named (the council skill is in no unit of the 2026-11-16 card)"
+  },
+  "best_recovered": "summary line (kind, severity, verdict, title)",
+  "records": [],
+  "table_rows": [],
+  "repo_traces": [],
+  "finder_record_preview": [],
+  "verifier_record_preview": [],
+  "summary_table_lines": [
+   {
+    "seen_page": "p057",
+    "seen_at": "2026-11-16T00:19:51.032760Z",
+    "line": "CN-2    test_gap           low      CONFIRMED The eval ran against the account copy, so the 36 lines the merge added, including the one new rule, were"
+   }
+  ]
+ },
+ "CN-3": {
+  "status_on_main": {
+   "title_first_clause": "With the hooks on, the eval's own should-fire prompt id 2 gets an order to load plan-gate before answering, and a Council-only verdict is blocked a...",
+   "area": "rev-council",
+   "state_at_ed8ef13": "LEFT FOR THE SECOND PULL REQUEST",
+   "basis": "unit: none named (the council skill is in no unit of the 2026-11-16 card)"
+  },
+  "best_recovered": "summary line (kind, severity, verdict, title)",
+  "records": [],
+  "table_rows": [],
+  "repo_traces": [],
+  "finder_record_preview": [],
+  "verifier_record_preview": [],
+  "summary_table_lines": [
+   {
+    "seen_page": "p057",
+    "seen_at": "2026-11-16T00:19:51.032760Z",
+    "line": "CN-3    ambiguity          low      UNCLEAR   With the hooks on, the eval's own should-fire prompt id 2 gets an order to load plan-gate before answerin"
+   }
+  ]
+ },
+ "CN-4": {
+  "status_on_main": {
+   "title_first_clause": "The added \"outside read\" section cannot be followed as written",
+   "area": "rev-council",
+   "state_at_ed8ef13": "LEFT FOR THE SECOND PULL REQUEST",
+   "basis": "unit: none named (the council skill is in no unit of the 2026-11-16 card)"
+  },
+  "best_recovered": "summary line (kind, severity, verdict, title)",
+  "records": [],
+  "table_rows": [],
+  "repo_traces": [],
+  "finder_record_preview": [],
+  "verifier_record_preview": [],
+  "summary_table_lines": [
+   {
+    "seen_page": "p057",
+    "seen_at": "2026-11-16T00:19:51.032760Z",
+    "line": "CN-4    ambiguity          low      UNCLEAR   The added \"outside read\" section cannot be followed as written: it adds a line the skill's own format exc"
+   }
+  ]
+ },
+ "CN-5": {
+  "status_on_main": {
+   "title_first_clause": "Eval case 4 expects silence on a message that contains the keyword, the opposite of the description's stated rule, and the silence was graded as a ...",
+   "area": "rev-council",
+   "state_at_ed8ef13": "LEFT FOR THE SECOND PULL REQUEST",
+   "basis": "unit: none named (the council skill is in no unit of the 2026-11-16 card)"
+  },
+  "best_recovered": "summary line (kind, severity, verdict, title)",
+  "records": [],
+  "table_rows": [],
+  "repo_traces": [],
+  "finder_record_preview": [],
+  "verifier_record_preview": [],
+  "summary_table_lines": [
+   {
+    "seen_page": "p057",
+    "seen_at": "2026-11-16T00:19:51.032760Z",
+    "line": "CN-5    ambiguity          low      CONFIRMED Eval case 4 expects silence on a message that contains the keyword, the opposite of the description's sta"
+   }
+  ]
+ },
+ "CN-6": {
+  "status_on_main": {
+   "title_first_clause": "The record cannot show the predictions came before the runs",
+   "area": "rev-council",
+   "state_at_ed8ef13": "LEFT FOR THE SECOND PULL REQUEST",
+   "basis": "unit: none named (the council skill is in no unit of the 2026-11-16 card)"
+  },
+  "best_recovered": "summary line (kind, severity, verdict, title)",
+  "records": [],
+  "table_rows": [],
+  "repo_traces": [],
+  "finder_record_preview": [],
+  "verifier_record_preview": [],
+  "summary_table_lines": [
+   {
+    "seen_page": "p057",
+    "seen_at": "2026-11-16T00:19:51.032760Z",
+    "line": "CN-6    overclaim          medium   CONFIRMED The record cannot show the predictions came before the runs: the pre-registration was committed 239 secon"
+   }
+  ]
+ },
+ "CN-7": {
+  "status_on_main": {
+   "title_first_clause": "The skill's own re-verify command prints a difference today, and will print 35 differing lines once the owner uploads the package the PR asks for.",
+   "area": "rev-council",
+   "state_at_ed8ef13": "LEFT FOR THE SECOND PULL REQUEST",
+   "basis": "unit: none named (the council skill is in no unit of the 2026-11-16 card)"
+  },
+  "best_recovered": "summary line (kind, severity, verdict, title)",
+  "records": [],
+  "table_rows": [],
+  "repo_traces": [],
+  "finder_record_preview": [],
+  "verifier_record_preview": [],
+  "summary_table_lines": [
+   {
+    "seen_page": "p057",
+    "seen_at": "2026-11-16T00:19:51.032760Z",
+    "line": "CN-7    wrong_result       low      CONFIRMED The skill's own re-verify command prints a difference today, and will print 35 differing lines once the o"
+   }
+  ]
+ },
+ "CN-8": {
+  "status_on_main": {
+   "title_first_clause": "Nothing in the lint or the guard pins the council skill",
+   "area": "rev-council",
+   "state_at_ed8ef13": "LEFT FOR THE SECOND PULL REQUEST",
+   "basis": "unit: none named (the council skill is in no unit of the 2026-11-16 card)"
+  },
+  "best_recovered": "summary line (kind, severity, verdict, title)",
+  "records": [],
+  "table_rows": [],
+  "repo_traces": [],
+  "finder_record_preview": [],
+  "verifier_record_preview": [],
+  "summary_table_lines": [
+   {
+    "seen_page": "p057",
+    "seen_at": "2026-11-16T00:19:51.032760Z",
+    "line": "CN-8    test_gap           low      UNCLEAR   Nothing in the lint or the guard pins the council skill: with the new rule deleted, the \"verbatim\" body a"
+   }
+  ]
+ },
+ "FU2-1": {
+  "status_on_main": {
+   "title_first_clause": "Once any Stop hook has blocked, the program sends stop_hook_active=true at every later stop of that turn, so both Stop gates stop checking",
+   "area": "followup-2",
+   "state_at_ed8ef13": "FIXED HERE",
+   "basis": "Stop-gate auditor: \"FIXED\""
+  },
+  "best_recovered": "summary line (kind, severity, verdict, title)",
+  "records": [
+   {
+    "seen_page": "p057",
+    "seen_at": "2026-11-16T00:09:12.688810Z",
+    "record": {
+     "id": "FU2-1",
+     "resolved": true,
+     "how": "Same mechanism as RL-2: a block by the other Stop hook no longer silences this gate for the rest of the turn.",
+     "test": "Follow-up repro FU2-1 on hooks/ and on the plugin copy: every receipt line reads \"as the stated rule requires\" (audit-reproductions.txt)."
+    }
+   },
+   {
+    "seen_page": "p084",
+    "seen_at": "2026-11-14T17:57:44.764147Z",
+    "record": {
+     "id": "FU2-1",
+     "title": "Once any Stop hook has blocked, the program sends stop_hook_active=true at every later stop of that turn, so both Stop gates stop checking: outward actions take...",
+     "kind": "false_allow",
+     "guess": "critical"
+    }
+   },
+   {
+    "seen_page": "p084",
+    "seen_at": "2026-11-14T17:57:44.764147Z",
+    "record": {
+     "id": "FU2-1",
+     "verdict": "CONFIRMED",
+     "severity": "high",
+     "realistic": "needs_unusual_but_plausible_input"
+    }
+   }
+  ],
+  "table_rows": [],
+  "repo_traces": [
+   "hooks/selftest-mutations.py",
+   "hooks/selftest-turn-gates.py",
+   "results/2026-11-15/receipt-gate-fix/audit-reproductions.txt",
+   "results/2026-11-15/receipt-gate-fix/pass-on-fixed.txt",
+   "results/2026-11-15/receipt-gate-fix/red-on-start.txt",
+   "results/2026-11-15/turn-gates-fix/CORE-SPEC.md",
+   "results/2026-11-15/turn-gates-fix/followup-reproductions.txt",
+   "results/2026-11-15/turn-gates-fix/pass-on-fixed.txt",
+   "results/2026-11-15/turn-gates-fix/red-on-merged.txt",
+   "results/2026-11-16/audit-fixes/merge-gate/table-after.txt",
+   "results/2026-11-16/audit-fixes/receipt-gate/table-after.txt",
+   "results/2026-11-16/audit-fixes/second-read-receipt/table-after.txt",
+   "results/2026-11-16/audit-fixes/second-read/table-after.txt",
+   "results/2026-11-16/audit-fixes/stop-gate/table-after.txt"
+  ],
+  "finder_record_preview": [
+   {
+    "seen_page": "p084",
+    "seen_at": "2026-11-14T17:57:44.764147Z",
+    "record": {
+     "id": "FU2-1",
+     "title": "Once any Stop hook has blocked, the program sends stop_hook_active=true at every later stop of that turn, so both Stop gates stop checking: outward actions take...",
+     "kind": "false_allow",
+     "guess": "critical"
+    }
+   }
+  ],
+  "verifier_record_preview": [
+   {
+    "seen_page": "p084",
+    "seen_at": "2026-11-14T17:57:44.764147Z",
+    "record": {
+     "id": "FU2-1",
+     "verdict": "CONFIRMED",
+     "severity": "high",
+     "realistic": "needs_unusual_but_plausible_input"
+    }
+   }
+  ],
+  "summary_table_lines": []
+ },
+ "FU2-2": {
+  "status_on_main": {
+   "title_first_clause": "Outward actions a helper agent takes are written to a separate file that the Stop gate never reads, and no hook runs when the helper ends, so F1 ca...",
+   "area": "followup-2",
+   "state_at_ed8ef13": "FIXED HERE",
+   "basis": "Stop-gate auditor: \"The ledger fixes it when the pre-tool hook sees the helper's calls\"; live delivery of helper calls \"not verified\""
+  },
+  "best_recovered": "summary line (kind, severity, verdict, title)",
+  "records": [
+   {
+    "seen_page": "p084",
+    "seen_at": "2026-11-14T17:57:44.764147Z",
+    "record": {
+     "id": "FU2-2",
+     "title": "Outward actions a helper agent takes are written to a separate file that the Stop gate never reads, and no hook runs when the helper ends, so F1 cannot see them...",
+     "kind": "false_allow",
+     "guess": "high"
+    }
+   },
+   {
+    "seen_page": "p084",
+    "seen_at": "2026-11-14T17:57:44.764147Z",
+    "record": {
+     "id": "FU2-2",
+     "verdict": "CONFIRMED",
+     "severity": "medium",
+     "realistic": "needs_unusual_but_plausible_input"
+    }
+   }
+  ],
+  "table_rows": [],
+  "repo_traces": [
+   "hooks/selftest-turn-gates.py",
+   "results/2026-11-15/receipt-gate-fix/pass-on-fixed.txt",
+   "results/2026-11-15/turn-gates-fix/CORE-SPEC.md",
+   "results/2026-11-15/turn-gates-fix/followup-reproductions.txt",
+   "results/2026-11-15/turn-gates-fix/pass-on-fixed.txt",
+   "results/2026-11-15/turn-gates-fix/red-on-merged.txt",
+   "results/2026-11-16/audit-fixes/merge-gate/table-after.txt",
+   "results/2026-11-16/audit-fixes/receipt-gate/table-after.txt",
+   "results/2026-11-16/audit-fixes/second-read-receipt/table-after.txt",
+   "results/2026-11-16/audit-fixes/second-read/table-after.txt",
+   "results/2026-11-16/audit-fixes/stop-gate/repro-on-fixed.txt",
+   "results/2026-11-16/audit-fixes/stop-gate/table-after.txt"
+  ],
+  "finder_record_preview": [
+   {
+    "seen_page": "p084",
+    "seen_at": "2026-11-14T17:57:44.764147Z",
+    "record": {
+     "id": "FU2-2",
+     "title": "Outward actions a helper agent takes are written to a separate file that the Stop gate never reads, and no hook runs when the helper ends, so F1 cannot see them...",
+     "kind": "false_allow",
+     "guess": "high"
+    }
+   }
+  ],
+  "verifier_record_preview": [
+   {
+    "seen_page": "p084",
+    "seen_at": "2026-11-14T17:57:44.764147Z",
+    "record": {
+     "id": "FU2-2",
+     "verdict": "CONFIRMED",
+     "severity": "medium",
+     "realistic": "needs_unusual_but_plausible_input"
+    }
+   }
+  ],
+  "summary_table_lines": []
+ },
+ "FU2-3": {
+  "status_on_main": {
+   "title_first_clause": "Any tool result that contains a line shaped like the scheduled header restarts the turn as a 'scheduled run'",
+   "area": "followup-2",
+   "state_at_ed8ef13": "CHANGED BY AN OWNER DECISION",
+   "basis": "D2: the fixture's wake row ends the word, so spoof and control are both denied; a header imitated without a wake is allowed (A08). Stop-gate part not judged"
+  },
+  "best_recovered": "summary line (kind, severity, verdict, title)",
+  "records": [
+   {
+    "seen_page": "p084",
+    "seen_at": "2026-11-14T17:57:44.764147Z",
+    "record": {
+     "id": "FU2-3",
+     "title": "Any tool result that contains a line shaped like the scheduled header restarts the turn as a 'scheduled run': a merge the owner just ordered is denied, and outw...",
+     "kind": "false_allow",
+     "guess": "high"
+    }
+   },
+   {
+    "seen_page": "p084",
+    "seen_at": "2026-11-14T17:57:44.764147Z",
+    "record": {
+     "id": "FU2-3",
+     "verdict": "CONFIRMED",
+     "severity": "medium",
+     "realistic": "needs_unusual_but_plausible_input"
+    }
+   }
+  ],
+  "table_rows": [
+   {
+    "seen_page": "p013",
+    "row": "| FU2-3 | Any tool result that contains a line shaped like the scheduled header restarts the turn as a 'scheduled run' | followup-2 | **CHANGED BY AN OWNER DECISION** | D2: the fixture's wake row ends the word, so spoof and control are both denied; a header imitated without a wake is allowed (A08). Stop-gate part not judged |"
+   }
+  ],
+  "repo_traces": [
+   "hooks/selftest-turn-gates.py",
+   "results/2026-11-15/receipt-gate-fix/pass-on-fixed.txt",
+   "results/2026-11-15/turn-gates-fix/CORE-SPEC.md",
+   "results/2026-11-15/turn-gates-fix/followup-reproductions.txt",
+   "results/2026-11-15/turn-gates-fix/old-selftest-mapping.md",
+   "results/2026-11-15/turn-gates-fix/pass-on-fixed.txt",
+   "results/2026-11-15/turn-gates-fix/red-on-merged.txt",
+   "results/2026-11-16/audit-fixes/merge-gate/table-after.txt",
+   "results/2026-11-16/audit-fixes/receipt-gate/table-after.txt",
+   "results/2026-11-16/audit-fixes/second-read-receipt/table-after.txt",
+   "results/2026-11-16/audit-fixes/second-read/table-after.txt",
+   "results/2026-11-16/audit-fixes/stop-gate/table-after.txt"
+  ],
+  "finder_record_preview": [
+   {
+    "seen_page": "p084",
+    "seen_at": "2026-11-14T17:57:44.764147Z",
+    "record": {
+     "id": "FU2-3",
+     "title": "Any tool result that contains a line shaped like the scheduled header restarts the turn as a 'scheduled run': a merge the owner just ordered is denied, and outw...",
+     "kind": "false_allow",
+     "guess": "high"
+    }
+   }
+  ],
+  "verifier_record_preview": [
+   {
+    "seen_page": "p084",
+    "seen_at": "2026-11-14T17:57:44.764147Z",
+    "record": {
+     "id": "FU2-3",
+     "verdict": "CONFIRMED",
+     "severity": "medium",
+     "realistic": "needs_unusual_but_plausible_input"
+    }
+   }
+  ],
+  "summary_table_lines": []
+ },
+ "FU2-4": {
+  "status_on_main": {
+   "title_first_clause": "A message the owner types while the assistant is working is recorded as an attachment row, which the owner filter never reads",
+   "area": "followup-2",
+   "state_at_ed8ef13": "FIXED HERE",
+   "basis": "merge-gate auditor: \"fixed\""
+  },
+  "best_recovered": "summary line (kind, severity, verdict, title)",
+  "records": [
+   {
+    "seen_page": "p084",
+    "seen_at": "2026-11-14T17:57:44.764147Z",
+    "record": {
+     "id": "FU2-4",
+     "title": "A message the owner types while the assistant is working is recorded as an attachment row, which the owner filter never reads: 'do not merge yet' typed mid-turn...",
+     "kind": "false_allow",
+     "guess": "medium"
+    }
+   },
+   {
+    "seen_page": "p084",
+    "seen_at": "2026-11-14T17:57:44.764147Z",
+    "record": {
+     "id": "FU2-4",
+     "verdict": "CONFIRMED",
+     "severity": "high",
+     "realistic": "needs_unusual_but_plausible_input"
+    }
+   }
+  ],
+  "table_rows": [
+   {
+    "seen_page": "p079",
+    "row": "| FU2-4 | 2.2: a message sent mid-turn is the owner's; it grants, refuses and is classified | T19, T20, T20c, T20b, J13. Follow-up reproduction: all lines print the required verdict (R13) |"
+   }
+  ],
+  "repo_traces": [
+   "hooks/selftest-turn-gates.py",
+   "results/2026-11-15/receipt-gate-fix/pass-on-fixed.txt",
+   "results/2026-11-15/turn-gates-fix/CORE-SPEC.md",
+   "results/2026-11-15/turn-gates-fix/followup-reproductions.txt",
+   "results/2026-11-15/turn-gates-fix/pass-on-fixed.txt",
+   "results/2026-11-15/turn-gates-fix/red-on-merged.txt",
+   "results/2026-11-16/audit-fixes/merge-gate/table-after.txt",
+   "results/2026-11-16/audit-fixes/receipt-gate/table-after.txt",
+   "results/2026-11-16/audit-fixes/second-read-receipt/table-after.txt",
+   "results/2026-11-16/audit-fixes/second-read/red-on-start.txt",
+   "results/2026-11-16/audit-fixes/second-read/table-after.txt",
+   "results/2026-11-16/audit-fixes/stop-gate/table-after.txt"
+  ],
+  "finder_record_preview": [
+   {
+    "seen_page": "p084",
+    "seen_at": "2026-11-14T17:57:44.764147Z",
+    "record": {
+     "id": "FU2-4",
+     "title": "A message the owner types while the assistant is working is recorded as an attachment row, which the owner filter never reads: 'do not merge yet' typed mid-turn...",
+     "kind": "false_allow",
+     "guess": "medium"
+    }
+   }
+  ],
+  "verifier_record_preview": [
+   {
+    "seen_page": "p084",
+    "seen_at": "2026-11-14T17:57:44.764147Z",
+    "record": {
+     "id": "FU2-4",
+     "verdict": "CONFIRMED",
+     "severity": "high",
+     "realistic": "needs_unusual_but_plausible_input"
+    }
+   }
+  ],
+  "summary_table_lines": []
+ },
+ "FU2-5": {
+  "status_on_main": {
+   "title_first_clause": "A slash command the owner types (arguments included) and an image-only message do not start a turn for the gates, so the new turn's outward actions...",
+   "area": "followup-2",
+   "state_at_ed8ef13": "FIXED HERE",
+   "basis": "merge-gate auditor: \"fixed\""
+  },
+  "best_recovered": "summary line (kind, severity, verdict, title)",
+  "records": [
+   {
+    "seen_page": "p084",
+    "seen_at": "2026-11-14T17:57:44.764147Z",
+    "record": {
+     "id": "FU2-5",
+     "title": "A slash command the owner types (arguments included) and an image-only message do not start a turn for the gates, so the new turn's outward actions are judged t...",
+     "kind": "false_allow",
+     "guess": "medium"
+    }
+   },
+   {
+    "seen_page": "p084",
+    "seen_at": "2026-11-14T17:57:44.764147Z",
+    "record": {
+     "id": "FU2-5",
+     "verdict": "CONFIRMED",
+     "severity": "medium",
+     "realistic": "needs_unusual_but_plausible_input"
+    }
+   }
+  ],
+  "table_rows": [
+   {
+    "seen_page": "p079",
+    "row": "| FU2-5 | 2.2: a typed slash command and an image-only message start a turn; the arguments are the owner's word | T21a, P15, T36, J03. Follow-up reproduction: all four lines print the required verdict (R13) |"
+   }
+  ],
+  "repo_traces": [
+   "hooks/selftest-turn-gates.py",
+   "results/2026-11-15/receipt-gate-fix/pass-on-fixed.txt",
+   "results/2026-11-15/turn-gates-fix/CORE-SPEC.md",
+   "results/2026-11-15/turn-gates-fix/followup-reproductions.txt",
+   "results/2026-11-15/turn-gates-fix/pass-on-fixed.txt",
+   "results/2026-11-15/turn-gates-fix/red-on-merged.txt",
+   "results/2026-11-16/audit-fixes/merge-gate/table-after.txt",
+   "results/2026-11-16/audit-fixes/receipt-gate/table-after.txt",
+   "results/2026-11-16/audit-fixes/second-read-receipt/table-after.txt",
+   "results/2026-11-16/audit-fixes/second-read/table-after.txt",
+   "results/2026-11-16/audit-fixes/stop-gate/table-after.txt"
+  ],
+  "finder_record_preview": [
+   {
+    "seen_page": "p084",
+    "seen_at": "2026-11-14T17:57:44.764147Z",
+    "record": {
+     "id": "FU2-5",
+     "title": "A slash command the owner types (arguments included) and an image-only message do not start a turn for the gates, so the new turn's outward actions are judged t...",
+     "kind": "false_allow",
+     "guess": "medium"
+    }
+   }
+  ],
+  "verifier_record_preview": [
+   {
+    "seen_page": "p084",
+    "seen_at": "2026-11-14T17:57:44.764147Z",
+    "record": {
+     "id": "FU2-5",
+     "verdict": "CONFIRMED",
+     "severity": "medium",
+     "realistic": "needs_unusual_but_plausible_input"
+    }
+   }
+  ],
+  "summary_table_lines": []
+ },
+ "FU2-6": {
+  "status_on_main": {
+   "title_first_clause": "After a compaction the file the hooks read holds no owner message, and then every turn gate lets everything through, a merge included.",
+   "area": "followup-2",
+   "state_at_ed8ef13": "FIXED HERE",
+   "basis": "merge-gate auditor: \"fixed\""
+  },
+  "best_recovered": "finder record + verifier command",
+  "records": [
+   {
+    "seen_page": "p084",
+    "seen_at": "2026-11-14T17:57:44.764147Z",
+    "record": {
+     "id": "FU2-6",
+     "title": "After a compaction the file the hooks read holds no owner message, and then every turn gate lets everything through, a merge included.",
+     "kind": "false_allow",
+     "guess": "critical"
+    }
+   },
+   {
+    "seen_page": "p084",
+    "seen_at": "2026-11-14T17:57:44.764147Z",
+    "record": {
+     "id": "FU2-6",
+     "verdict": "CONFIRMED",
+     "severity": "high",
+     "realistic": "needs_unusual_but_plausible_input"
+    }
+   }
+  ],
+  "table_rows": [],
+  "repo_traces": [
+   "results/2026-11-15/turn-gates-fix/CORE-SPEC.md",
+   "results/2026-11-15/turn-gates-fix/followup-reproductions.txt"
+  ],
+  "finder_record_preview": [
+   {
+    "seen_page": "p084",
+    "seen_at": "2026-11-14T17:57:44.764147Z",
+    "record": {
+     "id": "FU2-6",
+     "title": "After a compaction the file the hooks read holds no owner message, and then every turn gate lets everything through, a merge included.",
+     "kind": "false_allow",
+     "guess": "critical"
+    }
+   },
+   {
+    "seen_page": "p085",
+    "seen_at": "2026-11-14T17:43:56.460893Z",
+    "record": {
+     "id": "FU2-6",
+     "title": "After a compaction the file the hooks read holds no owner message, and then every turn gate lets everything through, a merge included.",
+     "component": "hooks/turn-gates-pretool.py:42-43; hooks/governance-enforce.py:76-77 and 120-121; hooks/turngate.py:65-77, 93-108 (same code in plugin/core-governance/scripts and in the account plugin 0.1.4)",
+     "kind": "false_allow"
+    }
+   }
+  ],
+  "verifier_record_preview": [
+   {
+    "seen_page": "p084",
+    "seen_at": "2026-11-14T17:57:44.764147Z",
+    "record": {
+     "id": "FU2-6",
+     "verdict": "CONFIRMED",
+     "severity": "high",
+     "realistic": "needs_unusual_but_plausible_input"
+    }
+   },
+   {
+    "seen_page": "p085",
+    "seen_at": "2026-11-14T17:50:04.893428Z",
+    "record": {
+     "id": "FU2-6",
+     "verdict": "CONFIRMED",
+     "reproduced": true,
+     "command_run": "python3 SCRATCH/merge-audit/work/followup-2/repro.py FU2-6 ; then my own fixtures: python3 SCRATCH/merge-audit/work/verify-followup-2/verify.py FU2-6"
+    }
+   },
+   {
+    "seen_page": "p085",
+    "seen_at": "2026-11-14T17:50:04.985477Z",
+    "record": {
+     "id": "FU2-6",
+     "verdict": "CONFIRMED",
+     "reproduced": true,
+     "command_run": "python3 SCRATCH/merge-audit/work/followup-2/repro.py FU2-6 ; then my own fixtures: python3 SCRATCH/merge-audit/work/verify-followup-2/verify.py FU2-6"
+    }
+   }
+  ],
+  "summary_table_lines": []
+ },
+ "FU2-8": {
+  "status_on_main": {
+   "title_first_clause": "A check-in the owner asked for arrives with exactly the same header as the weekly task, so the two stated merge rules give opposite answers and the...",
+   "area": "followup-2",
+   "state_at_ed8ef13": "CHANGED BY AN OWNER DECISION",
+   "basis": "Q1 of 2026-11-15 (\"No, ask me again\"): \"DENY:SCHEDULED, as the owner's Q1 answer decides\""
+  },
+  "best_recovered": "summary line (kind, severity, verdict, title)",
+  "records": [
+   {
+    "seen_page": "p084",
+    "seen_at": "2026-11-14T17:57:44.764147Z",
+    "record": {
+     "id": "FU2-8",
+     "title": "A check-in the owner asked for arrives with exactly the same header as the weekly task, so the two stated merge rules give opposite answers and the gate picks '...",
+     "kind": "ambiguity",
+     "guess": "low"
+    }
+   },
+   {
+    "seen_page": "p084",
+    "seen_at": "2026-11-14T17:57:44.764147Z",
+    "record": {
+     "id": "FU2-8",
+     "verdict": "CONFIRMED",
+     "severity": "low",
+     "realistic": "needs_unusual_but_plausible_input"
+    }
+   }
+  ],
+  "table_rows": [
+   {
+    "seen_page": "p079",
+    "row": "| FU2-8 | default: the check-in is a scheduled run and a wake-up (D2, D3): denied. Q1 | the follow-up's fixture `fu8-send-later.jsonl` as S16-check-in: deny `scheduled` (R13) |"
+   }
+  ],
+  "repo_traces": [
+   "hooks/selftest-turn-gates.py",
+   "results/2026-11-15/receipt-gate-fix/pass-on-fixed.txt",
+   "results/2026-11-15/turn-gates-fix/CORE-SPEC.md",
+   "results/2026-11-15/turn-gates-fix/followup-reproductions.txt",
+   "results/2026-11-15/turn-gates-fix/pass-on-fixed.txt",
+   "results/2026-11-15/turn-gates-fix/red-on-merged.txt",
+   "results/2026-11-16/audit-fixes/merge-gate/table-after.txt",
+   "results/2026-11-16/audit-fixes/receipt-gate/table-after.txt",
+   "results/2026-11-16/audit-fixes/second-read-receipt/table-after.txt",
+   "results/2026-11-16/audit-fixes/second-read/table-after.txt",
+   "results/2026-11-16/audit-fixes/stop-gate/table-after.txt"
+  ],
+  "finder_record_preview": [
+   {
+    "seen_page": "p084",
+    "seen_at": "2026-11-14T17:57:44.764147Z",
+    "record": {
+     "id": "FU2-8",
+     "title": "A check-in the owner asked for arrives with exactly the same header as the weekly task, so the two stated merge rules give opposite answers and the gate picks '...",
+     "kind": "ambiguity",
+     "guess": "low"
+    }
+   }
+  ],
+  "verifier_record_preview": [
+   {
+    "seen_page": "p084",
+    "seen_at": "2026-11-14T17:57:44.764147Z",
+    "record": {
+     "id": "FU2-8",
+     "verdict": "CONFIRMED",
+     "severity": "low",
+     "realistic": "needs_unusual_but_plausible_input"
+    }
+   }
+  ],
+  "summary_table_lines": []
+ },
+ "FU2-9": {
+  "status_on_main": {
+   "title_first_clause": "The receipt gate judges only assistant text it finds in the file, although the program hands the final answer over in the Stop payload and the real...",
+   "area": "followup-2",
+   "state_at_ed8ef13": "FIXED HERE",
+   "basis": "receipt-gate auditor: \"fixed: 2/2 block\""
+  },
+  "best_recovered": "summary line (kind, severity, verdict, title)",
+  "records": [],
+  "table_rows": [
+   {
+    "seen_page": "p065",
+    "row": "| FU2-9 | the gate reads only assistant text it finds in the record; the record misses texts (H7) and the program hands the final answer over in the Stop input (`last_assistant_message`) | the gate judges `Model.prose(stretch, last_assistant_message)` |"
+   },
+   {
+    "seen_page": "p079",
+    "row": "| FU2-9 | P5 uses `last_assistant_message`; the receipt gate's own reading is its assignment (interface in section 4) | P14 |"
+   }
+  ],
+  "repo_traces": [
+   "hooks/selftest-mutations.py",
+   "hooks/selftest-turn-gates.py",
+   "results/2026-11-15/receipt-gate-fix/audit-reproductions.txt",
+   "results/2026-11-15/receipt-gate-fix/pass-on-fixed.txt",
+   "results/2026-11-15/receipt-gate-fix/red-on-start.txt",
+   "results/2026-11-15/turn-gates-fix/CORE-SPEC.md",
+   "results/2026-11-15/turn-gates-fix/followup-reproductions.txt",
+   "results/2026-11-16/audit-fixes/merge-gate/table-after.txt",
+   "results/2026-11-16/audit-fixes/receipt-gate/table-after.txt",
+   "results/2026-11-16/audit-fixes/second-read-receipt/table-after.txt",
+   "results/2026-11-16/audit-fixes/second-read/table-after.txt",
+   "results/2026-11-16/audit-fixes/stop-gate/table-after.txt"
+  ],
+  "finder_record_preview": [
+   {
+    "seen_page": "p084",
+    "seen_at": "2026-11-14T17:57:44.764147Z",
+    "record": {
+     "id": "FU2-9",
+     "title": "The receipt gate judges only assistant text it finds in the file, although the program hands the final answer over in the Stop payload and the real session's fi...",
+     "kind": "false_allow",
+     "guess": "medium"
+    }
+   }
+  ],
+  "verifier_record_preview": [
+   {
+    "seen_page": "p084",
+    "seen_at": "2026-11-14T17:57:44.764147Z",
+    "record": {
+     "id": "FU2-9",
+     "verdict": "CONFIRMED",
+     "severity": "medium",
+     "realistic": "happens_in_normal_use"
+    }
+   }
+  ],
+  "summary_table_lines": []
+ },
+ "OS-1": {
+  "status_on_main": {
+   "title_first_clause": "The figure \"20 rules still untested after 60 days, oldest 124 days\" counts lines, not rules",
+   "area": "rev-outcome-scripts",
+   "state_at_ed8ef13": "LEFT FOR THE SECOND PULL REQUEST",
+   "basis": "unit: outcome scripts"
+  },
+  "best_recovered": "finder record + verifier command",
+  "records": [],
+  "table_rows": [],
+  "repo_traces": [],
+  "finder_record_preview": [
+   {
+    "seen_page": "p108",
+    "seen_at": "2026-11-14T01:23:25.022843Z",
+    "record": {
+     "id": "OS-1",
+     "title": "The figure ",
+     "component": "lib/.claude/skills/independent-audit/scripts/stale_rules.py, and the PR body and chat sentence that quote its count",
+     "kind": "overclaim",
+     "rule_quoted": "Chat claim 5…"
+    }
+   }
+  ],
+  "verifier_record_preview": [
+   {
+    "seen_page": "p099",
+    "seen_at": "2026-11-14T06:01:13.841770Z",
+    "record": {
+     "id": "OS-1",
+     "verdict": "CONFIRMED",
+     "reproduced": true,
+     "command_run": "(1) bash PACK/work/verify-rev-outcome-scripts/work/fc/repro.sh os1  [the finder's repro.sh and helpers, copied unchanged into my scratch so that its out/ and tmp/ writes do not land in the finder's directory; lib/ reached through a symlink]. (2) python3 PACK/lib/.claude/skills/independent-audit/scripts/stale_rules.py …"
+    }
+   },
+   {
+    "seen_page": "p099",
+    "seen_at": "2026-11-14T06:01:13.923297Z",
+    "record": {
+     "id": "OS-1",
+     "verdict": "CONFIRMED",
+     "reproduced": true,
+     "command_run": "(1) bash PACK/work/verify-rev-outcome-scripts/work/fc/repro.sh os1  [the finder's repro.sh and helpers, copied unchanged into my scratch so that its out/ and tmp/ writes do not land in the finder's directory; lib/ reached through a symlink]. (2) python3 PACK/lib/.claude/skills/independent-audit/scripts/stale_rules.py …"
+    }
+   }
+  ],
+  "summary_table_lines": [
+   {
+    "seen_page": "p057",
+    "seen_at": "2026-11-16T00:19:51.032760Z",
+    "line": "OS-1    overclaim          medium   CONFIRMED The figure \"20 rules still untested after 60 days, oldest 124 days\" counts lines, not rules: 7 of the 20"
+   }
+  ]
+ },
+ "OS-2": {
+  "status_on_main": {
+   "title_first_clause": "stale_rules.py leaves out dated UNMEASURED statements whose date is more than three lines above the marker or on the line below it",
+   "area": "rev-outcome-scripts",
+   "state_at_ed8ef13": "LEFT FOR THE SECOND PULL REQUEST",
+   "basis": "unit: outcome scripts"
+  },
+  "best_recovered": "summary line (kind, severity, verdict, title)",
+  "records": [],
+  "table_rows": [],
+  "repo_traces": [],
+  "finder_record_preview": [],
+  "verifier_record_preview": [],
+  "summary_table_lines": [
+   {
+    "seen_page": "p057",
+    "seen_at": "2026-11-16T00:19:51.032760Z",
+    "line": "OS-2    wrong_result       medium   CONFIRMED stale_rules.py leaves out dated UNMEASURED statements whose date is more than three lines above the marke"
+   }
+  ]
+ },
+ "OS-3": {
+  "status_on_main": {
+   "title_first_clause": "test_qa_loop.py stays green under 20 of 20 changes to what the two scripts compute",
+   "area": "rev-outcome-scripts",
+   "state_at_ed8ef13": "LEFT FOR THE SECOND PULL REQUEST",
+   "basis": "unit: outcome scripts"
+  },
+  "best_recovered": "summary line (kind, severity, verdict, title)",
+  "records": [],
+  "table_rows": [],
+  "repo_traces": [],
+  "finder_record_preview": [],
+  "verifier_record_preview": [],
+  "summary_table_lines": [
+   {
+    "seen_page": "p057",
+    "seen_at": "2026-11-16T00:19:51.032760Z",
+    "line": "OS-3    test_gap           medium   CONFIRMED test_qa_loop.py stays green under 20 of 20 changes to what the two scripts compute: with all 10 tests pas"
+   }
+  ]
+ },
+ "OS-4": {
+  "status_on_main": {
+   "title_first_clause": "A table row whose date cell is blank or a hyphen is dropped without being counted anywhere, although the script and the pre-registered prediction b...",
+   "area": "rev-outcome-scripts",
+   "state_at_ed8ef13": "LEFT FOR THE SECOND PULL REQUEST",
+   "basis": "unit: outcome scripts"
+  },
+  "best_recovered": "summary line (kind, severity, verdict, title)",
+  "records": [],
+  "table_rows": [],
+  "repo_traces": [],
+  "finder_record_preview": [],
+  "verifier_record_preview": [],
+  "summary_table_lines": [
+   {
+    "seen_page": "p057",
+    "seen_at": "2026-11-16T00:19:51.032760Z",
+    "line": "OS-4    wrong_result       low      CONFIRMED A table row whose date cell is blank or a hyphen is dropped without being counted anywhere, although the"
+   }
+  ]
+ },
+ "OS-5": {
+  "status_on_main": {
+   "title_first_clause": "Who caught a row is read from the second-to-last cell, so a pipe in the fourth or fifth cell, or one column added after the fifth, moves rows betwe...",
+   "area": "rev-outcome-scripts",
+   "state_at_ed8ef13": "LEFT FOR THE SECOND PULL REQUEST",
+   "basis": "unit: outcome scripts"
+  },
+  "best_recovered": "summary line (kind, severity, verdict, title)",
+  "records": [],
+  "table_rows": [],
+  "repo_traces": [],
+  "finder_record_preview": [],
+  "verifier_record_preview": [],
+  "summary_table_lines": [
+   {
+    "seen_page": "p057",
+    "seen_at": "2026-11-16T00:19:51.032760Z",
+    "line": "OS-5    wrong_result       medium   CONFIRMED Who caught a row is read from the second-to-last cell, so a pipe in the fourth or fifth cell, or one colu"
+   }
+  ]
+ },
+ "OS-6": {
+  "status_on_main": {
+   "title_first_clause": "The date stale_rules.py attaches to a marker is the first date on the nearest dated line, which for three markers in the library belongs to somethi...",
+   "area": "rev-outcome-scripts",
+   "state_at_ed8ef13": "LEFT FOR THE SECOND PULL REQUEST",
+   "basis": "unit: outcome scripts"
+  },
+  "best_recovered": "summary line (kind, severity, verdict, title)",
+  "records": [],
+  "table_rows": [],
+  "repo_traces": [],
+  "finder_record_preview": [],
+  "verifier_record_preview": [],
+  "summary_table_lines": [
+   {
+    "seen_page": "p057",
+    "seen_at": "2026-11-16T00:19:51.032760Z",
+    "line": "OS-6    wrong_result       low      UNCLEAR   The date stale_rules.py attaches to a marker is the first date on the nearest dated line, which for three"
+   }
+  ]
+ },
+ "OS-7": {
+  "status_on_main": {
+   "title_first_clause": "Owner-caught is decided by whether the word \"owner\" appears in one cell",
+   "area": "rev-outcome-scripts",
+   "state_at_ed8ef13": "LEFT FOR THE SECOND PULL REQUEST",
+   "basis": "unit: outcome scripts"
+  },
+  "best_recovered": "summary line (kind, severity, verdict, title)",
+  "records": [],
+  "table_rows": [],
+  "repo_traces": [],
+  "finder_record_preview": [],
+  "verifier_record_preview": [],
+  "summary_table_lines": [
+   {
+    "seen_page": "p057",
+    "seen_at": "2026-11-16T00:19:51.032760Z",
+    "line": "OS-7    ambiguity          low      CONFIRMED Owner-caught is decided by whether the word \"owner\" appears in one cell; no document defines the split, a"
+   }
+  ]
+ },
+ "OS-8": {
+  "status_on_main": {
+   "title_first_clause": "A corrections log the parser cannot read as pipe-led rows, and a stale-rules root that holds no files, both print the same clean zero with exit 0 a...",
+   "area": "rev-outcome-scripts",
+   "state_at_ed8ef13": "LEFT FOR THE SECOND PULL REQUEST",
+   "basis": "unit: outcome scripts"
+  },
+  "best_recovered": "summary line (kind, severity, verdict, title)",
+  "records": [],
+  "table_rows": [],
+  "repo_traces": [],
+  "finder_record_preview": [],
+  "verifier_record_preview": [],
+  "summary_table_lines": [
+   {
+    "seen_page": "p057",
+    "seen_at": "2026-11-16T00:19:51.032760Z",
+    "line": "OS-8    wrong_result       low      UNCLEAR   A corrections log the parser cannot read as pipe-led rows, and a stale-rules root that holds no files, bo"
+   }
+  ]
+ },
+ "PC-1": {
+  "status_on_main": {
+   "title_first_clause": "An owner message that quotes a harness marker, or begins with the gate's own text, is skipped as harness text",
+   "area": "atk-promptclass",
+   "state_at_ed8ef13": "FIXED HERE",
+   "basis": "Stop-gate auditor: \"FIXED\""
+  },
+  "best_recovered": "finder record + verifier command",
+  "records": [],
+  "table_rows": [],
+  "repo_traces": [
+   "hooks/selftest-turn-gates.py",
+   "results/2026-11-15/receipt-gate-fix/pass-on-fixed.txt",
+   "results/2026-11-15/turn-gates-fix/CORE-SPEC.md",
+   "results/2026-11-15/turn-gates-fix/pass-on-fixed.txt",
+   "results/2026-11-15/turn-gates-fix/red-on-merged.txt",
+   "results/2026-11-16/audit-fixes/merge-gate/table-after.txt",
+   "results/2026-11-16/audit-fixes/receipt-gate/table-after.txt",
+   "results/2026-11-16/audit-fixes/second-read-receipt/table-after.txt",
+   "results/2026-11-16/audit-fixes/second-read/table-after.txt",
+   "results/2026-11-16/audit-fixes/stop-gate/table-after.txt"
+  ],
+  "finder_record_preview": [
+   {
+    "seen_page": "p125",
+    "seen_at": "2026-11-13T09:28:17.425758Z",
+    "record": {
+     "id": "PC-1",
+     "title": "An owner message that quotes a harness marker, or begins with the gate's own text, is skipped as harness text: the gate judges the previous owner message and counts that turn's governor loads.",
+     "component": "lib/hooks/governance-enforce.py:116-118 (prompt selection); lib/hooks/govclass.py:65-66 and :100 (HARNESS_MARKERS, classify); same filter in lib/hooks/turngat…"
+    }
+   }
+  ],
+  "verifier_record_preview": [
+   {
+    "seen_page": "p121",
+    "seen_at": "2026-11-13T15:52:50.591455Z",
+    "record": {
+     "id": "PC-1",
+     "verdict": "CONFIRMED",
+     "reproduced": true,
+     "command_run": "(1) finder's command, run from a byte copy because repro.sh writes fx/, tmp/ and mut/ beside itself: bash SCRATCH/merge-audit/work/verify-atk-promptclass/mirror/work/atk-promptclass/repro.sh PC-1   (2) my own fixtures: python3 SCRATCH/…"
+    }
+   }
+  ],
+  "summary_table_lines": []
+ },
+ "PC-2": {
+  "status_on_main": {
+   "title_first_clause": "A dispute worded 'that doesn't look right' or 'is this right??' is classified review, gets the trivia allowance, and a one-line acquiescence passes",
+   "area": "atk-promptclass",
+   "state_at_ed8ef13": "LEFT FOR THE SECOND PULL REQUEST",
+   "basis": "unit: prompt side"
+  },
+  "best_recovered": "summary line (kind, severity, verdict, title)",
+  "records": [],
+  "table_rows": [
+   {
+    "seen_page": "p057",
+    "row": "| PC-2 | a dispute worded as a review (\"that doesn't look right\", \"is this right??\") is classified review, gets the short-answer allowance and passes with no governor | such a prompt classifies as dispute (the allowance of SPEC P5 is for review alone) |"
+   }
+  ],
+  "repo_traces": [
+   "hooks/selftest-mutations.py",
+   "results/2026-11-15/turn-gates-fix/CORE-SPEC.md",
+   "results/2026-11-15/turn-gates-fix/mutations.txt"
+  ],
+  "finder_record_preview": [],
+  "verifier_record_preview": [],
+  "summary_table_lines": [
+   {
+    "seen_page": "p057",
+    "seen_at": "2026-11-16T00:19:51.032760Z",
+    "line": "PC-2    false_allow        medium   CONFIRMED A dispute worded 'that doesn't look right' or 'is this right??' is classified review, gets the trivia all"
+   }
+  ]
+ },
+ "PC-3": {
+  "status_on_main": {
+   "title_first_clause": "Chat, status questions, one-word answers, pasted error text and a negated order ('don't build anything yet') match an enforced class, and the one-l...",
+   "area": "atk-promptclass",
+   "state_at_ed8ef13": "LEFT FOR THE SECOND PULL REQUEST",
+   "basis": "unit: prompt side"
+  },
+  "best_recovered": "summary line (kind, severity, verdict, title)",
+  "records": [],
+  "table_rows": [
+   {
+    "seen_page": "p057",
+    "row": "| PC-3 | chat, status questions, one-word answers, pasted error text and a negated order (\"don't build anything yet\") are classified as governed work and block | none of the auditor's examples lands in an enforced class |"
+   }
+  ],
+  "repo_traces": [
+   "results/2026-11-15/turn-gates-fix/CORE-SPEC.md"
+  ],
+  "finder_record_preview": [],
+  "verifier_record_preview": [],
+  "summary_table_lines": [
+   {
+    "seen_page": "p057",
+    "seen_at": "2026-11-16T00:19:51.032760Z",
+    "line": "PC-3    false_block        medium   CONFIRMED Chat, status questions, one-word answers, pasted error text and a negated order ('don't build anything ye"
+   }
+  ]
+ },
+ "PC-4": {
+  "status_on_main": {
+   "title_first_clause": "After one block by either Stop hook, the next stop of the turn is allowed with no check",
+   "area": "atk-promptclass",
+   "state_at_ed8ef13": "FIXED HERE",
+   "basis": "Stop-gate auditor: \"D3 and D5b fixed\"; case D2 now allowed by Q3 of 2026-11-15"
+  },
+  "best_recovered": "nothing beyond the status title",
+  "records": [],
+  "table_rows": [],
+  "repo_traces": [
+   "hooks/selftest-mutations.py",
+   "hooks/selftest-turn-gates.py",
+   "results/2026-11-15/receipt-gate-fix/pass-on-fixed.txt",
+   "results/2026-11-15/turn-gates-fix/CORE-SPEC.md",
+   "results/2026-11-15/turn-gates-fix/mutations.txt",
+   "results/2026-11-15/turn-gates-fix/pass-on-fixed.txt",
+   "results/2026-11-15/turn-gates-fix/red-on-merged.txt",
+   "results/2026-11-16/audit-fixes/merge-gate/table-after.txt",
+   "results/2026-11-16/audit-fixes/receipt-gate/table-after.txt",
+   "results/2026-11-16/audit-fixes/second-read-receipt/table-after.txt",
+   "results/2026-11-16/audit-fixes/second-read/table-after.txt",
+   "results/2026-11-16/audit-fixes/stop-gate/table-after.txt"
+  ],
+  "finder_record_preview": [],
+  "verifier_record_preview": [],
+  "summary_table_lines": []
+ },
+ "PC-5": {
+  "status_on_main": {
+   "title_first_clause": "The prompt-class half does not use turn_start",
+   "area": "atk-promptclass",
+   "state_at_ed8ef13": "FIXED HERE",
+   "basis": "Stop-gate auditor: \"FIXED on real row shapes\""
+  },
+  "best_recovered": "nothing beyond the status title",
+  "records": [],
+  "table_rows": [],
+  "repo_traces": [
+   "hooks/selftest-mutations.py",
+   "hooks/selftest-turn-gates.py",
+   "results/2026-11-15/receipt-gate-fix/pass-on-fixed.txt",
+   "results/2026-11-15/turn-gates-fix/CORE-SPEC.md",
+   "results/2026-11-15/turn-gates-fix/mutations.txt",
+   "results/2026-11-15/turn-gates-fix/pass-on-fixed.txt",
+   "results/2026-11-15/turn-gates-fix/red-on-merged.txt",
+   "results/2026-11-16/audit-fixes/merge-gate/table-after.txt",
+   "results/2026-11-16/audit-fixes/receipt-gate/table-after.txt",
+   "results/2026-11-16/audit-fixes/second-read-receipt/table-after.txt",
+   "results/2026-11-16/audit-fixes/second-read/table-after.txt",
+   "results/2026-11-16/audit-fixes/stop-gate/table-after.txt"
+  ],
+  "finder_record_preview": [],
+  "verifier_record_preview": [],
+  "summary_table_lines": []
+ },
+ "PC-6": {
+  "status_on_main": {
+   "title_first_clause": "When the transcript holds no owner message (a file that begins at a compaction boundary, as the real record does) the gate exits without checking a...",
+   "area": "atk-promptclass",
+   "state_at_ed8ef13": "FIXED HERE",
+   "basis": "Stop-gate auditor: \"F1 half fixed\"; the prompt-class half is still silent (the auditor's finding AS-7)"
+  },
+  "best_recovered": "fix notes only",
+  "records": [],
+  "table_rows": [
+   {
+    "seen_page": "p079",
+    "row": "| PC-6 | S12 for the outward rule; P1 for the prompt-class rule (with no owner row there is no prompt to classify) | F20; P12 pins P1 |"
+   }
+  ],
+  "repo_traces": [
+   "hooks/selftest-turn-gates.py",
+   "results/2026-11-15/receipt-gate-fix/pass-on-fixed.txt",
+   "results/2026-11-15/turn-gates-fix/CORE-SPEC.md",
+   "results/2026-11-15/turn-gates-fix/pass-on-fixed.txt",
+   "results/2026-11-15/turn-gates-fix/red-on-merged.txt",
+   "results/2026-11-16/audit-fixes/merge-gate/table-after.txt",
+   "results/2026-11-16/audit-fixes/receipt-gate/table-after.txt",
+   "results/2026-11-16/audit-fixes/second-read-receipt/table-after.txt",
+   "results/2026-11-16/audit-fixes/second-read/table-after.txt",
+   "results/2026-11-16/audit-fixes/stop-gate/repro-on-fixed.txt",
+   "results/2026-11-16/audit-fixes/stop-gate/table-after.txt"
+  ],
+  "finder_record_preview": [],
+  "verifier_record_preview": [],
+  "summary_table_lines": []
+ },
+ "PC-7": {
+  "status_on_main": {
+   "title_first_clause": "Eleven rule-breaking mutations of the Stop gate and the classifier pass both fixtures, and four of them also pass the registry check, so nothing th...",
+   "area": "atk-promptclass",
+   "state_at_ed8ef13": "FIXED HERE, NOT RE-RUN BY AN OUTSIDE AUDITOR",
+   "basis": "`hooks/selftest-mutations.py` (breaks whose origin names it); `results/2026-11-15/turn-gates-fix/mutations.txt`; 5 of its 11 surviving changes are named by a break (M2 through PS21/PS22); the 6 classifier changes belong to the prompt side, second pull request"
+  },
+  "best_recovered": "nothing beyond the status title",
+  "records": [],
+  "table_rows": [],
+  "repo_traces": [
+   "hooks/selftest-mutations.py",
+   "hooks/selftest-turn-gates.py",
+   "results/2026-11-15/receipt-gate-fix/pass-on-fixed.txt",
+   "results/2026-11-15/turn-gates-fix/CORE-SPEC.md",
+   "results/2026-11-15/turn-gates-fix/mutations.txt",
+   "results/2026-11-15/turn-gates-fix/pass-on-fixed.txt",
+   "results/2026-11-15/turn-gates-fix/red-on-merged.txt",
+   "results/2026-11-16/audit-fixes/merge-gate/table-after.txt",
+   "results/2026-11-16/audit-fixes/receipt-gate/table-after.txt",
+   "results/2026-11-16/audit-fixes/second-read-receipt/table-after.txt",
+   "results/2026-11-16/audit-fixes/second-read/table-after.txt",
+   "results/2026-11-16/audit-fixes/stop-gate/table-after.txt"
+  ],
+  "finder_record_preview": [],
+  "verifier_record_preview": [],
+  "summary_table_lines": []
+ },
+ "PC-8": {
+  "status_on_main": {
+   "title_first_clause": "A build the owner orders by clicking a card answer is never classified",
+   "area": "atk-promptclass",
+   "state_at_ed8ef13": "CHANGED BY AN OWNER DECISION",
+   "basis": "Q5 of 2026-11-15 (\"No, only what you type\")"
+  },
+  "best_recovered": "fix notes only",
+  "records": [],
+  "table_rows": [
+   {
+    "seen_page": "p013",
+    "row": "| PC-8 | A build the owner orders by clicking a card answer is never classified | atk-promptclass | **CHANGED BY AN OWNER DECISION** | Q5 of 2026-11-15 (\"No, only what you type\") |"
+   },
+   {
+    "seen_page": "p079",
+    "row": "| PC-8 | P10, Q5 | P13 pins the default |"
+   }
+  ],
+  "repo_traces": [
+   "hooks/selftest-turn-gates.py",
+   "results/2026-11-15/receipt-gate-fix/pass-on-fixed.txt",
+   "results/2026-11-15/turn-gates-fix/CORE-SPEC.md",
+   "results/2026-11-15/turn-gates-fix/pass-on-fixed.txt",
+   "results/2026-11-15/turn-gates-fix/red-on-merged.txt",
+   "results/2026-11-16/audit-fixes/merge-gate/table-after.txt",
+   "results/2026-11-16/audit-fixes/receipt-gate/table-after.txt",
+   "results/2026-11-16/audit-fixes/second-read-receipt/table-after.txt",
+   "results/2026-11-16/audit-fixes/second-read/table-after.txt",
+   "results/2026-11-16/audit-fixes/stop-gate/table-after.txt"
+  ],
+  "finder_record_preview": [],
+  "verifier_record_preview": [],
+  "summary_table_lines": []
+ },
+ "RG-1": {
+  "status_on_main": {
+   "title_first_clause": "The registry does not hold every hand-set value in hooks/",
+   "area": "rev-registry",
+   "state_at_ed8ef13": "FIXED HERE, NOT RE-RUN BY AN OUTSIDE AUDITOR",
+   "basis": "`redteam/live.py` reads the four gate modules whole; `results/2026-11-15/receipt-gate-fix/registry-proof.txt`. Values in the other hook files are still read by name (registry rest, second pull request); the audit's 16 changes were not re-made"
+  },
+  "best_recovered": "finder record + verifier command",
+  "records": [
+   {
+    "seen_page": "p114",
+    "seen_at": "2026-11-13T20:50:23.554477Z",
+    "record": {
+     "id": "RG-1",
+     "verdict": "CONFIRMED",
+     "reproduced": true,
+     "severity": "high",
+     "realistic": "happens_in_normal_use",
+     "reason": "The registry is a hand-typed list of 33 reads. Values of the kinds the documents name (a pattern, tool lists, a path list, the governor table, inline regexes, the PreToolUse matcher) are not in it, so changing them leave..."
+    }
+   }
+  ],
+  "table_rows": [],
+  "repo_traces": [],
+  "finder_record_preview": [
+   {
+    "seen_page": "p121",
+    "seen_at": "2026-11-13T16:15:21.787917Z",
+    "record": {
+     "id": "RG-1",
+     "title": "The registry does not hold every hand-set value in hooks/: I changed 16 values it omits, the registry check passed all 16 and the whole guard passed 12, including one change that lets a shell merge through the merge gate.",
+     "component": "lib/redteam/constants_registry.json and lib/redteam/live.py, as run by guard_essentials.sh line 149",
+     "kind": "overclaim"
+    }
+   },
+   {
+    "seen_page": "p121",
+    "seen_at": "2026-11-13T16:15:21.855466Z",
+    "record": {
+     "id": "RG-1",
+     "title": "The registry does not hold every hand-set value in hooks/: I changed 16 values it omits, the registry check passed all 16 and the whole guard passed 12, including one change that lets a shell merge through the merge gate.",
+     "component": "lib/redteam/constants_registry.json and lib/redteam/live.py, as run by guard_essentials.sh line 149",
+     "kind": "overclaim"
+    }
+   }
+  ],
+  "verifier_record_preview": [
+   {
+    "seen_page": "p114",
+    "seen_at": "2026-11-13T20:33:28.784705Z",
+    "record": {
+     "id": "RG-1",
+     "verdict": "CONFIRMED",
+     "reproduced": true,
+     "command_run": "Step 1 (finder's commands, run from byte-identical copies in my scratch directory against my own checkout, because the originals reset and mutate the finder's checkout and write fixtures there, which I may not change): python3 SCRATCH/merge-audit/work/ve…"
+    }
+   },
+   {
+    "seen_page": "p114",
+    "seen_at": "2026-11-13T20:50:23.554477Z",
+    "record": {
+     "id": "RG-1",
+     "verdict": "CONFIRMED",
+     "reproduced": true,
+     "command_run": "Step 1 (finder's commands, run from byte-identical copies in my scratch directory against my own checkout, because the originals reset and mutate the finder's checkout and write fixtures there, which I may not change): python3 SCRATCH/merge-audit/work/ve…"
+    }
+   }
+  ],
+  "summary_table_lines": [
+   {
+    "seen_page": "p057",
+    "seen_at": "2026-11-16T00:19:51.032760Z",
+    "line": "RG-1    overclaim          high     CONFIRMED The registry does not hold every hand-set value in hooks/: I changed 16 values it omits, the registry che"
+   }
+  ]
+ },
+ "RG-2": {
+  "status_on_main": {
+   "title_first_clause": "A new hand-set constant added to a hook is not reported as unregistered",
+   "area": "rev-registry",
+   "state_at_ed8ef13": "FIXED HERE, NOT RE-RUN BY AN OUTSIDE AUDITOR",
+   "basis": "`redteam/live.py`; `results/2026-11-15/receipt-gate-fix/registry-proof.txt` (a new word in a gate module fails the check)"
+  },
+  "best_recovered": "summary line (kind, severity, verdict, title)",
+  "records": [
+   {
+    "seen_page": "p114",
+    "seen_at": "2026-11-13T20:50:23.554477Z",
+    "record": {
+     "id": "RG-2",
+     "verdict": "CONFIRMED",
+     "reproduced": true,
+     "severity": "high",
+     "realistic": "happens_in_normal_use",
+     "reason": "A constant added to a hook is invisible to the check until someone also adds a line to live.py, so the 'unregistered' half of the guard line cannot fire on new hook code. Two new constants of mine (one in a Python hook t..."
+    }
+   }
+  ],
+  "table_rows": [],
+  "repo_traces": [],
+  "finder_record_preview": [],
+  "verifier_record_preview": [],
+  "summary_table_lines": [
+   {
+    "seen_page": "p057",
+    "seen_at": "2026-11-16T00:19:51.032760Z",
+    "line": "RG-2    false_allow        high     CONFIRMED A new hand-set constant added to a hook is not reported as unregistered: the check knows only the 33 name"
+   }
+  ]
+ },
+ "RG-3": {
+  "status_on_main": {
+   "title_first_clause": "Regex flags are not part of a registered pattern's value",
+   "area": "rev-registry",
+   "state_at_ed8ef13": "FIXED HERE, NOT RE-RUN BY AN OUTSIDE AUDITOR",
+   "basis": "`redteam/live.py` (gate modules read whole, flags included); no separate red run found"
+  },
+  "best_recovered": "summary line (kind, severity, verdict, title)",
+  "records": [
+   {
+    "seen_page": "p114",
+    "seen_at": "2026-11-13T20:50:23.554477Z",
+    "record": {
+     "id": "RG-3",
+     "verdict": "CONFIRMED",
+     "reproduced": true,
+     "severity": "medium",
+     "realistic": "needs_unusual_but_plausible_input",
+     "reason": "A flag change alters what a registered pattern matches and the registered hash does not move. I reproduced it on a different pattern and in the other direction (a flag added), and on the negation pattern with my own owne..."
+    }
+   }
+  ],
+  "table_rows": [],
+  "repo_traces": [],
+  "finder_record_preview": [],
+  "verifier_record_preview": [],
+  "summary_table_lines": [
+   {
+    "seen_page": "p057",
+    "seen_at": "2026-11-16T00:19:51.032760Z",
+    "line": "RG-3    false_allow        medium   CONFIRMED Regex flags are not part of a registered pattern's value: with re.I dropped from the merge-negation patte"
+   }
+  ]
+ },
+ "RG-4": {
+  "status_on_main": {
+   "title_first_clause": "live.py reports registered values the hooks no longer use",
+   "area": "rev-registry",
+   "state_at_ed8ef13": "LEFT FOR THE SECOND PULL REQUEST",
+   "basis": "unit: registry rest, advisory hooks and guard gaps"
+  },
+  "best_recovered": "summary line (kind, severity, verdict, title)",
+  "records": [
+   {
+    "seen_page": "p114",
+    "seen_at": "2026-11-13T20:50:23.554477Z",
+    "record": {
+     "id": "RG-4",
+     "verdict": "CONFIRMED",
+     "reproduced": true,
+     "severity": "medium",
+     "realistic": "needs_unusual_but_plausible_input",
+     "reason": "For these names live.py reports a proxy (a string that is present, or the first assignment line), not the value the hook acts on. Four edits of my own, none the same as the finder's, changed the effective value while the..."
+    }
+   }
+  ],
+  "table_rows": [],
+  "repo_traces": [],
+  "finder_record_preview": [],
+  "verifier_record_preview": [],
+  "summary_table_lines": [
+   {
+    "seen_page": "p057",
+    "seen_at": "2026-11-16T00:19:51.032760Z",
+    "line": "RG-4    wrong_result       medium   CONFIRMED live.py reports registered values the hooks no longer use: a redefined RECEIPT_WINDOW, a reminder that fi"
+   }
+  ]
+ },
+ "RG-5": {
+  "status_on_main": {
+   "title_first_clause": "REMINDER_JQ_PATH is registered as \"/usr/bin/jq\" although both first-write reminders read the session id with python3",
+   "area": "rev-registry",
+   "state_at_ed8ef13": "LEFT FOR THE SECOND PULL REQUEST",
+   "basis": "unit: registry rest, advisory hooks and guard gaps"
+  },
+  "best_recovered": "summary line (kind, severity, verdict, title)",
+  "records": [
+   {
+    "seen_page": "p114",
+    "seen_at": "2026-11-13T20:50:23.554477Z",
+    "record": {
+     "id": "RG-5",
+     "verdict": "CONFIRMED",
+     "reproduced": true,
+     "severity": "low",
+     "realistic": "happens_in_normal_use",
+     "reason": "The registered value is one neither first-write reminder uses; it is matched in a comment. Rewording that comment fails the check, and putting jq back into the code (absolute path or from PATH) does not. The entry theref..."
+    }
+   }
+  ],
+  "table_rows": [],
+  "repo_traces": [],
+  "finder_record_preview": [],
+  "verifier_record_preview": [],
+  "summary_table_lines": [
+   {
+    "seen_page": "p057",
+    "seen_at": "2026-11-16T00:19:51.032760Z",
+    "line": "RG-5    wrong_result       low      CONFIRMED REMINDER_JQ_PATH is registered as \"/usr/bin/jq\" although both first-write reminders read the session id w"
+   }
+  ]
+ },
+ "RG-6": {
+  "status_on_main": {
+   "title_first_clause": "The committed registry record says PASS on commit 111fc60, a commit with no redteam/ and with hooks on which the check cannot run",
+   "area": "rev-registry",
+   "state_at_ed8ef13": "LEFT FOR THE SECOND PULL REQUEST",
+   "basis": "unit: registry rest, advisory hooks and guard gaps"
+  },
+  "best_recovered": "summary line (kind, severity, verdict, title)",
+  "records": [
+   {
+    "seen_page": "p114",
+    "seen_at": "2026-11-13T20:50:23.554477Z",
+    "record": {
+     "id": "RG-6",
+     "verdict": "CONFIRMED",
+     "reproduced": true,
+     "severity": "medium",
+     "realistic": "happens_in_normal_use",
+     "reason": "The record half is real: the committed record says PASS on 111fc60, which is the parent of the commit that created both the registry and the hooks it was checked against; that commit has no redteam/ and a different hooks..."
+    }
+   }
+  ],
+  "table_rows": [],
+  "repo_traces": [],
+  "finder_record_preview": [],
+  "verifier_record_preview": [],
+  "summary_table_lines": [
+   {
+    "seen_page": "p057",
+    "seen_at": "2026-11-16T00:19:51.032760Z",
+    "line": "RG-6    drift              medium   CONFIRMED The committed registry record says PASS on commit 111fc60, a commit with no redteam/ and with hooks on wh"
+   }
+  ]
+ },
+ "RG-7": {
+  "status_on_main": {
+   "title_first_clause": "Eleven of the 23 'uncalibrated' entries cite decision D-QA-1, which no file in the repository defines",
+   "area": "rev-registry",
+   "state_at_ed8ef13": "LEFT FOR THE SECOND PULL REQUEST",
+   "basis": "unit: registry rest, advisory hooks and guard gaps"
+  },
+  "best_recovered": "summary line (kind, severity, verdict, title)",
+  "records": [
+   {
+    "seen_page": "p114",
+    "seen_at": "2026-11-13T20:50:23.554477Z",
+    "record": {
+     "id": "RG-7",
+     "verdict": "CONFIRMED",
+     "reproduced": true,
+     "severity": "medium",
+     "realistic": "happens_in_normal_use",
+     "reason": "Eleven of the 23 uncalibrated entries point at a decision that is written nowhere I can reach (repository, PR text in the pack, both projects, the account copy), and D-QA-2 in the README is the same. Four older entries h..."
+    }
+   }
+  ],
+  "table_rows": [],
+  "repo_traces": [],
+  "finder_record_preview": [],
+  "verifier_record_preview": [],
+  "summary_table_lines": [
+   {
+    "seen_page": "p057",
+    "seen_at": "2026-11-16T00:19:51.032760Z",
+    "line": "RG-7    overclaim          medium   CONFIRMED Eleven of the 23 'uncalibrated' entries cite decision D-QA-1, which no file in the repository defines; fo"
+   }
+  ]
+ },
+ "RG-8": {
+  "status_on_main": {
+   "title_first_clause": "\"6 drifted, 15 unregistered\" is not what the recorded output or a re-run shows",
+   "area": "rev-registry",
+   "state_at_ed8ef13": "LEFT FOR THE SECOND PULL REQUEST",
+   "basis": "unit: registry rest, advisory hooks and guard gaps"
+  },
+  "best_recovered": "summary line (kind, severity, verdict, title)",
+  "records": [
+   {
+    "seen_page": "p114",
+    "seen_at": "2026-11-13T20:50:23.554477Z",
+    "record": {
+     "id": "RG-8",
+     "verdict": "CONFIRMED",
+     "reproduced": true,
+     "severity": "medium",
+     "realistic": "happens_in_normal_use",
+     "reason": "Three different numbers exist for the same fact: 15 (stated six times, two of them to the owner), 13 (what a re-run against the standing reader gives, and the number of entries added), and 0 (what the cited record shows,..."
+    }
+   }
+  ],
+  "table_rows": [],
+  "repo_traces": [],
+  "finder_record_preview": [],
+  "verifier_record_preview": [],
+  "summary_table_lines": [
+   {
+    "seen_page": "p057",
+    "seen_at": "2026-11-16T00:19:51.032760Z",
+    "line": "RG-8    wrong_result       medium   CONFIRMED \"6 drifted, 15 unregistered\" is not what the recorded output or a re-run shows: the record has 6 drifted"
+   }
+  ]
+ },
+ "RL-1": {
+  "status_on_main": {
+   "title_first_clause": "The gate never matches the contraction \"can't verify / confirm / determine\"",
+   "area": "atk-receipt",
+   "state_at_ed8ef13": "FIXED HERE",
+   "basis": "receipt-gate auditor: \"fixed\""
+  },
+  "best_recovered": "finder record + verifier command",
+  "records": [
+   {
+    "seen_page": "p057",
+    "seen_at": "2026-11-16T00:09:12.688810Z",
+    "record": {
+     "id": "RL-1",
+     "resolved": true,
+     "how": "MODAL_NOT in hooks/receiptlaw.py matches can't, cannot, can not, cant, couldn't, could not, with straight and curly apostrophes (CHAR_MAP).",
+     "test": "Table R cases RLP01 to RLP03, RL1C4, RL1C5, RL1K1, RLVA1 to RLVA5, RLD01 to RLD04: red in red-on-start.txt, green in pass-on-fixed.txt. Auditor's repro.py rl1: 7 ok, 0 mismatch."
+    }
+   }
+  ],
+  "table_rows": [
+   {
+    "seen_page": "p065",
+    "row": "| RL-1 | the contraction \"can't verify / confirm / determine\" is never matched | every contraction and spelling of the claim families is matched (straight and curly apostrophes, \"cannot\", \"can not\") |"
+   }
+  ],
+  "repo_traces": [
+   "hooks/selftest-mutations.py",
+   "hooks/selftest-turn-gates.py",
+   "results/2026-11-15/receipt-gate-fix/audit-reproductions.txt",
+   "results/2026-11-15/receipt-gate-fix/pass-on-fixed.txt",
+   "results/2026-11-15/receipt-gate-fix/red-on-start.txt",
+   "results/2026-11-16/audit-fixes/merge-gate/table-after.txt",
+   "results/2026-11-16/audit-fixes/receipt-gate/table-after.txt",
+   "results/2026-11-16/audit-fixes/second-read-receipt/table-after.txt",
+   "results/2026-11-16/audit-fixes/second-read/table-after.txt",
+   "results/2026-11-16/audit-fixes/stop-gate/table-after.txt"
+  ],
+  "finder_record_preview": [
+   {
+    "seen_page": "p129",
+    "seen_at": "2026-11-13T05:17:57.574510Z",
+    "record": {
+     "id": "RL-1",
+     "title": "The gate never matches the contraction ",
+     "component": "lib/hooks/receipt-law-stop-gate.sh line 133 (INABILITY); byte-identical in the plugin copy, the account's 0.1.4 copy, the kit and the deck",
+     "kind": "false_allow",
+     "rule_quoted": "**"
+    }
+   }
+  ],
+  "verifier_record_preview": [
+   {
+    "seen_page": "p125",
+    "seen_at": "2026-11-13T09:15:21.781412Z",
+    "record": {
+     "id": "RL-1",
+     "verdict": "CONFIRMED",
+     "reproduced": true,
+     "command_run": "python3 SCRATCH/merge-audit/work/verify-atk-receipt/v1.py K RL1   (my own fixtures, built with mk.py). Finder's command re-run as: python3 SCRATCH/merge-audit/work/verify-atk-receipt/fc/rep…"
+    }
+   }
+  ],
+  "summary_table_lines": []
+ },
+ "RL-2": {
+  "status_on_main": {
+   "title_first_clause": "When the other Stop hook forces the retry, the receipt gate skips the retried answer",
+   "area": "atk-receipt",
+   "state_at_ed8ef13": "FIXED HERE",
+   "basis": "receipt-gate auditor: \"fixed\""
+  },
+  "best_recovered": "fix notes only",
+  "records": [
+   {
+    "seen_page": "p057",
+    "seen_at": "2026-11-16T00:09:12.688810Z",
+    "record": {
+     "id": "RL-2",
+     "resolved": true,
+     "how": "The retry flag decides nothing by itself. The gate counts its own earlier blocks from the record (Model.feedback on the mark \"Receipt law\"), at most RECEIPT_MAX_BLOCKS = 1 per stretch; only flag set plus no block at all on record lets the stop go. The sentinel file is gone.",
+     "test": "Table R cases RLX.. (for example RLX06), breaks RC01, RC12, RC17 to RC20. Auditor's repro.py rl2: 2 ok. selftest-receipt-law.sh case t7, second half, is now record-based (ordered by RL-2, FU2-1, TB-5)."
+    }
+   }
+  ],
+  "table_rows": [],
+  "repo_traces": [
+   "hooks/selftest-mutations.py",
+   "hooks/selftest-turn-gates.py",
+   "results/2026-11-15/receipt-gate-fix/audit-reproductions.txt",
+   "results/2026-11-15/receipt-gate-fix/pass-on-fixed.txt",
+   "results/2026-11-15/receipt-gate-fix/red-on-start.txt",
+   "results/2026-11-15/turn-gates-fix/CORE-SPEC.md",
+   "results/2026-11-16/audit-fixes/merge-gate/table-after.txt",
+   "results/2026-11-16/audit-fixes/receipt-gate/table-after.txt",
+   "results/2026-11-16/audit-fixes/second-read-receipt/table-after.txt",
+   "results/2026-11-16/audit-fixes/second-read/table-after.txt",
+   "results/2026-11-16/audit-fixes/stop-gate/table-after.txt"
+  ],
+  "finder_record_preview": [],
+  "verifier_record_preview": [],
+  "summary_table_lines": []
+ },
+ "RL-3": {
+  "status_on_main": {
+   "title_first_clause": "Thirty-seven of 37 natural bare claims outside the nine hard-coded patterns pass, including \"not available\", one of the four phrases the rule itsel...",
+   "area": "atk-receipt",
+   "state_at_ed8ef13": "FIXED HERE",
+   "basis": "receipt-gate auditor: \"fixed: 40/40\""
+  },
+  "best_recovered": "fix notes only",
+  "records": [
+   {
+    "seen_page": "p057",
+    "seen_at": "2026-11-16T00:09:12.688810Z",
+    "record": {
+     "id": "RL-3",
+     "resolved": true,
+     "how": "CLAIM_FAMILIES covers the auditor's list and the four phrases the rule names (passive, modal, unable, not-able, failed-to, no-way, no-access, impossible, unverified, not-available, no-data). This run added the missed form \"it wasn't possible to\". Still missed and stated as limits: nouns outside DATA_NOUNS (\"projections are not available\"), verbs outside the families (\"unable to open\").",
+     "test": "RLP00 to RLP39, RLVB01 to RLVB10, RLD05 to RLD15, RLD142, RLD143, RLD146, RLD175. Auditor's bb2.py P: 40/40."
+    }
+   }
+  ],
+  "table_rows": [
+   {
+    "seen_page": "p065",
+    "row": "| RL-3 | 37 of 37 natural bare claims outside nine hard-coded patterns pass, \"not available\" among them | the claim families cover the auditor's list and the four phrases the rule names; what is still missed is listed as a limit |"
+   }
+  ],
+  "repo_traces": [
+   "hooks/selftest-mutations.py",
+   "hooks/selftest-turn-gates.py",
+   "results/2026-11-15/receipt-gate-fix/audit-reproductions.txt",
+   "results/2026-11-15/receipt-gate-fix/pass-on-fixed.txt",
+   "results/2026-11-15/receipt-gate-fix/red-before-prose-scan.txt",
+   "results/2026-11-15/receipt-gate-fix/red-on-start.txt",
+   "results/2026-11-16/audit-fixes/merge-gate/table-after.txt",
+   "results/2026-11-16/audit-fixes/receipt-gate/table-after.txt",
+   "results/2026-11-16/audit-fixes/second-read-receipt/table-after.txt",
+   "results/2026-11-16/audit-fixes/second-read/table-after.txt",
+   "results/2026-11-16/audit-fixes/stop-gate/table-after.txt"
+  ],
+  "finder_record_preview": [],
+  "verifier_record_preview": [],
+  "summary_table_lines": []
+ },
+ "RL-4": {
+  "status_on_main": {
+   "title_first_clause": "A receipt that quotes the command and its error is invisible to the gate",
+   "area": "atk-receipt",
+   "state_at_ed8ef13": "FIXED HERE",
+   "basis": "receipt-gate auditor: \"fixed: 12/12 allowed\" (with the auditor's own finding AR-1 beside it)"
+  },
+  "best_recovered": "fix notes only",
+  "records": [
+   {
+    "seen_page": "p057",
+    "seen_at": "2026-11-16T00:09:12.688810Z",
+    "record": {
+     "id": "RL-4",
+     "resolved": true,
+     "how": "A code span, fenced block or block quote in the claim's sentence is a receipt (EVIDENCE_MARKS); the failure words are in FAILURE. This run also fixed a false block where the receipt follows a colon after a passive claim (SUBJECT_FIRST).",
+     "test": "RLF00 to RLF11, RLVC0 to RLVC7, RLD25 to RLD32, RLD173, RLD213, RLD214. Auditor's bb2.py F: 12/12."
+    }
+   }
+  ],
+  "table_rows": [
+   {
+    "seen_page": "p065",
+    "row": "| RL-4 | false block: a receipt that quotes the command and its error is invisible (code is removed before the receipt test; \"failed\", \"denied\", \"refused\", \"error\" are not receipt words) | a quoted command or error text in the claim's sentence is a receipt; the failure words are known |"
+   }
+  ],
+  "repo_traces": [
+   "hooks/selftest-mutations.py",
+   "hooks/selftest-turn-gates.py",
+   "results/2026-11-15/receipt-gate-fix/audit-reproductions.txt",
+   "results/2026-11-15/receipt-gate-fix/pass-on-fixed.txt",
+   "results/2026-11-15/receipt-gate-fix/red-on-start.txt",
+   "results/2026-11-16/audit-fixes/merge-gate/table-after.txt",
+   "results/2026-11-16/audit-fixes/receipt-gate/table-after.txt",
+   "results/2026-11-16/audit-fixes/second-read-receipt/table-after.txt",
+   "results/2026-11-16/audit-fixes/second-read/table-after.txt",
+   "results/2026-11-16/audit-fixes/stop-gate/table-after.txt"
+  ],
+  "finder_record_preview": [],
+  "verifier_record_preview": [],
+  "summary_table_lines": []
+ },
+ "RL-5": {
+  "status_on_main": {
+   "title_first_clause": "Sentences that are not claims of inability are blocked",
+   "area": "atk-receipt",
+   "state_at_ed8ef13": "FIXED HERE",
+   "basis": "receipt-gate auditor: \"fixed: 17/17\""
+  },
+  "best_recovered": "fix notes only",
+  "records": [
+   {
+    "seen_page": "p057",
+    "seen_at": "2026-11-16T00:09:12.688810Z",
+    "record": {
+     "id": "RL-5",
+     "resolved": true,
+     "how": "Quoted words, negations, questions, conditionals, reported speech, a tool's error text and tables of examples are not claims. This run extended the same class to ordinary technical prose: condition clauses, events told with a period, general statements with know/tell, scoped \"not available\", search results, lists of labels.",
+     "test": "RLH01 to RLH16, RLVD1 to RLVD6, RLD50 to RLD68, and the prose-scan cases RLD150 to RLD214 (red in red-before-prose-scan.txt: all 46 false-block cases fail there). Auditor's bb2.py H: 16/16."
+    }
+   }
+  ],
+  "table_rows": [
+   {
+    "seen_page": "p065",
+    "row": "| RL-5 | false block: a quoted phrase, a negation, a question to the owner, a tool's own error text, a table of test cases | none of the auditor's non-claims blocks |"
+   }
+  ],
+  "repo_traces": [
+   "hooks/selftest-mutations.py",
+   "hooks/selftest-turn-gates.py",
+   "results/2026-11-15/receipt-gate-fix/audit-reproductions.txt",
+   "results/2026-11-15/receipt-gate-fix/pass-on-fixed.txt",
+   "results/2026-11-15/receipt-gate-fix/red-on-start.txt",
+   "results/2026-11-16/audit-fixes/merge-gate/table-after.txt",
+   "results/2026-11-16/audit-fixes/receipt-gate/table-after.txt",
+   "results/2026-11-16/audit-fixes/second-read-receipt/table-after.txt",
+   "results/2026-11-16/audit-fixes/second-read/table-after.txt",
+   "results/2026-11-16/audit-fixes/stop-gate/table-after.txt"
+  ],
+  "finder_record_preview": [],
+  "verifier_record_preview": [],
+  "summary_table_lines": []
+ },
+ "RL-6": {
+  "status_on_main": {
+   "title_first_clause": "Any of about 25 words within 400 characters counts as the receipt, including the very thing that was not verified (\"couldn't verify whether the cro...",
+   "area": "atk-receipt",
+   "state_at_ed8ef13": "FIXED HERE",
+   "basis": "receipt-gate auditor: \"R 12/12 fixed\"; Q01 and Q02 (claim in a block quote or inline code) still allowed, a stated limit"
+  },
+  "best_recovered": "fix notes only",
+  "records": [
+   {
+    "seen_page": "p057",
+    "seen_at": "2026-11-16T00:09:12.688810Z",
+    "record": {
+     "id": "RL-6",
+     "resolved": true,
+     "how": "A receipt must sit in the claim's own sentence and outside the words that say what was not verified (_outside with OBJECT_END); RECEIPT_SCOPE = \"sentence\".",
+     "test": "RLR01 to RLR11, RLVE1 to RLVE6, RLD20 to RLD24; breaks RD08, RD09, RC10. Auditor's bb2.py R: 12/12."
+    }
+   }
+  ],
+  "table_rows": [
+   {
+    "seen_page": "p013",
+    "row": "| RL-6 | Any of about 25 words within 400 characters counts as the receipt, including the very thing that was not verified (\"couldn't verify whether the cro... | atk-receipt | **FIXED HERE** | receipt-gate auditor: \"R 12/12 fixed\"; Q01 and Q02 (claim in a block quote or inline code) still allowed, a stated limit |"
+   },
+   {
+    "seen_page": "p065",
+    "row": "| RL-6 | any of about 25 words within 400 characters counts as the receipt, the unverified thing itself included (\"couldn't verify whether the cron job ran\") | a receipt is an attempt or a failure mode named in the SAME sentence as the claim, outside the words that say what was not verified |"
+   }
+  ],
+  "repo_traces": [
+   "hooks/selftest-mutations.py",
+   "hooks/selftest-turn-gates.py",
+   "results/2026-11-15/receipt-gate-fix/audit-reproductions.txt",
+   "results/2026-11-15/receipt-gate-fix/pass-on-fixed.txt",
+   "results/2026-11-15/receipt-gate-fix/red-before-prose-scan.txt",
+   "results/2026-11-15/receipt-gate-fix/red-on-start.txt",
+   "results/2026-11-16/audit-fixes/merge-gate/table-after.txt",
+   "results/2026-11-16/audit-fixes/receipt-gate/table-after.txt",
+   "results/2026-11-16/audit-fixes/second-read-receipt/table-after.txt",
+   "results/2026-11-16/audit-fixes/second-read/table-after.txt",
+   "results/2026-11-16/audit-fixes/stop-gate/table-after.txt"
+  ],
+  "finder_record_preview": [],
+  "verifier_record_preview": [],
+  "summary_table_lines": []
+ },
+ "RL-7": {
+  "status_on_main": {
+   "title_first_clause": "The two Stop hooks start the turn at the same row at only 8 of 26 real stops, and after this merge a scheduled run is a turn of its own for governa...",
+   "area": "atk-receipt",
+   "state_at_ed8ef13": "FIXED HERE",
+   "basis": "receipt-gate auditor: \"6 as wanted\"; S05 (scheduled run, record without a stop row) still blocks, a stated limit"
+  },
+  "best_recovered": "fix notes only",
+  "records": [
+   {
+    "seen_page": "p057",
+    "seen_at": "2026-11-16T00:09:12.688810Z",
+    "record": {
+     "id": "RL-7",
+     "resolved": true,
+     "how": "The gate takes its stretch from turngate.stop_span / Model, the same rows the other Stop gate judges, and reads every text of the stretch.",
+     "test": "RLT.., RLD70 to RLD73, RLS05a; breaks RC02, RC03. Auditor's repro.py rl7: 5 ok, 1 mismatch (S05: the fixture has no stop row, so the record is one stretch; with the stop row it is allowed, case RLS05a)."
+    }
+   }
+  ],
+  "table_rows": [],
+  "repo_traces": [
+   "hooks/selftest-mutations.py",
+   "hooks/selftest-turn-gates.py",
+   "results/2026-11-15/receipt-gate-fix/audit-reproductions.txt",
+   "results/2026-11-15/receipt-gate-fix/pass-on-fixed.txt",
+   "results/2026-11-15/receipt-gate-fix/red-on-start.txt",
+   "results/2026-11-15/receipt-gate-fix/replay-vs-baseline.md",
+   "results/2026-11-15/turn-gates-fix/CORE-SPEC.md",
+   "results/2026-11-16/audit-fixes/merge-gate/table-after.txt",
+   "results/2026-11-16/audit-fixes/receipt-gate/red-on-start.txt",
+   "results/2026-11-16/audit-fixes/receipt-gate/repro-on-fixed.txt",
+   "results/2026-11-16/audit-fixes/receipt-gate/table-after.txt",
+   "results/2026-11-16/audit-fixes/second-read-receipt/table-after.txt",
+   "results/2026-11-16/audit-fixes/second-read/table-after.txt",
+   "results/2026-11-16/audit-fixes/stop-gate/table-after.txt"
+  ],
+  "finder_record_preview": [],
+  "verifier_record_preview": [],
+  "summary_table_lines": []
+ },
+ "RL-8": {
+  "status_on_main": {
+   "title_first_clause": "Neither the gate's selftest nor the library guard notices when the gate is changed to read only the last transcript row, fire once per session and ...",
+   "area": "atk-receipt",
+   "state_at_ed8ef13": "FIXED HERE, NOT RE-RUN BY AN OUTSIDE AUDITOR",
+   "basis": "`hooks/selftest-mutations.py` breaks RC01 to RC16; `results/2026-11-15/receipt-gate-fix/mutations.txt`; all 11 surviving changes are named"
+  },
+  "best_recovered": "fix notes only",
+  "records": [
+   {
+    "seen_page": "p057",
+    "seen_at": "2026-11-16T00:09:12.688810Z",
+    "record": {
+     "id": "RL-8",
+     "resolved": true,
+     "how": "The 13 recorded breaks are re-targeted at the new code and stand in hooks/selftest-mutations.py (origin \"RL-8 Mnn\"), with one break per hand-set value and per rule. The guard runs the list.",
+     "test": "python3 hooks/selftest-mutations.py: 330 breaks, 330 caught, 0 survived, 0 stale; control 0 failing of 735 (mutations.txt)."
+    }
+   }
+  ],
+  "table_rows": [
+   {
+    "seen_page": "p065",
+    "row": "| RL-8 | neither the selftest nor the guard notices when the gate is changed to read only the last row, to fire once per session, or to let one receipt excuse every claim (11 of 13 recorded breaks pass) | every one of the auditor's 13 recorded breaks, re-targeted at the new code, is in the standing break list and is caught |"
+   }
+  ],
+  "repo_traces": [
+   "hooks/selftest-mutations.py",
+   "hooks/selftest-turn-gates.py",
+   "results/2026-11-15/receipt-gate-fix/pass-on-fixed.txt",
+   "results/2026-11-15/receipt-gate-fix/red-on-start.txt",
+   "results/2026-11-16/audit-fixes/merge-gate/table-after.txt",
+   "results/2026-11-16/audit-fixes/receipt-gate/red-on-start.txt",
+   "results/2026-11-16/audit-fixes/receipt-gate/repro-on-fixed.txt",
+   "results/2026-11-16/audit-fixes/receipt-gate/table-after.txt",
+   "results/2026-11-16/audit-fixes/second-read-receipt/table-after.txt",
+   "results/2026-11-16/audit-fixes/second-read/table-after.txt",
+   "results/2026-11-16/audit-fixes/stop-gate/table-after.txt"
+  ],
+  "finder_record_preview": [],
+  "verifier_record_preview": [],
+  "summary_table_lines": []
+ },
+ "SF-1": {
+  "status_on_main": {
+   "title_first_clause": "The weekly task runs in a several-repository cloud session that is judged by plugin 0.1.4, where a scheduled run can merge on an earlier owner \"mer...",
+   "area": "rev-surfaces",
+   "state_at_ed8ef13": "READY, CLOSES WHEN THE OWNER UPLOADS THE PLUGIN",
+   "basis": "`results/2026-11-16/surfaces-fix/after-the-merge.md`"
+  },
+  "best_recovered": "finder record + verifier command",
+  "records": [
+   {
+    "seen_page": "p051",
+    "seen_at": "2026-11-16T06:08:38.808126Z",
+    "record": {
+     "id": "SF-1",
+     "resolved": false,
+     "how": "Same as F2-6 and WR-1. The overclaim is corrected in the documents (hooks/README.md: a table of which copy judges which session; README.md: install paragraphs; the plugin README's 0.1.6 entry). The deployment gap stays until the upload.",
+     "test": "after-the-merge.md"
+    }
+   }
+  ],
+  "table_rows": [],
+  "repo_traces": [],
+  "finder_record_preview": [
+   {
+    "seen_page": "p129",
+    "seen_at": "2026-11-13T05:17:57.574510Z",
+    "record": {
+     "id": "SF-1",
+     "title": "The weekly task runs in a several-repository cloud session that is judged by plugin 0.1.4, where a scheduled run can merge on an earlier owner ",
+     "component": "account plugin core-governance 0.1.4 (account/plugin/core-governance; live copy under /root/.claude/plugins/synced/.../core-governance) versus lib/plugin/core-gove…"
+    }
+   },
+   {
+    "seen_page": "p129",
+    "seen_at": "2026-11-13T05:21:06.623909Z",
+    "record": {
+     "id": "SF-1",
+     "title": "The weekly task runs in a several-repository cloud session that is judged by plugin 0.1.4, where a scheduled run can merge on an earlier owner ",
+     "component": "account plugin core-governance 0.1.4 (account/plugin/core-governance; live copy under /root/.claude/plugins/synced/.../core-governance) versus lib/plugin/core-gove…"
+    }
+   }
+  ],
+  "verifier_record_preview": [
+   {
+    "seen_page": "p125",
+    "seen_at": "2026-11-13T09:15:21.781412Z",
+    "record": {
+     "id": "SF-1",
+     "verdict": "CONFIRMED",
+     "reproduced": true,
+     "command_run": "(1) finder's three commands, run from a path-rewritten copy so nothing is written into the finder's directory: python3 SCRATCH/merge-audit/work/verify-rev-surfaces/fc/repro/weekly_run_versions.py; bash .../fc/repro/live_plugin_version.sh; python3 .../fc/…"
+    }
+   }
+  ],
+  "summary_table_lines": [
+   {
+    "seen_page": "p057",
+    "seen_at": "2026-11-16T00:19:51.032760Z",
+    "line": "SF-1    operability        high     CONFIRMED The weekly task runs in a several-repository cloud session that is judged by plugin 0.1.4, where a schedu"
+   }
+  ]
+ },
+ "SF-2": {
+  "status_on_main": {
+   "title_first_clause": "The install runbook tells you to copy a settings file that calls a hook it never tells you to copy",
+   "area": "rev-surfaces",
+   "state_at_ed8ef13": "FIXED HERE, NOT RE-RUN BY AN OUTSIDE AUDITOR",
+   "basis": "`results/2026-11-16/surfaces-fix/README.md` and its `raw/` files; the auditor's wrapper case W11 stays open (it needs the wrapper's rule, SF-5/SF-8)"
+  },
+  "best_recovered": "summary line (kind, severity, verdict, title)",
+  "records": [
+   {
+    "seen_page": "p051",
+    "seen_at": "2026-11-16T06:08:38.808126Z",
+    "record": {
+     "id": "SF-2",
+     "resolved": true,
+     "how": "Both wiring files are split. The merge tools have their own PreToolUse group, matcher ^mcp__.*__(merge_pull_request|enable_pr_auto_merge)$, with the bare python3 command, so a missing script exits 2 and denies the merge. Every other command runs its script only when the file is there (if [ -f ... ]; then ...; fi). In the plugin, every command checks that the wrapper is there, and the merge command exits 2 with a message when the wrapper or the hook is missing. Runbook 4 steps 1, 2 and 4 are rewritten: a generated list of 16 files (from --needs), how the list is checked, the sync script, and a step 4 that runs `selftest-turn-gates.py W` and the whole table. The description is byte-identical, and a dated provenance line says what changed and why.",
+     "test": "W03 and W04 fail on the starting wiring (raw/red-W-on-start-wiring.txt) and pass now. W05 fails on the old runbook's project (raw/runbook4-red.txt). Missing-script runs through bash -c (raw/missing-script-runs.txt): with the hooks folder emptied, Bash, Edit, Write, Stop and the prompt all exit 0 and a merge tool exits 2. With only turngate.py removed, Bash, Edit and Write are allowed, the merge tool and a Bash call holding gh pr merge are denied with gate-error, and Stop and the prompt are allowed. Runbook followed to the letter (raw/runbook4-green.txt): step 4 PASS; with turn-gates-pretool.py or receiptlaw.py dropped, step 4 FAIL."
+    }
+   }
+  ],
+  "table_rows": [],
+  "repo_traces": [
+   "hooks/selftest-mutations.py",
+   "hooks/selftest-turn-gates.py",
+   "results/2026-11-16/audit-fixes/merge-gate/table-after.txt",
+   "results/2026-11-16/audit-fixes/receipt-gate/table-after.txt",
+   "results/2026-11-16/audit-fixes/second-read-receipt/table-after.txt",
+   "results/2026-11-16/audit-fixes/second-read/table-after.txt",
+   "results/2026-11-16/audit-fixes/stop-gate/table-after.txt"
+  ],
+  "finder_record_preview": [],
+  "verifier_record_preview": [],
+  "summary_table_lines": [
+   {
+    "seen_page": "p057",
+    "seen_at": "2026-11-16T00:19:51.032760Z",
+    "line": "SF-2    operability        high     CONFIRMED The install runbook tells you to copy a settings file that calls a hook it never tells you to copy: in a"
+   }
+  ]
+ },
+ "SF-3": {
+  "status_on_main": {
+   "title_first_clause": "Tool names the session really has fall between the wiring and the code",
+   "area": "rev-surfaces",
+   "state_at_ed8ef13": "FIXED HERE",
+   "basis": "Stop-gate auditor: \"FIXED in the wiring\""
+  },
+  "best_recovered": "nothing beyond the status title",
+  "records": [],
+  "table_rows": [],
+  "repo_traces": [
+   "hooks/selftest-turn-gates.py",
+   "results/2026-11-15/receipt-gate-fix/pass-on-fixed.txt",
+   "results/2026-11-15/turn-gates-fix/CORE-SPEC.md",
+   "results/2026-11-15/turn-gates-fix/pass-on-fixed.txt",
+   "results/2026-11-15/turn-gates-fix/red-on-merged.txt",
+   "results/2026-11-16/audit-fixes/merge-gate/table-after.txt",
+   "results/2026-11-16/audit-fixes/receipt-gate/table-after.txt",
+   "results/2026-11-16/audit-fixes/second-read-receipt/table-after.txt",
+   "results/2026-11-16/audit-fixes/second-read/table-after.txt",
+   "results/2026-11-16/audit-fixes/stop-gate/table-after.txt"
+  ],
+  "finder_record_preview": [],
+  "verifier_record_preview": [],
+  "summary_table_lines": []
+ },
+ "SF-4": {
+  "status_on_main": {
+   "title_first_clause": "The guard passes when the merge gate is cut off from the PR tools or the receipt gate is unwired, in the project settings and in the plugin's hooks...",
+   "area": "rev-surfaces",
+   "state_at_ed8ef13": "FIXED HERE, NOT RE-RUN BY AN OUTSIDE AUDITOR",
+   "basis": "`results/2026-11-16/surfaces-fix/README.md` and its `raw/` files; breaks WI05 to WI26 in `hooks/selftest-mutations.py`"
+  },
+  "best_recovered": "summary line (kind, severity, verdict, title)",
+  "records": [
+   {
+    "seen_page": "p051",
+    "seen_at": "2026-11-16T06:08:38.808126Z",
+    "record": {
+     "id": "SF-4",
+     "resolved": true,
+     "how": "Table W reads and runs BOTH wiring files of the layout (--wiring can now be given more than once). W01 is widened to every wiring file and the union of its groups. W02 checks that every event runs its scripts and that the reminder and session groups select the right names. W03 checks one anchored group for the merge tools alone (a lost name or a lost anchor fails it). W04 runs every command under sh and bash with an empty root: the merge group must exit 2, the others 0. W05 checks that every wired script and every file it imports or runs is beside the hooks. W06 runs every command with the hooks present and checks that each hook answers. The break runner now copies both wiring files (and the plugin's wrapper). WI01, WI02 and WI04 are re-targeted (same texts, now in the second group); WI03 also names W03; WI05 to WI26 are new, with the auditor's M3, M4, M5 and the verifier's N1, N2, N3 among them. The guard's own substring check stays.",
+     "test": "raw/red-W-auditor-mutations.txt: on the starting wiring, each auditor mutation (M3, M4, M5, N1, N2, N3, N6) is failed by W01, W02 or W06, which pass on the control. The guard passed on these at the audit. raw/sf4-sf6-guard-mutations.txt: the auditor's guard_mutations.sh, pointed at a scratch copy of the fixed tree: M3, M4 and M5 now FAIL, the control M0 PASS. Break list: WI01 to WI26 all caught."
+    }
+   }
+  ],
+  "table_rows": [],
+  "repo_traces": [
+   "hooks/selftest-mutations.py",
+   "hooks/selftest-turn-gates.py",
+   "results/2026-11-16/audit-fixes/merge-gate/table-after.txt",
+   "results/2026-11-16/audit-fixes/receipt-gate/table-after.txt",
+   "results/2026-11-16/audit-fixes/second-read-receipt/table-after.txt",
+   "results/2026-11-16/audit-fixes/second-read/table-after.txt",
+   "results/2026-11-16/audit-fixes/stop-gate/table-after.txt"
+  ],
+  "finder_record_preview": [],
+  "verifier_record_preview": [],
+  "summary_table_lines": [
+   {
+    "seen_page": "p057",
+    "seen_at": "2026-11-16T00:19:51.032760Z",
+    "line": "SF-4    test_gap           medium   CONFIRMED The guard passes when the merge gate is cut off from the PR tools or the receipt gate is unwired, in the"
+   }
+  ]
+ },
+ "SF-5": {
+  "status_on_main": {
+   "title_first_clause": "In a one-repository cloud session that carries the pack, two copies answer four of eight events, and today they are different versions, so the fals...",
+   "area": "rev-surfaces",
+   "state_at_ed8ef13": "LEFT FOR THE SECOND PULL REQUEST",
+   "basis": "unit: registry rest, advisory hooks and guard gaps"
+  },
+  "best_recovered": "summary line (kind, severity, verdict, title)",
+  "records": [],
+  "table_rows": [],
+  "repo_traces": [],
+  "finder_record_preview": [],
+  "verifier_record_preview": [],
+  "summary_table_lines": [
+   {
+    "seen_page": "p057",
+    "seen_at": "2026-11-16T00:19:51.032760Z",
+    "line": "SF-5    overclaim          medium   CONFIRMED In a one-repository cloud session that carries the pack, two copies answer four of eight events, and toda"
+   }
+  ]
+ },
+ "SF-6": {
+  "status_on_main": {
+   "title_first_clause": "Two parity checks have holes: the guard does not compare the plugin's selftest-reminders.sh, and the wrapper self-test passes on a wrapper that yie...",
+   "area": "rev-surfaces",
+   "state_at_ed8ef13": "FIXED HERE, NOT RE-RUN BY AN OUTSIDE AUDITOR",
+   "basis": "`results/2026-11-16/surfaces-fix/README.md` and its `raw/` files"
+  },
+  "best_recovered": "summary line (kind, severity, verdict, title)",
+  "records": [
+   {
+    "seen_page": "p051",
+    "seen_at": "2026-11-16T06:08:38.808126Z",
+    "record": {
+     "id": "SF-6",
+     "resolved": true,
+     "how": "Guard section 9 compares EVERY file of plugin/core-governance/scripts that has a twin in hooks/ (computed from the folders, 16 today), and fails when a file the wiring runs, imports or tests is missing from the plugin (computed with `selftest-turn-gates.py --needs` over both wiring files). selftest-wrapper.sh gains case 10: a local project that wires other hooks but not this one must still run it. That needed no change to the wrapper's rule.",
+     "test": "raw/guard-section9-red-green.txt: at the start, M2 (one byte added to the plugin's selftest-reminders.sh) and M2b (that file removed) PASS; now both FAIL. M2c (receiptlaw.py removed) FAILS now. raw/wrapper-selftest-red-green.txt and raw/sf6-wrapper-mutation.txt: with the auditor's M8 wrapper mutation, the old selftest passes 10/10 and the new one gives 10 passed, 1 failed. The guard harness's M8 FAILS."
+    }
+   }
+  ],
+  "table_rows": [],
+  "repo_traces": [],
+  "finder_record_preview": [],
+  "verifier_record_preview": [],
+  "summary_table_lines": [
+   {
+    "seen_page": "p057",
+    "seen_at": "2026-11-16T00:19:51.032760Z",
+    "line": "SF-6    test_gap           low      CONFIRMED Two parity checks have holes: the guard does not compare the plugin's selftest-reminders.sh, and the wrap"
+   }
+  ]
+ },
+ "SF-7": {
+  "status_on_main": {
+   "title_first_clause": "Two of the three skill packages sent for upload do not have the layout the install runbook says a .skill must have.",
+   "area": "rev-surfaces",
+   "state_at_ed8ef13": "LEFT FOR THE SECOND PULL REQUEST",
+   "basis": "unit: none named (the skill packages; the surfaces unit's brief lists them as waiting)"
+  },
+  "best_recovered": "summary line (kind, severity, verdict, title)",
+  "records": [],
+  "table_rows": [],
+  "repo_traces": [],
+  "finder_record_preview": [],
+  "verifier_record_preview": [],
+  "summary_table_lines": [
+   {
+    "seen_page": "p057",
+    "seen_at": "2026-11-16T00:19:51.032760Z",
+    "line": "SF-7    ambiguity          low      CONFIRMED Two of the three skill packages sent for upload do not have the layout the install runbook says a .skill"
+   }
+  ]
+ },
+ "SF-8": {
+  "status_on_main": {
+   "title_first_clause": "The wrapper's yield test is looser and narrower than its rule",
+   "area": "rev-surfaces",
+   "state_at_ed8ef13": "LEFT FOR THE SECOND PULL REQUEST",
+   "basis": "unit: registry rest, advisory hooks and guard gaps"
+  },
+  "best_recovered": "summary line (kind, severity, verdict, title)",
+  "records": [],
+  "table_rows": [],
+  "repo_traces": [],
+  "finder_record_preview": [],
+  "verifier_record_preview": [],
+  "summary_table_lines": [
+   {
+    "seen_page": "p057",
+    "seen_at": "2026-11-16T00:19:51.032760Z",
+    "line": "SF-8    ambiguity          low      UNCLEAR   The wrapper's yield test is looser and narrower than its rule: a file name anywhere under \"hooks\" makes i"
+   }
+  ]
+ },
+ "TR-1": {
+  "status_on_main": {
+   "title_first_clause": "A disagreement typed with a curly apostrophe (I don’t agree) is not recognised as a dispute",
+   "area": "atk-trigger",
+   "state_at_ed8ef13": "LEFT FOR THE SECOND PULL REQUEST",
+   "basis": "unit: prompt side"
+  },
+  "best_recovered": "summary line (kind, severity, verdict, title)",
+  "records": [],
+  "table_rows": [
+   {
+    "seen_page": "p057",
+    "row": "| TR-1 | a disagreement typed with a curly apostrophe is not recognised as a dispute | prompts are normalised with `turngate.normalize` before every word test |"
+   }
+  ],
+  "repo_traces": [],
+  "finder_record_preview": [],
+  "verifier_record_preview": [
+   {
+    "seen_page": "p101",
+    "seen_at": "2026-11-14T05:44:58.414761Z",
+    "record": {
+     "id": "TR-1",
+     "verdict": "CONFIRMED",
+     "reproduced": true,
+     "command_run": "(1) finder's command, run as a byte-identical copy from my scratch so their directory is not written to: python3 SCRATCH/merge-audit/work/verify-atk-trigger/repro.py TR-1   (2) my own inputs: python3 SCRATCH/…"
+    }
+   },
+   {
+    "seen_page": "p102",
+    "seen_at": "2026-11-14T05:44:54.635882Z",
+    "record": {
+     "id": "TR-1",
+     "verdict": "CONFIRMED",
+     "reproduced": true,
+     "command_run": "(1) finder's command, run as a byte-identical copy from my scratch so their directory is not written to: python3 SCRATCH/merge-audit/work/verify-atk-trigger/repro.py TR-1   (2) my own inputs: python3 SCRATCH/…"
+    }
+   }
+  ],
+  "summary_table_lines": [
+   {
+    "seen_page": "p057",
+    "seen_at": "2026-11-16T00:19:51.032760Z",
+    "line": "TR-1    false_allow        medium   CONFIRMED A disagreement typed with a curly apostrophe (I don\\u2019t agree) is not recognised as a dispute: the trigger"
+   }
+  ]
+ },
+ "TR-2": {
+  "status_on_main": {
+   "title_first_clause": "Good news, plain questions and acknowledgements are classified as disputes or reviews",
+   "area": "atk-trigger",
+   "state_at_ed8ef13": "LEFT FOR THE SECOND PULL REQUEST",
+   "basis": "unit: prompt side"
+  },
+  "best_recovered": "summary line (kind, severity, verdict, title)",
+  "records": [],
+  "table_rows": [
+   {
+    "seen_page": "p057",
+    "row": "| TR-2 | good news, plain questions and acknowledgements are classified as disputes or reviews | none of the auditor's examples lands in an enforced class |"
+   }
+  ],
+  "repo_traces": [],
+  "finder_record_preview": [],
+  "verifier_record_preview": [],
+  "summary_table_lines": [
+   {
+    "seen_page": "p057",
+    "seen_at": "2026-11-16T00:19:51.032760Z",
+    "line": "TR-2    false_block        medium   CONFIRMED Good news, plain questions and acknowledgements are classified as disputes or reviews: 'the results are o"
+   }
+  ]
+ },
+ "TR-3": {
+  "status_on_main": {
+   "title_first_clause": "For a message that is both a dispute and a build request the trigger names two governors, and the Stop gate then blocks the session that loaded exa...",
+   "area": "atk-trigger",
+   "state_at_ed8ef13": "LEFT FOR THE SECOND PULL REQUEST",
+   "basis": "unit: prompt side"
+  },
+  "best_recovered": "summary line (kind, severity, verdict, title)",
+  "records": [],
+  "table_rows": [
+   {
+    "seen_page": "p057",
+    "row": "| TR-3 | for a prompt that is both a dispute and a build request the trigger names two governors and the Stop gate asks for another set | ONE function says which governors a set of classes needs; the trigger's text and the Stop gate's test both come from it. The Stop gate reads `GOVERNORS_FOR[class][0]` (the primary governor of every matched class): keep that contract and make the trigger name exactly those |"
+   }
+  ],
+  "repo_traces": [],
+  "finder_record_preview": [],
+  "verifier_record_preview": [],
+  "summary_table_lines": [
+   {
+    "seen_page": "p057",
+    "seen_at": "2026-11-16T00:19:51.032760Z",
+    "line": "TR-3    wrong_result       medium   CONFIRMED For a message that is both a dispute and a build request the trigger names two governors, and the Stop ga"
+   }
+  ]
+ },
+ "TR-4": {
+  "status_on_main": {
+   "title_first_clause": "A card clicked at any point since the owner's last typed message switches the reminder off for everything after it, a scheduled run's report included",
+   "area": "atk-trigger",
+   "state_at_ed8ef13": "LEFT FOR THE SECOND PULL REQUEST",
+   "basis": "unit: prompt side"
+  },
+  "best_recovered": "summary line (kind, severity, verdict, title)",
+  "records": [],
+  "table_rows": [
+   {
+    "seen_page": "p057",
+    "row": "| TR-4 | a card clicked at any point since the owner's last typed message switches the reminder off for everything after it | the reminder judges the assistant's LAST reply before this prompt: a text list there with no card in that same reply reminds, whatever was clicked earlier |"
+   }
+  ],
+  "repo_traces": [
+   "results/2026-11-15/turn-gates-fix/CORE-SPEC.md"
+  ],
+  "finder_record_preview": [],
+  "verifier_record_preview": [],
+  "summary_table_lines": [
+   {
+    "seen_page": "p057",
+    "seen_at": "2026-11-16T00:19:51.032760Z",
+    "line": "TR-4    false_allow        low      CONFIRMED A card clicked at any point since the owner's last typed message switches the reminder off for everything"
+   }
+  ]
+ },
+ "TR-5": {
+  "status_on_main": {
+   "title_first_clause": "The reminder recognises one way of writing a decision as text",
+   "area": "atk-trigger",
+   "state_at_ed8ef13": "LEFT FOR THE SECOND PULL REQUEST",
+   "basis": "unit: prompt side"
+  },
+  "best_recovered": "summary line (kind, severity, verdict, title)",
+  "records": [],
+  "table_rows": [
+   {
+    "seen_page": "p057",
+    "row": "| TR-5 | the reminder recognises one way of writing a decision list | the common ways are recognised (numbered or bulleted or lettered options, bold or plain, \"(Recommended)\" or \"(recommended)\" on one of them); what is still missed is a stated limit. No reminder for \"(Recommended)\" in running prose |"
+   }
+  ],
+  "repo_traces": [],
+  "finder_record_preview": [],
+  "verifier_record_preview": [],
+  "summary_table_lines": [
+   {
+    "seen_page": "p057",
+    "seen_at": "2026-11-16T00:19:51.032760Z",
+    "line": "TR-5    false_allow        low      CONFIRMED The reminder recognises one way of writing a decision as text: a numbered line in bold, '(1)', a '+' bull"
+   }
+  ]
+ },
+ "TR-6": {
+  "status_on_main": {
+   "title_first_clause": "Both selftests stay green when the reminder scans the whole session instead of the previous reply, when review and analysis prompts are told to loa...",
+   "area": "atk-trigger",
+   "state_at_ed8ef13": "LEFT FOR THE SECOND PULL REQUEST",
+   "basis": "unit: prompt side"
+  },
+  "best_recovered": "summary line (kind, severity, verdict, title)",
+  "records": [],
+  "table_rows": [
+   {
+    "seen_page": "p057",
+    "row": "| TR-6 | both selftests stay green under the auditor's deliberate changes | each recorded change is a break in the standing list and is caught |"
+   }
+  ],
+  "repo_traces": [],
+  "finder_record_preview": [],
+  "verifier_record_preview": [],
+  "summary_table_lines": [
+   {
+    "seen_page": "p057",
+    "seen_at": "2026-11-16T00:19:51.032760Z",
+    "line": "TR-6    test_gap           medium   CONFIRMED Both selftests stay green when the reminder scans the whole session instead of the previous reply, when r"
+   }
+  ]
+ },
+ "TR-7": {
+  "status_on_main": {
+   "title_first_clause": "The reminder is also injected when the prompt is a harness notification (finished background task, wake, system notification), not only on the owne...",
+   "area": "atk-trigger",
+   "state_at_ed8ef13": "LEFT FOR THE SECOND PULL REQUEST",
+   "basis": "unit: prompt side"
+  },
+  "best_recovered": "summary line (kind, severity, verdict, title)",
+  "records": [],
+  "table_rows": [
+   {
+    "seen_page": "p057",
+    "row": "| TR-7 | the reminder (and the trigger) also fire when the \"prompt\" is a harness notification (H11) | silent for a prompt that starts with a harness lead (`turngate.harness_lead`) and for a scheduled run |"
+   }
+  ],
+  "repo_traces": [],
+  "finder_record_preview": [],
+  "verifier_record_preview": [],
+  "summary_table_lines": [
+   {
+    "seen_page": "p057",
+    "seen_at": "2026-11-16T00:19:51.032760Z",
+    "line": "TR-7    false_block        low      CONFIRMED The reminder is also injected when the prompt is a harness notification (finished background task, wake,"
+   }
+  ]
+ },
+ "TR-8": {
+  "status_on_main": {
+   "title_first_clause": "When the owner sends the same text twice in a row (ok, continue) the reminder judges the reply before last",
+   "area": "atk-trigger",
+   "state_at_ed8ef13": "LEFT FOR THE SECOND PULL REQUEST",
+   "basis": "unit: prompt side"
+  },
+  "best_recovered": "summary line (kind, severity, verdict, title)",
+  "records": [],
+  "table_rows": [
+   {
+    "seen_page": "p057",
+    "row": "| TR-8 | when the owner sends the same text twice the reminder judges the reply before last | the previous reply is found from the record's rows (the turn model), not by matching the prompt's text |"
+   }
+  ],
+  "repo_traces": [],
+  "finder_record_preview": [],
+  "verifier_record_preview": [],
+  "summary_table_lines": [
+   {
+    "seen_page": "p057",
+    "seen_at": "2026-11-16T00:19:51.032760Z",
+    "line": "TR-8    wrong_result       low      CONFIRMED When the owner sends the same text twice in a row (ok, continue) the reminder judges the reply before las"
+   }
+  ]
+ }
+}

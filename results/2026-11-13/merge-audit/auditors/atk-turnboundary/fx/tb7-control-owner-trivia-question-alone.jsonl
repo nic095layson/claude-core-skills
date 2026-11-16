@@ -1,0 +1,2 @@
+{"type": "user", "message": {"role": "user", "content": "quick sanity check: 2+2=4, right?"}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "text", "text": "Yes, 4."}]}}

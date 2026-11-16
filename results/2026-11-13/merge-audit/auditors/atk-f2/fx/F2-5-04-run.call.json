@@ -1,0 +1,1 @@
+{"tool_name": "Bash", "tool_input": {"command": "gh api -X PUT repos/nic095layson/claude-core-skills/pulls/34/merge -f merge_method=squash"}, "want": "deny", "label": "3 CLI, REST merge endpoint | inside a scheduled run", "show": false, "hooks": "lib/hooks", "seq": 10}

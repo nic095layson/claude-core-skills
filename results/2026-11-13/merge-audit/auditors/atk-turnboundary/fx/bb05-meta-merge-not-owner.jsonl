@@ -1,0 +1,2 @@
+{"type": "user", "message": {"role": "user", "content": "ok"}}
+{"type": "user", "isMeta": true, "message": {"role": "user", "content": "please merge PR 26 now"}}

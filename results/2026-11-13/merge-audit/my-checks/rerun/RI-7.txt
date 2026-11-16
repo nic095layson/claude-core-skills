@@ -1,0 +1,16 @@
+RI-7  merge routes: 'a scheduled run is a turn of its own, and never merges' (hooks/README.md:1-2); 'a PR merge is denied without the owner's word' (hooks/README.md:15)
+  ri7-sched-control-merge-tool                 | rule: deny:scheduled   | original: deny:scheduled     | mine: deny:scheduled   
+  ri7-sched-control-gh-merge-auto              | rule: deny:scheduled   | original: deny:scheduled     | mine: deny:scheduled   
+  ri7-sched-enable-auto-merge-tool             | rule: deny:scheduled   | original: allow              | mine: deny:scheduled   <<<
+  ri7-sched-gh-repo-flag-first                 | rule: deny:scheduled   | original: allow              | mine: deny:scheduled   <<<
+  ri7-sched-gh-api-put                         | rule: deny:scheduled   | original: allow              | mine: deny:scheduled   <<<
+  ri7-sched-curl-put                           | rule: deny:scheduled   | original: allow              | mine: deny:scheduled   <<<
+  ri7-ok-control-merge-tool                    | rule: deny:merge-word  | original: deny:merge-word    | mine: deny:merge-word  
+  ri7-ok-enable-auto-merge-tool                | rule: deny:merge-word  | original: allow              | mine: deny:merge-word  <<<
+  ri7-ok-gh-repo-flag-first                    | rule: deny:merge-word  | original: allow              | mine: deny:merge-word  <<<
+  wiring (project settings): is mcp__github__merge_pull_request sent to turn-gates-pretool.py? yes
+  wiring (project settings): is mcp__github__enable_pr_auto_merge sent to turn-gates-pretool.py? NO
+  wiring (plugin hooks.json): is mcp__github__merge_pull_request sent to turn-gates-pretool.py? yes
+  wiring (plugin hooks.json): is mcp__github__enable_pr_auto_merge sent to turn-gates-pretool.py? NO
+  session-tools.txt lists enable_pr_auto_merge: True
+

@@ -1,0 +1,32 @@
+
+== TB4  things the owner typed that are not taken as the owner's message
+ok tb4-control-latest-says-no | merge | rule requires=deny:merge-word | hooks say=deny:merge-word | (control)
+DIFF tb4a-owner-quotes-a-harness-marker | merge | rule requires=deny:merge-word | hooks say=allow | <- real row shape; owner_index=0 scheduled_index=-1 turn_start=0 of 3 rows
+DIFF tb4a-only-owner-message-quotes-marker | merge | rule requires=deny:merge-word | hooks say=allow | <- owner_index=-1 scheduled_index=-1 turn_start=-1 of 1 rows
+DIFF tb4a-marker-quote-turn-inherits-loads | stop | rule requires=block:F1 | hooks say=allow | <- previous turn's governors count
+trigger: governed build prompt -> context | the same prompt with a pasted '<task-notification>' -> silent
+DIFF tb4b-slash-command-row-is-skipped | merge | rule requires=deny:merge-word | hooks say=allow | <- plausible, not observed (the marker is observed on /model echoes)
+DIFF tb4b-slash-command-carries-the-word | merge | rule requires=allow | hooks say=deny:merge-word | <- same shape, opposite direction
+DIFF tb4b-slash-command-turn-inherits-loads | stop | rule requires=block:F1 | hooks say=allow
+DIFF tb4c-image-only-owner-message | stop | rule requires=block:F1 | hooks say=allow | <- plausible, not observed
+DIFF tb4d-queued-human-message-attachment | merge | rule requires=deny:merge-word | hooks say=allow | <- plausible, not observed (catalog: queued_command observed with origin task-notification)
+
+== TB5  the hooks do not agree on where the turn starts
+ok tb5-control-bare-claim | receipt | rule requires=block | hooks say=block | (control)
+ok tb5-control-claim-then-skill-first-load | receipt | rule requires=block | hooks say=block | (control: list-shaped isMeta row)
+DIFF tb5-claim-then-skill-reinvocation-row | receipt | rule requires=block | hooks say=allow | <- real row shape (string isMeta row mid-turn)
+DIFF tb5-claim-then-task-notification-row | receipt | rule requires=block | hooks say=allow | <- real row shape
+ok tb5-control-old-claim-owner-rows-str | receipt | rule requires=allow | hooks say=allow | (control: owner rows as strings; the claim sits in an EARLIER owner turn)
+DIFF tb5-old-claim-rejudged-owner-rows-list | receipt | rule requires=allow | hooks say=block | <- owner rows as list[text] (plausible; the shape governance-enforce.py:9-10 names)
+ok tb5-control-governed-prompt-unloaded | stop | rule requires=block:prompt-class | hooks say=block:prompt-class | (control)
+DIFF tb5-sched-run-inherits-owner-prompt-class | stop | rule requires=allow | hooks say=block:prompt-class | <- the scheduled run is 'a turn of its own', yet is blocked for the owner's earlier prompt
+ok tb5-sched-run-rides-on-owner-loads | stop | rule requires=allow | hooks say=allow | (informational: it passes only because the OWNER's turn loaded plan-gate)
+trigger: first owner prompt after a scheduled run whose report listed an open decision (as doctrine rule 4 tells an unattended run to): card-reminder injected
+real-record (probe-log.tsv): the receipt gate's turn start against turngate.turn_start at every real stop point
+real-record: differ at 18 of 26 stops; receipt gate starts at: {'isMeta:stop-hook-feedback': 2, 'isMeta:skill-reinvocation': 11, 'task-notification': 5}
+real-record: stops where assistant texts of the turn lie BEFORE the receipt gate's start: 15 (max 13 texts)
+
+== TB6  compaction: loads and approvals from before the boundary
+ok tb6-control-no-loads | stop | rule requires=block:F1 | hooks say=block:F1 | (control)
+DIFF tb6-loads-before-compaction-count | stop | rule requires=block:F1 (CLAUDE.md: reload after a compaction) | hooks say=allow | <- no reload after the compaction
+ok tb6-merge-word-before-compaction | merge | rule requires=allow (documents silent) | hooks say=allow

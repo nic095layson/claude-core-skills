@@ -1,0 +1,3 @@
+{"type": "user", "message": {"role": "user", "content": "Continue"}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "tool_use", "id": "toolu_aad4b878bf75", "name": "mcp__Gmail__send_message", "input": {"to": "a@b.c", "subject": "s", "body": "b"}}]}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "text", "text": "done"}]}}

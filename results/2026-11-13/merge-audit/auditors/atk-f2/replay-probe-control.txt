@@ -1,0 +1,8 @@
+== PRE: every real write-class or merge tool call (verdict now), grouped by owner turn
+  turn from 2026-10-21T23:25: outward:ADVISE:plan-shown x2, merge:ADVISE:plan-shown x2
+  turn from 2026-10-22T16:01: write:allow x2, outward:allow x8, merge:allow x4
+  turn from 2026-10-28T22:56: write:ADVISE:plan-shown x1, outward:ADVISE:plan-shown x7, merge:ADVISE:plan-shown x3
+  turn from 2026-10-28T23:16: write:ADVISE:plan-shown x18, outward:ADVISE:plan-shown x16, merge:DENY:merge-word x1, merge:ADVISE:plan-shown x3
+  turn from 2026-11-02T21:59: outward:ADVISE:plan-shown x8, write:ADVISE:plan-shown x1, merge:ADVISE:plan-shown x3
+  turn from 2026-11-12T21:23: outward:ADVISE:plan-shown x8, write:ADVISE:plan-shown x4, merge:ADVISE:plan-shown x2
+  totals: {'outward:ADVISE:plan-shown': 41, 'merge:ADVISE:plan-shown': 13, 'write:allow': 2, 'outward:allow': 8, 'merge:allow': 4, 'write:ADVISE:plan-shown': 24, 'merge:DENY:merge-word': 1}

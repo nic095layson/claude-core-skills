@@ -1,0 +1,4 @@
+{"type": "system", "subtype": "compact_boundary", "content": "Conversation compacted"}
+{"type": "user", "isCompactSummary": true, "message": {"role": "user", "content": "Summary: the user asked to build and push."}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "tool_use", "id": "toolu_1a8f2384dbfe", "name": "Bash", "input": {"command": "git add -A && git commit -qm x && git push"}}]}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "text", "text": "done"}]}}

@@ -1,0 +1,11 @@
+history (what the fourth run, or the run after the last one listed, finds)                               | TOLD   | STORED S-a | STORED S-b
+H1 three runs, three draft PRs, the owner never opens GitHub                                             | STOP   | STOP       | go on        <-- the readings part
+H2 three runs, three draft PRs, the owner reads each and comments 'not now', merges none                 | STOP   | go on      | go on        <-- the readings part
+H3 three runs, each fails before step 6 (push refused, GitHub tools absent, run cut short): no PR exists | STOP   | go on      | go on        <-- the readings part
+H4 ten such failing runs                                                                                 | STOP   | go on      | go on        <-- the readings part
+H5 three runs; the owner closes each PR unmerged                                                         | STOP   | STOP       | STOP      
+H6 one merged long ago, then two closed unmerged, then one run that opened no PR                         | STOP   | go on      | go on        <-- the readings part
+H7 three runs; the owner answers in the chat each week, has one proposal built and merges THAT pull requ | go on  | STOP       | go on        <-- the readings part
+
+GitHub's record of a merge the session itself performed:  1ce99d5 author=nic095layson committer=GitHub | Merge pull request #34 from nic095layson/claude/qa-loop-2026-11-12
+-> the session acts under the owner's login, so GitHub's author fields cannot tell the owner's touch from the session's own.

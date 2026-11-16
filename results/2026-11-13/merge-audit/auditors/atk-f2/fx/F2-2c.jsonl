@@ -1,0 +1,3 @@
+{"type": "user", "message": {"role": "user", "content": "x"}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "tool_use", "id": "toolu_d205777a77514375", "name": "AskUserQuestion", "input": {"questions": [{"question": "Merge the PRs?", "header": "Decision", "multiSelect": false, "options": [{"label": "Merge library only (#34)", "description": ""}, {"label": "Merge both (Recommended)", "description": ""}, {"label": "Wait", "description": ""}]}]}}]}}
+{"type": "user", "message": {"role": "user", "content": [{"type": "tool_result", "tool_use_id": "toolu_d205777a77514375", "content": "Your questions have been answered: \"Merge the PRs?\"=\"Merge library only (#34)\". You can now continue with these answers in mind."}]}}

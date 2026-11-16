@@ -1,0 +1,4 @@
+{"type": "user", "message": {"role": "user", "content": "Continue"}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "tool_use", "id": "toolu_2b0e2848b704", "name": "TaskCreate", "input": {"subject": "s", "description": "d"}}]}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "tool_use", "id": "toolu_a4096abd7b43", "name": "TaskUpdate", "input": {"taskId": "1", "status": "completed"}}]}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "text", "text": "done"}]}}

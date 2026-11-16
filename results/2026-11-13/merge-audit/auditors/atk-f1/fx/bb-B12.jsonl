@@ -1,0 +1,5 @@
+{"type": "user", "message": {"role": "user", "content": "Continue"}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "tool_use", "id": "toolu_5bbd83802ffb", "name": "mcp__github__list_pull_requests", "input": {"owner": "o", "repo": "r"}}]}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "tool_use", "id": "toolu_7bec65bcb212", "name": "mcp__github__get_commit", "input": {"owner": "o", "repo": "r", "sha": "abc"}}]}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "tool_use", "id": "toolu_13e3ab985c98", "name": "mcp__github__list_commits", "input": {"owner": "o", "repo": "r"}}]}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "text", "text": "done"}]}}

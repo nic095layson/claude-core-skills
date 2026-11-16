@@ -1,0 +1,3 @@
+{"type": "user", "message": {"role": "user", "content": "ok"}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "tool_use", "id": "toolu_42509637e783", "name": "Bash", "input": {"command": "cat README.md"}}]}}
+{"type": "user", "message": {"role": "user", "content": [{"type": "tool_result", "tool_use_id": "toolu_x", "content": "# readme"}]}}

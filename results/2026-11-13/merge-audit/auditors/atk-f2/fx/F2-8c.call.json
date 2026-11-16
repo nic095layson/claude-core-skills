@@ -1,0 +1,1 @@
+{"tool_name": "Bash", "tool_input": {"command": "grep -rn 'gh pr merge' hooks/ docs/"}, "want": "allow", "label": "not a merge: a read-only search for the gate's own pattern", "show": true, "hooks": "lib/hooks", "seq": 4}

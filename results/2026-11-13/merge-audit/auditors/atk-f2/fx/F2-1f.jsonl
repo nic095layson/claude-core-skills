@@ -1,0 +1,5 @@
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "text", "text": "Shall I merge #34?"}]}}
+{"type": "user", "message": {"role": "user", "content": "No. Fix the README first."}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "tool_use", "id": "toolu_f091139ff82a4aeb", "name": "Edit", "input": {"file_path": "/home/user/claude-core-skills/README.md", "old_string": "a", "new_string": "b"}}]}}
+{"type": "user", "message": {"role": "user", "content": [{"type": "tool_result", "tool_use_id": "toolu_f091139ff82a4aeb", "content": "The file /home/user/claude-core-skills/README.md has been updated."}]}}
+{"type": "user", "message": {"role": "user", "content": "ok"}}

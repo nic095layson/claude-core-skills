@@ -1,0 +1,2 @@
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "text", "text": "Report 2026-11-12: three PRs are open. You can merge them from the GitHub page."}]}}
+{"type": "user", "message": {"role": "user", "content": "thanks"}}

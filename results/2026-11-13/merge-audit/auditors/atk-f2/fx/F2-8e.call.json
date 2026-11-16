@@ -1,0 +1,1 @@
+{"tool_name": "mcp__github__merge_pull_request", "tool_input": {"owner": "nic095layson", "repo": "claude-core-skills", "pullNumber": 34}, "want": "allow", "label": "No concerns \u2014 merge both.   <- an order; the 'no'/'not' belongs to another clause", "show": false, "hooks": "lib/hooks", "seq": 6}

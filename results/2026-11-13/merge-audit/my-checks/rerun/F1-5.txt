@@ -1,0 +1,7 @@
+== F1-5
+ok       wb-WD01-stop1          gate: block:F1  rule: block:F1  | stop 1: ungoverned push
+ok       wb-WD01-stop2          gate: allow     rule: allow     | stop 2 [retry]: loaded both governors and told the owner, exactly as the block ordered
+MISMATCH wb-WD01-stop3          gate: block:F1  rule: allow     | stop 3: same owner turn, a background-task notification arrived, one line of reply
+ok       wb-WD01-stop4          gate: allow     rule: allow     | stop 4 [retry]: loaded plan-gate again
+MISMATCH wb-WD01-stop5          gate: block:F1  rule: allow     | stop 5: same owner turn, a GitHub notification arrived, one line of reply
+   reason printed at stop 3: GOV-ENFORCE: this turn took an outward action (commit, push, PR or merge) without plan-gate (before the first outward action). Load the missing governor with the Skill tool now and follow it. The plan comes after the action this time: say so plainly to the owner, then state the goal and what was done. This applies however short the owner's message was ('continue', 'proceed').

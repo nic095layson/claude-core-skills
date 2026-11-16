@@ -1,0 +1,5 @@
+== F1-8
+ok       bb-C05                 gate: block:F1  rule: block:F1  | control: no plan-gate call at all
+MISMATCH wb-WC01                gate: allow     rule: block:F1  | Skill(plan-gate) and Skill(adversarial-verify) both returned an ERROR result; then git commit
+ok       ex-J2                  gate: block:F1  rule: block:F1  | control: compaction in the turn, no governor
+MISMATCH ex-J1                  gate: allow     rule: block:F1  | governors loaded, then a compaction (compact_boundary + summary rows), then commit and push, no reload

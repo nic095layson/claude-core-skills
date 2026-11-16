@@ -1,0 +1,1 @@
+{"tool_name": "mcp__github__enable_pr_auto_merge", "tool_input": {"owner": "nic095layson", "repo": "claude-core-skills", "pullNumber": 34, "mergeMethod": "SQUASH"}, "want": "deny", "label": "1 auto-merge tool | inside a scheduled run", "show": false, "hooks": "lib/hooks", "seq": 6}
