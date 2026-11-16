@@ -92,6 +92,9 @@
 >   skill's frontmatter", is 4 words and under the cue's word floor) and also cues on 25/36
 >   negatives, the accepted cost of an advisory line that licenses skipping; the blocking
 >   classifier is unchanged.
+>   (2026-11-16: no longer true. The turn-gate rebuild, commit `c224c94`, changed `govclass.py`: a harness
+>   marker now counts only at the start of a text, so an owner prompt that quotes one is classified. The outside
+>   audit of the fix found that this change was not stated, finding AC-3.)
 > - `governance-enforce.py` matches the loaded Skill's NAME exactly (an unrelated skill whose
 >   arguments mentioned a governor used to count — attack G3), requires each enforced class's
 >   PRIMARY governor (a dispute passed on scope-fence alone — G4), ignores slash-command echoes
@@ -141,8 +144,13 @@ owner typing, a wake-up, a tool result, a stop) and what a tool call DOES (a she
 command position is an act, anything else is data). The two hooks decide on that: `turn-gates-pretool.py`
 before a tool call (the merge gate and the plan-shown advisory), `governance-enforce.py` when the assistant
 stops (the Stop gate). The specification and its addendum are in `results/2026-11-15/turn-gates-fix/`
-(`CORE-SPEC.md`, `CORE-SPEC-ADDENDUM.md`); the wanted verdict of every test case was fixed before any run, in
-`experiments/hypothesis-2026-11-15-turn-gates-cases.md`. Where an older status block of this file states one
+(`CORE-SPEC.md`, `CORE-SPEC-ADDENDUM.md`). The wanted verdicts of the 314 cases of the first design were fixed in
+`experiments/hypothesis-2026-11-15-turn-gates-cases.md` before any change to the shipped hooks; that file was
+committed after two prototypes had been built and run against the merged hooks, as it says itself. The cases added
+since (the receipt gate, the wiring, the fixes after the outside reads) were written red first but not
+pre-registered, and one pre-registered verdict was changed by the owner's decision D4
+(`results/2026-11-16/audit-fixes/second-read/verdicts-changed-by-d4.md`). This sentence said "the wanted verdict
+of every test case was fixed before any run" until the outside audit found it overstated (finding AC-1). Where an older status block of this file states one
 of these rules differently, this section is the rule.
 
 ### The merge word (merge gate, before a tool call)

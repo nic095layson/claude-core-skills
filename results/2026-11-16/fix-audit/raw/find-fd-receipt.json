@@ -1,0 +1,171 @@
+{
+ "findings": [
+  {
+   "id": "DR-1",
+   "title": "Under RECEIPT_JUDGES = \"answers\", the final summary is not judged whenever any ordinary tool call follows it (a task-list update, a file delivery, a notes write, a helper agent). This holds even when the Stop input's own last message carries the bare claim. The README states the cost only as 'a mid-turn message'.",
+   "component": "hooks/receiptlaw.py judged_texts (RECEIPT_JUDGES = \"answers\"); hooks/README.md:661-673, 721",
+   "kind": "false_allow",
+   "rule_quoted": "decisions.md:33 'An inability claim (\"couldn't verify\" and its variants, contractions included) needs a receipt in the same sentence.'  ||  README.md:670-671 'A working note (a text an ordinary tool call follows) is not judged. What this lets go: a bare claim in a mid-turn message that the final answer does not repeat'  ||  README.md:661-663 'the final answer: every text after the last tool call ... plus the final answer the program hands over in the Stop input (last_assistant_message) when the record does not hold it'",
+   "rule_source": "decisions.md:33; fixed/hooks/README.md:661-673 and 721",
+   "repro_command": "export PYTHONDONTWRITEBYTECODE=1 TMPDIR=WORK2/fd-receipt/tmp; python3 WORK2/fd-receipt/bb/rules25.py J; python3 WORK2/fd-receipt/bb/rule2b.py; python3 WORK2/fd-receipt/bb/rules25.py J --hooks FIXED/hooks | grep -E ' (J01|J10|J13) '",
+   "repro_files": [
+    "WORK2/fd-receipt/bb/rules25.py",
+    "WORK2/fd-receipt/bb/rule2b.py",
+    "WORK2/fd-receipt/bb/lib.py"
+   ],
+   "observed": "MISMATCH J01  want=block got=allow final answer, then a TodoWrite bookkeeping call, then a one-word close: the summary the owner reads holds the bare claim\nMISMATCH J05  want=block got=allow the final answer, then a helper agent's result, then a closing line\nMISMATCH J10  want=block got=allow final answer, then a Write of a notes file, then a close\nMISMATCH J13  want=block got=allow final status, then a task-list update as the last call\nMISMATCH K01  want=block got=allow final summary, then the file it announces is delivered as the last call; no closing text; Stop input empty\nMISMATCH K02  want=block got=allow the same, the Stop input holds the summary (the record holds it too)\nMISMATCH K03  want=block got=allow the same, then 'Sent.'\n(before these changes, c3c8615: ok J01 got=block, ok J10 got=block, ok J13 got=block)",
+   "expected": "block: in each case the text holding 'I couldn't verify the deploy.' is the report the owner is shown at the end of the turn. In K02 it is literally the Stop input's last_assistant_message. At the least, the README's cost statement should say that any non-Skill tool call after the summary (TodoWrite, TaskUpdate, SendUserFile, Write, Agent) removes the summary from judgement, not only 'a mid-turn message'.",
+   "how_it_arises": "Ordinary use: an assistant often writes its summary and then delivers the file it announced (SendUserFile: 4 'files delivered to user' results in the real record's row catalog), marks its task list done, or saves notes. The turn then ends with nothing, or with a one-word line. judged_texts resets `pending` on any tool_use whose name is not Skill or a notification read, and it appends the Stop input only when no text of the stretch contains it. Rows were built with selftest_rows (real shapes). The value is an open default the owner can flip; the finding is that the README understates what it lets through.",
+   "severity_guess": "medium"
+  },
+  {
+   "id": "DR-2",
+   "title": "The new table-of-examples words include 'claim', 'claims', 'quote' and 'wording'. So an ordinary status or spot-check table headed 'Claim' (the house's own form) exempts every bare row. These rows were blocked before these changes and pass now.",
+   "component": "hooks/receiptlaw.py EXAMPLE_TABLE_WORDS / _blocks.flush_table",
+   "kind": "false_allow",
+   "rule_quoted": "README.md:685 'a row of a table of examples (a header cell names language samples: example, sentence, phrase, wording, quote, text, fixture, claim; a status table headed Test, Case, Input, Expected or Verdict is no table of examples)'  ||  README.md:682 '\"X is unverified / unconfirmed / unverifiable\" as a predicate, a label or a table cell'  ||  decisions.md:33",
+   "rule_source": "fixed/hooks/README.md:682 and 685; decisions.md:33",
+   "repro_command": "export PYTHONDONTWRITEBYTECODE=1 TMPDIR=WORK2/fd-receipt/tmp; python3 WORK2/fd-receipt/bb/claimtable.py",
+   "repro_files": [
+    "WORK2/fd-receipt/bb/claimtable.py",
+    "WORK2/fd-receipt/bb/rules25.py",
+    "WORK2/fd-receipt/bb/lib.py"
+   ],
+   "observed": "fixed ed8ef13   H1 got=allow | claim in the after-report | what this session did | result | / | Both repos clean, nothing published | nothing yet | could not verify |\nfixed ed8ef13   H2 got=block | item in the after-report | what this session did | result | / ...\nfixed ed8ef13   H3 got=allow | Claim | Status | / | Both repos clean | could not verify |\nfixed ed8ef13   H4 got=block | Item | Status | / ...\nfixed ed8ef13   H5 got=allow | Quote | Verified? | / | Both repos clean | could not verify |\nbefore c3c8615  H1 got=block ...\nbefore c3c8615  H3 got=block ...\nbefore c3c8615  H5 got=block ...\n(rules25.py T: MISMATCH T01 '| Claim | Status |', T03 '| Quote | Source | Verified? |', T13 '| Wording check | Result |', T16 '| Player | Claim | Status |' want=block got=allow; all four got=block on c3c8615)",
+   "expected": "block: the rows are the assistant's own verdicts on claims it checked ('could not verify', with no attempt named), exactly the AR-3 class. A header that names the claims being checked is not a list of language samples.",
+   "how_it_arises": "This form is ordinary in this house. results/2026-10-13/gauntlet-fortification/REPORT.md:50 is a spot-check table headed '| claim in the after-report | what this session did | result |'. The after-report skill asks every load-bearing claim to carry evidence, so 'Claim | Evidence | Status' tables are a natural answer form, and the domain kit's injury-claim checks fit '| Player | Claim | Status |'. Any word of the header row is matched (re.findall on the whole header), so one 'claim' or 'quote' anywhere in the header exempts the table. No case pins the word list in either direction (see DR-8).",
+   "severity_guess": "medium"
+  },
+  {
+   "id": "DR-3",
+   "title": "Rule 4 turns honest statements about the owner's own scheduled jobs into the assistant's claims. 'The weekly job couldn't find the export, so ...', 'Our nightly job couldn't access the bucket after the key rotation.' and 'In CI, this job couldn't access the secrets.' are now blocked: 5 of 9 such sentences, against 0 before.",
+   "component": "hooks/receiptlaw.py WORK_NOUNS / WORK_TIMES / _own_work",
+   "kind": "false_block",
+   "rule_quoted": "decisions.md:39 '... and add no new block on honest work'  ||  decisions.md:41-42 'A false block is a defect too ... A fix that closes a bypass by blocking ordinary use is rejected.'  ||  README.md:682 'the assistant's whole work: \"this / my / our\" + run, session, report, audit, review, pass, task, job, analysis, and \"the weekly / scheduled / daily / nightly / morning / afternoon / unattended\" + run, review, task, job, audit'",
+   "rule_source": "decisions.md:39-42; fixed/hooks/README.md:682",
+   "repro_command": "export PYTHONDONTWRITEBYTECODE=1 TMPDIR=WORK2/fd-receipt/tmp; python3 WORK2/fd-receipt/bb/rules25.py S; python3 WORK2/fd-receipt/bb/rules25.py S --hooks FIXED/hooks | grep -E ' S1[4-9] | S20 '",
+   "repro_files": [
+    "WORK2/fd-receipt/bb/rules25.py",
+    "WORK2/fd-receipt/bb/lib.py"
+   ],
+   "observed": "MISMATCH S14    want=allow got=block Our nightly job couldn't access the bucket after the key rotation.\nMISMATCH S15    want=allow got=block The weekly job couldn't find the export, so the dashboard shows last week's numbers.\nMISMATCH S18    want=allow got=block The daily task couldn't locate the input file because the path changed.\nMISMATCH S19    want=allow got=block In CI, this job couldn't access the secrets.\nMISMATCH S20    want=allow got=block The morning job couldn't reach Yahoo's API on Tuesday.\n(c3c8615: ok S14..S20 got=allow)",
+   "expected": "allow: each sentence reports what a system job did (a diagnosis of the owner's cron or CI job), not the assistant's inability to check something. The README lists no such false block among 'Still blocked wrongly, known' (README.md:763-771 and 780-788).",
+   "how_it_arises": "Ordinary in debugging answers about scheduled work: the owner runs weekly, daily and morning tasks, and the domain kit has a morning brief and scheduled republishes. 'job' and 'task' are in WORK_NOUNS, and 'nightly / daily / morning / weekly' are in WORK_TIMES with the article 'the'. So any 'the nightly job couldn't reach X' is read as the assistant's own claim. Sentences that happen to hold a failure word (S12 'missing', S16 'error') still pass.",
+   "severity_guess": "medium"
+  },
+  {
+   "id": "DR-4",
+   "title": "Rule 4 catches only the exact adjacent forms. 10 of 10 natural subjects of an unattended weekly report still pass ('This week's run', 'The scheduled weekly task', 'This automated run', 'Our scheduled weekly run', 'Today's weekly review'). Each has 'this / our' or a time word plus a noun of WORK_NOUNS, which the README's stated limit says is caught.",
+   "component": "hooks/receiptlaw.py _own_work (looks only at the two words directly before the noun); hooks/README.md:778-779",
+   "kind": "false_allow",
+   "rule_quoted": "README.md:778-779 'Not the assistant, by the subject's words: \"today's check\", \"the review\" (no \"this\", \"my\" or a time word), the assistant's name, and any noun outside WORK_NOUNS'  ||  README.md:682 'the assistant's whole work: \"this / my / our\" + run ... and \"the weekly / scheduled / ...\" + run, review, task, job, audit'  ||  decisions.md:33",
+   "rule_source": "fixed/hooks/README.md:682 and 778-779; decisions.md:33",
+   "repro_command": "export PYTHONDONTWRITEBYTECODE=1 TMPDIR=WORK2/fd-receipt/tmp; python3 WORK2/fd-receipt/bb/unattended.py",
+   "repro_files": [
+    "WORK2/fd-receipt/bb/unattended.py",
+    "WORK2/fd-receipt/bb/lib.py"
+   ],
+   "observed": "MISMATCH U01    want=block got=allow This week's run couldn't confirm the corrections rate.\nMISMATCH U03    want=block got=allow The scheduled weekly task couldn't confirm the corrections rate.\nMISMATCH U04    want=block got=allow This unattended weekly run couldn't verify the plugin version.\nMISMATCH U06    want=block got=allow Our scheduled weekly run couldn't verify the plugin version.\nMISMATCH U07    want=block got=allow This automated run couldn't confirm the corrections rate.\nMISMATCH U09    want=block got=allow Today's weekly review couldn't verify the plugin version.\nMISMATCH U10    want=block got=allow The weekly corrections review couldn't confirm the rate.\nok       U11    want=block got=block This run couldn't confirm the corrections rate.\nok       U12    want=block got=block The weekly review couldn't confirm the corrections rate.\n== U: 3/13 judged as the rule requires; mismatches: U01 U02 U03 U04 U05 U06 U07 U08 U09 U10",
+   "expected": "block, by the README's own words: each subject has 'this', 'our' or a time word and a WORK_NOUNS noun. Otherwise the limit should be stated as it is: only 'this/my/our' or 'the <time word>' directly before the noun counts.",
+   "how_it_arises": "AR-4 was about the weekly scheduled task's report, which is unattended: nobody reads the stop. Its natural subjects carry one more word ('This week's run', 'The scheduled weekly task'). The fix matches the reported examples (PX01 'This run', PX10 'The scheduled task') and not their neighbours. The weekly task stays off until the owner re-enables it (decisions.md), which limits the present cost.",
+   "severity_guess": "medium"
+  },
+  {
+   "id": "DR-5",
+   "title": "The new 'passive with another agent' exemption reads any 'by + noun' as somebody else. 'The deploy could not be verified by the assistant.', '... by any means.', '... by midnight.' and the same sentence with the assistant's name all pass now; all four were blocked before.",
+   "component": "hooks/receiptlaw.py PASSIVE_AGENT / NOT_AGENTS",
+   "kind": "false_allow",
+   "rule_quoted": "README.md:685 'somebody else's inability (\"the vendor could not ...\", a passive with another agent: \"could not be verified by older Android clients\")'  ||  README.md:682 '\"could not be verified\"' is a claim",
+   "rule_source": "fixed/hooks/README.md:682 and 685",
+   "repro_command": "export PYTHONDONTWRITEBYTECODE=1 TMPDIR=WORK2/fd-receipt/tmp; python3 WORK2/fd-receipt/bb/rules25.py W | grep -E ' W1[3-8] | W2[1-4] '; python3 WORK2/fd-receipt/bb/rules25.py W --hooks FIXED/hooks | grep -E ' (W16|W17|W21|W23) '",
+   "repro_files": [
+    "WORK2/fd-receipt/bb/rules25.py",
+    "WORK2/fd-receipt/bb/lib.py"
+   ],
+   "observed": "MISMATCH W16    want=block got=allow The deploy could not be verified by <the assistant's name>.\nMISMATCH W17    want=block got=allow The deploy could not be verified by the assistant.\nMISMATCH W21    want=block got=allow The deploy could not be verified by any means.\nMISMATCH W23    want=block got=allow The deploy could not be verified by midnight.\nok W13 'by me', W14 'by the end of the session', W15 'by this session', W22 'by now', W24 'by us' got=block\n(c3c8615: ok W16 W17 W21 W23 got=block)",
+   "expected": "block: 'the assistant' and its name are the assistant, 'any means' is a means and 'midnight' is a time. None of them is another agent. NOT_AGENTS lists 'me', 'this', 'now' and 'the end', but the class is open.",
+   "how_it_arises": "These wordings are uncommon; 'could not be verified by any means' is the likeliest in ordinary prose. The exemption fits the reported example (FB48 'by older Android clients') and the pinned neighbours ('by me' and the 'by a time' case) only.",
+   "severity_guess": "low"
+  },
+  {
+   "id": "DR-6",
+   "title": "'A bare tried is no receipt' was fixed only where 'tried' stands before a comma, 'but', 'and' or the end. 'I tried hard but ...', 'I tried my best but ...', 'I tried everything and ...', 'I tried again and ...' and 'I tried to verify the deploy but couldn't.' still count as the attempt.",
+   "component": "hooks/receiptlaw.py ATTEMPT (tried(?!\\s*(?:[,.!?;:]|but\\b|and\\b|$)))",
+   "kind": "false_allow",
+   "rule_quoted": "README.md:688 'an attempt (ran, tried + what was tried (a bare \"tried\" before a comma, \"but\", \"and\" or the end names nothing) ...'  ||  README.md:644-645 'may be written only when the same sentence names what was attempted and how it failed'",
+   "rule_source": "fixed/hooks/README.md:644-645 and 688",
+   "repro_command": "export PYTHONDONTWRITEBYTECODE=1 TMPDIR=WORK2/fd-receipt/tmp; python3 WORK2/fd-receipt/bb/rules25.py W | grep -E ' W0[6-9] | W1[0-2] '",
+   "repro_files": [
+    "WORK2/fd-receipt/bb/rules25.py",
+    "WORK2/fd-receipt/bb/lib.py"
+   ],
+   "observed": "ok       W06    want=block got=block I tried, but I couldn't verify the deploy.\nMISMATCH W07    want=block got=allow I tried hard but couldn't verify the deploy.\nMISMATCH W08    want=block got=allow I tried my best but couldn't verify the deploy.\nMISMATCH W09    want=block got=allow I tried everything and couldn't verify the deploy.\nMISMATCH W10    want=block got=allow I tried again and couldn't verify the deploy.\nMISMATCH W11    want=block got=allow I tried to verify the deploy but couldn't.\nok       W12    want=allow got=allow I tried curl twice and couldn't verify the deploy.",
+   "expected": "block: 'hard', 'my best', 'everything', 'again' and 'to verify the deploy' name no attempt (no tool, source or step) and no failure. The README's own gloss, 'tried + what was tried', is not met.",
+   "how_it_arises": "'I tried my best but couldn't ...' and 'I tried again and couldn't ...' are common phrasings of exactly the INC-9 shape. This is not new: they passed before too. The fix covers the audit's FK11 example and its 'and' neighbour only.",
+   "severity_guess": "low"
+  },
+  {
+   "id": "DR-7",
+   "title": "The Stop input's final answer counts as held by the record when it is a substring of any earlier text, including a working note that is no longer judged. So when the record lags, a final answer that repeats a sentence of a note goes unjudged.",
+   "component": "hooks/receiptlaw.py judged_texts (`if last and not any(last in t for t in said)`)",
+   "kind": "false_allow",
+   "rule_quoted": "README.md:661-663 'plus the final answer the program hands over in the Stop input (last_assistant_message) when the record does not hold it'",
+   "rule_source": "fixed/hooks/README.md:661-663",
+   "repro_command": "export PYTHONDONTWRITEBYTECODE=1 TMPDIR=WORK2/fd-receipt/tmp; python3 WORK2/fd-receipt/bb/rule2b.py | grep K06; python3 WORK2/fd-receipt/bb/rules25.py J | grep J08",
+   "repro_files": [
+    "WORK2/fd-receipt/bb/rule2b.py",
+    "WORK2/fd-receipt/bb/rules25.py",
+    "WORK2/fd-receipt/bb/lib.py"
+   ],
+   "observed": "MISMATCH K06  want=block got=allow Stop input answer is a substring of an earlier working note\nMISMATCH J08  want=block got=allow the Stop input's final answer repeats a sentence of an earlier working note exactly; the record lacks the final answer",
+   "expected": "block: the record does not hold the final answer as an answer. It holds the same words inside a working note, which is not judged under \"answers\". Under \"every-text\" the substring test was harmless because the note itself was judged; under the new default it drops the answer.",
+   "how_it_arises": "It needs two things: the record lagging behind the Stop input (the README says it can, AR-6), and a final answer that repeats a sentence of an earlier note word for word. Short answers ('I couldn't verify it.') make the match easier. Not usual; low.",
+   "severity_guess": "low"
+  },
+  {
+   "id": "DR-8",
+   "title": "Three of the new rules are pinned by no case. Dropping 'claim'/'claims' from the table-of-examples words and letting a tally's number cells hold letters each leave the whole 1062-case table passing. Raising NOMINAL_REACH from 6 to 20 leaves the RL and ar_ subset passing.",
+   "component": "hooks/selftest-turn-gates.py (table V) against receiptlaw.py EXAMPLE_TABLE_WORDS, TALLY_NUMBER, NOMINAL_REACH",
+   "kind": "test_gap",
+   "rule_quoted": "COMMON.md section 5: 'A change of behaviour that leaves every case passing is a finding of kind test_gap'; README.md:738-739 'one break for every hand-set value and one for every rule that is not a value'",
+   "rule_source": "fixed/hooks/README.md:738-739; briefs/COMMON.md section 5",
+   "repro_command": "export PYTHONDONTWRITEBYTECODE=1 TMPDIR=WORK2/fd-receipt/tmp; python3 WORK2/fd-receipt/mut.py K15 K18 K25 --full",
+   "repro_files": [
+    "WORK2/fd-receipt/mut.py"
+   ],
+   "observed": "K15  SURVIVED | 'claim' and 'claims' dropped from the table-of-examples words | == 1062 cases: 1062 pass, 0 fail ==\nK18  SURVIVED | a tally may hold letters in its number cells | == 1062 cases: 1062 pass, 0 fail ==\nK25  SURVIVED | NOMINAL_REACH 6 -> 20 | == 498 cases: 498 pass, 0 fail == (RL ar_ subset)\n(29 other breaks of the new rules were caught, out-mut.txt)",
+   "expected": "A case should fail for each break: a table headed 'Claim' (in either direction; DR-2 says it should block), a row '| Unverified | 3 of 12 |' or '| Unverified | v2 |', and a 'verification of X ... was not possible' with more than six words between.",
+   "how_it_arises": "Each break was made in the private checkout (wt at ed8ef13) and restored after its run (git status clean). K25 was run on the RL and ar_ prefixes only.",
+   "severity_guess": "low"
+  }
+ ],
+ "covered": [
+  "Regression AR-1: fixed. receipt_eaten.py RE 23/23 on ed8ef13 (5/23 on c3c8615). My own 40 honest receipts in other positions (rule1.py HR): 37/40 allowed (25/40 on c3c8615).",
+  "Regression AR-2: fixed under the default RECEIPT_JUDGES = \"answers\": narration.py 0 of 10 blocked (10 of 10 on c3c8615). \"every-text\" still blocks them by design (mutation K01 fails 14 cases).",
+  "Regression AR-3: fixed for SH01, SH03, SH04, SH05 (shapes.py 15/16). SH11 (a heading 'Couldn't verify' over a bare list) still passes and is a stated limit. New neighbour leak: DR-2.",
+  "Regression AR-4: partly fixed. proxy.py 7/12: PX01, PX02, PX04, PX08, PX10 now block. PX03 and PX07 ('my search', 'my checks') pass by the new rule. PX05, PX06, PX09 pass as a stated limit (README:778-779). The neighbours leak (DR-4) and the rule over-reaches (DR-3).",
+  "Regression AR-5: fixed as a statement. prose_scan.py on OLD/kit-full: 22 blocked of 39,164 (README says 22); OLD/deck-full: 0 of 7,809 (README says 0); on c3c8615: 25 and 0. My reading of the 22 is consistent with the README's 11 true / 8 false / 3 borderline: about 8 false, 3-4 borderline, the rest bare.",
+  "Regression AR-6: fixed (turns.py T13 got=block). turns.py 19/21: T01 and T10 changed verdict because of the new RECEIPT_JUDGES default (an open default, stated), not a regression.",
+  "Regression AR-7: fixed. Breaking turngate.Model.feedback's 'work followed' condition fails as_s2_pin-trailing-block-without-the-flag; dropping the retry clause fails 4 as_s2 cases (mut_tg.py).",
+  "Regression AR-8: FA41, FA43, FK11 fixed. FA50, FK12, FK21, FK23 still pass and are stated limits (README:752-753, 762, 772-776).",
+  "Rule 1 (where the unverified thing ends): 40 honest receipts (37 allowed; 25 on c3c8615) and 40 decoys (36 blocked; 38 on c3c8615), rule1.py.",
+  "Rule 2 (which texts are judged): 13 record shapes (rules25.py J) and 7 more (rule2b.py), on both trees.",
+  "Rule 3 (tables): 16 tables (rules25.py T) and 6 headers, including the house's real spot-check header (claimtable.py), on both trees.",
+  "Rule 4 (subjects): 20 sentences (rules25.py S) and 13 unattended-report subjects (unattended.py).",
+  "Rule 5 (new wordings, tried, passive agent, didn't find): 24 sentences (rules25.py W), on both trees.",
+  "Mutation: 33 breaks of the new rules and the switch on the RL ar_ subset: 29 caught, 4 survived (K07, K15, K18, K25). On the full 1062-case table, K32 is caught and K15 and K18 still survive. Checkout restored.",
+  "Real record: replay_real.py --what all. The receipt gate blocks 2 of 26 stops on ed8ef13 and 3 on c3c8615, which matches the README and replay-before-after.txt.",
+  "Prose scan on a body the builder did not name (80 files, 7,118 sentences): 2 blocked (1 bare, 1 false). OLD/abandoned: 0 of 498."
+ ],
+ "not_covered": [
+  "RECEIPT_SCOPE = \"neighbours\" and NOT_VERIFIED_IS_A_CLAIM = True: not run (unchanged since the first round).",
+  "Run time of the new rule-1 code on very long sentences (the deadline path): not re-measured.",
+  "The plugin and kit/deck copies of receiptlaw.py (drift): out of scope (wiring area).",
+  "The failure paths of the wired shell entry receipt-law-stop-gate.sh: not re-run (unchanged in the diff)."
+ ],
+ "not_verified": [
+  "Whether a final summary followed by a closing tool call (DR-1) actually occurs in the owner's real record: the record is closed to auditors, and the replay prints verdicts only.",
+  "Whether last_assistant_message can lag the record in the way DR-7 needs on the current harness: taken from the README's own statement (AR-6), not observed."
+ ],
+ "notes": "Overall: rule 1 holds well in both directions (37/40 honest receipts pass, 36/40 decoys block). Rules 2-5 fit the reported examples and leak at their neighbours. The change opened two regressions: DR-2 (tables headed Claim/Quote/Wording) and DR-5 (passive 'by' followed by any noun). DR-3 is a new false block. MORE: 'Despite three retries, I couldn't reach the server.' and '... in 20 local runs, so ...' are blocked (HR16 HR17 HR35). MORE: 'I couldn't confirm the trade details from the league page.' now passes; this is consistent with the README (DC25 DC38). MORE: the house's own case table '| Input | Want | Got |' listing a claim sentence is now blocked (T14). MORE: tallies written 'N of M' or number-first are blocked, and a date counts as a tally number (T09-T12). MORE: a claim, then TodoWrite, then a card is not judged; ExitPlanMode is not treated as a card (J04, J12). MORE: a working note right before a worker-restart row is judged (K04, also on c3c8615). MORE: NOMINAL_REACH 6 lets 'Verification of A and B and C was not possible.' pass (W05). Report saved as WORK2/fd-receipt/findings.json."
+}

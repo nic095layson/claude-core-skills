@@ -1,0 +1,34 @@
+$ python3 results/2026-11-16/fix-audit/timing.py --hooks hooks      # from the tree root at ed8ef13, three times in a row, 2026-11-16
+# A machine with 4 CPUs, shared with other work: uptime showed a load average of 6.4 to 6.6 (1 minute) during these runs, so the wall
+# times are noisy. Each run builds its own record and times each call once. Every call stayed under 1 second.
+
+## run 1, 2026-11-16T17:01:07Z; load average (1 minute): 6.64
+synthetic record: 48.0 MB, 41588 rows (3199 rounds), python 3.13.18
+call                                         wall s    cpu s  exit  printed
+Stop gate (governance-enforce.py)              0.67     0.66     0  silent
+receipt gate (receipt-law-stop-gate.sh)        0.70     0.70     0  silent
+pre merge tool                                 0.59     0.58     0  silent
+pre Bash commit+push                           0.60     0.58     0  silent
+pre Bash ls                                    0.03     0.03     0  silent
+pre Edit                                       0.63     0.61     0  silent
+exit status 0
+## run 2, 2026-11-16T17:01:12Z; load average (1 minute): 6.51
+synthetic record: 48.0 MB, 41588 rows (3199 rounds), python 3.13.18
+call                                         wall s    cpu s  exit  printed
+Stop gate (governance-enforce.py)              0.64     0.64     0  silent
+receipt gate (receipt-law-stop-gate.sh)        0.74     0.72     0  silent
+pre merge tool                                 0.65     0.62     0  silent
+pre Bash commit+push                           0.57     0.57     0  silent
+pre Bash ls                                    0.04     0.03     0  silent
+pre Edit                                       0.58     0.58     0  silent
+exit status 0
+## run 3, 2026-11-16T17:01:17Z; load average (1 minute): 6.39
+synthetic record: 48.0 MB, 41588 rows (3199 rounds), python 3.13.18
+call                                         wall s    cpu s  exit  printed
+Stop gate (governance-enforce.py)              0.57     0.57     0  silent
+receipt gate (receipt-law-stop-gate.sh)        0.65     0.61     0  silent
+pre merge tool                                 0.61     0.60     0  silent
+pre Bash commit+push                           0.69     0.69     0  silent
+pre Bash ls                                    0.03     0.03     0  silent
+pre Edit                                       0.57     0.57     0  silent
+exit status 0

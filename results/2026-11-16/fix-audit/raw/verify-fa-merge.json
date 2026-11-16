@@ -1,0 +1,86 @@
+{
+ "verdicts": [
+  {
+   "id": "AM-5",
+   "verdict": "CONFIRMED",
+   "reproduced": true,
+   "command_run": "finder's: PYTHONDONTWRITEBYTECODE=1 TMPDIR=.../work/fa-merge/tmp python3 .../work/fa-merge/repro_am_retract.py ; own (hand-built rows, queued_command attachment origin.kind=human): PYTHONDONTWRITEBYTECODE=1 TMPDIR=.../work/verify-fa-merge/tmp python3 WORK/verify-fa-merge/v.py am5",
+   "observed": "The finder's repro printed exactly the reported lines (XX lets-wait / on-second-thought / actually-no / please-wait-long / not-today / scratch-that / better-wait / hmm-hold / same-msg got=allow; controls ok). Own: ok am5-ctl-noorder want=deny got=deny:merge-word | ok am5-ctl-order want=allow got=allow | ok am5-ctl-wait ('Wait, not yet.') got=deny:merge-word | XX am5-letshold ('Actually, let's hold off for now.') got=allow | XX am5-scratch ('Scratch that, I'll review it first.') got=allow | XX am5-long ('Please wait until I have read the full audit tonight.') got=allow",
+   "rule_check": "README.md:178, word for word: '| a later refusal by the owner, typed mid-turn or clicked | the refused numbers leave the grant; a bare refusal empties it |'. README.md:361-362, word for word: 'An order worded in a way the grammar does not take as an order costs one card; every refusal reading fails closed.' Source turngate.py:815: a clause that has a refusal cue but no number and no merge word revokes only when it has at most STANDALONE_REFUSAL_MAX_WORDS (6) words AND REFUSAL_START matches its first word. 'Actually', 'Scratch', 'Please' and 'On second thought' are not REFUSAL_START words, so the refusal is dropped and the grant stands. That fails open, which contradicts the limits statement.",
+   "reason": "Reproduced with my own fixtures. The controls show the gate is active and reads short refusals. Ordinary retractions leave the grant standing, against the stated rule and against the stated 'every refusal reading fails closed'. The same-message form ('Merge #34. On second thought, let's wait for the audit.') needs no mid-turn row at all.",
+   "severity": "high",
+   "realistic": "happens_in_normal_use"
+  },
+  {
+   "id": "AM-1",
+   "verdict": "CONFIRMED",
+   "reproduced": true,
+   "command_run": "finder's: PYTHONDONTWRITEBYTECODE=1 TMPDIR=.../work/fa-merge/tmp python3 .../work/fa-merge/repro_am1.py ; own: python3 WORK/verify-fa-merge/v.py am1",
+   "observed": "The finder's repro printed the reported lines. Own: ok am1-ctl-after ('Merge #34 once CI is green.') got=deny:merge-word | XX am1-once-first ('Once CI is green, merge #34.') got=allow | XX am1-if-first ('If the checks pass, merge #34.') got=allow | XX am1-unless ('Merge #34 unless the audit finds something.') got=allow | ok am1-push-ctl ('push this to main once CI is green') got=deny:default-branch | XX am1-push-if-first ('If CI passes, push this to main.') got=allow | ok am1-push-ctl-now ('Push this to main.') got=allow",
+   "rule_check": "README.md:158, word for word: '| an order for later or under a condition: \"Merge #34 once CI is green\" | nothing, and nothing is taken back |'. Source turngate.py:782 checks DEFER_CUE only in `rest`, the text after the verb. CLAUSE_SPLIT splits on ', ', so a leading condition becomes a separate clause that carries no state. The push 'branch' op (about lines 769-771) checks DEFER_CUE only within its own clause. 'unless' is a REFUSAL_CUE and its tail names no number, so the head's #34 is granted.",
+   "reason": "Reproduced with my own fixtures. The honest neighbours behave: the unconditional push order still allows, and the condition-after form still denies. Putting the condition first is ordinary English, and the stated rule grants nothing for a conditional order.",
+   "severity": "high",
+   "realistic": "happens_in_normal_use"
+  },
+  {
+   "id": "AM-2",
+   "verdict": "CONFIRMED",
+   "reproduced": true,
+   "command_run": "finder's: PYTHONDONTWRITEBYTECODE=1 TMPDIR=.../work/fa-merge/tmp python3 .../work/fa-merge/repro_am_card.py ; own (hand-built AskUserQuestion call plus its paired result, with the real answer text and toolUseResult.answers): python3 WORK/verify-fa-merge/v.py am2",
+   "observed": "The finder's repro printed the reported lines. Own: ok am2-ctl-yes ('Shall I merge #34 now?'=Yes) got=allow | ok am2-ctl-later-opt (option 'Merge #34 after review') got=deny:merge-word | XX am2-hold-q ('Hold off and not merge #34 until the audit lands?'=Yes) got=allow | XX am2-cond-q ('Merge #34 after CI passes?'=Yes) got=allow | XX am2-assess-q ('Is #34 ready to merge?'=Yes) got=allow",
+   "rule_check": "README.md:159, word for word: '| a card: the chosen option is an order (\"Merge #34\", \"Merge both\") or a yes on a question that asks for a merge | ...'. README.md:161: '| a card option that refuses or defers (\"Wait\", \"Not yet\", \"Merge neither\", \"Merge after the audit\") ... | nothing; ...'. Also README.md:158 (an order for later or under a condition grants nothing) and the typed-message row ('asked about ... \"Is #34 safe to merge?\"' grants nothing). Source: _merge_question (turngate.py:874-877) is true whenever 'merge' is used as a verb anywhere in the question. card_ops checks DEFER_CUE (line 905) and REFUSAL_CUE (line 897) only on the chosen option, never on the question. A Yes on a hold, defer, conditional or assessment question therefore grants.",
+   "reason": "Reproduced with my own card rows in the real result-text format. A question that asks to hold, defer, or merge under a condition is not a question that asks for a merge now. The same deferral written as the option is denied, so the asymmetry is a defect, not a policy choice. D1 makes a card click necessary ('only by'); it does not make any yes on a card that names the PR sufficient.",
+   "severity": "high",
+   "realistic": "needs_unusual_but_plausible_input"
+  },
+  {
+   "id": "AM-3",
+   "verdict": "CONFIRMED",
+   "reproduced": true,
+   "command_run": "finder's: PYTHONDONTWRITEBYTECODE=1 TMPDIR=.../work/fa-merge/tmp python3 .../work/fa-merge/repro_am_sched.py ; own (hand-built wake row plus a ReadNotifications call/result with a scheduled-trigger header): python3 WORK/verify-fa-merge/v.py am3",
+   "observed": "The finder's repro printed the reported lines. Own: ok am3-ctl-cli got=deny:scheduled | ok am3-ctl-sh ('./ship.sh') got=deny:scheduled | XX am3-nosuffix ('./ship', an executable file holding the CLI merge) got=allow | XX am3-write-run (printf ... > new.sh && bash new.sh) got=allow | XX am3-pyc (python3 -c subprocess.run(...merge 40...)) got=allow | ok am3-honest ('gh pr view 40') got=allow",
+   "rule_check": "decisions.md D3, word for word: 'Auto-merge, and a direct push to a default branch, need the same word as a merge. In a scheduled run they are always denied.' README.md:145-147: 'A command is read through bash -c, eval, command substitution, ... and a script file it runs.' README.md:353-355 states two limits: a program in another language that merges through a subprocess is not seen, and a script file that is missing when the hook runs contributes nothing. Source: SCRIPT_SUFFIX='.sh' (turngate.py:302), and line 1287 reads a directly run script only when argv[0] ends in .sh.",
+   "reason": "Reproduced. The python -c and write-then-run cases are limits stated plainly in the README. They are not findings by themselves, although they leave D3's 'always denied' untrue in a scheduled run. The extensionless executable script is not a stated limit and contradicts the claim that 'a script file it runs' is read, so the finding stands on at least that case. The honest neighbour (gh pr view) still passes.",
+   "severity": "high",
+   "realistic": "needs_unusual_but_plausible_input"
+  },
+  {
+   "id": "AM-4",
+   "verdict": "CONFIRMED",
+   "reproduced": true,
+   "command_run": "finder's: PYTHONDONTWRITEBYTECODE=1 TMPDIR=.../work/fa-merge/tmp python3 .../work/fa-merge/repro_am4.py ; own: bash WORK/verify-fa-merge/mut.sh (my own worktree at c3c8615, one replacement at a time, full table each time) and HOOKS=.../work/verify-fa-merge/mh python3 .../work/verify-fa-merge/v4.py (checks that the verdicts change)",
+   "observed": "Own worktree baseline: '== 740 cases: 740 pass, 0 fail =='. Mutations: 'master: == 740 cases: 740 pass, 0 fail ==' (DEFAULT_BRANCHES=(\"main\",)), 'mirror: == 740 cases: 740 pass, 0 fail ==' (GIT_PUSH_EVERYTHING=(\"--all\",)), 'source: == 740 cases: 740 pass, 0 fail ==' (SOURCE_COMMANDS=()). Verdicts on the fixed copy vs the mutated copy, with the owner having typed only 'status?': git push origin HEAD:master deny:default-branch -> allow; git push --mirror origin deny:default-branch -> allow; source pushmain.sh deny:default-branch -> allow; git push origin HEAD:feature-x allow -> allow. selftest-mutations.py has CL20, which drops 'main'; no break drops 'master'.",
+   "rule_check": "README.md:141-147 states that master, --mirror, --branches, wildcard refspecs and a script file a command runs are gated. README.md:341-346 states that selftest-mutations.py 'proves the table can fail'. COMMON.md section 5: a change of behaviour that leaves every case passing is a test_gap.",
+   "reason": "Reproduced independently in a clean worktree, where the W wiring cases pass and the baseline is 740/740. Three stated gating behaviours can be removed with no table case failing, while the verdicts change. I did not re-run the wildcard-refspec break (M12); the other three are enough.",
+   "severity": "medium",
+   "realistic": "happens_in_normal_use"
+  },
+  {
+   "id": "AM-6",
+   "verdict": "CONFIRMED",
+   "reproduced": true,
+   "command_run": "finder's: PYTHONDONTWRITEBYTECODE=1 TMPDIR=.../work/fa-merge/tmp python3 .../work/fa-merge/bb14.py ; own: python3 WORK/verify-fa-merge/v.py am6",
+   "observed": "finder's: 'XX RD01 want=allow got=deny:target-unknown TURN-GATE (merge word) [target-unknown]: the gate cannot tell which pull request this call merges (the GraphQL request body cannot be read).' Own (the file holds 'query { repository(...) { pullRequest(number: 34) { title state } } }', no merge word): XX am6-file-noword got=deny:target-unknown | XX am6-file-word (after the owner typed 'Merge #34.') got=deny:target-unknown | ok am6-inline got=allow",
+   "rule_check": "README.md:147-148: 'A command that only mentions the words ... is not gated.' decisions.md: 'add no new block on honest work' and 'A fix that closes a bypass by blocking ordinary use is rejected.' The README nowhere states that a GraphQL body read from a file is denied as a merge (a grep for graphql or file body finds only line 143). Source turngate.py:1527-1528: any body on the graphql path that starts with '@' or holds '=@' becomes Act('merge', note=NOTE_GRAPHQL_UNREADABLE).",
+   "reason": "Reproduced, including the 'also when the owner has given the word' claim. The finder's own fixture used only 'ok'; mine used 'Merge #34.'. Every GraphQL call whose body comes from a file is denied as a merge, even a read-only query with no merge word. Failing closed on a body the gate cannot read is defensible for merges. But the block is not stated in the README, is not listed as an open policy question, and stops honest read-only work.",
+   "severity": "low",
+   "realistic": "needs_unusual_but_plausible_input"
+  },
+  {
+   "id": "AM-7",
+   "verdict": "UNCLEAR",
+   "reproduced": true,
+   "command_run": "finder's: PYTHONDONTWRITEBYTECODE=1 TMPDIR=.../work/fa-merge/tmp python3 .../work/fa-merge/repro_am7.py ; own: python3 WORK/verify-fa-merge/v.py am7",
+   "observed": "The finder's repro printed the reported lines. Own: ok am7-same ('Merge #34.', acme/lib 34) got=allow | XX am7-other ('Merge #34.', acme/deck 34) got=allow | ok am7-bound ('Merge acme/lib#34.', acme/deck 34) got=deny:merge-word",
+   "rule_check": "decisions.md D2 ('The authorization covers only the pull requests named.') is silent on whether a bare number names one repository's PR. README.md:154 says '... an address or owner/repo#34 binds the repository too', which implies a bare number does not. CORE-SPEC.md row 11 records the choice: 'the repository | number only | bound when the word names it | B'. decisions.md ('What the owner has NOT decided') asks for the safest default behind a named constant, listed under open policy questions. README.md:325-326 lists only RESTART_ENDS_WORD and DELEGATE_MAY_MERGE as defaults taken without a question.",
+   "reason": "The behaviour reproduces exactly as described. The binding rule is silent, so under the verdict definitions this is UNCLEAR. The process point is accurate: this silent-case default is not the fail-closed reading and is not listed as an open question.",
+   "severity": "medium",
+   "realistic": "needs_unusual_but_plausible_input"
+  }
+ ],
+ "new_leads": [
+  "selftest-mutations.py CL20 removes 'main' from DEFAULT_BRANCHES, but no break removes 'master'. With AM-4, the break list gives a false sense that the default-branch set is pinned.",
+  "README.md:159 says 'a yes on a question that asks for a merge' grants, with no exception for conditional or deferring questions, while README.md:158 says a conditional order grants nothing. For cards the stated rule table contradicts itself (relevant to AM-2).",
+  "AM-3: bb4.py and bb5.py claim the same unread routes also pass in an owner turn after a bare 'ok' (no merge word). Not verified here."
+ ]
+}

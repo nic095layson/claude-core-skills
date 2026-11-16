@@ -1,0 +1,120 @@
+{
+ "verdicts": [
+  {
+   "id": "DM-1",
+   "verdict": "CONFIRMED",
+   "reproduced": true,
+   "command_run": "finder: PYTHONDONTWRITEBYTECODE=1 TMPDIR=FA/work/fd-merge/tmp python3 FA/work/fd-merge/r1/bbF.py ; own: cd FA/work/verify-fd-merge && PYTHONDONTWRITEBYTECODE=1 TMPDIR=FA/work/verify-fd-merge/tmp python3 FA/work/verify-fd-merge/c_shell.py (own checkout ck/, own ship.sh holding the CLI merge of acme/kit#77, scheduled run built as the table's run_rows shape: stop, idle wake, notification read of a scheduled trigger)",
+   "observed": "finder: 14 XX of 18 (all stdin forms allow; controls deny). own:\nok  DM1-sched-ctl-bash-file   want=deny got=deny:scheduled\nXX  DM1-sched-bash-lt         want=deny got=allow\nXX  DM1-sched-sh-s-lt         want=deny got=allow\nXX  DM1-sched-cat-pipe-sh     want=deny got=allow\nXX  DM1-sched-cat-pipe-bash-x want=deny got=allow\nXX  DM1-sched-push-bash-lt    want=deny got=allow\nok  DM1-sched-ctl-echo-pipe   want=deny got=deny:scheduled\nok  DM1-noword-ctl-bash-file  want=deny got=deny:merge-word\nXX  DM1-noword-bash-lt        want=deny got=allow\nXX  DM1-noword-cat-pipe-sh    want=deny got=allow\nXX  DM1-noword-push-bash-lt   want=deny got=allow",
+   "rule_check": "The quote is real. README.md:146-148: 'A command is read through `bash -c`, `eval`, command substitution, a pipe or here-document into a shell, ...'. The table row at :152: 'one handed to a shell (`bash FILE`, `sh FILE`) ... | as a shell script'. decisions.md D3: 'In a scheduled run they are always denied.' README:138-141 and :438-460 limit D3 to 'the routes the gate reads', and the 'cannot see' list names no stdin-redirect or cat-pipe form.",
+   "reason": "Reproduced with my own fixture and a different scheduled-run row shape. `cat FILE | sh` is a pipe into a shell, which the README says is read. The gate reads the same file when it is given as `bash FILE`, but lets it pass when it arrives on standard input. This is not a stated limit.",
+   "severity": "high",
+   "realistic": "needs_unusual_but_plausible_input"
+  },
+  {
+   "id": "DM-2",
+   "verdict": "CONFIRMED",
+   "reproduced": true,
+   "command_run": "finder: python3 FA/work/fd-merge/r1/dm2_retract.py ; own: cd FA/work/verify-fd-merge && python3 c_words.py (owner 'Merge #77.', a tool call, then a queued owner message; typed_ops called in process)",
+   "observed": "finder: PASSED AFTER A RETRACTION: 18 of 18. own:\nok  DM2-mid00 'No.'            got=deny:merge-word\nXX  DM2-mid02 'Nope.'          got=allow\nok  DM2-mid03 'Nope, not yet.' got=deny:merge-word\nXX  DM2-mid04 'Keep #77 open.' got=allow\nXX  DM2-mid05 'Forget it.'     got=allow\nXX  DM2-same 'Merge #77. Nope.' got=allow\nok  DM2-ctl-word-stands        want=allow got=allow\ntyped_ops('Nope.') -> [] ; typed_ops('Keep #77 open.') -> [] ; typed_ops('No.') -> [('revoke_all',)]\nturngate.py:1045-1052: `_short_refusal(c)` is called only inside `if cue_any:`; 'nope' and 'keep' are in REFUSAL_START (:113-114) but in neither REFUSAL_CUE (:109-112) nor HALT_WORDS (:137-140).",
+   "rule_check": "README:194 (A5) says a short refusal 'starting with no, not, don't, wait, stop ...' empties the grant, and REFUSAL_START is the list it names. README:218 says 'a bare refusal empties it'. But README:467 ('A refusal worded with none of the listed words is still missed') and :474-476 state the wording gap as a limit. So 'Nope.' and 'Keep #77 open.' break the stated rule: their words ARE on the list, and the code never consults it. 'Forget it.', 'Ignore that.' and similar fall under a plainly stated limit and are not a finding by themselves.",
+   "reason": "Confirmed in its narrow part. Two REFUSAL_START entries are dead code, so an ordinary 'Nope.' leaves the merge word standing, against the stated A5 rule. The 18-of-18 headline overstates the defect, because most of those retractions fall under the README's stated limit.",
+   "severity": "medium",
+   "realistic": "happens_in_normal_use"
+  },
+  {
+   "id": "DM-3",
+   "verdict": "UNCLEAR",
+   "reproduced": true,
+   "command_run": "finder: python3 FA/work/fd-merge/r1/dm3_condition.py ; own: cd FA/work/verify-fd-merge && python3 c_words.py",
+   "observed": "finder: GRANTED NOW: 22 of 22. own:\nok  DM3-00 'Merge #77 at 4pm.'      got=deny:merge-word\nok  DM3-01 'Merge #77 tomorrow.'    got=deny:merge-word\nXX  DM3-02 'Merge #77 at noon.'     got=allow\nXX  DM3-03 'Merge #77 in two hours.' got=allow\nXX  DM3-04 'Merge #77 by EOD.'      got=allow\nXX  DM3-05 'Merge #77 this weekend.' got=allow\nXX  DM3-06 'Merge #77 in a minute.' got=allow",
+   "rule_check": "The quoted A1 row is real (README:190), but it defines a clock time as '`at` followed by a digit', and 'at noon' is not that. README:205-206 says 'a condition ... worded outside the lists can still be read as an order', and :474-476 says the same. README:480-483 says 'A hold inside the order's own clause (\"Merge #34 in a minute\") is still read as an order.' D1 does not speak to deferral.",
+   "reason": "The behaviour reproduces, but the README states this exact limit plainly, with an example of the same shape. The only tension is inside the README: the A1 table row ('an order for later ... grants nothing') disagrees with the limits section. No owner decision is directly contradicted.",
+   "severity": "low",
+   "realistic": "happens_in_normal_use"
+  },
+  {
+   "id": "DM-6",
+   "verdict": "CONFIRMED",
+   "reproduced": true,
+   "command_run": "finder: python3 FA/work/fd-merge/r1/dm6_body.py ; own: cd FA/work/verify-fd-merge && python3 c_shell.py (own body.graphql holding a harmless query, own mut.graphql / mutbody.json holding the merge mutation)",
+   "observed": "finder: 8 XX of 14. own:\nok  DM6-sched-ctl-file              got=deny:scheduled\nok  DM6-sched-ctl-missing           got=deny:scheduled\nok  DM6-sched-ctl-wget-inline       got=deny:scheduled\nXX  DM6-sched-heredoc-over-existing got=allow\nXX  DM6-sched-cp-over-existing      got=allow\nXX  DM6-sched-wget-post-file        got=allow\nXX  DM6-sched-wget-post-file-missing got=allow\nok  DM6-noword-ctl-missing          got=deny:target-unknown\nXX  DM6-noword-wget-post-file-missing got=allow\nturngate.py:2050-2053: a body file is read only when the value starts with '@'; wget's --post-file=PATH has no '@', so the path itself is judged as the body text.",
+   "rule_check": "README:158-162 is quoted correctly: a body file 'is read from the file ... and judged as if it were inline; a file that cannot be read keeps the verdict of a body the gate cannot see (a GraphQL call is denied as a merge whose target is unknown)'. README:145 gates the GraphQL route 'through the command line or an HTTP program', and turngate.py:322 and :337-339 list wget and --post-file. The case of a body that the same command writes and then sends is not in the 'cannot see' list; that list's line about 'a script file as it is not when the hook runs' covers script files only.",
+   "reason": "Reproduced with my own files. The wget part is the clearest: --post-file is never read, so even a missing body file passes, while the same call through gh api is denied target-unknown. The stale-body part reproduces too, and it is not a stated limit for body files.",
+   "severity": "high",
+   "realistic": "needs_unusual_but_plausible_input"
+  },
+  {
+   "id": "DM-7",
+   "verdict": "UNCLEAR",
+   "reproduced": true,
+   "command_run": "finder: python3 FA/work/fd-merge/r1/dm7_written.py ; own: cd FA/work/verify-fd-merge && python3 c_shell.py (DM7-* cases, scheduled run)",
+   "observed": "finder: 5 XX of 10. own:\nok  DM7-ctl-write-run   got=deny:scheduled\nXX  DM7-pwd             got=allow\nXX  DM7-cp-run          got=allow\nXX  DM7-written-stdin   got=allow",
+   "rule_check": "README:155-157 is quoted correctly. But that row says a copy 'sends the whole command text to the text screens'; it does, and the row claims no denial. README:455-457 also states 'a script file as it is not when the hook runs ... or named relative to a directory the gate does not know contributes nothing'. The stdin forms are the DM-1 defect.",
+   "reason": "The behaviour reproduces, but it is arguable as a separate finding. The copy and cat-over-existing cases fall within the stated handling and limits, and the stdin cases duplicate DM-1. The $PWD spelling is a narrow neighbour and arguable, since the gate does know the call's cwd.",
+   "severity": "low",
+   "realistic": "needs_unusual_but_plausible_input"
+  },
+  {
+   "id": "DM-4",
+   "verdict": "CONFIRMED",
+   "reproduced": true,
+   "command_run": "finder: python3 FA/work/fd-merge/r1/dm4_honest.py ; own: cd FA/work/verify-fd-merge && python3 c_words.py (DM4-* and in-process typed_ops)",
+   "observed": "finder: REFUSED 11 of 30 honest orders. own:\nok  DM4-00 'Merge #77.'                 got=allow\nXX  DM4-01 \"Let's merge #77.\"           got=deny:merge-word\nok  DM4-02 'Lets merge #77.'            got=allow\nXX  DM4-03 \"OK let's merge #77 now.\"    got=deny:merge-word\nXX  DM4-04 \"Merge #77 and ping me when it's in.\" got=deny:merge-word\nok  DM4-05 'Do these:\\n- merge #77\\n- tag a release' got=allow\nXX  DM4-06 'Next steps:\\n- merge #77\\n- tag a release' got=deny:merge-word\ntyped_ops(\"Let's merge #77.\") -> [] ; typed_ops('Lets merge #77.') -> [('grant', {(None, 77)})] ; typed_ops(\"Let's push to main.\") -> [('branch',)]",
+   "rule_check": "README:169 says the verb starts its clause '(after words such as ...)', and turngate.py:93-96 lists \"let's\" in ORDER_LEADIN_WORDS. But turngate.py:88 MERGE_NOUN_BEFORE ends in `|'s)\\s+$`, which reads \"let's merge\" as the noun. decisions.md: 'A false block is a defect too'. The other refusals ('when', 'after', 'Next steps:') follow A1 and A10 as written and are a stated cost (README:205-206, :480-483).",
+   "reason": "Confirmed in its narrow part. \"Let's merge #N\" is refused although \"let's\" is a listed lead-in, while 'Lets merge' and \"Let's push to main\" both pass. That is a code defect against the stated rule, on a common phrasing. The '11 of 30' rate mostly counts stated costs, not defects.",
+   "severity": "medium",
+   "realistic": "happens_in_normal_use"
+  },
+  {
+   "id": "DM-10",
+   "verdict": "CONFIRMED",
+   "reproduced": true,
+   "command_run": "own: cd FA/work/verify-fd-merge && python3 c_mut.py build && python3 c_mut.py flip && for n in ctl m01 m12 m26; do python3 c_mut.py table $n; done (three breaks applied to full copies of my own worktree at 7a5f978, wiring files included; the shipped table run with --hooks on each)",
+   "observed": "flip (own cases):\nok  m01 fixed  got=deny:default-branch   XX  m01 broken got=allow   ($G then a push to HEAD:main)\nok  m12 fixed  got=deny:merge-word       XX  m12 broken got=allow   (printf merge > ap.sh; echo >> ap.sh; bash ap.sh)\nok  m26 fixed  got=deny:merge-word       XX  m26 broken got=allow   (owner 'Hold that thought\\nmerge #77')\ntables (mut-tables.txt):\nctl | == 950 cases: 950 pass, 0 fail ==\nm01 | == 950 cases: 950 pass, 0 fail ==\nm12 | == 950 cases: 950 pass, 0 fail ==\nm26 | == 950 cases: 950 pass, 0 fail ==",
+   "rule_check": "COMMON.md section 5: 'A change of behaviour that leaves every case passing is a finding of kind test_gap.' README:424-426 says selftest-mutations.py proves the table can fail, but that claim covers only its own break list. The new rules are not pinned: UNRESOLVED_READINGS 'git', the append redirects, and the A10 hold-line join.",
+   "reason": "I reproduced three of the finder's 18 surviving breaks myself (equivalents of N01, N12 and N26). Each break turns a deny into an allow on my own case, while the full table stays at 950 of 950. I did not re-run the other 15.",
+   "severity": "medium",
+   "realistic": "needs_unusual_but_plausible_input"
+  },
+  {
+   "id": "DM-9",
+   "verdict": "CONFIRMED",
+   "reproduced": true,
+   "command_run": "finder: python3 FA/work/fd-merge/r1/dm9_cpu.py (not re-run: about 60 s of CPU) ; own: cd FA/work/verify-fd-merge && python3 c_cpu.py && python3 c_cpu2.py (own paste: lines 'i,kit-i,green,n,' then 'To do:' and a '- ' checklist, then 'Merge #77.')",
+   "observed": "prose    len= 49991 cpu=0.03s\ncsv x1   len=  9877 cpu=0.41s\ncsv x2   len= 20343 cpu=1.92s\ncsv x3   len= 30843 cpu=4.01s\nok  DM9-ctl-short           want=allow got=allow 0.04s\nXX  DM9-csv-x5-then-merge   want=allow got=deny:gate-error 8.03s   (len 52843)\nok  DM9-csv-x5-then-ls      want=allow got=allow 0.06s",
+   "rule_check": "README:197 (A8) promises only that a run of lead-in words cannot make the search slow; it does not cover this input. decisions.md: 'A false block is a defect too ... A gate that blocks honest work teaches the owner to ignore it.' The README 'Other limits' section does not state this cost. The finder's 50,000-character figure comes from their brief, not from a binding rule.",
+   "reason": "The quadratic growth reproduced on my own input: doubling the length takes about 4.7 times the CPU. A 53k-character paste followed by a valid order is denied gate-error, while plain prose of the same size is judged in 0.03 s. The gate fails closed (only merge routes are denied), so the cost is a false block for that window, not a bypass.",
+   "severity": "medium",
+   "realistic": "needs_unusual_but_plausible_input"
+  },
+  {
+   "id": "DM-5",
+   "verdict": "UNCLEAR",
+   "reproduced": true,
+   "command_run": "finder: python3 FA/work/fd-merge/r1/dm5_quote.py ; own: cd FA/work/verify-fd-merge && python3 c_words.py (DM5-*)",
+   "observed": "finder: 5 XX of 9. own:\nok  DM5-00 'The runbook says: merge #77. Still true?' got=deny:merge-word\nXX  DM5-01 'The runbook says\\nmerge #77\\nStill true?' got=allow\nXX  DM5-02 'The bot wrote\\nmerge #77' got=allow\nok  DM5-03 'Merge #77 has a conflict, look.' got=deny:merge-word\nXX  DM5-04 'Merge #77 conflicts with #78.' got=allow\nok  DM5-05 'Merge #77 breaks the build, look at it.' got=deny:merge-word",
+   "rule_check": "A3 (README:192) applies to 'an earlier clause of the same sentence'. A10 (README:199) says 'A line break ends a sentence' and lists its exceptions, none of them for a report. So under the stated rules the report split across lines is a separate sentence, and the behaviour follows those rules. 'conflicts' is outside STATEMENT_WORDS, and README:205-206 and :474-476 state that a quotation worded outside the lists can still be read as an order.",
+   "reason": "Reproduced, but the stated rules A10 and A3 together produce exactly this, and the README states the wording limit plainly. The finder's claim that A10 and A3 contradict each other does not hold: they work together as written. The behaviour is arguable only against D1's 'an order to merge', so the verdict is UNCLEAR rather than REFUTED.",
+   "severity": "low",
+   "realistic": "needs_unusual_but_plausible_input"
+  },
+  {
+   "id": "DM-8",
+   "verdict": "CONFIRMED",
+   "reproduced": true,
+   "command_run": "finder: python3 FA/work/fd-merge/r1/dm8_plus.py ; own: cd FA/work/verify-fd-merge && python3 c_shell.py (DM8-* on my ship.sh, scheduled run; real bash run on my harmless tests.sh)",
+   "observed": "ok  DM8-ctl-bash    want=deny  got=deny:scheduled\nok  DM8-ctl-bash-n  want=allow got=allow\nXX  DM8-plus-x      want=deny  got=allow\nXX  DM8-plus-e-sh   want=deny  got=allow\nXX  DM8-plus-n      want=deny  got=allow\nreal bash +x tests.sh -> 'all tests\\n'\nreal bash +n tests.sh -> 'all tests\\n'\nreal bash -n tests.sh -> ''",
+   "rule_check": "README:152-153 is quoted correctly: a file handed to a shell is read 'as a shell script; `bash -n FILE` (also `-en`) only checks syntax and reads nothing'. D3: always denied in a scheduled run. No stated limit covers '+' options.",
+   "reason": "Reproduced on my own files. The real bash runs the script after a '+' option, but the gate takes the option for the file name and reads nothing.",
+   "severity": "medium",
+   "realistic": "needs_unusual_but_plausible_input"
+  }
+ ],
+ "new_leads": [
+  "wget --post-file with a body file that does not exist is allowed in a scheduled run and with no word, while gh api -F query=@missing is denied target-unknown: the fail-closed rule for an unreadable body does not reach wget (turngate.py:2050-2053 reads a file only after '@').",
+  "REFUSAL_START also lists 'defer', 'postpone', 'abort', 'pause' and 'cancel'. These work only because they also appear in HALT_WORDS or REFUSAL_CUE, so a future edit of those lists would silently disable them too. _short_refusal can never be reached for a word that is only on REFUSAL_START.",
+  "Statement verbs are handled inconsistently: 'Merge #77 breaks the build, look at it.' is denied, while 'Merge #77 conflicts with #78.' grants. Whatever denies the first is not STATEMENT_WORDS; worth a look.",
+  "'cat ./ship.sh | bash -x' also passes (a shell option after the pipe makes no difference). A push-to-main script on stdin with no word also passes, where deny:default-branch is expected."
+ ]
+}

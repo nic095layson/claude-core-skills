@@ -1,0 +1,171 @@
+{
+ "findings": [
+  {
+   "id": "DS-1",
+   "title": "When the replies to the outward-action rule's blocks leave no assistant row in the record, the rule blocks at every stop without end (8 of 8 simulated stops), past the owner's 'twice at most'. The tree before this change let the stop go after one block, and the table cannot tell the shipped rule from one that ends the loop.",
+   "component": "hooks/turngate.py Model.feedback (line 2513) and f1_decision; receiptlaw.py decide (same count)",
+   "kind": "false_block",
+   "rule_quoted": "How often it blocks (the owner's answer: \"Yes, twice at most\"). At most twice in one stretch: again when its first block was not answered, then the stop is let go.  //  Q3 | Block again after an unanswered Stop block | \"Yes, twice at most\" | F1_MAX_BLOCKS = 2, PROMPT_CLASS_MAX_BLOCKS = 1",
+   "rule_source": "fixed/hooks/README.md:272-273; decisions.md:64",
+   "repro_command": "PYTHONDONTWRITEBYTECODE=1 TMPDIR=WORK2/fd-stop/tmp python3 WORK2/fd-stop/sim.py FIXED2/hooks empty f1; PYTHONDONTWRITEBYTECODE=1 TMPDIR=WORK2/fd-stop/tmp python3 WORK2/fd-stop/sim.py FIXED/hooks empty f1; PYTHONDONTWRITEBYTECODE=1 TMPDIR=WORK2/fd-stop/tmp python3 WORK2/fd-stop/sim.py WORK2/fd-stop/h-mu01 empty f1; PYTHONDONTWRITEBYTECODE=1 TMPDIR=WORK2/fd-stop/tmp python3 WORK2/fd-stop/bbx.py R2a",
+   "repro_files": [
+    "WORK2/fd-stop/sim.py",
+    "WORK2/fd-stop/blib.py",
+    "WORK2/fd-stop/bbx.py",
+    "WORK2/fd-stop/h-mu01/turngate.py",
+    "WORK2/fd-stop/mut.py",
+    "WORK2/fd-stop/mut-out.txt"
+   ],
+   "observed": "fixed (7a5f978):  empty  f1    stop1:block:F1+allow stop2:block:F1+allow stop3:block:F1+allow stop4:block:F1+allow stop5:block:F1+allow stop6:block:F1+allow stop7:block:F1+allow stop8:block:F1+allow\n       blocks per rule: {'block:F1': 8}  (never let go within 8 stops)\nc3c8615:          empty  f1    stop1:block:F1+allow stop2:allow+allow   blocks per rule: {'block:F1': 1}\nMU01 copy ((retry and n == len(blocks) - 1) -> (retry)):  empty f1 ... stop3:allow+allow  blocks per rule: {'block:F1': 2} (record and input modes also 2)\nMISMATCH R2a    gate: block:F1           rule: allow              | two F1 blocks in a row, no assistant row between (empty replies); third stop: twice at most [retry]\nmut.py: MU01-retry-counts-every-block    == 950 cases: 950 pass, 0 fail ==\nwith all three rules missing (sim.py ... empty all): F1 8 blocks and the receipt gate 4 (its maximum is 1)",
+   "expected": "At most two F1 blocks (and one receipt or prompt-class block) in one stretch, whatever the record holds: the third stop is let go. feedback() now counts an unanswered block only when it is the record's LAST block. So with two unanswered blocks the earlier one is never counted again, own stays 1, and the retry shortcut no longer fires because the last block is counted. Counting every block on a retry (MU01) gives exactly two in all three modes and passes all 950 cases, so no case pins the choice.",
+   "how_it_arises": "It needs two blocked stops in a row with no assistant row between them in the record: an empty reply after the block, or a record that is more than one stop behind. The builder's own premise for AS-2 is that the record can lag, but only a one-stop lag is covered. Whether the program ever leaves no assistant row is not observed here, because the real record cannot be opened. Fixtures use the builder's real row shapes (feedback row, hook_blocking_error attachment, stop row with hookErrors). This is a regression: c3c8615 let the stop go after one block on the same record.",
+   "severity_guess": "high"
+  },
+  {
+   "id": "DS-2",
+   "title": "A helper's outward act noted while the session is idle (after the completed stop row, before the owner's next message) is charged to no stretch, so an ungoverned turn's background helper can commit and push with no block at any stop.",
+   "component": "hooks/turngate.py Model.outward (ledger placement, lines 2475-2495)",
+   "kind": "false_allow",
+   "rule_quoted": "the Stop gate counts the note as an outward action of the stretch ... it belongs to the stretch when it is later than the stretch's own first row (the owner's message or the stop it starts at) ... A helper's act is charged to the stretch in which it happens, also when the helper was started in an earlier turn",
+   "rule_source": "fixed/hooks/README.md:369-375",
+   "repro_command": "PYTHONDONTWRITEBYTECODE=1 TMPDIR=WORK2/fd-stop/tmp python3 WORK2/fd-stop/lcases.py L1",
+   "repro_files": [
+    "WORK2/fd-stop/lcases.py",
+    "WORK2/fd-stop/blib.py"
+   ],
+   "observed": "MISMATCH L1    gate: allow     rule: block:F1   | helper commits while the session is idle (after the stop row, before the owner's next message): counted somewhere?\nMISMATCH L1b   gate: allow     rule: block:F1   | same; the helper's completion notice arrives inside the owner's next turn\nok       L1c   gate: block:F1  rule: block:F1   | control: same note, the wake comes before any owner message\nok       L1d   gate: block:F1  rule: block:F1   | control: the note is stamped after the owner's 'thanks'",
+   "expected": "Some stop counts the commit, either the launching stretch or the next one. In fact the launching turn's stop passed before the helper acted (first round G04a). The next stretch starts at the owner's message, which is later than the note. So the act falls between the two stretches and is never judged. This gap is not listed among the helper limits (README:377-379).",
+   "how_it_arises": "An ungoverned turn starts a background helper (run_in_background) and stops. The helper commits and pushes while the session is idle, and the owner types a new message before the helper's completion notice wakes the session. Ledger notes use the real pre-tool hook format (R.ledger_line) and the records use the builder's real row shapes. The same gap existed at c3c8615, which placed notes against the row after the stretch start, so this is not a regression; the new placement rule just does not close it.",
+   "severity_guess": "medium"
+  },
+  {
+   "id": "DS-3",
+   "title": "Of 189 permission denials recorded in this repository's own results/ files, the denial leads recognise 10. A call denied in one of the other wordings and not flagged with toolDenialKind counts its and-chain's commit, so a turn that did nothing outward is blocked.",
+   "component": "hooks/turngate.py was_denied / DENIAL_LEADS (lines 439-452, 565-578)",
+   "kind": "false_block",
+   "rule_quoted": "Not an action at all: ... a call that was denied or rejected  //  A call was denied when its result row carries toolDenialKind ..., or when its result is an error whose text STARTS ... with one of DENIAL_LEADS  //  A false block is a defect too",
+   "rule_source": "fixed/hooks/README.md:243-253; decisions.md:41-42",
+   "repro_command": "PYTHONDONTWRITEBYTECODE=1 TMPDIR=WORK2/fd-stop/tmp python3 -I WORK2/fd-stop/survey_denials.py | tail -3; PYTHONDONTWRITEBYTECODE=1 TMPDIR=WORK2/fd-stop/tmp python3 WORK2/fd-stop/bbx.py R1c R1k",
+   "repro_files": [
+    "WORK2/fd-stop/survey_denials.py",
+    "WORK2/fd-stop/bbx.py",
+    "WORK2/fd-stop/blib.py"
+   ],
+   "observed": "== 189 recorded denials in 108 files; 10 taken for a denial without the flag, 179 not\n(leads not recognised include: 'This Bash command contains multiple operations. The following parts require approval: ...', 'Claude requested permissions to use ...', 'This command changes directory before running ...', 'Contains brace with quote character ...', \"A variable in this command can't be checked ...\", \"ls in '<path>' was blocked. For security ...\"; each recorded with tool_result_meta non_execution_kind 'user-rejected', e.g. fixed/results/2026-10-13/system-validation/raw/live/trig/after-report-7-2/out.jsonl, version 2.1.296)\nMISMATCH R1c    gate: block:F1           rule: allow              | denied in a non-interactive run (headless wording), no flag: nothing ran\nMISMATCH R1k    gate: block:F1           rule: allow              | denied: the wording recorded 2026-10-13 in this repo's results/ (no flag): nothing ran\nok       R1c2   gate: allow              rule: allow              | same with the flag",
+   "expected": "A denied call is not an action. The lead list exists for rows that lack the flag (the README keeps the 'older shape' leads on purpose). Yet it holds only one of the real non-interactive denial wordings ('This command requires approval') and none of the others. The field those recorded rows do carry (tool_result_meta / non_execution_kind) is not read.",
+   "how_it_arises": "A run where nobody can answer permission prompts (headless, or a scheduled run) and the record's row lacks toolDenialKind. A denied 'git add -A && git commit -m x && git push' drops only the push, so the commit counts and the stop is blocked up to twice. Not verified: whether current transcripts always carry toolDenialKind for these denials. The builder observed it only for a hook denial (version 2.1.325), and the recorded shapes are stream-json output rows, not transcript rows.",
+   "severity_guess": "medium"
+  },
+  {
+   "id": "DS-4",
+   "title": "Four of the six denial leads, and the dropping of leading blanks, are not pinned. Removing 'requires approval' (the only lead that matches recorded real denials), 'Permission to use', 'Hook denied/blocked' or the lstrip leaves all 950 cases passing.",
+   "component": "hooks/selftest-turn-gates.py (table U) against turngate.DENIAL_LEADS / was_denied",
+   "kind": "test_gap",
+   "rule_quoted": "whose text STARTS, after leading blanks and an optional `Error: `, with one of `DENIAL_LEADS`: ... \"Permission to use ...\", \"requires approval\", \"Hook denied / blocked\"",
+   "rule_source": "fixed/hooks/README.md:250-253",
+   "repro_command": "python3 WORK2/fd-stop/mut.py MU05 MU04",
+   "repro_files": [
+    "WORK2/fd-stop/mut.py",
+    "WORK2/fd-stop/mut-out.txt"
+   ],
+   "observed": "MU03-no-lstrip                   == 950 cases: 950 pass, 0 fail == | leading blanks before a denial lead are no longer dropped\nMU04-lead-permission-to-use      == 950 cases: 950 pass, 0 fail == | a 'Permission to use ...' denial is no longer a denial\nMU05-lead-requires-approval      == 950 cases: 950 pass, 0 fail == | a 'requires approval' denial is no longer a denial\nMU06-lead-hook-denied            == 950 cases: 950 pass, 0 fail == | a 'Hook denied/blocked' denial is no longer a denial\ncontrol: MU07-lead-turn-gate     == 950 cases: 949 pass, 1 fail == | failing: am_c_shell-call-denied-then-other-repo",
+   "expected": "Each lead the README states has a case that fails without it. The builder does this for the PreToolUse lead, the prompt rejection and 'Error: ' (breaks AS03/AS05/AS06).",
+   "how_it_arises": "Found by mutating my private checkout. A later edit of the list could drop the one lead that real non-interactive denials use, and nothing would fail.",
+   "severity_guess": "medium"
+  },
+  {
+   "id": "DS-5",
+   "title": "The 'once' of the prompt-class rule and of the receipt gate on a retry is not pinned. When each rule's own count ignores the retry flag, each blocks twice, and all 950 cases still pass.",
+   "component": "hooks/governance-enforce.py prompt_class_rule (line 133); hooks/receiptlaw.py decide (line 607)",
+   "kind": "test_gap",
+   "rule_quoted": "It blocks once in a stretch ... Its blocks are counted as the outward rule counts them (answered, or the last one on a retry)  //  At most RECEIPT_MAX_BLOCKS (1) block in a stretch ... or it is the record's last block and the flag is set",
+   "rule_source": "fixed/hooks/README.md:292-295; fixed/hooks/README.md:663-669; decisions.md:64",
+   "repro_command": "python3 WORK2/fd-stop/mut.py MU19; PYTHONDONTWRITEBYTECODE=1 TMPDIR=WORK2/fd-stop/tmp python3 WORK2/fd-stop/sim.py WORK2/fd-stop/h-mu1819 input pc; PYTHONDONTWRITEBYTECODE=1 TMPDIR=WORK2/fd-stop/tmp python3 WORK2/fd-stop/sim.py WORK2/fd-stop/h-mu1819 input rc",
+   "repro_files": [
+    "WORK2/fd-stop/mut.py",
+    "WORK2/fd-stop/mut-out.txt",
+    "WORK2/fd-stop/sim.py",
+    "WORK2/fd-stop/h-mu1819/governance-enforce.py",
+    "WORK2/fd-stop/h-mu1819/receiptlaw.py"
+   ],
+   "observed": "MU18-receipt-count-no-retry      == 950 cases: 950 pass, 0 fail == | the receipt gate's own count ignores the last block on a retry\nMU19-pc-count-no-retry           == 950 cases: 950 pass, 0 fail == | the prompt-class count ignores the last block on a retry\non the MU18+MU19 copy: input  pc    stop1:block:prompt-class+allow stop2:block:prompt-class+allow stop3:allow+allow  {'block:prompt-class': 2}\n                       input  rc    stop1:allow+block:receipt stop2:allow+block:receipt stop3:allow+allow  {'block:receipt': 2}\n                       MISMATCH R2g    gate: block:prompt-class rule: allow | prompt-class blocked once, reply only in input: once [retry]",
+   "expected": "One case per rule in which the reply to that rule's own block is only in the Stop input and the next stop is let go. This is the AS-2 shape, which the table pins only for the outward rule (AS07, AS09).",
+   "how_it_arises": "Found by mutating my private checkout. The shipped code is right on these cases (R2g passes on 7a5f978); only the table does not hold the rule.",
+   "severity_guess": "medium"
+  },
+  {
+   "id": "DS-6",
+   "title": "The README states what HELPER_ACT_PLACED_BY_TIME = True costs but not what its alternative costs: with False, a background helper started by an ungoverned turn commits and pushes without any stop counting it.",
+   "component": "hooks/turngate.py HELPER_ACT_PLACED_BY_TIME (Model.outward); hooks/README.md 'Helper agents'",
+   "kind": "overclaim",
+   "rule_quoted": "Its cost: the owner's next turn (\"thanks\") can be blocked once for a background helper's late commit, and loading the governors answers it. False: such an act is charged only to a stretch whose main thread started a helper (`HELPER_TOOLS`) before it.",
+   "rule_source": "fixed/hooks/README.md:375-377",
+   "repro_command": "cd WORK2/fd-stop/r1 && PYTHONDONTWRITEBYTECODE=1 TMPDIR=WORK2/fd-stop/tmp FASTOP_HOOKS=WORK2/fd-stop/h-helperF python3 WORK2/fd-stop/r1/ledger.py; PYTHONDONTWRITEBYTECODE=1 TMPDIR=WORK2/fd-stop/tmp HOOKS=WORK2/fd-stop/h-helperF python3 WORK2/fd-stop/lcases.py L1c",
+   "repro_files": [
+    "WORK2/fd-stop/r1/ledger.py",
+    "WORK2/fd-stop/r1/lib.py",
+    "WORK2/fd-stop/lcases.py",
+    "WORK2/fd-stop/h-helperF/turngate.py"
+   ],
+   "observed": "False:  MISMATCH G04b gate: allow     rule: block:F1  | wake after the helper finished: the ungoverned commit+push is caught here (at the latest)\nFalse:  MISMATCH L1c   gate: allow     rule: block:F1   | control: same note, the wake comes before any owner message\nTrue (shipped): ok G04b gate: block:F1 ; ok L1c gate: block:F1",
+   "expected": "The owner is offered False as a one-click overrule (decisions.md:37-40). The statement should say that False drops such acts entirely, because the launching turn's stop has already passed, not only that it moves them. Neither value implements the first round's rule as given (charge the act to the launching turn).",
+   "how_it_arises": "Only if the owner flips the default on the strength of this paragraph. Fixtures: the first round's ledger.py (the real pre-tool hook writes the note) and the builder's row shapes.",
+   "severity_guess": "low"
+  },
+  {
+   "id": "DS-7",
+   "title": "The False value of PROMPT_CLASS_SILENT_WITHOUT_OWNER_MESSAGE does more than stated: a denied write counts as 'a real write', and a scheduled run in a record that does hold an owner message is judged too. No case exercises either False path, and four breaks of that path survive the table.",
+   "component": "hooks/governance-enforce.py wrote() and prompt_class_rule (lines 106-118)",
+   "kind": "wrong_result",
+   "rule_quoted": "when the record holds no owner message (`PROMPT_CLASS_SILENT_WITHOUT_OWNER_MESSAGE = True`, a default; False: such a stretch that made a real write is judged as work that needs plan-gate)",
+   "rule_source": "fixed/hooks/README.md:290-291; fixed/hooks/governance-enforce.py:13-16",
+   "repro_command": "cd WORK2/fd-stop && PYTHONDONTWRITEBYTECODE=1 TMPDIR=WORK2/fd-stop/tmp PCVALUE=False HOOKS=WORK2/fd-stop/h-pcF python3 WORK2/fd-stop/pccases.py",
+   "repro_files": [
+    "WORK2/fd-stop/pccases.py",
+    "WORK2/fd-stop/h-pcF/governance-enforce.py",
+    "WORK2/fd-stop/mut.py",
+    "WORK2/fd-stop/mut-out.txt"
+   ],
+   "observed": "MISMATCH P7  gate: block:prompt-class rule: allow              | no owner message, the one write was DENIED: no real write happened\nnote     P4  gate: block:prompt-class rule: ?                  | scheduled run in a record that DOES hold an owner message (earlier turn), a write\nok       P1  gate: block:prompt-class rule: block:prompt-class | file starts at a compaction (no owner message), a real write, no governor\nmut.py: MU10-wrote-sidechain, MU11-wrote-any-row, MU12-write-class, MU09-helperF-window: each == 950 cases: 950 pass, 0 fail ==",
+   "expected": "With False, the rule judges only a stretch that made a real write (a call that ran), and only where the record holds no owner message, as the name and the README say. Each value of a switch the owner may click has a case.",
+   "how_it_arises": "Only with the switch set to False. wrote() reads the tool calls (model.uses) without their results, so a denied Write counts. The test is gov_kind != 'owner', which is also true for every scheduled run.",
+   "severity_guess": "low"
+  }
+ ],
+ "covered": [
+  "AS-1: fixed. denial.py D00-D07 on 7a5f978: 8 ok, 0 differ (each commit/push is counted whatever its output says).",
+  "AS-2: fixed for a one-stop lag (bb2.py X01 ok, X02 ok). DS-1 covers the case where the reply leaves no row.",
+  "AS-3: left open on purpose and stated (README:373-377; default HELPER_ACT_PLACED_BY_TIME = True; registry D-TG-2). ledger.py G03b is still block:F1. With the switch False, G03b is allow and G04b is lost (DS-6).",
+  "AS-4: left open on purpose and stated (README 'Other limits': only the last step of a failed and-chain is dropped). bb2.py X15 and X16 are still block:F1.",
+  "AS-5: fixed. bb2.py X03 is block:F1; builder break AS13 is caught.",
+  "AS-6: fixed and pinned. ledger.py G05 is allow; builder breaks AS14 and AS15 are caught; my MU15 and MU20 (ledger placement) are caught.",
+  "AS-7: fixed. wb3_more.py L1 is allow with the default True and block:prompt-class with False. The constant is at governance-enforce.py:43 and is listed in the README defaults and registry D-TG-2.",
+  "AS-8: fixed. adv.py V6.1 allow, V6.2 advise (15 steps, 0 differ).",
+  "fa-stop MORE lines: the reason text is fixed (AS20 caught); M4 and M5 are now pinned (AS21, AS22 caught); M6 is obsolete (the reach constant is gone).",
+  "Second agent's leads: A2c (third block) is fixed for the reply-in-input shape (as_s2_a2c passes; my R2b is allow), but see DS-1. A3b is fixed (as_s4_note-between...). The PR-create echo is fixed (as_s1_pr-create..., my R1j).",
+  "AR-6 receipt retry (first-round fa-receipt/bb/turns.py): 21/21 as the rule requires on 7a5f978.",
+  "Rule 1 black box: 15 cases (bbx.py R1*) plus 3 (r1z.py). Calls that ran but whose output reads like a denial are counted (R1a, R1b, R1j, Z1, Z3). Real denial shapes with the flag, the older hook shape, prompt rejection, 'Permission to use' and a lone failed commit are all allowed. 4 mismatches, reported as DS-3.",
+  "Rule 2 black box: 8 cases (bbx.py R2*) and 12 simulated stop sequences (sim.py f1/pc/rc/all x record/input/empty). Worst case with replies recorded or one stop behind: F1 2, prompt-class 1, receipt 1. With no reply rows F1 loops (DS-1).",
+  "Rule 3 black box: 8 cases (bbx.py R3*: acts before and after the block, loads before and after, two blocks, a compaction between). All as the rule requires.",
+  "Rules 4 and 5: 8 ledger cases (lcases.py: idle gap, wake first, note after the owner's message, odd lines, empty file, no time stamp, and a 300001-note 25.8 MB ledger judged in 0.84 s). Both values of HELPER_ACT_PLACED_BY_TIME (lcases L1*, ledger.py G01-G05) and of PROMPT_CLASS_SILENT_WITHOUT_OWNER_MESSAGE (pccases.py P1-P7 for each value).",
+  "Rule 6 ($TMPDIR is scratch): 9 commands through turngate.shell_acts ($TMPDIR, ${TMPDIR}, ${TMPDIR:-x}, \"$TMPDIR\"/x, TMPDIR=... set in the command). Behaviour matches the README, including its stated limit.",
+  "Honest stops: 22 ordinary turns that are governed or take no outward action (bbx.py H01-H22: failed and retried chains, denied calls, a rejected push then rebase, a card, compaction and reload, a wake, a mid-turn message, scoped governor names, a PR create, an answered receipt-gate block). 0 blocks.",
+  "Real record replay: replay_real.py --hooks fixed/hooks --what all. STOP totals {'allow': 24, 'receipt:allow': 23, 'BLOCK:F1': 1, 'receipt:BLOCK:receipt': 3, 'BLOCK:prompt-class': 1}; PRE totals identical to stop-gate/replay-before-after.txt.",
+  "Mutations: 16 of mine on the private checkout (MU01-MU20). MU07, MU15 and MU20 are caught, which shows the harness can fail. MU01, MU03-MU06, MU09-MU13 and MU17-MU19 survive. The builder's 22 AS breaks: 22 caught, control 0 failing of 950.",
+  "Baseline: selftest-turn-gates.py on the private checkout: 950 pass, 0 fail (36 s)."
+ ],
+ "not_covered": [
+  "governance-enforce.py's deadline path and the receipt gate's own grammar (out of scope). The merge gate's use of was_denied in Model.merges_made was read, not run.",
+  "A stop at which two hooks block, written in any shape other than adjacent feedback rows and attachments followed by one stop row with two hookErrors. The real combined shape is not in the pack.",
+  "A compaction that rewrites the record file (row numbers restart) combined with the late plan-gate remedy.",
+  "The plugin, kit and deck copies of the changed files (drift); wiring is out of scope."
+ ],
+ "not_verified": [
+  "Whether the program ever leaves no assistant row between two blocked stops (what triggers DS-1). The real record cannot be opened; real-row-shapes.md lists thinking-only assistant rows, which would count as work.",
+  "Whether current transcripts carry toolDenialKind on headless or auto-mode permission denials (DS-3's realism). The recorded denials are stream-json rows (version 2.1.296) carrying tool_result_meta.non_execution_kind, not transcript rows.",
+  "A failed Bash result whose text starts with output the session controls (r1z.py Z2): the whole and-chain is dropped as denied and the gate allows. Every failed Bash result recorded in fixed/results starts with 'Exit code N', so this shape was not observed.",
+  "A non-blocking PreToolUse hook error ('PreToolUse:Bash hook error' from a hook that crashed while the call still ran) being written into a tool_result. It would match the denial lead and drop a call that ran; not observed.",
+  "MU17 (the late-load remedy applied to an earlier part, before a scheduled run) survives the table; I did not build a case that shows a verdict change."
+ ],
+ "notes": "Regression list: AS-1, AS-5, AS-6, AS-7 and AS-8 are fixed. AS-2 is fixed for the shape reported. AS-3 and AS-4 are left open on purpose and stated plainly. The builder's evidence (replay totals, AS breaks, the U cases) re-ran as claimed. The new counting rule (the record's last block counts on a retry) fixes the reported one-stop lag. But when replies leave no row, it trades the old under-block for an unbounded loop (DS-1). Counting every block on a retry (MU01) fixes both and passes the whole table. Fixture realism: every record uses the builder's selftest_rows shapes; DS-3 uses denial wordings recorded in the repo's own results/. Report saved at WORK2/fd-stop/findings.json. MORE: Model.merges_made uses the same was_denied, so a merge denied in an unrecognised wording counts as an earlier merge for rule C. That fails closed and costs one card more; not run. MORE: MU13 ($TMPDIR/$OTHER taken for scratch) survives the table; it affects the advisory only (low). MORE: the commit message says 'there is no third' block; DS-1 shows a third block and more in the no-row case."
+}

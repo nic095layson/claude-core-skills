@@ -99,7 +99,8 @@ word for word (compared by script). The rows are in the order of the table: `J16
 | `O19-recommended-bullet-without-a-card` | reminder | reminder (pin) | carries a case of the earlier fixture (44 cases, 2026-10-29) that no pre-registered case carries, with its old verdict (`old-selftest-mapping.md`) |
 | `O20-reminder-beside-the-governance-cue` | reminder with the governance cue | reminder with the governance cue (pin) | carries a case of the earlier fixture (44 cases, 2026-10-29) that no pre-registered case carries, with its old verdict (`old-selftest-mapping.md`) |
 
-Of these 33, 10 are RED on the merged hooks and 23 are pins (the 20 `O..` cases by construction, the two controls, and `J16b`).
+Of these 35, 12 are RED on the merged hooks and 23 are pins (the 20 `O..` cases by construction, the two controls, and `J16b`).
+Corrected 2026-11-16: this sentence said "Of these 33, 10 are RED"; the table above lists 35 cases, 12 of them RED, and `red-on-merged.txt` shows the same 12 failing (`X06a` and `X06b` were added after the count was written). The outside audit of this pull request found it (finding AC-5).
 None of them is a pre-registered case: predictions 1 and 2 are read on the 314 names of tables 1 to 3, as before.
 The four cases that came from the break list pass on the rebuilt hooks without any change to the hooks: each pins a rule the code
 already kept and no case tested.
